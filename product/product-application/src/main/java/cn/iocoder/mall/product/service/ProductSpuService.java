@@ -1,7 +1,7 @@
 package cn.iocoder.mall.product.service;
 
 import cn.iocoder.mall.product.bo.ProductSpuBO;
-import cn.iocoder.mall.product.dao.ProductSpuDAO;
+import cn.iocoder.mall.product.dao.ProductSpuMapper;
 import cn.iocoder.mall.product.dataobject.ProductSpuDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class ProductSpuService implements cn.iocoder.mall.product.service.api.ProductSpuService {
 
     @Autowired
-    private ProductSpuDAO productSpuDAO;
+    private ProductSpuMapper productSpuDAO;
 
     public ProductSpuBO getProductSpu(Integer id) {
         ProductSpuDO productSpuDO = productSpuDAO.selectById(id);

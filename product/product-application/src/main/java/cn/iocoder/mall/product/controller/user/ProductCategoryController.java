@@ -1,4 +1,4 @@
-package cn.iocoder.mall.product.controller;
+package cn.iocoder.mall.product.controller.user;
 
 import cn.iocoder.mall.product.vo.ProductCategoryVO;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product/category")
+@RequestMapping("user/product/category")
 public class ProductCategoryController {
 
     // TODO 获得父编号为 id 的分类们 后面，使用 swagger 注释

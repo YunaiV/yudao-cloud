@@ -1,0 +1,13 @@
+spring:
+  # datasource
+  datasource:
+    url: jdbc:mysql://127.0.0.1:33061/mall_product?useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+
+# mybatis
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: cn.iocoder.mall.product.dataobject

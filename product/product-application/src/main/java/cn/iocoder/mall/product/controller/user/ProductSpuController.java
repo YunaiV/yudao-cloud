@@ -1,4 +1,4 @@
-package cn.iocoder.mall.product.controller;
+package cn.iocoder.mall.product.controller.user;
 
 import cn.iocoder.mall.product.bo.ProductSpuBO;
 import cn.iocoder.mall.product.service.ProductSpuService;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/product/spu")
+@RequestMapping("user/product/spu")
 public class ProductSpuController {
 
     @Autowired

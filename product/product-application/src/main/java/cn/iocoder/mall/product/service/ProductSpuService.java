@@ -1,6 +1,7 @@
 package cn.iocoder.mall.product.service;
 
 import cn.iocoder.mall.product.bo.ProductSpuBO;
+import cn.iocoder.mall.product.convert.ProductSpuConvert;
 import cn.iocoder.mall.product.dao.ProductSpuMapper;
 import cn.iocoder.mall.product.dataobject.ProductSpuDO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,8 @@ public class ProductSpuService implements cn.iocoder.mall.product.service.api.Pr
 
     public ProductSpuBO getProductSpu(Integer id) {
         ProductSpuDO productSpuDO = productSpuDAO.selectById(id);
-        ProductSpuBO productSpuBO = new ProductSpuBO(); // TODO 芋艿，后面改下
-        productSpuBO.setId(productSpuDO.getId());
-        return productSpuBO;
+        // 转换成 BO
+        return ProductSpuConvert.INSTANCE.convert(productSpuDO);
     }
 
 }

@@ -1,12 +1,15 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.iocoder.mall.product.dao.ProductSpuMapper">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.iocoder.mall.product.dao.ProductCategoryMapper">
 
-    <select id="selectById" parameterType="Integer" resultType="ProductSpuDO">
+    <select id="selectListByPidAndStatusOrderBySort" resultType="ProductCategoryDO">
         SELECT
-          id
-        FROM product_spu
-        WHERE id = #{id}
+          id, name, pic_url, sort
+        FROM product_category
+        WHERE pid = #{pid}
+        AND status = #{status}
+        ORDER BY sort ASC
     </select>
+
 
 </mapper>

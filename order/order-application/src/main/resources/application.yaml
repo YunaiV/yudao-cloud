@@ -1,22 +1,22 @@
 spring:
   application:
-    name: product-application
+    name: order-application
   # datasource
   datasource:
-    url: jdbc:mysql://127.0.0.1:33061/mall_product?useSSL=false
+    url: jdbc:mysql://127.0.0.1:33061/mall_order?useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: 123456
 
 # server
 server:
-  port: 8081
+  port: 8080
 
 # mybatis
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: cn.iocoder.mall.product.dataobject
+  type-aliases-package: cn.iocoder.mall.order.dataobject
 
 # dubbo
 dubbo:
@@ -26,7 +26,7 @@ dubbo:
     port: -1
     name: dubbo
   scan:
-    base-packages: cn.iocoder.mall.product.service
+    base-packages: cn.iocoder.mall.order.service
 demo:
   service:
     version: 1.0.0

@@ -1,4 +1,4 @@
-package cn.iocoder.mall.product.exception;
+package cn.iocoder.common.framework.exception;
 
 /**
  * 服务异常

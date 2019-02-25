@@ -1,4 +1,4 @@
-package cn.iocoder.mall.product.vo;
+package cn.iocoder.common.framework.vo;
 
 public class RestResult {
 

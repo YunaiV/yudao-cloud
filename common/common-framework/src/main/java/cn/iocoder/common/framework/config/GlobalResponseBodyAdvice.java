@@ -1,13 +1,14 @@
-package cn.iocoder.mall.product.config;
+package cn.iocoder.common.framework.config;
 
-import cn.iocoder.mall.product.vo.RestResult;
+import cn.iocoder.common.framework.vo.RestResult;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
-//@ControllerAdvice
+@ControllerAdvice
 public class GlobalResponseBodyAdvice implements ResponseBodyAdvice {
 
     @Override

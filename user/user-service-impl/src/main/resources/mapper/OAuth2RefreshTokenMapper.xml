@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iocoder.mall.user.dao.OAuth2RefreshTokenMapper">
+
+    <insert id="insert" parameterType="OAuth2RefreshTokenDO">
+        INSERT INTO oauth2_refresh_token (
+          token_id, id, valid, expires_time, create_time
+        ) VALUES (
+          #{tokenId}, #{id}, #{valid}, #{expiresTime}, #{createTime}
+        )
+    </insert>
+
+</mapper>

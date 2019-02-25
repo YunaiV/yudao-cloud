@@ -36,10 +36,13 @@ public class PassportController {
     /**
      * 手机号 + 验证码登陆
      *
+     * @see #mobileRegister2(String, String) 使用替代
+     *
      * @param mobile 手机号
      * @param code   验证码
      * @return 授权信息
      */
+    @Deprecated
     @PermitAll
     @PostMapping("/mobile/login")
     public OAuth2AccessTokenBO mobileRegister(@RequestParam("mobile") String mobile,
@@ -96,8 +99,8 @@ public class PassportController {
      */
     @PermitAll
     @PostMapping("mobile/send")
-    public void mobileSend(@RequestParam("mobile") String mobile) {
-        mobileCodeService.send(mobile);
+    public CommonResult<Void> mobileSend(@RequestParam("mobile") String mobile) {
+        return mobileCodeService.send(mobile);
     }
 
     // TODO 功能：qq 登陆

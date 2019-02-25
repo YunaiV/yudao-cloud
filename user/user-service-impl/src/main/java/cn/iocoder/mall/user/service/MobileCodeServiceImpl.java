@@ -99,20 +99,21 @@ public class MobileCodeServiceImpl implements MobileCodeService {
         mobileCodeMapper.update(update);
     }
 
-    public void send(String mobile) {
+    // TODO 芋艿，后面要返回有效时间
+    public CommonResult<Void> send(String mobile) {
         // TODO 芋艿，校验手机格式
         // 校验手机号码是否已经注册
         if (userService.getUser(mobile) != null) {
-            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.USER_MOBILE_ALREADY_REGISTERED.getCode());
+            return ServiceExceptionUtil.error(UserErrorCodeEnum.USER_MOBILE_ALREADY_REGISTERED.getCode());
         }
         // 校验是否可以发送验证码
         MobileCodeDO lastMobileCodePO = mobileCodeMapper.selectLast1ByMobile(mobile);
         if (lastMobileCodePO != null) {
             if (lastMobileCodePO.getTodayIndex() >= sendMaximumQuantityPerDay) { // 超过当天发送的上限。
-                throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_EXCEED_SEND_MAXIMUM_QUANTITY_PER_DAY.getCode());
+                return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_EXCEED_SEND_MAXIMUM_QUANTITY_PER_DAY.getCode());
             }
             if (System.currentTimeMillis() - lastMobileCodePO.getCreateTime().getTime() < sendFrequency) { // 发送过于频繁
-                throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_SEND_TOO_FAST.getCode());
+                return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_SEND_TOO_FAST.getCode());
             }
             // TODO 提升，每个 IP 每天可发送数量
             // TODO 提升，每个 IP 每小时可发送数量
@@ -124,6 +125,7 @@ public class MobileCodeServiceImpl implements MobileCodeService {
                 .setUsed(false).setCreateTime(new Date());
         mobileCodeMapper.insert(newMobileCodePO);
         // TODO 发送验证码短信
+        return CommonResult.success(null);
     }
 
 }

@@ -17,6 +17,7 @@ public interface OAuth2Service {
      * @param code   验证码
      * @return 授权信息
      */
+    @Deprecated
     OAuth2AccessTokenBO getAccessToken(String mobile, String code)
             throws ServiceException;
 
@@ -28,11 +29,10 @@ public interface OAuth2Service {
      * @param accessToken 访问令牌
      * @return 授权信息
      */
-    OAuth2AuthenticationBO checkToken(String accessToken)
-            throws ServiceException;
+    CommonResult<OAuth2AuthenticationBO> checkToken(String accessToken);
 
-    // @see 刷新 token
+    // TODO @see 刷新 token
 
-    // @see 移除 token
+    // TODO @see 移除 token
 
 }

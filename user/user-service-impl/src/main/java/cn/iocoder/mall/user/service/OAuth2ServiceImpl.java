@@ -89,25 +89,25 @@ public class OAuth2ServiceImpl implements OAuth2Service {
         // 创建访问令牌
         OAuth2AccessTokenDO oauth2AccessTokenDO = createOAuth2AccessToken(userDO.getId(), oauth2RefreshTokenDO.getId());
         // 标记已使用
-//        mobileCodeService.useMobileCode(result.getData().getId(), userDO.getId());
+        mobileCodeService.useMobileCode(result.getData().getId(), userDO.getId());
         // 转换返回
         return CommonResult.success(OAuth2Convert.INSTANCE.convertToAccessTokenWithExpiresIn(oauth2AccessTokenDO));
     }
 
     @Override
-    public OAuth2AuthenticationBO checkToken(String accessToken) throws ServiceException {
+    public CommonResult<OAuth2AuthenticationBO> checkToken(String accessToken) throws ServiceException {
         OAuth2AccessTokenDO accessTokenDO = oauth2AccessTokenMapper.selectByTokenId(accessToken);
         if (accessTokenDO == null) { // 不存在
-            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.OAUTH_INVALID_TOKEN_NOT_FOUND.getCode());
+            return ServiceExceptionUtil.error(UserErrorCodeEnum.OAUTH_INVALID_TOKEN_NOT_FOUND.getCode());
         }
         if (accessTokenDO.getExpiresTime().getTime() < System.currentTimeMillis()) { // 已过期
-            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.OAUTH_INVALID_TOKEN_EXPIRED.getCode());
+            return ServiceExceptionUtil.error(UserErrorCodeEnum.OAUTH_INVALID_TOKEN_EXPIRED.getCode());
         }
         if (!accessTokenDO.getValid()) { // 无效
-            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.OAUTH_INVALID_TOKEN_INVALID.getCode());
+            return ServiceExceptionUtil.error(UserErrorCodeEnum.OAUTH_INVALID_TOKEN_INVALID.getCode());
         }
         // 转换返回
-        return OAuth2Convert.INSTANCE.convertToAuthentication(accessTokenDO);
+        return CommonResult.success(OAuth2Convert.INSTANCE.convertToAuthentication(accessTokenDO));
     }
 
     private OAuth2AccessTokenDO createOAuth2AccessToken(Long uid, String refreshToken) {

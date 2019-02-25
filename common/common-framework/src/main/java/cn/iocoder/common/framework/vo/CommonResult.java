@@ -1,5 +1,6 @@
 package cn.iocoder.common.framework.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.util.Assert;
 
 public class CommonResult<T> {
@@ -72,10 +73,12 @@ public class CommonResult<T> {
         this.data = data;
     }
 
+    @JsonIgnore
     public boolean isSuccess() {
         return CODE_SUCCESS.equals(code);
     }
 
+    @JsonIgnore
     public boolean isError() {
         return !isSuccess();
     }

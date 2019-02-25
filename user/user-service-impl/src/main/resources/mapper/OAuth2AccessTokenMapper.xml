@@ -14,9 +14,9 @@
 
     <select id="selectByTokenId" parameterType="String" resultType="OAuth2AccessTokenDO">
         SELECT
-          id, valid, expires_time
+          id, uid, valid, expires_time
         FROM oauth2_access_token
-        WHERE token_id = #{id}
+        WHERE id = #{id}
     </select>
 
 </mapper>

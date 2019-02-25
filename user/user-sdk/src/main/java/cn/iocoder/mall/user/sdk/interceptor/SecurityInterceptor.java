@@ -1,6 +1,7 @@
 package cn.iocoder.mall.user.sdk.interceptor;
 
 import cn.iocoder.common.framework.exception.ServiceException;
+import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import cn.iocoder.mall.user.sdk.context.SecurityContext;
 import cn.iocoder.mall.user.sdk.context.SecurityContextHolder;
@@ -31,7 +32,11 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter {
         String accessToken = obtainAccess(request);
         OAuth2AuthenticationBO authentication = null;
         if (accessToken != null) {
-            authentication = oauth2Service.checkToken(accessToken);
+            CommonResult<OAuth2AuthenticationBO> result = oauth2Service.checkToken(accessToken);
+            if (result.isError()) { // TODO 芋艿，如果访问的地址无需登录，这里也不用抛异常
+                throw new ServiceException(result.getCode(), result.getMessage());
+            }
+            authentication = result.getData();
             // 添加到 SecurityContext
             SecurityContext context = new SecurityContext(authentication.getUid());
             SecurityContextHolder.setContext(context);

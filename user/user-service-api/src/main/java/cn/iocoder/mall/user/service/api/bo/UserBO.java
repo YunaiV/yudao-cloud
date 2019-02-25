@@ -1,6 +1,6 @@
-package cn.iocoder.mall.user.service.api.dto;
+package cn.iocoder.mall.user.service.api.bo;
 
-public class UserDTO {
+public class UserBO {
 
     /**
      * 用户编号
@@ -15,7 +15,7 @@ public class UserDTO {
         return uid;
     }
 
-    public UserDTO setUid(Long uid) {
+    public UserBO setUid(Long uid) {
         this.uid = uid;
         return this;
     }
@@ -24,7 +24,7 @@ public class UserDTO {
         return mobile;
     }
 
-    public UserDTO setMobile(String mobile) {
+    public UserBO setMobile(String mobile) {
         this.mobile = mobile;
         return this;
     }

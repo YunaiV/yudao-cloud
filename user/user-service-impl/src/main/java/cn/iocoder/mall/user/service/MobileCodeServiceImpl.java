@@ -1,6 +1,7 @@
 package cn.iocoder.mall.user.service;
 
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.user.dao.MobileCodeMapper;
 import cn.iocoder.mall.user.dataobject.MobileCodeDO;
 import cn.iocoder.mall.user.service.api.MobileCodeService;
@@ -61,6 +62,30 @@ public class MobileCodeServiceImpl implements MobileCodeService {
             throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_NOT_CORRECT.getCode());
         }
         return mobileCodePO;
+    }
+
+    /**
+     * 校验手机号的最后一个手机验证码是否有效
+     *
+     * @param mobile 手机号
+     * @param code 验证码
+     * @return 手机验证码信息
+     */
+    public CommonResult<MobileCodeDO> validLastMobileCode2(String mobile, String code) {
+        MobileCodeDO mobileCodePO = mobileCodeMapper.selectLast1ByMobile(mobile);
+        if (mobileCodePO == null) { // 若验证码不存在，抛出异常
+            return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_NOT_FOUND.getCode());
+        }
+        if (System.currentTimeMillis() - mobileCodePO.getCreateTime().getTime() >= codeExpireTimes) { // 验证码已过期
+            return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_EXPIRED.getCode());
+        }
+        if (mobileCodePO.getUsed()) { // 验证码已使用
+            return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_USED.getCode());
+        }
+        if (!mobileCodePO.getCode().equals(code)) {
+            return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_NOT_CORRECT.getCode());
+        }
+        return CommonResult.success(mobileCodePO);
     }
 
     /**

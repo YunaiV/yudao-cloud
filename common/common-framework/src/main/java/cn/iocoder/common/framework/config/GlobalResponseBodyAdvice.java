@@ -1,5 +1,6 @@
 package cn.iocoder.common.framework.config;
 
+import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.RestResult;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
@@ -19,6 +20,9 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice {
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         if (body instanceof RestResult) {
+            return body;
+        }
+        if (body instanceof CommonResult) { // TODO 芋艿，后续要改下
             return body;
         }
         return RestResult.ok(body);

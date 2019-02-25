@@ -12,7 +12,7 @@ public class OAuth2RefreshTokenDO {
     /**
      * 刷新令牌
      */
-    private String tokenId;
+    private String id;
     /**
      * 用户编号
      */
@@ -30,12 +30,12 @@ public class OAuth2RefreshTokenDO {
      */
     private Date createTime;
 
-    public String getTokenId() {
-        return tokenId;
+    public String getId() {
+        return id;
     }
 
-    public OAuth2RefreshTokenDO setTokenId(String tokenId) {
-        this.tokenId = tokenId;
+    public OAuth2RefreshTokenDO setId(String id) {
+        this.id = id;
         return this;
     }
 

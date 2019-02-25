@@ -4,9 +4,9 @@
 
     <insert id="insert" parameterType="OAuth2RefreshTokenDO">
         INSERT INTO oauth2_refresh_token (
-          token_id, id, valid, expires_time, create_time
+          id, uid, valid, expires_time, create_time
         ) VALUES (
-          #{tokenId}, #{id}, #{valid}, #{expiresTime}, #{createTime}
+          #{id}, #{uid}, #{valid}, #{expiresTime}, #{createTime}
         )
     </insert>
 

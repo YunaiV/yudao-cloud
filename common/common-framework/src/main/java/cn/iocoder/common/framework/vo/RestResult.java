@@ -53,4 +53,5 @@ public class RestResult {
     public void setData(Object data) {
         this.data = data;
     }
+
 }

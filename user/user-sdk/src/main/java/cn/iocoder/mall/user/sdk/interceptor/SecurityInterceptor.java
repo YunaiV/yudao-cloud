@@ -5,7 +5,7 @@ import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import cn.iocoder.mall.user.sdk.context.SecurityContext;
 import cn.iocoder.mall.user.sdk.context.SecurityContextHolder;
 import cn.iocoder.mall.user.service.api.OAuth2Service;
-import cn.iocoder.mall.user.service.api.dto.OAuth2AuthenticationDTO;
+import cn.iocoder.mall.user.service.api.bo.OAuth2AuthenticationBO;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -29,7 +29,7 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 校验访问令牌是否正确。若正确，返回授权信息
         String accessToken = obtainAccess(request);
-        OAuth2AuthenticationDTO authentication = null;
+        OAuth2AuthenticationBO authentication = null;
         if (accessToken != null) {
             authentication = oauth2Service.checkToken(accessToken);
             // 添加到 SecurityContext

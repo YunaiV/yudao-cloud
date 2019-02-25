@@ -4,10 +4,10 @@
 
     <insert id="insert" parameterType="OAuth2AccessTokenDO">
         INSERT INTO oauth2_access_token (
-          token_id, refresh_token, id, valid, expires_time,
+          id, refresh_token, uid, valid, expires_time,
           create_time
         ) VALUES (
-          #{tokenId}, #{refreshToken}, #{id}, #{valid}, #{expiresTime},
+          #{id}, #{refreshToken}, #{uid}, #{valid}, #{expiresTime},
            #{createTime}
         )
     </insert>
@@ -16,7 +16,7 @@
         SELECT
           id, valid, expires_time
         FROM oauth2_access_token
-        WHERE token_id = #{tokenId}
+        WHERE token_id = #{id}
     </select>
 
 </mapper>

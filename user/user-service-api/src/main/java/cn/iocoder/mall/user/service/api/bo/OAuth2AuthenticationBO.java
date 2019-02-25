@@ -1,8 +1,8 @@
-package cn.iocoder.mall.user.service.api.dto;
+package cn.iocoder.mall.user.service.api.bo;
 
 import java.io.Serializable;
 
-public class OAuth2AuthenticationDTO implements Serializable {
+public class OAuth2AuthenticationBO implements Serializable {
 
     /**
      * 用户编号
@@ -13,7 +13,7 @@ public class OAuth2AuthenticationDTO implements Serializable {
         return uid;
     }
 
-    public OAuth2AuthenticationDTO setUid(Long uid) {
+    public OAuth2AuthenticationBO setUid(Long uid) {
         this.uid = uid;
         return this;
     }

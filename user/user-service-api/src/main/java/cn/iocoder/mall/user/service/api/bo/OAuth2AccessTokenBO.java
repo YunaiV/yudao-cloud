@@ -1,4 +1,4 @@
-package cn.iocoder.mall.user.service.api.dto;
+package cn.iocoder.mall.user.service.api.bo;
 
 import java.io.Serializable;
 

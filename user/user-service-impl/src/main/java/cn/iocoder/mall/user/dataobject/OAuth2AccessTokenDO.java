@@ -7,7 +7,7 @@ public class OAuth2AccessTokenDO {
     /**
      * 访问令牌
      */
-    private String tokenId;
+    private String id;
     /**
      * 刷新令牌
      */
@@ -29,12 +29,12 @@ public class OAuth2AccessTokenDO {
      */
     private Date createTime;
 
-    public String getTokenId() {
-        return tokenId;
+    public String getId() {
+        return id;
     }
 
-    public OAuth2AccessTokenDO setTokenId(String tokenId) {
-        this.tokenId = tokenId;
+    public OAuth2AccessTokenDO setId(String id) {
+        this.id = id;
         return this;
     }
 

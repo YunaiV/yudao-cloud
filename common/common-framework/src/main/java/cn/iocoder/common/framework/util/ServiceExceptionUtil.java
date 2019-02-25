@@ -1,6 +1,7 @@
 package cn.iocoder.common.framework.util;
 
 import cn.iocoder.common.framework.exception.ServiceException;
+import cn.iocoder.common.framework.vo.CommonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +37,16 @@ public class ServiceExceptionUtil {
 
     public static void put(Integer code, String message) {
         ServiceExceptionUtil.messages.put(code, message);
+    }
+
+    // TODO 芋艿，可能不是目前最优解，目前暂时这样
+    public static <T> CommonResult<T> error(Integer code) {
+        return CommonResult.error(code, messages.get(code));
+    }
+
+    public static CommonResult error(Integer code, Object... params) {
+        String message = doFormat(code, messages.get(code), params);
+        return CommonResult.error(code, message);
     }
 
     /**

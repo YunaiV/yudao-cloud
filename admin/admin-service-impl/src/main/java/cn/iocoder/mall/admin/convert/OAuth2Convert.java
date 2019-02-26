@@ -10,6 +10,7 @@ import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper
 public interface OAuth2Convert {
@@ -26,10 +27,12 @@ public interface OAuth2Convert {
                 .setExpiresIn(Math.max((int) ((oauth2AccessTokenDO.getExpiresTime().getTime() - System.currentTimeMillis()) / 1000), 0));
     }
 
-    @Mappings({
-            @Mapping(source = "oauth2AccessTokenDO.id", target = "accessToken"),
-            @Mapping(source = "adminRoleDOs.roleId", target = "roleIds")
-    })
-    OAuth2AuthenticationBO convertToAuthentication(OAuth2AccessTokenDO oauth2AccessTokenDO, List<AdminRoleDO> adminRoleDOs);
+    @Mappings({})
+    OAuth2AuthenticationBO convertToAuthentication(OAuth2AccessTokenDO oauth2AccessTokenDO);
+
+    default OAuth2AuthenticationBO convertToAuthentication(OAuth2AccessTokenDO oauth2AccessTokenDO, List<AdminRoleDO> adminRoleDOs) {
+        return convertToAuthentication(oauth2AccessTokenDO)
+                .setRoleIds(adminRoleDOs.stream().map(AdminRoleDO::getRoleId).collect(Collectors.toSet()));
+    }
 
 }

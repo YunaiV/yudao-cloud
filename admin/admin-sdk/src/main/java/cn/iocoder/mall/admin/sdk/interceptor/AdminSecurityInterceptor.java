@@ -35,7 +35,7 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
                 throw new ServiceException(result.getCode(), result.getMessage());
             }
             authentication = result.getData();
-            // 添加到 SecurityContext
+            // 添加到 AdminSecurityContext
             AdminSecurityContext context = new AdminSecurityContext(authentication.getAdminId(), authentication.getRoleIds());
             AdminSecurityContextHolder.setContext(context);
         }

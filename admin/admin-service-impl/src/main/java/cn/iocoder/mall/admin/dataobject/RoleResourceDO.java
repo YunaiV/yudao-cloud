@@ -16,7 +16,7 @@ public class RoleResourceDO {
      */
     private Integer roleId;
     /**
-     * 资源比那好(外键：{@link ResourceDO}
+     * 资源编号(外键：{@link ResourceDO}
      */
     private Integer resourceId;
     /**

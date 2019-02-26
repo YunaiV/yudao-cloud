@@ -33,6 +33,15 @@ public class RoleDO {
      */
     private Integer status;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public RoleDO setId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
     public String getName() {
         return name;
     }

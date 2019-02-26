@@ -9,7 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>application-sdk</artifactId>
+    <artifactId>admin-sdk</artifactId>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>

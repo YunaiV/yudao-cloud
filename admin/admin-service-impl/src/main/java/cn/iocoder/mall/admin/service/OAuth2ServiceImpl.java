@@ -70,6 +70,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
         }
         // 获得管理员拥有的角色
         List<AdminRoleDO> adminRoleDOs = adminService.getAdminRoles(accessTokenDO.getAdminId());
+        // TODO 芋艿，有个 bug ，要排除掉已经失效的角色
         return CommonResult.success(OAuth2Convert.INSTANCE.convertToAuthentication(accessTokenDO, adminRoleDOs));
     }
 
@@ -81,11 +82,11 @@ public class OAuth2ServiceImpl implements OAuth2Service {
         }
         // 校验权限
         List<RoleResourceDO> roleResourceDOs = roleService.getRoleByResourceHandler(url);
-        if (roleResourceDOs.isEmpty()) { // 任何角色，都可以访问
+        if (roleResourceDOs.isEmpty()) { // 任何角色，都可以访问。TODO 后面调整下，如果未配置的资源，直接不校验权限
             return CommonResult.success(true);
         }
         for (RoleResourceDO roleResourceDO : roleResourceDOs) {
-            if (roleIds.contains(roleResourceDO.getId())) {
+            if (roleIds.contains(roleResourceDO.getRoleId())) {
                 return CommonResult.success(true);
             }
         }

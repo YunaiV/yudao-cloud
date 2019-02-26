@@ -24,7 +24,7 @@ public class ProductCategoryController {
 
     @GetMapping
     @ApiOperation("获得指定编号下的子分类的数组")
-    @ApiImplicitParam(name = "pid", value = "指定分类编号", required = true)
+    @ApiImplicitParam(name = "pid", value = "指定分类编号", required = true, example = "0")
     public List<ProductCategoryVO> list(@RequestParam("pid") Integer pid) {
         return ProductCategoryConvert.INSTANCE.convertToVO(
                 productCategoryService.getListByPid(pid)

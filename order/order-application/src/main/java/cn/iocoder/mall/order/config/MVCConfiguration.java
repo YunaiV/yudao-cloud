@@ -1,14 +1,10 @@
-package cn.iocoder.mall.product.config;
+package cn.iocoder.mall.order.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 @EnableWebMvc
 @Configuration
-//@Import(value = {GlobalExceptionHandler.class}) // 统一全局返回
 public class MVCConfiguration implements WebMvcConfigurer {
 
 //    @Autowired
@@ -21,6 +17,14 @@ public class MVCConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(securityInterceptor);
     }
+
+//    @Override
+//    public void addViewControllers(ViewControllerRegistry registry) {
+//        registry.addRedirectViewController("/api/v2/api-docs", "/v2/api-docs");
+//        registry.addRedirectViewController("/api/swagger-resources/configuration/ui", "/swagger-resources/configuration/ui");
+//        registry.addRedirectViewController("/api/swagger-resources/configuration/security", "/swagger-resources/configuration/security");
+//        registry.addRedirectViewController("/api/swagger-resources", "/swagger-resources");
+//    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

@@ -1,22 +1,24 @@
 package cn.iocoder.mall.user.controller;
 
-import cn.iocoder.common.framework.exception.ServiceException;
-import cn.iocoder.common.framework.util.ExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.user.convert.PassportConvert;
 import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import cn.iocoder.mall.user.service.api.MobileCodeService;
 import cn.iocoder.mall.user.service.api.OAuth2Service;
 import cn.iocoder.mall.user.service.api.UserService;
 import cn.iocoder.mall.user.service.api.bo.OAuth2AccessTokenBO;
-import cn.iocoder.mall.user.service.api.constant.UserErrorCodeEnum;
+import cn.iocoder.mall.user.vo.MobileRegisterVO;
 import com.alibaba.dubbo.config.annotation.Reference;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/passport")
+@RequestMapping("user/passport")
 public class PassportController {
 
     @Reference
@@ -33,63 +35,17 @@ public class PassportController {
 //        return oauth2Service.getAccessToken(clientId, clientSecret, mobile, password);
 //    }
 
-    /**
-     * 手机号 + 验证码登陆
-     *
-     * @see #mobileRegister2(String, String) 使用替代
-     *
-     * @param mobile 手机号
-     * @param code   验证码
-     * @return 授权信息
-     */
-    @Deprecated
     @PermitAll
-    @PostMapping("/mobile/login")
-    public OAuth2AccessTokenBO mobileRegister(@RequestParam("mobile") String mobile,
-                                              @RequestParam("code") String code) {
-        // 尝试直接授权
-        OAuth2AccessTokenBO accessTokenDTO;
-        try {
-            accessTokenDTO = oauth2Service.getAccessToken(mobile, code);
-            return accessTokenDTO;
-        } catch (Exception ex) {
-            ServiceException serviceException = ExceptionUtil.getServiceException(ex);
-            if (serviceException == null) {
-                throw ex;
-            }
-            if (!serviceException.getCode().equals(UserErrorCodeEnum.USER_MOBILE_NOT_REGISTERED.getCode())) { // 如果是未注册异常，忽略。下面发起自动注册逻辑。
-                throw serviceException;
-            }
-        }
-        // 上面尝试授权失败，说明用户未注册，发起自动注册。
-        try {
-            userService.createUser(mobile, code);
-        } catch (Exception ex) {
-            ServiceException serviceException = ExceptionUtil.getServiceException(ex);
-            if (serviceException == null) {
-                throw ex;
-            }
-            if (!serviceException.getCode().equals(UserErrorCodeEnum.USER_MOBILE_ALREADY_REGISTERED.getCode())) { // 如果是已注册异常，忽略。下面再次发起授权
-                throw serviceException;
-            }
-        }
-        // 再次发起授权
-        accessTokenDTO = oauth2Service.getAccessToken(mobile, code);
-        return accessTokenDTO;
-    }
-
-    /**
-     * 手机号 + 验证码登陆
-     *
-     * @param mobile 手机号
-     * @param code   验证码
-     * @return 授权信息
-     */
-    @PermitAll
-    @PostMapping("/mobile/login2")
-    public CommonResult<OAuth2AccessTokenBO> mobileRegister2(@RequestParam("mobile") String mobile,
-                                                             @RequestParam("code") String code) {
-        return oauth2Service.getAccessToken2(mobile, code);
+    @PostMapping("/mobile/register")
+    @ApiOperation(value = "手机号 + 验证码登陆（注册）", notes = "如果手机对应的账号不存在，则会自动创建")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "mobile", value = "手机号", required = true, example = "15601691300"),
+            @ApiImplicitParam(name = "code", value = "验证码", required = true, example = "9999")
+    })
+    public CommonResult<MobileRegisterVO> mobileRegister(@RequestParam("mobile") String mobile,
+                                                         @RequestParam("code") String code) {
+        CommonResult<OAuth2AccessTokenBO> result = oauth2Service.getAccessToken2(mobile, code);
+        return PassportConvert.INSTANCE.convert(result);
     }
 
     /**

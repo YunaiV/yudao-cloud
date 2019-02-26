@@ -4,17 +4,17 @@
 
     <insert id="insert" parameterType="OAuth2AccessTokenDO">
         INSERT INTO oauth2_access_token (
-          id, refresh_token, uid, valid, expires_time,
+          id, refresh_token, adminId, valid, expires_time,
           create_time
         ) VALUES (
-          #{id}, #{refreshToken}, #{uid}, #{valid}, #{expiresTime},
+          #{id}, #{refreshToken}, #{adminId}, #{valid}, #{expiresTime},
            #{createTime}
         )
     </insert>
 
     <select id="selectByTokenId" parameterType="String" resultType="OAuth2AccessTokenDO">
         SELECT
-          id, uid, valid, expires_time
+          id, adminId, valid, expires_time
         FROM oauth2_access_token
         WHERE id = #{id}
     </select>

@@ -1,0 +1,32 @@
+spring:
+  # datasource
+  datasource:
+    url: jdbc:mysql://127.0.0.1:33061/mall_admin?useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+
+# server
+server:
+  port: 8083
+
+# mybatis
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: cn.iocoder.mall.admin.dataobject
+
+# dubbo
+dubbo:
+  application:
+    name: admin-service
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  protocol:
+    port: -1
+    name: dubbo
+  scan:
+    base-packages: cn.iocoder.mall.admin.service
+demo:
+  service:
+    version: 1.0.0

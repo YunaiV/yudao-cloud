@@ -1,13 +1,13 @@
 package cn.iocoder.mall.user.sdk.context;
 
 /**
- * Security 上下文
+ * User Security 上下文
  */
-public class SecurityContext {
+public class UserSecurityContext {
 
     private final Long uid;
 
-    public SecurityContext(Long uid) {
+    public UserSecurityContext(Long uid) {
         this.uid = uid;
     }
 

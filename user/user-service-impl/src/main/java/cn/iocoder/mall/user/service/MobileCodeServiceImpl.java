@@ -47,31 +47,7 @@ public class MobileCodeServiceImpl implements MobileCodeService {
      * @param code 验证码
      * @return 手机验证码信息
      */
-    public MobileCodeDO validLastMobileCode(String mobile, String code) {
-        MobileCodeDO mobileCodePO = mobileCodeMapper.selectLast1ByMobile(mobile);
-        if (mobileCodePO == null) { // 若验证码不存在，抛出异常
-            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_NOT_FOUND.getCode());
-        }
-        if (System.currentTimeMillis() - mobileCodePO.getCreateTime().getTime() >= codeExpireTimes) { // 验证码已过期
-            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_EXPIRED.getCode());
-        }
-        if (mobileCodePO.getUsed()) { // 验证码已使用
-            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_USED.getCode());
-        }
-        if (!mobileCodePO.getCode().equals(code)) {
-            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_NOT_CORRECT.getCode());
-        }
-        return mobileCodePO;
-    }
-
-    /**
-     * 校验手机号的最后一个手机验证码是否有效
-     *
-     * @param mobile 手机号
-     * @param code 验证码
-     * @return 手机验证码信息
-     */
-    public CommonResult<MobileCodeDO> validLastMobileCode2(String mobile, String code) {
+    public CommonResult<MobileCodeDO> validLastMobileCode(String mobile, String code) {
         MobileCodeDO mobileCodePO = mobileCodeMapper.selectLast1ByMobile(mobile);
         if (mobileCodePO == null) { // 若验证码不存在，抛出异常
             return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_NOT_FOUND.getCode());

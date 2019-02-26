@@ -46,7 +46,7 @@ public class PassportController {
     })
     public CommonResult<MobileRegisterVO> mobileRegister(@RequestParam("mobile") String mobile,
                                                          @RequestParam("code") String code) {
-        CommonResult<OAuth2AccessTokenBO> result = oauth2Service.getAccessToken2(mobile, code);
+        CommonResult<OAuth2AccessTokenBO> result = oauth2Service.getAccessToken(mobile, code);
         return PassportConvert.INSTANCE.convert(result);
     }
 

@@ -18,6 +18,7 @@
         <module>order</module>
         <module>user</module>
         <module>common</module>
+        <module>admin</module>
     </modules>
     <packaging>pom</packaging>
 

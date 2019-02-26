@@ -1,27 +1,25 @@
-package cn.iocoder.mall.user.sdk.interceptor;
+package cn.iocoder.mall.admin.sdk.interceptor;
 
 import cn.iocoder.common.framework.exception.ServiceException;
+import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.user.sdk.annotation.PermitAll;
-import cn.iocoder.mall.user.sdk.context.SecurityContext;
-import cn.iocoder.mall.user.sdk.context.SecurityContextHolder;
-import cn.iocoder.mall.user.service.api.OAuth2Service;
-import cn.iocoder.mall.user.service.api.bo.OAuth2AuthenticationBO;
+import cn.iocoder.mall.admin.api.OAuth2Service;
+import cn.iocoder.mall.admin.api.bo.OAuth2AuthenticationBO;
+import cn.iocoder.mall.admin.sdk.context.AdminSecurityContext;
+import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import java.util.Set;
 
 /**
  * 安全拦截器
  */
 @Component
-public class SecurityInterceptor extends HandlerInterceptorAdapter {
+public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
 
     @Reference
     private OAuth2Service oauth2Service;
@@ -29,7 +27,7 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 校验访问令牌是否正确。若正确，返回授权信息
-        String accessToken = obtainAccess(request);
+        String accessToken = HttpUtil.obtainAccess(request);
         OAuth2AuthenticationBO authentication = null;
         if (accessToken != null) {
             CommonResult<OAuth2AuthenticationBO> result = oauth2Service.checkToken(accessToken);
@@ -38,34 +36,29 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter {
             }
             authentication = result.getData();
             // 添加到 SecurityContext
-            SecurityContext context = new SecurityContext(authentication.getUid());
-            SecurityContextHolder.setContext(context);
+            AdminSecurityContext context = new AdminSecurityContext(authentication.getAdminId(), authentication.getRoleIds());
+            AdminSecurityContextHolder.setContext(context);
         }
         // 校验是否需要已授权
-        HandlerMethod method = (HandlerMethod) handler;
-        boolean isPermitAll = method.hasMethodAnnotation(PermitAll.class);
-        if (!isPermitAll && authentication == null) {
-            throw new ServiceException(-1, "未授权"); // TODO 这里要改下
-        }
+        checkPermission(request, authentication);
+        // 返回成功
         return super.preHandle(request, response, handler);
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         // 清空 SecurityContext
-        SecurityContextHolder.clear();
+        AdminSecurityContextHolder.clear();
     }
 
-    private String obtainAccess(HttpServletRequest request) {
-        String authorization = request.getHeader("Authorization");
-        if (!StringUtils.hasText(authorization)) {
-            return null;
+    private void checkPermission(HttpServletRequest request, OAuth2AuthenticationBO authentication) {
+        Integer adminId = authentication != null ? authentication.getAdminId() : null;
+        Set<Integer> roleIds = authentication != null ? authentication.getRoleIds() : null;
+        String url = request.getRequestURI();
+        CommonResult<Boolean> result = oauth2Service.checkPermission(adminId, roleIds, url);
+        if (result.isError()) {
+            throw new ServiceException(result.getCode(), result.getMessage());
         }
-        int index = authorization.indexOf("Bearer ");
-        if (index == -1) { // 未找到
-            return null;
-        }
-        return authorization.substring(index + 7).trim();
     }
 
 }

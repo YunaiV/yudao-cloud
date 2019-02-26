@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iocoder.mall.admin.dao.AdminMapper">
+
+    <!--<insert id="insert" parameterType="UserDO" useGeneratedKeys="true" keyProperty="id">-->
+        <!--INSERT INTO users (-->
+          <!--id, mobile, create_time-->
+        <!--) VALUES (-->
+          <!--#{id}, #{mobile}, #{createTime}-->
+        <!--)-->
+    <!--</insert>-->
+
+    <select id="selectByUsername" parameterType="String" resultType="AdminDO">
+      SELECT
+          id, username, nickname, password, status
+      FROM admin
+      WHERE username = #{username}
+    </select>
+
+</mapper>

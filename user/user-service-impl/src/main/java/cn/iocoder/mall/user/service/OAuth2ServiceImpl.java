@@ -52,29 +52,9 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 
     @Override
     @Transactional
-    public OAuth2AccessTokenBO getAccessToken(String mobile, String code) {
-        // 校验手机号的最后一个手机验证码是否有效
-        MobileCodeDO mobileCodeDO = mobileCodeService.validLastMobileCode(mobile, code);
-        // 获取用户
-        UserDO userDO = userService.getUser(mobile);
-        if (userDO == null) { // 用户不存在
-            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.USER_MOBILE_NOT_REGISTERED.getCode());
-        }
-        // 创建刷新令牌
-        OAuth2RefreshTokenDO oauth2RefreshTokenDO = createOAuth2RefreshToken(userDO.getId());
-        // 创建访问令牌
-        OAuth2AccessTokenDO oauth2AccessTokenDO = createOAuth2AccessToken(userDO.getId(), oauth2RefreshTokenDO.getId());
-        // 标记已使用
-        mobileCodeService.useMobileCode(mobileCodeDO.getId(), userDO.getId());
-        // 转换返回
-        return OAuth2Convert.INSTANCE.convertToAccessTokenWithExpiresIn(oauth2AccessTokenDO);
-    }
-
-    @Override
-    @Transactional
-    public CommonResult<OAuth2AccessTokenBO> getAccessToken2(String mobile, String code) {
+    public CommonResult<OAuth2AccessTokenBO> getAccessToken(String mobile, String code) {
         // 校验传入的 mobile 和 code 是否合法
-        CommonResult<MobileCodeDO> result = mobileCodeService.validLastMobileCode2(mobile, code);
+        CommonResult<MobileCodeDO> result = mobileCodeService.validLastMobileCode(mobile, code);
         if (result.isError()) {
             return CommonResult.error(result);
         }

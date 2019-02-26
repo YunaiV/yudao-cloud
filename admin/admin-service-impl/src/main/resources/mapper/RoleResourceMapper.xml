@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iocoder.mall.admin.dao.RoleResourceMapper">
+
+    <!--<insert id="insert" parameterType="UserDO" useGeneratedKeys="true" keyProperty="id">-->
+        <!--INSERT INTO users (-->
+          <!--id, mobile, create_time-->
+        <!--) VALUES (-->
+          <!--#{id}, #{mobile}, #{createTime}-->
+        <!--)-->
+    <!--</insert>-->
+
+    <select id="selectByResourceHandler" parameterType="String" resultType="RoleResourceDO">
+      SELECT
+        rr.id, rr.role_id, rr.resouce_id
+      FROM resouce r, role_resource rr
+      WHERE r.handler = #{resourceHandler}
+      AND r.id = rr.resource_id
+    </select>
+
+</mapper>

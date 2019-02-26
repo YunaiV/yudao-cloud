@@ -9,6 +9,7 @@ import cn.iocoder.mall.user.service.api.UserService;
 import cn.iocoder.mall.user.service.api.bo.OAuth2AccessTokenBO;
 import cn.iocoder.mall.user.vo.MobileRegisterVO;
 import com.alibaba.dubbo.config.annotation.Reference;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("user/passport")
+@Api("Passport 模块")
 public class PassportController {
 
     @Reference
@@ -48,13 +50,10 @@ public class PassportController {
         return PassportConvert.INSTANCE.convert(result);
     }
 
-    /**
-     * 发送手机验证码
-     *
-     * @param mobile 手机号
-     */
     @PermitAll
     @PostMapping("mobile/send")
+    @ApiOperation(value = "发送手机验证码")
+    @ApiImplicitParam(name = "mobile", value = "手机号", required = true, example = "15601691300")
     public CommonResult<Void> mobileSend(@RequestParam("mobile") String mobile) {
         return mobileCodeService.send(mobile);
     }

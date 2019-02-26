@@ -3,7 +3,7 @@ package cn.iocoder.mall.user.vo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel("手机注册结果VO")
+@ApiModel("手机注册结果 VO")
 public class MobileRegisterVO {
 
     @ApiModelProperty(value = "访问令牌", required = true, example = "2e3d7635c15e47e997611707a237859f")

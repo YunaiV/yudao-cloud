@@ -1,0 +1,5 @@
+**/*.md
+**/*.svg
+package.json
+.umi
+.umi-production

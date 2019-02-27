@@ -19,4 +19,8 @@ public class RoleServiceImpl implements RoleService {
         return roleResourceMapper.selectByResourceHandler(resourceHandler);
     }
 
+    public List<RoleResourceDO> getRoleByResourceId(Integer resourceId) {
+        return roleResourceMapper.selectRoleByResourceId(resourceId);
+    }
+
 }

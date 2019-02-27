@@ -18,4 +18,11 @@
       AND r.id = rr.resource_id
     </select>
 
+    <select id="selectRoleByResourceId" parameterType="Integer" resultType="RoleResourceDO">
+      SELECT
+        id, role_id, resource_id
+      FROM role_resource
+      WHERE resource_id = #{resourceId}
+    </select>
+
 </mapper>

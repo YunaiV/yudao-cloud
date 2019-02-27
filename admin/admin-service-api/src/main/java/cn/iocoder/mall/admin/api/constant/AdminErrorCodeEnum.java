@@ -16,6 +16,7 @@ public enum AdminErrorCodeEnum {
     OAUTH_INVALID_TOKEN_EXPIRED(1002001012, "访问令牌已过期"),
     OAUTH_INVALID_TOKEN_INVALID(1002001013, "访问令牌已失效"),
     OAUTH_INVALID_PERMISSION(1002001014, "没有该操作权限"), // TODO 芋艿，临时放在 OAUTH2 模块，理论来说，OAUTH2 只做认证，不做鉴权。
+    OAUTH_NOT_LOGIN(1002001015, "账号未登陆"),
 
     OAUTH_INVALID_TOKEN(1002001020, ""), // 预留
 

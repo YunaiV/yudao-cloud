@@ -21,6 +21,19 @@ export default [
     Routes: ['src/pages/Authorized'],
     authority: ['admin', 'user'],
     routes: [
+      // admin
+      {
+        path: '/admin',
+        name: 'admin',
+        icon: 'user',
+        routes: [
+          {
+            path: '/admin/admin-list',
+            name: 'admin-list',
+            component: './Admin/AdminList',
+          },
+        ],
+      },
       // dashboard
       { path: '/', redirect: '/dashboard/analysis' },
       {

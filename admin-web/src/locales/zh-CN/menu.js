@@ -1,4 +1,7 @@
 export default {
+  // admin
+  'menu.admin': 'Admin管理',
+  'menu.admin.admin-list': '管理员列表',
   'menu.home': '首页',
   'menu.login': '登录',
   'menu.register': '注册',

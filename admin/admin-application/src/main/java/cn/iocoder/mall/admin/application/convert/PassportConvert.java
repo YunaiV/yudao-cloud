@@ -1,8 +1,8 @@
-package cn.iocoder.mall.admin.convert;
+package cn.iocoder.mall.admin.application.convert;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.bo.OAuth2AccessTokenBO;
-import cn.iocoder.mall.admin.vo.PassportLoginVO;
+import cn.iocoder.mall.admin.application.vo.PassportLoginVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;

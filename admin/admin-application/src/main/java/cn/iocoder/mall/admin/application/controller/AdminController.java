@@ -1,9 +1,9 @@
-package cn.iocoder.mall.admin.controller;
+package cn.iocoder.mall.admin.application.controller;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
-import cn.iocoder.mall.admin.convert.AdminConvert;
-import cn.iocoder.mall.admin.vo.AdminInfoVO;
+import cn.iocoder.mall.admin.application.convert.AdminConvert;
+import cn.iocoder.mall.admin.application.vo.AdminInfoVO;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

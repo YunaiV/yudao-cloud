@@ -1,12 +1,12 @@
-package cn.iocoder.mall.admin.controller;
+package cn.iocoder.mall.admin.application.controller;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.ResourceService;
 import cn.iocoder.mall.admin.api.bo.ResourceBO;
 import cn.iocoder.mall.admin.api.constant.ResourceType;
-import cn.iocoder.mall.admin.convert.ResourceConvert;
+import cn.iocoder.mall.admin.application.convert.ResourceConvert;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
-import cn.iocoder.mall.admin.vo.AdminMenuTreeNodeVO;
+import cn.iocoder.mall.admin.application.vo.AdminMenuTreeNodeVO;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

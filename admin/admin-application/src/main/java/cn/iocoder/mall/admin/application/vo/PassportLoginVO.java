@@ -1,4 +1,4 @@
-package cn.iocoder.mall.admin.vo;
+package cn.iocoder.mall.admin.application.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

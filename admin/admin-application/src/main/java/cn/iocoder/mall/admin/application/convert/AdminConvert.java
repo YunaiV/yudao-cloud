@@ -1,7 +1,7 @@
-package cn.iocoder.mall.admin.convert;
+package cn.iocoder.mall.admin.application.convert;
 
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContext;
-import cn.iocoder.mall.admin.vo.AdminInfoVO;
+import cn.iocoder.mall.admin.application.vo.AdminInfoVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;

@@ -21,6 +21,15 @@ export default [
     Routes: ['src/pages/Authorized'],
     authority: ['admin', 'user'],
     routes: [
+      // redirect
+      { path: '/', redirect: '/home' },
+      // home
+      {
+        path: '/home',
+        name: 'home',
+        icon: 'user',
+        component: './Home/Home',
+      },
       // admin
       {
         path: '/admin',
@@ -34,8 +43,6 @@ export default [
           },
         ],
       },
-      // dashboard
-      { path: '/', redirect: '/dashboard/analysis' },
       {
         path: '/dashboard',
         name: 'dashboard',

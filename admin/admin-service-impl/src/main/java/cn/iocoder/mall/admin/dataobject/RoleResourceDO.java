@@ -1,11 +1,11 @@
 package cn.iocoder.mall.admin.dataobject;
 
-import java.util.Date;
+import cn.iocoder.common.framework.dataobject.BaseDO;
 
 /**
  * {@link RoleDO} 和 {@link ResourceDO} 的关联表
  */
-public class RoleResourceDO {
+public class RoleResourceDO extends BaseDO {
 
     /**
      * 编号
@@ -19,12 +19,6 @@ public class RoleResourceDO {
      * 资源编号(外键：{@link ResourceDO}
      */
     private Integer resourceId;
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    // TODO 芋艿 删除状态
 
     public Integer getId() {
         return id;
@@ -41,15 +35,6 @@ public class RoleResourceDO {
 
     public RoleResourceDO setRoleId(Integer roleId) {
         this.roleId = roleId;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public RoleResourceDO setCreateTime(Date createTime) {
-        this.createTime = createTime;
         return this;
     }
 

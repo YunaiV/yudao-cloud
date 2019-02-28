@@ -16,13 +16,29 @@
       FROM resource r, role_resource rr
       WHERE r.handler = #{resourceHandler}
       AND r.id = rr.resource_id
+      AND rr.deleted = 0;
     </select>
 
-    <select id="selectRoleByResourceId" parameterType="Integer" resultType="RoleResourceDO">
+    <select id="selectByResourceId" parameterType="Integer" resultType="RoleResourceDO">
       SELECT
         id, role_id, resource_id
       FROM role_resource
       WHERE resource_id = #{resourceId}
+      AND deleted = 0
     </select>
+
+    <update id="updateToDeletedByResourceId" parameterType="Integer">
+      UPDATE role_resource
+      SET deleted = 1
+      WHERE resource_id = #{resourceId}
+      AND deleted = 0
+    </update>
+
+    <update id="updateToDeletedByRoleId" parameterType="Integer">
+      UPDATE role_resource
+      SET deleted = 1
+      WHERE role_id = #{roleId}
+      AND deleted = 0
+    </update>
 
 </mapper>

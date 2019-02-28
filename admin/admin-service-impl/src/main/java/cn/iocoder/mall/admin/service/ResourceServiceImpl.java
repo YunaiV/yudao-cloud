@@ -12,6 +12,7 @@ import cn.iocoder.mall.admin.api.dto.ResourceAddDTO;
 import cn.iocoder.mall.admin.api.dto.ResourceUpdateDTO;
 import cn.iocoder.mall.admin.convert.ResourceConvert;
 import cn.iocoder.mall.admin.dao.ResourceMapper;
+import cn.iocoder.mall.admin.dao.RoleResourceMapper;
 import cn.iocoder.mall.admin.dataobject.ResourceDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Autowired
     private ResourceMapper resourceMapper;
+    @Autowired
+    private RoleResourceMapper roleResourceMapper;
+
 
     public ResourceDO getResourceByTypeAndHandler(Integer type, String handler) {
         return resourceMapper.selectByTypeAndHandler(type, handler);
@@ -116,11 +120,16 @@ public class ResourceServiceImpl implements ResourceService {
         if (resourceMapper.selectById(resourceId) == null) {
             return ServiceExceptionUtil.error(AdminErrorCodeEnum.RESOURCE_NOT_EXISTS.getCode());
         }
-        // TODO 还有校验
+        // 校验是否还有子资源
+        if (resourceMapper.selectCountByPid(resourceId) > 0) {
+            return ServiceExceptionUtil.error(AdminErrorCodeEnum.RESOURCE_EXISTS_CHILDREN.getCode());
+        }
         // 更新到数据库
         ResourceDO resource = new ResourceDO().setId(resourceId);
         resource.setDeleted(BaseDO.DELETED_YES);
         resourceMapper.update(resource);
+        // 删除资源关联表
+        roleResourceMapper.updateToDeletedByResourceId(resourceId);
         // 返回成功
         return CommonResult.success(true);
     }

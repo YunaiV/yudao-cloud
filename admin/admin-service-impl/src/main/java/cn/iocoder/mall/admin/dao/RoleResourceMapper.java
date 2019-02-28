@@ -11,6 +11,10 @@ public interface RoleResourceMapper {
 
     List<RoleResourceDO> selectByResourceHandler(@Param("resourceHandler") String resourceHandler);
 
-    List<RoleResourceDO> selectRoleByResourceId(@Param("resourceId") Integer resourceId);
+    List<RoleResourceDO> selectByResourceId(@Param("resourceId") Integer resourceId);
+
+    int updateToDeletedByResourceId(@Param("resourceId") Integer resourceId);
+
+    int updateToDeletedByRoleId(@Param("roleId") Integer roleId);
 
 }

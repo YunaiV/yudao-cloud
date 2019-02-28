@@ -20,7 +20,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     public List<RoleResourceDO> getRoleByResourceId(Integer resourceId) {
-        return roleResourceMapper.selectRoleByResourceId(resourceId);
+        return roleResourceMapper.selectByResourceId(resourceId);
     }
 
 }

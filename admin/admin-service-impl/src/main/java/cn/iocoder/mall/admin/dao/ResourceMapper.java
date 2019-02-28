@@ -25,4 +25,7 @@ public interface ResourceMapper {
     void insert(ResourceDO resource);
 
     int update(ResourceDO resource);
+
+    int selectCountByPid(@Param("pid") Integer pid);
+
 }

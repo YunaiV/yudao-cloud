@@ -29,7 +29,8 @@ public enum AdminErrorCodeEnum {
     RESOURCE_NAME_DUPLICATE(1002003000, "已经存在该名字的资源"),
     RESOURCE_PARENT_NOT_EXISTS(1002003001, "父资源不存在"),
     RESOURCE_PARENT_ERROR(1002003002, "不能设置自己为父资源"),
-    RESOURCE_NOT_EXISTS(1002003002, "资源不存在"),
+    RESOURCE_NOT_EXISTS(1002003003, "资源不存在"),
+    RESOURCE_EXISTS_CHILDREN(1002003004, "存在子资源，无法删除"),
     ;
 
     private final int code;

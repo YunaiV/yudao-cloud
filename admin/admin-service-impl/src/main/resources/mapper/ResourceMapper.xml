@@ -55,12 +55,20 @@
         AND deleted = 0
         LIMIT 1
     </select>
+
     <select id="selectById" resultType="ResourceDO">
         SELECT
           <include refid="FIELDS"/>
         FROM resource
         WHERE id = #{id}
         AND deleted = 0
+    </select>
+
+    <select id="selectCountByPid" resultType="int">
+        SELECT
+          COUNT(1)
+        FROM resource
+        WHERE pid = #{pid}
     </select>
 
     <insert id="insert" parameterType="ResourceDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">

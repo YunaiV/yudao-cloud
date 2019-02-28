@@ -20,10 +20,17 @@ public enum AdminErrorCodeEnum {
 
     OAUTH_INVALID_TOKEN(1002001020, ""), // 预留
 
-    // ========== 管理员模块 ==========
+    // ========== 管理员模块 1002002000 ==========
     ADMIN_USERNAME_NOT_REGISTERED(1002002000, "账号不存在"),
     ADMIN_PASSWORD_ERROR(1002002001, "密码不正确"),
-    ADMIN_IS_DISABLE(1002002002, "账号被禁用");
+    ADMIN_IS_DISABLE(1002002002, "账号被禁用"),
+
+    // ========== 资源模块 1002003000 ==========
+    RESOURCE_NAME_DUPLICATE(1002003000, "已经存在该名字的资源"),
+    RESOURCE_PARENT_NOT_EXISTS(1002003001, "父资源不存在"),
+    RESOURCE_PARENT_ERROR(1002003002, "不能设置自己为父资源"),
+    RESOURCE_NOT_EXISTS(1002003002, "资源不存在"),
+    ;
 
     private final int code;
     private final String message;

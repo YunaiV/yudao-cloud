@@ -24,7 +24,7 @@ public class PassportController {
     private OAuth2Service oauth2Service;
 
     @PostMapping("/login")
-    @ApiOperation(value = "手机号 + 验证码登陆（注册）", notes = "如果手机对应的账号不存在，则会自动创建")
+    @ApiOperation(value = "手机号 + 密码登陆")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "username", value = "账号", required = true, example = "15601691300"),
             @ApiImplicitParam(name = "password", value = "密码", required = true, example = "future")

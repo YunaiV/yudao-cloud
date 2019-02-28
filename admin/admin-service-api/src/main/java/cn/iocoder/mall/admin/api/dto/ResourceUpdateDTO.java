@@ -4,20 +4,20 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
- * 资源添加 DTO
+ * 资源更新 DTO
  */
-public class ResourceAddDTO {
+public class ResourceUpdateDTO {
 
+    /**
+     * 资源编号
+     */
+    @NotNull(message = "资源编号不能为空")
+    private Integer id;
     /**
      * 资源名字（标识）
      */
     @NotEmpty(message = "资源名字不能为空")
     private String name;
-    /**
-     * 类型
-     */
-    @NotNull(message = "类型不能为空")
-    private Integer type;
     /**
      * 排序值
      */
@@ -37,21 +37,21 @@ public class ResourceAddDTO {
      */
     private String handler;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public ResourceUpdateDTO setId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
     public String getName() {
         return name;
     }
 
-    public ResourceAddDTO setName(String name) {
+    public ResourceUpdateDTO setName(String name) {
         this.name = name;
-        return this;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public ResourceAddDTO setType(Integer type) {
-        this.type = type;
         return this;
     }
 
@@ -59,7 +59,7 @@ public class ResourceAddDTO {
         return sort;
     }
 
-    public ResourceAddDTO setSort(Integer sort) {
+    public ResourceUpdateDTO setSort(Integer sort) {
         this.sort = sort;
         return this;
     }
@@ -68,7 +68,7 @@ public class ResourceAddDTO {
         return displayName;
     }
 
-    public ResourceAddDTO setDisplayName(String displayName) {
+    public ResourceUpdateDTO setDisplayName(String displayName) {
         this.displayName = displayName;
         return this;
     }
@@ -77,7 +77,7 @@ public class ResourceAddDTO {
         return pid;
     }
 
-    public ResourceAddDTO setPid(Integer pid) {
+    public ResourceUpdateDTO setPid(Integer pid) {
         this.pid = pid;
         return this;
     }
@@ -86,7 +86,7 @@ public class ResourceAddDTO {
         return handler;
     }
 
-    public ResourceAddDTO setHandler(String handler) {
+    public ResourceUpdateDTO setHandler(String handler) {
         this.handler = handler;
         return this;
     }

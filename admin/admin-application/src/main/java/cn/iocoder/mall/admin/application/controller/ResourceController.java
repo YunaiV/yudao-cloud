@@ -3,8 +3,9 @@ package cn.iocoder.mall.admin.application.controller;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.ResourceService;
 import cn.iocoder.mall.admin.api.bo.ResourceBO;
-import cn.iocoder.mall.admin.api.constant.ResourceType;
+import cn.iocoder.mall.admin.api.constant.ResourceConstants;
 import cn.iocoder.mall.admin.api.dto.ResourceAddDTO;
+import cn.iocoder.mall.admin.api.dto.ResourceUpdateDTO;
 import cn.iocoder.mall.admin.application.convert.ResourceConvert;
 import cn.iocoder.mall.admin.application.vo.AdminMenuTreeNodeVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
@@ -32,7 +33,7 @@ public class ResourceController {
     @GetMapping("/admin_menu_tree")
     @ApiOperation(value = "获得当前登陆的管理员拥有的菜单权限", notes = "以树结构返回")
     public CommonResult<List<AdminMenuTreeNodeVO>> adminMenuTree() {
-        List<ResourceBO> resources = resourceService.getResourceByTypeAndRoleIds(ResourceType.MENU, AdminSecurityContextHolder.getContext().getRoleIds());
+        List<ResourceBO> resources = resourceService.getResourcesByTypeAndRoleIds(ResourceConstants.TYPE_MENU, AdminSecurityContextHolder.getContext().getRoleIds());
         // 创建 AdminMenuTreeNodeVO Map
         Map<Integer, AdminMenuTreeNodeVO> treeNodeMap = resources.stream().collect(Collectors.toMap(ResourceBO::getId, ResourceConvert.INSTANCE::convert));
         // 处理父子关系
@@ -58,33 +59,40 @@ public class ResourceController {
     @ApiOperation(value = "获得当前登陆的管理员拥有的 URL 权限列表")
 //    @ApiModelProperty(value = "data", example = "['/admin/role/add', '/admin/role/update']") 没效果
     public CommonResult<Set<String>> adminUrlList() {
-        List<ResourceBO> resources = resourceService.getResourceByTypeAndRoleIds(ResourceType.URL, AdminSecurityContextHolder.getContext().getRoleIds());
+        List<ResourceBO> resources = resourceService.getResourcesByTypeAndRoleIds(ResourceConstants.TYPE_URL, AdminSecurityContextHolder.getContext().getRoleIds());
         return CommonResult.success(resources.stream().map(ResourceBO::getHandler).collect(Collectors.toSet()));
     }
-
 
     // =========== 资源管理 API ===========
 
     // TODO 芋艿，注释
     @PostMapping("/add")
     @ApiOperation(value = "创建资源", notes = "例如说，菜单资源，Url 资源")
-    public void add(@RequestParam("name") String name,
-                    @RequestParam("type") Integer type,
-                    @RequestParam("sort") Integer sort,
-                    @RequestParam("displayName") String displayName,
-                    @RequestParam("pid") Integer pid,
-                    @RequestParam("handler") String handler) {
+    public CommonResult<ResourceBO> add(@RequestParam("name") String name,
+                                        @RequestParam("type") Integer type,
+                                        @RequestParam("sort") Integer sort,
+                                        @RequestParam("displayName") String displayName,
+                                        @RequestParam("pid") Integer pid,
+                                        @RequestParam("handler") String handler) {
         ResourceAddDTO resourceAddDTO = new ResourceAddDTO().setName(name).setType(type).setSort(sort)
                 .setDisplayName(displayName).setPid(pid).setHandler(handler);
-        CommonResult<ResourceBO> result = resourceService.addResource(resourceAddDTO);
+        return resourceService.addResource(AdminSecurityContextHolder.getContext().getAdminId(), resourceAddDTO);
     }
 
-    public void update() {
-
+    @PostMapping("/update")
+    public CommonResult<Boolean> update(@RequestParam("id") Integer id,
+                                        @RequestParam("name") String name,
+                                        @RequestParam("sort") Integer sort,
+                                        @RequestParam("displayName") String displayName,
+                                        @RequestParam("pid") Integer pid,
+                                        @RequestParam("handler") String handler) {
+        ResourceUpdateDTO resourceUpdateDTO = new ResourceUpdateDTO().setId(id).setName(name).setSort(sort).setDisplayName(displayName).setPid(pid).setHandler(handler);
+        return resourceService.updateResource(AdminSecurityContextHolder.getContext().getAdminId(), resourceUpdateDTO);
     }
 
-    public void delete() {
-
+    @PostMapping("/delete")
+    public CommonResult<Boolean> delete(@RequestParam("id") Integer id) {
+        return resourceService.deleteResource(AdminSecurityContextHolder.getContext().getAdminId(), id);
     }
 
 }

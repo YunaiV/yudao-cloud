@@ -16,4 +16,13 @@ public interface ResourceMapper {
     List<ResourceDO> selectListByTypeAndRoleIds(@Param("type") Integer type,
                                                 @Param("roleIds") Set<Integer> roleIds);
 
+    List<ResourceDO> selectListByType(@Param("type") Integer type);
+
+    ResourceDO selectByName(@Param("name") String name);
+
+    ResourceDO selectById(@Param("id") Integer id);
+
+    void insert(ResourceDO resource);
+
+    int update(ResourceDO resource);
 }

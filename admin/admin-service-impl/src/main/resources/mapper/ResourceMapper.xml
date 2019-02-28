@@ -10,28 +10,92 @@
     <!--)-->
     <!--</insert>-->
 
-    <select id="selectByTypeAndHandler" resultType="ResourceDO">
-      SELECT
+    <sql id="FIELDS">
         id, name, type, sort, display_name,
         create_time, pid, handler
-      FROM resource
-      WHERE type = #{type}
-      AND handler = #{handler}
-      AND deleted = 0
+    </sql>
+
+    <select id="selectByTypeAndHandler" resultType="ResourceDO">
+        SELECT
+          <include refid="FIELDS"/>
+        FROM resource
+        WHERE type = #{type}
+        AND handler = #{handler}
+        AND deleted = 0
+        LIMIT 1
+    </select>
+
+    <select id="selectListByType" parameterType="Integer" resultType="ResourceDO">
+        SELECT
+          <include refid="FIELDS"/>
+        FROM resource
+        WHERE type = #{type}
+        AND deleted = 0
     </select>
 
     <select id="selectListByTypeAndRoleIds" resultType="ResourceDO">
-      SELECT
-        r.id, r.name, r.type, r.sort, r.display_name,
-        r.create_time, r.pid, r.handler
-      FROM resource r, role_resource rr
-      WHERE r.type = #{type}
-      AND deleted = 0
-      AND rr.role_id IN
+        SELECT
+            r.id, r.name, r.type, r.sort, r.display_name,
+            r.create_time, r.pid, r.handler
+        FROM resource r, role_resource rr
+        WHERE r.type = #{type}
+        AND deleted = 0
+        AND rr.role_id IN
         <foreach item="roleId" collection="roleIds" separator="," open="(" close=")" index="">
-         #{roleId}
+            #{roleId}
         </foreach>
-      AND r.id = rr.resource_id
+        AND r.id = rr.resource_id
     </select>
+
+    <select id="selectByName" parameterType="String" resultType="ResourceDO">
+        SELECT
+          <include refid="FIELDS"/>
+        FROM resource
+        WHERE name = #{name}
+        AND deleted = 0
+        LIMIT 1
+    </select>
+    <select id="selectById" resultType="ResourceDO">
+        SELECT
+          <include refid="FIELDS"/>
+        FROM resource
+        WHERE id = #{id}
+        AND deleted = 0
+    </select>
+
+    <insert id="insert" parameterType="ResourceDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO resource (
+          name, type, sort, display_name, handler,
+          pid, create_time, deleted
+        ) VALUES (
+          #{name}, #{type}, #{sort}, #{displayName}, #{handler},
+          #{pid}, #{createTime}, #{deleted}
+        )
+    </insert>
+
+    <update id="update" parameterType="ResourceDO">
+        UPDATE resource
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+            <if test="displayName != null">
+                display_name = #{displayName},
+            </if>
+            <if test="pid != null">
+                pid = #{pid},
+            </if>
+            <if test="handler != null">
+                handler = #{handler},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
 
 </mapper>

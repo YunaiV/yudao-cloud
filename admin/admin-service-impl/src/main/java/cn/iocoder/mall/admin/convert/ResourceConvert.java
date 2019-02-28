@@ -1,6 +1,8 @@
 package cn.iocoder.mall.admin.convert;
 
 import cn.iocoder.mall.admin.api.bo.ResourceBO;
+import cn.iocoder.mall.admin.api.dto.ResourceAddDTO;
+import cn.iocoder.mall.admin.api.dto.ResourceUpdateDTO;
 import cn.iocoder.mall.admin.dataobject.ResourceDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
@@ -18,5 +20,11 @@ public interface ResourceConvert {
 
     @Mappings({})
     List<ResourceBO> convert(List<ResourceDO> resourceDOs);
+
+    @Mappings({})
+    ResourceDO convert(ResourceAddDTO resourceAddDTO);
+
+    @Mappings({})
+    ResourceDO convert(ResourceUpdateDTO resourceUpdateDTO);
 
 }

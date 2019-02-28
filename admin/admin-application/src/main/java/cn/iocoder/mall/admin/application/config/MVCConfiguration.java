@@ -1,4 +1,4 @@
-package cn.iocoder.mall.admin.config;
+package cn.iocoder.mall.admin.application.config;
 
 import cn.iocoder.common.framework.config.GlobalExceptionHandler;
 import cn.iocoder.mall.admin.sdk.interceptor.AdminSecurityInterceptor;

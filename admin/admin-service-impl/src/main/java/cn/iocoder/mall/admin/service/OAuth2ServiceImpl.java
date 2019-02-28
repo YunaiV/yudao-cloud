@@ -14,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 @Service
 @com.alibaba.dubbo.config.annotation.Service
@@ -39,6 +42,8 @@ public class OAuth2ServiceImpl implements OAuth2Service {
     private OAuth2RefreshTokenMapper oauth2RefreshTokenMapper;
     @Autowired
     private RoleServiceImpl roleService;
+    @Autowired
+    private ResourceServiceImpl resourceService;
 
     @Override
     public CommonResult<OAuth2AccessTokenBO> getAccessToken(String username, String password) {
@@ -76,15 +81,17 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 
     @Override
     public CommonResult<Boolean> checkPermission(Integer adminId, Set<Integer> roleIds, String url) {
-        // 避免传入的是空集合
-        if (roleIds == null) {
-            roleIds = Collections.emptySet();
-        }
-        // 校验权限
-        List<RoleResourceDO> roleResourceDOs = roleService.getRoleByResourceHandler(url);
-        if (roleResourceDOs.isEmpty()) { // 任何角色，都可以访问。TODO 后面调整下，如果未配置的资源，直接不校验权限
+        // 如果未配置该资源，说明无需权限控制。
+        ResourceDO resource = resourceService.getResourceByTypeAndHandler(ResourceDO.TYPE_OPERATION, url);
+        if (resource == null) {
             return CommonResult.success(true);
         }
+        // 资源存在，结果无角色，说明没有权限。
+        if (roleIds == null || roleIds.isEmpty()) {
+            return ServiceExceptionUtil.error(AdminErrorCodeEnum.OAUTH_INVALID_PERMISSION.getCode());
+        }
+        // 校验是否有资源对应的角色，即 RBAC 。
+        List<RoleResourceDO> roleResourceDOs = roleService.getRoleByResourceId(resource.getId());
         for (RoleResourceDO roleResourceDO : roleResourceDOs) {
             if (roleIds.contains(roleResourceDO.getRoleId())) {
                 return CommonResult.success(true);

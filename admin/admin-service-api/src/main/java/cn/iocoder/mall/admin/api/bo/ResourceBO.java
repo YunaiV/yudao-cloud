@@ -1,26 +1,11 @@
-package cn.iocoder.mall.admin.dataobject;
-
-import cn.iocoder.common.framework.dataobject.BaseDO;
+package cn.iocoder.mall.admin.api.bo;
 
 import java.util.Date;
 
 /**
- * 资源实体
+ * 资源 BO
  */
-public class ResourceDO extends BaseDO {
-
-    /**
-     * 资源类型 - 菜单
-     */
-    @Deprecated
-    public static final Integer TYPE_MENU = 1;
-    /**
-     * 资源类型 - 操作
-     *
-     * 例如，按钮。
-     */
-    @Deprecated
-    public static final Integer TYPE_OPERATION = 2;
+public class ResourceBO {
 
     /**
      * 资源编号
@@ -47,14 +32,11 @@ public class ResourceDO extends BaseDO {
      */
     private Date createTime;
     /**
-     * 父级资源编号(外键：{@link ResourceDO#id})
+     * 父级资源编号
      */
     private Integer pid;
     /**
      * 操作
-     *
-     * 当资源类型为【菜单】时，handler 配置为界面 URL ，或者前端组件名
-     * 当资源类型为【URL】时，handler 配置为后端 URL 。举个例子，如果有一个「创建管理员」的表单，那么前端界面上的按钮可以根据这个 url 判断是否展示，后端接收到该 url 的请求时会判断是否有权限。
      */
     private String handler;
 
@@ -62,7 +44,7 @@ public class ResourceDO extends BaseDO {
         return id;
     }
 
-    public ResourceDO setId(Integer id) {
+    public ResourceBO setId(Integer id) {
         this.id = id;
         return this;
     }
@@ -71,7 +53,7 @@ public class ResourceDO extends BaseDO {
         return name;
     }
 
-    public ResourceDO setName(String name) {
+    public ResourceBO setName(String name) {
         this.name = name;
         return this;
     }
@@ -80,7 +62,7 @@ public class ResourceDO extends BaseDO {
         return type;
     }
 
-    public ResourceDO setType(Integer type) {
+    public ResourceBO setType(Integer type) {
         this.type = type;
         return this;
     }
@@ -89,7 +71,7 @@ public class ResourceDO extends BaseDO {
         return sort;
     }
 
-    public ResourceDO setSort(Integer sort) {
+    public ResourceBO setSort(Integer sort) {
         this.sort = sort;
         return this;
     }
@@ -98,7 +80,7 @@ public class ResourceDO extends BaseDO {
         return displayName;
     }
 
-    public ResourceDO setDisplayName(String displayName) {
+    public ResourceBO setDisplayName(String displayName) {
         this.displayName = displayName;
         return this;
     }
@@ -107,7 +89,7 @@ public class ResourceDO extends BaseDO {
         return createTime;
     }
 
-    public ResourceDO setCreateTime(Date createTime) {
+    public ResourceBO setCreateTime(Date createTime) {
         this.createTime = createTime;
         return this;
     }
@@ -116,7 +98,7 @@ public class ResourceDO extends BaseDO {
         return pid;
     }
 
-    public ResourceDO setPid(Integer pid) {
+    public ResourceBO setPid(Integer pid) {
         this.pid = pid;
         return this;
     }
@@ -125,7 +107,7 @@ public class ResourceDO extends BaseDO {
         return handler;
     }
 
-    public ResourceDO setHandler(String handler) {
+    public ResourceBO setHandler(String handler) {
         this.handler = handler;
         return this;
     }

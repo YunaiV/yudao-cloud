@@ -5,6 +5,7 @@ import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.OAuth2Service;
 import cn.iocoder.mall.admin.api.bo.OAuth2AuthenticationBO;
+import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContext;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -38,6 +39,11 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
             // 添加到 AdminSecurityContext
             AdminSecurityContext context = new AdminSecurityContext(authentication.getAdminId(), authentication.getRoleIds());
             AdminSecurityContextHolder.setContext(context);
+        } else {
+            String url = request.getRequestURI();
+            if (!url.equals("/admin/passport/login")) { // TODO 临时写死。非登陆接口，必须已经认证身份，不允许匿名访问
+                throw new ServiceException(AdminErrorCodeEnum.OAUTH_NOT_LOGIN.getCode(), AdminErrorCodeEnum.OAUTH_NOT_LOGIN.getMessage());
+            }
         }
         // 校验是否需要已授权
         checkPermission(request, authentication);

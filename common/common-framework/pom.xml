@@ -44,6 +44,11 @@
             <artifactId>jackson-annotations</artifactId>
             <version>2.9.7</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.baomidou</groupId>-->
+            <!--<artifactId>mybatis-plus-support</artifactId>-->
+            <!--<version>2.3</version>-->
+        <!--</dependency>-->
 
     </dependencies>
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iocoder.mall.admin.dao.ResourceMapper">
+
+    <!--<insert id="insert" parameterType="UserDO" useGeneratedKeys="true" keyProperty="id">-->
+    <!--INSERT INTO users (-->
+    <!--id, mobile, create_time-->
+    <!--) VALUES (-->
+    <!--#{id}, #{mobile}, #{createTime}-->
+    <!--)-->
+    <!--</insert>-->
+
+    <select id="selectByTypeAndHandler" resultType="ResourceDO">
+      SELECT
+        id, name, type, sort, display_name,
+        create_time, pid, handler
+      FROM resource
+      WHERE type = #{type}
+      AND handler = #{handler}
+      AND deleted = 0
+    </select>
+
+    <select id="selectListByTypeAndRoleIds" resultType="ResourceDO">
+      SELECT
+        r.id, r.name, r.type, r.sort, r.display_name,
+        r.create_time, r.pid, r.handler
+      FROM resource r, role_resource rr
+      WHERE r.type = #{type}
+      AND deleted = 0
+      AND rr.role_id IN
+        <foreach item="roleId" collection="roleIds" separator="," open="(" close=")" index="">
+         #{roleId}
+        </foreach>
+      AND r.id = rr.resource_id
+    </select>
+
+</mapper>

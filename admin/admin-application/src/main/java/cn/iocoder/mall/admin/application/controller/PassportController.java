@@ -1,10 +1,10 @@
-package cn.iocoder.mall.admin.controller;
+package cn.iocoder.mall.admin.application.controller;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.OAuth2Service;
 import cn.iocoder.mall.admin.api.bo.OAuth2AccessTokenBO;
-import cn.iocoder.mall.admin.convert.PassportConvert;
-import cn.iocoder.mall.admin.vo.PassportLoginVO;
+import cn.iocoder.mall.admin.application.convert.PassportConvert;
+import cn.iocoder.mall.admin.application.vo.PassportLoginVO;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

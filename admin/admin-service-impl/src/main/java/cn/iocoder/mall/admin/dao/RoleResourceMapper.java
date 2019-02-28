@@ -11,4 +11,6 @@ public interface RoleResourceMapper {
 
     List<RoleResourceDO> selectByResourceHandler(@Param("resourceHandler") String resourceHandler);
 
+    List<RoleResourceDO> selectRoleByResourceId(@Param("resourceId") Integer resourceId);
+
 }

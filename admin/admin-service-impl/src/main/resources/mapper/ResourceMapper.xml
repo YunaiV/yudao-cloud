@@ -29,8 +29,12 @@
         SELECT
           <include refid="FIELDS"/>
         FROM resource
-        WHERE type = #{type}
-        AND deleted = 0
+        <where>
+            <if test="type != null">
+               type = #{type}
+            </if>
+            AND deleted = 0
+        </where>
     </select>
 
     <select id="selectListByTypeAndRoleIds" resultType="ResourceDO">

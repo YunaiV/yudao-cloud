@@ -1,7 +1,9 @@
 package cn.iocoder.mall.admin.service;
 
+import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.ResourceService;
 import cn.iocoder.mall.admin.api.bo.ResourceBO;
+import cn.iocoder.mall.admin.api.dto.ResourceAddDTO;
 import cn.iocoder.mall.admin.convert.ResourceConvert;
 import cn.iocoder.mall.admin.dao.ResourceMapper;
 import cn.iocoder.mall.admin.dataobject.ResourceDO;
@@ -13,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-@com.alibaba.dubbo.config.annotation.Service
+@com.alibaba.dubbo.config.annotation.Service(validation = "true")
 public class ResourceServiceImpl implements ResourceService {
 
     @Autowired
@@ -29,6 +31,11 @@ public class ResourceServiceImpl implements ResourceService {
             return Collections.emptyList();
         }
         return ResourceConvert.INSTANCE.convert(resourceMapper.selectListByTypeAndRoleIds(type, roleIds));
+    }
+
+    @Override
+    public CommonResult<ResourceBO> addResource(ResourceAddDTO resourceAddDTO) {
+        return null;
     }
 
 }

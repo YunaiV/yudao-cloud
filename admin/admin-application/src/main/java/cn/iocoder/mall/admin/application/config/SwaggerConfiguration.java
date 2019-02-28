@@ -11,7 +11,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@EnableSwagger2
+@EnableSwagger2 // TODO 生产环境时，禁用掉。
 public class SwaggerConfiguration {
 
     @Bean
@@ -19,7 +19,7 @@ public class SwaggerConfiguration {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("cn.iocoder.mall.admin.controller"))
+                .apis(RequestHandlerSelectors.basePackage("cn.iocoder.mall.admin.application.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

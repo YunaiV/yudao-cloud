@@ -1,28 +1,22 @@
 package cn.iocoder.mall.admin.application.vo;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
 
+@ApiModel("管理员拥有的菜单 VO")
 public class AdminMenuTreeNodeVO {
 
-    /**
-     * 菜单编号
-     */
+    @ApiModelProperty(value = "菜单编号", required = true, example = "1")
     private Integer id;
-    /**
-     * 彩蛋名
-     */
+    @ApiModelProperty(value = "菜单名", required = true, example = "商品管理")
     private String name;
-    /**
-     * 操作
-     */
+    @ApiModelProperty(value = "菜单操作", required = true, example = "/order/list")
     private String handler;
-    /**
-     * 父菜单编号
-     */
+    @ApiModelProperty(value = "父菜单编号", required = true, example = "1", notes = "如果无父菜单，则值为 0")
     private Integer pid;
-    /**
-     * 子节点数组
-     */
+    @ApiModelProperty(value = "子节点数组", example = "[1, 2, 3]")
     private List<AdminMenuTreeNodeVO> children;
 
     public Integer getId() {

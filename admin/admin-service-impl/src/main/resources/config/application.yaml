@@ -1,14 +1,10 @@
 spring:
   # datasource
   datasource:
-    url: jdbc:mysql://127.0.0.1:33061/mall_admin?useSSL=false
+    url: jdbc:mysql://180.167.213.26:13306/mall_admin?useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: 123456
-
-# server
-server:
-  port: 8083
+    password: ${MALL_MYSQL_PASSWORD}
 
 # mybatis
 mybatis:
@@ -27,6 +23,3 @@ dubbo:
     name: dubbo
   scan:
     base-packages: cn.iocoder.mall.admin.service
-demo:
-  service:
-    version: 1.0.0

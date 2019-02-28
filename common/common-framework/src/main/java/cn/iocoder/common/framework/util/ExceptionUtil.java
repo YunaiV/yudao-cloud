@@ -2,6 +2,7 @@ package cn.iocoder.common.framework.util;
 
 import cn.iocoder.common.framework.exception.ServiceException;
 
+import javax.validation.ConstraintViolationException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
 
@@ -26,6 +27,18 @@ public class ExceptionUtil {
             Throwable targetException = invocationTargetException.getTargetException();
             if (targetException != null & targetException instanceof ServiceException) {
                 return (ServiceException) targetException;
+            }
+        }
+        return null;
+    }
+
+    public static ConstraintViolationException getConstraintViolationException(UndeclaredThrowableException e) {
+        Throwable undeclaredThrowable = e.getUndeclaredThrowable();
+        if (undeclaredThrowable instanceof InvocationTargetException) {
+            InvocationTargetException invocationTargetException = (InvocationTargetException) undeclaredThrowable;
+            Throwable targetException = invocationTargetException.getTargetException();
+            if (targetException != null && targetException instanceof ConstraintViolationException) {
+                return (ConstraintViolationException) targetException;
             }
         }
         return null;

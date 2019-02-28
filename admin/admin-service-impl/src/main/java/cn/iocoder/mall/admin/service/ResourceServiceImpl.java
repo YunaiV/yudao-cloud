@@ -85,7 +85,7 @@ public class ResourceServiceImpl implements ResourceService {
         }
         // 校验资源唯一性
         ResourceDO existNameResource = resourceMapper.selectByName(resourceUpdateDTO.getName());
-        if (existNameResource != null && existNameResource.getId().equals(resourceUpdateDTO.getId())) {
+        if (existNameResource != null && !existNameResource.getId().equals(resourceUpdateDTO.getId())) {
             return ServiceExceptionUtil.error(AdminErrorCodeEnum.RESOURCE_NAME_DUPLICATE.getCode());
         }
         // 不能设置自己为父资源

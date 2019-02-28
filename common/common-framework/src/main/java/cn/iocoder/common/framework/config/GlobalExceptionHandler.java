@@ -53,12 +53,12 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
     public CommonResult resultExceptionHandler(HttpServletRequest req, Exception e) {
-        // TODO 异常日志
-        e.printStackTrace();
         // TODO 翻译不同的异常
         if (e instanceof MissingServletRequestParameterException) {
-            return CommonResult.error(SysErrorCodeEnum.MISSING_REQUEST_PARAM_ERROR.getCode(), SysErrorCodeEnum.MISSING_REQUEST_PARAM_ERROR.getMessage());
+            return CommonResult.error(SysErrorCodeEnum.MISSING_REQUEST_PARAM_ERROR.getCode(), SysErrorCodeEnum.MISSING_REQUEST_PARAM_ERROR.getMessage() + ":" + e.getMessage());
         }
+        // TODO 异常日志
+        e.printStackTrace();
         // 返回
         return CommonResult.error(SysErrorCodeEnum.SYS_ERROR.getCode(), SysErrorCodeEnum.SYS_ERROR.getMessage());
     }

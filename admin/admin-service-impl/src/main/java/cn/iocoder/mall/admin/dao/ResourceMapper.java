@@ -22,6 +22,8 @@ public interface ResourceMapper {
 
     ResourceDO selectById(@Param("id") Integer id);
 
+    List<ResourceDO> selectListByIds(@Param("ids") Set<Integer> ids);
+
     void insert(ResourceDO resource);
 
     int update(ResourceDO resource);

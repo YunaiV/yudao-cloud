@@ -14,11 +14,11 @@ public interface ResourceService {
     /**
      * 查询指定类型 + 指定角色的资源列表
      *
-     * @param type    指定类型。
+     * @param type    指定类型。可以为空，此时不作为过滤条件
      * @param roleIds 指定角色的数组。
      * @return 资源列表
      */
-    List<ResourceBO> getResourcesByTypeAndRoleIds(Integer type, Set<Integer> roleIds);
+    List<ResourceBO> getResourcesByTypeAndRoleIds(@Nullable Integer type, Set<Integer> roleIds);
 
     /**
      * 查询指定类型的资源列表

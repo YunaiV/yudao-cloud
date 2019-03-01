@@ -31,7 +31,6 @@ public class ResourceServiceImpl implements ResourceService {
     @Autowired
     private RoleResourceMapper roleResourceMapper;
 
-
     public ResourceDO getResourceByTypeAndHandler(Integer type, String handler) {
         return resourceMapper.selectByTypeAndHandler(type, handler);
     }
@@ -134,6 +133,13 @@ public class ResourceServiceImpl implements ResourceService {
         roleResourceMapper.updateToDeletedByResourceId(resourceId);
         // 返回成功
         return CommonResult.success(true);
+    }
+
+    public List<ResourceDO> getResources(Set<Integer> resourceIds) {
+        if (resourceIds == null || resourceIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return resourceMapper.selectListByIds(resourceIds);
     }
 
     private boolean isValidResourceType(Integer type) {

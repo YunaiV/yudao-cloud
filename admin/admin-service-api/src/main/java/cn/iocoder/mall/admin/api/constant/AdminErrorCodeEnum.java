@@ -31,6 +31,10 @@ public enum AdminErrorCodeEnum {
     RESOURCE_PARENT_ERROR(1002003002, "不能设置自己为父资源"),
     RESOURCE_NOT_EXISTS(1002003003, "资源不存在"),
     RESOURCE_EXISTS_CHILDREN(1002003004, "存在子资源，无法删除"),
+
+    // ========== 角色模块 1002004000 ==========
+    ROLE_NOT_EXISTS(1002004000, "角色不存在"),
+    ROLE_ASSIGN_RESOURCE_NOT_EXISTS(1002004001, "分配角色资源时，有资源不存在"),
     ;
 
     private final int code;

@@ -7,7 +7,6 @@ import cn.iocoder.mall.admin.api.constant.ResourceConstants;
 import cn.iocoder.mall.admin.api.dto.ResourceAddDTO;
 import cn.iocoder.mall.admin.api.dto.ResourceUpdateDTO;
 import cn.iocoder.mall.admin.application.convert.ResourceConvert;
-import cn.iocoder.mall.admin.application.vo.AdminMenuTreeNodeVO;
 import cn.iocoder.mall.admin.application.vo.ResourceTreeNodeVO;
 import cn.iocoder.mall.admin.application.vo.ResourceVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
@@ -18,7 +17,10 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,43 +30,6 @@ public class ResourceController {
 
     @Reference(validation = "true")
     private ResourceService resourceService;
-
-    // =========== 当前管理员相关的资源 API ===========
-
-    @SuppressWarnings("Duplicates")
-    @GetMapping("/admin_menu_tree")
-    @ApiOperation(value = "获得当前登陆的管理员拥有的菜单权限", notes = "以树结构返回")
-    public CommonResult<List<AdminMenuTreeNodeVO>> adminMenuTree() {
-        List<ResourceBO> resources = resourceService.getResourcesByTypeAndRoleIds(ResourceConstants.TYPE_MENU, AdminSecurityContextHolder.getContext().getRoleIds());
-        // 创建 AdminMenuTreeNodeVO Map
-        Map<Integer, AdminMenuTreeNodeVO> treeNodeMap = resources.stream().collect(Collectors.toMap(ResourceBO::getId, ResourceConvert.INSTANCE::convert));
-        // 处理父子关系
-        treeNodeMap.values().stream()
-                .filter(node -> !node.getPid().equals(ResourceConstants.PID_ROOT))
-                .forEach((childNode) -> {
-                    // 获得父节点
-                    AdminMenuTreeNodeVO parentNode = treeNodeMap.get(childNode.getPid());
-                    if (parentNode.getChildren() == null) { // 初始化 children 数组
-                        parentNode.setChildren(new ArrayList<>());
-                    }
-                    // 将自己添加到父节点中
-                    parentNode.getChildren().add(childNode);
-                });
-        // 获得到所有的根节点
-        List<AdminMenuTreeNodeVO> rootNodes = treeNodeMap.values().stream()
-                .filter(node -> node.getPid().equals(ResourceConstants.PID_ROOT))
-                .sorted(Comparator.comparing(AdminMenuTreeNodeVO::getSort))
-                .collect(Collectors.toList());
-        return CommonResult.success(rootNodes);
-    }
-
-    @GetMapping("/admin_url_list")
-    @ApiOperation(value = "获得当前登陆的管理员拥有的 URL 权限列表")
-//    @ApiModelProperty(value = "data", example = "['/admin/role/add', '/admin/role/update']") 没效果
-    public CommonResult<Set<String>> adminUrlList() {
-        List<ResourceBO> resources = resourceService.getResourcesByTypeAndRoleIds(ResourceConstants.TYPE_URL, AdminSecurityContextHolder.getContext().getRoleIds());
-        return CommonResult.success(resources.stream().map(ResourceBO::getHandler).collect(Collectors.toSet()));
-    }
 
     // =========== 资源管理 API ===========
 

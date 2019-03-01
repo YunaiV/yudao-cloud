@@ -41,4 +41,13 @@
       AND deleted = 0
     </update>
 
+    <insert id="insertList">
+        INSERT INTO role_resource (
+          resource_id, role_id, create_time, deleted
+        ) VALUES
+        <foreach collection="roleResources" item="roleResource" separator=",">
+            (#{roleResource.resourceId}, #{roleResource.roleId}, #{roleResource.createTime}, #{roleResource.deleted})
+        </foreach>
+    </insert>
+
 </mapper>

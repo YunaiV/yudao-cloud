@@ -5,6 +5,7 @@ import cn.iocoder.mall.admin.api.bo.ResourceBO;
 import cn.iocoder.mall.admin.application.vo.AdminMenuTreeNodeVO;
 import cn.iocoder.mall.admin.application.vo.ResourceTreeNodeVO;
 import cn.iocoder.mall.admin.application.vo.ResourceVO;
+import cn.iocoder.mall.admin.application.vo.RoleResourceTreeNodeVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -19,6 +20,9 @@ public interface ResourceConvert {
 
     @Mappings({})
     ResourceTreeNodeVO convert2(ResourceBO resourceBO);
+
+    @Mappings({})
+    RoleResourceTreeNodeVO convert4(ResourceBO resourceBO);
 
     @Mappings({})
     ResourceVO convert3(ResourceBO resourceBO);

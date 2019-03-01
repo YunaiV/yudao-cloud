@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iocoder.mall.admin.dao.RoleMapper">
+
+    <insert id="insert" parameterType="RoleDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO role (
+          name, create_time, deleted
+        ) VALUES (
+          #{name}, #{createTime}, #{deleted}
+        )
+    </insert>
+
+    <update id="update" parameterType="RoleDO">
+        UPDATE role
+        <set>
+            <if test="name != null">
+                , name = #{name}
+            </if>
+            <if test="deleted != null">
+                , deleted = #{deleted}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectById" parameterType="Integer" resultType="RoleDO">
+        SELECT
+          id, name, create_time
+        FROM role
+        WHERE id = #{id}
+        AND deleted = 0
+    </select>
+
+    <select id="selectListByNameLike" resultType="RoleDO">
+        SELECT
+          id, name, create_time
+        FROM role
+        <where>
+            <if test="name != null">
+                name LIKE "%"#{name}"%"
+            </if>
+        </where>
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="selectCountByNameLike" resultType="RoleDO">
+        SELECT
+          COUNT(1)
+        FROM role
+        <where>
+            <if test="name != null">
+                name LIKE "%"#{name}"%"
+            </if>
+        </where>
+     </select>
+
+</mapper>

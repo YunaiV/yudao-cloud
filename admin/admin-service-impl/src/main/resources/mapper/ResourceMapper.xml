@@ -42,12 +42,14 @@
             r.id, r.name, r.type, r.sort, r.display_name,
             r.create_time, r.pid, r.handler
         FROM resource r, role_resource rr
-        WHERE r.type = #{type}
-        AND deleted = 0
+        WHERE r.deleted = 0
+        <if test="type != null">
+            AND r.type = #{type}
+        </if>
         AND rr.role_id IN
-        <foreach item="roleId" collection="roleIds" separator="," open="(" close=")" index="">
-            #{roleId}
-        </foreach>
+            <foreach item="roleId" collection="roleIds" separator="," open="(" close=")" index="">
+                #{roleId}
+            </foreach>
         AND r.id = rr.resource_id
     </select>
 
@@ -65,6 +67,17 @@
           <include refid="FIELDS"/>
         FROM resource
         WHERE id = #{id}
+        AND deleted = 0
+    </select>
+
+    <select id="selectListByIds" resultType="ResourceDO">
+        SELECT
+          <include refid="FIELDS"/>
+        FROM resource
+        WHERE id IN
+            <foreach item="id" collection="ids" separator="," open="(" close=")" index="">
+                #{id}
+            </foreach>
         AND deleted = 0
     </select>
 

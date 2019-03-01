@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface RoleResourceMapper {
 
+    int insertList(@Param("roleResources") List<RoleResourceDO> resourceDOs);
+
     List<RoleResourceDO> selectByResourceHandler(@Param("resourceHandler") String resourceHandler);
 
     List<RoleResourceDO> selectByResourceId(@Param("resourceId") Integer resourceId);

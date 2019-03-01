@@ -111,7 +111,7 @@ export async function fakeAccountLogin(params) {
 }
 
 export async function fakeRegister(params) {
-  return request('/api/register', {
+  return request(`/admin-api/admin/passport/login/?${stringify(params)}`, {
     method: 'POST',
     body: params,
   });

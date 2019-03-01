@@ -3,7 +3,10 @@ package cn.iocoder.mall.admin.service;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.AdminService;
+import cn.iocoder.mall.admin.api.bo.AdminPageBO;
 import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
+import cn.iocoder.mall.admin.api.dto.AdminPageDTO;
+import cn.iocoder.mall.admin.convert.AdminConvert;
 import cn.iocoder.mall.admin.dataobject.AdminDO;
 import cn.iocoder.mall.admin.dao.AdminMapper;
 import cn.iocoder.mall.admin.dao.AdminRoleMapper;
@@ -45,6 +48,18 @@ public class AdminServiceImpl implements AdminService {
 
     public List<AdminRoleDO> getAdminRoles(Integer adminId) {
         return adminRoleMapper.selectByAdminId(adminId);
+    }
+
+    @Override
+    public CommonResult<AdminPageBO> getAdminPage(AdminPageDTO adminPageDTO) {
+        AdminPageBO adminPage = new AdminPageBO();
+        // 查询分页数据
+        int offset = adminPageDTO.getPageNo() * adminPageDTO.getPageSize();
+        adminPage.setAdmins(AdminConvert.INSTANCE.convert(adminMapper.selectListByNicknameLike(adminPageDTO.getNickname(),
+                offset, adminPageDTO.getPageSize())));
+        // 查询分页总数
+        adminPage.setCount(adminMapper.selectCountByNicknameLike(adminPageDTO.getNickname()));
+        return CommonResult.success(adminPage);
     }
 
 }

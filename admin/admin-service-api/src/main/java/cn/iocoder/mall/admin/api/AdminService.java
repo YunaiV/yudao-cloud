@@ -1,16 +1,11 @@
 package cn.iocoder.mall.admin.api;
 
+import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.admin.api.bo.AdminPageBO;
+import cn.iocoder.mall.admin.api.dto.AdminPageDTO;
+
 public interface AdminService {
 
-//    /**
-//     * 创建用户。一般在用户注册时，调用该方法
-//     *
-//     * TODO 芋艿，此处要传递一些用户注册时的相关信息，例如说 ip、ua、客户端来源等等。用于数据分析、风控等等。
-//     *
-//     * @param mobile 手机号
-//     * @param code 手机验证码
-//     * @return 用户
-//     */
-//    UserBO createUser(String mobile, String code) throws ServiceException;
+    CommonResult<AdminPageBO> getAdminPage(AdminPageDTO adminPageDTO);
 
 }

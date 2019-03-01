@@ -19,7 +19,7 @@ public interface OAuth2Service {
     CommonResult<OAuth2AuthenticationBO> checkToken(String accessToken);
 
     /**
-     * TODO 校验权限
+     * 校验权限（鉴权）
      *
      * @param adminId 管理员编号
      * @param roleIds 管理员拥有的角色编号的集合

@@ -35,6 +35,11 @@ public class RoleController {
 
     @GetMapping("/page")
     @ApiOperation(value = "角色分页")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "角色名，模糊匹配", required = true, example = "系统管理员"),
+            @ApiImplicitParam(name = "pageNo", value = "页码，从 0 开始", example = "0"),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, example = "10"),
+    })
     public CommonResult<RolePageVO> page(@RequestParam(value = "name", required = false) String name,
                                          @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
                                          @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {

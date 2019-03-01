@@ -31,8 +31,6 @@ public class ResourceController {
     @Reference(validation = "true")
     private ResourceService resourceService;
 
-    // =========== 资源管理 API ===========
-
     @SuppressWarnings("Duplicates")
     @GetMapping("/tree")
     @ApiOperation(value = "获得所有资源，按照树形结构返回")

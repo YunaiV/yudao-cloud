@@ -1,11 +1,11 @@
 package cn.iocoder.mall.admin.dataobject;
 
-import java.util.Date;
+import cn.iocoder.common.framework.dataobject.BaseDO;
 
 /**
  * 管理员实体
  */
-public class AdminDO {
+public class AdminDO extends BaseDO {
 
     /**
      * 账号状态 - 开启
@@ -34,10 +34,6 @@ public class AdminDO {
      * TODO 芋艿 暂时最简单的 MD5
      */
     private String password;
-    /**
-     * 创建时间
-     */
-    private Date createTime;
     /**
      * 账号状态
      */
@@ -76,15 +72,6 @@ public class AdminDO {
 
     public AdminDO setPassword(String password) {
         this.password = password;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public AdminDO setCreateTime(Date createTime) {
-        this.createTime = createTime;
         return this;
     }
 

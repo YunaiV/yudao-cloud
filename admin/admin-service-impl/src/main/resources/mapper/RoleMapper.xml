@@ -39,11 +39,12 @@
             <if test="name != null">
                 name LIKE "%"#{name}"%"
             </if>
+            AND deleted = 0
         </where>
         LIMIT #{offset}, #{limit}
     </select>
 
-    <select id="selectCountByNameLike" resultType="RoleDO">
+    <select id="selectCountByNameLike" resultType="Integer">
         SELECT
           COUNT(1)
         FROM role
@@ -51,6 +52,7 @@
             <if test="name != null">
                 name LIKE "%"#{name}"%"
             </if>
+            AND deleted = 0
         </where>
      </select>
 

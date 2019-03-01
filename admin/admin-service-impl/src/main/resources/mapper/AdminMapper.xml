@@ -2,19 +2,42 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.iocoder.mall.admin.dao.AdminMapper">
 
-    <!--<insert id="insert" parameterType="UserDO" useGeneratedKeys="true" keyProperty="id">-->
-        <!--INSERT INTO users (-->
-          <!--id, mobile, create_time-->
-        <!--) VALUES (-->
-          <!--#{id}, #{mobile}, #{createTime}-->
-        <!--)-->
-    <!--</insert>-->
+    <sql id="FIELDS">
+      id, username, nickname, password, status,
+      create_time
+    </sql>
 
     <select id="selectByUsername" parameterType="String" resultType="AdminDO">
-      SELECT
-          id, username, nickname, password, status
-      FROM admin
-      WHERE username = #{username}
+        SELECT
+            <include refid="FIELDS" />
+        FROM admin
+        WHERE username = #{username}
+        AND deleted = 0
+    </select>
+
+    <select id="selectListByNicknameLike" resultType="AdminDO">
+        SELECT
+            <include refid="FIELDS" />
+        FROM admin
+        <where>
+            <if test="nickname != null">
+                nickname LIKE "%"#{nickname}"%"
+            </if>
+            AND deleted = 0
+        </where>
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="selectCountByNicknameLike" resultType="Integer">
+        SELECT
+            COUNT(1)
+        FROM admin
+        <where>
+            <if test="nickname != null">
+                nickname LIKE "%"#{nickname}"%"
+            </if>
+            AND deleted = 0
+        </where>
     </select>
 
 </mapper>

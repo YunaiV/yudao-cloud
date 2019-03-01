@@ -1,19 +1,25 @@
 package cn.iocoder.mall.admin.application.controller;
 
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.admin.api.AdminService;
 import cn.iocoder.mall.admin.api.ResourceService;
+import cn.iocoder.mall.admin.api.bo.AdminPageBO;
 import cn.iocoder.mall.admin.api.bo.ResourceBO;
 import cn.iocoder.mall.admin.api.constant.ResourceConstants;
+import cn.iocoder.mall.admin.api.dto.AdminPageDTO;
+import cn.iocoder.mall.admin.application.convert.AdminConvert;
 import cn.iocoder.mall.admin.application.convert.ResourceConvert;
 import cn.iocoder.mall.admin.application.vo.AdminMenuTreeNodeVO;
+import cn.iocoder.mall.admin.application.vo.AdminPageVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
-import cn.iocoder.mall.admin.application.convert.AdminConvert;
-import cn.iocoder.mall.admin.application.vo.AdminInfoVO;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
@@ -26,11 +32,8 @@ public class AdminController {
 
     @Reference(validation = "true")
     private ResourceService resourceService;
-
-    @GetMapping("/info")
-    public CommonResult<AdminInfoVO> info() {
-        return CommonResult.success(AdminConvert.INSTANCE.convert(AdminSecurityContextHolder.getContext()));
-    }
+    @Reference(validation = "true")
+    private AdminService adminService;
 
     // =========== 当前管理员相关的资源 API ===========
 
@@ -67,6 +70,22 @@ public class AdminController {
     public CommonResult<Set<String>> urlResourceList() {
         List<ResourceBO> resources = resourceService.getResourcesByTypeAndRoleIds(ResourceConstants.TYPE_URL, AdminSecurityContextHolder.getContext().getRoleIds());
         return CommonResult.success(resources.stream().map(ResourceBO::getHandler).collect(Collectors.toSet()));
+    }
+
+    // =========== 管理员管理 API ===========
+
+    @GetMapping("/page")
+    @ApiOperation(value = "管理员分页")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "nickname", value = "昵称，模糊匹配", required = true, example = "小王"),
+            @ApiImplicitParam(name = "pageNo", value = "页码，从 0 开始", example = "0"),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, example = "10"),
+    })
+    public CommonResult<AdminPageVO> page(@RequestParam(value = "nickname", required = false) String nickname,
+                                          @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+                                          @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        CommonResult<AdminPageBO> result = adminService.getAdminPage(new AdminPageDTO().setNickname(nickname).setPageNo(pageNo).setPageSize(pageSize));
+        return AdminConvert.INSTANCE.convert(result);
     }
 
 }

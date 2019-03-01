@@ -11,6 +11,7 @@ import logo from '../assets/logo.svg';
 import Footer from './Footer';
 import Header from './Header';
 import Context from './MenuContext';
+import UrlsContext from './UrlsContext';
 import Exception403 from '../pages/Exception/403';
 import PageLoading from '@/components/PageLoading';
 import SiderMenu from '@/components/SiderMenu';
@@ -60,6 +61,10 @@ class BasicLayout extends React.Component {
       type: 'setting/getSetting',
     });
     dispatch({
+      type: 'menu/getUrlsData',
+      payload: { routes, authority },
+    });
+    dispatch({
       type: 'menu/getMenuData',
       payload: { routes, authority },
     });
@@ -70,6 +75,13 @@ class BasicLayout extends React.Component {
     return {
       location,
       breadcrumbNameMap,
+    };
+  }
+
+  getUrlsContext() {
+    const { urlsData } = this.props;
+    return {
+      ...urlsData,
     };
   }
 
@@ -166,7 +178,7 @@ class BasicLayout extends React.Component {
           />
           <Content className={styles.content} style={contentStyle}>
             <Authorized authority={routerConfig} noMatch={<Exception403 />}>
-              {children}
+              <UrlsContext.Provider values={this.getUrlsContext()}>{children}</UrlsContext.Provider>
             </Authorized>
           </Content>
           <Footer />
@@ -194,6 +206,7 @@ export default connect(({ global, setting, menu: menuModel }) => ({
   collapsed: global.collapsed,
   layout: setting.layout,
   menuData: menuModel.menuData,
+  urlsData: menuModel.urlsData,
   breadcrumbNameMap: menuModel.breadcrumbNameMap,
   ...setting,
 }))(props => (

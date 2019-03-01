@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'antd';
 import AuthorityControl from '../../components/AuthorityControl';
-import GlobalAuthority from '../../layouts/GlobalAuthorityContext';
+import UrlsContext from '../../layouts/UrlsContext';
 
 export default class Home extends Component {
   state = {};
@@ -17,12 +17,12 @@ export default class Home extends Component {
     };
 
     return (
-      <GlobalAuthority.Provider value={GlobalAuthorityProps}>
+      <UrlsContext.Provider value={GlobalAuthorityProps}>
         <AuthorityControl authKey="home.button">
           <Button type="primary">按钮 控制</Button>
         </AuthorityControl>
         <h1>home...</h1>
-      </GlobalAuthority.Provider>
+      </UrlsContext.Provider>
     );
   }
 }

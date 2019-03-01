@@ -1,0 +1,26 @@
+{
+  "code": 0,
+  "message": "",
+  "data": [
+    {
+      "children": [
+        {
+          "handler": "/order/list1",
+          "id": 1,
+          "name": "商品管理1",
+          "pid": 1
+        },
+        {
+          "handler": "/order/list2",
+          "id": 1,
+          "name": "商品管理2",
+          "pid": 1
+        }
+      ],
+      "handler": "/home",
+      "id": 1,
+      "name": "商品管理",
+      "pid": 1
+    }
+  ]
+}

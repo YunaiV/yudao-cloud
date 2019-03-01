@@ -71,6 +71,8 @@ public class ResourceServiceImpl implements ResourceService {
         ResourceDO resource = ResourceConvert.INSTANCE.convert(resourceAddDTO);
         if (ResourceConstants.PID_ROOT.equals(resourceAddDTO.getPid())) { // 根节点，必须没有操作
             resource.setHandler(null);
+        } else if (!resource.getHandler().startsWith("/")) {
+            resource.setHandler("/" + resource.getHandler());
         }
         resource.setCreateTime(new Date());
         resource.setDeleted(BaseDO.DELETED_NO);

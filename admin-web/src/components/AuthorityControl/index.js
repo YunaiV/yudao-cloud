@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import GlobalAuthority from '../../layouts/GlobalAuthority';
+import GlobalAuthority from '../../layouts/GlobalAuthorityContext';
 
 // 用于控制权限
 class AuthorityControl extends PureComponent {

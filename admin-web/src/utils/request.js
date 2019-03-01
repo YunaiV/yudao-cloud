@@ -22,20 +22,21 @@ const codeMessage = {
   504: '网关超时。',
 };
 
-const checkStatus = response => {
+function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
   const errortext = codeMessage[response.status] || response.statusText;
-  notification.error({
+  notification.warning({
     message: `请求错误 ${response.status}: ${response.url}`,
     description: errortext,
   });
+
   const error = new Error(errortext);
   error.name = response.status;
   error.response = response;
   throw error;
-};
+}
 
 const cachedSave = (response, hashcode) => {
   /**

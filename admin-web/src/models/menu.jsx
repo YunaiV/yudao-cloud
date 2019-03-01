@@ -3,6 +3,7 @@ import isEqual from 'lodash/isEqual';
 import { formatMessage } from 'umi/locale';
 import Authorized from '@/utils/Authorized';
 import { menu } from '../defaultSettings';
+import { getAdminMenus, getAdminUrls } from '../services/admin';
 
 const { check } = Authorized;
 
@@ -70,6 +71,26 @@ const filterMenuData = menuData => {
     .map(item => check(item.authority, getSubMenu(item)))
     .filter(item => item);
 };
+
+/**
+ * 递归构建服务端，配置的菜单
+ * @param resultMenuData
+ */
+const recursionBuildResultMenu = resultMenuData => {
+  const res = {};
+  for (let i = 0; i < resultMenuData.length; i += 1) {
+    const menuItem = resultMenuData[i];
+    // 存在子节点
+    res[menuItem.handler] = {
+      ...menuItem,
+    };
+    if (menuItem.children) {
+      res[menuItem.handler].children = recursionBuildResultMenu(menuItem.children);
+    }
+  }
+  return res;
+};
+
 /**
  * 获取面包屑映射
  * @param {Object} menuData 菜单配置
@@ -97,26 +118,59 @@ export default {
 
   state: {
     menuData: [],
+    urlsData: {},
     breadcrumbNameMap: {},
   },
 
   effects: {
-    *getMenuData({ payload }, { put }) {
+    *getMenuData({ payload }, { put, call }) {
+      const { data } = yield call(getAdminMenus);
       const { routes, authority } = payload;
-      const menuData = filterMenuData(memoizeOneFormatter(routes, authority));
+      // authority 已经不适用
+      const antMenuData = filterMenuData(memoizeOneFormatter(routes, authority));
+
+      let menuData = antMenuData;
+      const resultMenuData = data;
+      if (data !== 'all') {
+        // 处理后台数据结构
+        const buildResultMenu = recursionBuildResultMenu(resultMenuData);
+        // 过滤没有权限的菜单
+        menuData = antMenuData.filter(item => {
+          if (buildResultMenu[item.path]) {
+            return item;
+          }
+          return false;
+        });
+      }
+
+      // 生成 menu 和 router mapping
       const breadcrumbNameMap = memoizeOneGetBreadcrumbNameMap(menuData);
       yield put({
         type: 'save',
         payload: { menuData, breadcrumbNameMap },
       });
     },
+    *getUrlsData(state, { put, call }) {
+      const { data } = yield call(getAdminUrls);
+
+      // 构建 {'/user': true} 这种 map 结构方便取数据、
+      const urlsData = {};
+      data.forEach(item => {
+        urlsData[item] = true;
+      });
+
+      yield put({
+        type: 'save',
+        payload: { urlsData },
+      });
+    },
   },
 
   reducers: {
-    save(state, action) {
+    save(state, { payload }) {
       return {
         ...state,
-        ...action.payload,
+        ...payload,
       };
     },
   },

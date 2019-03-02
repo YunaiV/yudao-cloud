@@ -11,4 +11,8 @@ public interface AdminRoleMapper {
 
     List<AdminRoleDO> selectByAdminId(@Param("adminId") Integer adminId);
 
+    int updateToDeletedByAdminId(@Param("adminId") Integer adminId);
+
+    int updateToDeletedByRoleId(@Param("roleId") Integer roleId);
+
 }

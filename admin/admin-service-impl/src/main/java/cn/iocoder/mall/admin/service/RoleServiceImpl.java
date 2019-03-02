@@ -11,6 +11,7 @@ import cn.iocoder.mall.admin.api.dto.RoleAddDTO;
 import cn.iocoder.mall.admin.api.dto.RolePageDTO;
 import cn.iocoder.mall.admin.api.dto.RoleUpdateDTO;
 import cn.iocoder.mall.admin.convert.RoleConvert;
+import cn.iocoder.mall.admin.dao.AdminRoleMapper;
 import cn.iocoder.mall.admin.dao.RoleMapper;
 import cn.iocoder.mall.admin.dao.RoleResourceMapper;
 import cn.iocoder.mall.admin.dataobject.ResourceDO;
@@ -18,6 +19,7 @@ import cn.iocoder.mall.admin.dataobject.RoleDO;
 import cn.iocoder.mall.admin.dataobject.RoleResourceDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -30,6 +32,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleResourceMapper roleResourceMapper;
+    @Autowired
+    private AdminRoleMapper adminRoleMapper;
     @Autowired
     private RoleMapper roleMapper;
 
@@ -84,6 +88,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public CommonResult<Boolean> deleteRole(Integer adminId, Integer roleId) {
         // 校验角色是否存在
         if (roleMapper.selectById(roleId) == null) {
@@ -93,12 +98,17 @@ public class RoleServiceImpl implements RoleService {
         RoleDO roleDO = new RoleDO().setId(roleId);
         roleDO.setDeleted(RoleDO.DELETED_YES);
         roleMapper.update(roleDO);
+        // 标记删除 RoleResource
+        roleResourceMapper.updateToDeletedByRoleId(roleId);
+        // 标记删除 AdminRole
+        adminRoleMapper.updateToDeletedByRoleId(roleId);
         // TODO 插入操作日志
         // 返回成功
         return CommonResult.success(true);
     }
 
     @Override
+    @Transactional
     public CommonResult<Boolean> assignResource(Integer adminId, Integer roleId, Set<Integer> resourceIds) {
         // 校验角色是否存在
         if (roleMapper.selectById(roleId) == null) {

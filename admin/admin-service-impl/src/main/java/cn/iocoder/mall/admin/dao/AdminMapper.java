@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface AdminMapper {
 
+    AdminDO selectById(@Param("id") Integer id);
+
     AdminDO selectByUsername(@Param("username") String username);
 
     List<AdminDO> selectListByNicknameLike(@Param("nickname") String nickname,
@@ -16,5 +18,9 @@ public interface AdminMapper {
                                            @Param("limit") Integer limit);
 
     Integer selectCountByNicknameLike(@Param("nickname") String nickname);
+
+    void insert(AdminDO admin);
+
+    int update(AdminDO admin);
 
 }

@@ -5,3 +5,5 @@ spring:
 # server
 server:
   port: 18083
+  servlet:
+    context-path: /admin-api/

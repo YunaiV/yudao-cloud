@@ -24,6 +24,9 @@ public enum AdminErrorCodeEnum {
     ADMIN_USERNAME_NOT_REGISTERED(1002002000, "账号不存在"),
     ADMIN_PASSWORD_ERROR(1002002001, "密码不正确"),
     ADMIN_IS_DISABLE(1002002002, "账号被禁用"),
+    ADMIN_USERNAME_EXISTS(1002002002, "账号已经存在"),
+    ADMIN_STATUS_EQUALS(1002002003, "账号已经是该状态"),
+    ADMIN_DELETE_ONLY_DISABLE(1002002004, "只有关闭的账号才可以删除"),
 
     // ========== 资源模块 1002003000 ==========
     RESOURCE_NAME_DUPLICATE(1002003000, "已经存在该名字的资源"),

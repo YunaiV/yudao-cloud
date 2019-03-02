@@ -16,6 +16,7 @@ import cn.iocoder.mall.admin.dao.RoleResourceMapper;
 import cn.iocoder.mall.admin.dataobject.ResourceDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Date;
@@ -116,6 +117,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
+    @Transactional
     public CommonResult<Boolean> deleteResource(Integer adminId, Integer resourceId) {
         // 校验更新的资源是否存在
         if (resourceMapper.selectById(resourceId) == null) {

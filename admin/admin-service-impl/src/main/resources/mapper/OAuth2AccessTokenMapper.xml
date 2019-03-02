@@ -19,4 +19,11 @@
         WHERE id = #{id}
     </select>
 
+    <update id="updateToInvalidByAdminId" parameterType="Integer">
+        UPDATE oauth2_access_token
+        SET valid = 0
+        WHERE admin_id = #{adminId}
+        AND valid = 1
+    </update>
+
 </mapper>

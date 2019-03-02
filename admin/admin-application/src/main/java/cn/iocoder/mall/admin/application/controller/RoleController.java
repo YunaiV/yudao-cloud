@@ -25,7 +25,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("admin/role")
+@RequestMapping("admins/role")
 public class RoleController {
 
     @Reference(validation = "true")

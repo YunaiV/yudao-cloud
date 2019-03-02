@@ -6,27 +6,27 @@ import cn.iocoder.mall.admin.api.ResourceService;
 import cn.iocoder.mall.admin.api.bo.AdminPageBO;
 import cn.iocoder.mall.admin.api.bo.ResourceBO;
 import cn.iocoder.mall.admin.api.constant.ResourceConstants;
+import cn.iocoder.mall.admin.api.dto.AdminAddDTO;
 import cn.iocoder.mall.admin.api.dto.AdminPageDTO;
+import cn.iocoder.mall.admin.api.dto.AdminUpdateDTO;
 import cn.iocoder.mall.admin.application.convert.AdminConvert;
 import cn.iocoder.mall.admin.application.convert.ResourceConvert;
 import cn.iocoder.mall.admin.application.vo.AdminMenuTreeNodeVO;
 import cn.iocoder.mall.admin.application.vo.AdminPageVO;
+import cn.iocoder.mall.admin.application.vo.AdminVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("admin/admin")
+@RequestMapping("admins/admin")
 @Api("管理员模块")
 public class AdminController {
 
@@ -86,6 +86,54 @@ public class AdminController {
                                           @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         CommonResult<AdminPageBO> result = adminService.getAdminPage(new AdminPageDTO().setNickname(nickname).setPageNo(pageNo).setPageSize(pageSize));
         return AdminConvert.INSTANCE.convert(result);
+    }
+
+    @PostMapping("/add")
+    @ApiOperation(value = "创建管理员")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "账号", required = true, example = "15601691300"),
+            @ApiImplicitParam(name = "nickname", value = "昵称", required = true, example = "小王"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, example = "buzhidao"),
+    })
+    public CommonResult<AdminVO> add(@RequestParam("username") String username,
+                                     @RequestParam("nickname") String nickname,
+                                     @RequestParam("password") String password) {
+        AdminAddDTO adminAddDTO = new AdminAddDTO().setUsername(username).setNickname(nickname).setPassword(password);
+        return AdminConvert.INSTANCE.convert2(adminService.addAdmin(AdminSecurityContextHolder.getContext().getAdminId(), adminAddDTO));
+    }
+
+    @PostMapping("/update")
+    @ApiOperation(value = "更新管理员")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "管理员编号", required = true, example = "1"),
+            @ApiImplicitParam(name = "username", value = "账号", required = true, example = "15601691300"),
+            @ApiImplicitParam(name = "nickname", value = "昵称", required = true, example = "小王"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, example = "buzhidao"),
+    })
+    public CommonResult<Boolean> update(@RequestParam("id") Integer id,
+                                        @RequestParam("username") String username,
+                                        @RequestParam("nickname") String nickname,
+                                        @RequestParam("password") String password) {
+        AdminUpdateDTO adminUpdateDTO = new AdminUpdateDTO().setId(id).setUsername(username).setNickname(nickname).setPassword(password);
+        return adminService.updateAdmin(AdminSecurityContextHolder.getContext().getAdminId(), adminUpdateDTO);
+    }
+
+    @PostMapping("/update_status")
+    @ApiOperation(value = "更新管理员状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "管理员编号", required = true, example = "1"),
+            @ApiImplicitParam(name = "status", value = "状态。1 - 开启；2 - 禁用", required = true, example = "1"),
+    })
+    public CommonResult<Boolean> updateStatus(@RequestParam("id") Integer id,
+                                              @RequestParam("status") Integer status) {
+        return adminService.updateAdminStatus(AdminSecurityContextHolder.getContext().getAdminId(), id, status);
+    }
+
+    @PostMapping("/delete")
+    @ApiOperation(value = "删除管理员")
+    @ApiImplicitParam(name = "id", value = "管理员编号", required = true, example = "1")
+    public CommonResult<Boolean> delete(@RequestParam("id") Integer id) {
+        return adminService.deleteAdmin(AdminSecurityContextHolder.getContext().getAdminId(), id);
     }
 
 }

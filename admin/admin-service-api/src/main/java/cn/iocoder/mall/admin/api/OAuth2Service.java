@@ -30,6 +30,4 @@ public interface OAuth2Service {
 
     // TODO @see 刷新 token
 
-    // TODO @see 移除 token
-
 }

@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("admin/resource")
+@RequestMapping("admins/resource")
 @Api("资源模块")
 public class ResourceController {
 

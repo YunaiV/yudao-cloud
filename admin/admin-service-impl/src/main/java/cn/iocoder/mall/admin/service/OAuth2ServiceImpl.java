@@ -13,6 +13,7 @@ import cn.iocoder.mall.admin.dataobject.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -46,6 +47,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
     private ResourceServiceImpl resourceService;
 
     @Override
+    @Transactional
     public CommonResult<OAuth2AccessTokenBO> getAccessToken(String username, String password) {
         CommonResult<AdminDO> adminResult = adminService.validAdmin(username, password);
         // 校验失败，返回错误结果
@@ -77,6 +79,19 @@ public class OAuth2ServiceImpl implements OAuth2Service {
         List<AdminRoleDO> adminRoleDOs = adminService.getAdminRoles(accessTokenDO.getAdminId());
         // TODO 芋艿，有个 bug ，要排除掉已经失效的角色
         return CommonResult.success(OAuth2Convert.INSTANCE.convertToAuthentication(accessTokenDO, adminRoleDOs));
+    }
+
+    /**
+     * 移除管理员对应的 Token
+     *
+     * @param adminId 管理员编号
+     */
+    @Transactional
+    public void removeToken(Integer adminId) {
+        // 设置 access token 失效
+        oauth2AccessTokenMapper.updateToInvalidByAdminId(adminId);
+        // 设置 refresh token 失效
+        oauth2RefreshTokenMapper.updateToInvalidByAdminId(adminId);
     }
 
     @Override

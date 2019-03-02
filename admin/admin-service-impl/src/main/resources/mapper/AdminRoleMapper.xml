@@ -18,4 +18,18 @@
       AND a.id = ar.admin_id
     </select>
 
+    <update id="updateToDeletedByAdminId" parameterType="Integer">
+      UPDATE admin_role
+      SET deleted = 1
+      WHERE admin_id = #{adminId}
+      AND deleted = 0
+    </update>
+
+    <update id="updateToDeletedByRoleId" parameterType="Integer">
+      UPDATE admin_role
+      SET deleted = 1
+      WHERE role_id = #{roleId}
+      AND deleted = 0
+    </update>
+
 </mapper>

@@ -40,4 +40,44 @@
         </where>
     </select>
 
+    <insert id="insert" parameterType="AdminDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO admin (
+          username, nickname, password, status,
+          create_time, deleted
+        ) VALUES (
+          #{username}, #{nickname}, #{password}, #{status},
+          #{createTime}, #{deleted}
+        )
+    </insert>
+
+    <select id="selectById" parameterType="Integer" resultType="AdminDO">
+        SELECT
+        <include refid="FIELDS" />
+        FROM admin
+        WHERE id = #{id}
+        AND deleted = 0
+    </select>
+
+    <update id="update" parameterType="RoleDO">
+        UPDATE admin
+        <set>
+            <if test="username != null">
+                , username = #{username}
+            </if>
+            <if test="nickname != null">
+                , nickname = #{nickname}
+            </if>
+            <if test="password != null">
+                , password = #{password}
+            </if>
+            <if test="status != null">
+                , status = #{status}
+            </if>
+            <if test="deleted != null">
+                , deleted = #{deleted}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
 </mapper>

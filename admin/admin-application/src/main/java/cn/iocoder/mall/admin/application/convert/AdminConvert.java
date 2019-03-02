@@ -23,6 +23,9 @@ public interface AdminConvert {
     AdminVO convert(AdminBO adminBO);
 
     @Mappings({})
+    CommonResult<AdminVO> convert2(CommonResult<AdminBO> result);
+
+    @Mappings({})
     CommonResult<AdminPageVO> convert(CommonResult<AdminPageBO> result);
 
 }

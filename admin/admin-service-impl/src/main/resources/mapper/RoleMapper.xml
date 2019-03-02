@@ -71,4 +71,11 @@
         AND deleted = 0
     </select>
 
+    <select id="selectList" resultType="RoleDO">
+        SELECT
+            <include refid="FIELDS"/>
+        FROM role
+        WHERE deleted = 0
+    </select>
+
 </mapper>

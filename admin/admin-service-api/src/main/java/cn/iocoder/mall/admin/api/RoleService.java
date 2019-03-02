@@ -14,7 +14,18 @@ public interface RoleService {
 
     CommonResult<RolePageBO> getRolePage(RolePageDTO rolePageDTO);
 
-    CommonResult<List<RoleBO>> getRoleList(Integer adminId);
+    /**
+     * 获得指定管理员拥有的角色编号数组
+     *
+     * @param adminId 指定管理员
+     * @return 角色编号数组
+     */
+    CommonResult<Set<Integer>> getRoleList(Integer adminId);
+
+    /**
+     * @return 返回角色列表
+     */
+    CommonResult<List<RoleBO>> getRoleList();
 
     CommonResult<RoleBO> addRole(Integer adminId, RoleAddDTO roleAddDTO);
 

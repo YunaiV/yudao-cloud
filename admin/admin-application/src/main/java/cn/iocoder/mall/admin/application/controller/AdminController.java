@@ -6,6 +6,7 @@ import cn.iocoder.mall.admin.api.ResourceService;
 import cn.iocoder.mall.admin.api.RoleService;
 import cn.iocoder.mall.admin.api.bo.AdminPageBO;
 import cn.iocoder.mall.admin.api.bo.ResourceBO;
+import cn.iocoder.mall.admin.api.bo.RoleBO;
 import cn.iocoder.mall.admin.api.constant.ResourceConstants;
 import cn.iocoder.mall.admin.api.dto.AdminAddDTO;
 import cn.iocoder.mall.admin.api.dto.AdminPageDTO;
@@ -14,8 +15,8 @@ import cn.iocoder.mall.admin.application.convert.AdminConvert;
 import cn.iocoder.mall.admin.application.convert.ResourceConvert;
 import cn.iocoder.mall.admin.application.vo.AdminMenuTreeNodeVO;
 import cn.iocoder.mall.admin.application.vo.AdminPageVO;
+import cn.iocoder.mall.admin.application.vo.AdminRoleVO;
 import cn.iocoder.mall.admin.application.vo.AdminVO;
-import cn.iocoder.mall.admin.application.vo.RoleVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
@@ -143,10 +144,16 @@ public class AdminController {
     @GetMapping("/role_list")
     @ApiOperation(value = "指定管理员拥有的角色列表")
     @ApiImplicitParam(name = "id", value = "管理员编号", required = true, example = "1")
-    public CommonResult<List<RoleVO>> roleList(@RequestParam("id") Integer id) {
-//        return RoleConvert.INSTANCE.convert()
-        // TODO 需要讨论下 api 提供的方式
-        return null;
+    public CommonResult<List<AdminRoleVO>> roleList(@RequestParam("id") Integer id) {
+        // 获得管理员拥有的角色集合
+        Set<Integer> adminRoleIdSet = roleService.getRoleList(id).getData();
+        // 获得所有角色数组
+        List<RoleBO> allRoleList = roleService.getRoleList().getData();
+        // 转换出返回结果
+        List<AdminRoleVO> result = AdminConvert.INSTANCE.convert(allRoleList);
+        // 设置每个角色是否赋予给改管理员
+        result.forEach(adminRoleVO -> adminRoleVO.setAssigned(adminRoleIdSet.contains(adminRoleVO.getId())));
+        return CommonResult.success(result);
     }
 
     @PostMapping("/assign_role")

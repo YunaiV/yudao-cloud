@@ -15,6 +15,7 @@ import cn.iocoder.mall.admin.convert.RoleConvert;
 import cn.iocoder.mall.admin.dao.AdminRoleMapper;
 import cn.iocoder.mall.admin.dao.RoleMapper;
 import cn.iocoder.mall.admin.dao.RoleResourceMapper;
+import cn.iocoder.mall.admin.dataobject.AdminRoleDO;
 import cn.iocoder.mall.admin.dataobject.ResourceDO;
 import cn.iocoder.mall.admin.dataobject.RoleDO;
 import cn.iocoder.mall.admin.dataobject.RoleResourceDO;
@@ -63,8 +64,15 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public CommonResult<List<RoleBO>> getRoleList(Integer adminId) {
-        return null;
+    public CommonResult<Set<Integer>> getRoleList(Integer adminId) {
+        List<AdminRoleDO> adminRoleDOs = adminRoleMapper.selectByAdminId(adminId);
+        return CommonResult.success(adminRoleDOs.stream().map(AdminRoleDO::getRoleId).collect(Collectors.toSet()));
+    }
+
+    @Override
+    public CommonResult<List<RoleBO>> getRoleList() {
+        List<RoleDO> roleList = roleMapper.selectList();
+        return CommonResult.success(RoleConvert.INSTANCE.convert(roleList));
     }
 
     @Override

@@ -24,4 +24,6 @@ public interface RoleMapper {
 
     List<RoleDO> selectListByIds(@Param("ids") Set<Integer> ids);
 
+    List<RoleDO> selectList();
+
 }

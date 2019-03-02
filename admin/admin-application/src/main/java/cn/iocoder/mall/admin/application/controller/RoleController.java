@@ -1,5 +1,6 @@
 package cn.iocoder.mall.admin.application.controller;
 
+import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.ResourceService;
 import cn.iocoder.mall.admin.api.RoleService;
@@ -82,11 +83,13 @@ public class RoleController {
     @ApiImplicitParam(name = "id", value = "角色编号", required = true, example = "1")
     public CommonResult<List<RoleResourceTreeNodeVO>> resourceTree(@RequestParam("id") Integer id) {
         // 芋艿：此处，严格来说可以在校验下角色是否存在。不过呢，校验了也没啥意义，因为一般不存在这个情况，且不会有业务上的影响。并且，反倒多了一次 rpc 调用。
-        Set<Integer> roleIds = new HashSet<>();
-        roleIds.add(id);
-        List<ResourceBO> resources = resourceService.getResourcesByTypeAndRoleIds(null, roleIds);
+        // 第一步，获得角色拥有的资源数组
+        Set<Integer> roleResources = resourceService.getResourcesByTypeAndRoleIds(null, CollectionUtil.asSet(id))
+                .stream().map(ResourceBO::getId).collect(Collectors.toSet());
+        // 第二步，获得资源树
+        List<ResourceBO> allResources = resourceService.getResourcesByType(null);
         // 创建 AdminMenuTreeNodeVO Map
-        Map<Integer, RoleResourceTreeNodeVO> treeNodeMap = resources.stream().collect(Collectors.toMap(ResourceBO::getId, ResourceConvert.INSTANCE::convert4));
+        Map<Integer, RoleResourceTreeNodeVO> treeNodeMap = allResources.stream().collect(Collectors.toMap(ResourceBO::getId, ResourceConvert.INSTANCE::convert4));
         // 处理父子关系
         treeNodeMap.values().stream()
                 .filter(node -> !node.getPid().equals(ResourceConstants.PID_ROOT))
@@ -104,6 +107,9 @@ public class RoleController {
                 .filter(node -> node.getPid().equals(ResourceConstants.PID_ROOT))
                 .sorted(Comparator.comparing(RoleResourceTreeNodeVO::getSort))
                 .collect(Collectors.toList());
+        // 第三步，设置角色是否有该角色
+        treeNodeMap.values().forEach(nodeVO -> nodeVO.setAssigned(roleResources.contains(nodeVO.getId())));
+        // 返回结果
         return CommonResult.success(rootNodes);
     }
 

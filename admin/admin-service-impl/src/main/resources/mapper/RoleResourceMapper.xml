@@ -11,12 +11,12 @@
     <!--</insert>-->
 
     <select id="selectByResourceHandler" parameterType="String" resultType="RoleResourceDO">
-      SELECT
-        rr.id, rr.role_id, rr.resource_id
-      FROM resource r, role_resource rr
-      WHERE r.handler = #{resourceHandler}
-      AND r.id = rr.resource_id
-      AND rr.deleted = 0;
+        SELECT
+          rr.id, rr.role_id, rr.resource_id
+        FROM resource r, role_resource rr
+        WHERE r.handler = #{resourceHandler}
+        AND r.id = rr.resource_id
+        AND rr.deleted = 0;
     </select>
 
     <select id="selectByResourceId" parameterType="Integer" resultType="RoleResourceDO">

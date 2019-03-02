@@ -1,6 +1,7 @@
 package cn.iocoder.mall.admin.service;
 
 import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.RoleService;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -58,6 +60,11 @@ public class RoleServiceImpl implements RoleService {
         // 查询分页总数
         rolePage.setCount(roleMapper.selectCountByNameLike(rolePageDTO.getName()));
         return CommonResult.success(rolePage);
+    }
+
+    @Override
+    public CommonResult<List<RoleBO>> getRoleList(Integer adminId) {
+        return null;
     }
 
     @Override
@@ -134,6 +141,13 @@ public class RoleServiceImpl implements RoleService {
         // TODO 插入操作日志
         // 返回成功
         return CommonResult.success(true);
+    }
+
+    public List<RoleDO> getRoles(Set<Integer> roleIds) {
+        if (CollectionUtil.isEmpty(roleIds)) {
+            return Collections.emptyList();
+        }
+        return roleMapper.selectListByIds(roleIds);
     }
 
 }

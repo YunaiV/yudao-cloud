@@ -3,6 +3,7 @@ package cn.iocoder.mall.admin.application.controller;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.AdminService;
 import cn.iocoder.mall.admin.api.ResourceService;
+import cn.iocoder.mall.admin.api.RoleService;
 import cn.iocoder.mall.admin.api.bo.AdminPageBO;
 import cn.iocoder.mall.admin.api.bo.ResourceBO;
 import cn.iocoder.mall.admin.api.constant.ResourceConstants;
@@ -14,6 +15,7 @@ import cn.iocoder.mall.admin.application.convert.ResourceConvert;
 import cn.iocoder.mall.admin.application.vo.AdminMenuTreeNodeVO;
 import cn.iocoder.mall.admin.application.vo.AdminPageVO;
 import cn.iocoder.mall.admin.application.vo.AdminVO;
+import cn.iocoder.mall.admin.application.vo.RoleVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
@@ -34,6 +36,8 @@ public class AdminController {
     private ResourceService resourceService;
     @Reference(validation = "true")
     private AdminService adminService;
+    @Reference(validation = "true")
+    private RoleService roleService;
 
     // =========== 当前管理员相关的资源 API ===========
 
@@ -134,6 +138,26 @@ public class AdminController {
     @ApiImplicitParam(name = "id", value = "管理员编号", required = true, example = "1")
     public CommonResult<Boolean> delete(@RequestParam("id") Integer id) {
         return adminService.deleteAdmin(AdminSecurityContextHolder.getContext().getAdminId(), id);
+    }
+
+    @GetMapping("/role_list")
+    @ApiOperation(value = "指定管理员拥有的角色列表")
+    @ApiImplicitParam(name = "id", value = "管理员编号", required = true, example = "1")
+    public CommonResult<List<RoleVO>> roleList(@RequestParam("id") Integer id) {
+//        return RoleConvert.INSTANCE.convert()
+        // TODO 需要讨论下 api 提供的方式
+        return null;
+    }
+
+    @PostMapping("/assign_role")
+    @ApiOperation(value = "分配给管理员角色")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "管理员编号", required = true, example = "1"),
+            @ApiImplicitParam(name = "roleIds", value = "角色编号集合", required = true, example = "1,2,3"),
+    })
+    public CommonResult<Boolean> assignRole(@RequestParam("id") Integer id,
+                                            @RequestParam("roleIds")Set<Integer> roleIds) {
+        return adminService.assignRole(AdminSecurityContextHolder.getContext().getAdminId(), id, roleIds);
     }
 
 }

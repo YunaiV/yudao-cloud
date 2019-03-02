@@ -32,4 +32,13 @@
       AND deleted = 0
     </update>
 
+    <insert id="insertList">
+        INSERT INTO admin_role (
+          admin_id, role_id, create_time, deleted
+        ) VALUES
+        <foreach collection="adminRoleDOs" item="adminRole" separator=",">
+            (#{adminRole.adminId}, #{adminRole.roleId}, #{adminRole.createTime}, #{adminRole.deleted})
+        </foreach>
+    </insert>
+
 </mapper>

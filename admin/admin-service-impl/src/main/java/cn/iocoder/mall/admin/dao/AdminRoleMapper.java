@@ -15,4 +15,6 @@ public interface AdminRoleMapper {
 
     int updateToDeletedByRoleId(@Param("roleId") Integer roleId);
 
+    void insertList(@Param("adminRoleDOs") List<AdminRoleDO> adminRoleDOs);
+
 }

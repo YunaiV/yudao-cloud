@@ -7,6 +7,8 @@ import cn.iocoder.mall.admin.api.dto.AdminAddDTO;
 import cn.iocoder.mall.admin.api.dto.AdminPageDTO;
 import cn.iocoder.mall.admin.api.dto.AdminUpdateDTO;
 
+import java.util.Set;
+
 public interface AdminService {
 
     CommonResult<AdminPageBO> getAdminPage(AdminPageDTO adminPageDTO);
@@ -18,5 +20,7 @@ public interface AdminService {
     CommonResult<Boolean> updateAdminStatus(Integer adminId, Integer updateAdminId, Integer status);
 
     CommonResult<Boolean> deleteAdmin(Integer adminId, Integer updateAdminId);
+
+    CommonResult<Boolean> assignRole(Integer adminId, Integer updateAdminId, Set<Integer> roleIds);
 
 }

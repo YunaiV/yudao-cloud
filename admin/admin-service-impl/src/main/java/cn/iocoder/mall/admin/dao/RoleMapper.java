@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface RoleMapper {
@@ -20,5 +21,7 @@ public interface RoleMapper {
                                       @Param("limit") Integer limit);
 
     Integer selectCountByNameLike(@Param("name") String name);
+
+    List<RoleDO> selectListByIds(@Param("ids") Set<Integer> ids);
 
 }

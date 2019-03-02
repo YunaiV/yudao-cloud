@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.iocoder.mall.admin.dao.RoleMapper">
 
+    <sql id="FIELDS">
+        id, name, create_time
+    </sql>
+
     <insert id="insert" parameterType="RoleDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO role (
           name, create_time, deleted
@@ -25,7 +29,7 @@
 
     <select id="selectById" parameterType="Integer" resultType="RoleDO">
         SELECT
-          id, name, create_time
+            <include refid="FIELDS"/>
         FROM role
         WHERE id = #{id}
         AND deleted = 0
@@ -33,7 +37,7 @@
 
     <select id="selectListByNameLike" resultType="RoleDO">
         SELECT
-          id, name, create_time
+            <include refid="FIELDS"/>
         FROM role
         <where>
             <if test="name != null">
@@ -55,5 +59,16 @@
             AND deleted = 0
         </where>
      </select>
+
+    <select id="selectListByIds" resultType="RoleDO">
+        SELECT
+            <include refid="FIELDS"/>
+        FROM resource
+        WHERE id IN
+        <foreach item="id" collection="ids" separator="," open="(" close=")" index="">
+            #{id}
+        </foreach>
+        AND deleted = 0
+    </select>
 
 </mapper>

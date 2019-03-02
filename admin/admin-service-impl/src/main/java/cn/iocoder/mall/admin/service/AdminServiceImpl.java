@@ -16,6 +16,7 @@ import cn.iocoder.mall.admin.dao.AdminMapper;
 import cn.iocoder.mall.admin.dao.AdminRoleMapper;
 import cn.iocoder.mall.admin.dataobject.AdminDO;
 import cn.iocoder.mall.admin.dataobject.AdminRoleDO;
+import cn.iocoder.mall.admin.dataobject.RoleDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,8 @@ import org.springframework.util.DigestUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @com.alibaba.dubbo.config.annotation.Service
@@ -32,8 +35,11 @@ public class AdminServiceImpl implements AdminService {
     private AdminMapper adminMapper;
     @Autowired
     private AdminRoleMapper adminRoleMapper;
+
     @Autowired
     private OAuth2ServiceImpl oAuth2Service;
+    @Autowired
+    private RoleServiceImpl roleService;
 
     public CommonResult<AdminDO> validAdmin(String username, String password) {
         AdminDO admin = adminMapper.selectByUsername(username);
@@ -143,15 +149,46 @@ public class AdminServiceImpl implements AdminService {
         if (admin == null) {
             return ServiceExceptionUtil.error(AdminErrorCodeEnum.ADMIN_USERNAME_NOT_REGISTERED.getCode());
         }
+        // 只有禁用的账号才可以删除
         if (AdminDO.STATUS_ENABLE.equals(admin.getStatus())) {
             return ServiceExceptionUtil.error(AdminErrorCodeEnum.ADMIN_DELETE_ONLY_DISABLE.getCode());
         }
-        // 只有禁用的账号才可以删除
+        // 标记删除 AdminDO
         AdminDO updateAdmin = new AdminDO().setId(updateAdminId);
         updateAdmin.setDeleted(BaseDO.DELETED_YES);
         adminMapper.update(updateAdmin);
         // 标记删除 AdminRole
         adminRoleMapper.updateToDeletedByAdminId(updateAdminId);
+        // TODO 插入操作日志
+        // 返回成功
+        return CommonResult.success(true);
+    }
+
+    @Override
+    @Transactional
+    public CommonResult<Boolean> assignRole(Integer adminId, Integer updateAdminId, Set<Integer> roleIds) {
+        // 校验账号存在
+        AdminDO admin = adminMapper.selectById(updateAdminId);
+        if (admin == null) {
+            return ServiceExceptionUtil.error(AdminErrorCodeEnum.ADMIN_USERNAME_NOT_REGISTERED.getCode());
+        }
+        // 校验是否有不存在的角色
+        List<RoleDO> roles = roleService.getRoles(roleIds);
+        if (roles.size() != roleIds.size()) {
+            return ServiceExceptionUtil.error(AdminErrorCodeEnum.ROLE_ASSIGN_RESOURCE_NOT_EXISTS.getCode());
+        }
+        // TODO 芋艿，这里先简单实现。即方式是，删除老的分配的角色关系，然后添加新的分配的角色关系
+        // 标记管理员角色源关系都为删除
+        adminRoleMapper.updateToDeletedByRoleId(updateAdminId);
+        // 创建 RoleResourceDO 数组，并插入到数据库
+        if (!roleIds.isEmpty()) {
+            List<AdminRoleDO> adminRoleDOs = roleIds.stream().map(roleId -> {
+                AdminRoleDO roleResource = new AdminRoleDO().setAdminId(updateAdminId).setRoleId(roleId);
+                roleResource.setCreateTime(new Date()).setDeleted(BaseDO.DELETED_NO);
+                return roleResource;
+            }).collect(Collectors.toList());
+            adminRoleMapper.insertList(adminRoleDOs);
+        }
         // TODO 插入操作日志
         // 返回成功
         return CommonResult.success(true);

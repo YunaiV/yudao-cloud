@@ -7,11 +7,14 @@ import cn.iocoder.mall.admin.api.dto.RoleAddDTO;
 import cn.iocoder.mall.admin.api.dto.RolePageDTO;
 import cn.iocoder.mall.admin.api.dto.RoleUpdateDTO;
 
+import java.util.List;
 import java.util.Set;
 
 public interface RoleService {
 
     CommonResult<RolePageBO> getRolePage(RolePageDTO rolePageDTO);
+
+    CommonResult<List<RoleBO>> getRoleList(Integer adminId);
 
     CommonResult<RoleBO> addRole(Integer adminId, RoleAddDTO roleAddDTO);
 

@@ -57,7 +57,7 @@ public class DataDictServiceImpl implements DataDictService {
         }
         // 校验数据字典重复
         DataDictDO duplicateDataDict = dataDictMapper.selectByEnumValueAndValue(existsDataDict.getEnumValue(), dataDictUpdateDTO.getValue());
-        if (duplicateDataDict != null && duplicateDataDict.getId().equals(dataDictUpdateDTO.getId())) {
+        if (duplicateDataDict != null && !duplicateDataDict.getId().equals(dataDictUpdateDTO.getId())) {
             return ServiceExceptionUtil.error(AdminErrorCodeEnum.DATA_DICT_EXISTS.getCode());
         }
         // 更新到数据库

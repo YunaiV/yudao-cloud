@@ -17,7 +17,7 @@ public class DataDictVO {
     @ApiModelProperty(value = "排序值", required = true, example = "10")
     private Integer sort;
     @ApiModelProperty(value = "备注", example = "你猜")
-    private Integer memo;
+    private String memo;
 
     public Integer getId() {
         return id;
@@ -64,11 +64,11 @@ public class DataDictVO {
         return this;
     }
 
-    public Integer getMemo() {
+    public String getMemo() {
         return memo;
     }
 
-    public DataDictVO setMemo(Integer memo) {
+    public DataDictVO setMemo(String memo) {
         this.memo = memo;
         return this;
     }

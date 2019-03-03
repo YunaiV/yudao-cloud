@@ -41,7 +41,7 @@ public enum AdminErrorCodeEnum {
 
     // ========== 数据字典模块 1002005000 ==========
     DATA_DICT_EXISTS(1002005000, "该数据字典已经存在"),
-    DATA_DICT_NOT_EXISTS(1002005001, "该数据字典已经存在"),
+    DATA_DICT_NOT_EXISTS(1002005001, "该数据字典不存在"),
 
     ;
 

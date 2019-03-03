@@ -4,6 +4,7 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.DataDictService;
 import cn.iocoder.mall.admin.api.bo.DataDictBO;
 import cn.iocoder.mall.admin.api.dto.DataDictAddDTO;
+import cn.iocoder.mall.admin.api.dto.DataDictUpdateDTO;
 import cn.iocoder.mall.admin.application.convert.DataDictConvert;
 import cn.iocoder.mall.admin.application.vo.DataDictVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
@@ -52,6 +53,34 @@ public class DataDictController {
         CommonResult<DataDictBO> result = dataDictService.addDataDict(AdminSecurityContextHolder.getContext().getAdminId(), dataDictAddDTO);
         // 返回结果
         return DataDictConvert.INSTANCE.convert2(result);
+    }
+
+    @PostMapping("/update")
+    @ApiOperation(value = "更新数据字典")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "编号", required = true, example = "100"),
+            @ApiImplicitParam(name = "value", value = "小类数值", required = true, example = "1"),
+            @ApiImplicitParam(name = "displayName", value = "展示名", required = true, example = "男"),
+            @ApiImplicitParam(name = "sort", required = true, value = "排序值", defaultValue = "10"),
+            @ApiImplicitParam(name = "memo", value = "备注", example = "你猜我猜不猜"),
+    })
+    public CommonResult<Boolean> update(@RequestParam("id") Integer id,
+                                        @RequestParam("value") String value,
+                                        @RequestParam("displayName") String displayName,
+                                        @RequestParam("sort") Integer sort,
+                                        @RequestParam(value = "memo", required = false) String memo) {
+        // 创建 DataDictAddDTO 对象
+        DataDictUpdateDTO dataDictUpdateDTO = new DataDictUpdateDTO().setId(id).setValue(value).setDisplayName(displayName)
+                .setSort(sort).setMemo(memo);
+        // 更新数据字典
+        return dataDictService.updateDataDict(AdminSecurityContextHolder.getContext().getAdminId(), dataDictUpdateDTO);
+    }
+
+    @PostMapping("/delete")
+    @ApiOperation(value = "删除数据字典")
+    @ApiImplicitParam(name = "id", value = "编号", required = true, example = "100")
+    public CommonResult<Boolean> delete(@RequestParam("id") Integer id) {
+        return dataDictService.deleteDataDict(AdminSecurityContextHolder.getContext().getAdminId(), id);
     }
 
 }

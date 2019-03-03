@@ -1,4 +1,4 @@
-package cn.iocoder.mall.admin.application.controller;
+package cn.iocoder.mall.admin.application.controller.admins;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.AdminService;

@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-@com.alibaba.dubbo.config.annotation.Service
+@com.alibaba.dubbo.config.annotation.Service(validation = "true")
 public class OAuth2ServiceImpl implements OAuth2Service {
 
     /**

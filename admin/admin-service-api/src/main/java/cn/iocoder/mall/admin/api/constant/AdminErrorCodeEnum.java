@@ -38,6 +38,11 @@ public enum AdminErrorCodeEnum {
     // ========== 角色模块 1002004000 ==========
     ROLE_NOT_EXISTS(1002004000, "角色不存在"),
     ROLE_ASSIGN_RESOURCE_NOT_EXISTS(1002004001, "分配角色资源时，有资源不存在"),
+
+    // ========== 数据字典模块 1002005000 ==========
+    DATA_DICT_EXISTS(1002005000, "该数据字典已经存在"),
+    DATA_DICT_NOT_EXISTS(1002005001, "该数据字典已经存在"),
+
     ;
 
     private final int code;

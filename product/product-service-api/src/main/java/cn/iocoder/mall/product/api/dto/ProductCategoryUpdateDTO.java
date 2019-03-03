@@ -1,62 +1,48 @@
-package cn.iocoder.mall.product.dataobject;
+package cn.iocoder.mall.product.api.dto;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import javax.validation.constraints.NotNull;
 
 /**
- * 商品分类
+ * 商品分类更新 DTO
  */
-public class ProductCategoryDO extends BaseDO {
-
-    public static final Integer STATUS_ENABLE = 1;
+public class ProductCategoryUpdateDTO {
 
     /**
-     * 分类编号
+     * 编号
      */
+    @NotNull(message = "编号不能为空")
     private Integer id;
     /**
      * 父分类编号
-     *
-     * 如果不存在父级，则 pid = 0 。
      */
+    @NotNull(message = "父分类编号不能为空")
     private Integer pid;
     /**
      * 名称
      */
+    @NotNull(message = "名称不能为空")
     private String name;
     /**
      * 描述
      */
+    @NotNull(message = "描述不能为空")
     private String description;
     /**
      * 分类图片
      */
+    @NotNull(message = "分类图片不能为空")
     private String picUrl;
     /**
      * 排序值
      */
+    @NotNull(message = "排序值不能为空")
     private Integer sort;
-    /**
-     * 状态
-     *
-     * 1-开启
-     * 2-关闭
-     */
-    private Integer status;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public ProductCategoryDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
 
     public Integer getPid() {
         return pid;
     }
 
-    public ProductCategoryDO setPid(Integer pid) {
+    public ProductCategoryUpdateDTO setPid(Integer pid) {
         this.pid = pid;
         return this;
     }
@@ -65,7 +51,7 @@ public class ProductCategoryDO extends BaseDO {
         return name;
     }
 
-    public ProductCategoryDO setName(String name) {
+    public ProductCategoryUpdateDTO setName(String name) {
         this.name = name;
         return this;
     }
@@ -74,7 +60,7 @@ public class ProductCategoryDO extends BaseDO {
         return description;
     }
 
-    public ProductCategoryDO setDescription(String description) {
+    public ProductCategoryUpdateDTO setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -83,7 +69,7 @@ public class ProductCategoryDO extends BaseDO {
         return picUrl;
     }
 
-    public ProductCategoryDO setPicUrl(String picUrl) {
+    public ProductCategoryUpdateDTO setPicUrl(String picUrl) {
         this.picUrl = picUrl;
         return this;
     }
@@ -92,17 +78,17 @@ public class ProductCategoryDO extends BaseDO {
         return sort;
     }
 
-    public ProductCategoryDO setSort(Integer sort) {
+    public ProductCategoryUpdateDTO setSort(Integer sort) {
         this.sort = sort;
         return this;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getId() {
+        return id;
     }
 
-    public ProductCategoryDO setStatus(Integer status) {
-        this.status = status;
+    public ProductCategoryUpdateDTO setId(Integer id) {
+        this.id = id;
         return this;
     }
 }

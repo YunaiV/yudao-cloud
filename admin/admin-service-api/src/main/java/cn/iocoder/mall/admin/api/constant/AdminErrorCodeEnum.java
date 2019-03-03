@@ -3,7 +3,7 @@ package cn.iocoder.mall.admin.api.constant;
 /**
  * 错误码枚举类
  *
- * 用户中心，使用 1-002-000-000 段
+ * 管理员系统，使用 1-002-000-000 段
  */
 public enum AdminErrorCodeEnum {
 

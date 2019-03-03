@@ -3,7 +3,7 @@ package cn.iocoder.mall.user.service.api.constant;
 /**
  * 错误码枚举类
  *
- * 用户中心，使用 1-001-000-000 段
+ * 用户系统，使用 1-001-000-000 段
  */
 public enum UserErrorCodeEnum {
 

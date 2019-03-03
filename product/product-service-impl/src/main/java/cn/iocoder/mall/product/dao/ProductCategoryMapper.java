@@ -12,4 +12,14 @@ public interface ProductCategoryMapper {
     List<ProductCategoryDO> selectListByPidAndStatusOrderBySort(@Param("pid") Integer pid,
                                                                 @Param("status") Integer status);
 
+    List<ProductCategoryDO> selectList();
+
+    ProductCategoryDO selectById(@Param("id") Integer id);
+
+    void insert(ProductCategoryDO productCategoryDO);
+
+    int update(ProductCategoryDO productCategoryDO);
+
+
+
 }

@@ -1,6 +1,8 @@
 package cn.iocoder.mall.product.application.config;
 
+import cn.iocoder.common.framework.config.GlobalExceptionHandler;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -8,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableWebMvc
 @Configuration
-//@Import(value = {GlobalExceptionHandler.class}) // 统一全局返回
+@Import(value = {GlobalExceptionHandler.class}) // 统一全局返回
 public class MVCConfiguration implements WebMvcConfigurer {
 
 //    @Autowired

@@ -1,4 +1,4 @@
-package cn.iocoder.mall.product.config;
+package cn.iocoder.mall.product.application.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ public class SwaggerConfiguration {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("cn.iocoder.mall.product.controller"))
+                .apis(RequestHandlerSelectors.basePackage("cn.iocoder.mall.product.application.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

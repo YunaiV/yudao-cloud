@@ -1,6 +1,6 @@
 package cn.iocoder.mall.product.convert;
 
-import cn.iocoder.mall.product.bo.ProductSpuBO;
+import cn.iocoder.mall.product.api.bo.ProductSpuBO;
 import cn.iocoder.mall.product.dataobject.ProductSpuDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;

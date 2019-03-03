@@ -1,4 +1,4 @@
-package cn.iocoder.mall.product.bo;
+package cn.iocoder.mall.product.api.bo;
 
 /**
  * 商品分类 BO

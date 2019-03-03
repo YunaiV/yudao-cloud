@@ -1,9 +1,9 @@
-package cn.iocoder.mall.product.controller.user;
+package cn.iocoder.mall.product.application.controller.users;
 
-import cn.iocoder.mall.product.bo.ProductSpuBO;
-import cn.iocoder.mall.product.service.ProductSpuService;
-import cn.iocoder.mall.product.vo.ProductSpuListVO;
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.iocoder.mall.product.api.ProductSpuService;
+import cn.iocoder.mall.product.api.bo.ProductSpuBO;
+import cn.iocoder.mall.product.application.vo.ProductSpuListVO;
+import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("user/product/spu")
 public class ProductSpuController {
 
-    @Autowired
+    @Reference(validation = "true")
     private ProductSpuService productSpuService;
 
     // TODO 详情

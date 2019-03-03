@@ -3,7 +3,7 @@ package cn.iocoder.mall.product;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"cn.iocoder.mall.product"})
 public class ProductApplication {
 
 	public static void main(String[] args) {

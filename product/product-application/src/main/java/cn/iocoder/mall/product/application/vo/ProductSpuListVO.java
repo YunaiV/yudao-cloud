@@ -1,4 +1,4 @@
-package cn.iocoder.mall.product.vo;
+package cn.iocoder.mall.product.application.vo;
 
 import java.util.List;
 

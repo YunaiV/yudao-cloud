@@ -3,6 +3,7 @@ import { notification } from 'antd';
 import router from 'umi/router';
 import hash from 'hash.js';
 import { isAntdPro } from './utils';
+import { getLoginToken } from './cache';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -82,6 +83,7 @@ export default function request(url, option) {
   const defaultOptions = {
     credentials: 'include',
   };
+
   const newOptions = { ...defaultOptions, ...options };
   if (
     newOptions.method === 'POST' ||
@@ -103,6 +105,10 @@ export default function request(url, option) {
       };
     }
   }
+
+  // 将登陆的 accessToken 放到 header
+  const loginToken = getLoginToken();
+  newOptions.headers.Authorization = loginToken.accessToken;
 
   const expirys = options.expirys && 60;
   // options.expirys !== false, return the cache,

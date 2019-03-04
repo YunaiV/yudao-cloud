@@ -1,0 +1,7 @@
+body {margin:0px; padding:0px; color:rgb(34, 34, 34); font-family:Helvetica,"Hiragino Sans GB","Microsoft YaHei",Simsun,"Droid Sans Fallback",sans-serif; text-decoration:none; background:#fff;-webkit-tap-highlight-color:rgba(0,0,0,0); }
+body,div,dl,dt,dd,ol,ul,li,h1,h2,h3,h4,h5,h6,h7,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0px; padding:0px;}
+ul{list-style:none;}
+li{list-style:none;}
+img {border:0px currentColor;vertical-align:top;}
+ol {list-style:none; margin:0px; padding:0px;}
+a{color:rgb(0, 0, 0); text-decoration:none;}

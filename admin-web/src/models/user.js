@@ -1,4 +1,5 @@
-import { query as queryUsers, queryCurrent } from '@/services/user';
+import { query as queryUsers } from '@/services/user';
+import currentUserData from '../mock-data/currentUserData';
 
 export default {
   namespace: 'user',
@@ -16,8 +17,9 @@ export default {
         payload: response,
       });
     },
-    *fetchCurrent(_, { call, put }) {
-      const response = yield call(queryCurrent);
+    *fetchCurrent(_, { put }) {
+      // const response = yield call(queryCurrent);
+      const response = currentUserData;
       yield put({
         type: 'saveCurrentUser',
         payload: response,

@@ -104,16 +104,14 @@ export async function updateFakeList(params) {
 }
 
 export async function fakeAccountLogin(params) {
-  return request(`/admin-api/admin/passport/login/?${stringify(params)}`, {
+  return request(`/admin-api/admin/passport/login?${stringify(params)}`, {
     method: 'POST',
-    body: params,
   });
 }
 
 export async function fakeRegister(params) {
-  return request(`/admin-api/admin/passport/login/?${stringify(params)}`, {
+  return request(`/admin-api/admin/passport/login?${stringify(params)}`, {
     method: 'POST',
-    body: params,
   });
 }
 

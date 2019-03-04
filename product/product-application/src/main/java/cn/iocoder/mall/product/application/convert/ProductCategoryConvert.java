@@ -2,9 +2,9 @@ package cn.iocoder.mall.product.application.convert;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.bo.ProductCategoryBO;
-import cn.iocoder.mall.product.application.vo.ProductCategorySimpleVO;
-import cn.iocoder.mall.product.application.vo.ProductCategoryTreeNodeVO;
-import cn.iocoder.mall.product.application.vo.ProductCategoryVO;
+import cn.iocoder.mall.product.application.vo.users.UsersProductCategoryVO;
+import cn.iocoder.mall.product.application.vo.admins.AdminProductCategoryTreeNodeVO;
+import cn.iocoder.mall.product.application.vo.admins.AdminsProductCategoryVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -17,12 +17,12 @@ public interface ProductCategoryConvert {
     ProductCategoryConvert INSTANCE = Mappers.getMapper(ProductCategoryConvert.class);
 
     @Mappings({})
-    ProductCategorySimpleVO convertToVO(ProductCategoryBO category);
+    UsersProductCategoryVO convertToVO(ProductCategoryBO category);
 
-    List<ProductCategorySimpleVO> convertToVO(List<ProductCategoryBO> categoryList);
+    List<UsersProductCategoryVO> convertToVO(List<ProductCategoryBO> categoryList);
 
-    ProductCategoryTreeNodeVO convert(ProductCategoryBO category);
+    AdminProductCategoryTreeNodeVO convert(ProductCategoryBO category);
 
-    CommonResult<ProductCategoryVO> convert(CommonResult<ProductCategoryBO> result);
+    CommonResult<AdminsProductCategoryVO> convert(CommonResult<ProductCategoryBO> result);
 
 }

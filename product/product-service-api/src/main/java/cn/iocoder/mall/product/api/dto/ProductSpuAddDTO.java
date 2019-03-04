@@ -1,48 +1,40 @@
-package cn.iocoder.mall.product.dataobject;
+package cn.iocoder.mall.product.api.dto;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
- * 商品 SPU
+ * 商品 SPU + SKU 添加 DTO
  */
-public class ProductSpuDO extends BaseDO {
-
-    /**
-     * SPU 编号
-     */
-    private Integer id;
-
-    // TODO 店铺编号 先不考虑，因为第一个版本，不做 B2B2C
+public class ProductSpuAddDTO {
 
     // ========== 基本信息 =========
     /**
      * SPU 名字
      */
+    @NotEmpty(message = "SPU 名字不能为空")
     private String name;
     /**
      * 卖点
      */
+    @NotEmpty(message = "卖点不能为空")
     private String sellPoint;
     /**
      * 描述
      */
+    @NotEmpty(message = "描述不能为空")
     private String description;
     /**
      * 分类编号
      */
+    @NotEmpty(message = "分类不能为空")
     private Integer cid;
     /**
      * 商品主图地址
-     *
-     * 数组，以逗号分隔
-     *
-     * 建议尺寸：800*800像素，你可以拖拽图片调整顺序，最多上传15张
      */
-    private String picUrls;
-
-    // TODO 价格库存
-
-    // TODO 运费信息
+    @NotNull(message = "商品主图不能为空")
+    private List<String> picUrls;
 
     // ========== 其他信息 =========
     /**
@@ -51,25 +43,22 @@ public class ProductSpuDO extends BaseDO {
      * true 为已上架
      * false 为已下架
      */
+    @NotNull(message = "是否上架不能为空")
     private Boolean visible;
+
+    // ========== SKU =========
+
     /**
-     * 排序字段
+     * SKU 数组
      */
-    private Integer order;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @NotNull(message = "SKU 不能为空")
+    private List<ProductSkuAddDTO> skus;
 
     public String getName() {
         return name;
     }
 
-    public ProductSpuDO setName(String name) {
+    public ProductSpuAddDTO setName(String name) {
         this.name = name;
         return this;
     }
@@ -78,7 +67,7 @@ public class ProductSpuDO extends BaseDO {
         return sellPoint;
     }
 
-    public ProductSpuDO setSellPoint(String sellPoint) {
+    public ProductSpuAddDTO setSellPoint(String sellPoint) {
         this.sellPoint = sellPoint;
         return this;
     }
@@ -87,7 +76,7 @@ public class ProductSpuDO extends BaseDO {
         return description;
     }
 
-    public ProductSpuDO setDescription(String description) {
+    public ProductSpuAddDTO setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -96,16 +85,16 @@ public class ProductSpuDO extends BaseDO {
         return cid;
     }
 
-    public ProductSpuDO setCid(Integer cid) {
+    public ProductSpuAddDTO setCid(Integer cid) {
         this.cid = cid;
         return this;
     }
 
-    public String getPicUrls() {
+    public List<String> getPicUrls() {
         return picUrls;
     }
 
-    public ProductSpuDO setPicUrls(String picUrls) {
+    public ProductSpuAddDTO setPicUrls(List<String> picUrls) {
         this.picUrls = picUrls;
         return this;
     }
@@ -114,17 +103,18 @@ public class ProductSpuDO extends BaseDO {
         return visible;
     }
 
-    public ProductSpuDO setVisible(Boolean visible) {
+    public ProductSpuAddDTO setVisible(Boolean visible) {
         this.visible = visible;
         return this;
     }
 
-    public Integer getOrder() {
-        return order;
+    public List<ProductSkuAddDTO> getSkus() {
+        return skus;
     }
 
-    public ProductSpuDO setOrder(Integer order) {
-        this.order = order;
+    public ProductSpuAddDTO setSkus(List<ProductSkuAddDTO> skus) {
+        this.skus = skus;
         return this;
     }
+
 }

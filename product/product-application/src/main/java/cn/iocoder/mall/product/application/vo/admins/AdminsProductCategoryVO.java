@@ -1,4 +1,4 @@
-package cn.iocoder.mall.product.application.vo;
+package cn.iocoder.mall.product.application.vo.admins;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 
 @ApiModel("产品分类 VO")
-public class ProductCategoryVO {
+public class AdminsProductCategoryVO {
 
     @ApiModelProperty(value = "分类编号", required = true, example = "1")
     private Integer id;
@@ -29,7 +29,7 @@ public class ProductCategoryVO {
         return id;
     }
 
-    public ProductCategoryVO setId(Integer id) {
+    public AdminsProductCategoryVO setId(Integer id) {
         this.id = id;
         return this;
     }
@@ -38,7 +38,7 @@ public class ProductCategoryVO {
         return pid;
     }
 
-    public ProductCategoryVO setPid(Integer pid) {
+    public AdminsProductCategoryVO setPid(Integer pid) {
         this.pid = pid;
         return this;
     }
@@ -47,7 +47,7 @@ public class ProductCategoryVO {
         return name;
     }
 
-    public ProductCategoryVO setName(String name) {
+    public AdminsProductCategoryVO setName(String name) {
         this.name = name;
         return this;
     }
@@ -56,7 +56,7 @@ public class ProductCategoryVO {
         return description;
     }
 
-    public ProductCategoryVO setDescription(String description) {
+    public AdminsProductCategoryVO setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -65,7 +65,7 @@ public class ProductCategoryVO {
         return picUrl;
     }
 
-    public ProductCategoryVO setPicUrl(String picUrl) {
+    public AdminsProductCategoryVO setPicUrl(String picUrl) {
         this.picUrl = picUrl;
         return this;
     }
@@ -74,7 +74,7 @@ public class ProductCategoryVO {
         return sort;
     }
 
-    public ProductCategoryVO setSort(Integer sort) {
+    public AdminsProductCategoryVO setSort(Integer sort) {
         this.sort = sort;
         return this;
     }
@@ -83,7 +83,7 @@ public class ProductCategoryVO {
         return status;
     }
 
-    public ProductCategoryVO setStatus(Integer status) {
+    public AdminsProductCategoryVO setStatus(Integer status) {
         this.status = status;
         return this;
     }
@@ -92,7 +92,7 @@ public class ProductCategoryVO {
         return createTime;
     }
 
-    public ProductCategoryVO setCreateTime(Date createTime) {
+    public AdminsProductCategoryVO setCreateTime(Date createTime) {
         this.createTime = createTime;
         return this;
     }

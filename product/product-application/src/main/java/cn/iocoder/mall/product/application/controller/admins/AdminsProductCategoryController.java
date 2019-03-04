@@ -8,8 +8,8 @@ import cn.iocoder.mall.product.api.constant.ProductCategoryConstants;
 import cn.iocoder.mall.product.api.dto.ProductCategoryAddDTO;
 import cn.iocoder.mall.product.api.dto.ProductCategoryUpdateDTO;
 import cn.iocoder.mall.product.application.convert.ProductCategoryConvert;
-import cn.iocoder.mall.product.application.vo.ProductCategoryTreeNodeVO;
-import cn.iocoder.mall.product.application.vo.ProductCategoryVO;
+import cn.iocoder.mall.product.application.vo.admins.AdminProductCategoryTreeNodeVO;
+import cn.iocoder.mall.product.application.vo.admins.AdminsProductCategoryVO;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -33,16 +33,16 @@ public class AdminsProductCategoryController {
 
     @GetMapping("/tree")
     @ApiOperation("获得分类树结构")
-    public CommonResult<List<ProductCategoryTreeNodeVO>> tree() {
+    public CommonResult<List<AdminProductCategoryTreeNodeVO>> tree() {
         List<ProductCategoryBO> productCategories = productCategoryService.getAll().getData();
         // 创建 ProductCategoryTreeNodeVO Map
-        Map<Integer, ProductCategoryTreeNodeVO> treeNodeMap = productCategories.stream().collect(Collectors.toMap(ProductCategoryBO::getId, ProductCategoryConvert.INSTANCE::convert));
+        Map<Integer, AdminProductCategoryTreeNodeVO> treeNodeMap = productCategories.stream().collect(Collectors.toMap(ProductCategoryBO::getId, ProductCategoryConvert.INSTANCE::convert));
         // 处理父子关系
         treeNodeMap.values().stream()
                 .filter(node -> !node.getPid().equals(ProductCategoryConstants.PID_ROOT))
                 .forEach((childNode) -> {
                     // 获得父节点
-                    ProductCategoryTreeNodeVO parentNode = treeNodeMap.get(childNode.getPid());
+                    AdminProductCategoryTreeNodeVO parentNode = treeNodeMap.get(childNode.getPid());
                     if (parentNode.getChildren() == null) { // 初始化 children 数组
                         parentNode.setChildren(new ArrayList<>());
                     }
@@ -50,9 +50,9 @@ public class AdminsProductCategoryController {
                     parentNode.getChildren().add(childNode);
                 });
         // 获得到所有的根节点
-        List<ProductCategoryTreeNodeVO> rootNodes = treeNodeMap.values().stream()
+        List<AdminProductCategoryTreeNodeVO> rootNodes = treeNodeMap.values().stream()
                 .filter(node -> node.getPid().equals(ProductCategoryConstants.PID_ROOT))
-                .sorted(Comparator.comparing(ProductCategoryTreeNodeVO::getSort))
+                .sorted(Comparator.comparing(AdminProductCategoryTreeNodeVO::getSort))
                 .collect(Collectors.toList());
         return CommonResult.success(rootNodes);
     }
@@ -66,11 +66,11 @@ public class AdminsProductCategoryController {
             @ApiImplicitParam(name = "picUrl", value = "分类图片", example = "http://www.iocoder.cn/images/common/wechat_mp_2017_07_31_bak.jpg/"),
             @ApiImplicitParam(name = "sort", value = "排序", required = true, example = "1"),
     })
-    public CommonResult<ProductCategoryVO> add(@RequestParam("pid") Integer pid,
-                                               @RequestParam("name") String name,
-                                               @RequestParam("description") String description,
-                                               @RequestParam(value = "picUrl", required = false) String picUrl,
-                                               @RequestParam("sort") Integer sort) {
+    public CommonResult<AdminsProductCategoryVO> add(@RequestParam("pid") Integer pid,
+                                                     @RequestParam("name") String name,
+                                                     @RequestParam("description") String description,
+                                                     @RequestParam(value = "picUrl", required = false) String picUrl,
+                                                     @RequestParam("sort") Integer sort) {
         // 创建 ProductCategoryAddDTO 对象
         ProductCategoryAddDTO productCategoryAddDTO = new ProductCategoryAddDTO().setPid(pid).setName(name)
                 .setDescription(description).setPicUrl(picUrl).setSort(sort);

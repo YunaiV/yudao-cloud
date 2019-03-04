@@ -1,4 +1,4 @@
-package cn.iocoder.mall.product.application.vo;
+package cn.iocoder.mall.product.application.vo.admins;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 @ApiModel("产品分类树节点 VO")
-public class ProductCategoryTreeNodeVO {
+public class AdminProductCategoryTreeNodeVO {
 
     @ApiModelProperty(value = "分类编号", required = true, example = "1")
     private Integer id;
@@ -26,13 +26,13 @@ public class ProductCategoryTreeNodeVO {
     @ApiModelProperty(value = "创建时间", required = true, example = "时间戳")
     private Date createTime;
     @ApiModelProperty(value = "子节点数组")
-    private List<ProductCategoryTreeNodeVO> children;
+    private List<AdminProductCategoryTreeNodeVO> children;
 
     public Integer getId() {
         return id;
     }
 
-    public ProductCategoryTreeNodeVO setId(Integer id) {
+    public AdminProductCategoryTreeNodeVO setId(Integer id) {
         this.id = id;
         return this;
     }
@@ -41,7 +41,7 @@ public class ProductCategoryTreeNodeVO {
         return pid;
     }
 
-    public ProductCategoryTreeNodeVO setPid(Integer pid) {
+    public AdminProductCategoryTreeNodeVO setPid(Integer pid) {
         this.pid = pid;
         return this;
     }
@@ -50,7 +50,7 @@ public class ProductCategoryTreeNodeVO {
         return name;
     }
 
-    public ProductCategoryTreeNodeVO setName(String name) {
+    public AdminProductCategoryTreeNodeVO setName(String name) {
         this.name = name;
         return this;
     }
@@ -59,7 +59,7 @@ public class ProductCategoryTreeNodeVO {
         return description;
     }
 
-    public ProductCategoryTreeNodeVO setDescription(String description) {
+    public AdminProductCategoryTreeNodeVO setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -68,7 +68,7 @@ public class ProductCategoryTreeNodeVO {
         return picUrl;
     }
 
-    public ProductCategoryTreeNodeVO setPicUrl(String picUrl) {
+    public AdminProductCategoryTreeNodeVO setPicUrl(String picUrl) {
         this.picUrl = picUrl;
         return this;
     }
@@ -77,7 +77,7 @@ public class ProductCategoryTreeNodeVO {
         return sort;
     }
 
-    public ProductCategoryTreeNodeVO setSort(Integer sort) {
+    public AdminProductCategoryTreeNodeVO setSort(Integer sort) {
         this.sort = sort;
         return this;
     }
@@ -86,7 +86,7 @@ public class ProductCategoryTreeNodeVO {
         return status;
     }
 
-    public ProductCategoryTreeNodeVO setStatus(Integer status) {
+    public AdminProductCategoryTreeNodeVO setStatus(Integer status) {
         this.status = status;
         return this;
     }
@@ -95,16 +95,16 @@ public class ProductCategoryTreeNodeVO {
         return createTime;
     }
 
-    public ProductCategoryTreeNodeVO setCreateTime(Date createTime) {
+    public AdminProductCategoryTreeNodeVO setCreateTime(Date createTime) {
         this.createTime = createTime;
         return this;
     }
 
-    public List<ProductCategoryTreeNodeVO> getChildren() {
+    public List<AdminProductCategoryTreeNodeVO> getChildren() {
         return children;
     }
 
-    public ProductCategoryTreeNodeVO setChildren(List<ProductCategoryTreeNodeVO> children) {
+    public AdminProductCategoryTreeNodeVO setChildren(List<AdminProductCategoryTreeNodeVO> children) {
         this.children = children;
         return this;
     }

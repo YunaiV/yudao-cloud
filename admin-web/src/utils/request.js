@@ -108,7 +108,9 @@ export default function request(url, option) {
 
   // 将登陆的 accessToken 放到 header
   const loginToken = getLoginToken();
-  newOptions.headers.Authorization = loginToken.accessToken;
+  if (loginToken && loginToken.accessToken) {
+    newOptions.headers.Authorization = loginToken.accessToken;
+  }
 
   const expirys = options.expirys && 60;
   // options.expirys !== false, return the cache,

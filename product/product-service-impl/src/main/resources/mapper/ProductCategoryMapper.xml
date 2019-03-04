@@ -3,7 +3,7 @@
 <mapper namespace="cn.iocoder.mall.product.dao.ProductCategoryMapper">
 
     <sql id="FIELDS">
-        id, pid, name, descrption, pic_url,
+        id, pid, name, description, pic_url,
         sort, status, create_time
     </sql>
 
@@ -43,7 +43,7 @@
     </insert>
 
     <update id="update" parameterType="ProductCategoryDO">
-        UPDATE resource
+        UPDATE product_category
         <set>
             <if test="pid != null">
                 pid = #{pid},

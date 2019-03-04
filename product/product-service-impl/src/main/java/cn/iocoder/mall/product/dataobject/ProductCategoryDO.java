@@ -7,6 +7,7 @@ import cn.iocoder.common.framework.dataobject.BaseDO;
  */
 public class ProductCategoryDO extends BaseDO {
 
+    @Deprecated
     public static final Integer STATUS_ENABLE = 1;
 
     /**

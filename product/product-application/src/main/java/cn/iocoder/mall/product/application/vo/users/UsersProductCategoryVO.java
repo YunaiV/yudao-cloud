@@ -1,10 +1,10 @@
-package cn.iocoder.mall.product.application.vo;
+package cn.iocoder.mall.product.application.vo.users;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel("商品分类（简单）")
-public class ProductCategorySimpleVO {
+public class UsersProductCategoryVO {
 
     @ApiModelProperty(value = "分类编号", required = true, example = "1")
     private Integer id;

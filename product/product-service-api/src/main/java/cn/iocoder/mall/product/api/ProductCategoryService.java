@@ -18,7 +18,7 @@ public interface ProductCategoryService {
     /**
      * @return 返回所有产品分类们
      */
-    List<ProductCategoryBO> getAll();
+    CommonResult<List<ProductCategoryBO>> getAll();
 
     CommonResult<ProductCategoryBO> addProductCategory(Integer adminId, ProductCategoryAddDTO productCategoryAddDTO);
 

@@ -9,7 +9,7 @@ public class ProductCategoryConstants {
     /**
      * 状态 - 关闭
      */
-    public static final Integer STATUS_DISABLE = 1;
+    public static final Integer STATUS_DISABLE = 2;
 
     /**
      * 父分类编号 - 根节点

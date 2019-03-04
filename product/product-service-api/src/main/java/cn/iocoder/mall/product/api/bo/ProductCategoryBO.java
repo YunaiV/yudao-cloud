@@ -1,5 +1,7 @@
 package cn.iocoder.mall.product.api.bo;
 
+import java.util.Date;
+
 /**
  * 商品分类 BO
  */
@@ -20,6 +22,10 @@ public class ProductCategoryBO {
      */
     private String name;
     /**
+     * 描述
+     */
+    private String description;
+    /**
      * 分类图片
      */
     private String picUrl;
@@ -27,6 +33,17 @@ public class ProductCategoryBO {
      * 排序值
      */
     private Integer sort;
+    /**
+     * 状态
+     *
+     * 1-开启
+     * 2-关闭
+     */
+    private Integer status;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 
     public Integer getId() {
         return id;
@@ -67,4 +84,32 @@ public class ProductCategoryBO {
     public void setSort(Integer sort) {
         this.sort = sort;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public ProductCategoryBO setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public ProductCategoryBO setStatus(Integer status) {
+        this.status = status;
+        return this;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public ProductCategoryBO setCreateTime(Date createTime) {
+        this.createTime = createTime;
+        return this;
+    }
+
 }

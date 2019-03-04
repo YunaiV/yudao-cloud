@@ -5,6 +5,7 @@ import java.util.Date;
 /**
  * Product 库存
  */
+@Deprecated // TODO 芋艿，咱暂时不加库存表和库存服务
 public class ProductStockDO {
 
     /**

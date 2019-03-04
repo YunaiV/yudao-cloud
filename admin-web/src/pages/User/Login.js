@@ -24,7 +24,7 @@ class LoginPage extends Component {
 
   onGetCaptcha = () =>
     new Promise((resolve, reject) => {
-      this.loginForm.validateFields(['mobile'], {}, (err, values) => {
+      this.loginForm.validateFields(['username'], {}, (err, values) => {
         if (err) {
           reject(err);
         } else {
@@ -82,7 +82,7 @@ class LoginPage extends Component {
               !submitting &&
               this.renderMessage(formatMessage({ id: 'app.login.message-invalid-credentials' }))}
             <UserName
-              name="userName"
+              name="username"
               placeholder={`${formatMessage({ id: 'app.login.userName' })}: admin or user`}
               rules={[
                 {
@@ -93,7 +93,7 @@ class LoginPage extends Component {
             />
             <Password
               name="password"
-              placeholder={`${formatMessage({ id: 'app.login.password' })}: ant.design`}
+              placeholder={`${formatMessage({ id: 'app.login.password' })}: admin`}
               rules={[
                 {
                   required: true,
@@ -114,7 +114,7 @@ class LoginPage extends Component {
                 formatMessage({ id: 'app.login.message-invalid-verification-code' })
               )}
             <Mobile
-              name="mobile"
+              name="username"
               placeholder={formatMessage({ id: 'form.phone-number.placeholder' })}
               rules={[
                 {
@@ -128,7 +128,7 @@ class LoginPage extends Component {
               ]}
             />
             <Captcha
-              name="captcha"
+              name="password"
               placeholder={formatMessage({ id: 'form.verification-code.placeholder' })}
               countDown={120}
               onGetCaptcha={this.onGetCaptcha}

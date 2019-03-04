@@ -1,4 +1,6 @@
 // 代码中会兼容本地 service mock 以及部署站点的静态数据
+// import { stringify } from 'qs';
+
 export default {
   // 支持值为 Object 和 Array
   'GET /api/currentUser': {
@@ -72,28 +74,24 @@ export default {
       address: 'Sidney No. 1 Lake Park',
     },
   ],
-  'POST /api/login/account': (req, res) => {
-    const { password, userName, type } = req.body;
-    if (password === 'ant.design' && userName === 'admin') {
+  'POST /admin-api/admin/passport/login': (req, res) => {
+    const { password, username } = req.body;
+    if (password === 'admin' && username === 'admin') {
       res.send({
-        status: 'ok',
-        type,
-        currentAuthority: 'admin',
-      });
-      return;
-    }
-    if (password === 'ant.design' && userName === 'user') {
-      res.send({
-        status: 'ok',
-        type,
-        currentAuthority: 'user',
+        code: 0,
+        data: {
+          accessToken: '2e3d7635c15e47e997611707a237859f',
+          expiresIn: 2879,
+          refreshToken: 'd091e7c35bbb4313b0f557a6ef23d033',
+        },
+        message: 'string',
       });
       return;
     }
     res.send({
-      status: 'error',
-      type,
-      currentAuthority: 'guest',
+      code: 1000,
+      data: {},
+      message: '账号或密码错误!',
     });
   },
   'POST /api/register': (req, res) => {

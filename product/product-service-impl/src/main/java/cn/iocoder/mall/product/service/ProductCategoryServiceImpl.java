@@ -1,5 +1,6 @@
 package cn.iocoder.mall.product.service;
 
+import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
 import cn.iocoder.common.framework.dataobject.BaseDO;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
@@ -32,15 +33,15 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     }
 
     @Override
-    public List<ProductCategoryBO> getAll() {
+    public CommonResult<List<ProductCategoryBO>> getAll() {
         List<ProductCategoryDO> categoryList = productCategoryMapper.selectList();
-        return ProductCategoryConvert.INSTANCE.convertToBO(categoryList);
+        return CommonResult.success(ProductCategoryConvert.INSTANCE.convertToBO(categoryList));
     }
 
     @Override
     public CommonResult<ProductCategoryBO> addProductCategory(Integer adminId, ProductCategoryAddDTO productCategoryAddDTO) {
         // 校验父分类是否存在
-        if (ProductCategoryConstants.PID_ROOT.equals(productCategoryAddDTO.getPid())
+        if (!ProductCategoryConstants.PID_ROOT.equals(productCategoryAddDTO.getPid())
             && productCategoryMapper.selectById(productCategoryAddDTO.getPid()) == null) {
             return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_CATEGORY_PARENT_NOT_EXISTS.getCode());
         }
@@ -65,7 +66,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
             return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_CATEGORY_PARENT_NOT_SELF.getCode());
         }
         // 校验父分类是否存在
-        if (ProductCategoryConstants.PID_ROOT.equals(productCategoryUpdateDTO.getPid())
+        if (!ProductCategoryConstants.PID_ROOT.equals(productCategoryUpdateDTO.getPid())
                 && productCategoryMapper.selectById(productCategoryUpdateDTO.getPid()) == null) {
             return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_CATEGORY_PARENT_NOT_EXISTS.getCode());
         }
@@ -78,6 +79,10 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 
     @Override
     public CommonResult<Boolean> updateProductCategoryStatus(Integer adminId, Integer productCategoryId, Integer status) {
+        // 校验参数
+        if (!isValidStatus(status)) {
+            return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "变更状态必须是开启（1）或关闭（2）"); // TODO 有点搓
+        }
         // 校验分类是否存在
         ProductCategoryDO productCategory = productCategoryMapper.selectById(productCategoryId);
         if (productCategory == null) {
@@ -107,11 +112,16 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         }
         // TODO 芋艿：考虑下，是否需要判断下该分类下是否有商品
         // 标记删除商品分类
-        ProductCategoryDO updateProductCategory = new ProductCategoryDO();
+        ProductCategoryDO updateProductCategory = new ProductCategoryDO().setId(productCategoryId);
         updateProductCategory.setDeleted(BaseDO.DELETED_YES);
         productCategoryMapper.update(updateProductCategory);
         // TODO 操作日志
         return CommonResult.success(true);
+    }
+
+    private boolean isValidStatus(Integer status) {
+        return ProductCategoryConstants.STATUS_ENABLE.equals(status)
+                || ProductCategoryConstants.STATUS_DISABLE.equals(status);
     }
 
 }

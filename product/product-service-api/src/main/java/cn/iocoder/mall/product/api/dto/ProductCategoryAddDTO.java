@@ -25,7 +25,7 @@ public class ProductCategoryAddDTO {
     /**
      * 分类图片
      */
-    @NotNull(message = "分类图片不能为空")
+//    @NotNull(message = "分类图片不能为空")
     private String picUrl;
     /**
      * 排序值

@@ -55,7 +55,7 @@ public class ProductSpuDO extends BaseDO {
     /**
      * 排序字段
      */
-    private Integer order;
+    private Integer sort;
 
     public Integer getId() {
         return id;
@@ -119,12 +119,15 @@ public class ProductSpuDO extends BaseDO {
         return this;
     }
 
-    public Integer getOrder() {
-        return order;
+    public Integer getSort() {
+        return sort;
     }
 
-    public ProductSpuDO setOrder(Integer order) {
-        this.order = order;
+    public ProductSpuDO setSort(Integer sort) {
+        this.sort = sort;
         return this;
     }
+
+
+
 }

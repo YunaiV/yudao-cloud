@@ -3,7 +3,7 @@ package cn.iocoder.mall.product.application.convert;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.bo.ProductCategoryBO;
 import cn.iocoder.mall.product.application.vo.users.UsersProductCategoryVO;
-import cn.iocoder.mall.product.application.vo.admins.AdminProductCategoryTreeNodeVO;
+import cn.iocoder.mall.product.application.vo.admins.AdminsProductCategoryTreeNodeVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductCategoryVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
@@ -21,7 +21,7 @@ public interface ProductCategoryConvert {
 
     List<UsersProductCategoryVO> convertToVO(List<ProductCategoryBO> categoryList);
 
-    AdminProductCategoryTreeNodeVO convert(ProductCategoryBO category);
+    AdminsProductCategoryTreeNodeVO convert(ProductCategoryBO category);
 
     CommonResult<AdminsProductCategoryVO> convert(CommonResult<ProductCategoryBO> result);
 

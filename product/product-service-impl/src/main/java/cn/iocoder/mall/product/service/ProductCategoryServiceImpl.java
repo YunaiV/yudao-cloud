@@ -28,7 +28,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 
     @Override
     public List<ProductCategoryBO> getListByPid(Integer pid) {
-        List<ProductCategoryDO> categoryList = productCategoryMapper.selectListByPidAndStatusOrderBySort(pid, ProductCategoryDO.STATUS_ENABLE);
+        List<ProductCategoryDO> categoryList = productCategoryMapper.selectListByPidAndStatusOrderBySort(pid, ProductCategoryConstants.STATUS_ENABLE);
         return ProductCategoryConvert.INSTANCE.convertToBO(categoryList);
     }
 
@@ -111,12 +111,27 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
             return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_CATEGORY_DELETE_ONLY_DISABLE.getCode());
         }
         // TODO 芋艿：考虑下，是否需要判断下该分类下是否有商品
+        // TODO 芋艿，需要补充下，还有子分类
         // 标记删除商品分类
         ProductCategoryDO updateProductCategory = new ProductCategoryDO().setId(productCategoryId);
         updateProductCategory.setDeleted(BaseDO.DELETED_YES);
         productCategoryMapper.update(updateProductCategory);
         // TODO 操作日志
         return CommonResult.success(true);
+    }
+
+    public CommonResult<ProductCategoryDO> validProductCategory(Integer productCategoryId) {
+        // 校验分类是否存在
+        ProductCategoryDO productCategory = productCategoryMapper.selectById(productCategoryId);
+        if (productCategory == null) {
+            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_CATEGORY_NOT_EXISTS.getCode());
+        }
+        // 只有禁用的商品分类才可以删除
+        if (ProductCategoryConstants.STATUS_DISABLE.equals(productCategory.getStatus())) {
+            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_CATEGORY_MUST_ENABLE.getCode());
+        }
+        // 返回结果
+        return CommonResult.success(productCategory);
     }
 
     private boolean isValidStatus(Integer status) {

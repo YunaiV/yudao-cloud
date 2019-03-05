@@ -1,11 +1,11 @@
 package cn.iocoder.mall.product.dataobject;
 
-import java.util.Date;
+import cn.iocoder.common.framework.dataobject.BaseDO;
 
 /**
  * Product 规格值
  */
-public class ProductAttrValueDO {
+public class ProductAttrValueDO extends BaseDO {
 
     /**
      * 规格值编号
@@ -20,19 +20,47 @@ public class ProductAttrValueDO {
      */
     private String name;
     /**
-     * 创建时间
-     */
-    private Date createTime;
-    /**
-     * 最后更新时间
-     */
-    private Date updateTime;
-    /**
      * 状态
      *
      * 1-正常
-     * 2-删除
+     * 2-禁用
      */
     private Integer status;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public ProductAttrValueDO setId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
+    public Integer getAttrId() {
+        return attrId;
+    }
+
+    public ProductAttrValueDO setAttrId(Integer attrId) {
+        this.attrId = attrId;
+        return this;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ProductAttrValueDO setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public ProductAttrValueDO setStatus(Integer status) {
+        this.status = status;
+        return this;
+    }
 
 }

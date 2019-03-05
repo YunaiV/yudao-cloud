@@ -1,9 +1,9 @@
 package cn.iocoder.mall.product.api.bo;
 
 /**
- * 商品规格 BO
+ * 商品规格明细 BO
  */
-public class ProductAttrBO {
+public class ProductAttrDetailBO {
 
     /**
      * 规格编号
@@ -26,7 +26,7 @@ public class ProductAttrBO {
         return attrId;
     }
 
-    public ProductAttrBO setAttrId(Integer attrId) {
+    public ProductAttrDetailBO setAttrId(Integer attrId) {
         this.attrId = attrId;
         return this;
     }
@@ -35,7 +35,7 @@ public class ProductAttrBO {
         return attrName;
     }
 
-    public ProductAttrBO setAttrName(String attrName) {
+    public ProductAttrDetailBO setAttrName(String attrName) {
         this.attrName = attrName;
         return this;
     }
@@ -44,7 +44,7 @@ public class ProductAttrBO {
         return attrValueId;
     }
 
-    public ProductAttrBO setAttrValueId(Integer attrValueId) {
+    public ProductAttrDetailBO setAttrValueId(Integer attrValueId) {
         this.attrValueId = attrValueId;
         return this;
     }
@@ -53,7 +53,7 @@ public class ProductAttrBO {
         return attrValueName;
     }
 
-    public ProductAttrBO setAttrValueName(String attrValueName) {
+    public ProductAttrDetailBO setAttrValueName(String attrValueName) {
         this.attrValueName = attrValueName;
         return this;
     }

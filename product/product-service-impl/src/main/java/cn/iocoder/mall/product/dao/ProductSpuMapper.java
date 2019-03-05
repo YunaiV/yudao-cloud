@@ -8,4 +8,8 @@ public interface ProductSpuMapper {
 
     ProductSpuDO selectById(Integer id);
 
+    void insert(ProductSpuDO productSpuDO);
+
+    void update(ProductSpuDO productSpuDO);
+
 }

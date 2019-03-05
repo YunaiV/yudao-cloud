@@ -15,6 +15,8 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +37,16 @@ public class AdminsProductSpuController {
 
     @PostMapping("/spu/add")
     @ApiOperation("创建商品")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "SPU 名字", required = true, example = "厮大牛逼"),
+            @ApiImplicitParam(name = "sellPoint", value = "卖点", required = true, example = "各种 MQ 骚操作"),
+            @ApiImplicitParam(name = "description", value = "描述", required = true, example = "你就说强不强 MQ 骚操作"),
+            @ApiImplicitParam(name = "cid", value = "分类编号", required = true, example = "反正我是信了"),
+            @ApiImplicitParam(name = "picUrls", value = "商品主图地址的数组", required = true, example = "http://www.iocoder.cn"),
+            @ApiImplicitParam(name = "visible", value = "是否上架商品（是否可见）", required = true, example = "true"),
+            @ApiImplicitParam(name = "skuStr", value = "SKU 字符串", required = true, example = "[{\"attrs\": [1,3 ], \"price\": 1, \"quantity\": 100, \"picUrl\": \"http://www.iocoder.cn\"}]"),
+
+    })
     public CommonResult<AdminsProductSpuDetailVO> add(@RequestParam("name") String name,
                                                       @RequestParam("sellPoint") String sellPoint,
                                                       @RequestParam("description") String description,
@@ -54,6 +66,17 @@ public class AdminsProductSpuController {
 
     @PostMapping("/spu/update")
     @ApiOperation("更新商品")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "SPU 编号", required = true, example = "100"),
+            @ApiImplicitParam(name = "name", value = "SPU 名字", required = true, example = "厮大牛逼"),
+            @ApiImplicitParam(name = "sellPoint", value = "卖点", required = true, example = "各种 MQ 骚操作"),
+            @ApiImplicitParam(name = "description", value = "描述", required = true, example = "你就说强不强 MQ 骚操作"),
+            @ApiImplicitParam(name = "cid", value = "分类编号", required = true, example = "反正我是信了"),
+            @ApiImplicitParam(name = "picUrls", value = "商品主图地址的数组", required = true, example = "http://www.iocoder.cn"),
+            @ApiImplicitParam(name = "visible", value = "是否上架商品（是否可见）", required = true, example = "true"),
+            @ApiImplicitParam(name = "skuStr", value = "SKU 字符串", required = true, example = "[{\"attrs\": [1,3 ], \"price\": 1, \"quantity\": 100, \"picUrl\": \"http://www.iocoder.cn\"}]"),
+
+    })
     public CommonResult<Boolean> update(@RequestParam("id") Integer id,
                                         @RequestParam("name") String name,
                                         @RequestParam("sellPoint") String sellPoint,

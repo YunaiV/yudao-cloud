@@ -8,7 +8,7 @@ import cn.iocoder.mall.product.api.constant.ProductCategoryConstants;
 import cn.iocoder.mall.product.api.dto.ProductCategoryAddDTO;
 import cn.iocoder.mall.product.api.dto.ProductCategoryUpdateDTO;
 import cn.iocoder.mall.product.application.convert.ProductCategoryConvert;
-import cn.iocoder.mall.product.application.vo.admins.AdminProductCategoryTreeNodeVO;
+import cn.iocoder.mall.product.application.vo.admins.AdminsProductCategoryTreeNodeVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductCategoryVO;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
@@ -33,16 +33,16 @@ public class AdminsProductCategoryController {
 
     @GetMapping("/tree")
     @ApiOperation("获得分类树结构")
-    public CommonResult<List<AdminProductCategoryTreeNodeVO>> tree() {
+    public CommonResult<List<AdminsProductCategoryTreeNodeVO>> tree() {
         List<ProductCategoryBO> productCategories = productCategoryService.getAll().getData();
         // 创建 ProductCategoryTreeNodeVO Map
-        Map<Integer, AdminProductCategoryTreeNodeVO> treeNodeMap = productCategories.stream().collect(Collectors.toMap(ProductCategoryBO::getId, ProductCategoryConvert.INSTANCE::convert));
+        Map<Integer, AdminsProductCategoryTreeNodeVO> treeNodeMap = productCategories.stream().collect(Collectors.toMap(ProductCategoryBO::getId, ProductCategoryConvert.INSTANCE::convert));
         // 处理父子关系
         treeNodeMap.values().stream()
                 .filter(node -> !node.getPid().equals(ProductCategoryConstants.PID_ROOT))
                 .forEach((childNode) -> {
                     // 获得父节点
-                    AdminProductCategoryTreeNodeVO parentNode = treeNodeMap.get(childNode.getPid());
+                    AdminsProductCategoryTreeNodeVO parentNode = treeNodeMap.get(childNode.getPid());
                     if (parentNode.getChildren() == null) { // 初始化 children 数组
                         parentNode.setChildren(new ArrayList<>());
                     }
@@ -50,9 +50,9 @@ public class AdminsProductCategoryController {
                     parentNode.getChildren().add(childNode);
                 });
         // 获得到所有的根节点
-        List<AdminProductCategoryTreeNodeVO> rootNodes = treeNodeMap.values().stream()
+        List<AdminsProductCategoryTreeNodeVO> rootNodes = treeNodeMap.values().stream()
                 .filter(node -> node.getPid().equals(ProductCategoryConstants.PID_ROOT))
-                .sorted(Comparator.comparing(AdminProductCategoryTreeNodeVO::getSort))
+                .sorted(Comparator.comparing(AdminsProductCategoryTreeNodeVO::getSort))
                 .collect(Collectors.toList());
         return CommonResult.success(rootNodes);
     }

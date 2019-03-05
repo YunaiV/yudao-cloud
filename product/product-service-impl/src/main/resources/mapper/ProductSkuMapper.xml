@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.iocoder.mall.product.dao.ProductSpuMapper">
+<mapper namespace="cn.iocoder.mall.product.dao.ProductSkuMapper">
 
-    <select id="selectById" parameterType="Integer" resultType="ProductSpuDO">
+    <select id="selectById" parameterType="Integer" resultType="ProductSkuDO">
         SELECT
           id
-        FROM product_spu
+        FROM product_sku
         WHERE id = #{id}
     </select>
+
+    <insert id="insertList" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO product_sku (
+            spu_id, status, pic_url, attrs, price,
+            quantity, deleted, create_time
+        ) VALUES
+        <foreach collection="productSkuDOs" item="productSkuDO" separator=",">
+            (#{productSkuDO.spuId}, #{productSkuDO.status}, #{productSkuDO.picUrl}, #{productSkuDO.attrs}, #{productSkuDO.price},
+             #{productSkuDO.quantity}, #{productSkuDO.deleted}, #{productSkuDO.createTime}
+            )
+        </foreach>
+    </insert>
 
 </mapper>

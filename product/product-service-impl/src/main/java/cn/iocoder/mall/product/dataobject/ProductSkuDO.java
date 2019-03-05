@@ -14,7 +14,7 @@ public class ProductSkuDO extends BaseDO {
     /**
      * 商品编号
      */
-    private Integer itemId;
+    private Integer spuId;
 
     // TODO 店铺编号
 
@@ -28,7 +28,7 @@ public class ProductSkuDO extends BaseDO {
     /**
      * 图片地址
      */
-    private String picURL;
+    private String picUrl;
     /**
      * 规格值({@link ProductAttrDO})数组
      *
@@ -51,5 +51,69 @@ public class ProductSkuDO extends BaseDO {
 //     * 销量
 //     */
 //    private Integer soldNum;
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public ProductSkuDO setId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
+    public Integer getSpuId() {
+        return spuId;
+    }
+
+    public ProductSkuDO setSpuId(Integer spuId) {
+        this.spuId = spuId;
+        return this;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public ProductSkuDO setStatus(Integer status) {
+        this.status = status;
+        return this;
+    }
+
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public ProductSkuDO setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
+        return this;
+    }
+
+    public String getAttrs() {
+        return attrs;
+    }
+
+    public ProductSkuDO setAttrs(String attrs) {
+        this.attrs = attrs;
+        return this;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public ProductSkuDO setPrice(Integer price) {
+        this.price = price;
+        return this;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public ProductSkuDO setQuantity(Integer quantity) {
+        this.quantity = quantity;
+        return this;
+    }
 
 }

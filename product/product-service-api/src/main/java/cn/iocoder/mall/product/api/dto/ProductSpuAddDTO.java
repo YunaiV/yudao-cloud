@@ -28,7 +28,7 @@ public class ProductSpuAddDTO {
     /**
      * 分类编号
      */
-    @NotEmpty(message = "分类不能为空")
+    @NotNull(message = "分类不能为空")
     private Integer cid;
     /**
      * 商品主图地址

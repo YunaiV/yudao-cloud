@@ -14,17 +14,7 @@ public class ProductSkuDetailBO {
     /**
      * 商品编号
      */
-    private Integer itemId;
-
-    // TODO 店铺编号
-
-    /**
-     * 状态
-     *
-     * 1-正常
-     * 2-禁用
-     */
-    private Integer status;
+    private Integer spuId;
     /**
      * 图片地址
      */
@@ -32,7 +22,7 @@ public class ProductSkuDetailBO {
     /**
      * 规格值数组
      */
-    private List<ProductAttrBO> attrs;
+    private List<ProductAttrDetailBO> attrs;
     /**
      * 价格，单位：分
      */
@@ -41,5 +31,60 @@ public class ProductSkuDetailBO {
      * 库存数量
      */
     private Integer quantity;
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public ProductSkuDetailBO setId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
+    public Integer getSpuId() {
+        return spuId;
+    }
+
+    public ProductSkuDetailBO setSpuId(Integer spuId) {
+        this.spuId = spuId;
+        return this;
+    }
+
+    public String getPicURL() {
+        return picURL;
+    }
+
+    public ProductSkuDetailBO setPicURL(String picURL) {
+        this.picURL = picURL;
+        return this;
+    }
+
+    public List<ProductAttrDetailBO> getAttrs() {
+        return attrs;
+    }
+
+    public ProductSkuDetailBO setAttrs(List<ProductAttrDetailBO> attrs) {
+        this.attrs = attrs;
+        return this;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public ProductSkuDetailBO setPrice(Integer price) {
+        this.price = price;
+        return this;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public ProductSkuDetailBO setQuantity(Integer quantity) {
+        this.quantity = quantity;
+        return this;
+    }
 
 }

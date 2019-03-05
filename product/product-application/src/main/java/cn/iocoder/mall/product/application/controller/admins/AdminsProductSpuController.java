@@ -4,8 +4,10 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import cn.iocoder.mall.product.api.ProductSpuService;
 import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
+import cn.iocoder.mall.product.api.bo.ProductSpuPageBO;
 import cn.iocoder.mall.product.api.dto.ProductSkuAddOrUpdateDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuAddDTO;
+import cn.iocoder.mall.product.api.dto.ProductSpuPageDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuUpdateDTO;
 import cn.iocoder.mall.product.application.convert.ProductSpuConvert;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductSpuDetailVO;
@@ -103,8 +105,18 @@ public class AdminsProductSpuController {
 
     @GetMapping("/spu/page")
     @ApiOperation("商品 SPU 分页列表")
-    public CommonResult<AdminsProductSpuPageVO> spuPage() {
-        return null;
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "商品名称，模糊匹配", example = "小王"),
+            @ApiImplicitParam(name = "pageNo", value = "页码，从 0 开始", example = "0"),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, example = "10"),
+    })
+    public CommonResult<AdminsProductSpuPageVO> spuPage(@RequestParam(value = "name", required = false) String name,
+                                                        @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+                                                        @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        // 创建 ProductSpuPageDTO 对象
+        ProductSpuPageDTO productSpuPageDTO = new ProductSpuPageDTO().setName(name).setPageNo(pageNo).setPageSize(pageSize);
+        CommonResult<ProductSpuPageBO> result = productSpuService.getProductSpuPage(productSpuPageDTO);
+        return ProductSpuConvert.INSTANCE.convert2(result);
     }
 
     @GetMapping("/spu/info")

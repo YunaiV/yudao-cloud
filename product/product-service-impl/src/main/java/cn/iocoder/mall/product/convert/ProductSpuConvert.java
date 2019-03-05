@@ -13,6 +13,7 @@ import cn.iocoder.mall.product.dataobject.ProductSpuDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
@@ -25,8 +26,13 @@ public interface ProductSpuConvert {
 
     ProductSpuConvert INSTANCE = Mappers.getMapper(ProductSpuConvert.class);
 
-    @Mappings({})
+    @Mappings({
+            @Mapping(source = "picUrls", target = "picUrls", qualifiedByName = "translatePicUrlsFromString")
+    })
     ProductSpuBO convert(ProductSpuDO spu);
+
+    @Mappings({})
+    List<ProductSpuBO> convert(List<ProductSpuDO> spus);
 
     @Mappings({
             @Mapping(source = "picUrls", target = "picUrls", ignore = true)
@@ -77,6 +83,11 @@ public interface ProductSpuConvert {
         });
         // 返回
         return spuDetail;
+    }
+
+    @Named("translatePicUrlsFromString")
+    default List<String> translatePicUrlsFromString(String picUrls) {
+        return StringUtil.split(picUrls, ",");
     }
 
 }

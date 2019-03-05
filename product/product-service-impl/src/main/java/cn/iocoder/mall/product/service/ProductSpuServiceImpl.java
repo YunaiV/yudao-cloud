@@ -9,10 +9,12 @@ import cn.iocoder.mall.product.api.ProductSpuService;
 import cn.iocoder.mall.product.api.bo.ProductAttrDetailBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
+import cn.iocoder.mall.product.api.bo.ProductSpuPageBO;
 import cn.iocoder.mall.product.api.constant.ProductErrorCodeEnum;
 import cn.iocoder.mall.product.api.constant.ProductSpuConstants;
 import cn.iocoder.mall.product.api.dto.ProductSkuAddOrUpdateDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuAddDTO;
+import cn.iocoder.mall.product.api.dto.ProductSpuPageDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuUpdateDTO;
 import cn.iocoder.mall.product.convert.ProductSpuConvert;
 import cn.iocoder.mall.product.dao.ProductSkuMapper;
@@ -167,6 +169,19 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         productSpuMapper.update(updateSpu);
         // 返回成功
         return CommonResult.success(true);
+    }
+
+    @Override
+    public CommonResult<ProductSpuPageBO> getProductSpuPage(ProductSpuPageDTO productSpuPageDTO) {
+        ProductSpuPageBO productSpuPage = new ProductSpuPageBO();
+        // 查询分页数据
+        int offset = productSpuPageDTO.getPageNo() * productSpuPageDTO.getPageSize();
+        productSpuPage.setSpus(ProductSpuConvert.INSTANCE.convert(productSpuMapper.selectListByNameLikeOrderBySortAsc(productSpuPageDTO.getName(),
+            offset, productSpuPageDTO.getPageSize())));
+        // 查询分页总数
+        productSpuPage.setCount(productSpuMapper.selectCountByNameLike(productSpuPageDTO.getName()));
+        // 返回结果
+        return CommonResult.success(productSpuPage);
     }
 
     private CommonResult<Boolean> validProductSku(List<ProductSkuAddOrUpdateDTO> productSkuAddDTOs, List<ProductAttrDetailBO> productAttrDetailBOs) {

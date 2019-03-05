@@ -39,6 +39,20 @@ function checkStatus(response) {
   throw error;
 }
 
+function checkCode(result) {
+  if (result.code === undefined || result.code === 0) {
+    return result;
+  }
+
+  notification.warning({
+    message: `请求错误 ${result.code}`,
+    description: result.message,
+  });
+  const error = new Error(result.message);
+  error.result = result;
+  throw error;
+}
+
 const cachedSave = (response, hashcode) => {
   /**
    * Clone a response data and store it in sessionStorage
@@ -109,7 +123,11 @@ export default function request(url, option) {
   // 将登陆的 accessToken 放到 header
   const loginToken = getLoginToken();
   if (loginToken && loginToken.accessToken) {
-    newOptions.headers.Authorization = loginToken.accessToken;
+    const headers = {
+      ...newOptions.headers,
+      Authorization: `Bearer ${loginToken.accessToken}`,
+    };
+    newOptions.headers = headers;
   }
 
   const expirys = options.expirys && 60;
@@ -138,6 +156,7 @@ export default function request(url, option) {
       }
       return response.json();
     })
+    .then(checkCode)
     .catch(e => {
       const status = e.name;
       if (status === 401) {

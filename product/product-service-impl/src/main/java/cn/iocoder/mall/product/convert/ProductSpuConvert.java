@@ -5,8 +5,7 @@ import cn.iocoder.mall.product.api.bo.ProductAttrDetailBO;
 import cn.iocoder.mall.product.api.bo.ProductSkuDetailBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
-import cn.iocoder.mall.product.api.dto.ProductSkuAddDTO;
-import cn.iocoder.mall.product.api.dto.ProductSkuUpdateDTO;
+import cn.iocoder.mall.product.api.dto.ProductSkuAddOrUpdateDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuAddDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuUpdateDTO;
 import cn.iocoder.mall.product.dataobject.ProductSkuDO;
@@ -37,18 +36,13 @@ public interface ProductSpuConvert {
     @Mappings({
             @Mapping(source = "attrs", target = "attrs", ignore = true)
     })
-    ProductSkuDO convert(ProductSkuAddDTO productSkuAddDTO);
+    ProductSkuDO convert(ProductSkuAddOrUpdateDTO productSkuAddDTO);
 
 
     @Mappings({
             @Mapping(source = "picUrls", target = "picUrls", ignore = true)
     })
     ProductSpuDO convert(ProductSpuUpdateDTO productSpuUpdateDTO);
-
-    @Mappings({
-            @Mapping(source = "attrs", target = "attrs", ignore = true)
-    })
-    ProductSkuDO convert(ProductSkuUpdateDTO productSkuUpdateDTO);
 
     @Mappings({})
     ProductSpuDetailBO convert(ProductSpuBO spu);

@@ -4,8 +4,7 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import cn.iocoder.mall.product.api.ProductSpuService;
 import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
-import cn.iocoder.mall.product.api.dto.ProductSkuAddDTO;
-import cn.iocoder.mall.product.api.dto.ProductSkuUpdateDTO;
+import cn.iocoder.mall.product.api.dto.ProductSkuAddOrUpdateDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuAddDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuUpdateDTO;
 import cn.iocoder.mall.product.application.convert.ProductSpuConvert;
@@ -57,7 +56,7 @@ public class AdminsProductSpuController {
         // 创建 ProductSpuAddDTO 对象
         ProductSpuAddDTO productSpuAddDTO = new ProductSpuAddDTO().setName(name).setSellPoint(sellPoint)
                 .setDescription(description).setCid(cid).setPicUrls(picUrls).setVisible(visible)
-                .setSkus(parseSkus(skuStr, ProductSkuAddDTO.class));
+                .setSkus(parseSkus(skuStr, ProductSkuAddOrUpdateDTO.class));
         // 保存商品
         CommonResult<ProductSpuDetailBO> result = productSpuService.addProductSpu(AdminSecurityContextHolder.getContext().getAdminId(), productSpuAddDTO);
         // 返回结果
@@ -88,7 +87,7 @@ public class AdminsProductSpuController {
         // 创建 ProductSpuUpdateDTO 对象
         ProductSpuUpdateDTO productSpuUpdateDTO = new ProductSpuUpdateDTO().setId(id).setName(name).setSellPoint(sellPoint)
                 .setDescription(description).setCid(cid).setPicUrls(picUrls).setVisible(visible)
-                .setSkus(parseSkus(skuStr, ProductSkuUpdateDTO.class));
+                .setSkus(parseSkus(skuStr, ProductSkuAddOrUpdateDTO.class));
         // 更新商品
         return productSpuService.updateProductSpu(AdminSecurityContextHolder.getContext().getAdminId(), productSpuUpdateDTO);
     }
@@ -97,8 +96,10 @@ public class AdminsProductSpuController {
     @ApiOperation("更新商品的排序")
     public CommonResult<Boolean> updateSort(@RequestParam("id") Integer id,
                                             @RequestParam("sort") Integer sort) {
-        return null;
+        return productSpuService.updateProductSpuSort(AdminSecurityContextHolder.getContext().getAdminId(), id, sort);
     }
+
+    // TODO 芋艿，删除功能暂时不做。主要原因是，关联的数据太多。删除带来的问题会比较大
 
     @GetMapping("/spu/page")
     @ApiOperation("商品 SPU 分页列表")

@@ -58,7 +58,7 @@ public class ProductSpuUpdateDTO {
      * SKU 数组
      */
     @NotNull(message = "SKU 不能为空")
-    private List<ProductSkuUpdateDTO> skus;
+    private List<ProductSkuAddOrUpdateDTO> skus;
 
     public String getName() {
         return name;
@@ -114,11 +114,11 @@ public class ProductSpuUpdateDTO {
         return this;
     }
 
-    public List<ProductSkuUpdateDTO> getSkus() {
+    public List<ProductSkuAddOrUpdateDTO> getSkus() {
         return skus;
     }
 
-    public ProductSpuUpdateDTO setSkus(List<ProductSkuUpdateDTO> skus) {
+    public ProductSpuUpdateDTO setSkus(List<ProductSkuAddOrUpdateDTO> skus) {
         this.skus = skus;
         return this;
     }

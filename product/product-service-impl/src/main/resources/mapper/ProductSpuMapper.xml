@@ -19,8 +19,35 @@
         )
     </insert>
 
-    <update id="update">
-
+    <update id="update" parameterType="ProductSpuDO">
+        UPDATE product_spu
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="sellPoint != null">
+                sell_point = #{sellPoint},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="cid != null">
+                cid = #{cid},
+            </if>
+            <if test="picUrls != null">
+                pic_urls = #{picUrls},
+            </if>
+            <if test="visible != null">
+                visible = #{visible},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted}
+            </if>
+        </set>
+        WHERE id = #{id}
     </update>
 
 </mapper>

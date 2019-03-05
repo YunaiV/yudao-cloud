@@ -14,4 +14,6 @@ public interface ProductSpuService {
 
     CommonResult<Boolean> updateProductSpu(Integer adminId, ProductSpuUpdateDTO productSpuUpdateDTO);
 
+
+
 }

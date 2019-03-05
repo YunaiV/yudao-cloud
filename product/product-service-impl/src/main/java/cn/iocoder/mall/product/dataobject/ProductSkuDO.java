@@ -43,7 +43,7 @@ public class ProductSkuDO extends BaseDO {
      * 库存数量
      */
     private Integer quantity;
-    //    /**
+//    /**
 //     * 商品在付款减库存的状态下，该Sku上未付款的订单数量
 //     */
 //    private Integer withHoldQuantity;

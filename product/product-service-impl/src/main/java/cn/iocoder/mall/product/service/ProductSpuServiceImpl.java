@@ -1,6 +1,7 @@
 package cn.iocoder.mall.product.service;
 
 import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.StringUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
@@ -11,6 +12,7 @@ import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
 import cn.iocoder.mall.product.api.constant.ProductErrorCodeEnum;
 import cn.iocoder.mall.product.api.constant.ProductSpuConstants;
 import cn.iocoder.mall.product.api.dto.ProductSkuAddDTO;
+import cn.iocoder.mall.product.api.dto.ProductSkuUpdateDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuAddDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuUpdateDTO;
 import cn.iocoder.mall.product.convert.ProductSpuConvert;
@@ -90,7 +92,12 @@ public class ProductSpuServiceImpl implements ProductSpuService {
 
     @SuppressWarnings("Duplicates")
     @Override
+    @Transactional
     public CommonResult<Boolean> updateProductSpu(Integer adminId, ProductSpuUpdateDTO productSpuUpdateDTO) {
+        // 校验 Spu 是否存在
+        if (productSpuMapper.selectById(productSpuUpdateDTO.getId()) == null) {
+            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_SPU_NOT_EXISTS.getCode());
+        }
         // 校验商品分类分类存在
         CommonResult<ProductCategoryDO> validCategoryResult = productCategoryService.validProductCategory(productSpuUpdateDTO.getCid());
         if (validCategoryResult.isError()) {
@@ -107,6 +114,44 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         ProductSpuDO updateSpu = ProductSpuConvert.INSTANCE.convert(productSpuUpdateDTO)
                 .setPicUrls(StringUtil.join(productSpuUpdateDTO.getPicUrls(), ","));
         productSpuMapper.update(updateSpu);
+        // 修改 Sku
+        List<ProductSkuDO> existsSkus = productSkuMapper.selectListBySpuIdAndStatus(productSpuUpdateDTO.getId(), ProductSpuConstants.SKU_STATUS_ENABLE);
+        List<ProductSkuDO> insertSkus = new ArrayList<>(0); // 1、找不到，进行插入
+        List<Integer> deleteSkus = new ArrayList<>(0); // 2、多余的，删除
+        List<ProductSkuDO> updateSkus = new ArrayList<>(0); // 3、找的到，进行更新。
+        for (ProductSkuUpdateDTO skuUpdateDTO : productSpuUpdateDTO.getSkus()) {
+            ProductSkuDO existsSku = findProductSku(skuUpdateDTO.getAttrs(), existsSkus);
+            // 3、找的到，进行更新。
+            if (existsSku != null) {
+                // 移除
+                existsSkus.remove(existsSku);
+                // 创建 ProductSkuDO
+                updateSkus.add(ProductSpuConvert.INSTANCE.convert(skuUpdateDTO).setId(existsSku.getId()));
+                continue;
+            }
+            // 1、找不到，进行插入
+            ProductSkuDO insertSku = ProductSpuConvert.INSTANCE.convert(skuUpdateDTO)
+                    .setSpuId(productSpuUpdateDTO.getId()).setStatus(ProductSpuConstants.SKU_STATUS_ENABLE).setAttrs(StringUtil.join(skuUpdateDTO.getAttrs(), ","));
+            insertSku.setCreateTime(new Date()).setDeleted(BaseDO.DELETED_NO);
+            insertSkus.add(insertSku);
+        }
+        // 2、多余的，删除
+        if (!existsSkus.isEmpty()) {
+            deleteSkus.addAll(existsSkus.stream().map(ProductSkuDO::getId).collect(Collectors.toList()));
+        }
+        // 执行修改 Sku
+        if (!insertSkus.isEmpty()) {
+            productSkuMapper.insertList(insertSkus);
+        }
+        if (!updateSkus.isEmpty()) {
+            updateSkus.forEach(productSkuDO -> productSkuMapper.update(productSkuDO));
+        }
+        if (!deleteSkus.isEmpty()) {
+            productSkuMapper.updateToDeleted(deleteSkus);
+        }
+//        if (true) {
+//            throw new RuntimeException("test");
+//        }
         // 校验 Sku 规格
         return CommonResult.success(true);
     }
@@ -138,6 +183,21 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         }
         // 校验通过
         return CommonResult.success(true);
+    }
+
+    private ProductSkuDO findProductSku(Collection<Integer> attrs, List<ProductSkuDO> skus) {
+        if (CollectionUtil.isEmpty(skus)) {
+            return null;
+        }
+        // 创建成 Set ，方便后面比较
+        attrs = new HashSet<>(attrs);
+        for (ProductSkuDO sku : skus) {
+            Set<Integer> skuAttrs = StringUtil.split(sku.getAttrs(), ",").stream().map(Integer::parseInt).collect(Collectors.toSet());
+            if (attrs.equals(skuAttrs)) {
+                return sku;
+            }
+        }
+        return null;
     }
 
 }

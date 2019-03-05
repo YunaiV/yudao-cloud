@@ -41,6 +41,11 @@ export default [
             name: 'admin-list',
             component: './Admin/AdminList',
           },
+          {
+            path: '/admin/resource-list',
+            name: 'resource-list',
+            component: './Admin/ResourceList',
+          },
         ],
       },
       {

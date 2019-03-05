@@ -17,8 +17,8 @@ export function setLoginToken(accessToken, refreshToken) {
 
 export function getLoginToken() {
   const res = {};
-  cacheKeys[cacheKeys.accessTokenKey] = getLocalStorage(cacheKeys.accessTokenKey);
-  cacheKeys[cacheKeys.refreshTokenKey] = getLocalStorage(cacheKeys.refreshTokenKey);
+  res[cacheKeys.accessTokenKey] = getLocalStorage(cacheKeys.accessTokenKey);
+  res[cacheKeys.refreshTokenKey] = getLocalStorage(cacheKeys.refreshTokenKey);
   return res;
 }
 

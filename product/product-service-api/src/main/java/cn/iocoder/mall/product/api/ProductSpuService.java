@@ -1,7 +1,6 @@
 package cn.iocoder.mall.product.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.product.api.bo.ProductSpuBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuPageBO;
 import cn.iocoder.mall.product.api.dto.ProductSpuAddDTO;
@@ -10,8 +9,7 @@ import cn.iocoder.mall.product.api.dto.ProductSpuUpdateDTO;
 
 public interface ProductSpuService {
 
-    // TODO 芋艿，需要去改改
-    ProductSpuBO getProductSpu(Integer id);
+    CommonResult<ProductSpuDetailBO> getProductSpu(Integer id);
 
     CommonResult<ProductSpuDetailBO> addProductSpu(Integer adminId, ProductSpuAddDTO productSpuAddDTO);
 

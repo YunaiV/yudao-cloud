@@ -121,8 +121,9 @@ public class AdminsProductSpuController {
 
     @GetMapping("/spu/info")
     @ApiOperation("商品 SPU 明细")
-    public CommonResult<AdminsProductSpuDetailVO> info() {
-        return null;
+    @ApiImplicitParam(name = "id", value = "SPU 编号", required = true, example = "100")
+    public CommonResult<AdminsProductSpuDetailVO> info(@RequestParam("id") Integer id) {
+        return ProductSpuConvert.INSTANCE.convert(productSpuService.getProductSpu(id));
     }
 
     private <T> List<T> parseSkus(String skuStr, Class<T> clazz) {

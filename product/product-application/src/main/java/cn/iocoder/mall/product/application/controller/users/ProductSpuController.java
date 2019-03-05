@@ -19,7 +19,8 @@ public class ProductSpuController {
     // TODO 详情
     @GetMapping("/info")
     public ProductSpuBO info(@RequestParam("id") Integer id) {
-        return productSpuService.getProductSpu(id);
+//        return productSpuService.getProductSpu(id);
+        return null;
     }
 
     // TODO 分页

@@ -7,7 +7,6 @@ import cn.iocoder.common.framework.util.StringUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.ProductSpuService;
 import cn.iocoder.mall.product.api.bo.ProductAttrDetailBO;
-import cn.iocoder.mall.product.api.bo.ProductSpuBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuPageBO;
 import cn.iocoder.mall.product.api.constant.ProductErrorCodeEnum;
@@ -43,11 +42,31 @@ public class ProductSpuServiceImpl implements ProductSpuService {
     @Autowired
     private ProductAttrServiceImpl productAttrService;
 
+//    @Override
+//    public ProductSpuBO getProductSpu(Integer id) {
+//        ProductSpuDO productSpuDO = productSpuMapper.selectById(id);
+//        // 转换成 BO
+//        return ProductSpuConvert.INSTANCE.convert(productSpuDO);
+//    }
+
     @Override
-    public ProductSpuBO getProductSpu(Integer id) {
-        ProductSpuDO productSpuDO = productSpuMapper.selectById(id);
-        // 转换成 BO
-        return ProductSpuConvert.INSTANCE.convert(productSpuDO);
+    public CommonResult<ProductSpuDetailBO> getProductSpu(Integer id) {
+        // 校验商品 spu 存在
+        ProductSpuDO spu = productSpuMapper.selectById(id);
+        if (spu == null) {
+            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_SPU_NOT_EXISTS.getCode());
+        }
+        // 获得商品 sku 数组
+        List<ProductSkuDO> skus = productSkuMapper.selectListBySpuIdAndStatus(id, ProductSpuConstants.SKU_STATUS_ENABLE);
+        // 获得规格
+        Set<Integer> productAttrValueIds = new HashSet<>();
+        skus.forEach(sku -> productAttrValueIds.addAll(StringUtil.splitToInt(sku.getAttrs(), ",")));
+        CommonResult<List<ProductAttrDetailBO>> validAttrResult = productAttrService.validProductAttrAndValue(productAttrValueIds);
+        if (validAttrResult.isError()) {
+            return CommonResult.error(validAttrResult);
+        }
+        // 返回成功
+        return CommonResult.success(ProductSpuConvert.INSTANCE.convert2(spu, skus, validAttrResult.getData()));
     }
 
     @SuppressWarnings("Duplicates")

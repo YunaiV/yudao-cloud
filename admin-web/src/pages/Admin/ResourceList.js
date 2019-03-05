@@ -97,6 +97,7 @@ class ResourceList extends PureComponent {
     modalVisible: false,
     modalType: 'add', //add update
     initValues: {},
+    defaultExpandAllRows: false,
   };
 
   componentDidMount() {
@@ -104,6 +105,12 @@ class ResourceList extends PureComponent {
     dispatch({
       type: 'resourceList/tree',
       payload: {},
+    });
+  }
+
+  changeExpandAll() {
+    this.setState({
+      defaultExpandAllRows: !this.state.defaultExpandAllRows,
     });
   }
 
@@ -168,7 +175,7 @@ class ResourceList extends PureComponent {
     const {
       resourceList: { list },
     } = this.props;
-    const { modalVisible, modalType, initValues } = this.state;
+    const { modalVisible, modalType, initValues, defaultExpandAllRows } = this.state;
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
@@ -243,9 +250,17 @@ class ResourceList extends PureComponent {
               >
                 新建
               </Button>
+              <Button type="normal" onClick={() => this.changeExpandAll()}>
+                展开所有行
+              </Button>
             </div>
           </div>
-          <Table columns={columns} dataSource={list} rowKey="id" />
+          <Table
+            defaultExpandAllRows={defaultExpandAllRows}
+            columns={columns}
+            dataSource={list}
+            rowKey="id"
+          />
         </Card>
         <CreateForm {...parentMethods} modalVisible={modalVisible} />
       </PageHeaderWrapper>

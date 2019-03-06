@@ -3,6 +3,7 @@ export default {
   'menu.admin': 'Admin管理',
   'menu.admin.admin-list': '管理员列表',
   'menu.admin.resource-list': '资源列表',
+  'menu.admin.role-list': '角色列表',
   'menu.home': '首页',
   'menu.login': '登录',
   'menu.register': '注册',

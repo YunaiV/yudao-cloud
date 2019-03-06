@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { addResource, updateResource, deleteResource, resourceTree } from '@/services/resource';
+import { addResource, updateResource, deleteResource, resourceTree } from '../../services/admin';
 
 export default {
   namespace: 'resourceList',

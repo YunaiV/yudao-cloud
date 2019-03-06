@@ -46,6 +46,11 @@ export default [
             name: 'resource-list',
             component: './Admin/ResourceList',
           },
+          {
+            path: '/admin/role-list',
+            name: 'role-list',
+            component: './Admin/RoleList',
+          },
         ],
       },
       {

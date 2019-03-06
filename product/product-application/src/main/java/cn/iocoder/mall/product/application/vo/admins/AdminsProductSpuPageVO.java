@@ -1,19 +1,16 @@
 package cn.iocoder.mall.product.application.vo.admins;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
 
 @ApiModel("商品 SPU 分页 VO")
 public class AdminsProductSpuPageVO {
 
-    /**
-     * spu 数组
-     */
+    @ApiModelProperty(value = "spu 数组", required = true)
     private List<AdminsProductSpuVO> spus;
-    /**
-     * 总数
-     */
+    @ApiModelProperty(value = "总数", required = true)
     private Integer count;
 
     public List<AdminsProductSpuVO> getSpus() {

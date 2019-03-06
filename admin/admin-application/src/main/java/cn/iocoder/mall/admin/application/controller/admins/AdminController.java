@@ -113,7 +113,7 @@ public class AdminController {
             @ApiImplicitParam(name = "id", value = "管理员编号", required = true, example = "1"),
             @ApiImplicitParam(name = "username", value = "账号", required = true, example = "15601691300"),
             @ApiImplicitParam(name = "nickname", value = "昵称", required = true, example = "小王"),
-            @ApiImplicitParam(name = "password", value = "密码", required = true, example = "buzhidao"),
+            @ApiImplicitParam(name = "password", value = "密码", example = "buzhidao"),
     })
     public CommonResult<Boolean> update(@RequestParam("id") Integer id,
                                         @RequestParam("username") String username,

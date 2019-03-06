@@ -3,51 +3,65 @@ package cn.iocoder.mall.product.application.vo.admins;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel(value = "商品规格 VO")
+import java.util.Date;
+import java.util.List;
+
+@ApiModel(value = "商品规格明细 VO", description = "带有规格值数组")
 public class AdminsProductAttrDetailVO {
 
     @ApiModelProperty(value = "规格编号", required = true, example = "1")
-    private Integer attrId;
+    private Integer id;
     @ApiModelProperty(value = "规格名", required = true, example = "颜色")
-    private String attrName;
-    @ApiModelProperty(value = "规格值", required = true, example = "10")
-    private Integer attrValueId;
-    @ApiModelProperty(value = "规格值名", required = true, example = "红色")
-    private String attrValueName;
+    private String name;
+    @ApiModelProperty(value = "状态", required = true, example = "1")
+    private Integer status;
+    @ApiModelProperty(value = "创建时间", required = true, example = "时间戳")
+    private Date createTime;
+    @ApiModelProperty(value = "规格值数组", required = true)
+    private List<AdminsProductAttrValueDetailVO> values;
 
-    public Integer getAttrId() {
-        return attrId;
+    public Integer getId() {
+        return id;
     }
 
-    public AdminsProductAttrDetailVO setAttrId(Integer attrId) {
-        this.attrId = attrId;
+    public AdminsProductAttrDetailVO setId(Integer id) {
+        this.id = id;
         return this;
     }
 
-    public String getAttrName() {
-        return attrName;
+    public String getName() {
+        return name;
     }
 
-    public AdminsProductAttrDetailVO setAttrName(String attrName) {
-        this.attrName = attrName;
+    public AdminsProductAttrDetailVO setName(String name) {
+        this.name = name;
         return this;
     }
 
-    public Integer getAttrValueId() {
-        return attrValueId;
+    public Integer getStatus() {
+        return status;
     }
 
-    public AdminsProductAttrDetailVO setAttrValueId(Integer attrValueId) {
-        this.attrValueId = attrValueId;
+    public AdminsProductAttrDetailVO setStatus(Integer status) {
+        this.status = status;
         return this;
     }
 
-    public String getAttrValueName() {
-        return attrValueName;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public AdminsProductAttrDetailVO setAttrValueName(String attrValueName) {
-        this.attrValueName = attrValueName;
+    public AdminsProductAttrDetailVO setCreateTime(Date createTime) {
+        this.createTime = createTime;
+        return this;
+    }
+
+    public List<AdminsProductAttrValueDetailVO> getValues() {
+        return values;
+    }
+
+    public AdminsProductAttrDetailVO setValues(List<AdminsProductAttrValueDetailVO> values) {
+        this.values = values;
         return this;
     }
 

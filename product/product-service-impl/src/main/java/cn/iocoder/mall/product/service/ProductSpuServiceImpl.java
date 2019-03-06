@@ -6,7 +6,7 @@ import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.StringUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.ProductSpuService;
-import cn.iocoder.mall.product.api.bo.ProductAttrDetailBO;
+import cn.iocoder.mall.product.api.bo.ProductAttrAndValuePairBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuPageBO;
 import cn.iocoder.mall.product.api.constant.ProductErrorCodeEnum;
@@ -61,7 +61,8 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         // 获得规格
         Set<Integer> productAttrValueIds = new HashSet<>();
         skus.forEach(sku -> productAttrValueIds.addAll(StringUtil.splitToInt(sku.getAttrs(), ",")));
-        CommonResult<List<ProductAttrDetailBO>> validAttrResult = productAttrService.validProductAttrAndValue(productAttrValueIds);
+        CommonResult<List<ProductAttrAndValuePairBO>> validAttrResult = productAttrService.validProductAttrAndValue(productAttrValueIds,
+                false); // 读取规格时，不考虑规格是否被禁用
         if (validAttrResult.isError()) {
             return CommonResult.error(validAttrResult);
         }
@@ -81,7 +82,8 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         // 校验规格是否存在
         Set<Integer> productAttrValueIds = new HashSet<>();
         productSpuAddDTO.getSkus().forEach(productSkuAddDTO -> productAttrValueIds.addAll(productSkuAddDTO.getAttrs()));
-        CommonResult<List<ProductAttrDetailBO>> validAttrResult = productAttrService.validProductAttrAndValue(productAttrValueIds);
+        CommonResult<List<ProductAttrAndValuePairBO>> validAttrResult = productAttrService.validProductAttrAndValue(productAttrValueIds
+            , true); // 读取规格时，需要考虑规格是否被禁用
         if (validAttrResult.isError()) {
             return CommonResult.error(validAttrResult);
         }
@@ -126,7 +128,8 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         // 校验规格是否存在
         Set<Integer> productAttrValueIds = new HashSet<>();
         productSpuUpdateDTO.getSkus().forEach(productSkuAddDTO -> productAttrValueIds.addAll(productSkuAddDTO.getAttrs()));
-        CommonResult<List<ProductAttrDetailBO>> validAttrResult = productAttrService.validProductAttrAndValue(productAttrValueIds);
+        CommonResult<List<ProductAttrAndValuePairBO>> validAttrResult = productAttrService.validProductAttrAndValue(productAttrValueIds,
+                true); // 读取规格时，需要考虑规格是否被禁用
         if (validAttrResult.isError()) {
             return CommonResult.error(validAttrResult);
         }
@@ -203,10 +206,10 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         return CommonResult.success(productSpuPage);
     }
 
-    private CommonResult<Boolean> validProductSku(List<ProductSkuAddOrUpdateDTO> productSkuAddDTOs, List<ProductAttrDetailBO> productAttrDetailBOs) {
+    private CommonResult<Boolean> validProductSku(List<ProductSkuAddOrUpdateDTO> productSkuAddDTOs, List<ProductAttrAndValuePairBO> productAttrDetailBOs) {
         // 创建 ProductAttrDetailBO 的映射。其中，KEY 为 ProductAttrDetailBO.attrValueId ，即规格值的编号
-        Map<Integer, ProductAttrDetailBO> productAttrDetailBOMap = productAttrDetailBOs.stream().collect(
-                Collectors.toMap(ProductAttrDetailBO::getAttrValueId, productAttrDetailBO -> productAttrDetailBO));
+        Map<Integer, ProductAttrAndValuePairBO> productAttrDetailBOMap = productAttrDetailBOs.stream().collect(
+                Collectors.toMap(ProductAttrAndValuePairBO::getAttrValueId, productAttrDetailBO -> productAttrDetailBO));
         // 1. 先校验，一个 Sku 下，没有重复的规格。校验方式是，遍历每个 Sku ，看看是否有重复的规格 attrId
         for (ProductSkuAddOrUpdateDTO sku : productSkuAddDTOs) {
             Set<Integer> attrIds = sku.getAttrs().stream().map(attrValueId -> productAttrDetailBOMap.get(attrValueId).getAttrId()).collect(Collectors.toSet());

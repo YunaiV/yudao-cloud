@@ -16,7 +16,7 @@ public class AdminsProductSkuDetailVO {
     @ApiModelProperty(value = "图片地址", required = true, example = "http://www.iocoder.cn")
     private String picURL;
     @ApiModelProperty(value = "规格值数组", required = true)
-    private List<AdminsProductAttrDetailVO> attrs;
+    private List<AdminsProductAttrAndValuePairVO> attrs;
     @ApiModelProperty(value = "价格，单位：分", required = true, example = "100")
     private Integer price;
     @ApiModelProperty(value = "库存数量", required = true, example = "100")
@@ -68,11 +68,11 @@ public class AdminsProductSkuDetailVO {
         return this;
     }
 
-    public List<AdminsProductAttrDetailVO> getAttrs() {
+    public List<AdminsProductAttrAndValuePairVO> getAttrs() {
         return attrs;
     }
 
-    public AdminsProductSkuDetailVO setAttrs(List<AdminsProductAttrDetailVO> attrs) {
+    public AdminsProductSkuDetailVO setAttrs(List<AdminsProductAttrAndValuePairVO> attrs) {
         this.attrs = attrs;
         return this;
     }

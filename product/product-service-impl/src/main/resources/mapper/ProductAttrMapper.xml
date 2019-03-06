@@ -70,4 +70,41 @@
         AND deleted = 0
     </select>
 
+    <select id="selectListByNameLike" resultType="ProductAttrDO">
+        SELECT
+            <include refid="FIELDS" />
+        FROM product_attr
+        <where>
+            <if test="name != null">
+                name LIKE "%"#{name}"%"
+            </if>
+            AND deleted = 0
+        </where>
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="selectCountByNameLike" resultType="Integer">
+        SELECT
+            COUNT(1)
+        FROM product_attr
+        <where>
+            <if test="name != null">
+                name LIKE "%"#{name}"%"
+            </if>
+            AND deleted = 0
+        </where>
+    </select>
+
+    <select id="selectListByStatus" parameterType="Integer" resultType="ProductAttrDO">
+        SELECT
+            <include refid="FIELDS" />
+        FROM product_attr
+        <where>
+            <if test="status != null">
+                status = #{status}
+            </if>
+            AND deleted = 0
+        </where>
+    </select>
+
 </mapper>

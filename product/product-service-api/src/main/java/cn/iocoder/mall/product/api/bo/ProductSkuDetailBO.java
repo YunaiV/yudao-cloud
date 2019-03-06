@@ -22,7 +22,7 @@ public class ProductSkuDetailBO {
     /**
      * 规格值数组
      */
-    private List<ProductAttrDetailBO> attrs;
+    private List<ProductAttrAndValuePairBO> attrs;
     /**
      * 价格，单位：分
      */
@@ -60,11 +60,11 @@ public class ProductSkuDetailBO {
         return this;
     }
 
-    public List<ProductAttrDetailBO> getAttrs() {
+    public List<ProductAttrAndValuePairBO> getAttrs() {
         return attrs;
     }
 
-    public ProductSkuDetailBO setAttrs(List<ProductAttrDetailBO> attrs) {
+    public ProductSkuDetailBO setAttrs(List<ProductAttrAndValuePairBO> attrs) {
         this.attrs = attrs;
         return this;
     }

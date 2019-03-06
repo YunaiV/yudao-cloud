@@ -70,4 +70,27 @@
         AND deleted = 0
     </select>
 
+    <select id="selectListByAttrIds" resultType="ProductAttrValueDO">
+        SELECT
+            <include refid="FIELDS" />
+        FROM product_attr_value
+        WHERE attr_id IN
+            <foreach item="attrId" collection="attrIds" separator="," open="(" close=")" index="">
+                #{attrId}
+            </foreach>
+        AND deleted = 0
+    </select>
+
+    <select id="selectListByStatus" resultType="ProductAttrValueDO">
+        SELECT
+            <include refid="FIELDS" />
+        FROM product_attr_value
+        <where>
+            <if test="status != null">
+                status = #{status}
+            </if>
+            AND deleted = 0
+        </where>
+    </select>
+
 </mapper>

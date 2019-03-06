@@ -7,6 +7,7 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.AdminService;
 import cn.iocoder.mall.admin.api.bo.AdminBO;
 import cn.iocoder.mall.admin.api.bo.AdminPageBO;
+import cn.iocoder.mall.admin.api.constant.AdminConstants;
 import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
 import cn.iocoder.mall.admin.api.dto.AdminAddDTO;
 import cn.iocoder.mall.admin.api.dto.AdminPageDTO;
@@ -124,6 +125,9 @@ public class AdminServiceImpl implements AdminService {
         AdminDO admin = adminMapper.selectById(updateAdminId);
         if (admin == null) {
             return ServiceExceptionUtil.error(AdminErrorCodeEnum.ADMIN_USERNAME_NOT_REGISTERED.getCode());
+        }
+        if (AdminConstants.USERNAME_ADMIN.equals(admin.getUsername())) {
+            return ServiceExceptionUtil.error(AdminErrorCodeEnum.ADMIN_ADMIN_STATUS_CAN_NOT_UPDATE.getCode());
         }
         // 如果状态相同，则返回错误
         if (status.equals(admin.getStatus())) {

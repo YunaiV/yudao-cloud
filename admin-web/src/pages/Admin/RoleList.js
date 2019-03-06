@@ -6,7 +6,7 @@ import moment from 'moment';
 import { Card, Form, Input, Select, Button, Modal, message, Table, Divider } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
-import styles from './ResourceList.less';
+import styles from './RoleList.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;

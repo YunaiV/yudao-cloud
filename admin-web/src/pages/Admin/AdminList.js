@@ -6,11 +6,11 @@ import moment from 'moment';
 import { Card, Form, Input, Select, Button, Modal, message, Table, Divider } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
-import styles from './ResourceList.less';
+import styles from './AdminList.less';
 
 const FormItem = Form.Item;
 const { Option } = Select;
-const types = ['未知', '菜单', '链接'];
+const status = ['未知', '正常', '禁用'];
 
 // 添加 form 表单
 const CreateForm = Form.create()(props => {
@@ -43,53 +43,30 @@ const CreateForm = Form.create()(props => {
       okText={okText}
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="菜单展示名">
-        {form.getFieldDecorator('displayName', {
-          rules: [{ required: true, message: '请输入菜单展示名字！', min: 2 }],
-          initialValue: initValues.displayName,
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
+        {form.getFieldDecorator('username', {
+          rules: [{ required: true, message: '请输入名称！', min: 2 }],
+          initialValue: initValues.username,
         })(<Input placeholder="请输入" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="操作">
-        {form.getFieldDecorator('handler', {
-          initialValue: initValues.handler,
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="昵称">
+        {form.getFieldDecorator('nickname', {
+          rules: [{ required: true, message: '请输入昵称！', min: 2 }],
+          initialValue: initValues.nickname,
         })(<Input placeholder="请输入" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="资源名字">
-        {form.getFieldDecorator('name', {
-          rules: [{ required: true, message: '请输入资源名字！' }],
-          initialValue: initValues.name,
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="父级资源编号">
-        {form.getFieldDecorator('pid', {
-          rules: [{ required: true, message: '请输入父级编号！' }],
-          initialValue: initValues.pid,
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="排序">
-        {form.getFieldDecorator('sort', {
-          rules: [{ required: true, message: '请输入菜单排序！' }],
-          initialValue: initValues.sort,
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="资源类型">
-        {form.getFieldDecorator('type', {
-          rules: [{ required: true, message: '请选择资源类型！' }],
-          initialValue: 1,
-        })(
-          <Select showSearch style={selectStyle} placeholder="请选择">
-            <Option value={1}>菜单</Option>
-            <Option value={2}>Url</Option>
-          </Select>
-        )}
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="密码">
+        {form.getFieldDecorator('password', {
+          initialValue: initValues.password,
+        })(<Input placeholder="请输入" type="password" />)}
       </FormItem>
     </Modal>
   );
 });
 
-@connect(({ resourceList, loading }) => ({
-  resourceList,
-  list: resourceList.list,
+@connect(({ adminList, loading }) => ({
+  list: adminList.list,
+  data: adminList,
   loading: loading.models.resourceList,
 }))
 @Form.create()
@@ -98,20 +75,13 @@ class ResourceList extends PureComponent {
     modalVisible: false,
     modalType: 'add', //add update
     initValues: {},
-    defaultExpandAllRows: false,
   };
 
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'resourceList/tree',
+      type: 'adminList/query',
       payload: {},
-    });
-  }
-
-  changeExpandAll() {
-    this.setState({
-      defaultExpandAllRows: !this.state.defaultExpandAllRows,
     });
   }
 
@@ -124,14 +94,19 @@ class ResourceList extends PureComponent {
   };
 
   handleAdd = ({ fields, modalType, initValues }) => {
-    const { dispatch } = this.props;
+    const { dispatch, data } = this.props;
+    const queryParams = {
+      pageNo: data.pageNo,
+      pageSize: data.pageSize,
+    };
     if (modalType === 'add') {
       dispatch({
-        type: 'resourceList/add',
+        type: 'adminList/add',
         payload: {
           body: {
             ...fields,
           },
+          queryParams,
           callback: () => {
             message.success('添加成功');
             this.handleModalVisible();
@@ -140,12 +115,13 @@ class ResourceList extends PureComponent {
       });
     } else {
       dispatch({
-        type: 'resourceList/update',
+        type: 'adminList/update',
         payload: {
           body: {
             ...initValues,
             ...fields,
           },
+          queryParams,
           callback: () => {
             message.success('更新成功');
             this.handleModalVisible();
@@ -155,16 +131,28 @@ class ResourceList extends PureComponent {
     }
   };
 
-  handleDelete(row) {
-    const { dispatch } = this.props;
+  handleStatus(row) {
+    const { dispatch, data } = this.props;
+    const queryParams = {
+      pageNo: data.pageNo,
+      pageSize: data.pageSize,
+    };
+
+    const title = row.status === 1 ? '确认禁用' : '取消禁用';
+    const updateStatus = row.status === 1 ? 2 : 1;
+
     Modal.confirm({
-      title: `确认删除?`,
-      content: `${row.displayName}`,
+      title: `${title}?`,
+      content: `${row.username}`,
       onOk() {
         dispatch({
-          type: 'resourceList/delete',
+          type: 'adminList/updateStatus',
           payload: {
-            id: row.id,
+            body: {
+              id: row.id,
+              status: updateStatus,
+            },
+            queryParams,
           },
         });
       },
@@ -189,51 +177,39 @@ class ResourceList extends PureComponent {
         render: text => <strong>{text}</strong>,
       },
       {
-        title: '显示名称',
-        dataIndex: 'displayName',
+        title: '用户名',
+        dataIndex: 'username',
         render: text => <a>{text}</a>,
       },
       {
-        title: '名称',
-        dataIndex: 'name',
+        title: '昵称',
+        dataIndex: 'nickname',
       },
       {
-        title: 'pid',
-        dataIndex: 'pid',
-        sorter: true,
-        render: val => `${val}`,
-      },
-      {
-        title: '类型',
-        dataIndex: 'type',
+        title: '状态',
+        dataIndex: 'status',
         render(val) {
-          return <span>{types[val]}</span>;
+          return <span>{status[val]}</span>;
         },
       },
       {
-        title: '资源地址',
-        dataIndex: 'handler',
-        sorter: true,
-        width: 300,
-        render: val => <span>{val}</span>,
-      },
-      {
-        title: '创建时间',
-        dataIndex: 'createTime',
-        sorter: true,
-        render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
-      },
-      {
         title: '操作',
-        render: (text, record) => (
-          <Fragment>
-            <a onClick={() => this.handleModalVisible(true, 'update', record)}>更新</a>
-            <Divider type="vertical" />
-            <a className={styles.tableDelete} onClick={() => this.handleDelete(record)}>
-              删除
-            </a>
-          </Fragment>
-        ),
+        render: (text, record) => {
+          const statusText = record.status === 1 ? '确认禁用' : '取消禁用';
+          return (
+            <Fragment>
+              <a onClick={() => this.handleModalVisible(true, 'update', record)}>更新</a>
+              <Divider type="vertical" />
+              <a className={styles.tableDelete} onClick={() => this.handleStatus(record)}>
+                {statusText}
+              </a>
+              <Divider type="vertical" />
+              <a className={styles.tableDelete} onClick={() => this.handleDelete(record)}>
+                删除
+              </a>
+            </Fragment>
+          );
+        },
       },
     ];
 
@@ -249,10 +225,6 @@ class ResourceList extends PureComponent {
               >
                 新建
               </Button>
-              <Button type="normal" onClick={() => this.changeExpandAll()}>
-                展开所有行
-              </Button>
-              TODO 展开没效果，需要研究下
             </div>
           </div>
           <Table

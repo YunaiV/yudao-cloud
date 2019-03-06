@@ -61,8 +61,9 @@ public class ProductSpuDO extends BaseDO {
         return id;
     }
 
-    public void setId(Integer id) {
+    public ProductSpuDO setId(Integer id) {
         this.id = id;
+        return this;
     }
 
     public String getName() {
@@ -127,7 +128,4 @@ public class ProductSpuDO extends BaseDO {
         this.sort = sort;
         return this;
     }
-
-
-
 }

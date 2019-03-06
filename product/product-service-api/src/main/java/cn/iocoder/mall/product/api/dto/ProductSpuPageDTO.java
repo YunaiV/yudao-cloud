@@ -1,21 +1,30 @@
-package cn.iocoder.mall.admin.api.dto;
+package cn.iocoder.mall.product.api.dto;
 
 import javax.validation.constraints.NotNull;
 
-public class AdminPageDTO {
+public class ProductSpuPageDTO {
 
-    private String nickname;
+    private String name;
 
     @NotNull(message = "页码不能为空")
     private Integer pageNo;
     @NotNull(message = "每页条数不能为空")
     private Integer pageSize;
 
+    public String getName() {
+        return name;
+    }
+
+    public ProductSpuPageDTO setName(String name) {
+        this.name = name;
+        return this;
+    }
+
     public Integer getPageNo() {
         return pageNo;
     }
 
-    public AdminPageDTO setPageNo(Integer pageNo) {
+    public ProductSpuPageDTO setPageNo(Integer pageNo) {
         this.pageNo = pageNo;
         return this;
     }
@@ -24,17 +33,8 @@ public class AdminPageDTO {
         return pageSize;
     }
 
-    public AdminPageDTO setPageSize(Integer pageSize) {
+    public ProductSpuPageDTO setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
-        return this;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public AdminPageDTO setNickname(String nickname) {
-        this.nickname = nickname;
         return this;
     }
 

@@ -4,9 +4,10 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import cn.iocoder.mall.product.api.ProductSpuService;
 import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
-import cn.iocoder.mall.product.api.dto.ProductSkuAddDTO;
-import cn.iocoder.mall.product.api.dto.ProductSkuUpdateDTO;
+import cn.iocoder.mall.product.api.bo.ProductSpuPageBO;
+import cn.iocoder.mall.product.api.dto.ProductSkuAddOrUpdateDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuAddDTO;
+import cn.iocoder.mall.product.api.dto.ProductSpuPageDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuUpdateDTO;
 import cn.iocoder.mall.product.application.convert.ProductSpuConvert;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductSpuDetailVO;
@@ -57,7 +58,7 @@ public class AdminsProductSpuController {
         // 创建 ProductSpuAddDTO 对象
         ProductSpuAddDTO productSpuAddDTO = new ProductSpuAddDTO().setName(name).setSellPoint(sellPoint)
                 .setDescription(description).setCid(cid).setPicUrls(picUrls).setVisible(visible)
-                .setSkus(parseSkus(skuStr, ProductSkuAddDTO.class));
+                .setSkus(parseSkus(skuStr, ProductSkuAddOrUpdateDTO.class));
         // 保存商品
         CommonResult<ProductSpuDetailBO> result = productSpuService.addProductSpu(AdminSecurityContextHolder.getContext().getAdminId(), productSpuAddDTO);
         // 返回结果
@@ -88,7 +89,7 @@ public class AdminsProductSpuController {
         // 创建 ProductSpuUpdateDTO 对象
         ProductSpuUpdateDTO productSpuUpdateDTO = new ProductSpuUpdateDTO().setId(id).setName(name).setSellPoint(sellPoint)
                 .setDescription(description).setCid(cid).setPicUrls(picUrls).setVisible(visible)
-                .setSkus(parseSkus(skuStr, ProductSkuUpdateDTO.class));
+                .setSkus(parseSkus(skuStr, ProductSkuAddOrUpdateDTO.class));
         // 更新商品
         return productSpuService.updateProductSpu(AdminSecurityContextHolder.getContext().getAdminId(), productSpuUpdateDTO);
     }
@@ -97,19 +98,32 @@ public class AdminsProductSpuController {
     @ApiOperation("更新商品的排序")
     public CommonResult<Boolean> updateSort(@RequestParam("id") Integer id,
                                             @RequestParam("sort") Integer sort) {
-        return null;
+        return productSpuService.updateProductSpuSort(AdminSecurityContextHolder.getContext().getAdminId(), id, sort);
     }
+
+    // TODO 芋艿，删除功能暂时不做。主要原因是，关联的数据太多。删除带来的问题会比较大
 
     @GetMapping("/spu/page")
     @ApiOperation("商品 SPU 分页列表")
-    public CommonResult<AdminsProductSpuPageVO> spuPage() {
-        return null;
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "商品名称，模糊匹配", example = "小王"),
+            @ApiImplicitParam(name = "pageNo", value = "页码，从 0 开始", example = "0"),
+            @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, example = "10"),
+    })
+    public CommonResult<AdminsProductSpuPageVO> spuPage(@RequestParam(value = "name", required = false) String name,
+                                                        @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+                                                        @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+        // 创建 ProductSpuPageDTO 对象
+        ProductSpuPageDTO productSpuPageDTO = new ProductSpuPageDTO().setName(name).setPageNo(pageNo).setPageSize(pageSize);
+        CommonResult<ProductSpuPageBO> result = productSpuService.getProductSpuPage(productSpuPageDTO);
+        return ProductSpuConvert.INSTANCE.convert2(result);
     }
 
     @GetMapping("/spu/info")
     @ApiOperation("商品 SPU 明细")
-    public CommonResult<AdminsProductSpuDetailVO> info() {
-        return null;
+    @ApiImplicitParam(name = "id", value = "SPU 编号", required = true, example = "100")
+    public CommonResult<AdminsProductSpuDetailVO> info(@RequestParam("id") Integer id) {
+        return ProductSpuConvert.INSTANCE.convert(productSpuService.getProductSpu(id));
     }
 
     private <T> List<T> parseSkus(String skuStr, Class<T> clazz) {

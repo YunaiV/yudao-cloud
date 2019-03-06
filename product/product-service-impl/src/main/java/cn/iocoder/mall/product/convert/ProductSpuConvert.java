@@ -5,8 +5,7 @@ import cn.iocoder.mall.product.api.bo.ProductAttrDetailBO;
 import cn.iocoder.mall.product.api.bo.ProductSkuDetailBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
-import cn.iocoder.mall.product.api.dto.ProductSkuAddDTO;
-import cn.iocoder.mall.product.api.dto.ProductSkuUpdateDTO;
+import cn.iocoder.mall.product.api.dto.ProductSkuAddOrUpdateDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuAddDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuUpdateDTO;
 import cn.iocoder.mall.product.dataobject.ProductSkuDO;
@@ -14,6 +13,7 @@ import cn.iocoder.mall.product.dataobject.ProductSpuDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
@@ -26,8 +26,13 @@ public interface ProductSpuConvert {
 
     ProductSpuConvert INSTANCE = Mappers.getMapper(ProductSpuConvert.class);
 
-    @Mappings({})
+    @Mappings({
+            @Mapping(source = "picUrls", target = "picUrls", qualifiedByName = "translatePicUrlsFromString")
+    })
     ProductSpuBO convert(ProductSpuDO spu);
+
+    @Mappings({})
+    List<ProductSpuBO> convert(List<ProductSpuDO> spus);
 
     @Mappings({
             @Mapping(source = "picUrls", target = "picUrls", ignore = true)
@@ -37,18 +42,13 @@ public interface ProductSpuConvert {
     @Mappings({
             @Mapping(source = "attrs", target = "attrs", ignore = true)
     })
-    ProductSkuDO convert(ProductSkuAddDTO productSkuAddDTO);
+    ProductSkuDO convert(ProductSkuAddOrUpdateDTO productSkuAddDTO);
 
 
     @Mappings({
             @Mapping(source = "picUrls", target = "picUrls", ignore = true)
     })
     ProductSpuDO convert(ProductSpuUpdateDTO productSpuUpdateDTO);
-
-    @Mappings({
-            @Mapping(source = "attrs", target = "attrs", ignore = true)
-    })
-    ProductSkuDO convert(ProductSkuUpdateDTO productSkuUpdateDTO);
 
     @Mappings({})
     ProductSpuDetailBO convert(ProductSpuBO spu);
@@ -83,6 +83,11 @@ public interface ProductSpuConvert {
         });
         // 返回
         return spuDetail;
+    }
+
+    @Named("translatePicUrlsFromString")
+    default List<String> translatePicUrlsFromString(String picUrls) {
+        return StringUtil.split(picUrls, ",");
     }
 
 }

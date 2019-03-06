@@ -82,7 +82,7 @@ public class AdminController {
     @GetMapping("/page")
     @ApiOperation(value = "管理员分页")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "nickname", value = "昵称，模糊匹配", required = true, example = "小王"),
+            @ApiImplicitParam(name = "nickname", value = "昵称，模糊匹配", example = "小王"),
             @ApiImplicitParam(name = "pageNo", value = "页码，从 0 开始", example = "0"),
             @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, example = "10"),
     })

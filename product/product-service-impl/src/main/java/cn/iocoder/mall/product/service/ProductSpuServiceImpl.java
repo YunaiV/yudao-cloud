@@ -7,13 +7,13 @@ import cn.iocoder.common.framework.util.StringUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.ProductSpuService;
 import cn.iocoder.mall.product.api.bo.ProductAttrDetailBO;
-import cn.iocoder.mall.product.api.bo.ProductSpuBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
+import cn.iocoder.mall.product.api.bo.ProductSpuPageBO;
 import cn.iocoder.mall.product.api.constant.ProductErrorCodeEnum;
 import cn.iocoder.mall.product.api.constant.ProductSpuConstants;
-import cn.iocoder.mall.product.api.dto.ProductSkuAddDTO;
-import cn.iocoder.mall.product.api.dto.ProductSkuUpdateDTO;
+import cn.iocoder.mall.product.api.dto.ProductSkuAddOrUpdateDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuAddDTO;
+import cn.iocoder.mall.product.api.dto.ProductSpuPageDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuUpdateDTO;
 import cn.iocoder.mall.product.convert.ProductSpuConvert;
 import cn.iocoder.mall.product.dao.ProductSkuMapper;
@@ -42,11 +42,31 @@ public class ProductSpuServiceImpl implements ProductSpuService {
     @Autowired
     private ProductAttrServiceImpl productAttrService;
 
+//    @Override
+//    public ProductSpuBO getProductSpu(Integer id) {
+//        ProductSpuDO productSpuDO = productSpuMapper.selectById(id);
+//        // 转换成 BO
+//        return ProductSpuConvert.INSTANCE.convert(productSpuDO);
+//    }
+
     @Override
-    public ProductSpuBO getProductSpu(Integer id) {
-        ProductSpuDO productSpuDO = productSpuMapper.selectById(id);
-        // 转换成 BO
-        return ProductSpuConvert.INSTANCE.convert(productSpuDO);
+    public CommonResult<ProductSpuDetailBO> getProductSpu(Integer id) {
+        // 校验商品 spu 存在
+        ProductSpuDO spu = productSpuMapper.selectById(id);
+        if (spu == null) {
+            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_SPU_NOT_EXISTS.getCode());
+        }
+        // 获得商品 sku 数组
+        List<ProductSkuDO> skus = productSkuMapper.selectListBySpuIdAndStatus(id, ProductSpuConstants.SKU_STATUS_ENABLE);
+        // 获得规格
+        Set<Integer> productAttrValueIds = new HashSet<>();
+        skus.forEach(sku -> productAttrValueIds.addAll(StringUtil.splitToInt(sku.getAttrs(), ",")));
+        CommonResult<List<ProductAttrDetailBO>> validAttrResult = productAttrService.validProductAttrAndValue(productAttrValueIds);
+        if (validAttrResult.isError()) {
+            return CommonResult.error(validAttrResult);
+        }
+        // 返回成功
+        return CommonResult.success(ProductSpuConvert.INSTANCE.convert2(spu, skus, validAttrResult.getData()));
     }
 
     @SuppressWarnings("Duplicates")
@@ -110,6 +130,11 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         if (validAttrResult.isError()) {
             return CommonResult.error(validAttrResult);
         }
+        // 校验 Sku 规格
+        CommonResult<Boolean> validProductSkuResult = validProductSku(productSpuUpdateDTO.getSkus(), validAttrResult.getData());
+        if (validProductSkuResult.isError()) {
+            return CommonResult.error(validProductSkuResult);
+        }
         // 更新 Spu
         ProductSpuDO updateSpu = ProductSpuConvert.INSTANCE.convert(productSpuUpdateDTO)
                 .setPicUrls(StringUtil.join(productSpuUpdateDTO.getPicUrls(), ","));
@@ -119,7 +144,7 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         List<ProductSkuDO> insertSkus = new ArrayList<>(0); // 1、找不到，进行插入
         List<Integer> deleteSkus = new ArrayList<>(0); // 2、多余的，删除
         List<ProductSkuDO> updateSkus = new ArrayList<>(0); // 3、找的到，进行更新。
-        for (ProductSkuUpdateDTO skuUpdateDTO : productSpuUpdateDTO.getSkus()) {
+        for (ProductSkuAddOrUpdateDTO skuUpdateDTO : productSpuUpdateDTO.getSkus()) {
             ProductSkuDO existsSku = findProductSku(skuUpdateDTO.getAttrs(), existsSkus);
             // 3、找的到，进行更新。
             if (existsSku != null) {
@@ -149,19 +174,41 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         if (!deleteSkus.isEmpty()) {
             productSkuMapper.updateToDeleted(deleteSkus);
         }
-//        if (true) {
-//            throw new RuntimeException("test");
-//        }
-        // 校验 Sku 规格
         return CommonResult.success(true);
     }
 
-    private CommonResult<Boolean> validProductSku(List<ProductSkuAddDTO> productSkuAddDTOs, List<ProductAttrDetailBO> productAttrDetailBOs) {
+    @Override
+    public CommonResult<Boolean> updateProductSpuSort(Integer adminId, Integer spuId, Integer sort) {
+        // 校验 Spu 是否存在
+        if (productSpuMapper.selectById(spuId) == null) {
+            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_SPU_NOT_EXISTS.getCode());
+        }
+        // 更新排序
+        ProductSpuDO updateSpu = new ProductSpuDO().setId(spuId).setSort(sort);
+        productSpuMapper.update(updateSpu);
+        // 返回成功
+        return CommonResult.success(true);
+    }
+
+    @Override
+    public CommonResult<ProductSpuPageBO> getProductSpuPage(ProductSpuPageDTO productSpuPageDTO) {
+        ProductSpuPageBO productSpuPage = new ProductSpuPageBO();
+        // 查询分页数据
+        int offset = productSpuPageDTO.getPageNo() * productSpuPageDTO.getPageSize();
+        productSpuPage.setSpus(ProductSpuConvert.INSTANCE.convert(productSpuMapper.selectListByNameLikeOrderBySortAsc(productSpuPageDTO.getName(),
+            offset, productSpuPageDTO.getPageSize())));
+        // 查询分页总数
+        productSpuPage.setCount(productSpuMapper.selectCountByNameLike(productSpuPageDTO.getName()));
+        // 返回结果
+        return CommonResult.success(productSpuPage);
+    }
+
+    private CommonResult<Boolean> validProductSku(List<ProductSkuAddOrUpdateDTO> productSkuAddDTOs, List<ProductAttrDetailBO> productAttrDetailBOs) {
         // 创建 ProductAttrDetailBO 的映射。其中，KEY 为 ProductAttrDetailBO.attrValueId ，即规格值的编号
         Map<Integer, ProductAttrDetailBO> productAttrDetailBOMap = productAttrDetailBOs.stream().collect(
                 Collectors.toMap(ProductAttrDetailBO::getAttrValueId, productAttrDetailBO -> productAttrDetailBO));
         // 1. 先校验，一个 Sku 下，没有重复的规格。校验方式是，遍历每个 Sku ，看看是否有重复的规格 attrId
-        for (ProductSkuAddDTO sku : productSkuAddDTOs) {
+        for (ProductSkuAddOrUpdateDTO sku : productSkuAddDTOs) {
             Set<Integer> attrIds = sku.getAttrs().stream().map(attrValueId -> productAttrDetailBOMap.get(attrValueId).getAttrId()).collect(Collectors.toSet());
             if (attrIds.size() != sku.getAttrs().size()) {
                 return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_SKU_ATTR_CANT_NOT_DUPLICATE.getCode());
@@ -176,7 +223,7 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         }
         // 3. 最后校验，每个 Sku 之间不是重复的
         Set<Set<Integer>> skuAttrValues = new HashSet<>(); // 每个元素，都是一个 Sku 的 attrValueId 集合。这样，通过最外层的 Set ，判断是否有重复的.
-        for (ProductSkuAddDTO sku : productSkuAddDTOs) {
+        for (ProductSkuAddOrUpdateDTO sku : productSkuAddDTOs) {
             if (!skuAttrValues.add(new HashSet<>(sku.getAttrs()))) { // 添加失败，说明重复
                 return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_SPU_SKU__NOT_DUPLICATE.getCode());
             }

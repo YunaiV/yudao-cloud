@@ -34,4 +34,7 @@ export function stringify(params) {
   return qs.stringify(filterEmptyStr(params));
 }
 
-export default qs;
+export default {
+  ...qs,
+  stringify,
+};

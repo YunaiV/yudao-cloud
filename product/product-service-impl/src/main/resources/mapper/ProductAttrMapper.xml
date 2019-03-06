@@ -21,43 +21,38 @@
         AND deleted = 0
     </select>
 
-    <!--<insert id="insert" parameterType="ProductCategoryDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">-->
-        <!--INSERT INTO product_category (-->
-          <!--pid, name, description, pic_url, sort,-->
-          <!--status, create_time, deleted-->
-        <!--) VALUES (-->
-          <!--#{pid}, #{name}, #{description}, #{picUrl}, #{sort},-->
-          <!--#{status}, #{createTime}, #{deleted}-->
-        <!--)-->
-    <!--</insert>-->
+    <select id="selectByName" parameterType="String" resultType="ProductAttrDO">
+        SELECT
+            <include refid="FIELDS" />
+        FROM product_attr
+        WHERE name = #{name}
+        AND deleted = 0
+        LIMIT 1
+    </select>
 
-    <!--<update id="update" parameterType="ProductCategoryDO">-->
-        <!--UPDATE product_category-->
-        <!--<set>-->
-            <!--<if test="pid != null">-->
-                <!--pid = #{pid},-->
-            <!--</if>-->
-            <!--<if test="name != null">-->
-                <!--name = #{name},-->
-            <!--</if>-->
-            <!--<if test="description != null">-->
-                <!--description = #{description},-->
-            <!--</if>-->
-            <!--<if test="picUrl != null">-->
-                <!--pic_url = #{picUrl},-->
-            <!--</if>-->
-            <!--<if test="sort != null">-->
-                <!--sort = #{sort},-->
-            <!--</if>-->
-            <!--<if test="status != null">-->
-                <!--status = #{status},-->
-            <!--</if>-->
-            <!--<if test="deleted != null">-->
-                <!--deleted = #{deleted}-->
-            <!--</if>-->
-        <!--</set>-->
-        <!--WHERE id = #{id}-->
-    <!--</update>-->
+    <insert id="insert" parameterType="ProductAttrDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO product_attr (
+          name, status, create_time, deleted
+        ) VALUES (
+          #{name}, #{status}, #{createTime}, #{deleted}
+        )
+    </insert>
+
+    <update id="update" parameterType="ProductAttrDO">
+        UPDATE product_attr
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
 
     <select id="selectListByIds" resultType="ProductAttrDO">
         SELECT

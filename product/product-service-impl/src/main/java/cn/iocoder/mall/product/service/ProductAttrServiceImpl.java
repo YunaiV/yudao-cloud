@@ -1,15 +1,14 @@
 package cn.iocoder.mall.product.service;
 
+import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
+import cn.iocoder.common.framework.dataobject.BaseDO;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.ProductAttrService;
-import cn.iocoder.mall.product.api.bo.ProductAttrAndValuePairBO;
-import cn.iocoder.mall.product.api.bo.ProductAttrDetailBO;
-import cn.iocoder.mall.product.api.bo.ProductAttrPageBO;
-import cn.iocoder.mall.product.api.bo.ProductAttrSimpleBO;
+import cn.iocoder.mall.product.api.bo.*;
 import cn.iocoder.mall.product.api.constant.ProductAttrConstants;
 import cn.iocoder.mall.product.api.constant.ProductErrorCodeEnum;
-import cn.iocoder.mall.product.api.dto.ProductAttrPageDTO;
+import cn.iocoder.mall.product.api.dto.*;
 import cn.iocoder.mall.product.convert.ProductAttrConvert;
 import cn.iocoder.mall.product.dao.ProductAttrMapper;
 import cn.iocoder.mall.product.dao.ProductAttrValueMapper;
@@ -20,10 +19,7 @@ import com.google.common.collect.Multimaps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -112,6 +108,86 @@ public class ProductAttrServiceImpl implements ProductAttrService {
             productAttrSimpleBO.setValues(ProductAttrConvert.INSTANCE.convert4(((attrValueMap).get(productAttrSimpleBO.getId()))));
         }
         return CommonResult.success(attrs);
+    }
+
+    @Override
+    public CommonResult<ProductAttrBO> addProductAttr(Integer adminId, ProductAttrAddDTO productAttrAddDTO) {
+        // 校验规格名不重复
+        if (productAttrMapper.selectByName(productAttrAddDTO.getName()) != null) {
+            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_ATTR_EXISTS.getCode());
+        }
+        // 插入到数据库
+        ProductAttrDO productAttrDO = ProductAttrConvert.INSTANCE.convert(productAttrAddDTO)
+                .setStatus(ProductAttrConstants.ATTR_STATUS_ENABLE);
+        productAttrDO.setCreateTime(new Date()).setDeleted(BaseDO.DELETED_NO);
+        productAttrMapper.insert(productAttrDO);
+        // 返回成功
+        return CommonResult.success(ProductAttrConvert.INSTANCE.convert(productAttrDO));
+    }
+
+    @Override
+    public CommonResult<Boolean> updateProductAttr(Integer adminId, ProductAttrUpdateDTO productAttrUpdateDTO) {
+        // 校验存在
+        if (productAttrMapper.selectById(productAttrUpdateDTO.getId()) == null) {
+            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_ATTR_NOT_EXIST.getCode());
+        }
+        // 校验规格名不重复
+        ProductAttrDO existsAttrDO = productAttrMapper.selectByName(productAttrUpdateDTO.getName());
+        if (existsAttrDO != null && !existsAttrDO.getId().equals(productAttrUpdateDTO.getId())) {
+            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_ATTR_EXISTS.getCode());
+        }
+        // 更新到数据库
+        ProductAttrDO updateProductAttr = ProductAttrConvert.INSTANCE.convert(productAttrUpdateDTO);
+        productAttrMapper.update(updateProductAttr);
+        // 返回成功
+        return CommonResult.success(true);
+    }
+
+    @Override
+    public CommonResult<Boolean> updateProductAttrStatus(Integer adminId, Integer productAttrId, Integer status) {
+        // 校验参数
+        if (!isValidAttrStatus(status)) {
+            return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "变更状态必须是开启（1）或关闭（2）"); // TODO 有点搓
+        }
+        // 校验存在
+        ProductAttrDO productAttrDO = productAttrMapper.selectById(productAttrId);
+        if (productAttrDO == null) {
+            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_ATTR_NOT_EXIST.getCode());
+        }
+        // 校验状态
+        if (productAttrDO.getStatus().equals(status)) {
+            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_ATTR_STATUS_EQUALS.getCode());
+        }
+        // 更新到数据库
+        ProductAttrDO updateProductAttr = new ProductAttrDO().setId(productAttrId).setStatus(status);
+        productAttrMapper.update(updateProductAttr);
+        // 返回成功
+        return CommonResult.success(true);
+    }
+
+    @Override
+    public CommonResult<ProductAttrValueBO> addProductAttrValue(Integer adminId, ProductAttrValueAddDTO productAttrValueAddDTO) {
+        return null;
+    }
+
+    @Override
+    public CommonResult<Boolean> updateProductAttrValue(Integer adminId, ProductAttrValueUpdateDTO productAttrValueUpdateDTO) {
+        return null;
+    }
+
+    @Override
+    public CommonResult<Boolean> updateProductAttrValueStatus(Integer adminId, Integer productAttrValueId, Integer status) {
+        return null;
+    }
+
+    private boolean isValidAttrStatus(Integer status) {
+        return ProductAttrConstants.ATTR_STATUS_ENABLE.equals(status)
+                || ProductAttrConstants.ATTR_STATUS_DISABLE.equals(status);
+    }
+
+    private boolean isValidAttrValueStatus(Integer status) {
+        return ProductAttrConstants.ATTR_VALUE_STATUS_ENABLE.equals(status)
+                || ProductAttrConstants.ATTR_VALUE_STATUS_DISABLE.equals(status);
     }
 
 }

@@ -3,9 +3,9 @@ package cn.iocoder.mall.product.api.dto;
 import javax.validation.constraints.NotNull;
 
 /**
- * 商品 Spu 分页 DTO
+ * 商品规格分页 DTO
  */
-public class ProductSpuPageDTO {
+public class ProductAttrPageDTO {
 
     private String name;
 
@@ -18,7 +18,7 @@ public class ProductSpuPageDTO {
         return name;
     }
 
-    public ProductSpuPageDTO setName(String name) {
+    public ProductAttrPageDTO setName(String name) {
         this.name = name;
         return this;
     }
@@ -27,7 +27,7 @@ public class ProductSpuPageDTO {
         return pageNo;
     }
 
-    public ProductSpuPageDTO setPageNo(Integer pageNo) {
+    public ProductAttrPageDTO setPageNo(Integer pageNo) {
         this.pageNo = pageNo;
         return this;
     }
@@ -36,7 +36,7 @@ public class ProductSpuPageDTO {
         return pageSize;
     }
 
-    public ProductSpuPageDTO setPageSize(Integer pageSize) {
+    public ProductAttrPageDTO setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
         return this;
     }

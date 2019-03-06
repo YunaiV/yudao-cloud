@@ -6,15 +6,19 @@ import cn.iocoder.mall.admin.api.bo.DataDictBO;
 import cn.iocoder.mall.admin.api.dto.DataDictAddDTO;
 import cn.iocoder.mall.admin.api.dto.DataDictUpdateDTO;
 import cn.iocoder.mall.admin.application.convert.DataDictConvert;
+import cn.iocoder.mall.admin.application.vo.DataDictEnumVO;
 import cn.iocoder.mall.admin.application.vo.DataDictVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.Multimaps;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -30,6 +34,26 @@ public class DataDictController {
     public CommonResult<List<DataDictVO>> list() {
         CommonResult<List<DataDictBO>> result = dataDictService.selectDataDictList();
         return DataDictConvert.INSTANCE.convert(result);
+    }
+
+    @GetMapping("/tree")
+    @ApiOperation(value = "数据字典树结构", notes = "该接口返回的信息更为精简。一般用于前端缓存数据字典到本地。")
+    public CommonResult<List<DataDictEnumVO>> tree() {
+        // 查询数据字典全列表
+        CommonResult<List<DataDictBO>> result = dataDictService.selectDataDictList();
+        if (result.isError()) {
+            return CommonResult.error(result);
+        }
+        // 构建基于 enumValue 聚合的 Multimap
+        ImmutableListMultimap<String, DataDictBO> dataDictMap = Multimaps.index(result.getData(), DataDictBO::getEnumValue); // KEY 是 enumValue ，VALUE 是 DataDictBO 数组
+        // 构建返回结果
+        List<DataDictEnumVO> dataDictEnumVOs = new ArrayList<>(dataDictMap.size());
+        dataDictMap.keys().forEach(enumValue -> {
+            DataDictEnumVO dataDictEnumVO = new DataDictEnumVO().setEnumValue(enumValue)
+                    .setValues(DataDictConvert.INSTANCE.convert2(dataDictMap.get(enumValue)));
+            dataDictEnumVOs.add(dataDictEnumVO);
+        });
+        return CommonResult.success(dataDictEnumVOs);
     }
 
     @PostMapping("/add")

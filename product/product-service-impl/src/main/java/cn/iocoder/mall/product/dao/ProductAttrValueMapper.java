@@ -14,4 +14,8 @@ public interface ProductAttrValueMapper {
 
     List<ProductAttrValueDO> selectListByIds(@Param("ids") Collection<Integer> ids);
 
+    List<ProductAttrValueDO> selectListByStatus(@Param("status") Integer status);
+
+    List<ProductAttrValueDO> selectListByAttrIds(@Param("attrIds") Collection<Integer> attrIds);
+
 }

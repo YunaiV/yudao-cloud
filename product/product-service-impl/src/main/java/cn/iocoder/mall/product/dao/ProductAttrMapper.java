@@ -14,4 +14,12 @@ public interface ProductAttrMapper {
 
     List<ProductAttrDO> selectListByIds(@Param("ids") Collection<Integer> ids);
 
+    List<ProductAttrDO> selectListByStatus(@Param("status") Integer status);
+
+    List<ProductAttrDO> selectListByNameLike(@Param("name") String name,
+                                             @Param("offset") Integer offset,
+                                             @Param("limit") Integer limit);
+
+    Integer selectCountByNameLike(@Param("name") String name);
+
 }

@@ -3,6 +3,7 @@ package cn.iocoder.mall.admin.application.convert;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.bo.DataDictBO;
 import cn.iocoder.mall.admin.application.vo.DataDictVO;
+import cn.iocoder.mall.admin.application.vo.DataDictValueVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -25,5 +26,8 @@ public interface DataDictConvert {
 
     @Mappings({})
     CommonResult<DataDictVO> convert2(CommonResult<DataDictBO> result);
+
+    @Mappings({})
+    List<DataDictValueVO> convert2(List<DataDictBO> dataDictBOs);
 
 }

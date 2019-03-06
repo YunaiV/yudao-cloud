@@ -1,7 +1,7 @@
 package cn.iocoder.mall.product.convert;
 
 import cn.iocoder.common.framework.util.StringUtil;
-import cn.iocoder.mall.product.api.bo.ProductAttrDetailBO;
+import cn.iocoder.mall.product.api.bo.ProductAttrAndValuePairBO;
 import cn.iocoder.mall.product.api.bo.ProductSkuDetailBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
@@ -63,13 +63,13 @@ public interface ProductSpuConvert {
     })
     ProductSkuDetailBO convert2(ProductSkuDO sku);
 
-    @Mappings({})
-    default ProductSpuDetailBO convert2(ProductSpuDO spu, List<ProductSkuDO> skus, List<ProductAttrDetailBO> productAttrDetailBOs) {
+    @Mappings({}) // TODO 芋艿，后续细看下 mapstruct 的 API ，优化这块
+    default ProductSpuDetailBO convert2(ProductSpuDO spu, List<ProductSkuDO> skus, List<ProductAttrAndValuePairBO> productAttrDetailBOs) {
         // 创建并转换 ProductSpuDetailBO 对象
         ProductSpuDetailBO spuDetail = this.convert2(spu).setPicUrls(StringUtil.split(spu.getPicUrls(), ","));
         // 创建 ProductAttrDetailBO 的映射。其中，KEY 为 ProductAttrDetailBO.attrValueId ，即规格值的编号
-        Map<Integer, ProductAttrDetailBO> productAttrDetailBOMap = productAttrDetailBOs.stream().collect(
-                Collectors.toMap(ProductAttrDetailBO::getAttrValueId, productAttrDetailBO -> productAttrDetailBO));
+        Map<Integer, ProductAttrAndValuePairBO> productAttrDetailBOMap = productAttrDetailBOs.stream().collect(
+                Collectors.toMap(ProductAttrAndValuePairBO::getAttrValueId, productAttrDetailBO -> productAttrDetailBO));
         // 创建并转换 ProductSpuDetailBO 数组
         spuDetail.setSkus(new ArrayList<>());
         skus.forEach(sku -> {

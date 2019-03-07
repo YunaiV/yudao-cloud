@@ -87,6 +87,7 @@ class RoleList extends PureComponent {
   };
 
   handleAdd = ({ fields, modalType, initValues }) => {
+    console.log('add ->>>', fields);
     const { dispatch, data } = this.props;
     const queryParams = {
       pageNo: data.pageNo,

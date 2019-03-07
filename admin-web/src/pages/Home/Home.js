@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Button } from 'antd';
 import AuthorityControl from '../../components/AuthorityControl';
 import UrlsContext from '../../layouts/UrlsContext';
+import DictionaryValueSelect from '../Dictionary/DictionaryValueSelect';
+import DictionaryValueText from '../Dictionary/DictionaryValueText';
 
 export default class Home extends Component {
   state = {};
@@ -22,6 +24,9 @@ export default class Home extends Component {
           <Button type="primary">按钮 控制</Button>
         </AuthorityControl>
         <h1>home...</h1>
+        <DictionaryValueSelect dataKey="gender" defaultValue={1} />
+
+        <DictionaryValueText dataKey="gender" value="1" />
       </UrlsContext.Provider>
     );
   }

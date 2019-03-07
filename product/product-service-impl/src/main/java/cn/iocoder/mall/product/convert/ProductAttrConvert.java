@@ -30,9 +30,9 @@ public interface ProductAttrConvert {
     @Mappings({})
     List<ProductAttrSimpleBO> convert3(List<ProductAttrDO> attrs);
 
-//    @Mappings({})
-//    ProductAttrValueSimpleBO convert3(ProductAttrValueDO value);
-//
+    @Mappings({})
+    ProductAttrValueSimpleBO convert3(ProductAttrValueDO value); // 保证 convert4 能够映射到这个方法
+
     @Mappings({})
     List<ProductAttrValueSimpleBO> convert4(List<ProductAttrValueDO> values);
 

@@ -77,7 +77,7 @@ public class AdminsProductCategoryController {
         // 创建商品分类
         CommonResult<ProductCategoryBO> result = productCategoryService.addProductCategory(AdminSecurityContextHolder.getContext().getAdminId(), productCategoryAddDTO);
         // 返回结果
-        return ProductCategoryConvert.INSTANCE.convert(result);
+        return ProductCategoryConvert.INSTANCE.convert2(result);
     }
 
     @PostMapping("/update")

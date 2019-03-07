@@ -167,17 +167,58 @@ public class ProductAttrServiceImpl implements ProductAttrService {
 
     @Override
     public CommonResult<ProductAttrValueBO> addProductAttrValue(Integer adminId, ProductAttrValueAddDTO productAttrValueAddDTO) {
-        return null;
+        // 校验规格名不重复
+        if (productAttrValueMapper.selectByAttrIdAndName(productAttrValueAddDTO.getAttrId(), productAttrValueAddDTO.getName()) != null) {
+            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_ATTR_VALUE_EXISTS.getCode());
+        }
+        // 插入到数据库
+        ProductAttrValueDO productAttrValueDO = ProductAttrConvert.INSTANCE.convert(productAttrValueAddDTO)
+                .setStatus(ProductAttrConstants.ATTR_VALUE_STATUS_ENABLE);
+        productAttrValueDO.setCreateTime(new Date()).setDeleted(BaseDO.DELETED_NO);
+        productAttrValueMapper.insert(productAttrValueDO);
+        // 返回成功
+        return CommonResult.success(ProductAttrConvert.INSTANCE.convert2(productAttrValueDO));
     }
 
     @Override
     public CommonResult<Boolean> updateProductAttrValue(Integer adminId, ProductAttrValueUpdateDTO productAttrValueUpdateDTO) {
-        return null;
+        // 校验存在
+        ProductAttrValueDO productAttrValueDO = productAttrValueMapper.selectById(productAttrValueUpdateDTO.getId());
+        if (productAttrValueDO == null) {
+            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_ATTR_VALUE_NOT_EXIST.getCode());
+        }
+        // 校验规格名不重复
+        ProductAttrValueDO existsAttrDO = productAttrValueMapper.selectByAttrIdAndName(productAttrValueDO.getAttrId(), productAttrValueUpdateDTO.getName());
+        if (existsAttrDO != null && !existsAttrDO.getId().equals(productAttrValueUpdateDTO.getId())) {
+            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_ATTR_VALUE_EXISTS.getCode());
+        }
+        // 更新到数据库
+        ProductAttrValueDO updateProductValue = ProductAttrConvert.INSTANCE.convert(productAttrValueUpdateDTO);
+        productAttrValueMapper.update(updateProductValue);
+        // 返回成功
+        return CommonResult.success(true);
     }
 
     @Override
     public CommonResult<Boolean> updateProductAttrValueStatus(Integer adminId, Integer productAttrValueId, Integer status) {
-        return null;
+        // 校验参数
+        if (!isValidAttrValueStatus(status)) {
+            return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "变更状态必须是开启（1）或关闭（2）"); // TODO 有点搓
+        }
+        // 校验存在
+        ProductAttrValueDO productAttrValueDO = productAttrValueMapper.selectById(productAttrValueId);
+        if (productAttrValueDO == null) {
+            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_ATTR_VALUE_NOT_EXIST.getCode());
+        }
+        // 校验状态
+        if (productAttrValueDO.getStatus().equals(status)) {
+            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_ATTR_VALUE_STATUS_EQUALS.getCode());
+        }
+        // 更新到数据库
+        ProductAttrValueDO updateProductAttrValue = new ProductAttrValueDO().setId(productAttrValueId).setStatus(status);
+        productAttrValueMapper.update(updateProductAttrValue);
+        // 返回成功
+        return CommonResult.success(true);
     }
 
     private boolean isValidAttrStatus(Integer status) {

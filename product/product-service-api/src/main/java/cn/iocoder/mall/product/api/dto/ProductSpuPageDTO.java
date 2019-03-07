@@ -7,7 +7,20 @@ import javax.validation.constraints.NotNull;
  */
 public class ProductSpuPageDTO {
 
+    /**
+     * 商品名
+     *
+     * 模糊匹配
+     */
     private String name;
+    /**
+     * 分类编号
+     */
+    private Integer cid;
+    /**
+     * 是否可见
+     */
+    private Boolean visible;
 
     @NotNull(message = "页码不能为空")
     private Integer pageNo;
@@ -38,6 +51,24 @@ public class ProductSpuPageDTO {
 
     public ProductSpuPageDTO setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+        return this;
+    }
+
+    public Integer getCid() {
+        return cid;
+    }
+
+    public ProductSpuPageDTO setCid(Integer cid) {
+        this.cid = cid;
+        return this;
+    }
+
+    public Boolean getVisible() {
+        return visible;
+    }
+
+    public ProductSpuPageDTO setVisible(Boolean visible) {
+        this.visible = visible;
         return this;
     }
 

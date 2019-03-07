@@ -18,7 +18,7 @@ import java.util.List;
 @RestController("productCategoryController_users")
 @RequestMapping("users/product/category")
 @Api("商品分类")
-public class ProductCategoryController {
+public class UsersProductCategoryController {
 
     @Reference(validation = "true")
     private ProductCategoryService productCategoryService;

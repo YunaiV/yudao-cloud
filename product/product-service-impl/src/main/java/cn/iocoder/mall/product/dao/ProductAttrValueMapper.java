@@ -18,4 +18,12 @@ public interface ProductAttrValueMapper {
 
     List<ProductAttrValueDO> selectListByAttrIds(@Param("attrIds") Collection<Integer> attrIds);
 
+    ProductAttrValueDO selectByAttrIdAndName(@Param("attrId") Integer attrId,
+                                             @Param("name") String name);
+
+
+    void insert(ProductAttrValueDO productAttrValueDO);
+
+    void update(ProductAttrValueDO productAttrValueDO);
+
 }

@@ -4,7 +4,8 @@
 
     <sql id="FIELDS">
         id, name, sell_point, description, cid,
-        pic_urls, visible, sort, create_time
+        pic_urls, visible, sort, price, quantity,
+        create_time
     </sql>
 
     <select id="selectById" parameterType="Integer" resultType="ProductSpuDO">
@@ -18,10 +19,12 @@
     <insert id="insert" parameterType="ProductSpuDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO product_spu (
             name, sell_point, description, cid, pic_urls,
-            visible, sort, deleted, create_time
+            visible, sort, price, quantity,
+            deleted, create_time
         ) VALUES (
             #{name}, #{sellPoint}, #{description}, #{cid}, #{picUrls},
-            #{visible}, #{sort}, #{deleted}, #{createTime}
+            #{visible}, #{sort}, #{price}, #{quantity},
+             #{deleted}, #{createTime}
         )
     </insert>
 
@@ -46,6 +49,12 @@
             <if test="visible != null">
                 visible = #{visible},
             </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="quantity != null">
+                quantity = #{quantity},
+            </if>
             <if test="sort != null">
                 sort = #{sort},
             </if>
@@ -64,6 +73,12 @@
             <if test="name != null">
                 name LIKE "%"#{name}"%"
             </if>
+            <if test="cid != null">
+                AND cid = #{cid}
+            </if>
+            <if test="visible != null">
+                AND visible = #{visible}
+            </if>
             AND deleted = 0
         </where>
         ORDER BY sort ASC
@@ -77,6 +92,12 @@
         <where>
             <if test="name != null">
                 name LIKE "%"#{name}"%"
+            </if>
+            <if test="cid != null">
+                AND cid = #{cid}
+            </if>
+            <if test="visible != null">
+                AND visible = #{visible}
             </if>
             AND deleted = 0
         </where>

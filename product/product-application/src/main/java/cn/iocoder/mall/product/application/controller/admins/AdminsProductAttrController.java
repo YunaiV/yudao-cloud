@@ -6,15 +6,18 @@ import cn.iocoder.mall.product.api.ProductAttrService;
 import cn.iocoder.mall.product.api.bo.ProductAttrBO;
 import cn.iocoder.mall.product.api.bo.ProductAttrPageBO;
 import cn.iocoder.mall.product.api.bo.ProductAttrSimpleBO;
-import cn.iocoder.mall.product.api.dto.ProductAttrAddDTO;
-import cn.iocoder.mall.product.api.dto.ProductAttrPageDTO;
-import cn.iocoder.mall.product.api.dto.ProductAttrUpdateDTO;
+import cn.iocoder.mall.product.api.bo.ProductAttrValueBO;
+import cn.iocoder.mall.product.api.dto.*;
 import cn.iocoder.mall.product.application.convert.ProductAttrConvert;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductAttrPageVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductAttrSimpleVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductAttrVO;
+import cn.iocoder.mall.product.application.vo.admins.AdminsProductAttrValueVO;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +31,7 @@ public class AdminsProductAttrController {
     private ProductAttrService productAttrService;
 
     @GetMapping("/attr/page")
+    @ApiOperation("获得规格分页")
     public CommonResult<AdminsProductAttrPageVO> attrPage(@RequestParam(value = "name", required = false) String name,
                                                           @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
                                                           @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
@@ -40,6 +44,7 @@ public class AdminsProductAttrController {
     }
 
     @GetMapping("/attr/tree")
+    @ApiOperation(value = "获得规格树结构", notes = "该接口返回的信息更为精简。一般用于前端缓存数据字典到本地。")
     public CommonResult<List<AdminsProductAttrSimpleVO>> tree() {
         // 查询全列表
         CommonResult<List<ProductAttrSimpleBO>> result = productAttrService.getProductAttrList();
@@ -48,6 +53,10 @@ public class AdminsProductAttrController {
     }
 
     @PostMapping("/attr/add")
+    @ApiOperation(value = "创建商品规格")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "name", value = "规格名", required = true, example = "颜色")
+    })
     public CommonResult<AdminsProductAttrVO> addAttr(@RequestParam("name") String name) {
         // 创建 ProductAttrAddDTO 对象
         ProductAttrAddDTO productAttrAddDTO = new ProductAttrAddDTO().setName(name);
@@ -58,6 +67,11 @@ public class AdminsProductAttrController {
     }
 
     @PostMapping("/attr/update")
+    @ApiOperation(value = "修改商品规格")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "规格编号", required = true, example = "1"),
+            @ApiImplicitParam(name = "name", value = "规格名", required = true, example = "颜色")
+    })
     public CommonResult<Boolean> updateAttr(@RequestParam("id") Integer id,
                                             @RequestParam("name") String name) {
         // 创建 ProductAttrUpdateDTO 对象
@@ -67,6 +81,11 @@ public class AdminsProductAttrController {
     }
 
     @PostMapping("/attr/update_status")
+    @ApiOperation(value = "修改商品规格状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "规格编号", required = true, example = "100"),
+            @ApiImplicitParam(name = "status", value = "状态", required = true, example = "1")
+    })
     public CommonResult<Boolean> updateAttrStatus(@RequestParam("id") Integer id,
                                                   @RequestParam("status") Integer status) {
         return productAttrService.updateProductAttrStatus(AdminSecurityContextHolder.getContext().getAdminId(), id, status);
@@ -75,18 +94,43 @@ public class AdminsProductAttrController {
     // TODO 芋艿 暂时不考虑 delete Attr 。因为关联逻辑比较多
 
     @PostMapping("/attr_value/add")
-    public CommonResult addAttrValue() {
-        return null;
+    @ApiOperation(value = "创建商品规格值")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "attrId", value = "规格编号", required = true, example = "100"),
+            @ApiImplicitParam(name = "name", value = "规格值", required = true, example = "蓝色")
+    })
+    public CommonResult<AdminsProductAttrValueVO> addAttrValue(@RequestParam("attrId") Integer attrId,
+                                                               @RequestParam("name") String name) {
+        // 创建 ProductAttrValueAddDTO 对象
+        ProductAttrValueAddDTO productAttrValueAddDTO = new ProductAttrValueAddDTO().setAttrId(attrId).setName(name);
+        // 添加
+        CommonResult<ProductAttrValueBO> result = productAttrService.addProductAttrValue(AdminSecurityContextHolder.getContext().getAdminId(), productAttrValueAddDTO);
+        // 返回结果
+        return ProductAttrConvert.INSTANCE.convert4(result);
     }
 
     @PostMapping("/attr_value/update")
-    public CommonResult<Boolean> updateAttrValue() {
-        return null;
+    @ApiOperation(value = "修改商品规格值")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "规格值编号", required = true, example = "100"),
+            @ApiImplicitParam(name = "name", value = "规格值", required = true, example = "蓝色")
+    })
+    public CommonResult<Boolean> updateAttrValue(@RequestParam("id") Integer id,
+                                                 @RequestParam("name") String name) {
+        // 创建 ProductAttrValueUpdateDTO 对象
+        ProductAttrValueUpdateDTO productAttrValueUpdateDTO = new ProductAttrValueUpdateDTO().setId(id).setName(name);
+        // 更新
+        return productAttrService.updateProductAttrValue(AdminSecurityContextHolder.getContext().getAdminId(), productAttrValueUpdateDTO);
     }
 
     @PostMapping("/attr_value/update_status")
-    public CommonResult<Boolean> updateAttrValueStatus() {
-        return null;
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "规格编号", required = true, example = "100"),
+            @ApiImplicitParam(name = "status", value = "状态", required = true, example = "1")
+    })
+    public CommonResult<Boolean> updateAttrValueStatus(@RequestParam("id") Integer id,
+                                                       @RequestParam("status") Integer status) {
+        return productAttrService.updateProductAttrValueStatus(AdminSecurityContextHolder.getContext().getAdminId(), id, status);
     }
 
     // TODO 芋艿 暂时不考虑 delete Attr Value 。因为关联逻辑比较多

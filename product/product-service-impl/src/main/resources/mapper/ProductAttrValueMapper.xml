@@ -93,4 +93,38 @@
         </where>
     </select>
 
+    <select id="selectByAttrIdAndName"  resultType="ProductAttrValueDO">
+        SELECT
+        <include refid="FIELDS" />
+        FROM product_attr_value
+        WHERE name = #{name}
+        AND deleted = 0
+        LIMIT 1
+    </select>
+
+    <insert id="insert" parameterType="ProductAttrValueDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO product_attr_value (
+          attr_id, name, status, create_time, deleted
+        ) VALUES (
+          #{attrId}, #{name}, #{status}, #{createTime}, #{deleted}
+        )
+    </insert>
+
+    <update id="update" parameterType="ProductAttrValueDO">
+        UPDATE product_attr_value
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
 </mapper>

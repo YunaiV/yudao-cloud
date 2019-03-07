@@ -3,6 +3,8 @@ package cn.iocoder.mall.product.convert;
 import cn.iocoder.mall.product.api.bo.*;
 import cn.iocoder.mall.product.api.dto.ProductAttrAddDTO;
 import cn.iocoder.mall.product.api.dto.ProductAttrUpdateDTO;
+import cn.iocoder.mall.product.api.dto.ProductAttrValueAddDTO;
+import cn.iocoder.mall.product.api.dto.ProductAttrValueUpdateDTO;
 import cn.iocoder.mall.product.dataobject.ProductAttrDO;
 import cn.iocoder.mall.product.dataobject.ProductAttrValueDO;
 import org.mapstruct.Mapper;
@@ -41,9 +43,16 @@ public interface ProductAttrConvert {
     ProductAttrDO convert(ProductAttrUpdateDTO productAttrUpdateDTO);
 
     @Mappings({})
+    ProductAttrValueDO convert(ProductAttrValueAddDTO productAttrValueAddDTO);
+
+    @Mappings({})
+    ProductAttrValueDO convert(ProductAttrValueUpdateDTO productAttrValueUpdateDTO);
+
+    @Mappings({})
     ProductAttrBO convert(ProductAttrDO productAttrDO);
 
     @Mappings({})
     ProductAttrValueBO convert2(ProductAttrValueDO productAttrValueDO);
+
 
 }

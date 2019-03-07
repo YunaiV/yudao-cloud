@@ -12,6 +12,10 @@ public class ProductAttrValueBO {
      */
     private Integer id;
     /**
+     * 规格编号
+     */
+    private Integer attrId;
+    /**
      * 规格值名
      */
     private String name;
@@ -57,6 +61,15 @@ public class ProductAttrValueBO {
 
     public ProductAttrValueBO setCreateTime(Date createTime) {
         this.createTime = createTime;
+        return this;
+    }
+
+    public Integer getAttrId() {
+        return attrId;
+    }
+
+    public ProductAttrValueBO setAttrId(Integer attrId) {
+        this.attrId = attrId;
         return this;
     }
 }

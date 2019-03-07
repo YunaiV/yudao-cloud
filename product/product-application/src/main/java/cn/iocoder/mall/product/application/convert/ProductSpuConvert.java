@@ -5,6 +5,8 @@ import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuPageBO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductSpuDetailVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductSpuPageVO;
+import cn.iocoder.mall.product.application.vo.users.UsersProductSpuDetailVO;
+import cn.iocoder.mall.product.application.vo.users.UsersProductSpuPageVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -22,5 +24,11 @@ public interface ProductSpuConvert {
 
     @Mappings({})
     CommonResult<AdminsProductSpuPageVO> convert2(CommonResult<ProductSpuPageBO> result);
+
+    @Mappings({})
+    CommonResult<UsersProductSpuPageVO> convert3(CommonResult<ProductSpuPageBO> result);
+
+    @Mappings({})
+    CommonResult<UsersProductSpuDetailVO> convert4(CommonResult<ProductSpuDetailBO> result);
 
 }

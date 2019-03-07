@@ -26,7 +26,8 @@ public enum ProductErrorCodeEnum {
     PRODUCT_ATTR_NOT_EXIST(1003003001, "商品属性值不存在"),
     PRODUCT_ATTR_EXISTS(1003003002, "商品规格已经存在"),
     PRODUCT_ATTR_STATUS_EQUALS(1003003003, "商品规格已经是该状态"),
-
+    PRODUCT_ATTR_VALUE_EXISTS(1003003004, "商品规格值已经存在"),
+    PRODUCT_ATTR_VALUE_STATUS_EQUALS(1003003005, "商品规格值已经是该状态"),
     ;
 
     private final int code;

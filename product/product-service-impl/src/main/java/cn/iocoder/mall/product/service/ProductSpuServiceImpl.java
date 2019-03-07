@@ -92,6 +92,7 @@ public class ProductSpuServiceImpl implements ProductSpuService {
                 .setPicUrls(StringUtil.join(productSpuAddDTO.getPicUrls(), ","))
                 .setSort(0); // 排序为 0
         spu.setCreateTime(new Date()).setDeleted(BaseDO.DELETED_NO);
+        initSpuFromSkus(spu, productSpuAddDTO.getSkus()); // 初始化 sku 相关信息到 spu 中
         productSpuMapper.insert(spu);
         // 保存 Sku
         List<ProductSkuDO> skus = productSpuAddDTO.getSkus().stream().map(productSkuAddDTO -> {
@@ -141,6 +142,7 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         // 更新 Spu
         ProductSpuDO updateSpu = ProductSpuConvert.INSTANCE.convert(productSpuUpdateDTO)
                 .setPicUrls(StringUtil.join(productSpuUpdateDTO.getPicUrls(), ","));
+        initSpuFromSkus(updateSpu, productSpuUpdateDTO.getSkus()); // 初始化 sku 相关信息到 spu 中
         productSpuMapper.update(updateSpu);
         // 修改 Sku
         List<ProductSkuDO> existsSkus = productSkuMapper.selectListBySpuIdAndStatus(productSpuUpdateDTO.getId(), ProductSpuConstants.SKU_STATUS_ENABLE);
@@ -198,10 +200,11 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         ProductSpuPageBO productSpuPage = new ProductSpuPageBO();
         // 查询分页数据
         int offset = productSpuPageDTO.getPageNo() * productSpuPageDTO.getPageSize();
-        productSpuPage.setSpus(ProductSpuConvert.INSTANCE.convert(productSpuMapper.selectListByNameLikeOrderBySortAsc(productSpuPageDTO.getName(),
+        productSpuPage.setSpus(ProductSpuConvert.INSTANCE.convert(productSpuMapper.selectListByNameLikeOrderBySortAsc(
+                productSpuPageDTO.getName(), productSpuPageDTO.getCid(), productSpuPageDTO.getVisible(),
             offset, productSpuPageDTO.getPageSize())));
         // 查询分页总数
-        productSpuPage.setCount(productSpuMapper.selectCountByNameLike(productSpuPageDTO.getName()));
+        productSpuPage.setCount(productSpuMapper.selectCountByNameLike(productSpuPageDTO.getName(), productSpuPageDTO.getCid(), productSpuPageDTO.getVisible()));
         // 返回结果
         return CommonResult.success(productSpuPage);
     }
@@ -248,6 +251,12 @@ public class ProductSpuServiceImpl implements ProductSpuService {
             }
         }
         return null;
+    }
+
+    private void initSpuFromSkus(ProductSpuDO spu, List<ProductSkuAddOrUpdateDTO> skus) {
+        assert skus.size() > 0; // 写个断言，避免下面警告
+        spu.setPrice(skus.stream().min(Comparator.comparing(ProductSkuAddOrUpdateDTO::getPrice)).get().getPrice()); // 求最小价格
+        spu.setQuantity(skus.stream().mapToInt(ProductSkuAddOrUpdateDTO::getQuantity).sum()); // 求库存之和
     }
 
 }

@@ -48,6 +48,14 @@ public class ProductSpuBO {
      */
     private Integer sort;
 
+    // ========== Sku 相关字段 =========
+    /**
+     * 价格
+     *
+     * 目前的计算方式是，以 Sku 最小价格为准
+     */
+    private Integer price;
+
     public Integer getId() {
         return id;
     }
@@ -117,6 +125,15 @@ public class ProductSpuBO {
 
     public ProductSpuBO setSort(Integer sort) {
         this.sort = sort;
+        return this;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public ProductSpuBO setPrice(Integer price) {
+        this.price = price;
         return this;
     }
 

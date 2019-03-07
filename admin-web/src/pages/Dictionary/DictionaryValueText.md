@@ -9,7 +9,7 @@ subtitle: 获取字典 value 显示值
 
 | 参数      | 说明                                      | 类型         | 默认值 |
 |----------|------------------------------------------|-------------|-------|
-| dataKey    | key config配置的                                 | string  | [] |
+| dataKey    | 字典的key                                 | string  | [] |
 | value    | 显示的值                                 | string number  | [] |
 
 

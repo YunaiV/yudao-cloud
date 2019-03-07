@@ -26,6 +26,6 @@ public interface ProductCategoryConvert {
     AdminsProductCategoryTreeNodeVO convert(ProductCategoryBO category);
 
     @Mappings({})
-    CommonResult<AdminsProductCategoryVO> convert(CommonResult<ProductCategoryBO> result);
+    CommonResult<AdminsProductCategoryVO> convert2(CommonResult<ProductCategoryBO> result);
 
 }

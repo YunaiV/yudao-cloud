@@ -19,10 +19,13 @@ public interface ProductCategoryConvert {
     @Mappings({})
     UsersProductCategoryVO convertToVO(ProductCategoryBO category);
 
+    @Mappings({})
     List<UsersProductCategoryVO> convertToVO(List<ProductCategoryBO> categoryList);
 
+    @Mappings({})
     AdminsProductCategoryTreeNodeVO convert(ProductCategoryBO category);
 
+    @Mappings({})
     CommonResult<AdminsProductCategoryVO> convert(CommonResult<ProductCategoryBO> result);
 
 }

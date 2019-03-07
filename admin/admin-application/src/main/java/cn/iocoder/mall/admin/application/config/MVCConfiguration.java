@@ -26,6 +26,8 @@ public class MVCConfiguration implements WebMvcConfigurer {
                 .excludePathPatterns("/admins/passport/login"); // 排除登陆接口
     }
 
+
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 解决 swagger-ui.html 的访问，参考自 https://stackoverflow.com/questions/43545540/swagger-ui-no-mapping-found-for-http-request 解决

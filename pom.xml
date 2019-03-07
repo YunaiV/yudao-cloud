@@ -19,6 +19,7 @@
         <module>user</module>
         <module>common</module>
         <module>admin</module>
+        <module>ops</module>
     </modules>
     <packaging>pom</packaging>
 

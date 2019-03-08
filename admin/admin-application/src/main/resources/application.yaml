@@ -7,9 +7,3 @@ server:
   port: 18083
   servlet:
     context-path: /admin-api/
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"

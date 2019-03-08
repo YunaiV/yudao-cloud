@@ -1,4 +1,4 @@
-package cn.iocoder.mall.user;
+package cn.iocoder.mall.user.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

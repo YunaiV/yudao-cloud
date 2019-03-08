@@ -1,8 +1,8 @@
-package cn.iocoder.mall.user.controller;
+package cn.iocoder.mall.user.application.controller;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
-import cn.iocoder.mall.user.vo.UserInfoVO;
+import cn.iocoder.mall.user.application.vo.UserInfoVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;

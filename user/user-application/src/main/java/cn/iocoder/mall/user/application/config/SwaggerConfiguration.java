@@ -1,4 +1,4 @@
-package cn.iocoder.mall.user.config;
+package cn.iocoder.mall.user.application.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

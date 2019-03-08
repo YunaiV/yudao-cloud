@@ -19,7 +19,6 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>dubbo</artifactId>
-            <version>2.6.5</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

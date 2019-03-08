@@ -7,8 +7,8 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2019-03-05T10:35:05+0800",
-    comments = "version: 1.3.0.Final, compiler: javac, environment: Java 1.8.0_181 (Oracle Corporation)"
+    date = "2019-03-08T17:14:01+0800",
+    comments = "version: 1.3.0.Final, compiler: javac, environment: Java 11.0.1 (Oracle Corporation)"
 )
 public class OAuth2ConvertImpl implements OAuth2Convert {
 

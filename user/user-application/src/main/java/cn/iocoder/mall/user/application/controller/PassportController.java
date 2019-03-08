@@ -1,13 +1,13 @@
-package cn.iocoder.mall.user.controller;
+package cn.iocoder.mall.user.application.controller;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.user.convert.PassportConvert;
+import cn.iocoder.mall.user.application.convert.PassportConvert;
 import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import cn.iocoder.mall.user.service.api.MobileCodeService;
 import cn.iocoder.mall.user.service.api.OAuth2Service;
 import cn.iocoder.mall.user.service.api.UserService;
 import cn.iocoder.mall.user.service.api.bo.OAuth2AccessTokenBO;
-import cn.iocoder.mall.user.vo.MobileRegisterVO;
+import cn.iocoder.mall.user.application.vo.MobileRegisterVO;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

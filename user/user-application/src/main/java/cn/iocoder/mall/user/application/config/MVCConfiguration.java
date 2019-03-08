@@ -1,4 +1,4 @@
-package cn.iocoder.mall.user.config;
+package cn.iocoder.mall.user.application.config;
 
 import cn.iocoder.common.framework.config.GlobalExceptionHandler;
 import cn.iocoder.mall.user.sdk.interceptor.UserSecurityInterceptor;

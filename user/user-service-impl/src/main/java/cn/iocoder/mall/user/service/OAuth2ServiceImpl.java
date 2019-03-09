@@ -61,7 +61,11 @@ public class OAuth2ServiceImpl implements OAuth2Service {
         // 获取用户
         UserDO userDO = userService.getUser(mobile);
         if (userDO == null) { // 用户不存在，则进行创建用户
-            userDO = userService.createUser(mobile);
+            CommonResult<UserDO> createResult = userService.createUser(mobile);
+            if (createResult.isError()) {
+                return CommonResult.error(createResult);
+            }
+            userDO = createResult.getData();
             Assert.notNull(userDO, "创建用户必然成功");
         }
         // 创建刷新令牌

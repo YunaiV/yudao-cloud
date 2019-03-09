@@ -1,4 +1,4 @@
-package cn.iocoder.mall.user.application.controller;
+package cn.iocoder.mall.user.application.controller.users;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("users/user")
 @Api("用户模块")
 public class UserController {
 

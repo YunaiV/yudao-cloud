@@ -1,4 +1,4 @@
-package cn.iocoder.mall.user.application.controller;
+package cn.iocoder.mall.user.application.controller.users;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.user.application.convert.PassportConvert;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("user/passport")
+@RequestMapping("users/passport")
 @Api("Passport 模块")
 public class PassportController {
 

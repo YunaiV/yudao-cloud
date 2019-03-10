@@ -4,4 +4,6 @@ spring:
 
 # server
 server:
-  port: 8082
+  port: 18082
+  servlet:
+    context-path: /user-api/

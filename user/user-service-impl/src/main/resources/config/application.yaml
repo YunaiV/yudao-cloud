@@ -6,12 +6,6 @@ spring:
     username: root
     password: ${MALL_MYSQL_PASSWORD}
 
-# server
-server:
-  port: 18082
-  servlet:
-    context-path: /user-api/
-
 # mybatis
 mybatis:
   config-location: classpath:mybatis-config.xml

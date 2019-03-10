@@ -4,9 +4,13 @@ import pageRoutes from './router.config';
 import webpackPlugin from './plugin.config';
 import defaultSettings from '../src/defaultSettings';
 import slash from 'slash2';
+import proxy from './proxy';
 
 const { pwa, primaryColor } = defaultSettings;
-const { NODE_ENV, APP_TYPE, TEST } = process.env;
+const { NODE_ENV, APP_TYPE, TEST, BASE_PATH } = process.env;
+
+// 用于控制，部署非跟目录下
+const basePath = BASE_PATH ? BASE_PATH : '';
 
 const plugins = [
   [
@@ -60,10 +64,8 @@ if (APP_TYPE === 'site') {
 
 export default {
   // add for transfer to umi
-  // base: '/adsf',
-  // runtimePublicPath: true,
-  base: '/admin-web/',
-  publicPath: '/admin-web/',
+  base: basePath,
+  publicPath: basePath,
   plugins,
   define: {
     APP_TYPE: APP_TYPE || '',
@@ -83,18 +85,7 @@ export default {
     '@antv/data-set': 'DataSet',
     bizcharts: 'BizCharts',
   },
-  proxy: {
-    '/admin-api/': {
-      target: 'http://180.167.213.26:18083/',
-      changeOrigin: true,
-      pathRewrite: {},
-    },
-    '/server/api/': {
-      target: 'https://preview.pro.ant.design/',
-      changeOrigin: true,
-      pathRewrite: { '^/server': '' },
-    },
-  },
+  proxy: proxy(NODE_ENV, basePath),
   ignoreMomentLocale: true,
   lessLoaderOptions: {
     javascriptEnabled: true,

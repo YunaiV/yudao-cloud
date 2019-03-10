@@ -75,8 +75,8 @@ export default {
     },
   ],
   'POST /admin-api/admins/passport/login': (req, res) => {
-    const { password, username } = req.body;
-    if (password === 'admin' && username === 'admin') {
+    const { username } = req.body;
+    if (username === 'admin') {
       res.send({
         code: 0,
         data: {
@@ -91,7 +91,7 @@ export default {
     res.send({
       code: 1000,
       data: {},
-      message: '账号或密码错误!',
+      message: '账号或密码错误-mock!',
     });
   },
   'POST /api/register': (req, res) => {

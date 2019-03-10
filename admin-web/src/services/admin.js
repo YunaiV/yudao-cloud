@@ -4,11 +4,11 @@ import request from '@/utils/request';
 // auth
 
 export async function getAdminMenus() {
-  return request('/admin-api/admins/resource/admin_menu_tree');
+  return request('/admin-api/admins/admin/menu_resource_tree');
 }
 
 export async function getAdminUrls(params) {
-  return request(`/admin-api/admins/resource/admin_url_list?${stringify(params)}`);
+  return request(`/admin-api/admins/admin/url_resource_list?${stringify(params)}`);
 }
 
 // admin

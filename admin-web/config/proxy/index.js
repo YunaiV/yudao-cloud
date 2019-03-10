@@ -19,13 +19,9 @@ function basePathBuilder(proxys, basePath) {
 }
 
 export default function(NODE_ENV, basePath) {
-  console.log('development', NODE_ENV === 'development');
-  console.log('undefined', NODE_ENV === 'undefined');
-  console.log(NODE_ENV);
   let proxys = NODE_ENV === 'development' || NODE_ENV === 'undefined' ? proxyDev : proxyProd;
   if (basePath) {
     proxys = basePathBuilder(proxys, basePath);
   }
-  console.log('proxys------>', proxys);
   return proxys;
 }

@@ -44,8 +44,8 @@ function getDictionaryText(req, res) {
 }
 
 export default {
-  'GET /admin-api/admins/resource/admin_menu_tree': getAdminMenuAll,
-  'GET /admin-api/admins/resource/admin_url_list': getAdminUrls,
+  'GET /admin-api/admins/admin/menu_resource_tree': getAdminMenuAll,
+  'GET /admin-api/admins/admin/url_resource_list': getAdminUrls,
   'GET /admin-api/admins/resource/tree': getResourceTree,
   'GET /admin-api/admins/role/page': getQueryRole,
   'GET /admin-api/admins/admin/page': getQueryRole,

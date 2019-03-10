@@ -1,6 +1,7 @@
 package cn.iocoder.mall.user.service.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.user.service.api.bo.UserBO;
 import cn.iocoder.mall.user.service.api.bo.UserPageBO;
 import cn.iocoder.mall.user.service.api.dto.UserPageDTO;
 import cn.iocoder.mall.user.service.api.dto.UserUpdateDTO;
@@ -8,6 +9,8 @@ import cn.iocoder.mall.user.service.api.dto.UserUpdateDTO;
 public interface UserService {
 
     CommonResult<UserPageBO> getUserPage(UserPageDTO userPageDTO);
+
+    CommonResult<UserBO> getUser(Integer userId);
 
     /**
      * 更新用户基本信息

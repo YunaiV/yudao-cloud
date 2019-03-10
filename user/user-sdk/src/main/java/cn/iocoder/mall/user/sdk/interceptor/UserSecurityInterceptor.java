@@ -38,7 +38,7 @@ public class UserSecurityInterceptor extends HandlerInterceptorAdapter {
             }
             authentication = result.getData();
             // 添加到 SecurityContext
-            UserSecurityContext context = new UserSecurityContext(authentication.getUid());
+            UserSecurityContext context = new UserSecurityContext(authentication.getUserId());
             UserSecurityContextHolder.setContext(context);
         }
         // 校验是否需要已授权

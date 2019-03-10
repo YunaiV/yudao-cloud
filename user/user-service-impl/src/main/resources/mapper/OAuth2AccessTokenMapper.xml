@@ -14,7 +14,7 @@
 
     <select id="selectByTokenId" parameterType="String" resultType="OAuth2AccessTokenDO">
         SELECT
-          id, adminId, valid, expires_time
+          id, user_id, valid, expires_time
         FROM oauth2_access_token
         WHERE id = #{id}
     </select>

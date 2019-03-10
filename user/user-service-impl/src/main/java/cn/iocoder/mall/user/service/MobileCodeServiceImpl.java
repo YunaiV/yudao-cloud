@@ -1,6 +1,8 @@
 package cn.iocoder.mall.user.service;
 
+import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.util.ValidationUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.user.dao.MobileCodeMapper;
 import cn.iocoder.mall.user.dataobject.MobileCodeDO;
@@ -77,10 +79,8 @@ public class MobileCodeServiceImpl implements MobileCodeService {
 
     // TODO 芋艿，后面要返回有效时间
     public CommonResult<Void> send(String mobile) {
-        // TODO 芋艿，校验手机格式
-        // 校验手机号码是否已经注册
-        if (userService.getUser(mobile) != null) {
-            return ServiceExceptionUtil.error(UserErrorCodeEnum.USER_MOBILE_ALREADY_REGISTERED.getCode());
+        if (!ValidationUtil.isMobile(mobile)) {
+            return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "手机格式不正确"); // TODO 有点搓
         }
         // 校验是否可以发送验证码
         MobileCodeDO lastMobileCodePO = mobileCodeMapper.selectLast1ByMobile(mobile);

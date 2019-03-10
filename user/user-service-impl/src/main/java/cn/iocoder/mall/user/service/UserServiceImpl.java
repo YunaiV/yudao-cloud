@@ -11,6 +11,7 @@ import cn.iocoder.mall.user.dao.UserRegisterMapper;
 import cn.iocoder.mall.user.dataobject.UserDO;
 import cn.iocoder.mall.user.dataobject.UserRegisterDO;
 import cn.iocoder.mall.user.service.api.UserService;
+import cn.iocoder.mall.user.service.api.bo.UserBO;
 import cn.iocoder.mall.user.service.api.bo.UserPageBO;
 import cn.iocoder.mall.user.service.api.constant.UserConstants;
 import cn.iocoder.mall.user.service.api.constant.UserErrorCodeEnum;
@@ -74,6 +75,11 @@ public class UserServiceImpl implements UserService {
         // 查询分页总数
         userPageBO.setCount(userMapper.selectCountByNicknameLike(userPageDTO.getNickname()));
         return CommonResult.success(userPageBO);
+    }
+
+    @Override
+    public CommonResult<UserBO> getUser(Integer userId) {
+        return CommonResult.success(UserConvert.INSTANCE.convert(userMapper.selectById(userId)));
     }
 
     @Override

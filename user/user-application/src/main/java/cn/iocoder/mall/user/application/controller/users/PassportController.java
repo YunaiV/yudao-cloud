@@ -1,4 +1,4 @@
-package cn.iocoder.mall.user.application.controller;
+package cn.iocoder.mall.user.application.controller.users;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.user.application.convert.PassportConvert;
@@ -51,12 +51,14 @@ public class PassportController {
     }
 
     @PermitAll
-    @PostMapping("mobile/send")
+    @PostMapping("mobile/send_register_code")
     @ApiOperation(value = "发送手机验证码")
     @ApiImplicitParam(name = "mobile", value = "手机号", required = true, example = "15601691300")
     public CommonResult<Void> mobileSend(@RequestParam("mobile") String mobile) {
         return mobileCodeService.send(mobile);
     }
+
+    // TODO 芋艿，改绑手机号
 
     // TODO 功能：qq 登陆
     @PermitAll

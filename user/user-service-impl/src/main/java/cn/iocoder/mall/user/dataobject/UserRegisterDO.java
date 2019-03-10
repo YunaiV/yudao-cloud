@@ -10,7 +10,7 @@ public class UserRegisterDO {
     /**
      * 用户编号
      */
-    private Long id;
+    private Integer id;
     /**
      * 创建时间
      */
@@ -21,11 +21,11 @@ public class UserRegisterDO {
     // TODO 芋艿 方式，手机注册、qq 等等
 
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public UserRegisterDO setId(Long id) {
+    public UserRegisterDO setId(Integer id) {
         this.id = id;
         return this;
     }

@@ -68,10 +68,10 @@ public class MobileCodeServiceImpl implements MobileCodeService {
      * 更新手机验证码已使用
      *
      * @param id 验证码编号
-     * @param uid 用户编号
+     * @param userId 用户编号
      */
-    public void useMobileCode(Long id, Long uid) {
-        MobileCodeDO update = new MobileCodeDO().setId(id).setUsed(true).setUsedUid(uid).setUsedTime(new Date());
+    public void useMobileCode(Integer id, Integer userId) {
+        MobileCodeDO update = new MobileCodeDO().setId(id).setUsed(true).setUsedUserId(userId).setUsedTime(new Date());
         mobileCodeMapper.update(update);
     }
 

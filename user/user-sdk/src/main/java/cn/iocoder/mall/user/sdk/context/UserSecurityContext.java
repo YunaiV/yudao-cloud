@@ -5,14 +5,14 @@ package cn.iocoder.mall.user.sdk.context;
  */
 public class UserSecurityContext {
 
-    private final Long uid;
+    private final Integer userId;
 
-    public UserSecurityContext(Long uid) {
-        this.uid = uid;
+    public UserSecurityContext(Integer userId) {
+        this.userId = userId;
     }
 
-    public Long getUid() {
-        return uid;
+    public Integer getUserId() {
+        return userId;
     }
 
 }

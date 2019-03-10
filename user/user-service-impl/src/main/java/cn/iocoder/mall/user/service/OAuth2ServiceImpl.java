@@ -94,19 +94,32 @@ public class OAuth2ServiceImpl implements OAuth2Service {
         return CommonResult.success(OAuth2Convert.INSTANCE.convertToAuthentication(accessTokenDO));
     }
 
-    private OAuth2AccessTokenDO createOAuth2AccessToken(Long uid, String refreshToken) {
+    /**
+     * 移除用户对应的 Token
+     *
+     * @param userId 管理员编号
+     */
+    @Transactional
+    public void removeToken(Integer userId) {
+        // 设置 access token 失效
+        oauth2AccessTokenMapper.updateToInvalidByUserId(userId);
+        // 设置 refresh token 失效
+        oauth2RefreshTokenMapper.updateToInvalidByUserId(userId);
+    }
+
+    private OAuth2AccessTokenDO createOAuth2AccessToken(Integer uid, String refreshToken) {
         OAuth2AccessTokenDO accessToken = new OAuth2AccessTokenDO().setId(generateAccessToken())
                 .setRefreshToken(refreshToken)
-                .setUid(uid)
+                .setUserId(uid)
                 .setExpiresTime(new Date(System.currentTimeMillis() + accessTokenExpireTimeMillis))
                 .setValid(true);
         oauth2AccessTokenMapper.insert(accessToken);
         return accessToken;
     }
 
-    private OAuth2RefreshTokenDO createOAuth2RefreshToken(Long uid) {
+    private OAuth2RefreshTokenDO createOAuth2RefreshToken(Integer uid) {
         OAuth2RefreshTokenDO refreshToken = new OAuth2RefreshTokenDO().setId(generateRefreshToken())
-                .setUid(uid)
+                .setUserId(uid)
                 .setExpiresTime(new Date(System.currentTimeMillis() + refreshTokenExpireTimeMillis))
                 .setValid(true);
         oauth2RefreshTokenMapper.insert(refreshToken);

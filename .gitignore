@@ -19,6 +19,7 @@
 *.iml
 *.ipr
 target/*
+target/*
 *.class
 
 ### NetBeans ###

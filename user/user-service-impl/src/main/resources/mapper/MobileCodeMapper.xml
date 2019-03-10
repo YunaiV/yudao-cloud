@@ -8,7 +8,7 @@
           used_uid, used_time, create_time
         ) VALUES (
           #{id}, #{mobile}, #{code}, #{todayIndex}, #{used},
-          #{usedUid}, #{usedTime}, #{createTime}
+          #{usedUserId}, #{usedTime}, #{createTime}
         )
     </insert>
 
@@ -16,7 +16,7 @@
         UPDATE mobile_code
         <set>
             <if test="used != null"> used = #{used}, </if>
-            <if test="usedUid != null"> used_uid = #{usedUid}, </if>
+            <if test="usedUserId != null"> used_uid = #{usedUserId}, </if>
             <if test="usedTime != null"> used_time = #{usedTime}, </if>
         </set>
         WHERE id = #{id}

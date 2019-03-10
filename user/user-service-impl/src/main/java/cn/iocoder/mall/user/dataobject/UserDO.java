@@ -12,7 +12,7 @@ public class UserDO extends BaseDO {
     /**
      * 用户编号
      */
-    private Long id;
+    private Integer id;
     /**
      * 手机号
      */
@@ -25,12 +25,19 @@ public class UserDO extends BaseDO {
      * 头像
      */
     private String avatar;
+    /**
+     * 账号状态
+     *
+     * 1 - 开启
+     * 2 - 禁用
+     */
+    private Integer status;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public UserDO setId(Long id) {
+    public UserDO setId(Integer id) {
         this.id = id;
         return this;
     }
@@ -59,6 +66,15 @@ public class UserDO extends BaseDO {
 
     public UserDO setAvatar(String avatar) {
         this.avatar = avatar;
+        return this;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public UserDO setStatus(Integer status) {
+        this.status = status;
         return this;
     }
 

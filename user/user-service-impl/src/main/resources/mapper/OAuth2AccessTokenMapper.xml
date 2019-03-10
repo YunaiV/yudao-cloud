@@ -4,10 +4,10 @@
 
     <insert id="insert" parameterType="OAuth2AccessTokenDO">
         INSERT INTO oauth2_access_token (
-          id, refresh_token, adminId, valid, expires_time,
+          id, refresh_token, user_id, valid, expires_time,
           create_time
         ) VALUES (
-          #{id}, #{refreshToken}, #{adminId}, #{valid}, #{expiresTime},
+          #{id}, #{refreshToken}, #{userId}, #{valid}, #{expiresTime},
            #{createTime}
         )
     </insert>
@@ -18,5 +18,12 @@
         FROM oauth2_access_token
         WHERE id = #{id}
     </select>
+
+    <update id="updateToInvalidByUserId" parameterType="Integer">
+        UPDATE oauth2_access_token
+        SET valid = 0
+        WHERE user_id = #{userId}
+        AND valid = 1
+    </update>
 
 </mapper>

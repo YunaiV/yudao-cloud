@@ -7,13 +7,13 @@ public class OAuth2AuthenticationBO implements Serializable {
     /**
      * 用户编号
      */
-    private Long uid;
+    private Integer uid;
 
-    public Long getUid() {
+    public Integer getUid() {
         return uid;
     }
 
-    public OAuth2AuthenticationBO setUid(Long uid) {
+    public OAuth2AuthenticationBO setUid(Integer uid) {
         this.uid = uid;
         return this;
     }

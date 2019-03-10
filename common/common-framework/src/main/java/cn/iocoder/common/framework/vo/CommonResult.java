@@ -3,7 +3,9 @@ package cn.iocoder.common.framework.vo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.util.Assert;
 
-public class CommonResult<T> {
+import java.io.Serializable;
+
+public class CommonResult<T> implements Serializable {
 
     public static Integer CODE_SUCCESS = 0;
 

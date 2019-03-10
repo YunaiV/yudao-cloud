@@ -1,13 +1,13 @@
 package cn.iocoder.mall.user.dataobject;
 
-import java.util.Date;
+import cn.iocoder.common.framework.dataobject.BaseDO;
 
 /**
  * 用户实体，存储用户基本数据。
  *
  * idx_mobile 唯一索引
  */
-public class UserDO {
+public class UserDO extends BaseDO {
 
     /**
      * 用户编号
@@ -18,9 +18,13 @@ public class UserDO {
      */
     private String mobile;
     /**
-     * 创建时间
+     * 昵称
      */
-    private Date createTime;
+    private String nickname;
+    /**
+     * 头像
+     */
+    private String avatar;
 
     public Long getId() {
         return id;
@@ -40,12 +44,22 @@ public class UserDO {
         return this;
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getNickname() {
+        return nickname;
     }
 
-    public UserDO setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public UserDO setNickname(String nickname) {
+        this.nickname = nickname;
         return this;
     }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public UserDO setAvatar(String avatar) {
+        this.avatar = avatar;
+        return this;
+    }
+
 }

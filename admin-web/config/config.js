@@ -62,8 +62,8 @@ export default {
   // add for transfer to umi
   // base: '/adsf',
   // runtimePublicPath: true,
-  base: '/admin-web',
-  publicPath: './admin-web/',
+  base: '/admin-web/',
+  publicPath: '/admin-web/',
   plugins,
   define: {
     APP_TYPE: APP_TYPE || '',

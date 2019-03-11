@@ -7,7 +7,6 @@ import {
   queryRole,
   queryRoleResourceTree,
   roleAssignResource,
-  resourceTree,
 } from '../../services/admin';
 
 function buildTreeNode(nodes, titleKey, nodeKey) {
@@ -22,10 +21,57 @@ function buildTreeNode(nodes, titleKey, nodeKey) {
   });
 }
 
-function getKeys(treeData) {
-  return treeData.map(item => {
-    return item.key;
-  });
+function findNodes(id, nodes) {
+  const res = [];
+  for (let i = 0; i < nodes.length; i += 1) {
+    const node = nodes[i];
+    if (node.key === id) {
+      res.push(node.key);
+      break;
+    } else {
+      const childNodes = findNodes(id, node.children);
+      if (childNodes.length) {
+        res.push(node.key);
+        for (let j = 0; j < childNodes.length; j += 1) {
+          res.push(childNodes[j]);
+        }
+        break;
+      }
+    }
+  }
+  return res;
+}
+
+function findAllNodes(resourceIds, nodes) {
+  const findNodesArray = [];
+  for (let i = 0; i < resourceIds.length; i += 1) {
+    const findNodesData = findNodes(resourceIds[i], nodes);
+    if (findNodesData) {
+      for (let j = 0; j < findNodesData.length; j += 1) {
+        const jD = findNodesData[j];
+        if (findNodesArray.indexOf(jD) === -1) {
+          findNodesArray.push(jD);
+        }
+      }
+    }
+  }
+  return findNodesArray;
+}
+
+function findCheckedKeys(nodes) {
+  let res = [];
+  for (let i = 0; i < nodes.length; i += 1) {
+    const node = nodes[i];
+    if (node.children) {
+      const findChildrenNodes = findCheckedKeys(node.children);
+      if (findChildrenNodes) {
+        res = res.concat(findChildrenNodes);
+      }
+    } else if (node.assigned === true) {
+      res.push(node.id);
+    }
+  }
+  return res;
 }
 
 export default {
@@ -38,7 +84,6 @@ export default {
     pageSize: 10,
 
     roleTreeData: [],
-    resourceTreeData: [],
     checkedKeys: [],
     assignModalLoading: true,
   },
@@ -99,31 +144,16 @@ export default {
         payload: true,
       });
 
-      const roleResourceResponse = yield call(queryRoleResourceTree, payload);
-      const resourceTreeResponse = yield call(resourceTree);
-
-      const roleTreeData = buildTreeNode(roleResourceResponse.data, 'displayName', 'id');
-      const resourceTreeData = buildTreeNode(resourceTreeResponse.data, 'displayName', 'id');
-      const roleTreeIdKeys = getKeys(roleTreeData);
-      const resourceTreeIdKeys = getKeys(resourceTreeData);
-
-      const checkedKeys = roleTreeIdKeys.filter(roleKey => {
-        let res = false;
-        resourceTreeIdKeys.map(key => {
-          if (key === roleKey) {
-            res = true;
-          }
-          return key;
-        });
-        return res;
-      });
+      const response = yield call(queryRoleResourceTree, payload);
+      const roleResourceTree = response.data;
+      const roleTreeData = buildTreeNode(roleResourceTree, 'displayName', 'id');
+      const checkedKeys = findCheckedKeys(roleResourceTree);
 
       yield put({
         type: 'querySuccess',
         payload: {
           checkedKeys,
           roleTreeData,
-          resourceTreeData,
         },
       });
 
@@ -133,10 +163,12 @@ export default {
       });
     },
     *roleAssignResource({ payload }, { call }) {
-      const { id, resourceIds } = payload;
+      const { id, resourceIds, roleTreeData } = payload;
+      const assignNodes = findAllNodes(resourceIds, roleTreeData);
+
       const params = {
         id,
-        resourceIds: arrayToStringParams(resourceIds),
+        resourceIds: arrayToStringParams(assignNodes),
       };
       const response = yield call(roleAssignResource, params);
       if (response.code === 0) {

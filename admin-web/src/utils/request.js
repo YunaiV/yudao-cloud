@@ -4,6 +4,7 @@ import router from 'umi/router';
 import hash from 'hash.js';
 import { isAntdPro } from './utils';
 import { getLoginToken } from './cache';
+import { setAuthority } from './authority';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -21,6 +22,14 @@ const codeMessage = {
   502: '网关错误。',
   503: '服务不可用，服务器暂时过载或维护。',
   504: '网关超时。',
+};
+
+// 需要调整 login 界面的 code
+const redirectLoginCode = {
+  1002001011: true,
+  1002001012: true,
+  1002001013: true,
+  1002001015: true,
 };
 
 function checkStatus(response) {
@@ -43,11 +52,17 @@ function checkCode(result) {
   if (result.code === undefined || result.code === 0) {
     return result;
   }
-
   notification.warning({
     message: `请求错误 ${result.code}`,
     description: result.message,
   });
+
+  // 重定向到登录界面
+  if (redirectLoginCode[result.code]) {
+    setAuthority('');
+    window.location.reload();
+  }
+
   const error = new Error(result.message);
   error.result = result;
   throw error;

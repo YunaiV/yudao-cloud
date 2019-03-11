@@ -26,10 +26,10 @@ const codeMessage = {
 
 // 需要调整 login 界面的 code
 const redirectLoginCode = {
-  1002001011: true,
-  1002001012: true,
-  1002001013: true,
-  1002001015: true,
+  1002001011: '访问令牌不存在',
+  1002001012: '访问令牌已过期',
+  1002001013: '访问令牌已失效',
+  1002001015: '账号未登陆',
 };
 
 function checkStatus(response) {

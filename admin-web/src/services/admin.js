@@ -95,3 +95,18 @@ export async function updateRole(params) {
     body: {},
   });
 }
+
+export async function queryRoleResourceTree(params) {
+  return request(`/admin-api/admins/role/resource_tree?${stringify(params)}`, {
+    method: 'GET',
+  });
+}
+
+export async function roleAssignResource(params) {
+  return request(`/admin-api/admins/role/assign_resource?${stringify(params)}`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}

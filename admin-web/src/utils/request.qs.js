@@ -30,6 +30,17 @@ function filterEmptyStr(params) {
   }
 }
 
+export function arrayToStringParams(array) {
+  let res = '';
+  for (let i = 0; i < array.length; i++) {
+    res += array[i];
+    if (i < array.length - 1) {
+      res += ',';
+    }
+  }
+  return res;
+}
+
 export function stringify(params) {
   return qs.stringify(filterEmptyStr(params));
 }

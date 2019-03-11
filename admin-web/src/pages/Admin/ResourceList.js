@@ -65,6 +65,7 @@ const CreateForm = Form.create()(props => {
           rules: [{ required: true, message: '请输入父级编号！' }],
           initialValue: initValues.pid,
         })(<Input placeholder="请输入" />)}
+        <span>根节点为 0</span>
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="排序">
         {form.getFieldDecorator('sort', {

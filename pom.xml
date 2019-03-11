@@ -20,6 +20,7 @@
         <module>common</module>
         <module>admin</module>
         <module>ops</module>
+        <module>pay</module>
     </modules>
     <packaging>pom</packaging>
 

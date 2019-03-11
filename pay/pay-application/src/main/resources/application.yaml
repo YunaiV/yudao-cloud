@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: pay-application
+
+# server
+server:
+  port: 18084
+  servlet:
+    context-path: /pay-api/

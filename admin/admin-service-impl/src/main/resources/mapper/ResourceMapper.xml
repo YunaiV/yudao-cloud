@@ -43,6 +43,7 @@
             r.create_time, r.pid, r.handler
         FROM resource r, role_resource rr
         WHERE r.deleted = 0
+        AND rr.deleted = 0
         <if test="type != null">
             AND r.type = #{type}
         </if>

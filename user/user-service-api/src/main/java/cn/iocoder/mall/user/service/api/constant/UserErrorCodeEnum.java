@@ -20,6 +20,9 @@ public enum UserErrorCodeEnum {
     // ========== 用户模块 ==========
     USER_MOBILE_NOT_REGISTERED(1001002000, "手机号未注册用户"),
     USER_MOBILE_ALREADY_REGISTERED(1001002001, "手机号已经注册用户"),
+    USER_NOT_EXISTS(1001002002, "用户不存在"),
+    USER_STATUS_EQUALS(1001002003, "账号已经是该状态"),
+    USER_MOBILE_EQUALS(1001002004, "账号已经是该手机号"),
 
     // ========== 手机验证码模块 ==========
     MOBILE_CODE_NOT_FOUND(1001003000, "验证码不存在"),

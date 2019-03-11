@@ -1,4 +1,4 @@
-package cn.iocoder.mall.user.application.controller;
+package cn.iocoder.mall.user.application.controller.users;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.user.application.convert.PassportConvert;
@@ -7,7 +7,7 @@ import cn.iocoder.mall.user.service.api.MobileCodeService;
 import cn.iocoder.mall.user.service.api.OAuth2Service;
 import cn.iocoder.mall.user.service.api.UserService;
 import cn.iocoder.mall.user.service.api.bo.OAuth2AccessTokenBO;
-import cn.iocoder.mall.user.application.vo.MobileRegisterVO;
+import cn.iocoder.mall.user.application.vo.users.MobileRegisterVO;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("user/passport")
+@RequestMapping("users/passport")
 @Api("Passport 模块")
 public class PassportController {
 
@@ -51,12 +51,14 @@ public class PassportController {
     }
 
     @PermitAll
-    @PostMapping("mobile/send")
+    @PostMapping("mobile/send_register_code")
     @ApiOperation(value = "发送手机验证码")
     @ApiImplicitParam(name = "mobile", value = "手机号", required = true, example = "15601691300")
     public CommonResult<Void> mobileSend(@RequestParam("mobile") String mobile) {
         return mobileCodeService.send(mobile);
     }
+
+    // TODO 芋艿，改绑手机号
 
     // TODO 功能：qq 登陆
     @PermitAll

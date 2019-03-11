@@ -16,7 +16,7 @@ public class OAuth2RefreshTokenDO {
     /**
      * 用户编号
      */
-    private Long uid;
+    private Integer userId;
     /**
      * 是否有效
      */
@@ -39,12 +39,12 @@ public class OAuth2RefreshTokenDO {
         return this;
     }
 
-    public Long getUid() {
-        return uid;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public OAuth2RefreshTokenDO setUid(Long uid) {
-        this.uid = uid;
+    public OAuth2RefreshTokenDO setUserId(Integer userId) {
+        this.userId = userId;
         return this;
     }
 

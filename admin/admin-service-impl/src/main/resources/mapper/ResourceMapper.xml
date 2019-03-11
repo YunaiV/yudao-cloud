@@ -86,6 +86,7 @@
           COUNT(1)
         FROM resource
         WHERE pid = #{pid}
+        AND deleted = 0
     </select>
 
     <insert id="insert" parameterType="ResourceDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">

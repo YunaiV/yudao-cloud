@@ -1,14 +1,10 @@
 spring:
   # datasource
   datasource:
-    url: jdbc:mysql://127.0.0.1:33061/mall_user?useSSL=false
+    url: jdbc:mysql://180.167.213.26:13306/mall_user?useSSL=false&useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: 123456
-
-# server
-server:
-  port: 8082
+    password: ${MALL_MYSQL_PASSWORD}
 
 # mybatis
 mybatis:

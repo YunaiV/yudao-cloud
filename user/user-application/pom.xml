@@ -93,6 +93,12 @@
         </dependency>
 
         <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>admin-sdk</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId> <!-- use mapstruct-jdk8 for Java 8 or higher -->
             <version>${org.mapstruct.version}</version>
@@ -119,6 +125,16 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+
+            <!-- 打包 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 

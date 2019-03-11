@@ -5,10 +5,10 @@
     <insert id="insert" parameterType="MobileCodeDO">
         INSERT INTO mobile_code (
           id, mobile, code, today_index, used,
-          used_uid, used_time, create_time
+          userd_user_id, used_time, create_time
         ) VALUES (
           #{id}, #{mobile}, #{code}, #{todayIndex}, #{used},
-          #{usedUid}, #{usedTime}, #{createTime}
+          #{usedUserId}, #{usedTime}, #{createTime}
         )
     </insert>
 
@@ -16,7 +16,7 @@
         UPDATE mobile_code
         <set>
             <if test="used != null"> used = #{used}, </if>
-            <if test="usedUid != null"> used_uid = #{usedUid}, </if>
+            <if test="usedUserId != null"> userd_user_id = #{usedUserId}, </if>
             <if test="usedTime != null"> used_time = #{usedTime}, </if>
         </set>
         WHERE id = #{id}
@@ -25,7 +25,7 @@
     <select id="selectLast1ByMobile" parameterType="String" resultType="MobileCodeDO">
       SELECT
           id, mobile, code, today_index, used,
-          used_uid, used_time, create_time
+          userd_user_id, used_time, create_time
       FROM mobile_code
       WHERE mobile = #{mobile}
       ORDER BY id DESC

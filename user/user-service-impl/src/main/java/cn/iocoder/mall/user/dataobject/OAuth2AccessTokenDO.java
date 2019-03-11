@@ -15,7 +15,7 @@ public class OAuth2AccessTokenDO {
     /**
      * 用户编号
      */
-    private Long uid;
+    private Integer userId;
     /**
      * 过期时间
      */
@@ -47,12 +47,12 @@ public class OAuth2AccessTokenDO {
         return this;
     }
 
-    public Long getUid() {
-        return uid;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public OAuth2AccessTokenDO setUid(Long uid) {
-        this.uid = uid;
+    public OAuth2AccessTokenDO setUserId(Integer userId) {
+        this.userId = userId;
         return this;
     }
 

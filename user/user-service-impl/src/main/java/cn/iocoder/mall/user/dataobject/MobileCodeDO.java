@@ -8,7 +8,7 @@ public class MobileCodeDO {
     /**
      * 编号
      */
-    private Long id;
+    private Integer id;
     /**
      * 手机号
      */
@@ -28,7 +28,7 @@ public class MobileCodeDO {
     /**
      * 注册的用户编号
      */
-    private Long usedUid;
+    private Integer usedUserId;
     /**
      * 创建时间
      */
@@ -38,11 +38,11 @@ public class MobileCodeDO {
      */
     private Date usedTime;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public MobileCodeDO setId(Long id) {
+    public MobileCodeDO setId(Integer id) {
         this.id = id;
         return this;
     }
@@ -83,12 +83,12 @@ public class MobileCodeDO {
         return this;
     }
 
-    public Long getUsedUid() {
-        return usedUid;
+    public Integer getUsedUserId() {
+        return usedUserId;
     }
 
-    public MobileCodeDO setUsedUid(Long usedUid) {
-        this.usedUid = usedUid;
+    public MobileCodeDO setUsedUserId(Integer usedUserId) {
+        this.usedUserId = usedUserId;
         return this;
     }
 

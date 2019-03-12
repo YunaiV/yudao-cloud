@@ -100,6 +100,7 @@ const AssignModal = Form.create()(props => {
             <Tree
               defaultExpandAll={true}
               checkable={true}
+              multiple={true}
               checkedKeys={checkedKeys}
               onCheck={handleCheckBoxClick}
             >
@@ -212,6 +213,7 @@ class RoleList extends PureComponent {
       payload: {
         id: roleAssignRecord.id,
         resourceIds: data.checkedKeys,
+        roleTreeData: data.roleTreeData,
       },
     });
     this.handleAssignModalVisibleClose(false);
@@ -282,7 +284,7 @@ class RoleList extends PureComponent {
   render() {
     const { list, data } = this.props;
 
-    const { pageNo, pageSize, count, resourceTreeData, checkedKeys, assignModalLoading } = data;
+    const { pageNo, pageSize, count, roleTreeData, checkedKeys, assignModalLoading } = data;
     const { modalVisible, modalType, initValues, roleAssignVisible } = this.state;
 
     const parentMethods = {
@@ -350,7 +352,7 @@ class RoleList extends PureComponent {
         <CreateForm {...parentMethods} modalVisible={modalVisible} />
         <AssignModal
           loading={assignModalLoading}
-          treeData={resourceTreeData}
+          treeData={roleTreeData}
           checkedKeys={checkedKeys}
           handleOk={this.handleAssignOK}
           modalVisible={roleAssignVisible}

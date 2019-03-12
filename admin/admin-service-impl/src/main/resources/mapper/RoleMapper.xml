@@ -63,7 +63,7 @@
     <select id="selectListByIds" resultType="RoleDO">
         SELECT
             <include refid="FIELDS"/>
-        FROM resource
+        FROM role
         WHERE id IN
         <foreach item="id" collection="ids" separator="," open="(" close=")" index="">
             #{id}

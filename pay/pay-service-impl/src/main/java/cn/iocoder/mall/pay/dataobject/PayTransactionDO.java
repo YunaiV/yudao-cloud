@@ -34,15 +34,6 @@ public class PayTransactionDO extends BaseDO {
      */
     private String orderId;
     /**
-     * 订单状态
-     *
-     * 0 ： 等待支付
-     * 1 ： 待付款完成
-     * 2 ： 该笔交易已关闭 TODO 交易关闭，是不是订单系统触发
-     * -1 ： 支付失败 TODO 怎么触发
-     */
-    private Integer orderStatus;
-    /**
      * 订单商品名
      */
     private String orderSubject;
@@ -61,15 +52,37 @@ public class PayTransactionDO extends BaseDO {
      */
     private Integer price;
     /**
+     * 订单状态
+     *
+     * @see cn.iocoder.mall.pay.api.constant.PayTransactionStatusEnum
+     */
+    private Integer status;
+    /**
      * 交易过期时间
      */
-    private Integer expireTime;
+    private Date expireTime;
+    /**
+     * 回调业务线完成时间
+     */
+    private Date finishTime;
+
 
     // TODO return url
-    // TODO notify url
+    /**
+     * 异步通知地址
+     */
+    private String notifyUrl;
 
     /**
+     * 成功支付的交易拓展编号
+     *
+     * @see PayTransactionExtensionDO#getId()
+     */
+    private Integer extensionId;
+    /**
      * 支付成功的支付渠道
+     *
+     * @see cn.iocoder.mall.pay.api.constant.PayChannelEnum
      */
     private Integer payChannel;
     /**
@@ -123,12 +136,12 @@ public class PayTransactionDO extends BaseDO {
         return this;
     }
 
-    public Integer getOrderStatus() {
-        return orderStatus;
+    public Integer getStatus() {
+        return status;
     }
 
-    public PayTransactionDO setOrderStatus(Integer orderStatus) {
-        this.orderStatus = orderStatus;
+    public PayTransactionDO setStatus(Integer status) {
+        this.status = status;
         return this;
     }
 
@@ -147,15 +160,6 @@ public class PayTransactionDO extends BaseDO {
 
     public PayTransactionDO setPayChannel(Integer payChannel) {
         this.payChannel = payChannel;
-        return this;
-    }
-
-    public Integer getExpireTime() {
-        return expireTime;
-    }
-
-    public PayTransactionDO setExpireTime(Integer expireTime) {
-        this.expireTime = expireTime;
         return this;
     }
 
@@ -210,6 +214,42 @@ public class PayTransactionDO extends BaseDO {
 
     public PayTransactionDO setOrderMemo(String orderMemo) {
         this.orderMemo = orderMemo;
+        return this;
+    }
+
+    public Date getExpireTime() {
+        return expireTime;
+    }
+
+    public PayTransactionDO setExpireTime(Date expireTime) {
+        this.expireTime = expireTime;
+        return this;
+    }
+
+    public Date getFinishTime() {
+        return finishTime;
+    }
+
+    public PayTransactionDO setFinishTime(Date finishTime) {
+        this.finishTime = finishTime;
+        return this;
+    }
+
+    public Integer getExtensionId() {
+        return extensionId;
+    }
+
+    public PayTransactionDO setExtensionId(Integer extensionId) {
+        this.extensionId = extensionId;
+        return this;
+    }
+
+    public String getNotifyUrl() {
+        return notifyUrl;
+    }
+
+    public PayTransactionDO setNotifyUrl(String notifyUrl) {
+        this.notifyUrl = notifyUrl;
         return this;
     }
 }

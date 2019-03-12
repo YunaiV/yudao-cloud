@@ -16,6 +16,7 @@
       FROM admin a, admin_role ar
       WHERE a.id = #{adminId}
       AND a.id = ar.admin_id
+      AND ar.deleted = 0
     </select>
 
     <update id="updateToDeletedByAdminId" parameterType="Integer">

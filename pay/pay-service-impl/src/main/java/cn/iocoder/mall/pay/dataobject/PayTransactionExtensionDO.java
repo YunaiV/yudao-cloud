@@ -21,14 +21,10 @@ public class PayTransactionExtensionDO extends BaseDO {
     private Integer payChannel;
     /**
      * 生成传输给第三方的订单号
+     *
+     * 唯一索引
      */
     private String transactionCode;
-    /**
-     * 发起调用的次数
-     *
-     * TODO 芋艿，需要去请教下
-     */
-    private Integer callNum;
     /**
      * 扩展内容
      *
@@ -39,6 +35,13 @@ public class PayTransactionExtensionDO extends BaseDO {
      * 发起交易的 IP
      */
     private String createIp;
+    /**
+     * 状态
+     *
+     * @see cn.iocoder.mall.pay.api.constant.PayTransactionStatusEnum
+     * 注意，只包含上述枚举的 WAITTING 和 SUCCESS
+     */
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -76,15 +79,6 @@ public class PayTransactionExtensionDO extends BaseDO {
         return this;
     }
 
-    public Integer getCallNum() {
-        return callNum;
-    }
-
-    public PayTransactionExtensionDO setCallNum(Integer callNum) {
-        this.callNum = callNum;
-        return this;
-    }
-
     public String getExtensionData() {
         return extensionData;
     }
@@ -100,6 +94,15 @@ public class PayTransactionExtensionDO extends BaseDO {
 
     public PayTransactionExtensionDO setCreateIp(String createIp) {
         this.createIp = createIp;
+        return this;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public PayTransactionExtensionDO setStatus(Integer status) {
+        this.status = status;
         return this;
     }
 

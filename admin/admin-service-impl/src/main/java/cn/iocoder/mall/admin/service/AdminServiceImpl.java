@@ -183,7 +183,7 @@ public class AdminServiceImpl implements AdminService {
         }
         // TODO 芋艿，这里先简单实现。即方式是，删除老的分配的角色关系，然后添加新的分配的角色关系
         // 标记管理员角色源关系都为删除
-        adminRoleMapper.updateToDeletedByRoleId(updateAdminId);
+        adminRoleMapper.updateToDeletedByAdminId(updateAdminId);
         // 创建 RoleResourceDO 数组，并插入到数据库
         if (!roleIds.isEmpty()) {
             List<AdminRoleDO> adminRoleDOs = roleIds.stream().map(roleId -> {

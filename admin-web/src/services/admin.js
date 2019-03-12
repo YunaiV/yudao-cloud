@@ -43,6 +43,18 @@ export async function deleteAdmin(params) {
   });
 }
 
+export async function queryAdminRoleList(params) {
+  return request(`/admin-api/admins/admin/role_list?${stringify(params)}`, {
+    method: 'GET',
+  });
+}
+
+export async function adminRoleAssign(params) {
+  return request(`/admin-api/admins/admin/assign_role?${stringify(params)}`, {
+    method: 'POST',
+  });
+}
+
 // resource
 
 export async function addResource(params) {

@@ -2,14 +2,13 @@
 
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import moment from 'moment';
-import { Card, Form, Input, Select, Button, Modal, message, Table, Divider } from 'antd';
+import { Card, Form, Input, Button, Modal, message, Table, Divider, Tree, Spin } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './AdminList.less';
 
 const FormItem = Form.Item;
-const { Option } = Select;
+const { TreeNode } = Tree;
 const status = ['未知', '正常', '禁用'];
 
 // 添加 form 表单
@@ -64,6 +63,78 @@ const CreateForm = Form.create()(props => {
   );
 });
 
+// 角色分配
+const RoleAssignModal = Form.create()(props => {
+  const {
+    modalVisible,
+    form,
+    handleOk,
+    handleModalVisible,
+    treeData,
+    checkedKeys,
+    loading,
+    handleCheckBoxClick,
+  } = props;
+
+  const renderTreeNodes = data => {
+    return data.map(item => {
+      if (item.children) {
+        return (
+          <TreeNode title={item.title} key={item.key} dataRef={item}>
+            {renderTreeNodes(item.children)}
+          </TreeNode>
+        );
+      }
+      return <TreeNode title={item.title} key={item.key} dataRef={item} />;
+    });
+  };
+
+  const renderModalContent = treeData => {
+    const RenderTreeNodes = renderTreeNodes(treeData);
+    if (RenderTreeNodes) {
+      return (
+        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="角色">
+          {form.getFieldDecorator('name', {})(
+            <Tree
+              defaultExpandAll={true}
+              checkable={true}
+              multiple={true}
+              checkedKeys={checkedKeys}
+              onCheck={handleCheckBoxClick}
+            >
+              {renderTreeNodes(treeData)}
+            </Tree>
+          )}
+        </FormItem>
+      );
+    } else {
+      return null;
+    }
+  };
+
+  const okHandle = () => {
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      form.resetFields();
+      handleOk({
+        fields: fieldsValue,
+      });
+    });
+  };
+
+  return (
+    <Modal
+      destroyOnClose
+      title="分配角色"
+      visible={modalVisible}
+      onOk={okHandle}
+      onCancel={() => handleModalVisible()}
+    >
+      <Spin spinning={loading}>{renderModalContent(treeData)}</Spin>
+    </Modal>
+  );
+});
+
 @connect(({ adminList, loading }) => ({
   list: adminList.list,
   data: adminList,
@@ -75,6 +146,9 @@ class ResourceList extends PureComponent {
     modalVisible: false,
     modalType: 'add', //add update
     initValues: {},
+
+    modalRoleVisible: false,
+    modalRoleRow: {},
   };
 
   componentDidMount() {
@@ -160,9 +234,87 @@ class ResourceList extends PureComponent {
     });
   }
 
+  handleDelete(row) {
+    const { dispatch, data } = this.props;
+    const queryParams = {
+      pageNo: data.pageNo,
+      pageSize: data.pageSize,
+    };
+
+    Modal.confirm({
+      title: `确认删除?`,
+      content: `${row.username}`,
+      onOk() {
+        dispatch({
+          type: 'adminList/delete',
+          payload: {
+            body: {
+              id: row.id,
+            },
+            queryParams,
+          },
+        });
+      },
+      onCancel() {},
+    });
+  }
+
+  handleRoleAssign = row => {
+    const { dispatch } = this.props;
+    this.setState({
+      modalRoleVisible: !!true,
+      modalRoleRow: row,
+    });
+
+    dispatch({
+      type: 'adminList/queryRoleList',
+      payload: {
+        id: row.id,
+      },
+    });
+  };
+
+  handleRoleAssignCheckBoxClick = checkedKeys => {
+    const { dispatch } = this.props;
+    const newCheckedKeys = checkedKeys.map(item => {
+      return parseInt(item);
+    });
+    dispatch({
+      type: 'adminList/changeRoleCheckedKeys',
+      payload: newCheckedKeys,
+    });
+  };
+
+  handleRoleAssignOK = () => {
+    const { dispatch, data } = this.props;
+    const { modalRoleRow } = this.state;
+    dispatch({
+      type: 'adminList/roleAssign',
+      payload: {
+        id: modalRoleRow.id,
+        roleIds: data.roleCheckedKeys,
+      },
+    });
+    this.handleRoleAssignModalVisibleClose(false);
+  };
+
+  handleRoleAssignModalVisibleClose = fag => {
+    this.setState({
+      modalRoleVisible: !!fag,
+    });
+  };
+
   render() {
-    const { list } = this.props;
-    const { modalVisible, modalType, initValues, defaultExpandAllRows } = this.state;
+    const { list, data } = this.props;
+    const { roleList, roleCheckedKeys, roleAssignLoading } = data;
+    const {
+      modalVisible,
+      modalType,
+      initValues,
+      defaultExpandAllRows,
+      modalRoleVisible,
+    } = this.state;
+
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
@@ -194,11 +346,14 @@ class ResourceList extends PureComponent {
       },
       {
         title: '操作',
+        width: 300,
         render: (text, record) => {
           const statusText = record.status === 1 ? '确认禁用' : '取消禁用';
           return (
             <Fragment>
               <a onClick={() => this.handleModalVisible(true, 'update', record)}>更新</a>
+              <Divider type="vertical" />
+              <a onClick={() => this.handleRoleAssign(record)}>角色分配</a>
               <Divider type="vertical" />
               <a className={styles.tableDelete} onClick={() => this.handleStatus(record)}>
                 {statusText}
@@ -235,6 +390,16 @@ class ResourceList extends PureComponent {
           />
         </Card>
         <CreateForm {...parentMethods} modalVisible={modalVisible} />
+
+        <RoleAssignModal
+          loading={roleAssignLoading}
+          treeData={roleList}
+          checkedKeys={roleCheckedKeys}
+          handleOk={this.handleRoleAssignOK}
+          modalVisible={modalRoleVisible}
+          handleCheckBoxClick={this.handleRoleAssignCheckBoxClick}
+          handleModalVisible={() => this.handleRoleAssignModalVisibleClose(false)}
+        />
       </PageHeaderWrapper>
     );
   }

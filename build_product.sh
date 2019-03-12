@@ -1,1 +1,0 @@
-mvn clean package -pl product/product-application -am -DskipTests

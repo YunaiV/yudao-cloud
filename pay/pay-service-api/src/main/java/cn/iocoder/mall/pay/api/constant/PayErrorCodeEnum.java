@@ -7,7 +7,13 @@ package cn.iocoder.mall.pay.api.constant;
  */
 public enum PayErrorCodeEnum {
 
-    // ========== PAY 模块 ==========
+    // ========== APP 模块 ==========
+    PAY_APP_NOT_FOUND(1004000000, "App 不存在"),
+    PAY_APP_IS_DISABLE(1004000001, "App 已经被禁用"),
+
+    // ========== TRANSACTION 模块 ==========
+
+
     ;
 
     private final int code;

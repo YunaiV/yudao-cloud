@@ -3,7 +3,7 @@ package cn.iocoder.mall.pay.api.constant;
 /**
  * 支付通道
  */
-public enum PayChannel {
+public enum PayChannelEnum {
 
     WEIXIN_APP(100, "wx", "微信 App 支付"),
     WEIXIN_PUB(100, "wx", "微信 JS API 支付"),
@@ -23,7 +23,7 @@ public enum PayChannel {
      */
     private String name;
 
-    PayChannel(Integer id, String code, String name) {
+    PayChannelEnum(Integer id, String code, String name) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -40,4 +40,5 @@ public enum PayChannel {
     public String getName() {
         return name;
     }
+
 }

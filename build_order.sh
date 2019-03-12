@@ -1,1 +1,0 @@
-mvn clean package -pl order/order-application -am -DskipTests

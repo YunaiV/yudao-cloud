@@ -21,7 +21,6 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './RoleList.less';
 
 const FormItem = Form.Item;
-const { Option } = Select;
 const { TreeNode } = Tree;
 
 // 添加 form 表单
@@ -65,7 +64,7 @@ const CreateForm = Form.create()(props => {
   );
 });
 
-// 添加 form 表单
+// 角色分配
 const AssignModal = Form.create()(props => {
   const {
     modalVisible,

@@ -101,7 +101,6 @@ export default {
     *roleAssignResource({ payload }, { call }) {
       const { id, resourceIds, roleTreeData } = payload;
       const assignNodes = findAllNodes(resourceIds, roleTreeData);
-
       const params = {
         id,
         resourceIds: arrayToStringParams(assignNodes),

@@ -20,15 +20,13 @@ function findNodes(id, nodes) {
     if (node.key === id) {
       res.push(node.key);
       break;
-    } else {
+    } else if (node.children) {
       const childNodes = findNodes(id, node.children);
-      if (childNodes.length) {
-        res.push(node.key);
-        for (let j = 0; j < childNodes.length; j += 1) {
-          res.push(childNodes[j]);
-        }
-        break;
+      res.push(node.key);
+      for (let j = 0; j < childNodes.length; j += 1) {
+        res.push(childNodes[j]);
       }
+      break;
     }
   }
   return res;

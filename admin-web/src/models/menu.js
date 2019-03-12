@@ -200,9 +200,7 @@ export default {
       // const resultMenuData = data;
       if (data !== 'all') {
         const moveChildrenMenusData = moveChildrenMenus(antMenuData);
-        console.log('moveChildrenMenusData', moveChildrenMenusData);
         const buildTreeMenuData = buildTreeMenu(antMenuData, moveChildrenMenusData, data);
-        console.log('buildTreeMenuData', buildTreeMenuData);
         menuData = buildTreeMenuData;
       }
 

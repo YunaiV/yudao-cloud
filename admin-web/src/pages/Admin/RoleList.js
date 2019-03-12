@@ -3,19 +3,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import {
-  Card,
-  Form,
-  Input,
-  Select,
-  Spin,
-  Button,
-  Modal,
-  message,
-  Table,
-  Divider,
-  Tree,
-} from 'antd';
+import { Card, Form, Input, Spin, Button, Modal, message, Table, Divider, Tree } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './RoleList.less';
@@ -37,10 +25,6 @@ const CreateForm = Form.create()(props => {
         initValues,
       });
     });
-  };
-
-  const selectStyle = {
-    width: 200,
   };
 
   const title = modalType === 'add' ? '添加一个 Role' : '更新一个 Role';

@@ -51,9 +51,10 @@ public class PayTransactionNotifyTaskDO extends BaseDO {
      * 最大可通知次数
      */
     private Integer maxNotifyTimes;
-
-    // TODO notify url
-
+    /**
+     * 通知地址
+     */
+    private String notifyUrl;
 
     public Integer getTransactionId() {
         return transactionId;
@@ -136,4 +137,12 @@ public class PayTransactionNotifyTaskDO extends BaseDO {
         return this;
     }
 
+    public String getNotifyUrl() {
+        return notifyUrl;
+    }
+
+    public PayTransactionNotifyTaskDO setNotifyUrl(String notifyUrl) {
+        this.notifyUrl = notifyUrl;
+        return this;
+    }
 }

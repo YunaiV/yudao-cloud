@@ -13,4 +13,7 @@ public abstract class AbstractPaySDK {
                                                            PayTransactionExtensionDO transactionExtension,
                                                            Map<String, Object> extra);
 
+    // TODO 芋艿，理论来说不会出现解析失败的情况，先返回这个参数列。等后面封装支付宝和微信支付的时候，在看看。
+    public abstract CommonResult<TransactionPaySuccessBO> parseTransactionPaySuccessParams(String params);
+
 }

@@ -3,11 +3,14 @@ package cn.iocoder.mall.pay.client;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.pay.dataobject.PayTransactionDO;
 import cn.iocoder.mall.pay.dataobject.PayTransactionExtensionDO;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import com.pingplusplus.Pingpp;
 import com.pingplusplus.exception.*;
 import com.pingplusplus.model.Charge;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +28,7 @@ public class PingxxPaySDK extends AbstractPaySDK {
         // 请求ping++
         try {
             Charge charge = Charge.create(reqObj);
-//            System.out.println(charge.toString());
+            System.out.println(charge.toString());
             return CommonResult.success(charge.toString());
         } catch (AuthenticationException e) {
             e.printStackTrace();
@@ -43,6 +46,16 @@ public class PingxxPaySDK extends AbstractPaySDK {
         return null;
     }
 
+    @Override
+    public CommonResult<TransactionPaySuccessBO> parseTransactionPaySuccessParams(String params) {
+        JSONObject paramsObj = JSON.parseObject(params);
+        JSONObject chargeObj = paramsObj.getJSONObject("data").getJSONObject("object");
+        TransactionPaySuccessBO transactionPaySuccessBO = new TransactionPaySuccessBO()
+                .setTransactionCode(chargeObj.getString("order_no"))
+                .setPaymentTime(new Date(chargeObj.getLong("time_paid") * 1000))
+                .setTradeNo(chargeObj.getString("transaction_no"));
+        return CommonResult.success(transactionPaySuccessBO);
+    }
 
     private Map<String, Object> createChargeRequest(PayTransactionDO transaction, PayTransactionExtensionDO transactionExtension, Map<String, Object> extra) {
         // 计算支付渠道和支付额外参数

@@ -1,7 +1,7 @@
 package cn.iocoder.mall.pay.config;
 
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
-import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
+import cn.iocoder.mall.pay.api.constant.PayErrorCodeEnum;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
@@ -18,7 +18,7 @@ public class ServiceExceptionConfiguration {
 //        } catch (IOException e) {
 //            throw new RuntimeException(e);
 //        }
-        for (AdminErrorCodeEnum item : AdminErrorCodeEnum.values()) {
+        for (PayErrorCodeEnum item : PayErrorCodeEnum.values()) {
             ServiceExceptionUtil.put(item.getCode(), item.getMessage());
         }
     }

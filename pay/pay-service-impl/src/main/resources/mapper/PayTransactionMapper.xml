@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iocoder.mall.pay.dao.PayTransactionMapper">
+
+    <sql id="FIELDS">
+        id, app_id, create_ip, order_id, order_subject,
+        order_description, order_memo, price, status, expire_time,
+        finish_time, notify_url, extension_id, pay_channel, payment_time,
+        notify_time, trade_no, create_time
+    </sql>
+
+    <insert id="insert" parameterType="PayTransactionDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO transaction (
+            app_id, create_ip, order_id, order_subject,
+            order_description, order_memo, price, status, expire_time,
+            finish_time, notify_url, extension_id, pay_channel, payment_time,
+            notify_time, trade_no, create_time
+        ) VALUES (
+            #{appId}, #{createIp}, #{orderId}, #{orderSubject},
+            #{orderDescription}, #{orderMemo}, #{price}, #{status}, #{expireTime},
+            #{finishTime}, #{notifyUrl}, #{extensionId}, #{payChannel}, #{paymentTime},
+            #{notifyTime}, #{tradeNo}, #{createTime}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE transaction
+        <set>
+            <if test="entity.status != null">
+                , status = #{entity.status}
+            </if>
+            <if test="entity.extensionId != null">
+                , extension_id = #{entity.extensionId}
+            </if>
+            <if test="entity.payChannel != null">
+                , pay_channel = #{entity.payChannel}
+            </if>
+            <if test="entity.paymentTime != null">
+                , payment_time = #{entity.paymentTime}
+            </if>
+            <if test="entity.notifyTime != null">
+                , notify_time = #{entity.notifyTime}
+            </if>
+            <if test="entity.tradeNo != null">
+                , trade_no = #{entity.tradeNo}
+            </if>
+        </set>
+        WHERE id = #{entity.id}
+        <if test="whereStatus != null">
+            AND status = #{whereStatus}
+        </if>
+    </update>
+
+    <select id="selectByAppIdAndOrderId" resultType="PayTransactionDO">
+        SELECT
+            <include refid="FIELDS"/>
+        FROM transaction
+        WHERE app_id = #{appId}
+        AND order_id = #{orderId}
+    </select>
+
+    <select id="selectById" parameterType="Integer" resultType="PayTransactionDO">
+        SELECT
+            <include refid="FIELDS"/>
+        FROM transaction
+        WHERE id = #{id}
+    </select>
+
+</mapper>

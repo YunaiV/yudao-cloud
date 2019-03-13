@@ -15,6 +15,8 @@ public enum PayErrorCodeEnum {
     PAY_TRANSACTION_NOT_FOUND(100401000, "支付交易单不存在"),
     PAY_TRANSACTION_STATUS_IS_NOT_WAITING(100401001, "支付交易单不处于待支付"),
 
+    PAY_TRANSACTION_EXTENSION_NOT_FOUND(100401002, "支付交易拓展单不存在"),
+    PAY_TRANSACTION_EXTENSION_STATUS_IS_NOT_WAITING(100401003, "支付交易拓展单不处于待支付"),
     ;
 
     private final int code;

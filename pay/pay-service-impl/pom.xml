@@ -19,7 +19,6 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>dubbo</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>cn.iocoder.mall</groupId>

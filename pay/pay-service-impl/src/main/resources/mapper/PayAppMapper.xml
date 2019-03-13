@@ -3,7 +3,7 @@
 <mapper namespace="cn.iocoder.mall.pay.dao.PayAppMapper">
 
     <sql id="FIELDS">
-        id, name, status, create_time
+        id, name, notify_url, status, create_time
     </sql>
 
     <!--<insert id="insert" parameterType="RoleDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">-->
@@ -27,7 +27,7 @@
         <!--WHERE id = #{id}-->
     <!--</update>-->
 
-    <select id="selectById" parameterType="Integer" resultType="PayAppDO">
+    <select id="selectById" parameterType="String" resultType="PayAppDO">
         SELECT
             <include refid="FIELDS"/>
         FROM app

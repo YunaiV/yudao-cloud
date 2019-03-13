@@ -8,7 +8,10 @@ public enum PayChannelEnum {
     WEIXIN_APP(100, "wx", "微信 App 支付"),
     WEIXIN_PUB(100, "wx", "微信 JS API 支付"),
 
-    ALIPAY(200, "alipay", "微信支付");
+    ALIPAY(200, "alipay", "微信支付"),
+
+    PINGXX(9999, "ping++", "ping++ 支付"),
+    ;
 
     /**
      * 渠道编号

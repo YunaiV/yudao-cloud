@@ -60,6 +60,13 @@
             <version>27.0.1-jre</version>
         </dependency>
 
+        <dependency>
+            <groupId>Pingplusplus</groupId>
+            <artifactId>pingpp-java</artifactId>
+            <version>2.2.4</version>
+            <type>jar</type>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -84,5 +91,16 @@
         </plugins>
     </build>
 
+
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>central</id>
+            <name>bintray</name>
+            <url>http://jcenter.bintray.com</url>
+        </repository>
+    </repositories>
 
 </project>

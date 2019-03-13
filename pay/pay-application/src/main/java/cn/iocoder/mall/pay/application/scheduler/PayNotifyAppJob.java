@@ -1,4 +1,4 @@
-package cn.iocoder.mall.pay.scheduler;
+package cn.iocoder.mall.pay.application.scheduler;
 
 /**
  * TODO

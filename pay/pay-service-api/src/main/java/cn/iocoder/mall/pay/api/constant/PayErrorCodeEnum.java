@@ -12,7 +12,8 @@ public enum PayErrorCodeEnum {
     PAY_APP_IS_DISABLE(1004000001, "App 已经被禁用"),
 
     // ========== TRANSACTION 模块 ==========
-
+    PAY_TRANSACTION_NOT_FOUND(100401000, "支付交易单不存在"),
+    PAY_TRANSACTION_STATUS_IS_NOT_WAITING(100401001, "支付交易单不处于待支付"),
 
     ;
 

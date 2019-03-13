@@ -1,4 +1,4 @@
-package cn.iocoder.mall.pay.dataobject;
+package cn.iocoder.mall.pay.biz.dataobject;
 
 /**
  * 交易日志 DO

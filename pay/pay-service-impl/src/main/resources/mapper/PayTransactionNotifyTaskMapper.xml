@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.iocoder.mall.pay.dao.PayTransactionNotifyTaskMapper">
+<mapper namespace="cn.iocoder.mall.pay.biz.dao.PayTransactionNotifyTaskMapper">
 
     <sql id="FIELDS">
         id, transaction_id, transaction_extension_id, app_id, order_id,

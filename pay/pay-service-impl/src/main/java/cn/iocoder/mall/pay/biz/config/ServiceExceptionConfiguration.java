@@ -1,4 +1,4 @@
-package cn.iocoder.mall.pay.config;
+package cn.iocoder.mall.pay.biz.config;
 
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.mall.pay.api.constant.PayErrorCodeEnum;

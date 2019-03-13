@@ -1,10 +1,10 @@
-package cn.iocoder.mall.pay.convert;
+package cn.iocoder.mall.pay.biz.convert;
 
 import cn.iocoder.mall.pay.api.bo.PayTransactionBO;
 import cn.iocoder.mall.pay.api.dto.PayTransactionCreateDTO;
 import cn.iocoder.mall.pay.api.dto.PayTransactionSubmitDTO;
-import cn.iocoder.mall.pay.dataobject.PayTransactionDO;
-import cn.iocoder.mall.pay.dataobject.PayTransactionExtensionDO;
+import cn.iocoder.mall.pay.biz.dataobject.PayTransactionDO;
+import cn.iocoder.mall.pay.biz.dataobject.PayTransactionExtensionDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;

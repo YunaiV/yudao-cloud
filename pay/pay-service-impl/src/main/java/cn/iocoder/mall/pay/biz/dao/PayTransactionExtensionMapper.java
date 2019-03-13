@@ -1,6 +1,6 @@
-package cn.iocoder.mall.pay.dao;
+package cn.iocoder.mall.pay.biz.dao;
 
-import cn.iocoder.mall.pay.dataobject.PayTransactionExtensionDO;
+import cn.iocoder.mall.pay.biz.dataobject.PayTransactionExtensionDO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package cn.iocoder.mall.pay.client;
+package cn.iocoder.mall.pay.biz.client;
 
 import java.util.Date;
 

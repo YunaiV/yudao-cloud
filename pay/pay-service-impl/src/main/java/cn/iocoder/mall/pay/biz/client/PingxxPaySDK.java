@@ -1,8 +1,8 @@
-package cn.iocoder.mall.pay.client;
+package cn.iocoder.mall.pay.biz.client;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.pay.dataobject.PayTransactionDO;
-import cn.iocoder.mall.pay.dataobject.PayTransactionExtensionDO;
+import cn.iocoder.mall.pay.biz.dataobject.PayTransactionDO;
+import cn.iocoder.mall.pay.biz.dataobject.PayTransactionExtensionDO;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;

@@ -1,4 +1,4 @@
-package cn.iocoder.mall.pay.dataobject;
+package cn.iocoder.mall.pay.biz.dataobject;
 
 /**
  * TODO 重复支付的交易

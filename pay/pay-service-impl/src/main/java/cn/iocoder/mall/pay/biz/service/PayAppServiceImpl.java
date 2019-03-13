@@ -1,11 +1,11 @@
-package cn.iocoder.mall.pay.service;
+package cn.iocoder.mall.pay.biz.service;
 
 import cn.iocoder.common.framework.constant.CommonStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.pay.api.constant.PayErrorCodeEnum;
-import cn.iocoder.mall.pay.dao.PayAppMapper;
-import cn.iocoder.mall.pay.dataobject.PayAppDO;
+import cn.iocoder.mall.pay.biz.dao.PayAppMapper;
+import cn.iocoder.mall.pay.biz.dataobject.PayAppDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

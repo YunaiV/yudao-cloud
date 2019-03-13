@@ -1,4 +1,4 @@
-package cn.iocoder.mall.pay.service;
+package cn.iocoder.mall.pay.biz.service;
 
 import cn.iocoder.mall.pay.api.PayDemoService;
 import org.springframework.stereotype.Service;

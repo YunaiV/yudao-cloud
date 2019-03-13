@@ -1,4 +1,4 @@
-package cn.iocoder.mall.pay.dataobject;
+package cn.iocoder.mall.pay.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.BaseDO;
 

@@ -1,6 +1,7 @@
 package cn.iocoder.mall.pay.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.mall.pay.biz.service.PayServiceImpl;
 
 import java.util.Date;
 
@@ -8,6 +9,16 @@ import java.util.Date;
  * 支付交易通知 App 的任务 DO
  */
 public class PayTransactionNotifyTaskDO extends BaseDO {
+
+    /**
+     * 通知频率，单位为秒。
+     *
+     * 算上首次的通知，实际是一共 1 + 8 = 9 次。
+     */
+    public static final Integer[] NOTIFY_FREQUENCY = new Integer[]{
+            15, 15, 30, 180,
+            1800, 1800, 1800, 3600
+    };
 
     /**
      * 编号，自增
@@ -40,9 +51,26 @@ public class PayTransactionNotifyTaskDO extends BaseDO {
      */
     private Integer status;
     /**
-     * 最后一次通知时间
+     * 下一次通知时间
      */
-    private Date lastNotifyTime;
+    private Date nextNotifyTime;
+    /**
+     * 最后一次执行时间
+     *
+     * 这个字段，需要结合 {@link #nextNotifyTime} 一起使用。
+     *
+     * 1. 初始时，{@link PayServiceImpl#updateTransactionPaySuccess(Integer, String)}
+     *      nextNotifyTime 为当前时间 + 15 秒
+     *      lastExecuteTime 为空
+     *      并发送给 MQ ，执行执行
+     *
+     * 2. MQ 消费时，更新 lastExecuteTime 为当时时间
+     *
+     * 3. 定时任务，扫描 nextNotifyTime < lastExecuteTime 的任务
+     *      nextNotifyTime 为当前时间 + N 秒。具体的 N ，由第几次通知决定
+     *      lastExecuteTime 为当前时间
+     */
+    private Date lastExecuteTime;
     /**
      * 当前通知次数
      */
@@ -92,12 +120,12 @@ public class PayTransactionNotifyTaskDO extends BaseDO {
         return this;
     }
 
-    public Date getLastNotifyTime() {
-        return lastNotifyTime;
+    public Date getNextNotifyTime() {
+        return nextNotifyTime;
     }
 
-    public PayTransactionNotifyTaskDO setLastNotifyTime(Date lastNotifyTime) {
-        this.lastNotifyTime = lastNotifyTime;
+    public PayTransactionNotifyTaskDO setNextNotifyTime(Date nextNotifyTime) {
+        this.nextNotifyTime = nextNotifyTime;
         return this;
     }
 
@@ -145,4 +173,14 @@ public class PayTransactionNotifyTaskDO extends BaseDO {
         this.notifyUrl = notifyUrl;
         return this;
     }
+
+    public Date getLastExecuteTime() {
+        return lastExecuteTime;
+    }
+
+    public PayTransactionNotifyTaskDO setLastExecuteTime(Date lastExecuteTime) {
+        this.lastExecuteTime = lastExecuteTime;
+        return this;
+    }
+
 }

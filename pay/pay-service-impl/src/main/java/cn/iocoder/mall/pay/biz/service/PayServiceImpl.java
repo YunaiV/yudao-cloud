@@ -15,6 +15,7 @@ import cn.iocoder.mall.pay.api.dto.PayTransactionSubmitDTO;
 import cn.iocoder.mall.pay.biz.client.AbstractPaySDK;
 import cn.iocoder.mall.pay.biz.client.PaySDKFactory;
 import cn.iocoder.mall.pay.biz.client.TransactionPaySuccessBO;
+import cn.iocoder.mall.pay.biz.constant.MQConstant;
 import cn.iocoder.mall.pay.biz.convert.PayTransactionConvert;
 import cn.iocoder.mall.pay.biz.dao.PayTransactionExtensionMapper;
 import cn.iocoder.mall.pay.biz.dao.PayTransactionMapper;
@@ -23,12 +24,15 @@ import cn.iocoder.mall.pay.biz.dataobject.PayAppDO;
 import cn.iocoder.mall.pay.biz.dataobject.PayTransactionDO;
 import cn.iocoder.mall.pay.biz.dataobject.PayTransactionExtensionDO;
 import cn.iocoder.mall.pay.biz.dataobject.PayTransactionNotifyTaskDO;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+import java.util.Calendar;
 import java.util.Date;
 
 @Service
@@ -45,6 +49,9 @@ public class PayServiceImpl implements PayTransactionService {
     private PayTransactionNotifyTaskMapper payTransactionNotifyTaskMapper;
     @Autowired
     private PayAppServiceImpl payAppService;
+
+    @Resource
+    private RocketMQTemplate rocketMQTemplate;
 
     @Override
     @SuppressWarnings("Duplicates")
@@ -158,14 +165,18 @@ public class PayServiceImpl implements PayTransactionService {
         if (updateCounts == 0) { // 校验状态，必须是待支付 TODO 这种类型，需要思考下。需要返回错误，但是又要保证事务回滚
             throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_STATUS_IS_NOT_WAITING.getCode());
         }
-        // 3. 插入
+        // 3.1 插入
         PayTransactionNotifyTaskDO payTransactionNotifyTask = new PayTransactionNotifyTaskDO()
                 .setTransactionId(payTransactionExtension.getTransactionId()).setTransactionExtensionId(payTransactionExtension.getId())
                 .setAppId(payTransactionDO.getAppId()).setOrderId(payTransactionDO.getOrderId())
                 .setStatus(PayTransactionNotifyStatusEnum.WAITING.getValue())
-                .setNotifyTimes(0).setMaxNotifyTimes(5)
+                .setNotifyTimes(0).setMaxNotifyTimes(PayTransactionNotifyTaskDO.NOTIFY_FREQUENCY.length + 1)
+                .setNextNotifyTime(DateUtil.addDate(Calendar.SECOND, PayTransactionNotifyTaskDO.NOTIFY_FREQUENCY[0]))
                 .setNotifyUrl(payTransactionDO.getNotifyUrl());
         payTransactionNotifyTaskMapper.insert(payTransactionNotifyTask);
+        // 3.2 发送 MQ
+        rocketMQTemplate.convertAndSend(MQConstant.TOPIC_PAY_TRANSACTION_PAY_SUCCESS,
+                PayTransactionConvert.INSTANCE.convert(payTransactionNotifyTask));
         // 返回结果
         return CommonResult.success(true);
     }

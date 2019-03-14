@@ -52,8 +52,8 @@ public class PayTransactionController {
 //        JSONObject bodyObj = JSON.parseObject(sb.toString());
 //        bodyObj.put("webhookId", bodyObj.remove("id"));
 //        String body = bodyObj.toString();
-        payService.updateTransactionPaySuccess(PayChannelEnum.PINGXX.getId(), sb.toString());
-        return "";
+        CommonResult<Boolean> result = payService.updateTransactionPaySuccess(PayChannelEnum.PINGXX.getId(), sb.toString());
+        return result.isSuccess() ? "success" : "failure";
     }
 
 }

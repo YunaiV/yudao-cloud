@@ -14,6 +14,10 @@ public class PayTransactionNotifyLogDO extends BaseDO {
      */
     private Integer id;
     /**
+     * 通知编号
+     */
+    private Integer notifyId;
+    /**
      * 请求参数
      */
     private String request;
@@ -61,6 +65,15 @@ public class PayTransactionNotifyLogDO extends BaseDO {
 
     public PayTransactionNotifyLogDO setStatus(Integer status) {
         this.status = status;
+        return this;
+    }
+
+    public Integer getNotifyId() {
+        return notifyId;
+    }
+
+    public PayTransactionNotifyLogDO setNotifyId(Integer notifyId) {
+        this.notifyId = notifyId;
         return this;
     }
 

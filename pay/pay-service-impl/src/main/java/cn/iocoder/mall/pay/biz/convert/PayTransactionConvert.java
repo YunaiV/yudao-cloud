@@ -5,6 +5,8 @@ import cn.iocoder.mall.pay.api.dto.PayTransactionCreateDTO;
 import cn.iocoder.mall.pay.api.dto.PayTransactionSubmitDTO;
 import cn.iocoder.mall.pay.biz.dataobject.PayTransactionDO;
 import cn.iocoder.mall.pay.biz.dataobject.PayTransactionExtensionDO;
+import cn.iocoder.mall.pay.biz.dataobject.PayTransactionNotifyTaskDO;
+import cn.iocoder.mall.pay.biz.mq.PayTransactionPaySuccessMessage;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -22,5 +24,8 @@ public interface PayTransactionConvert {
 
     @Mappings({})
     PayTransactionExtensionDO convert(PayTransactionSubmitDTO payTransactionSubmitDTO);
+
+    @Mappings({})
+    PayTransactionPaySuccessMessage convert(PayTransactionNotifyTaskDO payTransactionNotifyTaskDO);
 
 }

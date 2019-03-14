@@ -9,7 +9,8 @@ public class PayDemoServiceImpl implements PayDemoService {
 
     @Override
     public String updatePaySuccess(String orderId) {
-        return "你好呀";
+//        return "你好呀";
+        return "success";
     }
 
 }

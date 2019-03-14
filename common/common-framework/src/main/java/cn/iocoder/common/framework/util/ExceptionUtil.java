@@ -1,6 +1,7 @@
 package cn.iocoder.common.framework.util;
 
 import cn.iocoder.common.framework.exception.ServiceException;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import javax.validation.ConstraintViolationException;
 import java.lang.reflect.InvocationTargetException;
@@ -42,6 +43,10 @@ public class ExceptionUtil {
             }
         }
         return null;
+    }
+
+    public static String getRootCauseMessage(Throwable th) {
+        return ExceptionUtils.getRootCauseMessage(th);
     }
 
 }

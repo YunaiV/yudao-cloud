@@ -9,6 +9,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +26,8 @@ public class PayDemoController {
     private PayTransactionService payTransactionService;
 
     @PostMapping("/create_order")
-    public void createOrder(HttpServletRequest request) {
+    public void createOrder(HttpServletRequest request,
+                            @RequestParam("orderId") String orderId) {
         // 创建业务订单
         // ...
 
@@ -33,7 +35,7 @@ public class PayDemoController {
         PayTransactionCreateDTO payTransactionCreateDTO = new PayTransactionCreateDTO()
                 .setAppId("POd4RC6a")
                 .setCreateIp(HttpUtil.getIp(request))
-                .setOrderId("1")
+                .setOrderId(orderId)
                 .setOrderSubject("商品名" )
                 .setOrderDescription("商品描述")
                 .setOrderMemo("商品备注")

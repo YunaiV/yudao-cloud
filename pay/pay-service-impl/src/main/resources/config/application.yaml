@@ -25,7 +25,6 @@ dubbo:
     base-packages: cn.iocoder.mall.pay.biz.service
 
 # xxl-job
-
 xxl:
   job:
     admin:
@@ -37,3 +36,9 @@ xxl:
       logpath: /Users/yunai/logs/xxl-job/
       logretentiondays: 1
     accessToken:
+
+# rocketmq
+rocketmq:
+  name-server: 127.0.0.1:9876
+  producer:
+    group: pay-producer-group

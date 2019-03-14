@@ -38,6 +38,9 @@
             <if test="entity.paymentTime != null">
                 , payment_time = #{entity.paymentTime}
             </if>
+            <if test="entity.finishTime != null">
+                , finish_time = #{entity.finishTime}
+            </if>
             <if test="entity.notifyTime != null">
                 , notify_time = #{entity.notifyTime}
             </if>

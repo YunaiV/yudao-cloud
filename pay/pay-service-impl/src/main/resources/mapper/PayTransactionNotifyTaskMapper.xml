@@ -4,16 +4,17 @@
 
     <sql id="FIELDS">
         id, transaction_id, transaction_extension_id, app_id, order_id,
-        status, last_Notify_time, notify_times, max_notify_times, create_time
+        status, next_notify_time, last_execute_time, notify_times, max_notify_times,
+        create_time
     </sql>
 
     <insert id="insert" parameterType="PayTransactionNotifyTaskDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO transaction_notify_task (
             transaction_id, transaction_extension_id, app_id, order_id,
-            status, last_notify_time, notify_times, max_notify_times
+            status, next_notify_time, notify_times, max_notify_times
         ) VALUES (
             #{transactionId}, #{transactionExtensionId}, #{appId}, #{orderId},
-            #{status}, #{lastNotifyTime}, #{notifyTimes}, #{maxNotifyTimes}
+            #{status}, #{nextNotifyTime}, #{notifyTimes}, #{maxNotifyTimes}
         )
     </insert>
 
@@ -23,8 +24,11 @@
             <if test="status != null">
                 , status = #{status}
             </if>
-            <if test="lastNotifyTime != null">
-                , last_notify_time = #{lastNotifyTime}
+            <if test="nextNotifyTime != null">
+                , next_notify_time = #{nextNotifyTime}
+            </if>
+            <if test="lastExecuteTime != null">
+                , last_execute_time = #{lastExecuteTime}
             </if>
             <if test="notifyTimes != null">
                 , notify_times = #{notifyTimes}
@@ -33,12 +37,13 @@
         WHERE id = #{id}
     </update>
 
-    <!--<select id="selectByTransactionCode" parameterType="String" resultType="PayTransactionExtensionDO">-->
-        <!--SELECT-->
-        <!--<include refid="FIELDS"/>-->
-        <!--FROM transaction_extension-->
-        <!--WHERE transaction_code = #{transactionCode}-->
-        <!--LIMIT 1-->
-    <!--</select>-->
+    <select id="selectByNotify" resultType="PayTransactionNotifyTaskDO">
+        SELECT
+            <include refid="FIELDS"/>
+        FROM transaction_notify_task
+        WHERE status IN (1, 3, 4, 5)
+        AND next_notify_time <![CDATA[ <= ]]> NOW()
+        AND last_execute_time > next_notify_time
+    </select>
 
 </mapper>

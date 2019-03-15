@@ -58,6 +58,24 @@ export default [
           },
         ],
       },
+      // product
+      {
+        path: '/product',
+        name: 'product',
+        icon: 'product',
+        routes: [
+          {
+            path: '/product/product-spu-list',
+            name: 'product-spu-list',
+            component: './Product/ProductSpuList',
+          },
+          {
+            path: '/product/product-category-list',
+            name: 'product-category-list',
+            component: './Product/ProductCategoryList',
+          },
+        ]
+      },
       {
         path: '/dashboard',
         name: 'dashboard',

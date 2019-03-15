@@ -49,7 +49,7 @@ function getDictionaryList(req, res) {
 }
 
 export default {
-  'GET /admin-api/admins/admin/menu_resource_tree': getAdminMenuAll,
+  'GET /admin-api/admins/admin/menu_resource_tree': getAdminMenu,
   'GET /admin-api/admins/admin/url_resource_list': getAdminUrls,
   'GET /admin-api/admins/resource/tree': getResourceTree,
   'GET /admin-api/admins/role/page': getQueryRole,

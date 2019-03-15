@@ -3,24 +3,45 @@
   "message": "",
   "data": [
     {
+      "id": 13,
+      "handler": null,
+      "pid": 0,
+      "sort": 2,
+      "displayName": "系统管理",
       "children": [
         {
-          "handler": "/order/list1",
-          "id": 1,
-          "name": "商品管理1",
-          "pid": 1
+          "id": 14,
+          "handler": "/admin/admin-list",
+          "pid": 13,
+          "sort": 0,
+          "displayName": "管理员列表",
+          "children": null
         },
         {
-          "handler": "/order/list2",
-          "id": 1,
-          "name": "商品管理2",
-          "pid": 1
+          "id": 16,
+          "handler": "/admin/role-list",
+          "pid": 13,
+          "sort": 1,
+          "displayName": "角色列表",
+          "children": null
+        },
+        {
+          "id": 15,
+          "handler": "/admin/resource-list",
+          "pid": 13,
+          "sort": 2,
+          "displayName": "资源列表",
+          "children": null
+        },
+        {
+          "id": 19,
+          "handler": "/admin/dictionary-list",
+          "pid": 13,
+          "sort": 4,
+          "displayName": "数据字典",
+          "children": null
         }
-      ],
-      "handler": "/home",
-      "id": 1,
-      "name": "商品管理",
-      "pid": 1
+      ]
     }
   ]
 }

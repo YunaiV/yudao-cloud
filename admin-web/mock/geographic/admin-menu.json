@@ -3,6 +3,31 @@
   "message": "",
   "data": [
     {
+      "id": 20,
+      "handler": null,
+      "pid": 0,
+      "sort": 0,
+      "displayName": "商品管理",
+      "children": [
+        {
+          "id": 21,
+          "handler": "/product/product-spu-list",
+          "pid": 20,
+          "sort": 1,
+          "displayName": "商品管理",
+          "children": null
+        },
+        {
+          "id": 22,
+          "handler": "/product/product-category-list",
+          "pid": 20,
+          "sort": 2,
+          "displayName": "商品分类",
+          "children": null
+        }
+      ]
+    },
+    {
       "id": 13,
       "handler": null,
       "pid": 0,

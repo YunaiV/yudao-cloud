@@ -93,7 +93,8 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
             return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_CATEGORY_STATUS_EQUALS.getCode());
         }
         // 更新商品分类
-        ProductCategoryDO updateProductCategory = new ProductCategoryDO().setStatus(status);
+        ProductCategoryDO updateProductCategory = new ProductCategoryDO()
+                .setId(productCategoryId).setStatus(status);
         productCategoryMapper.update(updateProductCategory);
         // TODO 操作日志
         return CommonResult.success(true);
@@ -113,7 +114,8 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         // TODO 芋艿：考虑下，是否需要判断下该分类下是否有商品
         // TODO 芋艿，需要补充下，还有子分类
         // 标记删除商品分类
-        ProductCategoryDO updateProductCategory = new ProductCategoryDO().setId(productCategoryId);
+        ProductCategoryDO updateProductCategory = new ProductCategoryDO()
+                .setId(productCategoryId);
         updateProductCategory.setDeleted(BaseDO.DELETED_YES);
         productCategoryMapper.update(updateProductCategory);
         // TODO 操作日志

@@ -3,7 +3,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Card, Form, Input, Select, Button, Modal, message, Table, Divider } from 'antd';
+import {Card, Form, Input, Select, Button, Modal, message, Table, Divider, InputNumber} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './ProductCategoryList.less';
@@ -43,46 +43,34 @@ const CreateForm = Form.create()(props => {
       okText={okText}
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="菜单展示名">
-        {form.getFieldDecorator('displayName', {
-          rules: [{ required: true, message: '请输入菜单展示名字！', min: 2 }],
-          initialValue: initValues.displayName,
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="操作">
-        {form.getFieldDecorator('handler', {
-          initialValue: initValues.handler,
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="资源名字">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="分类名">
         {form.getFieldDecorator('name', {
-          rules: [{ required: true, message: '请输入资源名字！' }],
+          rules: [{ required: true, message: '请输入分类名！', min: 2 }],
           initialValue: initValues.name,
         })(<Input placeholder="请输入" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="父级资源编号">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="分类图片">
+        {form.getFieldDecorator('picUrl', {
+          initialValue: initValues.handler,
+        })(<Input placeholder="请输入" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="父分类编号">
         {form.getFieldDecorator('pid', {
-          rules: [{ required: true, message: '请输入父级编号！' }],
+          rules: [{ required: true, message: '请输入父分类编号！' }],
           initialValue: initValues.pid,
         })(<Input placeholder="请输入" />)}
-        <span>根节点为 0</span>
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="排序">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="排序值">
         {form.getFieldDecorator('sort', {
-          rules: [{ required: true, message: '请输入菜单排序！' }],
+          rules: [{ required: true, message: '请输入排序值！' }],
           initialValue: initValues.sort,
-        })(<Input placeholder="请输入" />)}
+        })(<InputNumber placeholder="请输入" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="资源类型">
-        {form.getFieldDecorator('type', {
-          rules: [{ required: true, message: '请选择资源类型！' }],
-          initialValue: 1,
-        })(
-          <Select showSearch style={selectStyle} placeholder="请选择">
-            <Option value={1}>菜单</Option>
-            <Option value={2}>Url</Option>
-          </Select>
-        )}
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="描述">
+        {form.getFieldDecorator('description', {
+          rules: [{ required: true, message: '请输入描述！' }],
+          initialValue: initValues.description,
+        })(<Input.TextArea placeholder="请输入" />)}
       </FormItem>
     </Modal>
   );
@@ -148,6 +136,30 @@ class ProductCategoryList extends PureComponent {
       });
     }
   };
+
+  handleStatus(row) {
+    const { dispatch, data } = this.props;
+
+    const title = row.status === 1 ? '确认禁用？' : '确认开启？';
+    const updateStatus = row.status === 1 ? 2 : 1;
+
+    Modal.confirm({
+      title: `${title}`,
+      content: `${row.name}`,
+      onOk() {
+        dispatch({
+          type: 'productCategoryList/updateStatus',
+          payload: {
+            body: {
+              id: row.id,
+              status: updateStatus,
+            }
+          },
+        });
+      },
+      onCancel() {},
+    });
+  }
 
   handleDelete(row) {
     const { dispatch } = this.props;
@@ -222,7 +234,6 @@ class ProductCategoryList extends PureComponent {
           return (
             <Fragment>
               <a onClick={() => this.handleModalVisible(true, 'update', record)}>更新</a>
-              <Divider type="vertical"/>
               <Divider type="vertical"/>
               <a className={styles.tableDelete} onClick={() => this.handleStatus(record)}>
                 {statusText}

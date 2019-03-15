@@ -1,6 +1,5 @@
 import { message } from 'antd';
-import { addResource, updateResource, deleteResource, resourceTree } from '../../services/admin';
-import { productCategoryTree } from '../../services/product';
+import { productCategoryTree, productCategoryAdd, productCategoryUpdate, productCategoryUpdateStatus, productCategoryDelete } from '../../services/product';
 
 export default {
   namespace: 'productCategoryList',
@@ -12,7 +11,7 @@ export default {
   effects: {
     *add({ payload }, { call, put }) {
       const { callback, body } = payload;
-      const response = yield call(addResource, body);
+      const response = yield call(productCategoryAdd, body);
       if (callback) {
         callback(response);
       }
@@ -23,7 +22,18 @@ export default {
     },
     *update({ payload }, { call, put }) {
       const { callback, body } = payload;
-      const response = yield call(updateResource, body);
+      const response = yield call(productCategoryUpdate, body);
+      if (callback) {
+        callback(response);
+      }
+      yield put({
+        type: 'tree',
+        payload: {},
+      });
+    },
+    *updateStatus({ payload }, { call, put }) {
+      const { callback, body } = payload;
+      const response = yield call(productCategoryUpdateStatus, body);
       if (callback) {
         callback(response);
       }
@@ -33,13 +43,11 @@ export default {
       });
     },
     *delete({ payload }, { call, put }) {
-      const response = yield call(deleteResource, payload);
+      const response = yield call(productCategoryDelete, payload);
       message.info('删除成功!');
       yield put({
-        type: 'treeSuccess',
-        payload: {
-          list: response.data,
-        },
+        type: 'tree',
+        payload: {},
       });
     },
     *tree({ payload }, { call, put }) {

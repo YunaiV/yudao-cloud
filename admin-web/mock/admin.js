@@ -44,8 +44,8 @@ function getDictionaryText(req, res) {
   return res.json(resultBody(values));
 }
 
-function getDictionaryList(req, res) {
-    return res.json(dictionaryList);
+function getDictionaryTree(req, res) {
+  return res.json(dictionaryList);
 }
 
 export default {
@@ -54,7 +54,5 @@ export default {
   'GET /admin-api/admins/resource/tree': getResourceTree,
   'GET /admin-api/admins/role/page': getQueryRole,
   'GET /admin-api/admins/admin/page': getQueryRole,
-  'GET /admin-api/admins/dictionary/getList': getDictionaryKeys,
-  'GET /admin-api/admins/dictionary/queryText': getDictionaryText,
-  // 'GET /admin-api/admins/data_dict/list': getDictionaryList,
+  'GET /admin-api/admins/data_dict/tree': getDictionaryTree,
 };

@@ -1,13 +1,9 @@
 import * as React from 'react';
 import { Select } from 'antd';
 
-export interface DictionaryObject {
-  text?: string;
-  value?: string | number | boolean;
-}
-
 export interface IDictionarySelectProps extends Select {
-  list?: DictionaryObject[];
+  dicKey?: string;
+  defaultValue?: string | number | boolean;
 }
 
 export default class DictionarySelectD extends React.Component<IDictionarySelectProps, any> {}

@@ -1,5 +1,5 @@
 ---
-title: DictionaryValueText
+title: DictionaryText
 subtitle: 获取字典 value 显示值
 ---
 
@@ -9,11 +9,11 @@ subtitle: 获取字典 value 显示值
 
 | 参数      | 说明                                      | 类型         | 默认值 |
 |----------|------------------------------------------|-------------|-------|
-| dataKey    | 字典的key                                 | string  | [] |
-| value    | 显示的值                                 | string number  | [] |
+| dicKey    | 字典的key                                 | string  | [] |
+| dicValue    | value值                                 | string、number、boolean  | [] |
 
 
 ### Demo
 ```jsx harmony
- <DictionaryValueText dataKey="gender" value="1" />
+  <DictionaryValueText dicKey="gender" dicValue="2"/>
 ```

@@ -16,6 +16,7 @@ import Exception403 from '../pages/Exception/403';
 import PageLoading from '@/components/PageLoading';
 import SiderMenu from '@/components/SiderMenu';
 import getPageTitle from '@/utils/getPageTitle';
+import DictionaryContext from '@/components/Dictionary/DictionaryContext';
 import styles from './BasicLayout.less';
 
 // lazy load SettingDrawer
@@ -68,6 +69,10 @@ class BasicLayout extends React.Component {
       type: 'menu/getMenuData',
       payload: { routes, authority },
     });
+    dispatch({
+      type: 'dictionaryContext/tree',
+      payload: {},
+    });
   }
 
   getContext() {
@@ -81,8 +86,15 @@ class BasicLayout extends React.Component {
   getUrlsContext() {
     const { urlsData } = this.props;
     return {
-      ...urlsData,
+      urls: {
+        ...urlsData,
+      },
     };
+  }
+
+  getDictionaryContext() {
+    const { dicTreeMap } = this.props;
+    return dicTreeMap;
   }
 
   getRouteAuthority = (pathname, routeData) => {
@@ -178,7 +190,7 @@ class BasicLayout extends React.Component {
           />
           <Content className={styles.content} style={contentStyle}>
             <Authorized authority={routerConfig} noMatch={<Exception403 />}>
-              <UrlsContext.Provider values={this.getUrlsContext()}>{children}</UrlsContext.Provider>
+              {children}
             </Authorized>
           </Content>
           <Footer />
@@ -191,7 +203,11 @@ class BasicLayout extends React.Component {
           <ContainerQuery query={query}>
             {params => (
               <Context.Provider value={this.getContext()}>
-                <div className={classNames(params)}>{layout}</div>
+                <UrlsContext.Provider value={this.getUrlsContext()}>
+                  <DictionaryContext.Provider value={this.getDictionaryContext()}>
+                    <div className={classNames(params)}>{layout}</div>
+                  </DictionaryContext.Provider>
+                </UrlsContext.Provider>
               </Context.Provider>
             )}
           </ContainerQuery>
@@ -202,12 +218,13 @@ class BasicLayout extends React.Component {
   }
 }
 
-export default connect(({ global, setting, menu: menuModel }) => ({
+export default connect(({ global, setting, dictionaryContext, menu: menuModel }) => ({
   collapsed: global.collapsed,
   layout: setting.layout,
   menuData: menuModel.menuData,
   urlsData: menuModel.urlsData,
   breadcrumbNameMap: menuModel.breadcrumbNameMap,
+  dicTreeMap: dictionaryContext.dicTreeMap,
   ...setting,
 }))(props => (
   <Media query="(max-width: 599px)">

@@ -3,20 +3,17 @@
   "message": "",
   "data": [
     {
-      "id": 1,
       "enumValue": "gender",
-      "value": "1",
-      "displayName": "男",
-      "sort": 1,
-      "memo": "性别 - 男"
-    },
-    {
-      "id": 2,
-      "enumValue": "gender",
-      "value": "2",
-      "displayName": "女",
-      "sort": 2,
-      "memo": "性别 - 女"
+      "values": [
+        {
+          "displayName": "男",
+          "value": 1
+        },
+        {
+          "displayName": "女",
+          "value": 2
+        }
+      ]
     }
   ]
 }

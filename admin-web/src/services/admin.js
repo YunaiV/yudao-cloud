@@ -122,3 +122,11 @@ export async function roleAssignResource(params) {
     },
   });
 }
+
+// dictionary
+
+export async function dictionaryList(params) {
+    return request(`/admin-api/admins/data_dict/list?${stringify(params)}`, {
+        method: 'GET',
+    });
+}

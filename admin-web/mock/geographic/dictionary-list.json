@@ -1,0 +1,22 @@
+{
+  "code": 0,
+  "message": "",
+  "data": [
+    {
+      "id": 1,
+      "enumValue": "gender",
+      "value": "1",
+      "displayName": "男",
+      "sort": 1,
+      "memo": ""
+    },
+    {
+      "id": 2,
+      "enumValue": "gender",
+      "value": "2",
+      "displayName": "女",
+      "sort": 2,
+      "memo": ""
+    }
+  ]
+}

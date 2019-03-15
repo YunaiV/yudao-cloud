@@ -3,7 +3,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Card, Form, Input, Select, Button, Modal, message, Table, Divider } from 'antd';
+import { Card, Form, Input, InputNumber, Select, Button, Modal, message, Table, Divider } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './DictionaryList.less';
@@ -32,8 +32,8 @@ const CreateForm = Form.create()(props => {
     width: 200,
   };
 
-  const title = modalType === 'add' ? '添加一个数据字典' : '更新一个数据字典';
-  const okText = modalType === 'add' ? '添加' : '更新';
+  const title = modalType === 'add' ? '新建数据字典' : '编辑数据字典';
+  const okText = '保存';
   return (
     <Modal
       destroyOnClose
@@ -43,46 +43,35 @@ const CreateForm = Form.create()(props => {
       okText={okText}
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="菜单展示名">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="大类枚举值">
+        {form.getFieldDecorator('enumValue', {
+          rules: [{ required: true, message: '请输入大类枚举值！', min: 2 }],
+          initialValue: initValues.enumValue,
+        })(<Input placeholder="请输入" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="小类数值">
+        {form.getFieldDecorator('value', {
+          rules: [{ required: true, message: '请输入小类数值！' }],
+          initialValue: initValues.value,
+        })(<Input placeholder="请输入" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="展示名">
         {form.getFieldDecorator('displayName', {
-          rules: [{ required: true, message: '请输入菜单展示名字！', min: 2 }],
+          rules: [{ required: true, message: '请输入展示名！' }],
           initialValue: initValues.displayName,
         })(<Input placeholder="请输入" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="操作">
-        {form.getFieldDecorator('handler', {
-          initialValue: initValues.handler,
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="资源名字">
-        {form.getFieldDecorator('name', {
-          rules: [{ required: true, message: '请输入资源名字！' }],
-          initialValue: initValues.name,
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="父级资源编号">
-        {form.getFieldDecorator('pid', {
-          rules: [{ required: true, message: '请输入父级编号！' }],
-          initialValue: initValues.pid,
-        })(<Input placeholder="请输入" />)}
-        <span>根节点为 0</span>
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="排序">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="排序值">
         {form.getFieldDecorator('sort', {
-          rules: [{ required: true, message: '请输入菜单排序！' }],
+          rules: [{ required: true, message: '请输入排序值！' }],
           initialValue: initValues.sort,
-        })(<Input placeholder="请输入" />)}
+        })(<InputNumber placeholder="请输入" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="资源类型">
-        {form.getFieldDecorator('type', {
-          rules: [{ required: true, message: '请选择资源类型！' }],
-          initialValue: 1,
-        })(
-          <Select showSearch style={selectStyle} placeholder="请选择">
-            <Option value={1}>菜单</Option>
-            <Option value={2}>Url</Option>
-          </Select>
-        )}
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="备注">
+        {form.getFieldDecorator('memo', {
+          rules: [{ required: true, message: '请输入备注！' }],
+          initialValue: initValues.memo,
+         })(<Input.TextArea placeholder="请输入" />)}
       </FormItem>
     </Modal>
   );
@@ -176,16 +165,17 @@ class DictionaryList extends PureComponent {
       modalType,
       initValues,
     };
+    let that = this;
 
     const columns = [
       {
-        title: '枚举值',
+        title: '大类枚举值',
         dataIndex: 'enumValue'
       },
-      {
-        title: '编号',
-        dataIndex: 'id',
-      },
+      // {
+      //   title: '编号',
+      //   dataIndex: 'id',
+      // },
       {
         title: '小类数值',
         dataIndex: 'value'
@@ -210,15 +200,18 @@ class DictionaryList extends PureComponent {
       },
       {
         title: '操作',
-        render: (text, record) => (
-          <Fragment>
-            <a onClick={() => this.handleModalVisible(true, 'update', record)}>更新</a>
-            <Divider type="vertical" />
-            <a className={styles.tableDelete} onClick={() => this.handleDelete(record)}>
-              删除
-            </a>
-          </Fragment>
-        ),
+        render: function(text, record) {
+          if (!record.id) {
+              return '';
+          }
+          return <Fragment>
+                <a onClick={() => that.handleModalVisible(true, 'update', record)}>编辑</a>
+                <Divider type="vertical" />
+                <a className={styles.tableDelete} onClick={() => that.handleDelete(record)}>
+                    删除
+                </a>
+            </Fragment>
+        }
       },
     ];
 
@@ -232,11 +225,11 @@ class DictionaryList extends PureComponent {
                 type="primary"
                 onClick={() => this.handleModalVisible(true, 'add', {})}
               >
-                新建
+                新建数据字典
               </Button>
             </div>
           </div>
-          <Table defaultExpandAllRows={true} columns={columns} dataSource={list} rowKey="enumValue" />
+          <Table defaultExpandAllRows={true} columns={columns} dataSource={list} rowKey="index" />
         </Card>
         <CreateForm {...parentMethods} modalVisible={modalVisible} />
       </PageHeaderWrapper>

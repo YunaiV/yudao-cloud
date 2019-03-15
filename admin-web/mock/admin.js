@@ -6,6 +6,7 @@ import adminMenuAll from './geographic/admin-menu-all.json';
 import adminUrls from './geographic/admin-urls';
 import resourceTree from './geographic/resource-tree.json';
 import roleQuery from './geographic/role-query.json';
+import dictionaryList from './geographic/dictionary-list.json';
 
 function getAdminMenu(req, res) {
   return res.json(adminMenu);
@@ -43,6 +44,10 @@ function getDictionaryText(req, res) {
   return res.json(resultBody(values));
 }
 
+function getDictionaryList(req, res) {
+    return res.json(dictionaryList);
+}
+
 export default {
   'GET /admin-api/admins/admin/menu_resource_tree': getAdminMenuAll,
   'GET /admin-api/admins/admin/url_resource_list': getAdminUrls,
@@ -51,4 +56,5 @@ export default {
   'GET /admin-api/admins/admin/page': getQueryRole,
   'GET /admin-api/admins/dictionary/getList': getDictionaryKeys,
   'GET /admin-api/admins/dictionary/queryText': getDictionaryText,
+  // 'GET /admin-api/admins/data_dict/list': getDictionaryList,
 };

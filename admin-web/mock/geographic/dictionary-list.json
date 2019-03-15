@@ -8,7 +8,7 @@
       "value": "1",
       "displayName": "男",
       "sort": 1,
-      "memo": ""
+      "memo": "性别 - 男"
     },
     {
       "id": 2,
@@ -16,7 +16,7 @@
       "value": "2",
       "displayName": "女",
       "sort": 2,
-      "memo": ""
+      "memo": "性别 - 女"
     }
   ]
 }

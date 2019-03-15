@@ -22,20 +22,21 @@ function findNodes(id, nodes) {
       break;
     } else if (node.children) {
       const childNodes = findNodes(id, node.children);
-      res.push(node.key);
       for (let j = 0; j < childNodes.length; j += 1) {
         res.push(childNodes[j]);
       }
-      break;
     }
   }
   return res;
 }
 
 export function findAllNodes(resourceIds, nodes) {
+  console.log('resourceIds', resourceIds);
+
   const findNodesArray = [];
   for (let i = 0; i < resourceIds.length; i += 1) {
     const findNodesData = findNodes(resourceIds[i], nodes);
+    console.log('findNodesData', findNodesData);
     if (findNodesData) {
       for (let j = 0; j < findNodesData.length; j += 1) {
         const jD = findNodesData[j];

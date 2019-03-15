@@ -266,7 +266,6 @@ class RoleList extends PureComponent {
 
   render() {
     const { list, data } = this.props;
-
     const { pageNo, pageSize, count, roleTreeData, checkedKeys, assignModalLoading } = data;
     const { modalVisible, modalType, initValues, roleAssignVisible } = this.state;
 

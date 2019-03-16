@@ -10,9 +10,9 @@ export default class Home extends Component {
   render() {
     return (
       <div>
-        <AuthorityControl authKey="home.button">
-          <Button type="primary">按钮 控制</Button>
-        </AuthorityControl>
+        {/*<AuthorityControl authKey="home.button">*/}
+          {/*<Button type="primary">按钮 控制</Button>*/}
+        {/*</AuthorityControl>*/}
         <h1>home...</h1>
 
         <DictionarySelect dicKey="gender" defaultValue="1" />

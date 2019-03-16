@@ -70,6 +70,16 @@ export default [
             component: './Product/ProductSpuList',
           },
           {
+            path: '/product/product-spu-add',
+            name: 'product-spu-add',
+            component: './Product/ProductSpuAddOrUpdate',
+          },
+          {
+            path: '/product/product-category-list',
+            name: 'product-category-list',
+            component: './Product/ProductCategoryList',
+          },
+          {
             path: '/product/product-category-list',
             name: 'product-category-list',
             component: './Product/ProductCategoryList',

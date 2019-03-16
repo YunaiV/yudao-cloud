@@ -40,8 +40,6 @@ public class ProductSpuDO extends BaseDO {
      */
     private String picUrls;
 
-    // TODO 价格库存
-
     // TODO 运费信息
 
     // ========== 其他信息 =========

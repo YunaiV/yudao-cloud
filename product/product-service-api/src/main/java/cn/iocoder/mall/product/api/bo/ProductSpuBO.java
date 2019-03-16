@@ -55,6 +55,12 @@ public class ProductSpuBO {
      * 目前的计算方式是，以 Sku 最小价格为准
      */
     private Integer price;
+    /**
+     * 库存数量
+     *
+     * 目前的计算方式是，以 Sku 库存累加为准
+     */
+    private Integer quantity;
 
     public Integer getId() {
         return id;
@@ -137,4 +143,12 @@ public class ProductSpuBO {
         return this;
     }
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public ProductSpuBO setQuantity(Integer quantity) {
+        this.quantity = quantity;
+        return this;
+    }
 }

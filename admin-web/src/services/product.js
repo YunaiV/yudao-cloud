@@ -1,7 +1,7 @@
 import { stringify } from '@/utils/request.qs';
 import request from '@/utils/request';
 
-// dictionary
+// product category
 
 export async function productCategoryTree(params) {
     return request(`/product-api/admins/category/tree?${stringify(params)}`, {
@@ -34,4 +34,12 @@ export async function productCategoryDelete(params) {
     return request(`/product-api/admins/category/delete?${stringify(params)}`, {
         method: 'POST',
     });
+}
+
+// product spu
+
+export async function productSpuPage(params) {
+  return request(`/product-api/admins/spu/page?${stringify(params)}`, {
+    method: 'GET',
+  });
 }

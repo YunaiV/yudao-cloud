@@ -22,6 +22,8 @@ public class AdminsProductSpuVO {
     private Integer cid;
     @ApiModelProperty(value = "商品主图地址的数组", required = true, example = "http://www.iocoder.cn")
     private List<String> picUrls;
+    @ApiModelProperty(value = "库存数量", required = true, example = "10")
+    private Integer quantity;
 
     // ========== 其他信息 =========
     @ApiModelProperty(value = "是否上架商品（是否可见）", required = true, example = "true")
@@ -98,6 +100,15 @@ public class AdminsProductSpuVO {
 
     public AdminsProductSpuVO setSort(Integer sort) {
         this.sort = sort;
+        return this;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public AdminsProductSpuVO setQuantity(Integer quantity) {
+        this.quantity = quantity;
         return this;
     }
 

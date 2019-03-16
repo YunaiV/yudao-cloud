@@ -48,87 +48,15 @@ const CreateForm = Form.create()(props => {
   );
 });
 
-// 角色分配
-const AssignModal = Form.create()(props => {
-  const {
-    modalVisible,
-    form,
-    handleOk,
-    handleModalVisible,
-    treeData,
-    checkedKeys,
-    loading,
-    handleCheckBoxClick,
-  } = props;
-
-  const renderTreeNodes = data => {
-    return data.map(item => {
-      if (item.children) {
-        return (
-          <TreeNode title={item.title} key={item.key} dataRef={item}>
-            {renderTreeNodes(item.children)}
-          </TreeNode>
-        );
-      }
-      return <TreeNode title={item.title} key={item.key} dataRef={item} />;
-    });
-  };
-
-  const renderModalContent = treeData => {
-    const RenderTreeNodes = renderTreeNodes(treeData);
-    if (RenderTreeNodes) {
-      return (
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="角色名">
-          {form.getFieldDecorator('name', {})(
-            <Tree
-              defaultExpandAll={true}
-              checkable={true}
-              multiple={true}
-              checkedKeys={checkedKeys}
-              onCheck={handleCheckBoxClick}
-            >
-              {renderTreeNodes(treeData)}
-            </Tree>
-          )}
-        </FormItem>
-      );
-    } else {
-      return null;
-    }
-  };
-
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleOk({
-        fields: fieldsValue,
-      });
-    });
-  };
-
-  return (
-    <Modal
-      destroyOnClose
-      title="更新权限"
-      visible={modalVisible}
-      onOk={okHandle}
-      onCancel={() => handleModalVisible()}
-    >
-      <Spin spinning={loading}>{renderModalContent(treeData)}</Spin>
-    </Modal>
-  );
-});
-
 // roleList
-@connect(({ roleList, loading }) => ({
-  roleList,
-  list: roleList.list,
-  data: roleList,
-  loading: loading.models.resourceList,
+@connect(({ productSpuList, loading }) => ({
+  productSpuList,
+  list: productSpuList.list.spus,
+  loading: loading.models.productSpuList,
 }))
+
 @Form.create()
-class RoleList extends PureComponent {
+class ProductSpuList extends PureComponent {
   state = {
     modalVisible: false,
     modalType: 'add', //add update
@@ -140,7 +68,7 @@ class RoleList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'roleList/query',
+      type: 'productSpuList/page',
       payload: {
         name: '',
         pageNo: 0,
@@ -155,51 +83,6 @@ class RoleList extends PureComponent {
       initValues: initValues || {},
       modalType: modalType || 'add',
     });
-  };
-
-  handleAssignModalVisible = (flag, record) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'roleList/queryRoleAssign',
-      payload: {
-        id: record.id,
-      },
-    });
-    this.setState({
-      roleAssignVisible: !!flag,
-      roleAssignRecord: record,
-    });
-  };
-
-  handleAssignModalVisibleClose(flag) {
-    this.setState({
-      roleAssignVisible: !!flag,
-    });
-  }
-
-  handleAssignCheckBoxClick = checkedKeys => {
-    const { dispatch } = this.props;
-    const newCheckedKeys = checkedKeys.map(item => {
-      return parseInt(item);
-    });
-    dispatch({
-      type: 'roleList/changeCheckedKeys',
-      payload: newCheckedKeys,
-    });
-  };
-
-  handleAssignOK = () => {
-    const { dispatch, data } = this.props;
-    const { roleAssignRecord } = this.state;
-    dispatch({
-      type: 'roleList/roleAssignResource',
-      payload: {
-        id: roleAssignRecord.id,
-        resourceIds: data.checkedKeys,
-        roleTreeData: data.roleTreeData,
-      },
-    });
-    this.handleAssignModalVisibleClose(false);
   };
 
   handleAdd = ({ fields, modalType, initValues }) => {
@@ -240,34 +123,11 @@ class RoleList extends PureComponent {
     }
   };
 
-  handleDelete(row) {
-    const { dispatch, data } = this.props;
-    const queryParams = {
-      pageNo: data.pageNo,
-      pageSize: data.pageSize,
-    };
-    Modal.confirm({
-      title: `确认删除?`,
-      content: `${row.name}`,
-      onOk() {
-        dispatch({
-          type: 'roleList/delete',
-          payload: {
-            body: {
-              id: row.id,
-            },
-            queryParams,
-          },
-        });
-      },
-      onCancel() {},
-    });
-  }
-
   render() {
+    // debugger;
     const { list, data } = this.props;
 
-    const { pageNo, pageSize, count, roleTreeData, checkedKeys, assignModalLoading } = data;
+    // const { pageNo, pageSize, count, roleTreeData, checkedKeys, assignModalLoading } = data;
     const { modalVisible, modalType, initValues, roleAssignVisible } = this.state;
 
     const parentMethods = {
@@ -284,8 +144,29 @@ class RoleList extends PureComponent {
         render: text => <strong>{text}</strong>,
       },
       {
-        title: '名称',
+        title: '商品名称',
         dataIndex: 'name',
+      },
+      {
+        title: '商品分类',
+        dataIndex: 'cid'
+      },
+      {
+        title: '商品主图',
+        dataIndex: 'picUrls',
+        render(val) {
+          return <img width={120} src={val[0]} />;
+          // return 'TODO';
+        },
+      },
+      {
+        title: '商品库存',
+        dataIndex: 'quantity'
+      },
+      {
+        title: '排序值',
+        dataIndex: 'sort',
+        render: sort => <span>{sort}</span>,
       },
       {
         title: '创建时间',
@@ -299,25 +180,19 @@ class RoleList extends PureComponent {
         render: (text, record) => (
           <Fragment>
             <a onClick={() => this.handleModalVisible(true, 'update', record)}>更新</a>
-            <Divider type="vertical" />
-            <a onClick={() => this.handleAssignModalVisible(true, record)}>分配权限</a>
-            <Divider type="vertical" />
-            <a className={styles.tableDelete} onClick={() => this.handleDelete(record)}>
-              删除
-            </a>
           </Fragment>
         ),
       },
     ];
 
-    const paginationProps = {
-      current: pageNo,
-      pageSize: pageSize,
-      total: count,
-    };
+    // const paginationProps = {
+    //   current: pageNo,
+    //   pageSize: pageSize,
+    //   total: count,
+    // };
 
     return (
-      <PageHeaderWrapper title="查询表格">
+      <PageHeaderWrapper title="">
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListOperator}>
@@ -326,25 +201,16 @@ class RoleList extends PureComponent {
                 type="primary"
                 onClick={() => this.handleModalVisible(true, 'add', {})}
               >
-                新建
+                发布商品
               </Button>
             </div>
           </div>
           <Table columns={columns} dataSource={list} rowKey="id" />
         </Card>
         <CreateForm {...parentMethods} modalVisible={modalVisible} />
-        <AssignModal
-          loading={assignModalLoading}
-          treeData={roleTreeData}
-          checkedKeys={checkedKeys}
-          handleOk={this.handleAssignOK}
-          modalVisible={roleAssignVisible}
-          handleCheckBoxClick={this.handleAssignCheckBoxClick}
-          handleModalVisible={() => this.handleAssignModalVisibleClose(false)}
-        />
       </PageHeaderWrapper>
     );
   }
 }
 
-export default RoleList;
+export default ProductSpuList;

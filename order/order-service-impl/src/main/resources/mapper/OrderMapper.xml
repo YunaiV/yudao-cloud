@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iocoder.mall.order.dao.OrderMapper">
+
+    <sql id="FIELDS">
+        id, order_no, price, receiver_area_no, receiver_mobile,
+        receiver_address, status, pay_status, create_time,
+        payment_time, delivery_time, closing_time, remark
+    </sql>
+
+    <insert id="insert" parameterType="OrderDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO order (
+            id, order_no, price, receiver_area_no, receiver_mobile,
+            receiver_address, status, pay_status, create_time,
+            payment_time, delivery_time, closing_time, remark
+        ) VALUES (
+             ${orderNo}, ${price}, ${receiverAreaNo}, ${receiverMobile},
+             ${receiverAddress}, ${status}, ${payStatus}, ${createTime},
+             ${paymentTime}, ${deliveryTime}, ${closingTime}, ${remark}
+        )
+    </insert>
+
+</mapper>

@@ -14,6 +14,7 @@
     <modules>
         <module>order-application</module>
         <module>order-service-api</module>
+        <module>order-service-impl</module>
     </modules>
 
 

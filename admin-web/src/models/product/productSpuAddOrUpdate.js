@@ -6,9 +6,7 @@ export default {
 
   state: {
     list: [],
-    attrTree: [{
-
-    }
+    attrTree: [
       // {
       //   id: //
       //   name: //
@@ -73,13 +71,30 @@ export default {
         },
       });
     },
+    *selectAttr({ payload }, { call, put }) {
+      // const { queryParams } = payload;
+      // const response = yield call(productCategoryTree, queryParams);
+      message.info('调试：添加规格成功!');
+      yield put({
+        type: 'selectAttrSuccess',
+        payload: payload,
+      });
+    },
   },
 
   reducers: {
     addAttrSuccess(state, {payload}) {
       // debugger;
-      console.log(state.attrTree);
+      // console.log(state.attrTree);
       state.attrTree.push(payload.attrAdd);
+      return {
+        ...state
+      }
+    },
+    selectAttrSuccess(state, {payload}) {
+      // debugger;
+      // console.log(state.attrTree);
+      state.attrTree[payload.attrIndex] = payload.attr;
       return {
         ...state
       }

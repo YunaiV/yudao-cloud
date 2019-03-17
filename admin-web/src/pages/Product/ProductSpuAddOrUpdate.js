@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React, { PureComponent, Fragment } from 'react';
+import React, {PureComponent, Fragment, Component} from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
 import {Card, Form, Input, Radio, Button, Table, Select} from 'antd';
@@ -16,12 +16,14 @@ const Option = Select.Option;
 @connect(({ productSpuList, productAttrList, productSpuAddOrUpdate, loading }) => ({
   // list: productSpuList.list.spus,
   // loading: loading.models.productSpuList,
+  productAttrList,
+  productSpuAddOrUpdate,
   allAttrTree: productAttrList.tree,
   attrTree: productSpuAddOrUpdate.attrTree
 }))
 
 @Form.create()
-class ProductSpuAddOrUpdate extends PureComponent {
+class ProductSpuAddOrUpdate extends Component {
   state = {
     modalVisible: false,
     modalType: 'add', //add update
@@ -65,9 +67,30 @@ class ProductSpuAddOrUpdate extends PureComponent {
     });
   }
 
+  handleSelectAttr = (value, option) => {
+    console.log(value);
+    console.log(option);
+    debugger;
+    const { dispatch } = this.props;
+    let attrIndex = option.key.substring(option.key.indexOf('option-attr-') + 'option-attr-'.length, option.key.lastIndexOf('-'));
+    console.log('attrIndex: ' + attrIndex);
+    debugger;
+    dispatch({
+      type: 'productSpuAddOrUpdate/selectAttr',
+      payload: {
+        attrIndex: attrIndex,
+        attr: {
+          id: option.props.value,
+          name: option.props.children,
+        }
+      },
+    });
+  }
+
   render() {
     // debugger;
-    const { form, data, attrTree } = this.props;
+    const { form, data, attrTree, allAttrTree } = this.props;
+    const that = this;
 
     // 规格明细
     const columns = [
@@ -94,19 +117,22 @@ class ProductSpuAddOrUpdate extends PureComponent {
     if (attrTree && attrTree.length > 0) {
       for (let i in attrTree) {
         let attr = attrTree[i];
-        attr = <div>
-          <Select defaultValue="lucy" style={{ width: 120 }}>
-            {
+        // console.log('i: ' + i);
+        // 1. 规格
+        let options = [];
+        for (let j in allAttrTree) {
+          let attr = allAttrTree[j];
+          options.push(<Option key={`option-attr-${i}-${attr.id}`} value={attr.id}>{attr.name}</Option>);
+        }
+        // 2. 规格值
 
-            }
-            <Option value="jack">Jack</Option>
-            <Option value="lucy">Lucy</Option>
-            <Option value="disabled" disabled>Disabled</Option>
-            <Option value="Yiminghe">yiminghe</Option>
+        // 3. 拼装最终，添加到 attrTreeHTML 中
+        attr = <div key={`div-attr-${i}`}>
+          <Select key={`select-attr-${i}`} style={{ width: 120 }} placeholder='请选择规格' onChange={that.handleSelectAttr}>
+            {options}
           </Select>
         </div>;
         attrTreeHTML.push(attr);
-        // debugger;
       }
     }
 

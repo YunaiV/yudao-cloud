@@ -59,47 +59,53 @@ public class OrderItemDO implements Serializable {
         return id;
     }
 
-    public void setId(String id) {
+    public OrderItemDO setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public OrderItemDO setOrderId(String orderId) {
         this.orderId = orderId;
+        return this;
     }
 
     public String getCommodityId() {
         return commodityId;
     }
 
-    public void setCommodityId(String commodityId) {
+    public OrderItemDO setCommodityId(String commodityId) {
         this.commodityId = commodityId;
+        return this;
     }
 
     public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public OrderItemDO setQuantity(Integer quantity) {
         this.quantity = quantity;
+        return this;
     }
 
     public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public OrderItemDO setPrice(Integer price) {
         this.price = price;
+        return this;
     }
 
     public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public OrderItemDO setStatus(Integer status) {
         this.status = status;
+        return this;
     }
 }

@@ -99,103 +99,116 @@ public class OrderDO implements Serializable {
         return id;
     }
 
-    public void setId(String id) {
+    public OrderDO setId(String id) {
         this.id = id;
+        return this;
     }
 
     public String getOrderNo() {
         return orderNo;
     }
 
-    public void setOrderNo(String orderNo) {
+    public OrderDO setOrderNo(String orderNo) {
         this.orderNo = orderNo;
+        return this;
     }
 
     public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public OrderDO setPrice(Integer price) {
         this.price = price;
+        return this;
     }
 
     public String getReceiverAreaNo() {
         return receiverAreaNo;
     }
 
-    public void setReceiverAreaNo(String receiverAreaNo) {
+    public OrderDO setReceiverAreaNo(String receiverAreaNo) {
         this.receiverAreaNo = receiverAreaNo;
+        return this;
     }
 
     public String getReceiverMobile() {
         return receiverMobile;
     }
 
-    public void setReceiverMobile(String receiverMobile) {
+    public OrderDO setReceiverMobile(String receiverMobile) {
         this.receiverMobile = receiverMobile;
+        return this;
     }
 
     public String getReceiverAddress() {
         return receiverAddress;
     }
 
-    public void setReceiverAddress(String receiverAddress) {
+    public OrderDO setReceiverAddress(String receiverAddress) {
         this.receiverAddress = receiverAddress;
+        return this;
     }
 
     public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public OrderDO setStatus(Integer status) {
         this.status = status;
+        return this;
     }
 
     public Integer getPayStatus() {
         return payStatus;
     }
 
-    public void setPayStatus(Integer payStatus) {
+    public OrderDO setPayStatus(Integer payStatus) {
         this.payStatus = payStatus;
+        return this;
     }
 
     public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Date createTime) {
+    public OrderDO setCreateTime(Date createTime) {
         this.createTime = createTime;
+        return this;
     }
 
     public Date getPaymentTime() {
         return paymentTime;
     }
 
-    public void setPaymentTime(Date paymentTime) {
+    public OrderDO setPaymentTime(Date paymentTime) {
         this.paymentTime = paymentTime;
+        return this;
     }
 
     public Date getDeliveryTime() {
         return deliveryTime;
     }
 
-    public void setDeliveryTime(Date deliveryTime) {
+    public OrderDO setDeliveryTime(Date deliveryTime) {
         this.deliveryTime = deliveryTime;
+        return this;
     }
 
     public Date getClosingTime() {
         return closingTime;
     }
 
-    public void setClosingTime(Date closingTime) {
+    public OrderDO setClosingTime(Date closingTime) {
         this.closingTime = closingTime;
+        return this;
     }
 
     public String getRemark() {
         return remark;
     }
 
-    public void setRemark(String remark) {
+    public OrderDO setRemark(String remark) {
         this.remark = remark;
+        return this;
     }
 }

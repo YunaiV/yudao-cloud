@@ -70,6 +70,8 @@ public class OrderServiceImpl implements OrderService {
             orderItemMapper.insert(orderItemDO);
         });
 
+        // TODO: 2019-03-17 Sin 需要发送 创建成果 MQ 消息
+
         return new OrderBO()
                 .setId(orderDO.getId())
                 .setOrderNo(orderDO.getOrderNo())

@@ -1,25 +1,22 @@
 package cn.iocoder.mall.order.api.constants;
 
 /**
- * 订单状态 status
+ * 订单 deleteStatus
  *
  * @author Sin
- * @time 2019-03-16 14:32
+ * @time 2019-03-17 20:58
  */
-public enum OrderPayStatusEnum {
+public enum OrderDeleteStatusEnum {
 
-    WAITING_PAYMENT(0, "等待支付"),
-    SUCCESSFUL_PAYMENT(1, "支付成功"),
-    REFUND_PAYMENT(2, "退款成功"),
-
+    DELETE_NO(0, "正常"),
+    DELETE_YES(1, "已删除")
     ;
-
 
     private final int value;
 
     private final String name;
 
-    OrderPayStatusEnum(int value, String name) {
+    OrderDeleteStatusEnum(int value, String name) {
         this.value = value;
         this.name = name;
     }

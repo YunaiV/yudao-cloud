@@ -3,21 +3,79 @@
 <mapper namespace="cn.iocoder.mall.order.dao.OrderMapper">
 
     <sql id="FIELDS">
-        id, order_no, price, receiver_area_no, receiver_mobile,
-        receiver_address, status, pay_status, create_time,
+        order_no, price, receiver_area_no, receiver_mobile,
+        receiver_address, `status`, pay_status, create_time,
         payment_time, delivery_time, closing_time, remark
     </sql>
 
+    <!--
+        插入数据
+    -->
     <insert id="insert" parameterType="OrderDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO order (
-            id, order_no, price, receiver_area_no, receiver_mobile,
-            receiver_address, status, pay_status, create_time,
+        INSERT INTO `order` (
+            order_no, price, receiver_area_no, receiver_mobile,
+            receiver_address, `status`, pay_status, create_time,
             payment_time, delivery_time, closing_time, remark
         ) VALUES (
-             ${orderNo}, ${price}, ${receiverAreaNo}, ${receiverMobile},
-             ${receiverAddress}, ${status}, ${payStatus}, ${createTime},
-             ${paymentTime}, ${deliveryTime}, ${closingTime}, ${remark}
+             #{orderNo}, ${price}, #{receiverAreaNo}, #{receiverMobile},
+             #{receiverAddress}, #{status}, #{payStatus}, #{createTime},
+             #{paymentTime}, #{deliveryTime}, #{closingTime}, #{remark}
         )
     </insert>
 
+    <!--
+        更新 - 可更新的字段
+    -->
+    <sql id="updateSql" >
+        <set>
+            <if test="orderNo != null">
+                , order_no = #{orderNo}
+            </if>
+            <if test="price != null">
+                , price = #{price}
+            </if>
+            <if test="receiverAreaNo != null">
+                , receiver_area_no = #{receiverAreaNo}
+            </if>
+            <if test="receiverMobile != null">
+                , receiver_mobile = #{receiverMobile}
+            </if>
+            <if test="receiverAddress != null">
+                , receiver_address = #{receiverAddress}
+            </if>
+            <if test="status != null">
+                , status = #{status}
+            </if>
+            <if test="payStatus != null">
+                , pay_status = #{payStatus}
+            </if>
+            <if test="deleteStatus != null">
+                , delete_status = #{deleteStatus}
+            </if>
+            <if test="createTime != null">
+                , create_time = #{createTime}
+            </if>
+            <if test="paymentTime != null">
+                , payment_time = #{paymentTime}
+            </if>
+            <if test="deliveryTime != null">
+                , delivery_time = #{deliveryTime}
+            </if>
+            <if test="closingTime != null">
+                , closing_time = #{closingTime}
+            </if>
+            <if test="remark != null">
+                , remark = #{remark}
+            </if>
+        </set>
+    </sql>
+
+    <!--
+        更新 - 根据 id 更新
+    -->
+    <update id="updateById" parameterType="OrderDO">
+        UPDATE `order`
+        <include refid="updateSql" />
+        WHERE id = #{id}
+    </update>
 </mapper>

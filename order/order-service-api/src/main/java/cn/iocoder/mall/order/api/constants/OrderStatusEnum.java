@@ -28,9 +28,18 @@ public enum OrderStatusEnum {
 
     private final int value;
 
-    private final String text;
+    private final String name;
 
-    OrderStatusEnum(int value, String text) {
+    OrderStatusEnum(int value, String name) {
         this.value = value;
-        this.text = text;
-    }}
+        this.name = name;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public String getName() {
+        return name;
+    }
+}

@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.dataobject;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 订单 item
@@ -13,11 +14,11 @@ public class OrderItemDO implements Serializable {
     /**
      * 编号
      */
-    private String id;
+    private Integer id;
     /**
      * 订单编号
      */
-    private String orderId;
+    private Integer orderId;
     /**
      * 商品编号
      */
@@ -42,33 +43,38 @@ public class OrderItemDO implements Serializable {
      * - 41、已退货
      */
     private Integer status;
+    /**
+     * 发货时间
+     */
+    private Date deliveryTime;
 
     @Override
     public String toString() {
-        return "OrderItem{" +
-                "id='" + id + '\'' +
+        return "OrderItemDO{" +
+                "id=" + id +
                 ", orderId='" + orderId + '\'' +
                 ", commodityId='" + commodityId + '\'' +
                 ", quantity=" + quantity +
                 ", price=" + price +
                 ", status=" + status +
+                ", deliveryTime=" + deliveryTime +
                 '}';
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public OrderItemDO setId(String id) {
+    public OrderItemDO setId(Integer id) {
         this.id = id;
         return this;
     }
 
-    public String getOrderId() {
+    public Integer getOrderId() {
         return orderId;
     }
 
-    public OrderItemDO setOrderId(String orderId) {
+    public OrderItemDO setOrderId(Integer orderId) {
         this.orderId = orderId;
         return this;
     }
@@ -106,6 +112,15 @@ public class OrderItemDO implements Serializable {
 
     public OrderItemDO setStatus(Integer status) {
         this.status = status;
+        return this;
+    }
+
+    public Date getDeliveryTime() {
+        return deliveryTime;
+    }
+
+    public OrderItemDO setDeliveryTime(Date deliveryTime) {
+        this.deliveryTime = deliveryTime;
         return this;
     }
 }

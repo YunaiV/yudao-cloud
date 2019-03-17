@@ -2,6 +2,7 @@ package cn.iocoder.mall.order.convert;
 
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderCreateItemDTO;
+import cn.iocoder.mall.order.api.dto.OrderReceiverInformationDTO;
 import cn.iocoder.mall.order.dataobject.OrderDO;
 import cn.iocoder.mall.order.dataobject.OrderItemDO;
 import org.mapstruct.Mapper;
@@ -22,7 +23,7 @@ public interface OrderConvert {
     OrderConvert INSTANCE = Mappers.getMapper(OrderConvert.class);
 
     /**
-     * 转换 OrderDO
+     * 转换 OrderDO - OrderCreateDTO
      *
      * @param orderCreateDTO
      * @return
@@ -31,11 +32,20 @@ public interface OrderConvert {
     OrderDO convert(OrderCreateDTO orderCreateDTO);
 
     /**
-     * 转换 OrderItemDO
+     * 转换 OrderItemDO - orderCreateItemDTOList
      *
      * @param orderCreateItemDTOList
      * @return
      */
     @Mappings({})
     List<OrderItemDO> convert(List<OrderCreateItemDTO> orderCreateItemDTOList);
+
+    /**
+     * 转换 OrderDO - orderReceiverInformationDTO
+     *
+     * @param orderReceiverInformationDTO
+     * @return
+     */
+    @Mappings({})
+    OrderDO convert(OrderReceiverInformationDTO orderReceiverInformationDTO);
 }

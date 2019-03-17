@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iocoder.mall.order.dao.OrderItemMapper">
+
+    <sql id="FIELDS">
+        id, order_id, commodity_id, quantity, price,
+        status, deliveryTime
+    </sql>
+
+    <!--
+        插入数据
+    -->
+    <insert id="insert" parameterType="OrderItemDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO `order_item` (
+            order_id, commodity_id, quantity, price,
+            status, deliveryTime
+        ) VALUES (
+             #{orderId}, #{commodityId}, #{quantity}, #{price},
+             #{status}, #{deliveryTime}
+        )
+    </insert>
+
+</mapper>

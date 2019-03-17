@@ -18,4 +18,12 @@ public interface OrderMapper {
      * @param orderDO
      */
     void insert(OrderDO orderDO);
+
+    /**
+     * 更新 - 根据 id 更新
+     *
+     * @param orderDO
+     * @return
+     */
+    int updateById(OrderDO orderDO);
 }

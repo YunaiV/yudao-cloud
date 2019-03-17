@@ -14,7 +14,7 @@ public class OrderDO implements Serializable {
     /**
      * 编号
      */
-    private String id;
+    private Integer id;
     /**
      * 订单编号
      */
@@ -27,6 +27,10 @@ public class OrderDO implements Serializable {
      * 收件区域编号
      */
     private String receiverAreaNo;
+    /**
+     * 收件人名称
+     */
+    private String receiverName;
     /**
      * 收件手机号
      */
@@ -56,6 +60,13 @@ public class OrderDO implements Serializable {
      */
     private Integer payStatus;
     /**
+     * 删除状态
+     *
+     * - 0 未删除
+     * - 1 已删除
+     */
+    private Integer deleteStatus;
+    /**
      * 订单创建时间
      */
     private Date createTime;
@@ -78,15 +89,17 @@ public class OrderDO implements Serializable {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "id='" + id + '\'' +
+        return "OrderDO{" +
+                "id=" + id +
                 ", orderNo='" + orderNo + '\'' +
                 ", price=" + price +
                 ", receiverAreaNo='" + receiverAreaNo + '\'' +
+                ", receiverName='" + receiverName + '\'' +
                 ", receiverMobile='" + receiverMobile + '\'' +
                 ", receiverAddress='" + receiverAddress + '\'' +
                 ", status=" + status +
                 ", payStatus=" + payStatus +
+                ", deleteStatus=" + deleteStatus +
                 ", createTime=" + createTime +
                 ", paymentTime=" + paymentTime +
                 ", deliveryTime=" + deliveryTime +
@@ -95,11 +108,11 @@ public class OrderDO implements Serializable {
                 '}';
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public OrderDO setId(String id) {
+    public OrderDO setId(Integer id) {
         this.id = id;
         return this;
     }
@@ -128,6 +141,15 @@ public class OrderDO implements Serializable {
 
     public OrderDO setReceiverAreaNo(String receiverAreaNo) {
         this.receiverAreaNo = receiverAreaNo;
+        return this;
+    }
+
+    public String getReceiverName() {
+        return receiverName;
+    }
+
+    public OrderDO setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
         return this;
     }
 
@@ -164,6 +186,15 @@ public class OrderDO implements Serializable {
 
     public OrderDO setPayStatus(Integer payStatus) {
         this.payStatus = payStatus;
+        return this;
+    }
+
+    public Integer getDeleteStatus() {
+        return deleteStatus;
+    }
+
+    public OrderDO setDeleteStatus(Integer deleteStatus) {
+        this.deleteStatus = deleteStatus;
         return this;
     }
 

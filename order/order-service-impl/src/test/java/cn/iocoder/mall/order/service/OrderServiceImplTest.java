@@ -8,8 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
@@ -26,9 +26,18 @@ public class OrderServiceImplTest {
 
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private Environment environment;
 
     @Test
     public void createOrderTest() {
+//        Properties properties = System.getProperties();
+//        String url = properties.getProperty("spring.datasource.url");
+//        System.err.println(url);
+
+        String url = environment.getProperty("spring.datasource.url");
+        System.err.println(url);
+
 
         OrderCreateItemDTO orderCreateItemDTO
                 = new OrderCreateItemDTO()

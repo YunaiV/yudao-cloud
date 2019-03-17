@@ -3,19 +3,21 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import {Card, Form, Input, Radio, Button, Table, Divider} from 'antd';
+import {Card, Form, Input, Radio, Button, Table, Select} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './ProductSpuAddOrUpdate.less';
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
+const Option = Select.Option;
 
 // roleList
-@connect(({ productSpuList, loading }) => ({
-  productSpuList,
-  list: productSpuList.list.spus,
-  loading: loading.models.productSpuList,
+@connect(({ productSpuList, productAttrList, productSpuAddOrUpdate, loading }) => ({
+  // list: productSpuList.list.spus,
+  // loading: loading.models.productSpuList,
+  allAttrTree: productAttrList.tree,
+  attrTree: productSpuAddOrUpdate.attrTree
 }))
 
 @Form.create()
@@ -31,7 +33,7 @@ class ProductSpuAddOrUpdate extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'productSpuList/page',
+      type: 'productAttrList/tree',
       payload: {
         name: '',
         pageNo: 0,
@@ -53,9 +55,19 @@ class ProductSpuAddOrUpdate extends PureComponent {
     });
   }
 
+  handleAddAttr = e => {
+    // alert('你猜');
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'productSpuAddOrUpdate/addAttr',
+      payload: {
+      },
+    });
+  }
+
   render() {
     // debugger;
-    const { form, data } = this.props;
+    const { form, data, attrTree } = this.props;
 
     // 规格明细
     const columns = [
@@ -75,6 +87,28 @@ class ProductSpuAddOrUpdate extends PureComponent {
         dataIndex: 'quantity',
       }
     ];
+
+    // 添加规格
+    // debugger;
+    let attrTreeHTML = [];
+    if (attrTree && attrTree.length > 0) {
+      for (let i in attrTree) {
+        let attr = attrTree[i];
+        attr = <div>
+          <Select defaultValue="lucy" style={{ width: 120 }}>
+            {
+
+            }
+            <Option value="jack">Jack</Option>
+            <Option value="lucy">Lucy</Option>
+            <Option value="disabled" disabled>Disabled</Option>
+            <Option value="Yiminghe">yiminghe</Option>
+          </Select>
+        </div>;
+        attrTreeHTML.push(attr);
+        // debugger;
+      }
+    }
 
     return (
       <PageHeaderWrapper title="">
@@ -123,16 +157,19 @@ class ProductSpuAddOrUpdate extends PureComponent {
               {form.getFieldDecorator('visible', {
                 initialValue: 1, // TODO 修改
               })(
-                <Button>添加规格项目</Button>
+                <div>
+                  {attrTreeHTML}
+                  <Button onClick={this.handleAddAttr}>添加规格项目</Button>
+                </div>
               )}
             </FormItem>
-            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="规格明细">
-              {form.getFieldDecorator('visible', {
-                initialValue: 1, // TODO 修改
-              })(
-                <Table defaultExpandAllRows={true} columns={columns} rowKey="id" />
-              )}
-            </FormItem>
+            {/*<FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="规格明细">*/}
+              {/*{form.getFieldDecorator('visible', {*/}
+                {/*initialValue: 1, // TODO 修改*/}
+              {/*})(*/}
+                {/*<Table defaultExpandAllRows={true} columns={columns} rowKey="id" />*/}
+              {/*)}*/}
+            {/*</FormItem>*/}
           </Form>
         </Card>
       </PageHeaderWrapper>

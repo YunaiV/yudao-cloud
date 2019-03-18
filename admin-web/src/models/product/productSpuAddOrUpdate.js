@@ -119,10 +119,23 @@ export default {
       if (callback) {
         callback(response);
       }
-      yield put({
-        type: 'tree',
-        payload: {},
-      });
+      // yield put({
+      //   type: 'tree',
+      //   payload: {},
+      // });
+      alert('添加成功！后续改成跳转到手机站的详情');
+    },
+    *update({ payload }, { call, put }) {
+      const { callback, body } = payload;
+      const response = yield call(productSpuAdd, body);
+      if (callback) {
+        callback(response);
+      }
+      // yield put({
+      //   type: 'tree',
+      //   payload: {},
+      // });
+      alert('修改成功！后续改成跳转到手机站的详情');
     },
   },
 

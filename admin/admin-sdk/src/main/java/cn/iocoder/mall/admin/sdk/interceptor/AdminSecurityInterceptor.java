@@ -39,6 +39,13 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
             // 添加到 AdminSecurityContext
             AdminSecurityContext context = new AdminSecurityContext(authentication.getAdminId(), authentication.getRoleIds());
             AdminSecurityContextHolder.setContext(context);
+            // 同时也记录管理员编号到 AdminAccessLogInterceptor 中。因为：
+            // AdminAccessLogInterceptor 需要在 AdminSecurityInterceptor 之前执行，这样记录的访问日志才健全
+            // AdminSecurityInterceptor 执行后，会移除 AdminSecurityContext 信息，这就导致 AdminAccessLogInterceptor 无法获得管理员编号
+            // 因此，这里需要进行记录
+            if (authentication.getAdminId() != null) {
+                AdminAccessLogInterceptor.setAdminId(authentication.getAdminId());
+            }
         } else {
             String url = request.getRequestURI();
             if (!url.equals("/admin/passport/login")) { // TODO 临时写死。非登陆接口，必须已经认证身份，不允许匿名访问

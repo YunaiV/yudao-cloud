@@ -3,10 +3,12 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import { Card, Form, Input, Button, Modal, message, Table, Divider, Tree, Spin } from 'antd';
+import { checkTypeWithEnglishAndNumbers } from '../../../helpers/validator'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './AdminList.less';
 import moment from "moment";
+import Pagination from "antd/es/pagination";
 
 const FormItem = Form.Item;
 const { TreeNode } = Tree;
@@ -44,18 +46,24 @@ const CreateForm = Form.create()(props => {
     >
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="用户名">
         {form.getFieldDecorator('username', {
-          rules: [{ required: true, message: '请输入用户名！', min: 2 }],
+          rules: [{ required: true, message: '请输入用户名！'},
+            {max: 16, min:6, message: '长度为6-16位'},
+            { validator: (rule, value, callback) => checkTypeWithEnglishAndNumbers(rule, value, callback, '数字以及字母')}
+          ],
           initialValue: initValues.username,
         })(<Input placeholder="请输入" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="昵称">
         {form.getFieldDecorator('nickname', {
-          rules: [{ required: true, message: '请输入昵称！', min: 2 }],
+          rules: [{ required: true, message: '请输入昵称！'},
+            {max: 10, message: '姓名最大长度为10'}],
           initialValue: initValues.nickname,
         })(<Input placeholder="请输入" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="密码">
         {form.getFieldDecorator('password', {
+          rules: [{ required: modalType === 'add', message: '请填写密码'}, // 添加时，必须输入密码
+            {max: 16, min: 6, message: '长度为6-18位'}],
           initialValue: initValues.password,
         })(<Input placeholder="请输入" type="password" />)}
       </FormItem>
@@ -304,9 +312,21 @@ class ResourceList extends PureComponent {
     });
   };
 
+  onPageChange = (page = {}) => {
+    const { dispatch } = this.props;
+    // debugger;
+    dispatch({
+      type: 'adminList/query',
+      payload: {
+        pageNo: page - 1,
+        pageSize: 10,
+      }
+    });
+  }
+
   render() {
-    const { list, data } = this.props;
-    const { roleList, roleCheckedKeys, roleAssignLoading } = data;
+    const { list,  data } = this.props;
+    const { count, pageNo, pageSize, roleList, roleCheckedKeys, roleAssignLoading } = data;
     const {
       modalVisible,
       modalType,
@@ -335,7 +355,7 @@ class ResourceList extends PureComponent {
         title: '状态',
         dataIndex: 'status',
         render(val) {
-          return <span>{status[val]}</span>;
+          return <span>{status[val]}</span>; // TODO 芋艿，此处要改
         },
       },
       {
@@ -386,6 +406,12 @@ class ResourceList extends PureComponent {
             columns={columns}
             dataSource={list}
             rowKey="id"
+            pagination={{
+              current: pageNo,
+              pageSize: pageSize,
+              total: count,
+              onChange: this.onPageChange
+            }}
           />
         </Card>
         <CreateForm {...parentMethods} modalVisible={modalVisible} />

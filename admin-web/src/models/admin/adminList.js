@@ -82,6 +82,7 @@ export default {
         payload: {
           list: admins,
           count,
+          pageNo: payload.pageNo + 1
         },
       });
     },

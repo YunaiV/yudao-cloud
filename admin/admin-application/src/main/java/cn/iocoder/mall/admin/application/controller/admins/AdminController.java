@@ -42,6 +42,8 @@ public class AdminController {
 
     // =========== 当前管理员相关的资源 API ===========
 
+    // TODO 功能：当前管理员
+
     @SuppressWarnings("Duplicates")
     @GetMapping("/menu_resource_tree")
     @ApiOperation(value = "获得当前登陆的管理员拥有的菜单权限", notes = "以树结构返回")
@@ -120,7 +122,7 @@ public class AdminController {
     public CommonResult<Boolean> update(@RequestParam("id") Integer id,
                                         @RequestParam("username") String username,
                                         @RequestParam("nickname") String nickname,
-                                        @RequestParam("password") String password) {
+                                        @RequestParam(value = "password", required = false) String password) {
         AdminUpdateDTO adminUpdateDTO = new AdminUpdateDTO().setId(id).setUsername(username).setNickname(nickname).setPassword(password);
         return adminService.updateAdmin(AdminSecurityContextHolder.getContext().getAdminId(), adminUpdateDTO);
     }

@@ -3,17 +3,17 @@ package cn.iocoder.mall.admin.application.controller.admins;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.OAuth2Service;
 import cn.iocoder.mall.admin.api.bo.OAuth2AccessTokenBO;
-import cn.iocoder.mall.admin.application.convert.AdminConvert;
 import cn.iocoder.mall.admin.application.convert.PassportConvert;
-import cn.iocoder.mall.admin.application.vo.AdminInfoVO;
 import cn.iocoder.mall.admin.application.vo.PassportLoginVO;
-import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("admins/passport")
@@ -35,10 +35,8 @@ public class PassportController {
         return PassportConvert.INSTANCE.convert(result);
     }
 
-    // TODO 艿艿：后续继续完善
-    @GetMapping("/info")
-    public CommonResult<AdminInfoVO> info() {
-        return CommonResult.success(AdminConvert.INSTANCE.convert(AdminSecurityContextHolder.getContext()));
-    }
+    // TODO 功能 logout
+
+    // TODO 功能 refresh_token
 
 }

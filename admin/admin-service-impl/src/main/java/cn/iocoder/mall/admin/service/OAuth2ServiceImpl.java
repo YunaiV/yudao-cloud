@@ -77,7 +77,6 @@ public class OAuth2ServiceImpl implements OAuth2Service {
         }
         // 获得管理员拥有的角色
         List<AdminRoleDO> adminRoleDOs = adminService.getAdminRoles(accessTokenDO.getAdminId());
-        // TODO 芋艿，有个 bug ，要排除掉已经失效的角色
         return CommonResult.success(OAuth2Convert.INSTANCE.convertToAuthentication(accessTokenDO, adminRoleDOs));
     }
 

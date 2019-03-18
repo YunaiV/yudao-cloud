@@ -40,6 +40,13 @@ public class UserSecurityInterceptor extends HandlerInterceptorAdapter {
             // 添加到 SecurityContext
             UserSecurityContext context = new UserSecurityContext(authentication.getUserId());
             UserSecurityContextHolder.setContext(context);
+            // 同时也记录管理员编号到 AdminAccessLogInterceptor 中。因为：
+            // AdminAccessLogInterceptor 需要在 AdminSecurityInterceptor 之前执行，这样记录的访问日志才健全
+            // AdminSecurityInterceptor 执行后，会移除 AdminSecurityContext 信息，这就导致 AdminAccessLogInterceptor 无法获得管理员编号
+            // 因此，这里需要进行记录
+            if (authentication.getUserId() != null) {
+                UserAccessLogInterceptor.setUserId(authentication.getUserId());
+            }
         }
         // 校验是否需要已授权
         HandlerMethod method = (HandlerMethod) handler;

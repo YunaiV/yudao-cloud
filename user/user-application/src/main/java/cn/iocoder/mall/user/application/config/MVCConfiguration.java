@@ -2,6 +2,7 @@ package cn.iocoder.mall.user.application.config;
 
 import cn.iocoder.common.framework.config.GlobalExceptionHandler;
 import cn.iocoder.mall.admin.sdk.interceptor.AdminSecurityInterceptor;
+import cn.iocoder.mall.user.sdk.interceptor.UserAccessLogInterceptor;
 import cn.iocoder.mall.user.sdk.interceptor.UserSecurityInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -18,13 +19,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class MVCConfiguration implements WebMvcConfigurer {
 
     @Autowired
-    private UserSecurityInterceptor securityInterceptor;
+    private UserSecurityInterceptor userSecurityInterceptor;
+    @Autowired
+    private UserAccessLogInterceptor userAccessLogInterceptor;
     @Autowired
     private AdminSecurityInterceptor adminSecurityInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(securityInterceptor).addPathPatterns("/users/**"); // 只拦截我们定义的接口
+        // 用户
+        registry.addInterceptor(userAccessLogInterceptor).addPathPatterns("/users/**");
+        registry.addInterceptor(userSecurityInterceptor).addPathPatterns("/users/**"); // 只拦截我们定义的接口
+        // 管理员
         registry.addInterceptor(adminSecurityInterceptor).addPathPatterns("/admins/**"); // 只拦截我们定义的接口
     }
 

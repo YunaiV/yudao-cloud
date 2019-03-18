@@ -2,7 +2,7 @@
 
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { Card, Form, Input, Button, Modal, message, Table, Divider, Tree, Spin } from 'antd';
+import {Card, Form, Input, Button, Modal, message, Table, Divider, Tree, Spin, Row, Col, Select, Icon} from 'antd';
 import { checkTypeWithEnglishAndNumbers } from '../../../helpers/validator'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
@@ -324,7 +324,35 @@ class ResourceList extends PureComponent {
     });
   }
 
+  renderSimpleForm() { // TODO 芋艿，搜索功能未完成
+    const {
+      form: { getFieldDecorator },
+    } = this.props;
+    return (
+      <Form onSubmit={this.handleSearch} layout="inline">
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={8} sm={24}>
+            <FormItem label="昵称">
+              {getFieldDecorator('name')(<Input placeholder="请输入" />)}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <span className={styles.submitButtons}>
+              <Button type="primary" htmlType="submit">
+                查询
+              </Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+                重置
+              </Button>
+            </span>
+          </Col>
+        </Row>
+      </Form>
+    );
+  }
+
   render() {
+    let that = this;
     const { list,  data } = this.props;
     const { count, pageNo, pageSize, roleList, roleCheckedKeys, roleAssignLoading } = data;
     const {
@@ -391,6 +419,7 @@ class ResourceList extends PureComponent {
       <PageHeaderWrapper>
         <Card bordered={false}>
           <div className={styles.tableList}>
+            <div className={styles.tableListForm}>{that.renderSimpleForm()}</div>
             <div className={styles.tableListOperator}>
               <Button
                 icon="plus"

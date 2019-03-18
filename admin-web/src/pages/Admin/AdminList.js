@@ -6,6 +6,7 @@ import { Card, Form, Input, Button, Modal, message, Table, Divider, Tree, Spin }
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './AdminList.less';
+import moment from "moment";
 
 const FormItem = Form.Item;
 const { TreeNode } = Tree;
@@ -31,20 +32,19 @@ const CreateForm = Form.create()(props => {
     width: 200,
   };
 
-  const title = modalType === 'add' ? '添加一个 Resource' : '更新一个 Resource';
-  const okText = modalType === 'add' ? '添加' : '更新';
+  const title = modalType === 'add' ? '新建管理员' : '更新管理员';
   return (
     <Modal
       destroyOnClose
       title={title}
       visible={modalVisible}
       onOk={okHandle}
-      okText={okText}
+      okText='保存'
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="用户名">
         {form.getFieldDecorator('username', {
-          rules: [{ required: true, message: '请输入名称！', min: 2 }],
+          rules: [{ required: true, message: '请输入用户名！', min: 2 }],
           initialValue: initValues.username,
         })(<Input placeholder="请输入" />)}
       </FormItem>
@@ -324,14 +324,8 @@ class ResourceList extends PureComponent {
 
     const columns = [
       {
-        title: 'id',
-        dataIndex: 'id',
-        render: text => <strong>{text}</strong>,
-      },
-      {
         title: '用户名',
-        dataIndex: 'username',
-        render: text => <a>{text}</a>,
+        dataIndex: 'username'
       },
       {
         title: '昵称',
@@ -345,13 +339,18 @@ class ResourceList extends PureComponent {
         },
       },
       {
+        title: '创建时间',
+        dataIndex: 'createTime',
+        render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm')}</span>,
+      },
+      {
         title: '操作',
-        width: 300,
+        width: 360,
         render: (text, record) => {
-          const statusText = record.status === 1 ? '确认禁用' : '取消禁用';
+          const statusText = record.status === 1 ? '禁用' : '禁用';
           return (
             <Fragment>
-              <a onClick={() => this.handleModalVisible(true, 'update', record)}>更新</a>
+              <a onClick={() => this.handleModalVisible(true, 'update', record)}>编辑</a>
               <Divider type="vertical" />
               <a onClick={() => this.handleRoleAssign(record)}>角色分配</a>
               <Divider type="vertical" />
@@ -369,7 +368,7 @@ class ResourceList extends PureComponent {
     ];
 
     return (
-      <PageHeaderWrapper title="查询表格">
+      <PageHeaderWrapper>
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListOperator}>
@@ -378,7 +377,7 @@ class ResourceList extends PureComponent {
                 type="primary"
                 onClick={() => this.handleModalVisible(true, 'add', {})}
               >
-                新建
+                新建管理员
               </Button>
             </div>
           </div>

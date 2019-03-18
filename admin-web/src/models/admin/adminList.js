@@ -76,7 +76,6 @@ export default {
     },
     *query({ payload }, { call, put }) {
       const response = yield call(queryAdmin, payload);
-      message.info('查询成功!');
       const { count, admins } = response.data;
       yield put({
         type: 'querySuccess',

@@ -12,9 +12,13 @@ import java.util.Date;
 public class OrderDO implements Serializable {
 
     /**
-     * 编号
+     * id
      */
     private Integer id;
+    /**
+     * 物流id
+     */
+    private Integer orderLogisticsId;
     /**
      * 订单编号
      */
@@ -23,51 +27,12 @@ public class OrderDO implements Serializable {
      * 交易金额
      */
     private Integer price;
+
+    ///
+    /// 时间信息
+
     /**
-     * 收件区域编号
-     */
-    private String receiverAreaNo;
-    /**
-     * 收件人名称
-     */
-    private String receiverName;
-    /**
-     * 收件手机号
-     */
-    private String receiverMobile;
-    /**
-     * 收件详细地址
-     */
-    private String receiverAddress;
-    /**
-     * 状态(如果有多个商品分开发货需要全部商品发完才会改变状态)
-     *
-     * - 0、代发货
-     * - 1、已发货
-     * - 2、已收货
-     * - 20、换货中
-     * - 21、换货成功
-     * - 40、退货中
-     * - 41、已退货
-     */
-    private Integer status;
-    /**
-     * 支付状态
-     *
-     * - 0、待支付
-     * - 1、支付完成
-     * - 2、已退款
-     */
-    private Integer payStatus;
-    /**
-     * 删除状态
-     *
-     * - 0 未删除
-     * - 1 已删除
-     */
-    private Integer deleteStatus;
-    /**
-     * 订单创建时间
+     * 创建时间
      */
     private Date createTime;
     /**
@@ -79,9 +44,47 @@ public class OrderDO implements Serializable {
      */
     private Date deliveryTime;
     /**
+     * 收货时间
+     */
+    private Date receiverTime;
+    /**
      * 成交时间
      */
     private Date closingTime;
+
+    ///
+    /// 其他
+
+    /**
+     * 是否退货
+     *
+     * - 0、no
+     * - 1、yes
+     */
+    private Integer hasReturn;
+    /**
+     * 是否换货
+     *
+     * - 0、no
+     * - 1、yes
+     */
+    private Integer hasExchange;
+    /**
+     * 状态(如果有多个商品分开发货需要全部商品发完才会改变状态)
+     *
+     * - 0、代付款
+     * - 1、已付款
+     * - 2、已退款
+     * - 3、已完成
+     */
+    private Integer status;
+    /**
+     * 删除状态
+     *
+     * - 0 未删除
+     * - 1 已删除
+     */
+    private Integer deleteStatus;
     /**
      * 备注
      */
@@ -91,19 +94,18 @@ public class OrderDO implements Serializable {
     public String toString() {
         return "OrderDO{" +
                 "id=" + id +
+                ", orderLogisticsId=" + orderLogisticsId +
                 ", orderNo='" + orderNo + '\'' +
                 ", price=" + price +
-                ", receiverAreaNo='" + receiverAreaNo + '\'' +
-                ", receiverName='" + receiverName + '\'' +
-                ", receiverMobile='" + receiverMobile + '\'' +
-                ", receiverAddress='" + receiverAddress + '\'' +
-                ", status=" + status +
-                ", payStatus=" + payStatus +
-                ", deleteStatus=" + deleteStatus +
                 ", createTime=" + createTime +
                 ", paymentTime=" + paymentTime +
                 ", deliveryTime=" + deliveryTime +
+                ", receiverTime=" + receiverTime +
                 ", closingTime=" + closingTime +
+                ", hasReturn=" + hasReturn +
+                ", hasExchange=" + hasExchange +
+                ", status=" + status +
+                ", deleteStatus=" + deleteStatus +
                 ", remark='" + remark + '\'' +
                 '}';
     }
@@ -114,6 +116,15 @@ public class OrderDO implements Serializable {
 
     public OrderDO setId(Integer id) {
         this.id = id;
+        return this;
+    }
+
+    public Integer getOrderLogisticsId() {
+        return orderLogisticsId;
+    }
+
+    public OrderDO setOrderLogisticsId(Integer orderLogisticsId) {
+        this.orderLogisticsId = orderLogisticsId;
         return this;
     }
 
@@ -132,69 +143,6 @@ public class OrderDO implements Serializable {
 
     public OrderDO setPrice(Integer price) {
         this.price = price;
-        return this;
-    }
-
-    public String getReceiverAreaNo() {
-        return receiverAreaNo;
-    }
-
-    public OrderDO setReceiverAreaNo(String receiverAreaNo) {
-        this.receiverAreaNo = receiverAreaNo;
-        return this;
-    }
-
-    public String getReceiverName() {
-        return receiverName;
-    }
-
-    public OrderDO setReceiverName(String receiverName) {
-        this.receiverName = receiverName;
-        return this;
-    }
-
-    public String getReceiverMobile() {
-        return receiverMobile;
-    }
-
-    public OrderDO setReceiverMobile(String receiverMobile) {
-        this.receiverMobile = receiverMobile;
-        return this;
-    }
-
-    public String getReceiverAddress() {
-        return receiverAddress;
-    }
-
-    public OrderDO setReceiverAddress(String receiverAddress) {
-        this.receiverAddress = receiverAddress;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public OrderDO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public Integer getPayStatus() {
-        return payStatus;
-    }
-
-    public OrderDO setPayStatus(Integer payStatus) {
-        this.payStatus = payStatus;
-        return this;
-    }
-
-    public Integer getDeleteStatus() {
-        return deleteStatus;
-    }
-
-    public OrderDO setDeleteStatus(Integer deleteStatus) {
-        this.deleteStatus = deleteStatus;
         return this;
     }
 
@@ -225,12 +173,57 @@ public class OrderDO implements Serializable {
         return this;
     }
 
+    public Date getReceiverTime() {
+        return receiverTime;
+    }
+
+    public OrderDO setReceiverTime(Date receiverTime) {
+        this.receiverTime = receiverTime;
+        return this;
+    }
+
     public Date getClosingTime() {
         return closingTime;
     }
 
     public OrderDO setClosingTime(Date closingTime) {
         this.closingTime = closingTime;
+        return this;
+    }
+
+    public Integer getHasReturn() {
+        return hasReturn;
+    }
+
+    public OrderDO setHasReturn(Integer hasReturn) {
+        this.hasReturn = hasReturn;
+        return this;
+    }
+
+    public Integer getHasExchange() {
+        return hasExchange;
+    }
+
+    public OrderDO setHasExchange(Integer hasExchange) {
+        this.hasExchange = hasExchange;
+        return this;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public OrderDO setStatus(Integer status) {
+        this.status = status;
+        return this;
+    }
+
+    public Integer getDeleteStatus() {
+        return deleteStatus;
+    }
+
+    public OrderDO setDeleteStatus(Integer deleteStatus) {
+        this.deleteStatus = deleteStatus;
         return this;
     }
 

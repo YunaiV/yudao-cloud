@@ -4,37 +4,33 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 订单 item
+ * 换货订单
  *
  * @author Sin
- * @time 2019-03-16 14:03
+ * @time 2019-03-19 19:48
  */
-public class OrderItemDO implements Serializable {
+public class OrderExchangeDO implements Serializable {
 
     /**
-     * 编号
+     * id
      */
     private Integer id;
     /**
-     * 订单编号
+     * 订单id
      */
     private Integer orderId;
     /**
-     * 订单号
+     * 订单编号
      */
     private String orderNo;
     /**
-     * 商品编号
+     * 换货物流id
      */
-    private String commodityId;
+    private Integer exchangeOrderLogisticsId;
     /**
-     * 数量
+     * 收件物流id
      */
-    private Integer quantity;
-    /**
-     * 金额(分)
-     */
-    private Integer price;
+    private Integer receiverOrderLogisticsId;
 
     ///
     /// 时间信息
@@ -64,45 +60,29 @@ public class OrderItemDO implements Serializable {
     /// 其他
 
     /**
-     * 是否退货
-     *
-     * - 0、no
-     * - 1、yes
-     */
-    private Integer hasReturn;
-    /**
-     * 是否换货
-     *
-     * - 0、no
-     * - 1、yes
-     */
-    private Integer hasExchange;
-    /**
      * 状态
      *
-     * - 0、代付款
-     * - 1、已付款
-     * - 2、已退款
-     * - 3、已完成
+     * - 申请换货
+     * - 申请成功
+     * - 申请失败
+     * - 换货中
+     * - 换货成功
      */
     private Integer status;
 
     @Override
     public String toString() {
-        return "OrderItemDO{" +
+        return "OrderExchangeDO{" +
                 "id=" + id +
                 ", orderId=" + orderId +
                 ", orderNo='" + orderNo + '\'' +
-                ", commodityId='" + commodityId + '\'' +
-                ", quantity=" + quantity +
-                ", price=" + price +
+                ", exchangeOrderLogisticsId=" + exchangeOrderLogisticsId +
+                ", receiverOrderLogisticsId=" + receiverOrderLogisticsId +
                 ", createTime=" + createTime +
                 ", paymentTime=" + paymentTime +
                 ", deliveryTime=" + deliveryTime +
                 ", receiverTime=" + receiverTime +
                 ", closingTime=" + closingTime +
-                ", hasReturn=" + hasReturn +
-                ", hasExchange=" + hasExchange +
                 ", status=" + status +
                 '}';
     }
@@ -111,7 +91,7 @@ public class OrderItemDO implements Serializable {
         return id;
     }
 
-    public OrderItemDO setId(Integer id) {
+    public OrderExchangeDO setId(Integer id) {
         this.id = id;
         return this;
     }
@@ -120,7 +100,7 @@ public class OrderItemDO implements Serializable {
         return orderId;
     }
 
-    public OrderItemDO setOrderId(Integer orderId) {
+    public OrderExchangeDO setOrderId(Integer orderId) {
         this.orderId = orderId;
         return this;
     }
@@ -129,35 +109,26 @@ public class OrderItemDO implements Serializable {
         return orderNo;
     }
 
-    public OrderItemDO setOrderNo(String orderNo) {
+    public OrderExchangeDO setOrderNo(String orderNo) {
         this.orderNo = orderNo;
         return this;
     }
 
-    public String getCommodityId() {
-        return commodityId;
+    public Integer getExchangeOrderLogisticsId() {
+        return exchangeOrderLogisticsId;
     }
 
-    public OrderItemDO setCommodityId(String commodityId) {
-        this.commodityId = commodityId;
+    public OrderExchangeDO setExchangeOrderLogisticsId(Integer exchangeOrderLogisticsId) {
+        this.exchangeOrderLogisticsId = exchangeOrderLogisticsId;
         return this;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Integer getReceiverOrderLogisticsId() {
+        return receiverOrderLogisticsId;
     }
 
-    public OrderItemDO setQuantity(Integer quantity) {
-        this.quantity = quantity;
-        return this;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public OrderItemDO setPrice(Integer price) {
-        this.price = price;
+    public OrderExchangeDO setReceiverOrderLogisticsId(Integer receiverOrderLogisticsId) {
+        this.receiverOrderLogisticsId = receiverOrderLogisticsId;
         return this;
     }
 
@@ -165,7 +136,7 @@ public class OrderItemDO implements Serializable {
         return createTime;
     }
 
-    public OrderItemDO setCreateTime(Date createTime) {
+    public OrderExchangeDO setCreateTime(Date createTime) {
         this.createTime = createTime;
         return this;
     }
@@ -174,7 +145,7 @@ public class OrderItemDO implements Serializable {
         return paymentTime;
     }
 
-    public OrderItemDO setPaymentTime(Date paymentTime) {
+    public OrderExchangeDO setPaymentTime(Date paymentTime) {
         this.paymentTime = paymentTime;
         return this;
     }
@@ -183,7 +154,7 @@ public class OrderItemDO implements Serializable {
         return deliveryTime;
     }
 
-    public OrderItemDO setDeliveryTime(Date deliveryTime) {
+    public OrderExchangeDO setDeliveryTime(Date deliveryTime) {
         this.deliveryTime = deliveryTime;
         return this;
     }
@@ -192,7 +163,7 @@ public class OrderItemDO implements Serializable {
         return receiverTime;
     }
 
-    public OrderItemDO setReceiverTime(Date receiverTime) {
+    public OrderExchangeDO setReceiverTime(Date receiverTime) {
         this.receiverTime = receiverTime;
         return this;
     }
@@ -201,26 +172,8 @@ public class OrderItemDO implements Serializable {
         return closingTime;
     }
 
-    public OrderItemDO setClosingTime(Date closingTime) {
+    public OrderExchangeDO setClosingTime(Date closingTime) {
         this.closingTime = closingTime;
-        return this;
-    }
-
-    public Integer getHasReturn() {
-        return hasReturn;
-    }
-
-    public OrderItemDO setHasReturn(Integer hasReturn) {
-        this.hasReturn = hasReturn;
-        return this;
-    }
-
-    public Integer getHasExchange() {
-        return hasExchange;
-    }
-
-    public OrderItemDO setHasExchange(Integer hasExchange) {
-        this.hasExchange = hasExchange;
         return this;
     }
 
@@ -228,7 +181,7 @@ public class OrderItemDO implements Serializable {
         return status;
     }
 
-    public OrderItemDO setStatus(Integer status) {
+    public OrderExchangeDO setStatus(Integer status) {
         this.status = status;
         return this;
     }

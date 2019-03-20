@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.dataobject;
 
-import java.io.Serializable;
+import cn.iocoder.common.framework.dataobject.BaseDO;
+
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  * @author Sin
  * @time 2019-03-19 20:48
  */
-public class OrderLogisticsDetailDO implements Serializable {
+public class OrderLogisticsDetailDO extends BaseDO {
 
     /**
      * id

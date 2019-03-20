@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.dataobject;
 
-import java.io.Serializable;
+import cn.iocoder.common.framework.dataobject.BaseDO;
+
 import java.util.Date;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Date;
  * @author Sin
  * @time 2019-03-16 14:03
  */
-public class OrderItemDO implements Serializable {
+public class OrderItemDO extends BaseDO {
 
     /**
      * 编号
@@ -26,7 +27,7 @@ public class OrderItemDO implements Serializable {
     /**
      * 商品编号
      */
-    private String commodityId;
+    private String skuId;
     /**
      * 数量
      */
@@ -80,10 +81,11 @@ public class OrderItemDO implements Serializable {
     /**
      * 状态
      *
-     * - 0、代付款
-     * - 1、已付款
-     * - 2、已退款
+     * - 0、待付款
+     * - 1、待发货
+     * - 2、待收获
      * - 3、已完成
+     * - 4、已关闭
      */
     private Integer status;
 
@@ -93,7 +95,7 @@ public class OrderItemDO implements Serializable {
                 "id=" + id +
                 ", orderId=" + orderId +
                 ", orderNo='" + orderNo + '\'' +
-                ", commodityId='" + commodityId + '\'' +
+                ", skuId='" + skuId + '\'' +
                 ", quantity=" + quantity +
                 ", price=" + price +
                 ", createTime=" + createTime +
@@ -134,12 +136,12 @@ public class OrderItemDO implements Serializable {
         return this;
     }
 
-    public String getCommodityId() {
-        return commodityId;
+    public String getSkuId() {
+        return skuId;
     }
 
-    public OrderItemDO setCommodityId(String commodityId) {
-        this.commodityId = commodityId;
+    public OrderItemDO setSkuId(String skuId) {
+        this.skuId = skuId;
         return this;
     }
 
@@ -161,10 +163,12 @@ public class OrderItemDO implements Serializable {
         return this;
     }
 
+    @Override
     public Date getCreateTime() {
         return createTime;
     }
 
+    @Override
     public OrderItemDO setCreateTime(Date createTime) {
         this.createTime = createTime;
         return this;

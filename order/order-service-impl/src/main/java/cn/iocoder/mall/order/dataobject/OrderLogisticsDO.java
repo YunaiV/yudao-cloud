@@ -1,6 +1,6 @@
 package cn.iocoder.mall.order.dataobject;
 
-import java.io.Serializable;
+import cn.iocoder.common.framework.dataobject.BaseDO;
 
 /**
  * 订单物流信息
@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author Sin
  * @time 2019-03-19 20:47
  */
-public class OrderLogisticsDO implements Serializable {
+public class OrderLogisticsDO extends BaseDO {
 
     /**
      * id

@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.dataobject;
 
-import java.io.Serializable;
+import cn.iocoder.common.framework.dataobject.BaseDO;
+
 import java.util.Date;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Date;
  * @author Sin
  * @time 2019-03-19 19:48
  */
-public class OrderReturnDO implements Serializable {
+public class OrderReturnDO extends BaseDO {
 
     /**
      * 编号自动增长
@@ -27,6 +28,26 @@ public class OrderReturnDO implements Serializable {
      * 订单 item 编号
      */
     private Integer orderItemId;
+    /**
+     * 商品编号（保存一个冗余，如果一个订单下存在多个商品，会有很大的作用）
+     */
+    private String skuId;
+
+    ///
+    /// 退货原因
+
+    /**
+     * 退货原因(字典值)
+     *
+     * {@link cn.iocoder.mall.order.constants.OrderReturnReasonEnum}
+     */
+    private Integer orderReasonId;
+    /**
+     * 原因（如果选择其他，原因保存在这）
+     *
+     * {@link cn.iocoder.mall.order.constants.OrderReturnReasonEnum#REASON_000}
+     */
+    private String reason;
 
     ///
     /// 时间信息
@@ -80,6 +101,9 @@ public class OrderReturnDO implements Serializable {
                 ", orderId=" + orderId +
                 ", orderNo='" + orderNo + '\'' +
                 ", orderItemId=" + orderItemId +
+                ", skuId='" + skuId + '\'' +
+                ", orderReasonId=" + orderReasonId +
+                ", reason='" + reason + '\'' +
                 ", createTime=" + createTime +
                 ", approvalTime=" + approvalTime +
                 ", logisticsTime=" + logisticsTime +
@@ -126,10 +150,39 @@ public class OrderReturnDO implements Serializable {
         return this;
     }
 
+    public String getSkuId() {
+        return skuId;
+    }
+
+    public OrderReturnDO setSkuId(String skuId) {
+        this.skuId = skuId;
+        return this;
+    }
+
+    public Integer getOrderReasonId() {
+        return orderReasonId;
+    }
+
+    public OrderReturnDO setOrderReasonId(Integer orderReasonId) {
+        this.orderReasonId = orderReasonId;
+        return this;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public OrderReturnDO setReason(String reason) {
+        this.reason = reason;
+        return this;
+    }
+
+    @Override
     public Date getCreateTime() {
         return createTime;
     }
 
+    @Override
     public OrderReturnDO setCreateTime(Date createTime) {
         this.createTime = createTime;
         return this;

@@ -1,11 +1,12 @@
 package cn.iocoder.common.framework.dataobject;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 基础实体对象
  */
-public class BaseDO {
+public class BaseDO implements Serializable {
 
     /**
      * 是否删除 - 是

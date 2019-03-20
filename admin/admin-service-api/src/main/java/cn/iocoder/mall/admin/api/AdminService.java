@@ -9,6 +9,9 @@ import cn.iocoder.mall.admin.api.dto.AdminUpdateDTO;
 
 import java.util.Set;
 
+/**
+ * 管理员 Service 接口
+ */
 public interface AdminService {
 
     CommonResult<AdminPageBO> getAdminPage(AdminPageDTO adminPageDTO);

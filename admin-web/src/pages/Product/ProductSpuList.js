@@ -77,50 +77,11 @@ class ProductSpuList extends PureComponent {
     });
   }
 
-  handleModalVisible = (flag, modalType, initValues) => {
-    this.setState({
-      modalVisible: !!flag,
-      initValues: initValues || {},
-      modalType: modalType || 'add',
+  redirectToAdd = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'productSpuList/redirectToAdd',
     });
-  };
-
-  handleAdd = ({ fields, modalType, initValues }) => {
-    const { dispatch, data } = this.props;
-    const queryParams = {
-      pageNo: data.pageNo,
-      pageSize: data.pageSize,
-    };
-    if (modalType === 'add') {
-      dispatch({
-        type: 'roleList/add',
-        payload: {
-          body: {
-            ...fields,
-          },
-          queryParams,
-          callback: () => {
-            message.success('添加成功');
-            this.handleModalVisible();
-          },
-        },
-      });
-    } else {
-      dispatch({
-        type: 'roleList/update',
-        payload: {
-          body: {
-            ...initValues,
-            ...fields,
-          },
-          queryParams,
-          callback: () => {
-            message.success('更新成功');
-            this.handleModalVisible();
-          },
-        },
-      });
-    }
   };
 
   render() {
@@ -199,7 +160,7 @@ class ProductSpuList extends PureComponent {
               <Button
                 icon="plus"
                 type="primary"
-                onClick={() => this.handleModalVisible(true, 'add', {})}
+                onClick={this.redirectToAdd}
               >
                 发布商品
               </Button>

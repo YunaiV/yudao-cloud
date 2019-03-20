@@ -2,10 +2,13 @@
 
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { Card, Form, Input, Button, Modal, message, Table, Divider, Tree, Spin } from 'antd';
+import {Card, Form, Input, Button, Modal, message, Table, Divider, Tree, Spin, Row, Col, Select, Icon} from 'antd';
+import { checkTypeWithEnglishAndNumbers } from '../../../helpers/validator'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './AdminList.less';
+import moment from "moment";
+import Pagination from "antd/es/pagination";
 
 const FormItem = Form.Item;
 const { TreeNode } = Tree;
@@ -31,31 +34,36 @@ const CreateForm = Form.create()(props => {
     width: 200,
   };
 
-  const title = modalType === 'add' ? '添加一个 Resource' : '更新一个 Resource';
-  const okText = modalType === 'add' ? '添加' : '更新';
+  const title = modalType === 'add' ? '新建管理员' : '更新管理员';
   return (
     <Modal
       destroyOnClose
       title={title}
       visible={modalVisible}
       onOk={okHandle}
-      okText={okText}
+      okText='保存'
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="用户名">
         {form.getFieldDecorator('username', {
-          rules: [{ required: true, message: '请输入名称！', min: 2 }],
+          rules: [{ required: true, message: '请输入用户名！'},
+            {max: 16, min:6, message: '长度为6-16位'},
+            { validator: (rule, value, callback) => checkTypeWithEnglishAndNumbers(rule, value, callback, '数字以及字母')}
+          ],
           initialValue: initValues.username,
         })(<Input placeholder="请输入" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="昵称">
         {form.getFieldDecorator('nickname', {
-          rules: [{ required: true, message: '请输入昵称！', min: 2 }],
+          rules: [{ required: true, message: '请输入昵称！'},
+            {max: 10, message: '姓名最大长度为10'}],
           initialValue: initValues.nickname,
         })(<Input placeholder="请输入" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="密码">
         {form.getFieldDecorator('password', {
+          rules: [{ required: modalType === 'add', message: '请填写密码'}, // 添加时，必须输入密码
+            {max: 16, min: 6, message: '长度为6-18位'}],
           initialValue: initValues.password,
         })(<Input placeholder="请输入" type="password" />)}
       </FormItem>
@@ -304,9 +312,49 @@ class ResourceList extends PureComponent {
     });
   };
 
+  onPageChange = (page = {}) => {
+    const { dispatch } = this.props;
+    // debugger;
+    dispatch({
+      type: 'adminList/query',
+      payload: {
+        pageNo: page - 1,
+        pageSize: 10,
+      }
+    });
+  }
+
+  renderSimpleForm() { // TODO 芋艿，搜索功能未完成
+    const {
+      form: { getFieldDecorator },
+    } = this.props;
+    return (
+      <Form onSubmit={this.handleSearch} layout="inline">
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={8} sm={24}>
+            <FormItem label="昵称">
+              {getFieldDecorator('name')(<Input placeholder="请输入" />)}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <span className={styles.submitButtons}>
+              <Button type="primary" htmlType="submit">
+                查询
+              </Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+                重置
+              </Button>
+            </span>
+          </Col>
+        </Row>
+      </Form>
+    );
+  }
+
   render() {
-    const { list, data } = this.props;
-    const { roleList, roleCheckedKeys, roleAssignLoading } = data;
+    let that = this;
+    const { list,  data } = this.props;
+    const { count, pageNo, pageSize, roleList, roleCheckedKeys, roleAssignLoading } = data;
     const {
       modalVisible,
       modalType,
@@ -324,14 +372,8 @@ class ResourceList extends PureComponent {
 
     const columns = [
       {
-        title: 'id',
-        dataIndex: 'id',
-        render: text => <strong>{text}</strong>,
-      },
-      {
         title: '用户名',
-        dataIndex: 'username',
-        render: text => <a>{text}</a>,
+        dataIndex: 'username'
       },
       {
         title: '昵称',
@@ -341,17 +383,22 @@ class ResourceList extends PureComponent {
         title: '状态',
         dataIndex: 'status',
         render(val) {
-          return <span>{status[val]}</span>;
+          return <span>{status[val]}</span>; // TODO 芋艿，此处要改
         },
       },
       {
+        title: '创建时间',
+        dataIndex: 'createTime',
+        render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm')}</span>,
+      },
+      {
         title: '操作',
-        width: 300,
+        width: 360,
         render: (text, record) => {
-          const statusText = record.status === 1 ? '确认禁用' : '取消禁用';
+          const statusText = record.status === 1 ? '禁用' : '禁用';
           return (
             <Fragment>
-              <a onClick={() => this.handleModalVisible(true, 'update', record)}>更新</a>
+              <a onClick={() => this.handleModalVisible(true, 'update', record)}>编辑</a>
               <Divider type="vertical" />
               <a onClick={() => this.handleRoleAssign(record)}>角色分配</a>
               <Divider type="vertical" />
@@ -369,16 +416,17 @@ class ResourceList extends PureComponent {
     ];
 
     return (
-      <PageHeaderWrapper title="查询表格">
+      <PageHeaderWrapper>
         <Card bordered={false}>
           <div className={styles.tableList}>
+            <div className={styles.tableListForm}>{that.renderSimpleForm()}</div>
             <div className={styles.tableListOperator}>
               <Button
                 icon="plus"
                 type="primary"
                 onClick={() => this.handleModalVisible(true, 'add', {})}
               >
-                新建
+                新建管理员
               </Button>
             </div>
           </div>
@@ -387,6 +435,12 @@ class ResourceList extends PureComponent {
             columns={columns}
             dataSource={list}
             rowKey="id"
+            pagination={{
+              current: pageNo,
+              pageSize: pageSize,
+              total: count,
+              onChange: this.onPageChange
+            }}
           />
         </Card>
         <CreateForm {...parentMethods} modalVisible={modalVisible} />

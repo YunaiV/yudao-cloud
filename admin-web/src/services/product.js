@@ -44,6 +44,13 @@ export async function productSpuPage(params) {
   });
 }
 
+export async function productSpuAdd(params) {
+  return request(`/product-api/admins/spu/add?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
+}
+
 // product attr + attr value
 
 export async function productAttrTree(params) {

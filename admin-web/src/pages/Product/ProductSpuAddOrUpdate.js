@@ -1,12 +1,14 @@
 /* eslint-disable */
 
-import React, { PureComponent, Fragment } from 'react';
+import React, {PureComponent, Fragment, Component} from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
 import {Card, Form, Input, Radio, Button, Table, Select} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './ProductSpuAddOrUpdate.less';
+import ProductAttrSelectFormItem from "../../components/Product/ProductAttrSelectFormItem";
+import ProductSkuAddOrUpdateTable from "../../components/Product/ProductSkuAddOrUpdateTable";
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -16,12 +18,15 @@ const Option = Select.Option;
 @connect(({ productSpuList, productAttrList, productSpuAddOrUpdate, loading }) => ({
   // list: productSpuList.list.spus,
   // loading: loading.models.productSpuList,
+  productAttrList,
+  productSpuAddOrUpdate,
   allAttrTree: productAttrList.tree,
-  attrTree: productSpuAddOrUpdate.attrTree
+  attrTree: productSpuAddOrUpdate.attrTree,
+  skus: productSpuAddOrUpdate.skus,
 }))
 
 @Form.create()
-class ProductSpuAddOrUpdate extends PureComponent {
+class ProductSpuAddOrUpdate extends Component {
   state = {
     modalVisible: false,
     modalType: 'add', //add update
@@ -42,18 +47,18 @@ class ProductSpuAddOrUpdate extends PureComponent {
     });
   }
 
-  handleSubmit = e => {
-    const { dispatch, form } = this.props;
-    e.preventDefault();
-    form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        dispatch({
-          type: 'form/submitRegularForm',
-          payload: values,
-        });
-      }
-    });
-  }
+  // handleSubmit = e => {
+  //   const { dispatch, form } = this.props;
+  //   e.preventDefault();
+  //   form.validateFieldsAndScroll((err, values) => {
+  //     if (!err) {
+  //       dispatch({
+  //         type: 'form/submitRegularForm',
+  //         payload: values,
+  //       });
+  //     }
+  //   });
+  // }
 
   handleAddAttr = e => {
     // alert('你猜');
@@ -65,50 +70,171 @@ class ProductSpuAddOrUpdate extends PureComponent {
     });
   }
 
+  handleSubmit = e => {
+    debugger;
+    e.preventDefault();
+    const { skus, dispatch } = this.props;
+    // 生成 skuStr 格式
+    let skuStr = []; // 因为提交是字符串格式
+    for (let i in skus) {
+      let sku = skus[i];
+      if (!sku.price || !sku.quantity) {
+        continue;
+      }
+      let newAttr = {
+        attrs: [],
+        price: sku.price,
+        quantity: sku.quantity,
+      }
+      for (let j in sku.attrs) {
+        newAttr.attrs.push(sku.attrs[j].id);
+      }
+      skuStr.push(newAttr);
+    }
+    if (skuStr.length === 0) {
+      alert('请设置商品规格！');
+      return;
+    }
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        dispatch({
+          type: 'productSpuAddOrUpdate/add',
+          payload: {
+            body: {
+              ...values,
+              skuStr: JSON.stringify(skuStr)
+            }
+          },
+        });
+      }
+    });
+    // console.log(fields);
+  }
+
+    // handleSelectAttr = (value, option) => {
+  //   // console.log(value);
+  //   // console.log(option);
+  //   // debugger;
+  //   const { dispatch } = this.props;
+  //   let attrIndex = option.key.substring(option.key.indexOf('option-attr-') + 'option-attr-'.length, option.key.lastIndexOf('-'));
+  //   // console.log('attrIndex: ' + attrIndex);
+  //   // debugger;
+  //   dispatch({
+  //     type: 'productSpuAddOrUpdate/selectAttr',
+  //     payload: {
+  //       attrIndex: attrIndex,
+  //       attr: {
+  //         id: option.props.value,
+  //         name: option.props.children,
+  //         values: []
+  //       }
+  //     },
+  //   });
+  // }
+  //
+  // handleSelectAttrValue = (values, options) => {
+  //   let attrValues = [];
+  //   const { dispatch } = this.props;
+  //   debugger;
+  //   // console.log('x' + this.children[0]);
+  //   let firstOption = this.children[0];
+  //   // let attrIndex = firstOption.key.substring(firstOption.key.indexOf('option-attr-value-') + 'option-attr-value-'.length, firstOption.key.lastIndexOf('-'));
+  //   let attrIndex = 0;
+  //   for (let i in options) {
+  //     let option = options[i];
+  //     attrValues.push({
+  //       id: parseInt(option.props.value),
+  //       name: option.props.children,
+  //     });
+  //   }
+  //   dispatch({
+  //     type: 'productSpuAddOrUpdate/selectAttrValues',
+  //     payload: {
+  //       attrIndex: attrIndex,
+  //       attrValues: attrValues,
+  //     },
+  //   });
+  //   // debugger;
+  //
+  //   // console.log(value);
+  // }
+
   render() {
     // debugger;
-    const { form, data, attrTree } = this.props;
-
-    // 规格明细
-    const columns = [
-      {
-        title: '颜色',
-        dataIndex: 'price'
-      },
-      {
-        title: '价格',
-        dataIndex: 'price',
-        render(val) {
-          return <span>{status[val]}</span>;
-        },
-      },
-      {
-        title: '库存',
-        dataIndex: 'quantity',
-      }
-    ];
+    const { form, skus, attrTree, allAttrTree, dispatch } = this.props;
+    // const that = this;
 
     // 添加规格
     // debugger;
     let attrTreeHTML = [];
     if (attrTree && attrTree.length > 0) {
+      // 已选择的的规格集合
+      let selectedAttrIds = new Set();
       for (let i in attrTree) {
         let attr = attrTree[i];
-        attr = <div>
-          <Select defaultValue="lucy" style={{ width: 120 }}>
-            {
-
-            }
-            <Option value="jack">Jack</Option>
-            <Option value="lucy">Lucy</Option>
-            <Option value="disabled" disabled>Disabled</Option>
-            <Option value="Yiminghe">yiminghe</Option>
-          </Select>
-        </div>;
-        attrTreeHTML.push(attr);
-        // debugger;
+        selectedAttrIds.add(attr.id);
+      }
+      // 创建每个规格下拉框的 HTML
+      for (let i in attrTree) {
+        let attr = attrTree[i];
+        let itemProps = {
+          attr: attr,
+          allAttrTree: allAttrTree,
+          dispatch: dispatch,
+          selectedAttrIds: selectedAttrIds,
+          index: i // 位置。不然无法正确修改 Model 指定位置的数据
+        };
+        attrTreeHTML.push(<ProductAttrSelectFormItem {...itemProps}  />);
       }
     }
+    // if (attrTree && attrTree.length > 0) {
+    //   for (let i in attrTree) {
+    //     let attr = attrTree[i];
+    //     // console.log('i: ' + i);
+    //     // 1. 规格
+    //     let attrOptions = [];
+    //     for (let j in allAttrTree) {
+    //       let attr = allAttrTree[j];
+    //       attrOptions.push(<Option key={`option-attr-${i}-${attr.id}`} value={attr.id}>{attr.name}</Option>);
+    //     }
+    //     // 2. 规格值
+    //     let attrValueOptions = [];
+    //     // debugger;
+    //     if (attr.id)   {
+    //       // 2.1 先招到规格值的数组
+    //       let attrValues = [];
+    //       for (let j in allAttrTree) {
+    //         let allAttr = allAttrTree[j];
+    //         if (attr.id === allAttr.id) {
+    //           attrValues = allAttr.values;
+    //           break;
+    //         }
+    //       }
+    //       // 2.2 生成规格值的 HTML
+    //       for (let j in attrValues) {
+    //         let attrValue = attrValues[j];
+    //         attrValueOptions.push(<Option key={`option-attr-value-${i}-${attrValue.id}`} value={attrValue.id + ''}>{attrValue.name}</Option>); // + '' 的原因是，多选必须是字符串
+    //       }
+    //     }
+    //     // 3. 拼装最终，添加到 attrTreeHTML 中
+    //     attr = <div key={`div-attr-${i}`}>
+    //       <Select key={`select-attr-${i}`} style={{ width: 120 }} placeholder='请选择规格' onChange={that.handleSelectAttr}>
+    //         {attrOptions}
+    //       </Select>
+    //       <Select key={`select-attr-value-${i}`} mode={"tags"} style={{ width: 260 }} placeholder='请选择规格值' onChange={that.handleSelectAttrValue}>
+    //         {attrValueOptions}
+    //       </Select>
+    //     </div>;
+    //     attrTreeHTML.push(attr);
+    //   }
+    // }
+    // 规格明细
+    let productSkuProps = {
+      attrTree: attrTree,
+      skus: skus,
+      dispatch: dispatch,
+    };
+    // console.log(productSkuProps);
 
     return (
       <PageHeaderWrapper title="">
@@ -163,13 +289,12 @@ class ProductSpuAddOrUpdate extends PureComponent {
                 </div>
               )}
             </FormItem>
-            {/*<FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="规格明细">*/}
-              {/*{form.getFieldDecorator('visible', {*/}
-                {/*initialValue: 1, // TODO 修改*/}
-              {/*})(*/}
-                {/*<Table defaultExpandAllRows={true} columns={columns} rowKey="id" />*/}
-              {/*)}*/}
-            {/*</FormItem>*/}
+            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="规格明细">
+              {/*<Table defaultExpandAllRows={true} columns={columns} rowKey="id" />*/}
+              <ProductSkuAddOrUpdateTable {...productSkuProps} />
+
+              <Button type="primary" htmlType="submit" style={{ marginLeft: 8 }} onSubmit={this.handleSubmit}>保存</Button>
+            </FormItem>
           </Form>
         </Card>
       </PageHeaderWrapper>

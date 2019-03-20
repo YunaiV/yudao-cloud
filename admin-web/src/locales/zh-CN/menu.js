@@ -44,4 +44,9 @@ export default {
   'menu.account.settings': '个人设置',
   'menu.account.trigger': '触发报错',
   'menu.account.logout': '退出登录',
+  // 商品相关
+  'menu.product': '商品管理',
+  'menu.product.product-spu-list': '商品管理',
+  'menu.product.product-spu-add': '商品添加',
+  'menu.product.product-category-list': '商品分类',
 };

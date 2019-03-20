@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iocoder.mall.admin.dao.AdminAccessLogMapper">
+
+    <!--<sql id="FIELDS">-->
+      <!--id, username, nickname, password, status,-->
+      <!--create_time-->
+    <!--</sql>-->
+
+    <insert id="insert" parameterType="AdminAccessLogDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO admin_access_log (
+          admin_id, uri, query_string, method, user_agent,
+          ip, start_time, response_time, create_time
+        ) VALUES (
+          #{adminId}, #{uri}, #{queryString}, #{method}, #{userAgent},
+          #{ip}, #{startTime}, #{responseTime}, #{createTime}
+        )
+    </insert>
+
+</mapper>

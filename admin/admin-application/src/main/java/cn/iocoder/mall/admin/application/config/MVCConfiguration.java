@@ -1,6 +1,7 @@
 package cn.iocoder.mall.admin.application.config;
 
 import cn.iocoder.common.framework.config.GlobalExceptionHandler;
+import cn.iocoder.mall.admin.sdk.interceptor.AdminAccessLogInterceptor;
 import cn.iocoder.mall.admin.sdk.interceptor.AdminSecurityInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -18,15 +19,16 @@ public class MVCConfiguration implements WebMvcConfigurer {
 
     @Autowired
     private AdminSecurityInterceptor adminSecurityInterceptor;
+    @Autowired
+    private AdminAccessLogInterceptor adminAccessLogInterceptor;
 //
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(securityInterceptor).addPathPatterns("/user/**", "/admin/**"); // 只拦截我们定义的接口
+        registry.addInterceptor(adminAccessLogInterceptor).addPathPatterns("/admins/**");
         registry.addInterceptor(adminSecurityInterceptor).addPathPatterns("/admins/**")
                 .excludePathPatterns("/admins/passport/login"); // 排除登陆接口
     }
-
-
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

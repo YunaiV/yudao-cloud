@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.dataobject;
 
-import java.io.Serializable;
+import cn.iocoder.common.framework.dataobject.BaseDO;
+
 import java.util.Date;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Date;
  * @author Sin
  * @time 2019-03-19 19:48
  */
-public class OrderReturnDO implements Serializable {
+public class OrderReturnDO extends BaseDO {
 
     /**
      * 编号自动增长
@@ -27,6 +28,10 @@ public class OrderReturnDO implements Serializable {
      * 订单 item 编号
      */
     private Integer orderItemId;
+    /**
+     * 商品编号（保存一个冗余，如果一个订单下存在多个商品，会有很大的作用）
+     */
+    private String skuId;
 
     ///
     /// 时间信息
@@ -80,6 +85,7 @@ public class OrderReturnDO implements Serializable {
                 ", orderId=" + orderId +
                 ", orderNo='" + orderNo + '\'' +
                 ", orderItemId=" + orderItemId +
+                ", skuId='" + skuId + '\'' +
                 ", createTime=" + createTime +
                 ", approvalTime=" + approvalTime +
                 ", logisticsTime=" + logisticsTime +
@@ -123,6 +129,15 @@ public class OrderReturnDO implements Serializable {
 
     public OrderReturnDO setOrderItemId(Integer orderItemId) {
         this.orderItemId = orderItemId;
+        return this;
+    }
+
+    public String getSkuId() {
+        return skuId;
+    }
+
+    public OrderReturnDO setSkuId(String skuId) {
+        this.skuId = skuId;
         return this;
     }
 

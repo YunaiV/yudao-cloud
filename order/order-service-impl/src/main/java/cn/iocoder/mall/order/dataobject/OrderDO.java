@@ -1,5 +1,7 @@
 package cn.iocoder.mall.order.dataobject;
 
+import cn.iocoder.common.framework.dataobject.BaseDO;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -9,7 +11,7 @@ import java.util.Date;
  * @author Sin
  * @time 2019-03-16 13:49
  */
-public class OrderDO implements Serializable {
+public class OrderDO extends BaseDO {
 
     /**
      * id
@@ -31,10 +33,6 @@ public class OrderDO implements Serializable {
     ///
     /// 时间信息
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
     /**
      * 付款时间
      */
@@ -58,24 +56,20 @@ public class OrderDO implements Serializable {
     /**
      * 是否退货
      *
-     * - 0、no
-     * - 1、yes
+     * - 0、没有
+     * - 1、换货
+     * - 2、退货
+     * - 3、换货 + 退货
      */
-    private Integer hasReturn;
-    /**
-     * 是否换货
-     *
-     * - 0、no
-     * - 1、yes
-     */
-    private Integer hasExchange;
+    private Integer hasReturnExchange;
     /**
      * 状态(如果有多个商品分开发货需要全部商品发完才会改变状态)
      *
-     * - 0、代付款
-     * - 1、已付款
-     * - 2、已退款
+     * - 0、待付款
+     * - 1、待发货
+     * - 2、待收获
      * - 3、已完成
+     * - 4、已关闭
      */
     private Integer status;
     /**
@@ -97,13 +91,11 @@ public class OrderDO implements Serializable {
                 ", orderLogisticsId=" + orderLogisticsId +
                 ", orderNo='" + orderNo + '\'' +
                 ", price=" + price +
-                ", createTime=" + createTime +
                 ", paymentTime=" + paymentTime +
                 ", deliveryTime=" + deliveryTime +
                 ", receiverTime=" + receiverTime +
                 ", closingTime=" + closingTime +
-                ", hasReturn=" + hasReturn +
-                ", hasExchange=" + hasExchange +
+                ", hasReturnExchange=" + hasReturnExchange +
                 ", status=" + status +
                 ", deleteStatus=" + deleteStatus +
                 ", remark='" + remark + '\'' +
@@ -146,15 +138,6 @@ public class OrderDO implements Serializable {
         return this;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public OrderDO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
-
     public Date getPaymentTime() {
         return paymentTime;
     }
@@ -191,21 +174,12 @@ public class OrderDO implements Serializable {
         return this;
     }
 
-    public Integer getHasReturn() {
-        return hasReturn;
+    public Integer getHasReturnExchange() {
+        return hasReturnExchange;
     }
 
-    public OrderDO setHasReturn(Integer hasReturn) {
-        this.hasReturn = hasReturn;
-        return this;
-    }
-
-    public Integer getHasExchange() {
-        return hasExchange;
-    }
-
-    public OrderDO setHasExchange(Integer hasExchange) {
-        this.hasExchange = hasExchange;
+    public OrderDO setHasReturnExchange(Integer hasReturnExchange) {
+        this.hasReturnExchange = hasReturnExchange;
         return this;
     }
 

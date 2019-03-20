@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.dataobject;
 
-import java.io.Serializable;
+import cn.iocoder.common.framework.dataobject.BaseDO;
+
 import java.util.Date;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Date;
  * @author Sin
  * @time 2019-03-19 19:48
  */
-public class OrderExchangeDO implements Serializable {
+public class OrderExchangeDO extends BaseDO {
 
     /**
      * id
@@ -23,6 +24,14 @@ public class OrderExchangeDO implements Serializable {
      * 订单编号
      */
     private String orderNo;
+    /**
+     * 商品id（保存一个冗余，如果一个订单下存在多个商品，会有很大的作用）
+     */
+    private String skuId;
+    /**
+     * 换货商品id
+     */
+    private String exchangeSkuId;
     /**
      * 换货物流id
      */
@@ -76,6 +85,8 @@ public class OrderExchangeDO implements Serializable {
                 "id=" + id +
                 ", orderId=" + orderId +
                 ", orderNo='" + orderNo + '\'' +
+                ", skuId='" + skuId + '\'' +
+                ", exchangeSkuId='" + exchangeSkuId + '\'' +
                 ", exchangeOrderLogisticsId=" + exchangeOrderLogisticsId +
                 ", receiverOrderLogisticsId=" + receiverOrderLogisticsId +
                 ", createTime=" + createTime +
@@ -111,6 +122,24 @@ public class OrderExchangeDO implements Serializable {
 
     public OrderExchangeDO setOrderNo(String orderNo) {
         this.orderNo = orderNo;
+        return this;
+    }
+
+    public String getSkuId() {
+        return skuId;
+    }
+
+    public OrderExchangeDO setSkuId(String skuId) {
+        this.skuId = skuId;
+        return this;
+    }
+
+    public String getExchangeSkuId() {
+        return exchangeSkuId;
+    }
+
+    public OrderExchangeDO setExchangeSkuId(String exchangeSkuId) {
+        this.exchangeSkuId = exchangeSkuId;
         return this;
     }
 

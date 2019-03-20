@@ -1,24 +1,28 @@
-import { message } from 'antd';
-import { buildTreeNode, findCheckedKeys } from '../../utils/tree.utils';
+import {message} from 'antd';
+import {buildTreeNode, findCheckedKeys} from '../../utils/tree.utils';
 import {
   addAdmin,
-  updateAdmin,
-  updateAdminStatus,
+  adminRoleAssign,
   deleteAdmin,
   queryAdmin,
   queryAdminRoleList,
-  adminRoleAssign,
+  updateAdmin,
+  updateAdminStatus,
 } from '../../services/admin';
-import { arrayToStringParams } from '../../utils/request.qs';
+import {arrayToStringParams} from '../../utils/request.qs';
+import PaginationHelper from '../../../helpers/PaginationHelper';
+
+const SEARCH_PARAMS_DEFAULT = {
+  nickname: '',
+};
 
 export default {
   namespace: 'adminList',
 
   state: {
     list: [],
-    count: 0,
-    pageNo: 0,
-    pageSize: 10,
+    searchParams: SEARCH_PARAMS_DEFAULT,
+    pagination: PaginationHelper.defaultPaginationConfig,
 
     roleList: [],
     roleCheckedKeys: [],
@@ -26,6 +30,20 @@ export default {
   },
 
   effects: {
+    // 查询列表
+    * query({ payload }, { call, put }) {
+      const response = yield call(queryAdmin, payload);
+      yield put({
+        type: 'querySuccess',
+        payload: {
+          list: response.data.list,
+          pagination: PaginationHelper.formatPagination(response.data, payload),
+          searchParams: {
+            nickname: payload.nickname || ''
+          }
+        },
+      });
+    },
     *add({ payload }, { call, put }) {
       const { callback, body, queryParams } = payload;
       const response = yield call(addAdmin, body);
@@ -74,18 +92,7 @@ export default {
         },
       });
     },
-    *query({ payload }, { call, put }) {
-      const response = yield call(queryAdmin, payload);
-      const { count, admins } = response.data;
-      yield put({
-        type: 'querySuccess',
-        payload: {
-          list: admins,
-          count,
-          pageNo: payload.pageNo + 1
-        },
-      });
-    },
+
     *queryRoleList({ payload }, { call, put }) {
       yield put({
         type: 'changeRoleAssignLoading',

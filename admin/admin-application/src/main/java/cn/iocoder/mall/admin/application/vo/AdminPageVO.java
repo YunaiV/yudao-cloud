@@ -9,25 +9,25 @@ import java.util.List;
 public class AdminPageVO {
 
     @ApiModelProperty(value = "管理员数组")
-    private List<AdminVO> admins;
+    private List<AdminVO> list;
     @ApiModelProperty(value = "管理员总数")
-    private Integer count;
+    private Integer total;
 
-    public List<AdminVO> getAdmins() {
-        return admins;
+    public List<AdminVO> getList() {
+        return list;
     }
 
-    public AdminPageVO setAdmins(List<AdminVO> admins) {
-        this.admins = admins;
+    public AdminPageVO setList(List<AdminVO> list) {
+        this.list = list;
         return this;
     }
 
-    public Integer getCount() {
-        return count;
+    public Integer getTotal() {
+        return total;
     }
 
-    public AdminPageVO setCount(Integer count) {
-        this.count = count;
+    public AdminPageVO setTotal(Integer total) {
+        this.total = total;
         return this;
     }
 

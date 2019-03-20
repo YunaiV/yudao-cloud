@@ -70,11 +70,11 @@ public class AdminServiceImpl implements AdminService {
     public CommonResult<AdminPageBO> getAdminPage(AdminPageDTO adminPageDTO) {
         AdminPageBO adminPage = new AdminPageBO();
         // 查询分页数据
-        int offset = adminPageDTO.getPageNo() * adminPageDTO.getPageSize();
-        adminPage.setAdmins(AdminConvert.INSTANCE.convert(adminMapper.selectListByNicknameLike(adminPageDTO.getNickname(),
+        int offset = (adminPageDTO.getPageNo() - 1) * adminPageDTO.getPageSize();
+        adminPage.setList(AdminConvert.INSTANCE.convert(adminMapper.selectListByNicknameLike(adminPageDTO.getNickname(),
                 offset, adminPageDTO.getPageSize())));
         // 查询分页总数
-        adminPage.setCount(adminMapper.selectCountByNicknameLike(adminPageDTO.getNickname()));
+        adminPage.setTotal(adminMapper.selectCountByNicknameLike(adminPageDTO.getNickname()));
         return CommonResult.success(adminPage);
     }
 

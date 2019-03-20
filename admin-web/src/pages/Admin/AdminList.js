@@ -8,14 +8,147 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './AdminList.less';
 import moment from "moment";
-import Pagination from "antd/es/pagination";
+import PaginationHelper from "../../../helpers/PaginationHelper";
 
 const FormItem = Form.Item;
 const { TreeNode } = Tree;
 const status = ['未知', '正常', '禁用'];
 
+// 列表
+function List ({ dataSource, pagination, searchParams, dispatch }) {
+  const columns = [
+    {
+      title: '用户名',
+      dataIndex: 'username'
+    },
+    {
+      title: '昵称',
+      dataIndex: 'nickname',
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      render(val) {
+        return <span>{status[val]}</span>; // TODO 芋艿，此处要改
+      },
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime',
+      render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm')}</span>,
+    },
+    {
+      title: '操作',
+      width: 360,
+      render: (text, record) => {
+        const statusText = record.status === 1 ? '禁用' : '禁用';
+        return (
+          <Fragment>
+            <a onClick={() => this.handleModalVisible(true, 'update', record)}>编辑</a>
+            <Divider type="vertical" />
+            <a onClick={() => this.handleRoleAssign(record)}>角色分配</a>
+            <Divider type="vertical" />
+            <a className={styles.tableDelete} onClick={() => this.handleStatus(record)}>
+              {statusText}
+            </a>
+            <Divider type="vertical" />
+            <a className={styles.tableDelete} onClick={() => this.handleDelete(record)}>
+              删除
+            </a>
+          </Fragment>
+        );
+      },
+    },
+  ];
+
+  function onPageChange(page) {
+    dispatch({
+      type: 'adminList/query',
+      payload: {
+        pageNo: page.current,
+        pageSize: page.pageSize,
+        ...searchParams
+      }
+    })
+  };
+
+  return (
+    <Table
+      columns={columns}
+      dataSource={dataSource}
+      rowKey="id"
+      // pagination={{
+      //   current: pageNo,
+      //   pageSize: pageSize,
+      //   total: count,
+      //   onChange: this.onPageChange
+      // }}
+      pagination={pagination}
+      onChange={onPageChange}
+    />
+  )
+}
+
+// 搜索表单
+// TODO 芋艿，有没办法换成上面那种写法
+const SearchForm = Form.create()(props => {
+  const {
+    form,
+    form: { getFieldDecorator },
+    dispatch
+  } = props;
+
+  function search() {
+    dispatch({
+      type: 'adminList/query',
+      payload: {
+        ...PaginationHelper.defaultPayload,
+        ...form.getFieldsValue()
+      }
+    })
+  }
+
+  // 提交搜索
+  function handleSubmit(e) {
+    // 阻止默认事件
+    e.preventDefault();
+    // 提交搜索
+    search();
+  }
+
+  // 重置搜索
+  function handleReset() {
+    // 重置表单
+    form.resetFields();
+    // 执行搜索
+    search();
+  }
+
+  return (
+    <Form onSubmit={handleSubmit} layout="inline">
+      <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+        <Col md={8} sm={24}>
+          <FormItem label="昵称">
+            {getFieldDecorator('nickname')(<Input placeholder="请输入" />)}
+          </FormItem>
+        </Col>
+        <Col md={8} sm={24}>
+            <span className={styles.submitButtons}>
+              <Button type="primary" htmlType="submit">
+                查询
+              </Button>
+              <Button style={{ marginLeft: 8 }} onClick={handleReset}>
+                重置
+              </Button>
+            </span>
+        </Col>
+      </Row>
+    </Form>
+  );
+});
+
 // 添加 form 表单
-const CreateForm = Form.create()(props => {
+const AddOrUpdateForm = Form.create()(props => {
   const { modalVisible, form, handleAdd, handleModalVisible, modalType, initValues } = props;
 
   const okHandle = () => {
@@ -28,10 +161,6 @@ const CreateForm = Form.create()(props => {
         initValues,
       });
     });
-  };
-
-  const selectStyle = {
-    width: 200,
   };
 
   const title = modalType === 'add' ? '新建管理员' : '更新管理员';
@@ -144,17 +273,23 @@ const RoleAssignModal = Form.create()(props => {
 });
 
 @connect(({ adminList, loading }) => ({
-  list: adminList.list,
+  // list: adminList.list,
+  // pagination: adminList.pagination,
+  ...adminList,
   data: adminList,
   loading: loading.models.resourceList,
 }))
+
 @Form.create()
 class ResourceList extends PureComponent {
   state = {
+    // 添加 or 修改弹窗
     modalVisible: false,
-    modalType: 'add', //add update
+    modalType: undefined, // 'add' or 'update'
+
     initValues: {},
 
+    // 分配角色弹窗
     modalRoleVisible: false,
     modalRoleRow: {},
   };
@@ -163,7 +298,9 @@ class ResourceList extends PureComponent {
     const { dispatch } = this.props;
     dispatch({
       type: 'adminList/query',
-      payload: {},
+      payload: {
+        ...PaginationHelper.defaultPayload
+      },
     });
   }
 
@@ -312,54 +449,14 @@ class ResourceList extends PureComponent {
     });
   };
 
-  onPageChange = (page = {}) => {
-    const { dispatch } = this.props;
-    // debugger;
-    dispatch({
-      type: 'adminList/query',
-      payload: {
-        pageNo: page - 1,
-        pageSize: 10,
-      }
-    });
-  }
-
-  renderSimpleForm() { // TODO 芋艿，搜索功能未完成
-    const {
-      form: { getFieldDecorator },
-    } = this.props;
-    return (
-      <Form onSubmit={this.handleSearch} layout="inline">
-        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={8} sm={24}>
-            <FormItem label="昵称">
-              {getFieldDecorator('name')(<Input placeholder="请输入" />)}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <span className={styles.submitButtons}>
-              <Button type="primary" htmlType="submit">
-                查询
-              </Button>
-              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
-                重置
-              </Button>
-            </span>
-          </Col>
-        </Row>
-      </Form>
-    );
-  }
-
   render() {
     let that = this;
-    const { list,  data } = this.props;
-    const { count, pageNo, pageSize, roleList, roleCheckedKeys, roleAssignLoading } = data;
+    const { dispatch, list, searchParams, pagination,  data } = this.props;
+    const { roleList, roleCheckedKeys, roleAssignLoading } = data;
     const {
       modalVisible,
       modalType,
       initValues,
-      defaultExpandAllRows,
       modalRoleVisible,
     } = this.state;
 
@@ -370,56 +467,28 @@ class ResourceList extends PureComponent {
       initValues,
     };
 
-    const columns = [
-      {
-        title: '用户名',
-        dataIndex: 'username'
-      },
-      {
-        title: '昵称',
-        dataIndex: 'nickname',
-      },
-      {
-        title: '状态',
-        dataIndex: 'status',
-        render(val) {
-          return <span>{status[val]}</span>; // TODO 芋艿，此处要改
-        },
-      },
-      {
-        title: '创建时间',
-        dataIndex: 'createTime',
-        render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm')}</span>,
-      },
-      {
-        title: '操作',
-        width: 360,
-        render: (text, record) => {
-          const statusText = record.status === 1 ? '禁用' : '禁用';
-          return (
-            <Fragment>
-              <a onClick={() => this.handleModalVisible(true, 'update', record)}>编辑</a>
-              <Divider type="vertical" />
-              <a onClick={() => this.handleRoleAssign(record)}>角色分配</a>
-              <Divider type="vertical" />
-              <a className={styles.tableDelete} onClick={() => this.handleStatus(record)}>
-                {statusText}
-              </a>
-              <Divider type="vertical" />
-              <a className={styles.tableDelete} onClick={() => this.handleDelete(record)}>
-                删除
-              </a>
-            </Fragment>
-          );
-        },
-      },
-    ];
+    // 列表属性
+    const listProps = {
+      dataSource: list,
+      pagination,
+      searchParams,
+      dispatch
+    };
+
+    // 搜索表单属性
+    const searchFormProps = {
+      dispatch,
+    };
+
+    // 添加
 
     return (
       <PageHeaderWrapper>
         <Card bordered={false}>
           <div className={styles.tableList}>
-            <div className={styles.tableListForm}>{that.renderSimpleForm()}</div>
+            <div className={styles.tableListForm}>
+              <SearchForm {...searchFormProps} />
+            </div>
             <div className={styles.tableListOperator}>
               <Button
                 icon="plus"
@@ -430,20 +499,10 @@ class ResourceList extends PureComponent {
               </Button>
             </div>
           </div>
-          <Table
-            defaultExpandAllRows={defaultExpandAllRows}
-            columns={columns}
-            dataSource={list}
-            rowKey="id"
-            pagination={{
-              current: pageNo,
-              pageSize: pageSize,
-              total: count,
-              onChange: this.onPageChange
-            }}
-          />
+          <List {...listProps} />
+
         </Card>
-        <CreateForm {...parentMethods} modalVisible={modalVisible} />
+        <AddOrUpdateForm {...parentMethods} modalVisible={modalVisible} />
 
         <RoleAssignModal
           loading={roleAssignLoading}

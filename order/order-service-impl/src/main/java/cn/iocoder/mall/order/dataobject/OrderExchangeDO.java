@@ -42,6 +42,22 @@ public class OrderExchangeDO extends BaseDO {
     private Integer receiverOrderLogisticsId;
 
     ///
+    /// 原因
+
+    /**
+     * 原因 (关联字典)
+     *
+     * {@link cn.iocoder.mall.order.constants.OrderExchangeReasonEnum}
+     */
+    private Integer orderReasonId;
+    /**
+     * 原因（如果选择其他，原因保存在这）
+     *
+     * {@link cn.iocoder.mall.order.constants.OrderExchangeReasonEnum#REASON_000}
+     */
+    private String reason;
+
+    ///
     /// 时间信息
 
     /**
@@ -89,6 +105,8 @@ public class OrderExchangeDO extends BaseDO {
                 ", exchangeSkuId='" + exchangeSkuId + '\'' +
                 ", exchangeOrderLogisticsId=" + exchangeOrderLogisticsId +
                 ", receiverOrderLogisticsId=" + receiverOrderLogisticsId +
+                ", orderReasonId=" + orderReasonId +
+                ", reason='" + reason + '\'' +
                 ", createTime=" + createTime +
                 ", paymentTime=" + paymentTime +
                 ", deliveryTime=" + deliveryTime +
@@ -161,10 +179,30 @@ public class OrderExchangeDO extends BaseDO {
         return this;
     }
 
+    public Integer getOrderReasonId() {
+        return orderReasonId;
+    }
+
+    public OrderExchangeDO setOrderReasonId(Integer orderReasonId) {
+        this.orderReasonId = orderReasonId;
+        return this;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public OrderExchangeDO setReason(String reason) {
+        this.reason = reason;
+        return this;
+    }
+
+    @Override
     public Date getCreateTime() {
         return createTime;
     }
 
+    @Override
     public OrderExchangeDO setCreateTime(Date createTime) {
         this.createTime = createTime;
         return this;

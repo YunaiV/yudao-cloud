@@ -34,6 +34,22 @@ public class OrderReturnDO extends BaseDO {
     private String skuId;
 
     ///
+    /// 退货原因
+
+    /**
+     * 退货原因(字典值)
+     *
+     * {@link cn.iocoder.mall.order.constants.OrderReturnReasonEnum}
+     */
+    private Integer orderReasonId;
+    /**
+     * 原因（如果选择其他，原因保存在这）
+     *
+     * {@link cn.iocoder.mall.order.constants.OrderReturnReasonEnum#REASON_000}
+     */
+    private String reason;
+
+    ///
     /// 时间信息
 
     /**
@@ -86,6 +102,8 @@ public class OrderReturnDO extends BaseDO {
                 ", orderNo='" + orderNo + '\'' +
                 ", orderItemId=" + orderItemId +
                 ", skuId='" + skuId + '\'' +
+                ", orderReasonId=" + orderReasonId +
+                ", reason='" + reason + '\'' +
                 ", createTime=" + createTime +
                 ", approvalTime=" + approvalTime +
                 ", logisticsTime=" + logisticsTime +
@@ -141,10 +159,30 @@ public class OrderReturnDO extends BaseDO {
         return this;
     }
 
+    public Integer getOrderReasonId() {
+        return orderReasonId;
+    }
+
+    public OrderReturnDO setOrderReasonId(Integer orderReasonId) {
+        this.orderReasonId = orderReasonId;
+        return this;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public OrderReturnDO setReason(String reason) {
+        this.reason = reason;
+        return this;
+    }
+
+    @Override
     public Date getCreateTime() {
         return createTime;
     }
 
+    @Override
     public OrderReturnDO setCreateTime(Date createTime) {
         this.createTime = createTime;
         return this;

@@ -15,7 +15,7 @@ const { TreeNode } = Tree;
 const status = ['未知', '正常', '禁用'];
 
 // 列表
-function List ({ dataSource, pagination, searchParams, dispatch }) {
+function List ({ dataSource, pagination, searchParams, dispatch, handleModalVisible }) {
   const columns = [
     {
       title: '用户名',
@@ -44,7 +44,7 @@ function List ({ dataSource, pagination, searchParams, dispatch }) {
         const statusText = record.status === 1 ? '禁用' : '禁用';
         return (
           <Fragment>
-            <a onClick={() => this.handleModalVisible(true, 'update', record)}>编辑</a>
+            <a onClick={() => handleModalVisible(true, 'update', record)}>编辑</a>
             <Divider type="vertical" />
             <a onClick={() => this.handleRoleAssign(record)}>角色分配</a>
             <Divider type="vertical" />
@@ -147,19 +147,51 @@ const SearchForm = Form.create()(props => {
   );
 });
 
-// 添加 form 表单
+// 添加 or 修改 Form 表单
 const AddOrUpdateForm = Form.create()(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible, modalType, initValues } = props;
+  const { dispatch, modalVisible, form, handleModalVisible, modalType, formVals } = props;
 
   const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
+    form.validateFields((err, fields) => {
       if (err) return;
-      form.resetFields();
-      handleAdd({
-        fields: fieldsValue,
-        modalType,
-        initValues,
-      });
+      // 添加表单
+      if (modalType === 'add') {
+        dispatch({
+          type: 'adminList/add',
+          payload: {
+            body: {
+              ...fields,
+            },
+            callback: () => {
+              // 清空表单
+              form.resetFields();
+              // 提示
+              message.success('添加成功');
+              // 关闭弹窗
+              handleModalVisible();
+            },
+          },
+        });
+        // 修改表单
+      } else {
+        dispatch({
+          type: 'adminList/update',
+          payload: {
+            body: {
+              ...formVals,
+              ...fields,
+            },
+            callback: () => {
+              // 清空表单
+              form.resetFields();
+              // 提示
+              message.success('更新成功');
+              // 关闭弹窗
+              handleModalVisible();
+            },
+          },
+        });
+      }
     });
   };
 
@@ -176,24 +208,24 @@ const AddOrUpdateForm = Form.create()(props => {
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="用户名">
         {form.getFieldDecorator('username', {
           rules: [{ required: true, message: '请输入用户名！'},
-            {max: 16, min:6, message: '长度为6-16位'},
+            {max: 16, min:6, message: '长度为 6-16 位'},
             { validator: (rule, value, callback) => checkTypeWithEnglishAndNumbers(rule, value, callback, '数字以及字母')}
           ],
-          initialValue: initValues.username,
+          initialValue: formVals.username,
         })(<Input placeholder="请输入" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="昵称">
         {form.getFieldDecorator('nickname', {
           rules: [{ required: true, message: '请输入昵称！'},
-            {max: 10, message: '姓名最大长度为10'}],
-          initialValue: initValues.nickname,
+            {max: 10, message: '姓名最大长度为 10'}],
+          initialValue: formVals.nickname,
         })(<Input placeholder="请输入" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="密码">
         {form.getFieldDecorator('password', {
           rules: [{ required: modalType === 'add', message: '请填写密码'}, // 添加时，必须输入密码
-            {max: 16, min: 6, message: '长度为6-18位'}],
-          initialValue: initValues.password,
+            {max: 16, min: 6, message: '长度为 6-18 位'}],
+          initialValue: formVals.password,
         })(<Input placeholder="请输入" type="password" />)}
       </FormItem>
     </Modal>
@@ -281,13 +313,8 @@ const RoleAssignModal = Form.create()(props => {
 }))
 
 @Form.create()
-class ResourceList extends PureComponent {
+class AdminList extends PureComponent {
   state = {
-    // 添加 or 修改弹窗
-    modalVisible: false,
-    modalType: undefined, // 'add' or 'update'
-
-    initValues: {},
 
     // 分配角色弹窗
     modalRoleVisible: false,
@@ -304,50 +331,17 @@ class ResourceList extends PureComponent {
     });
   }
 
-  handleModalVisible = (flag, modalType, initValues) => {
-    this.setState({
-      modalVisible: !!flag,
-      initValues: initValues || {},
-      modalType: modalType || 'add',
+  handleModalVisible = (modalVisible, modalType, formVals) => {
+    // debugger;
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'adminList/setAll',
+      payload: {
+        modalVisible,
+        modalType,
+        formVals: formVals || {}
+      },
     });
-  };
-
-  handleAdd = ({ fields, modalType, initValues }) => {
-    const { dispatch, data } = this.props;
-    const queryParams = {
-      pageNo: data.pageNo,
-      pageSize: data.pageSize,
-    };
-    if (modalType === 'add') {
-      dispatch({
-        type: 'adminList/add',
-        payload: {
-          body: {
-            ...fields,
-          },
-          queryParams,
-          callback: () => {
-            message.success('添加成功');
-            this.handleModalVisible();
-          },
-        },
-      });
-    } else {
-      dispatch({
-        type: 'adminList/update',
-        payload: {
-          body: {
-            ...initValues,
-            ...fields,
-          },
-          queryParams,
-          callback: () => {
-            message.success('更新成功');
-            this.handleModalVisible();
-          },
-        },
-      });
-    }
   };
 
   handleStatus(row) {
@@ -450,29 +444,25 @@ class ResourceList extends PureComponent {
   };
 
   render() {
-    let that = this;
-    const { dispatch, list, searchParams, pagination,  data } = this.props;
+    // let that = this;
+    const { dispatch, list, searchParams, pagination, modalVisible, data, modalType, formVals } = this.props;
     const { roleList, roleCheckedKeys, roleAssignLoading } = data;
-    const {
-      modalVisible,
-      modalType,
-      initValues,
-      modalRoleVisible,
-    } = this.state;
+    // const {
+    //   // modalVisible,
+    //   // modalType,
+    //   formVals,
+    //   modalRoleVisible,
+    // } = this.state;
+    const modalRoleVisible = false;
 
-    const parentMethods = {
-      handleAdd: this.handleAdd,
-      handleModalVisible: this.handleModalVisible,
-      modalType,
-      initValues,
-    };
 
     // 列表属性
     const listProps = {
       dataSource: list,
       pagination,
       searchParams,
-      dispatch
+      dispatch,
+      handleModalVisible: this.handleModalVisible, // Function
     };
 
     // 搜索表单属性
@@ -481,6 +471,13 @@ class ResourceList extends PureComponent {
     };
 
     // 添加
+    const addFormProps = {
+      modalVisible,
+      modalType: modalType,
+      formVals: formVals,
+      dispatch,
+      handleModalVisible: this.handleModalVisible, // Function
+    };
 
     return (
       <PageHeaderWrapper>
@@ -502,7 +499,7 @@ class ResourceList extends PureComponent {
           <List {...listProps} />
 
         </Card>
-        <AddOrUpdateForm {...parentMethods} modalVisible={modalVisible} />
+        <AddOrUpdateForm {...addFormProps} />
 
         <RoleAssignModal
           loading={roleAssignLoading}
@@ -518,4 +515,4 @@ class ResourceList extends PureComponent {
   }
 }
 
-export default ResourceList;
+export default AdminList;

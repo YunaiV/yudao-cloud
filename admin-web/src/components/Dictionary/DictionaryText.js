@@ -5,7 +5,7 @@ export default class DictionaryText extends PureComponent {
   componentDidMount() {}
 
   render() {
-    debugger;
+    // debugger;
     const { dicKey, dicValue } = this.props;
     return (
       <DictionaryContext.Consumer>

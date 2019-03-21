@@ -20,10 +20,17 @@ export default {
   namespace: 'adminList',
 
   state: {
+    // 分页列表相关
     list: [],
     searchParams: SEARCH_PARAMS_DEFAULT,
     pagination: PaginationHelper.defaultPaginationConfig,
 
+    // 添加 or 修改表单相关
+    modalVisible: false,
+    modalType: undefined, // 'add' or 'update' 表单
+    formVals: {}, // 当前表单值
+
+    // 分配角色表单相关
     roleList: [],
     roleCheckedKeys: [],
     roleAssignLoading: false,
@@ -44,31 +51,37 @@ export default {
         },
       });
     },
-    *add({ payload }, { call, put }) {
-      const { callback, body, queryParams } = payload;
+    * add({ payload }, { call, put }) {
+      const { callback, body } = payload;
       const response = yield call(addAdmin, body);
-      if (callback) {
-        callback(response);
+      if (response.code === 0) {
+        if (callback) {
+          callback(response);
+        }
+        // 刷新列表
+        yield put({
+          type: 'query',
+          payload: {
+            ...PaginationHelper.defaultPayload
+          },
+        });
       }
-      yield put({
-        type: 'query',
-        payload: {
-          ...queryParams,
-        },
-      });
     },
-    *update({ payload }, { call, put }) {
-      const { callback, body, queryParams } = payload;
+    * update({ payload }, { call, put }) {
+      const { callback, body } = payload;
       const response = yield call(updateAdmin, body);
-      if (callback) {
-        callback(response);
+      if (response.code === 0) {
+        if (callback) {
+          callback(response);
+        }
+        // 刷新列表
+        yield put({
+          type: 'query',
+          payload: {
+            ...PaginationHelper.defaultPayload
+          },
+        });
       }
-      yield put({
-        type: 'query',
-        payload: {
-          ...queryParams,
-        },
-      });
     },
     *updateStatus({ payload }, { call, put }) {
       const { body, queryParams } = payload;
@@ -148,5 +161,16 @@ export default {
         roleAssignLoading: payload,
       };
     },
+    setAll(state, { payload }) {
+      console.log('setAll');
+      console.log({
+        ...state,
+        ...payload,
+      });
+      return {
+        ...state,
+        ...payload,
+      };
+    }
   },
 };

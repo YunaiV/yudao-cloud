@@ -41,10 +41,6 @@ public class OrderItemDO extends BaseDO {
     /// 时间信息
 
     /**
-     * 创建时间
-     */
-    private Date createTime;
-    /**
      * 付款时间
      */
     private Date paymentTime;
@@ -67,25 +63,20 @@ public class OrderItemDO extends BaseDO {
     /**
      * 是否退货
      *
-     * - 0、no
-     * - 1、yes
+     * - 1、没有
+     * - 2、换货
+     * - 3、退货
+     * - 4、换货 + 退货
      */
-    private Integer hasReturn;
-    /**
-     * 是否换货
-     *
-     * - 0、no
-     * - 1、yes
-     */
-    private Integer hasExchange;
+    private Integer hasReturnExchange;
     /**
      * 状态
      *
-     * - 0、待付款
-     * - 1、待发货
-     * - 2、待收获
-     * - 3、已完成
-     * - 4、已关闭
+     * - 1、待付款
+     * - 2、待发货
+     * - 3、已发货
+     * - 4、已完成
+     * - 5、已关闭
      */
     private Integer status;
 
@@ -98,13 +89,11 @@ public class OrderItemDO extends BaseDO {
                 ", skuId='" + skuId + '\'' +
                 ", quantity=" + quantity +
                 ", price=" + price +
-                ", createTime=" + createTime +
                 ", paymentTime=" + paymentTime +
                 ", deliveryTime=" + deliveryTime +
                 ", receiverTime=" + receiverTime +
                 ", closingTime=" + closingTime +
-                ", hasReturn=" + hasReturn +
-                ", hasExchange=" + hasExchange +
+                ", hasReturnExchange=" + hasReturnExchange +
                 ", status=" + status +
                 '}';
     }
@@ -163,17 +152,6 @@ public class OrderItemDO extends BaseDO {
         return this;
     }
 
-    @Override
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    @Override
-    public OrderItemDO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
-
     public Date getPaymentTime() {
         return paymentTime;
     }
@@ -210,21 +188,12 @@ public class OrderItemDO extends BaseDO {
         return this;
     }
 
-    public Integer getHasReturn() {
-        return hasReturn;
+    public Integer getHasReturnExchange() {
+        return hasReturnExchange;
     }
 
-    public OrderItemDO setHasReturn(Integer hasReturn) {
-        this.hasReturn = hasReturn;
-        return this;
-    }
-
-    public Integer getHasExchange() {
-        return hasExchange;
-    }
-
-    public OrderItemDO setHasExchange(Integer hasExchange) {
-        this.hasExchange = hasExchange;
+    public OrderItemDO setHasReturnExchange(Integer hasReturnExchange) {
+        this.hasReturnExchange = hasReturnExchange;
         return this;
     }
 

@@ -3,9 +3,9 @@
 <mapper namespace="cn.iocoder.mall.order.dao.OrderMapper">
 
     <sql id="FIELDS">
-        order_no, price, receiver_area_no, receiver_mobile,
-        receiver_address, `status`, pay_status, create_time,
-        payment_time, delivery_time, closing_time, remark
+        id, order_logistics_id, order_no, price, payment_time,
+        delivery_time, receiver_time, closing_time, has_return_exchange,
+        status, remark
     </sql>
 
     <!--
@@ -13,13 +13,13 @@
     -->
     <insert id="insert" parameterType="OrderDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO `order` (
-            order_no, price, receiver_area_no, receiver_mobile,
-            receiver_address, `status`, pay_status, create_time,
-            payment_time, delivery_time, closing_time, remark
+            order_logistics_id, order_no, price, payment_time,
+            delivery_time, receiver_time, closing_time,
+            has_return_exchange, status, remark
         ) VALUES (
-             #{orderNo}, ${price}, #{receiverAreaNo}, #{receiverMobile},
-             #{receiverAddress}, #{status}, #{payStatus}, #{createTime},
-             #{paymentTime}, #{deliveryTime}, #{closingTime}, #{remark}
+             #{orderLogisticsId}, ${orderNo}, #{price}, #{paymentTime},
+             #{deliveryTime}, #{receiverTime}, #{closingTime},
+             #{hasReturnExchange}, #{status}, #{remark}
         )
     </insert>
 
@@ -28,41 +28,43 @@
     -->
     <sql id="updateSql" >
         <set>
+            <if test="orderLogisticsId != null">
+                , order_logistics_id = #{orderLogisticsId}
+            </if>
             <if test="orderNo != null">
                 , order_no = #{orderNo}
             </if>
             <if test="price != null">
                 , price = #{price}
             </if>
-            <if test="receiverAreaNo != null">
-                , receiver_area_no = #{receiverAreaNo}
-            </if>
-            <if test="receiverMobile != null">
-                , receiver_mobile = #{receiverMobile}
-            </if>
-            <if test="receiverAddress != null">
-                , receiver_address = #{receiverAddress}
-            </if>
-            <if test="status != null">
-                , status = #{status}
-            </if>
-            <if test="payStatus != null">
-                , pay_status = #{payStatus}
-            </if>
-            <if test="deleteStatus != null">
-                , delete_status = #{deleteStatus}
-            </if>
-            <if test="createTime != null">
-                , create_time = #{createTime}
-            </if>
+-- time
             <if test="paymentTime != null">
                 , payment_time = #{paymentTime}
             </if>
             <if test="deliveryTime != null">
                 , delivery_time = #{deliveryTime}
             </if>
+            <if test="receiverTime != null">
+                , receiver_time = #{receiverTime}
+            </if>
             <if test="closingTime != null">
                 , closing_time = #{closingTime}
+            </if>
+            <if test="hasReturnExchange != null">
+                , has_return_exchange = #{hasReturnExchange}
+            </if>
+-- other
+            <if test="status != null">
+                , status = #{status}
+            </if>
+            <if test="delete != null">
+                , `delete` = #{delete}
+            </if>
+            <if test="createTime != null">
+                , create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                , update_time = #{updateTime}
             </if>
             <if test="remark != null">
                 , remark = #{remark}

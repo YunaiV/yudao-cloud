@@ -30,10 +30,6 @@ public class OrderLogisticsDetailDO extends BaseDO {
      * 物流信息
      */
     private String logisticsInformation;
-    /**
-     * 创建时间（同步时间）
-     */
-    private Date createTime;
 
     @Override
     public String toString() {
@@ -42,7 +38,6 @@ public class OrderLogisticsDetailDO extends BaseDO {
                 ", orderLogisticsId=" + orderLogisticsId +
                 ", logisticsTime=" + logisticsTime +
                 ", logisticsInformation='" + logisticsInformation + '\'' +
-                ", createTime=" + createTime +
                 '}';
     }
 
@@ -79,15 +74,6 @@ public class OrderLogisticsDetailDO extends BaseDO {
 
     public OrderLogisticsDetailDO setLogisticsInformation(String logisticsInformation) {
         this.logisticsInformation = logisticsInformation;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public OrderLogisticsDetailDO setCreateTime(Date createTime) {
-        this.createTime = createTime;
         return this;
     }
 }

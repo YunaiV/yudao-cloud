@@ -25,6 +25,10 @@ public class OrderExchangeDO extends BaseDO {
      */
     private String orderNo;
     /**
+     * 订单 item 编号
+     */
+    private Integer orderItemId;
+    /**
      * 商品id（保存一个冗余，如果一个订单下存在多个商品，会有很大的作用）
      */
     private String skuId;
@@ -62,8 +66,9 @@ public class OrderExchangeDO extends BaseDO {
 
     /**
      * 创建时间
+     * supper baseDO
      */
-    private Date createTime;
+//    private Date createTime;
     /**
      * 付款时间
      */
@@ -85,6 +90,13 @@ public class OrderExchangeDO extends BaseDO {
     /// 其他
 
     /**
+     * 订单类型
+     *
+     * - 0、为 Order 订单 （对整个订单退货）
+     * - 1、为 OrderItem 订单 （对订单某一个商品退货）
+     */
+    private Integer orderType;
+    /**
      * 状态
      *
      * - 申请换货
@@ -101,17 +113,18 @@ public class OrderExchangeDO extends BaseDO {
                 "id=" + id +
                 ", orderId=" + orderId +
                 ", orderNo='" + orderNo + '\'' +
+                ", orderItemId=" + orderItemId +
                 ", skuId='" + skuId + '\'' +
                 ", exchangeSkuId='" + exchangeSkuId + '\'' +
                 ", exchangeOrderLogisticsId=" + exchangeOrderLogisticsId +
                 ", receiverOrderLogisticsId=" + receiverOrderLogisticsId +
                 ", orderReasonId=" + orderReasonId +
                 ", reason='" + reason + '\'' +
-                ", createTime=" + createTime +
                 ", paymentTime=" + paymentTime +
                 ", deliveryTime=" + deliveryTime +
                 ", receiverTime=" + receiverTime +
                 ", closingTime=" + closingTime +
+                ", orderType=" + orderType +
                 ", status=" + status +
                 '}';
     }
@@ -140,6 +153,15 @@ public class OrderExchangeDO extends BaseDO {
 
     public OrderExchangeDO setOrderNo(String orderNo) {
         this.orderNo = orderNo;
+        return this;
+    }
+
+    public Integer getOrderItemId() {
+        return orderItemId;
+    }
+
+    public OrderExchangeDO setOrderItemId(Integer orderItemId) {
+        this.orderItemId = orderItemId;
         return this;
     }
 
@@ -197,17 +219,6 @@ public class OrderExchangeDO extends BaseDO {
         return this;
     }
 
-    @Override
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    @Override
-    public OrderExchangeDO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
-
     public Date getPaymentTime() {
         return paymentTime;
     }
@@ -241,6 +252,15 @@ public class OrderExchangeDO extends BaseDO {
 
     public OrderExchangeDO setClosingTime(Date closingTime) {
         this.closingTime = closingTime;
+        return this;
+    }
+
+    public Integer getOrderType() {
+        return orderType;
+    }
+
+    public OrderExchangeDO setOrderType(Integer orderType) {
+        this.orderType = orderType;
         return this;
     }
 

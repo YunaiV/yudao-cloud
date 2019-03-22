@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iocoder.mall.order.dao.OrderLogisticsMapper">
+
+    <sql id="FIELDS">
+        id, area_no, `name`, mobile, address, logistics_no
+    </sql>
+
+    <!--
+        插入数据
+    -->
+    <insert id="insert" parameterType="OrderLogisticsDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO `order_logistics` (
+            area_no, `name`, mobile, address, logistics_no
+        ) VALUES (
+             #{areaNo}, #{name}, #{mobile}, #{address},
+             #{logisticsNo}
+        )
+    </insert>
+
+</mapper>

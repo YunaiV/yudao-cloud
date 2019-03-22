@@ -32,6 +32,10 @@ public class OrderReturnDO extends BaseDO {
      * 商品编号（保存一个冗余，如果一个订单下存在多个商品，会有很大的作用）
      */
     private String skuId;
+    /**
+     * 物流id
+     */
+    private Integer orderLogisticsId;
 
     ///
     /// 退货原因
@@ -102,6 +106,7 @@ public class OrderReturnDO extends BaseDO {
                 ", orderNo='" + orderNo + '\'' +
                 ", orderItemId=" + orderItemId +
                 ", skuId='" + skuId + '\'' +
+                ", orderLogisticsId=" + orderLogisticsId +
                 ", orderReasonId=" + orderReasonId +
                 ", reason='" + reason + '\'' +
                 ", createTime=" + createTime +
@@ -156,6 +161,15 @@ public class OrderReturnDO extends BaseDO {
 
     public OrderReturnDO setSkuId(String skuId) {
         this.skuId = skuId;
+        return this;
+    }
+
+    public Integer getOrderLogisticsId() {
+        return orderLogisticsId;
+    }
+
+    public OrderReturnDO setOrderLogisticsId(Integer orderLogisticsId) {
+        this.orderLogisticsId = orderLogisticsId;
         return this;
     }
 

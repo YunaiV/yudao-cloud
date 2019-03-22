@@ -2,7 +2,6 @@ package cn.iocoder.mall.order.dataobject;
 
 import cn.iocoder.common.framework.dataobject.BaseDO;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -34,19 +33,19 @@ public class OrderDO extends BaseDO {
     /// 时间信息
 
     /**
-     * 付款时间
+     * 付款时间（待发货）
      */
     private Date paymentTime;
     /**
-     * 发货时间
+     * 发货时间（待收货）
      */
     private Date deliveryTime;
     /**
-     * 收货时间
+     * 收货时间（已签收）
      */
     private Date receiverTime;
     /**
-     * 成交时间
+     * 成交时间（用户确认收货 -> status = 已完成）
      */
     private Date closingTime;
 
@@ -73,13 +72,6 @@ public class OrderDO extends BaseDO {
      */
     private Integer status;
     /**
-     * 删除状态
-     *
-     * - 0 未删除
-     * - 1 已删除
-     */
-    private Integer deleteStatus;
-    /**
      * 备注
      */
     private String remark;
@@ -97,7 +89,6 @@ public class OrderDO extends BaseDO {
                 ", closingTime=" + closingTime +
                 ", hasReturnExchange=" + hasReturnExchange +
                 ", status=" + status +
-                ", deleteStatus=" + deleteStatus +
                 ", remark='" + remark + '\'' +
                 '}';
     }
@@ -189,15 +180,6 @@ public class OrderDO extends BaseDO {
 
     public OrderDO setStatus(Integer status) {
         this.status = status;
-        return this;
-    }
-
-    public Integer getDeleteStatus() {
-        return deleteStatus;
-    }
-
-    public OrderDO setDeleteStatus(Integer deleteStatus) {
-        this.deleteStatus = deleteStatus;
         return this;
     }
 

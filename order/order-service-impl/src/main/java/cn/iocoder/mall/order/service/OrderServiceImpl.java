@@ -1,27 +1,30 @@
 package cn.iocoder.mall.order.service;
 
+import cn.iocoder.common.framework.constant.DeleteStatusEnum;
 import cn.iocoder.mall.order.api.OrderService;
 import cn.iocoder.mall.order.api.bo.OrderBO;
-import cn.iocoder.mall.order.api.constants.OrderDeleteStatusEnum;
-import cn.iocoder.mall.order.api.constants.OrderPayStatusEnum;
-import cn.iocoder.mall.order.api.constants.OrderStatusEnum;
+import cn.iocoder.mall.order.api.constant.OrderHasReturnExchangeEnum;
+import cn.iocoder.mall.order.api.constant.OrderStatusEnum;
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderCreateItemDTO;
 import cn.iocoder.mall.order.api.dto.OrderReceiverInformationDTO;
 import cn.iocoder.mall.order.api.dto.OrderUpdateDTO;
 import cn.iocoder.mall.order.convert.OrderConvert;
 import cn.iocoder.mall.order.dao.OrderItemMapper;
+import cn.iocoder.mall.order.dao.OrderLogisticsMapper;
 import cn.iocoder.mall.order.dao.OrderMapper;
 import cn.iocoder.mall.order.dataobject.OrderDO;
 import cn.iocoder.mall.order.dataobject.OrderItemDO;
-import org.checkerframework.checker.units.qual.A;
+import cn.iocoder.mall.order.dataobject.OrderLogisticsDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 订单 service impl
@@ -37,38 +40,66 @@ public class OrderServiceImpl implements OrderService {
     private OrderMapper orderMapper;
     @Autowired
     private OrderItemMapper orderItemMapper;
+    @Autowired
+    private OrderLogisticsMapper orderLogisticsMapper;
 
     @Override
     @Transactional
     public OrderBO createOrder(OrderCreateDTO orderCreateDTO) {
         List<OrderCreateItemDTO> orderItemDTOList = orderCreateDTO.getOrderItems();
-        OrderDO orderDO = OrderConvert.INSTANCE.convert(orderCreateDTO);
+        OrderLogisticsDO orderLogisticsDO = OrderConvert.INSTANCE.convert(orderCreateDTO);
         List<OrderItemDO> orderItemDOList = OrderConvert.INSTANCE.convert(orderItemDTOList);
 
+        // 物流信息
+        orderLogisticsDO.setLogisticsNo("");
+        orderLogisticsMapper.insert(orderLogisticsDO);
+
         // order
+        OrderDO orderDO = new OrderDO();
+        orderDO.setOrderLogisticsId(orderLogisticsDO.getId());
         orderDO.setOrderNo(UUID.randomUUID().toString().replace("-", ""));
-        orderDO.setPrice(1000);
+        orderDO.setPrice(-1); // 先设置一个默认值，金额在下面计算
         orderDO.setCreateTime(new Date());
+        orderDO.setUpdateTime(null);
+        orderDO.setDeleted(DeleteStatusEnum.DELETE_NO.getValue());
+
         orderDO.setClosingTime(null);
         orderDO.setDeliveryTime(null);
         orderDO.setPaymentTime(null);
         orderDO.setStatus(OrderStatusEnum.WAIT_SHIPMENT.getValue());
-        orderDO.setPayStatus(OrderPayStatusEnum.WAITING_PAYMENT.getValue());
-        orderDO.setDeleteStatus(OrderDeleteStatusEnum.DELETE_NO.getValue());
+        orderDO.setHasReturnExchange(OrderHasReturnExchangeEnum.NO.getValue());
+        orderDO.setRemark(Optional.ofNullable(orderCreateDTO.getRemark()).orElse(""));
         orderMapper.insert(orderDO);
 
         // order item
-        int goodsPrice = 1000;
+        AtomicInteger totalPrice = new AtomicInteger();
         orderItemDOList.forEach(orderItemDO -> {
+            int goodsPrice = 1000; // 商品单价
             int price = orderItemDO.getQuantity() * goodsPrice;
+            totalPrice.addAndGet(price);
             orderItemDO
-                    .setStatus(OrderStatusEnum.WAIT_SHIPMENT.getValue())
                     .setOrderId(orderDO.getId())
-                    .setPrice(price)
-                    .setDeliveryTime(null);
+                    .setOrderNo(orderDO.getOrderNo())
+                    .setPrice(goodsPrice)
+                    .setPaymentTime(null)
+                    .setDeliveryTime(null)
+                    .setReceiverTime(null)
+                    .setClosingTime(null)
+                    .setHasReturnExchange(OrderStatusEnum.WAITING_PAYMENT.getValue())
+                    .setStatus(OrderStatusEnum.WAITING_PAYMENT.getValue())
+                    .setCreateTime(new Date())
+                    .setUpdateTime(new Date())
+                    .setDeleted(DeleteStatusEnum.DELETE_NO.getValue());
 
             orderItemMapper.insert(orderItemDO);
         });
+
+        // 更新订单金额
+        orderMapper.updateById(
+                new OrderDO()
+                        .setId(orderDO.getId())
+                        .setPrice(totalPrice.get())
+        );
 
         // TODO: 2019-03-17 Sin 需要发送 创建成果 MQ 消息
 
@@ -93,9 +124,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void deleteOrder(Integer id) {
         // 删除订单操作，一般用于 用户端删除，是否存在检查可以过掉
-        orderMapper.updateById(new OrderDO()
+        orderMapper.updateById((OrderDO) new OrderDO()
                 .setId(id)
-                .setDeleteStatus(OrderDeleteStatusEnum.DELETE_YES.getValue())
+                .setDeleted(DeleteStatusEnum.DELETE_YES.getValue())
         );
     }
 

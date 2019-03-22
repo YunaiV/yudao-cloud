@@ -22,26 +22,37 @@ export default {
   state: {
     // 分页列表相关
     list: [],
-    searchParams: SEARCH_PARAMS_DEFAULT,
+    listLoading: false,
     pagination: PaginationHelper.defaultPaginationConfig,
+    searchParams: SEARCH_PARAMS_DEFAULT,
 
     // 添加 or 修改表单相关
     modalVisible: false,
     modalType: undefined, // 'add' or 'update' 表单
     formVals: {}, // 当前表单值
+    modalLoading: false,
 
     // 分配角色表单相关
     roleList: [],
-    roleCheckedKeys: [],
+    roleModalVisible: false,
+    roleCheckedKeys: [], // 此处的 Key ，就是角色编号
     roleAssignLoading: false,
   },
 
   effects: {
     // 查询列表
     * query({ payload }, { call, put }) {
-      const response = yield call(queryAdmin, payload);
+      // 显示加载中
       yield put({
-        type: 'querySuccess',
+        type: 'changeListLoading',
+        payload: true,
+      });
+
+      // 请求
+      const response = yield call(queryAdmin, payload);
+      // 响应
+      yield put({
+        type: 'setAll',
         payload: {
           list: response.data.list,
           pagination: PaginationHelper.formatPagination(response.data, payload),
@@ -50,10 +61,24 @@ export default {
           }
         },
       });
+
+      // 隐藏加载中
+      yield put({
+        type: 'changeListLoading',
+        payload: false,
+      });
     },
     * add({ payload }, { call, put }) {
       const { callback, body } = payload;
+      // 显示加载中
+      yield put({
+        type: 'changeModalLoading',
+        payload: true,
+      });
+
+      // 请求
       const response = yield call(addAdmin, body);
+      // 响应
       if (response.code === 0) {
         if (callback) {
           callback(response);
@@ -66,10 +91,24 @@ export default {
           },
         });
       }
+
+      // 隐藏加载中
+      yield put({
+        type: 'changeModalLoading',
+        payload: false,
+      });
     },
     * update({ payload }, { call, put }) {
       const { callback, body } = payload;
+      // 显示加载中
+      yield put({
+        type: 'changeModalLoading',
+        payload: true,
+      });
+
+      // 请求
       const response = yield call(updateAdmin, body);
+      // 响应
       if (response.code === 0) {
         if (callback) {
           callback(response);
@@ -82,91 +121,132 @@ export default {
           },
         });
       }
-    },
-    *updateStatus({ payload }, { call, put }) {
-      const { body, queryParams } = payload;
-      yield call(updateAdminStatus, body);
-      message.info('更新成功!');
+
+      // 隐藏加载中
       yield put({
-        type: 'query',
-        payload: {
-          ...queryParams,
-        },
-      });
-    },
-    *delete({ payload }, { call, put }) {
-      const { queryParams, body } = payload;
-      yield call(deleteAdmin, body);
-      message.info('删除成功!');
-      yield put({
-        type: 'query',
-        payload: {
-          ...queryParams,
-        },
+        type: 'changeModalLoading',
+        payload: false,
       });
     },
 
-    *queryRoleList({ payload }, { call, put }) {
+    * updateStatus({ payload }, { call, put }) {
+      // 请求
+      const response = yield call(updateAdminStatus, payload);
+      // 响应
+      if (response.code === 0) {
+        message.info('更新状态成功!');
+        // 刷新列表
+        yield put({
+          type: 'query',
+          payload: {
+            ...PaginationHelper.defaultPayload
+          },
+        });
+      }
+    },
+
+    * delete({ payload }, { call, put }) {
+      // 请求
+      const response = yield call(deleteAdmin, payload);
+      // 响应
+      if (response.code === 0) {
+        message.info('删除成功!');
+        // 刷新列表
+        yield put({
+          type: 'query',
+          payload: {
+            ...PaginationHelper.defaultPayload
+          },
+        });
+      }
+    },
+
+    * queryRoleList({ payload }, { call, put }) {
+      // 显示加载中
       yield put({
         type: 'changeRoleAssignLoading',
         payload: true,
       });
 
+      // 请求
       const response = yield call(queryAdminRoleList, payload);
-      const roleList = response.data;
-      const roleTreeData = buildTreeNode(roleList, 'name', 'id');
-      const roleCheckedKeys = findCheckedKeys(roleList);
+      // 响应
+      if (response.code === 0) {
+        const roleList = response.data;
+        const roleTreeData = buildTreeNode(roleList, 'name', 'id');
+        const roleCheckedKeys = findCheckedKeys(roleList);
+        yield put({
+          type: 'setAll',
+          payload: {
+            roleList: roleTreeData,
+            roleCheckedKeys,
+          },
+        });
+      }
 
-      yield put({
-        type: 'querySuccess',
-        payload: {
-          roleList: roleTreeData,
-          roleCheckedKeys,
-        },
-      });
-
+      // 隐藏加载中
       yield put({
         type: 'changeRoleAssignLoading',
         payload: false,
       });
     },
-    *roleAssign({ payload }, { call }) {
-      const params = {
-        id: payload.id,
-        roleIds: arrayToStringParams(payload.roleIds),
-      };
-      const response = yield call(adminRoleAssign, params);
+
+    * roleAssign({ payload }, { call, put }) {
+      const { callback, body } = payload;
+      // 显示加载中
+      yield put({
+        type: 'changeRoleAssignLoading',
+        payload: true,
+      });
+
+      // 请求
+      const response = yield call(adminRoleAssign, {
+        id: body.id,
+        roleIds: arrayToStringParams(body.roleIds),
+      });
+      // 响应
       if (response.code === 0) {
-        message.info('操作成功!');
+        if (callback) {
+          callback(response);
+        }
       }
+
+      // 隐藏加载中
+      yield put({
+        type: 'changeRoleAssignLoading',
+        payload: false,
+      });
     },
   },
 
   reducers: {
-    querySuccess(state, { payload }) {
-      return {
-        ...state,
-        ...payload,
-      };
-    },
     changeRoleCheckedKeys(state, { payload }) {
       return {
         ...state,
         roleCheckedKeys: payload,
       };
     },
+    // 修改加载中的状态
     changeRoleAssignLoading(state, { payload }) {
       return {
         ...state,
         roleAssignLoading: payload,
       };
     },
-    setAll(state, { payload }) {
-      console.log('setAll');
-      console.log({
+    changeModalLoading(state, { payload }) {
+      return {
         ...state,
-        ...payload,
-      });
+        modalLoading: payload,
+      };
+    },
+    changeListLoading(state, { payload }) {
+      return {
+        ...state,
+        listLoading: payload,
+      };
+    },
+    // 设置所有属性
+    setAll(state, { payload }) {
       return {
         ...state,
         ...payload,

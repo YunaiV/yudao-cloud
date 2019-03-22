@@ -15,7 +15,54 @@ const { TreeNode } = Tree;
 const status = ['未知', '正常', '禁用'];
 
 // 列表
-function List ({ dataSource, pagination, searchParams, dispatch, handleModalVisible }) {
+function List ({ dataSource, loading, pagination, searchParams, dispatch,
+                 handleModalVisible, handleRoleAssignModalVisible}) {
+
+  function handleRoleAssign(record) {
+    // 显示 Modal
+    handleRoleAssignModalVisible(true, record);
+    // 查询角色列表
+    dispatch({
+      type: 'adminList/queryRoleList',
+      payload: {
+        id: record.id,
+      },
+    });
+  }
+
+  function handleStatus(record) {
+    Modal.confirm({
+      title: record.status === 1 ? '确认禁用' : '取消禁用',
+      content: `${record.username}`,
+      onOk() {
+        dispatch({
+          type: 'adminList/updateStatus',
+          payload: {
+            id: record.id,
+            status: record.status === 1 ? 2 : 1,
+          },
+        });
+      },
+      onCancel() {},
+    });
+  }
+
+  function handleDelete(record) {
+    Modal.confirm({
+      title: `确认删除?`,
+      content: `${record.username}`,
+      onOk() {
+        dispatch({
+          type: 'adminList/delete',
+          payload: {
+            id: record.id,
+          },
+        });
+      },
+      onCancel() {},
+    });
+  }
+
   const columns = [
     {
       title: '用户名',
@@ -41,27 +88,32 @@ function List ({ dataSource, pagination, searchParams, dispatch, handleModalVisi
       title: '操作',
       width: 360,
       render: (text, record) => {
-        const statusText = record.status === 1 ? '禁用' : '禁用';
+        const statusText = record.status === 1 ? '禁用' : '开启'; // TODO 芋艿，此处要改
         return (
           <Fragment>
             <a onClick={() => handleModalVisible(true, 'update', record)}>编辑</a>
             <Divider type="vertical" />
-            <a onClick={() => this.handleRoleAssign(record)}>角色分配</a>
+            <a onClick={() => handleRoleAssign(record)}>角色分配</a>
             <Divider type="vertical" />
-            <a className={styles.tableDelete} onClick={() => this.handleStatus(record)}>
+            <a className={styles.tableDelete} onClick={() => handleStatus(record)}>
               {statusText}
             </a>
-            <Divider type="vertical" />
-            <a className={styles.tableDelete} onClick={() => this.handleDelete(record)}>
-              删除
-            </a>
+            {
+              record.status === 2 ?
+                <span>
+                  <Divider type="vertical" />
+                  <a className={styles.tableDelete} onClick={() => handleDelete(record)}>
+                    删除
+                  </a>
+                </span> : ''
+            }
           </Fragment>
         );
       },
     },
   ];
 
-  function onPageChange(page) {
+  function onPageChange(page) { // 翻页
     dispatch({
       type: 'adminList/query',
       payload: {
@@ -70,19 +122,14 @@ function List ({ dataSource, pagination, searchParams, dispatch, handleModalVisi
         ...searchParams
       }
     })
-  };
+  }
 
   return (
     <Table
       columns={columns}
       dataSource={dataSource}
+      loading={loading}
       rowKey="id"
-      // pagination={{
-      //   current: pageNo,
-      //   pageSize: pageSize,
-      //   total: count,
-      //   onChange: this.onPageChange
-      // }}
       pagination={pagination}
       onChange={onPageChange}
     />
@@ -178,7 +225,7 @@ const AddOrUpdateForm = Form.create()(props => {
           type: 'adminList/update',
           payload: {
             body: {
-              ...formVals,
+              id: formVals.id,
               ...fields,
             },
             callback: () => {
@@ -232,22 +279,34 @@ const AddOrUpdateForm = Form.create()(props => {
   );
 });
 
-// 角色分配
+// 角色分配 Modal
 const RoleAssignModal = Form.create()(props => {
   const {
     modalVisible,
     form,
-    handleOk,
     handleModalVisible,
     treeData,
     checkedKeys,
     loading,
-    handleCheckBoxClick,
+    formVals,
+    dispatch,
   } = props;
+
+  const handleCheckBoxClick = checkedKeys => {
+    // 获得新选择
+    const newCheckedKeys = checkedKeys.map(item => {
+      return parseInt(item);
+    });
+    // 设置到 model 中
+    dispatch({
+      type: 'adminList/changeRoleCheckedKeys',
+      payload: newCheckedKeys,
+    });
+  };
 
   const renderTreeNodes = data => {
     return data.map(item => {
-      if (item.children) {
+      if (item.children) { // 递归拼接节点
         return (
           <TreeNode title={item.title} key={item.key} dataRef={item}>
             {renderTreeNodes(item.children)}
@@ -284,9 +343,23 @@ const RoleAssignModal = Form.create()(props => {
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
-      form.resetFields();
-      handleOk({
-        fields: fieldsValue,
+      // debugger;
+      dispatch({
+        type: 'adminList/roleAssign',
+        payload: {
+          body: {
+            id: formVals.id,
+            roleIds: checkedKeys,
+          },
+          callback: () => {
+            // 清空表单
+            form.resetFields();
+            // 提示
+            message.success('分配角色成功');
+            // 关闭弹窗
+            handleModalVisible(false);
+          },
+        },
       });
     });
   };
@@ -299,7 +372,9 @@ const RoleAssignModal = Form.create()(props => {
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
-      <Spin spinning={loading}>{renderModalContent(treeData)}</Spin>
+      <Spin spinning={loading}>
+        {renderModalContent(treeData)}
+      </Spin>
     </Modal>
   );
 });
@@ -308,14 +383,12 @@ const RoleAssignModal = Form.create()(props => {
   // list: adminList.list,
   // pagination: adminList.pagination,
   ...adminList,
-  data: adminList,
   loading: loading.models.resourceList,
 }))
 
 @Form.create()
 class AdminList extends PureComponent {
   state = {
-
     // 分配角色弹窗
     modalRoleVisible: false,
     modalRoleRow: {},
@@ -331,130 +404,36 @@ class AdminList extends PureComponent {
     });
   }
 
-  handleModalVisible = (modalVisible, modalType, formVals) => {
-    // debugger;
+  handleModalVisible = (modalVisible, modalType, record) => {
     const { dispatch } = this.props;
     dispatch({
       type: 'adminList/setAll',
       payload: {
         modalVisible,
         modalType,
-        formVals: formVals || {}
+        formVals: record || {}
       },
     });
   };
 
-  handleStatus(row) {
-    const { dispatch, data } = this.props;
-    const queryParams = {
-      pageNo: data.pageNo,
-      pageSize: data.pageSize,
-    };
-
-    const title = row.status === 1 ? '确认禁用' : '取消禁用';
-    const updateStatus = row.status === 1 ? 2 : 1;
-
-    Modal.confirm({
-      title: `${title}?`,
-      content: `${row.username}`,
-      onOk() {
-        dispatch({
-          type: 'adminList/updateStatus',
-          payload: {
-            body: {
-              id: row.id,
-              status: updateStatus,
-            },
-            queryParams,
-          },
-        });
-      },
-      onCancel() {},
-    });
-  }
-
-  handleDelete(row) {
-    const { dispatch, data } = this.props;
-    const queryParams = {
-      pageNo: data.pageNo,
-      pageSize: data.pageSize,
-    };
-
-    Modal.confirm({
-      title: `确认删除?`,
-      content: `${row.username}`,
-      onOk() {
-        dispatch({
-          type: 'adminList/delete',
-          payload: {
-            body: {
-              id: row.id,
-            },
-            queryParams,
-          },
-        });
-      },
-      onCancel() {},
-    });
-  }
-
-  handleRoleAssign = row => {
+  handleRoleAssignModalVisible = (roleModalVisible, record) => {
     const { dispatch } = this.props;
-    this.setState({
-      modalRoleVisible: !!true,
-      modalRoleRow: row,
-    });
-
     dispatch({
-      type: 'adminList/queryRoleList',
+      type: 'adminList/setAll',
       payload: {
-        id: row.id,
+        roleModalVisible: roleModalVisible,
+        formVals: record || {}
       },
-    });
-  };
-
-  handleRoleAssignCheckBoxClick = checkedKeys => {
-    const { dispatch } = this.props;
-    const newCheckedKeys = checkedKeys.map(item => {
-      return parseInt(item);
-    });
-    dispatch({
-      type: 'adminList/changeRoleCheckedKeys',
-      payload: newCheckedKeys,
-    });
-  };
-
-  handleRoleAssignOK = () => {
-    const { dispatch, data } = this.props;
-    const { modalRoleRow } = this.state;
-    dispatch({
-      type: 'adminList/roleAssign',
-      payload: {
-        id: modalRoleRow.id,
-        roleIds: data.roleCheckedKeys,
-      },
-    });
-    this.handleRoleAssignModalVisibleClose(false);
-  };
-
-  handleRoleAssignModalVisibleClose = fag => {
-    this.setState({
-      modalRoleVisible: !!fag,
     });
   };
 
   render() {
     // let that = this;
-    const { dispatch, list, searchParams, pagination, modalVisible, data, modalType, formVals } = this.props;
-    const { roleList, roleCheckedKeys, roleAssignLoading } = data;
-    // const {
-    //   // modalVisible,
-    //   // modalType,
-    //   formVals,
-    //   modalRoleVisible,
-    // } = this.state;
-    const modalRoleVisible = false;
-
+    const { dispatch,
+      list, listLoading, searchParams, pagination,
+      modalVisible, modalType, formVals,
+      confirmLoading,
+      roleList, roleModalVisible, roleAssignLoading, roleCheckedKeys  } = this.props;
 
     // 列表属性
     const listProps = {
@@ -462,7 +441,10 @@ class AdminList extends PureComponent {
       pagination,
       searchParams,
       dispatch,
+      loading: listLoading,
+      confirmLoading,
       handleModalVisible: this.handleModalVisible, // Function
+      handleRoleAssignModalVisible: this.handleRoleAssignModalVisible, // Function
     };
 
     // 搜索表单属性
@@ -470,13 +452,23 @@ class AdminList extends PureComponent {
       dispatch,
     };
 
-    // 添加
-    const addFormProps = {
+    // 添加 or 更新表单属性
+    const addOrUpdateFormProps = {
       modalVisible,
-      modalType: modalType,
-      formVals: formVals,
+      modalType,
+      formVals,
       dispatch,
       handleModalVisible: this.handleModalVisible, // Function
+    };
+    // 分配角色 Modal 属性
+    const roleAssignModal = {
+      loading: roleAssignLoading,
+      treeData: roleList,
+      formVals,
+      checkedKeys: roleCheckedKeys,
+      modalVisible: roleModalVisible,
+      dispatch,
+      handleModalVisible: this.handleRoleAssignModalVisible, // Function
     };
 
     return (
@@ -497,19 +489,11 @@ class AdminList extends PureComponent {
             </div>
           </div>
           <List {...listProps} />
-
         </Card>
-        <AddOrUpdateForm {...addFormProps} />
 
-        <RoleAssignModal
-          loading={roleAssignLoading}
-          treeData={roleList}
-          checkedKeys={roleCheckedKeys}
-          handleOk={this.handleRoleAssignOK}
-          modalVisible={modalRoleVisible}
-          handleCheckBoxClick={this.handleRoleAssignCheckBoxClick}
-          handleModalVisible={() => this.handleRoleAssignModalVisibleClose(false)}
-        />
+        <AddOrUpdateForm {...addOrUpdateFormProps} />
+
+        <RoleAssignModal {...roleAssignModal} />
       </PageHeaderWrapper>
     );
   }

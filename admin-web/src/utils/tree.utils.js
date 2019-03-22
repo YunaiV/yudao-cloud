@@ -6,7 +6,8 @@ export function buildTreeNode(nodes, titleKey, nodeKey) {
     if (item.children) {
       res.children = buildTreeNode(item.children, titleKey, nodeKey);
     }
-    res.title = `${item.id}-${item[titleKey]}`;
+    // res.title = `${item.id}-${item[titleKey]}`;
+    res.title = `${item[titleKey]}`;
     res.key = item[nodeKey];
     return res;
   });

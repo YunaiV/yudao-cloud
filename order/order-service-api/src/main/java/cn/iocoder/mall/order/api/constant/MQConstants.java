@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.api.constants;
+package cn.iocoder.mall.order.api.constant;
 
 /**
  * MQ 订阅消息

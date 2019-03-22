@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.api.constants;
+package cn.iocoder.mall.order.api.constant;
 
 /**
  * 订单状态 status

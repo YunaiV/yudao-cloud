@@ -1,13 +1,13 @@
 package cn.iocoder.mall.admin.dataobject;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 
 import java.util.Date;
 
 /**
  * 资源实体
  */
-public class ResourceDO extends BaseDO {
+public class ResourceDO extends DeletableDO {
 
     /**
      * 资源类型 - 菜单

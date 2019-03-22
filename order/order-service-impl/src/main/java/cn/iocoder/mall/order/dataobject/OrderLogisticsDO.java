@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.dataobject;
 
 import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 
 /**
  * 订单物流信息

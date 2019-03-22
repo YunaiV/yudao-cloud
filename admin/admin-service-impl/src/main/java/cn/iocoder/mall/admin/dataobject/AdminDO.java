@@ -1,11 +1,11 @@
 package cn.iocoder.mall.admin.dataobject;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 
 /**
  * 管理员实体
  */
-public class AdminDO extends BaseDO {
+public class AdminDO extends DeletableDO {
 
     /**
      * 账号状态 - 开启

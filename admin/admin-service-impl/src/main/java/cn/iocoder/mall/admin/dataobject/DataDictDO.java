@@ -1,6 +1,6 @@
 package cn.iocoder.mall.admin.dataobject;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 
 /**
  * 数据字典
@@ -11,7 +11,7 @@ import cn.iocoder.common.framework.dataobject.BaseDO;
  *      value：1 男
  *      value：2 女
  */
-public class DataDictDO extends BaseDO {
+public class DataDictDO extends DeletableDO {
 
     /**
      * 编号

@@ -1,6 +1,5 @@
 package cn.iocoder.mall.order.dao;
 
-import cn.iocoder.mall.order.dataobject.OrderDO;
 import cn.iocoder.mall.order.dataobject.OrderLogisticsDO;
 import org.springframework.stereotype.Repository;
 

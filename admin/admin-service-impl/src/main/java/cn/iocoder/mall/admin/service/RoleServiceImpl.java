@@ -1,6 +1,7 @@
 package cn.iocoder.mall.admin.service;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.constant.DeleteStatusEnum;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
@@ -80,7 +81,8 @@ public class RoleServiceImpl implements RoleService {
         // TODO 芋艿，角色名是否要唯一呢？貌似一般系统都是允许的。
         // 保存到数据库
         RoleDO role = RoleConvert.INSTANCE.convert(roleAddDTO);
-        role.setCreateTime(new Date()).setDeleted(BaseDO.DELETED_NO);
+        role.setCreateTime(new Date());
+        role.setDeleted(DeleteStatusEnum.DELETE_NO.getValue());
         roleMapper.insert(role);
         // TODO 插入操作日志
         // 返回成功
@@ -111,7 +113,7 @@ public class RoleServiceImpl implements RoleService {
         }
         // 更新到数据库，标记删除
         RoleDO roleDO = new RoleDO().setId(roleId);
-        roleDO.setDeleted(RoleDO.DELETED_YES);
+        roleDO.setDeleted(DeleteStatusEnum.DELETE_YES.getValue());
         roleMapper.update(roleDO);
         // 标记删除 RoleResource
         roleResourceMapper.updateToDeletedByRoleId(roleId);
@@ -141,7 +143,8 @@ public class RoleServiceImpl implements RoleService {
         if (!resourceIds.isEmpty()) {
             List<RoleResourceDO> roleResources = resourceIds.stream().map(resourceId -> {
                 RoleResourceDO roleResource = new RoleResourceDO().setRoleId(roleId).setResourceId(resourceId);
-                roleResource.setCreateTime(new Date()).setDeleted(BaseDO.DELETED_NO);
+                roleResource.setCreateTime(new Date());
+                roleResource.setDeleted(DeleteStatusEnum.DELETE_NO.getValue());
                 return roleResource;
             }).collect(Collectors.toList());
             roleResourceMapper.insertList(roleResources);

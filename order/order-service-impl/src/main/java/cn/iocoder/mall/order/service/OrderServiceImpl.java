@@ -51,7 +51,10 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItemDO> orderItemDOList = OrderConvert.INSTANCE.convert(orderItemDTOList);
 
         // 物流信息
-        orderLogisticsDO.setLogisticsNo("");
+        orderLogisticsDO
+                .setLogisticsNo("")
+                .setCreateTime(new Date())
+                .setUpdateTime(null);
         orderLogisticsMapper.insert(orderLogisticsDO);
 
         // order
@@ -87,9 +90,9 @@ public class OrderServiceImpl implements OrderService {
                     .setClosingTime(null)
                     .setHasReturnExchange(OrderStatusEnum.WAITING_PAYMENT.getValue())
                     .setStatus(OrderStatusEnum.WAITING_PAYMENT.getValue())
+                    .setDeleted(DeleteStatusEnum.DELETE_NO.getValue())
                     .setCreateTime(new Date())
-                    .setUpdateTime(new Date())
-                    .setDeleted(DeleteStatusEnum.DELETE_NO.getValue());
+                    .setUpdateTime(new Date());
 
             orderItemMapper.insert(orderItemDO);
         });

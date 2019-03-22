@@ -1,7 +1,8 @@
 package cn.iocoder.mall.product.service;
 
+import cn.iocoder.common.framework.constant.DeleteStatusEnum;
 import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.ProductAttrService;
@@ -119,7 +120,8 @@ public class ProductAttrServiceImpl implements ProductAttrService {
         // 插入到数据库
         ProductAttrDO productAttrDO = ProductAttrConvert.INSTANCE.convert(productAttrAddDTO)
                 .setStatus(ProductAttrConstants.ATTR_STATUS_ENABLE);
-        productAttrDO.setCreateTime(new Date()).setDeleted(BaseDO.DELETED_NO);
+        productAttrDO.setCreateTime(new Date());
+        productAttrDO.setDeleted(DeleteStatusEnum.DELETE_NO.getValue());
         productAttrMapper.insert(productAttrDO);
         // 返回成功
         return CommonResult.success(ProductAttrConvert.INSTANCE.convert(productAttrDO));
@@ -174,7 +176,8 @@ public class ProductAttrServiceImpl implements ProductAttrService {
         // 插入到数据库
         ProductAttrValueDO productAttrValueDO = ProductAttrConvert.INSTANCE.convert(productAttrValueAddDTO)
                 .setStatus(ProductAttrConstants.ATTR_VALUE_STATUS_ENABLE);
-        productAttrValueDO.setCreateTime(new Date()).setDeleted(BaseDO.DELETED_NO);
+        productAttrValueDO.setCreateTime(new Date());
+        productAttrValueDO.setDeleted(DeleteStatusEnum.DELETE_NO.getValue());
         productAttrValueMapper.insert(productAttrValueDO);
         // 返回成功
         return CommonResult.success(ProductAttrConvert.INSTANCE.convert2(productAttrValueDO));

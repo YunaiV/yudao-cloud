@@ -17,22 +17,22 @@ public class OrderCreateDTO implements Serializable {
      * 收件区域编号
      */
     @NotNull
-    private String receiverAreaNo;
+    private String areaNo;
     /**
      * 收件人名称
      */
     @NotNull
-    private String receiverName;
+    private String name;
     /**
      * 收件手机号
      */
     @NotNull
-    private String receiverMobile;
+    private String mobile;
     /**
      * 收件详细地址
      */
     @NotNull
-    private String receiverAddress;
+    private String address;
     /**
      * 备注
      */
@@ -48,48 +48,48 @@ public class OrderCreateDTO implements Serializable {
     @Override
     public String toString() {
         return "OrderCreateDTO{" +
-                "receiverAreaNo='" + receiverAreaNo + '\'' +
-                ", receiverName='" + receiverName + '\'' +
-                ", receiverMobile='" + receiverMobile + '\'' +
-                ", receiverAddress='" + receiverAddress + '\'' +
+                "areaNo='" + areaNo + '\'' +
+                ", name='" + name + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", address='" + address + '\'' +
                 ", remark='" + remark + '\'' +
                 ", orderItems=" + orderItems +
                 '}';
     }
 
-    public String getReceiverAreaNo() {
-        return receiverAreaNo;
+    public String getAreaNo() {
+        return areaNo;
     }
 
-    public OrderCreateDTO setReceiverAreaNo(String receiverAreaNo) {
-        this.receiverAreaNo = receiverAreaNo;
+    public OrderCreateDTO setAreaNo(String areaNo) {
+        this.areaNo = areaNo;
         return this;
     }
 
-    public String getReceiverName() {
-        return receiverName;
+    public String getName() {
+        return name;
     }
 
-    public OrderCreateDTO setReceiverName(String receiverName) {
-        this.receiverName = receiverName;
+    public OrderCreateDTO setName(String name) {
+        this.name = name;
         return this;
     }
 
-    public String getReceiverMobile() {
-        return receiverMobile;
+    public String getMobile() {
+        return mobile;
     }
 
-    public OrderCreateDTO setReceiverMobile(String receiverMobile) {
-        this.receiverMobile = receiverMobile;
+    public OrderCreateDTO setMobile(String mobile) {
+        this.mobile = mobile;
         return this;
     }
 
-    public String getReceiverAddress() {
-        return receiverAddress;
+    public String getAddress() {
+        return address;
     }
 
-    public OrderCreateDTO setReceiverAddress(String receiverAddress) {
-        this.receiverAddress = receiverAddress;
+    public OrderCreateDTO setAddress(String address) {
+        this.address = address;
         return this;
     }
 

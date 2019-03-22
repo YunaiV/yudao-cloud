@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 
@@ -21,7 +22,7 @@ import java.util.Arrays;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = OrderApplicationTest.class)
-//@Transactional
+@Transactional
 public class OrderServiceImplTest {
 
     @Autowired
@@ -31,24 +32,17 @@ public class OrderServiceImplTest {
 
     @Test
     public void createOrderTest() {
-//        Properties properties = System.getProperties();
-//        String url = properties.getProperty("spring.datasource.url");
-//        System.err.println(url);
-
-        String url = environment.getProperty("spring.datasource.url");
-        System.err.println(url);
-
-
         OrderCreateItemDTO orderCreateItemDTO
                 = new OrderCreateItemDTO()
-                .setCommodityId("CID_001")
+                .setSkuId("CID_001")
                 .setQuantity(1);
 
-        orderService.createOrder(new OrderCreateDTO()
+        orderService.createOrder(
+                new OrderCreateDTO()
                 .setRemark("")
-                .setReceiverMobile("13301926050")
-                .setReceiverAddress("深圳市福田区")
-                .setReceiverAreaNo("1000100")
+                .setMobile("13301926050")
+                .setAddress("深圳市福田区")
+                .setAreaNo("1000100")
                 .setOrderItems(Arrays.asList(orderCreateItemDTO)));
     }
 }

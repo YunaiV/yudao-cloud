@@ -13,7 +13,7 @@ public class OrderCreateItemDTO {
      * 商品编号
      */
     @NotNull
-    private String commodityId;
+    private String skuId;
     /**
      * 数量
      */
@@ -24,17 +24,17 @@ public class OrderCreateItemDTO {
     @Override
     public String toString() {
         return "OrderCreateItemDTO{" +
-                "commodityId='" + commodityId + '\'' +
+                "skuId='" + skuId + '\'' +
                 ", quantity=" + quantity +
                 '}';
     }
 
-    public String getCommodityId() {
-        return commodityId;
+    public String getSkuId() {
+        return skuId;
     }
 
-    public OrderCreateItemDTO setCommodityId(String commodityId) {
-        this.commodityId = commodityId;
+    public OrderCreateItemDTO setSkuId(String skuId) {
+        this.skuId = skuId;
         return this;
     }
 

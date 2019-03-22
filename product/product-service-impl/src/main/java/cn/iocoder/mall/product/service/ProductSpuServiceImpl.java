@@ -1,6 +1,6 @@
 package cn.iocoder.mall.product.service;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.constant.DeleteStatusEnum;
 import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.StringUtil;
@@ -91,7 +91,8 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         ProductSpuDO spu = ProductSpuConvert.INSTANCE.convert(productSpuAddDTO)
                 .setPicUrls(StringUtil.join(productSpuAddDTO.getPicUrls(), ","))
                 .setSort(0); // 排序为 0
-        spu.setCreateTime(new Date()).setDeleted(BaseDO.DELETED_NO);
+        spu.setCreateTime(new Date());
+        spu.setDeleted(DeleteStatusEnum.DELETE_NO.getValue());
         initSpuFromSkus(spu, productSpuAddDTO.getSkus()); // 初始化 sku 相关信息到 spu 中
         productSpuMapper.insert(spu);
         // 保存 Sku
@@ -100,7 +101,8 @@ public class ProductSpuServiceImpl implements ProductSpuService {
                     .setSpuId(spu.getId())
                     .setStatus(ProductSpuConstants.SKU_STATUS_ENABLE)
                     .setAttrs(StringUtil.join(productSkuAddDTO.getAttrs(), ","));
-            sku.setCreateTime(new Date()).setDeleted(BaseDO.DELETED_NO);
+            sku.setCreateTime(new Date());
+            sku.setDeleted(DeleteStatusEnum.DELETE_NO.getValue());
             return sku;
         }).collect(Collectors.toList());
         // 校验 Sku 规格
@@ -162,7 +164,8 @@ public class ProductSpuServiceImpl implements ProductSpuService {
             // 1、找不到，进行插入
             ProductSkuDO insertSku = ProductSpuConvert.INSTANCE.convert(skuUpdateDTO)
                     .setSpuId(productSpuUpdateDTO.getId()).setStatus(ProductSpuConstants.SKU_STATUS_ENABLE).setAttrs(StringUtil.join(skuUpdateDTO.getAttrs(), ","));
-            insertSku.setCreateTime(new Date()).setDeleted(BaseDO.DELETED_NO);
+            insertSku.setCreateTime(new Date());
+            insertSku.setDeleted(DeleteStatusEnum.DELETE_NO.getValue());
             insertSkus.add(insertSku);
         }
         // 2、多余的，删除

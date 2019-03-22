@@ -1,13 +1,13 @@
 package cn.iocoder.mall.user.dataobject;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 
 /**
  * 用户实体，存储用户基本数据。
  *
  * idx_mobile 唯一索引
  */
-public class UserDO extends BaseDO {
+public class UserDO extends DeletableDO {
 
     /**
      * 用户编号

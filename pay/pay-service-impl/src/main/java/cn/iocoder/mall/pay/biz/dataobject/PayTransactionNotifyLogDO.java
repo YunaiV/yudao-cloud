@@ -1,13 +1,13 @@
 package cn.iocoder.mall.pay.biz.dataobject;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 
 /**
  * 支付交易通知 App 的日志 DO
  *
  * 通过该表，记录通知 App 时，产生的日志
  */
-public class PayTransactionNotifyLogDO extends BaseDO {
+public class PayTransactionNotifyLogDO extends DeletableDO {
 
     /**
      * 日志编号，自增

@@ -1,13 +1,13 @@
 package cn.iocoder.mall.pay.biz.dataobject;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 
 import java.util.Date;
 
 /**
  * 支付交易 DO
  */
-public class PayTransactionDO extends BaseDO {
+public class PayTransactionDO extends DeletableDO {
 
     /**
      * 编号，自增

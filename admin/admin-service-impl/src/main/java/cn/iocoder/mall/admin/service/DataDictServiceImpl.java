@@ -1,6 +1,6 @@
 package cn.iocoder.mall.admin.service;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.constant.DeleteStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.DataDictService;
@@ -41,7 +41,8 @@ public class DataDictServiceImpl implements DataDictService {
         }
         // 保存到数据库
         DataDictDO dataDict = DataDictConvert.INSTANCE.convert(dataDictAddDTO);
-        dataDict.setCreateTime(new Date()).setDeleted(BaseDO.DELETED_NO);
+        dataDict.setCreateTime(new Date());
+        dataDict.setDeleted(DeleteStatusEnum.DELETE_NO.getValue());
         dataDictMapper.insert(dataDict);
         // TODO 插入操作日志
         // 返回成功
@@ -79,7 +80,7 @@ public class DataDictServiceImpl implements DataDictService {
         }
         // 更新到数据库
         DataDictDO updateDataDict = new DataDictDO().setId(dataDictId);
-        updateDataDict.setDeleted(BaseDO.DELETED_YES);
+        updateDataDict.setDeleted(DeleteStatusEnum.DELETE_YES.getValue());
         dataDictMapper.update(updateDataDict);
         // TODO 插入操作日志
         // 返回成功

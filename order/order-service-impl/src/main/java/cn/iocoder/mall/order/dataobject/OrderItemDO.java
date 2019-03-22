@@ -1,6 +1,6 @@
 package cn.iocoder.mall.order.dataobject;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 
 import java.util.Date;
 
@@ -10,7 +10,7 @@ import java.util.Date;
  * @author Sin
  * @time 2019-03-16 14:03
  */
-public class OrderItemDO extends BaseDO {
+public class OrderItemDO extends DeletableDO {
 
     /**
      * 编号

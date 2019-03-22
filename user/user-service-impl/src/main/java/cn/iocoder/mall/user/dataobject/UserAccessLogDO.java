@@ -1,13 +1,13 @@
 package cn.iocoder.mall.user.dataobject;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 
 import java.util.Date;
 
 /**
  * 用户访问日志 DO
  */
-public class UserAccessLogDO extends BaseDO {
+public class UserAccessLogDO extends DeletableDO {
 
     /**
      * 编号

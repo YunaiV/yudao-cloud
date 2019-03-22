@@ -1,11 +1,11 @@
 package cn.iocoder.mall.product.dataobject;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 
 /**
  * 商品 SPU
  */
-public class ProductSpuDO extends BaseDO {
+public class ProductSpuDO extends DeletableDO {
 
     /**
      * SPU 编号

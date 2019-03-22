@@ -1,6 +1,6 @@
 package cn.iocoder.mall.pay.biz.dataobject;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 import cn.iocoder.mall.pay.biz.service.PayServiceImpl;
 
 import java.util.Date;
@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * 支付交易通知 App 的任务 DO
  */
-public class PayTransactionNotifyTaskDO extends BaseDO {
+public class PayTransactionNotifyTaskDO extends DeletableDO {
 
     /**
      * 通知频率，单位为秒。

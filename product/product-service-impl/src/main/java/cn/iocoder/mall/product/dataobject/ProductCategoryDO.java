@@ -1,11 +1,11 @@
 package cn.iocoder.mall.product.dataobject;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 
 /**
  * 商品分类
  */
-public class ProductCategoryDO extends BaseDO {
+public class ProductCategoryDO extends DeletableDO {
 
     /**
      * 分类编号

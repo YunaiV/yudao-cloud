@@ -1,7 +1,8 @@
 package cn.iocoder.mall.product.service;
 
+import cn.iocoder.common.framework.constant.DeleteStatusEnum;
 import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.ProductCategoryService;
@@ -48,7 +49,8 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         // 保存到数据库
         ProductCategoryDO productCategory = ProductCategoryConvert.INSTANCE.convert(productCategoryAddDTO)
                 .setStatus(ProductCategoryConstants.STATUS_ENABLE);
-        productCategory.setCreateTime(new Date()).setDeleted(BaseDO.DELETED_NO);
+        productCategory.setCreateTime(new Date());
+        productCategory.setDeleted(DeleteStatusEnum.DELETE_NO.getValue());
         productCategoryMapper.insert(productCategory);
         // TODO 操作日志
         // 返回成功
@@ -116,7 +118,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         // 标记删除商品分类
         ProductCategoryDO updateProductCategory = new ProductCategoryDO()
                 .setId(productCategoryId);
-        updateProductCategory.setDeleted(BaseDO.DELETED_YES);
+        updateProductCategory.setDeleted(DeleteStatusEnum.DELETE_YES.getValue());
         productCategoryMapper.update(updateProductCategory);
         // TODO 操作日志
         return CommonResult.success(true);

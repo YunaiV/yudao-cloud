@@ -1,9 +1,9 @@
 package cn.iocoder.common.framework.constant;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 
 /**
- * {@link BaseDO#getDeleted()} delete 状态
+ * {@link DeletableDO#getDeleted()} delete 状态
  *
  * @author Sin
  * @time 2019-03-22 21:15

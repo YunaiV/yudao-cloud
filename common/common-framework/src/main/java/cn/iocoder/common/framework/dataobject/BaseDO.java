@@ -9,15 +9,6 @@ import java.util.Date;
 public class BaseDO implements Serializable {
 
     /**
-     * 是否删除 - 是
-     */
-    public static final Integer DELETED_YES = 1;
-    /**
-     * 是否删除 - 否
-     */
-    public static final Integer DELETED_NO = 0;
-
-    /**
      * 创建时间
      */
     private Date createTime;
@@ -25,10 +16,14 @@ public class BaseDO implements Serializable {
      * 最后更新时间
      */
     private Date updateTime;
-    /**
-     * 是否删除
-     */
-    private Integer deleted;
+
+    @Override
+    public String toString() {
+        return "BaseDO{" +
+                "createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 
     public Date getCreateTime() {
         return createTime;
@@ -47,14 +42,4 @@ public class BaseDO implements Serializable {
         this.updateTime = updateTime;
         return this;
     }
-
-    public Integer getDeleted() {
-        return deleted;
-    }
-
-    public BaseDO setDeleted(Integer deleted) {
-        this.deleted = deleted;
-        return this;
-    }
-
 }

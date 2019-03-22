@@ -1,11 +1,11 @@
 package cn.iocoder.mall.admin.dataobject;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 
 /**
  * {@link AdminDO} 和 {@link RoleDO} 的关联表
  */
-public class AdminRoleDO extends BaseDO {
+public class AdminRoleDO extends DeletableDO {
 
     /**
      * 编号

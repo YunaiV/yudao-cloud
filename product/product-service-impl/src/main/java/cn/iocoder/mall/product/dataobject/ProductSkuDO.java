@@ -1,11 +1,11 @@
 package cn.iocoder.mall.product.dataobject;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 
 /**
  * 商品 SKU
  */
-public class ProductSkuDO extends BaseDO {
+public class ProductSkuDO extends DeletableDO {
 
     /**
      * sku 编号

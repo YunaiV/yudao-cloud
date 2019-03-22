@@ -1,11 +1,11 @@
 package cn.iocoder.mall.pay.biz.dataobject;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 
 /**
  * 交易扩展表
  */
-public class PayTransactionExtensionDO extends BaseDO {
+public class PayTransactionExtensionDO extends DeletableDO {
 
     /**
      * 编号，自增

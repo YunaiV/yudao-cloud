@@ -10,8 +10,8 @@ import cn.iocoder.common.framework.dataobject.BaseDO;
  */
 public enum DeleteStatusEnum {
 
-    NOT_DELETE(0, "正常(未删除)"),
-    DELETE(1, "删除");
+    DELETE_NO(0, "正常(未删除)"),
+    DELETE_YES(1, "删除");
 
     /**
      * 状态值

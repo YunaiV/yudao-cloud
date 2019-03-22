@@ -5,6 +5,7 @@ import cn.iocoder.mall.order.api.dto.OrderCreateItemDTO;
 import cn.iocoder.mall.order.api.dto.OrderReceiverInformationDTO;
 import cn.iocoder.mall.order.dataobject.OrderDO;
 import cn.iocoder.mall.order.dataobject.OrderItemDO;
+import cn.iocoder.mall.order.dataobject.OrderLogisticsDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -29,7 +30,7 @@ public interface OrderConvert {
      * @return
      */
     @Mappings({})
-    OrderDO convert(OrderCreateDTO orderCreateDTO);
+    OrderLogisticsDO convert(OrderCreateDTO orderCreateDTO);
 
     /**
      * 转换 OrderItemDO - orderCreateItemDTOList

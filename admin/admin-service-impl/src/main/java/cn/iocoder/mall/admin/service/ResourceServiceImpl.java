@@ -1,8 +1,7 @@
 package cn.iocoder.mall.admin.service;
 
-import cn.iocoder.common.framework.constant.DeleteStatusEnum;
+import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
-import cn.iocoder.common.framework.dataobject.DeletableDO;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.ResourceService;
@@ -76,7 +75,7 @@ public class ResourceServiceImpl implements ResourceService {
             resource.setHandler("/" + resource.getHandler());
         }
         resource.setCreateTime(new Date());
-        resource.setDeleted(DeleteStatusEnum.DELETE_NO.getValue());
+        resource.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
         resourceMapper.insert(resource);
         // TODO 操作日志
         // 返回成功
@@ -130,7 +129,7 @@ public class ResourceServiceImpl implements ResourceService {
         }
         // 更新到数据库
         ResourceDO resource = new ResourceDO().setId(resourceId);
-        resource.setDeleted(DeleteStatusEnum.DELETE_YES.getValue());
+        resource.setDeleted(DeletedStatusEnum.DELETED_YES.getValue());
         resourceMapper.update(resource);
         // 删除资源关联表
         roleResourceMapper.updateToDeletedByResourceId(resourceId);

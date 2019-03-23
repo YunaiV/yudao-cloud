@@ -1,6 +1,6 @@
 package cn.iocoder.mall.admin.service;
 
-import cn.iocoder.common.framework.constant.DeleteStatusEnum;
+import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
@@ -89,7 +89,7 @@ public class AdminServiceImpl implements AdminService {
                 .setPassword(encodePassword(adminAddDTO.getPassword())) // 加密密码
                 .setStatus(AdminDO.STATUS_ENABLE);
         admin.setCreateTime(new Date());
-        admin.setDeleted(DeleteStatusEnum.DELETE_NO.getValue());
+        admin.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
         adminMapper.insert(admin);
         // TODO 插入操作日志
         // 返回成功
@@ -160,7 +160,7 @@ public class AdminServiceImpl implements AdminService {
         }
         // 标记删除 AdminDO
         AdminDO updateAdmin = new AdminDO().setId(updateAdminId);
-        updateAdmin.setDeleted(DeleteStatusEnum.DELETE_YES.getValue());
+        updateAdmin.setDeleted(DeletedStatusEnum.DELETED_YES.getValue());
         adminMapper.update(updateAdmin);
         // 标记删除 AdminRole
         adminRoleMapper.updateToDeletedByAdminId(updateAdminId);
@@ -190,7 +190,7 @@ public class AdminServiceImpl implements AdminService {
             List<AdminRoleDO> adminRoleDOs = roleIds.stream().map(roleId -> {
                 AdminRoleDO roleResource = new AdminRoleDO().setAdminId(updateAdminId).setRoleId(roleId);
                 roleResource.setCreateTime(new Date());
-                roleResource.setDeleted(DeleteStatusEnum.DELETE_NO.getValue());
+                roleResource.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
                 return roleResource;
             }).collect(Collectors.toList());
             adminRoleMapper.insertList(adminRoleDOs);

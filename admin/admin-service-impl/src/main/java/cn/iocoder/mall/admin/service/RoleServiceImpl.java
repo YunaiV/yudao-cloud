@@ -1,7 +1,6 @@
 package cn.iocoder.mall.admin.service;
 
-import cn.iocoder.common.framework.constant.DeleteStatusEnum;
-import cn.iocoder.common.framework.dataobject.DeletableDO;
+import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
@@ -82,7 +81,7 @@ public class RoleServiceImpl implements RoleService {
         // 保存到数据库
         RoleDO role = RoleConvert.INSTANCE.convert(roleAddDTO);
         role.setCreateTime(new Date());
-        role.setDeleted(DeleteStatusEnum.DELETE_NO.getValue());
+        role.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
         roleMapper.insert(role);
         // TODO 插入操作日志
         // 返回成功
@@ -113,7 +112,7 @@ public class RoleServiceImpl implements RoleService {
         }
         // 更新到数据库，标记删除
         RoleDO roleDO = new RoleDO().setId(roleId);
-        roleDO.setDeleted(DeleteStatusEnum.DELETE_YES.getValue());
+        roleDO.setDeleted(DeletedStatusEnum.DELETED_YES.getValue());
         roleMapper.update(roleDO);
         // 标记删除 RoleResource
         roleResourceMapper.updateToDeletedByRoleId(roleId);
@@ -144,7 +143,7 @@ public class RoleServiceImpl implements RoleService {
             List<RoleResourceDO> roleResources = resourceIds.stream().map(resourceId -> {
                 RoleResourceDO roleResource = new RoleResourceDO().setRoleId(roleId).setResourceId(resourceId);
                 roleResource.setCreateTime(new Date());
-                roleResource.setDeleted(DeleteStatusEnum.DELETE_NO.getValue());
+                roleResource.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
                 return roleResource;
             }).collect(Collectors.toList());
             roleResourceMapper.insertList(roleResources);

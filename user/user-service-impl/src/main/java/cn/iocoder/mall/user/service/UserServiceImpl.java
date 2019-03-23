@@ -1,6 +1,6 @@
 package cn.iocoder.mall.user.service;
 
-import cn.iocoder.common.framework.constant.DeleteStatusEnum;
+import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.ValidationUtil;
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
         // 创建用户
         UserDO userDO = new UserDO().setMobile(mobile).setStatus(UserConstants.STATUS_ENABLE);
         userDO.setCreateTime(new Date());
-        userDO.setDeleted(DeleteStatusEnum.DELETE_NO.getValue());
+        userDO.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
         userMapper.insert(userDO);
         // 插入注册信息
         createUserRegister(userDO);

@@ -15,7 +15,7 @@ package cn.iocoder.common.framework.constant;
  * @author Sin
  * @time 2019-03-23 11:28
  */
-public final class ModuleErrorCodeInterval {
+public class ModuleErrorCodeInterval {
 
     // order 错误码区间 [1-000-001-000 ~ 1-000-002-000]
 

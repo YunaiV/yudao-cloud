@@ -3,8 +3,9 @@
 <mapper namespace="cn.iocoder.mall.order.dao.OrderItemMapper">
 
     <sql id="FIELDS">
-        id, order_id, commodity_id, quantity, price,
-        status, deliveryTime
+        id, order_id, order_no, sku_id, quantity, price,
+        payment_time, delivery_time, receiver_time, closing_time,
+        has_return_exchange, status, create_time, update_time, deleted
     </sql>
 
     <!--
@@ -12,12 +13,101 @@
     -->
     <insert id="insert" parameterType="OrderItemDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO `order_item` (
-            order_id, commodity_id, quantity, price,
-            status, deliveryTime
+            order_id, order_no, sku_id, quantity, price,
+            payment_time, delivery_time, receiver_time, closing_time,
+            has_return_exchange, status, create_time, update_time, deleted
         ) VALUES (
-             #{orderId}, #{commodityId}, #{quantity}, #{price},
-             #{status}, #{deliveryTime}
+            #{orderId}, #{orderNo}, #{skuId}, #{quantity}, #{price},
+            #{paymentTime}, #{deliveryTime}, #{receiverTime}, #{closingTime},
+            #{hasReturnExchange}, #{status},
+            #{createTime}, #{updateTime}, #{deleted}
         )
     </insert>
 
+    <!--
+        更新 - 可更新的字段
+    -->
+    <sql id="updateFieldSql" >
+        <set>
+            <if test="orderId != null">
+                , order_id = #{orderId}
+            </if>
+            <if test="orderNo != null">
+                , order_no = #{orderNo}
+            </if>
+            <if test="skuId != null">
+                , sku_id = #{skuId}
+            </if>
+            <if test="quantity != null">
+                , quantity = #{quantity}
+            </if>
+            <if test="price != null">
+                , price = #{price}
+            </if>
+            -- time
+            <if test="paymentTime != null">
+                , payment_time = #{paymentTime}
+            </if>
+            <if test="deliveryTime != null">
+                , delivery_time = #{deliveryTime}
+            </if>
+            <if test="receiverTime != null">
+                , receiver_time = #{receiverTime}
+            </if>
+            <if test="closingTime != null">
+                , closing_time = #{closingTime}
+            </if>
+            -- other
+            <if test="hasReturnExchange != null">
+                , has_return_exchange = #{hasReturnExchange}
+            </if>
+            <if test="status != null">
+                , status = #{status}
+            </if>
+            <if test="deleted != null">
+                , `deleted` = #{deleted}
+            </if>
+            <if test="createTime != null">
+                , create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                , update_time = #{updateTime}
+            </if>
+        </set>
+    </sql>
+
+    <!--
+        更新 - 根据 id 更新
+    -->
+    <update id="updateById" parameterType="OrderDO">
+        UPDATE `order_item`
+        <include refid="updateFieldSql" />
+        WHERE id = #{id}
+    </update>
+
+    <!--
+       更新 - 根据 ids 更新
+   -->
+    <update id="updateByIds">
+        UPDATE `order_item`
+        <include refid="updateFieldSql" />
+        WHERE id IN
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+          #{id}
+        </foreach>
+    </update>
+
+  <!--
+      查询 - 根据 orderId 下的 item
+  -->
+    <select id="selectByOrderIdAndDeleted" resultType="cn.iocoder.mall.order.dataobject.OrderItemDO">
+        SELECT * FROM `order_item`
+        WHERE 1=1
+        <if test="deleted">
+            AND deleted = #{deleted}
+        </if>
+        <if test="orderId">
+          AND order_id = #{orderId}
+        </if>
+    </select>
 </mapper>

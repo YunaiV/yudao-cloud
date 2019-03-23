@@ -22,7 +22,7 @@ import java.util.Arrays;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = OrderApplicationTest.class)
-@Transactional
+//@Transactional
 public class OrderServiceImplTest {
 
     @Autowired
@@ -34,12 +34,13 @@ public class OrderServiceImplTest {
     public void createOrderTest() {
         OrderCreateItemDTO orderCreateItemDTO
                 = new OrderCreateItemDTO()
-                .setSkuId("CID_001")
+                .setSkuId(1)
                 .setQuantity(1);
 
         orderService.createOrder(
                 new OrderCreateDTO()
                 .setRemark("")
+                .setName("张三")
                 .setMobile("13301926050")
                 .setAddress("深圳市福田区")
                 .setAreaNo("1000100")

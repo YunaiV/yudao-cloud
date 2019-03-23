@@ -18,4 +18,11 @@ public interface OrderLogisticsMapper {
      * @param orderLogisticsDO
      */
     void insert(OrderLogisticsDO orderLogisticsDO);
+
+    /**
+     * 更新 - 根据id
+     *
+     * @param orderLogisticsDO
+     */
+    void updateById(OrderLogisticsDO orderLogisticsDO);
 }

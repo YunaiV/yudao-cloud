@@ -3,9 +3,9 @@
 <mapper namespace="cn.iocoder.mall.order.dao.OrderMapper">
 
     <sql id="FIELDS">
-        id, order_logistics_id, order_no, price, payment_time,
+        id, order_logistics_id, order_no, money, payment_time,
         delivery_time, receiver_time, closing_time, has_return_exchange,
-        status, remark
+        status, remark, create_time, update_time, `delete`
     </sql>
 
     <!--
@@ -13,20 +13,22 @@
     -->
     <insert id="insert" parameterType="OrderDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO `order` (
-            order_logistics_id, order_no, price, payment_time,
+            order_logistics_id, order_no, money, payment_time,
             delivery_time, receiver_time, closing_time,
-            has_return_exchange, status, remark
+            has_return_exchange, status, remark,
+            create_time, update_time, `deleted`
         ) VALUES (
-             #{orderLogisticsId}, ${orderNo}, #{price}, #{paymentTime},
+             #{orderLogisticsId}, #{orderNo}, #{money}, #{paymentTime},
              #{deliveryTime}, #{receiverTime}, #{closingTime},
-             #{hasReturnExchange}, #{status}, #{remark}
+             #{hasReturnExchange}, #{status}, #{remark},
+             #{createTime}, #{updateTime}, #{deleted}
         )
     </insert>
 
     <!--
         更新 - 可更新的字段
     -->
-    <sql id="updateSql" >
+    <sql id="updateFieldSql" >
         <set>
             <if test="orderLogisticsId != null">
                 , order_logistics_id = #{orderLogisticsId}
@@ -34,8 +36,8 @@
             <if test="orderNo != null">
                 , order_no = #{orderNo}
             </if>
-            <if test="price != null">
-                , price = #{price}
+            <if test="money != null">
+                , money = #{money}
             </if>
 -- time
             <if test="paymentTime != null">
@@ -57,17 +59,17 @@
             <if test="status != null">
                 , status = #{status}
             </if>
-            <if test="delete != null">
-                , `delete` = #{delete}
+            <if test="remark != null">
+                , remark = #{remark}
+            </if>
+            <if test="deleted != null">
+                , `deleted` = #{deleted}
             </if>
             <if test="createTime != null">
                 , create_time = #{createTime}
             </if>
             <if test="updateTime != null">
                 , update_time = #{updateTime}
-            </if>
-            <if test="remark != null">
-                , remark = #{remark}
             </if>
         </set>
     </sql>
@@ -77,7 +79,7 @@
     -->
     <update id="updateById" parameterType="OrderDO">
         UPDATE `order`
-        <include refid="updateSql" />
+        <include refid="updateFieldSql" />
         WHERE id = #{id}
     </update>
 </mapper>

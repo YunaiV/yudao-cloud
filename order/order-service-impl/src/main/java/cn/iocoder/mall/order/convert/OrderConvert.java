@@ -2,7 +2,8 @@ package cn.iocoder.mall.order.convert;
 
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderCreateItemDTO;
-import cn.iocoder.mall.order.api.dto.OrderReceiverInformationDTO;
+import cn.iocoder.mall.order.api.dto.OrderItemUpdateDTO;
+import cn.iocoder.mall.order.api.dto.OrderLogisticsDTO;
 import cn.iocoder.mall.order.dataobject.OrderDO;
 import cn.iocoder.mall.order.dataobject.OrderItemDO;
 import cn.iocoder.mall.order.dataobject.OrderLogisticsDO;
@@ -24,7 +25,7 @@ public interface OrderConvert {
     OrderConvert INSTANCE = Mappers.getMapper(OrderConvert.class);
 
     /**
-     * 转换 OrderDO - OrderCreateDTO
+     * 转换 OrderLogisticsDO - OrderCreateDTO
      *
      * @param orderCreateDTO
      * @return
@@ -42,11 +43,20 @@ public interface OrderConvert {
     List<OrderItemDO> convert(List<OrderCreateItemDTO> orderCreateItemDTOList);
 
     /**
-     * 转换 OrderDO - orderReceiverInformationDTO
+     * 转换 OrderLogisticsDO - orderReceiverInformationDTO
      *
-     * @param orderReceiverInformationDTO
+     * @param orderLogisticsDTO
      * @return
      */
     @Mappings({})
-    OrderDO convert(OrderReceiverInformationDTO orderReceiverInformationDTO);
+    OrderLogisticsDO convert(OrderLogisticsDTO orderLogisticsDTO);
+
+    /**
+     * 转换 OrderItemDO - orderReceiverInformationDTO
+     *
+     * @param orderItemUpdateDTO
+     * @return
+     */
+    @Mappings({})
+    OrderItemDO convert(OrderItemUpdateDTO orderItemUpdateDTO);
 }

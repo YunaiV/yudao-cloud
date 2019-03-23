@@ -11,11 +11,42 @@
     -->
     <insert id="insert" parameterType="OrderLogisticsDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO `order_logistics` (
-            area_no, `name`, mobile, address, logistics_no
+            area_no, `name`, mobile, address, logistics_no, create_time, update_time
         ) VALUES (
              #{areaNo}, #{name}, #{mobile}, #{address},
-             #{logisticsNo}
+             #{logisticsNo}, #{createTime}, #{updateTime}
         )
     </insert>
 
+    <!--
+        可更新字段
+    -->
+    <sql id="updateFieldSql" >
+        <set>
+            <if test="areaNo != null">
+                , area_no = #{areaNo}
+            </if>
+            <if test="name != null">
+                , `name` = #{name}
+            </if>
+            <if test="mobile != null">
+                , mobile = #{mobile}
+            </if>
+            <if test="address != null">
+                , address = #{address}
+            </if>
+            <if test="logisticsNo != null">
+                , logistics_no = #{logisticsNo}
+            </if>
+        </set>
+    </sql>
+
+    <!--
+        更新 - 根据id
+    -->
+    <update id="updateById">
+        UPDATE `order_logistics`
+        <include refid="updateFieldSql" />
+        WHERE id = #{id}
+    </update>
 </mapper>

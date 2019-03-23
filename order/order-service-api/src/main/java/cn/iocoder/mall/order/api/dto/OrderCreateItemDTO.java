@@ -13,7 +13,7 @@ public class OrderCreateItemDTO {
      * 商品编号
      */
     @NotNull
-    private String skuId;
+    private Integer skuId;
     /**
      * 数量
      */
@@ -29,11 +29,11 @@ public class OrderCreateItemDTO {
                 '}';
     }
 
-    public String getSkuId() {
+    public Integer getSkuId() {
         return skuId;
     }
 
-    public OrderCreateItemDTO setSkuId(String skuId) {
+    public OrderCreateItemDTO setSkuId(Integer skuId) {
         this.skuId = skuId;
         return this;
     }

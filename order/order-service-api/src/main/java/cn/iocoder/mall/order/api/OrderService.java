@@ -1,9 +1,11 @@
 package cn.iocoder.mall.order.api;
 
+import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.bo.OrderBO;
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
-import cn.iocoder.mall.order.api.dto.OrderReceiverInformationDTO;
-import cn.iocoder.mall.order.api.dto.OrderUpdateDTO;
+import cn.iocoder.mall.order.api.dto.OrderItemDeletedDTO;
+import cn.iocoder.mall.order.api.dto.OrderLogisticsDTO;
+import cn.iocoder.mall.order.api.dto.OrderItemUpdateDTO;
 
 /**
  * 订单 service
@@ -14,19 +16,28 @@ import cn.iocoder.mall.order.api.dto.OrderUpdateDTO;
 public interface OrderService {
 
     /**
-     * 订单创建
+     * 订单 - 创建
      *
      * @param orderCreateDTO
      * @return
      */
-    OrderBO createOrder(OrderCreateDTO orderCreateDTO);
+    CommonResult<OrderBO> createOrder(OrderCreateDTO orderCreateDTO);
 
     /**
-     * 订单更新
+     * 订单item - 更新
      *
-     * @param orderUpdateDTO
+     * @param orderItemUpdateDTO
+     *
      */
-    void updateOrder(OrderUpdateDTO orderUpdateDTO);
+    CommonResult updateOrderItem(OrderItemUpdateDTO orderItemUpdateDTO);
+
+    /**
+     * 订单item - 删除
+     *
+     * @param orderItemDeletedDTO
+     * @return
+     */
+    CommonResult deleteOrderItem(OrderItemDeletedDTO orderItemDeletedDTO);
 
     /**
      * 更新订单 - 收件这信息
@@ -37,33 +48,33 @@ public interface OrderService {
      * - 联系人电话
      * - 联系人姓名
      */
-    void updateOrderReceiverInformation(OrderReceiverInformationDTO orderReceiverInfoDTO);
+    CommonResult updateLogistics(OrderLogisticsDTO orderLogisticsDTO);
 
     /**
      * 删除订单
      *
      * @param id
      */
-    void deleteOrder(Integer id);
+    CommonResult deleteOrder(Integer id);
 
     /**
      * 监听支付动作
      *
      *  mq 更新 payStatus
      */
-    void listenerPayment();
+    CommonResult listenerPayment();
 
     /**
      * 监听确认收货
      *
      * mq 更新 status
      */
-    void listenerConfirmGoods();
+    CommonResult listenerConfirmGoods();
 
     /**
      * 监听换货
      *
      * mq 更新 status
      */
-    void listenerExchangeGoods();
+    CommonResult listenerExchangeGoods();
 }

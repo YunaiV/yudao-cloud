@@ -19,16 +19,16 @@ public class OrderBO implements Serializable {
      */
     private String orderNo;
     /**
-     * 交易金额
+     * 订单金额
      */
-    private Integer price;
+    private Integer money;
 
     @Override
     public String toString() {
         return "OrderBO{" +
                 "id=" + id +
                 ", orderNo='" + orderNo + '\'' +
-                ", price=" + price +
+                ", money=" + money +
                 '}';
     }
 
@@ -50,12 +50,12 @@ public class OrderBO implements Serializable {
         return this;
     }
 
-    public Integer getPrice() {
-        return price;
+    public Integer getMoney() {
+        return money;
     }
 
-    public OrderBO setPrice(Integer price) {
-        this.price = price;
+    public OrderBO setMoney(Integer money) {
+        this.money = money;
         return this;
     }
 }

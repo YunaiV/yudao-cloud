@@ -27,7 +27,7 @@ public class OrderItemDO extends DeletableDO {
     /**
      * 商品编号
      */
-    private String skuId;
+    private Integer skuId;
     /**
      * 数量
      */
@@ -125,11 +125,11 @@ public class OrderItemDO extends DeletableDO {
         return this;
     }
 
-    public String getSkuId() {
+    public Integer getSkuId() {
         return skuId;
     }
 
-    public OrderItemDO setSkuId(String skuId) {
+    public OrderItemDO setSkuId(Integer skuId) {
         this.skuId = skuId;
         return this;
     }

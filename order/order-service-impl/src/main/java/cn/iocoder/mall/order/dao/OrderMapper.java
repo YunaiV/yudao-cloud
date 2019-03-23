@@ -1,7 +1,11 @@
 package cn.iocoder.mall.order.dao;
 
+import cn.iocoder.mall.order.api.dto.OrderQueryDTO;
 import cn.iocoder.mall.order.dataobject.OrderDO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * 订单 mapper
@@ -26,4 +30,30 @@ public interface OrderMapper {
      * @return
      */
     int updateById(OrderDO orderDO);
+
+    /**
+     * 查询 - 根据id 查询
+     *
+     * @param id
+     * @return
+     */
+    OrderDO selectById(
+            @Param("id") Integer id
+    );
+
+    /**
+     * 查询 - 后台分页page
+     *
+     * @param orderQueryDTO
+     * @return
+     */
+    int selectPageCount(OrderQueryDTO orderQueryDTO);
+
+    /**
+     * 查询 - 后台分页page
+     *
+     * @param orderQueryDTO
+     * @return
+     */
+    List<OrderDO> selectPage(OrderQueryDTO orderQueryDTO, int offset, int pageSize);
 }

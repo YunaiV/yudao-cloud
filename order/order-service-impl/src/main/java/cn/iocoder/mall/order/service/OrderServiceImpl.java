@@ -11,21 +11,21 @@ import cn.iocoder.mall.order.api.constant.OrderHasReturnExchangeEnum;
 import cn.iocoder.mall.order.api.constant.OrderStatusEnum;
 import cn.iocoder.mall.order.api.dto.*;
 import cn.iocoder.mall.order.convert.OrderConvert;
+import cn.iocoder.mall.order.convert.OrderItemConvert;
+import cn.iocoder.mall.order.convert.OrderLogisticsConvert;
 import cn.iocoder.mall.order.dao.OrderItemMapper;
 import cn.iocoder.mall.order.dao.OrderLogisticsMapper;
 import cn.iocoder.mall.order.dao.OrderMapper;
 import cn.iocoder.mall.order.dataobject.OrderDO;
 import cn.iocoder.mall.order.dataobject.OrderItemDO;
 import cn.iocoder.mall.order.dataobject.OrderLogisticsDO;
+import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -48,11 +48,27 @@ public class OrderServiceImpl implements OrderService {
     private OrderCommon orderCommon;
 
     @Override
+    public CommonResult<List<OrderPageBO>> getOrderPage(OrderQueryDTO orderQueryDTO) {
+
+        int offset = orderQueryDTO.getPageNo() * orderQueryDTO.getPageSize();
+        int pageSize = orderQueryDTO.getPageSize();
+
+        int totalCount = orderMapper.selectPageCount(orderQueryDTO);
+        if (totalCount == 0) {
+            return CommonResult.success(Collections.EMPTY_LIST);
+        }
+
+        List<OrderDO> orderDOList = orderMapper.selectPage(orderQueryDTO, offset, pageSize);
+        List<OrderPageBO> orderPageBOList = OrderConvert.INSTANCE.convertPageBO(orderDOList);
+        return CommonResult.success(orderPageBOList);
+    }
+
+    @Override
     @Transactional
-    public CommonResult<OrderBO> createOrder(OrderCreateDTO orderCreateDTO) {
+    public CommonResult<OrderBO> createOrder(Integer userId, OrderCreateDTO orderCreateDTO) {
         List<OrderCreateItemDTO> orderItemDTOList = orderCreateDTO.getOrderItems();
-        OrderLogisticsDO orderLogisticsDO = OrderConvert.INSTANCE.convert(orderCreateDTO);
-        List<OrderItemDO> orderItemDOList = OrderConvert.INSTANCE.convert(orderItemDTOList);
+        OrderLogisticsDO orderLogisticsDO = OrderLogisticsConvert.INSTANCE.convert(orderCreateDTO);
+        List<OrderItemDO> orderItemDOList = OrderItemConvert.INSTANCE.convert(orderItemDTOList);
 
         // 物流信息
         orderLogisticsDO
@@ -62,21 +78,21 @@ public class OrderServiceImpl implements OrderService {
         orderLogisticsMapper.insert(orderLogisticsDO);
 
         // order
-        OrderDO orderDO = new OrderDO();
-        orderDO.setOrderLogisticsId(orderLogisticsDO.getId());
-        orderDO.setOrderNo(UUID.randomUUID().toString().replace("-", ""));
-        orderDO.setMoney(-1); // 先设置一个默认值，金额在下面计算
+        OrderDO orderDO = new OrderDO()
+                .setUserId(userId)
+                .setOrderLogisticsId(orderLogisticsDO.getId())
+                .setOrderNo(UUID.randomUUID().toString().replace("-", ""))
+                .setMoney(-1) // 先设置一个默认值，金额在下面计算
+                .setClosingTime(null)
+                .setDeliveryTime(null)
+                .setPaymentTime(null)
+                .setStatus(OrderStatusEnum.WAIT_SHIPMENT.getValue())
+                .setHasReturnExchange(OrderHasReturnExchangeEnum.NO.getValue())
+                .setRemark(Optional.ofNullable(orderCreateDTO.getRemark()).orElse(""));
 
-        orderDO.setClosingTime(null);
-        orderDO.setDeliveryTime(null);
-        orderDO.setPaymentTime(null);
-        orderDO.setStatus(OrderStatusEnum.WAIT_SHIPMENT.getValue());
-        orderDO.setHasReturnExchange(OrderHasReturnExchangeEnum.NO.getValue());
-        orderDO.setRemark(Optional.ofNullable(orderCreateDTO.getRemark()).orElse(""));
-
+        orderDO.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
         orderDO.setCreateTime(new Date());
         orderDO.setUpdateTime(null);
-        orderDO.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
         orderMapper.insert(orderDO);
 
         // order item
@@ -119,7 +135,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public CommonResult updateOrderItem(OrderItemUpdateDTO orderUpdateDTO) {
-        OrderItemDO orderItemDO = OrderConvert.INSTANCE.convert(orderUpdateDTO);
+        OrderItemDO orderItemDO = OrderItemConvert.INSTANCE.convert(orderUpdateDTO);
         orderItemMapper.updateById(orderItemDO);
         return CommonResult.success(null);
     }
@@ -161,7 +177,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public CommonResult updateLogistics(OrderLogisticsDTO orderLogisticsDTO) {
-        OrderLogisticsDO orderLogisticsDO = OrderConvert.INSTANCE.convert(orderLogisticsDTO);
+        OrderLogisticsDO orderLogisticsDO = OrderLogisticsConvert.INSTANCE.convert(orderLogisticsDTO);
         orderLogisticsMapper.updateById(orderLogisticsDO);
         return CommonResult.success(null);
     }

@@ -2,10 +2,9 @@ package cn.iocoder.mall.order.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.bo.OrderBO;
-import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
-import cn.iocoder.mall.order.api.dto.OrderItemDeletedDTO;
-import cn.iocoder.mall.order.api.dto.OrderLogisticsDTO;
-import cn.iocoder.mall.order.api.dto.OrderItemUpdateDTO;
+import cn.iocoder.mall.order.api.dto.*;
+
+import java.util.List;
 
 /**
  * 订单 service
@@ -16,12 +15,21 @@ import cn.iocoder.mall.order.api.dto.OrderItemUpdateDTO;
 public interface OrderService {
 
     /**
+     * 订单 page
+     *
+     * @param orderQueryDTO
+     * @return
+     */
+    CommonResult<List<OrderPageBO>> getOrderPage(OrderQueryDTO orderQueryDTO);
+
+    /**
      * 订单 - 创建
      *
+     * @param userId
      * @param orderCreateDTO
      * @return
      */
-    CommonResult<OrderBO> createOrder(OrderCreateDTO orderCreateDTO);
+    CommonResult<OrderBO> createOrder(Integer userId, OrderCreateDTO orderCreateDTO);
 
     /**
      * 订单item - 更新

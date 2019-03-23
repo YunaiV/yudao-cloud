@@ -14,6 +14,10 @@ import java.util.List;
 public class OrderCreateDTO implements Serializable {
 
     /**
+     * 用户id
+     */
+    private Integer userId;
+    /**
      * 收件区域编号
      */
     @NotNull
@@ -48,13 +52,23 @@ public class OrderCreateDTO implements Serializable {
     @Override
     public String toString() {
         return "OrderCreateDTO{" +
-                "areaNo='" + areaNo + '\'' +
+                "userId=" + userId +
+                ", areaNo='" + areaNo + '\'' +
                 ", name='" + name + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", address='" + address + '\'' +
                 ", remark='" + remark + '\'' +
                 ", orderItems=" + orderItems +
                 '}';
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public OrderCreateDTO setUserId(Integer userId) {
+        this.userId = userId;
+        return this;
     }
 
     public String getAreaNo() {

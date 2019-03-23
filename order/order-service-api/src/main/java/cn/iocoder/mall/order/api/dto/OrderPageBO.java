@@ -1,17 +1,15 @@
-package cn.iocoder.mall.order.dataobject;
+package cn.iocoder.mall.order.api.dto;
 
-import cn.iocoder.common.framework.dataobject.DeletableDO;
-
+import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 订单
+ * 订单 page
  *
  * @author Sin
- * @time 2019-03-16 13:49
+ * @time 2019-03-23 14:30
  */
-public class OrderDO extends DeletableDO {
-
+public class OrderPageBO implements Serializable {
     /**
      * id
      */
@@ -79,10 +77,22 @@ public class OrderDO extends DeletableDO {
      * 备注
      */
     private String remark;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
+    /**
+     * 删除
+     */
+    private Integer deleted;
 
     @Override
     public String toString() {
-        return "OrderDO{" +
+        return "OrderPageBO{" +
                 "id=" + id +
                 ", userId=" + userId +
                 ", orderLogisticsId=" + orderLogisticsId +
@@ -95,6 +105,9 @@ public class OrderDO extends DeletableDO {
                 ", hasReturnExchange=" + hasReturnExchange +
                 ", status=" + status +
                 ", remark='" + remark + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", deleted=" + deleted +
                 '}';
     }
 
@@ -102,7 +115,7 @@ public class OrderDO extends DeletableDO {
         return id;
     }
 
-    public OrderDO setId(Integer id) {
+    public OrderPageBO setId(Integer id) {
         this.id = id;
         return this;
     }
@@ -111,7 +124,7 @@ public class OrderDO extends DeletableDO {
         return userId;
     }
 
-    public OrderDO setUserId(Integer userId) {
+    public OrderPageBO setUserId(Integer userId) {
         this.userId = userId;
         return this;
     }
@@ -120,7 +133,7 @@ public class OrderDO extends DeletableDO {
         return orderLogisticsId;
     }
 
-    public OrderDO setOrderLogisticsId(Integer orderLogisticsId) {
+    public OrderPageBO setOrderLogisticsId(Integer orderLogisticsId) {
         this.orderLogisticsId = orderLogisticsId;
         return this;
     }
@@ -129,7 +142,7 @@ public class OrderDO extends DeletableDO {
         return orderNo;
     }
 
-    public OrderDO setOrderNo(String orderNo) {
+    public OrderPageBO setOrderNo(String orderNo) {
         this.orderNo = orderNo;
         return this;
     }
@@ -138,7 +151,7 @@ public class OrderDO extends DeletableDO {
         return money;
     }
 
-    public OrderDO setMoney(Integer money) {
+    public OrderPageBO setMoney(Integer money) {
         this.money = money;
         return this;
     }
@@ -147,7 +160,7 @@ public class OrderDO extends DeletableDO {
         return paymentTime;
     }
 
-    public OrderDO setPaymentTime(Date paymentTime) {
+    public OrderPageBO setPaymentTime(Date paymentTime) {
         this.paymentTime = paymentTime;
         return this;
     }
@@ -156,7 +169,7 @@ public class OrderDO extends DeletableDO {
         return deliveryTime;
     }
 
-    public OrderDO setDeliveryTime(Date deliveryTime) {
+    public OrderPageBO setDeliveryTime(Date deliveryTime) {
         this.deliveryTime = deliveryTime;
         return this;
     }
@@ -165,7 +178,7 @@ public class OrderDO extends DeletableDO {
         return receiverTime;
     }
 
-    public OrderDO setReceiverTime(Date receiverTime) {
+    public OrderPageBO setReceiverTime(Date receiverTime) {
         this.receiverTime = receiverTime;
         return this;
     }
@@ -174,7 +187,7 @@ public class OrderDO extends DeletableDO {
         return closingTime;
     }
 
-    public OrderDO setClosingTime(Date closingTime) {
+    public OrderPageBO setClosingTime(Date closingTime) {
         this.closingTime = closingTime;
         return this;
     }
@@ -183,7 +196,7 @@ public class OrderDO extends DeletableDO {
         return hasReturnExchange;
     }
 
-    public OrderDO setHasReturnExchange(Integer hasReturnExchange) {
+    public OrderPageBO setHasReturnExchange(Integer hasReturnExchange) {
         this.hasReturnExchange = hasReturnExchange;
         return this;
     }
@@ -192,7 +205,7 @@ public class OrderDO extends DeletableDO {
         return status;
     }
 
-    public OrderDO setStatus(Integer status) {
+    public OrderPageBO setStatus(Integer status) {
         this.status = status;
         return this;
     }
@@ -201,8 +214,35 @@ public class OrderDO extends DeletableDO {
         return remark;
     }
 
-    public OrderDO setRemark(String remark) {
+    public OrderPageBO setRemark(String remark) {
         this.remark = remark;
+        return this;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public OrderPageBO setCreateTime(Date createTime) {
+        this.createTime = createTime;
+        return this;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public OrderPageBO setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+        return this;
+    }
+
+    public Integer getDeleted() {
+        return deleted;
+    }
+
+    public OrderPageBO setDeleted(Integer deleted) {
+        this.deleted = deleted;
         return this;
     }
 }

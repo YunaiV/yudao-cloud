@@ -3,9 +3,9 @@
 <mapper namespace="cn.iocoder.mall.order.dao.OrderMapper">
 
     <sql id="FIELDS">
-        id, order_logistics_id, order_no, money, payment_time,
+        id, user_id, order_logistics_id, order_no, money, payment_time,
         delivery_time, receiver_time, closing_time, has_return_exchange,
-        status, remark, create_time, update_time, `delete`
+        status, remark, create_time, update_time, `deleted`
     </sql>
 
     <!--
@@ -13,12 +13,12 @@
     -->
     <insert id="insert" parameterType="OrderDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO `order` (
-            order_logistics_id, order_no, money, payment_time,
+            user_id, order_logistics_id, order_no, money, payment_time,
             delivery_time, receiver_time, closing_time,
             has_return_exchange, status, remark,
             create_time, update_time, `deleted`
         ) VALUES (
-             #{orderLogisticsId}, #{orderNo}, #{money}, #{paymentTime},
+             #{orderLogisticsId}, #{userId}, #{orderNo}, #{money}, #{paymentTime},
              #{deliveryTime}, #{receiverTime}, #{closingTime},
              #{hasReturnExchange}, #{status}, #{remark},
              #{createTime}, #{updateTime}, #{deleted}
@@ -82,4 +82,63 @@
         <include refid="updateFieldSql" />
         WHERE id = #{id}
     </update>
+
+    <!--
+        查询 - 根据id 查询
+    -->
+    <select id="selectById" resultType="cn.iocoder.mall.order.dataobject.OrderDO">
+        SELECT
+        <include refid="FIELDS" />
+        FROM `order`
+        WHERE id = #{id}
+    </select>
+
+    <!--
+        查询条件
+    -->
+    <sql id="selectWhere">
+        <if test="id">
+            AND `id` = #{id}
+        </if>
+        <if test="userId">
+            AND `user_id` = #{userId}
+        </if>
+        <if test="orderLogisticsId">
+            AND `order_logistics_id` = #{orderLogisticsId}
+        </if>
+        <if test="orderNo">
+            AND `order_no` = #{orderNo}
+        </if>
+        <if test="hasReturnExchange">
+            AND `has_return_exchange` = #{hasReturnExchange}
+        </if>
+        <if test="status">
+            AND `status` = #{status}
+        </if>
+    </sql>
+
+    <!--
+        查询 - 后台分页page Count
+    -->
+    <select id="selectPageCount" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*)
+        FROM `order`
+        WHERE
+        <include refid="selectWhere" />
+    </select>
+
+    <!--
+        查询 - 后台分页page
+    -->
+    <select id="selectPage" resultType="cn.iocoder.mall.order.dataobject.OrderDO">
+        SELECT
+        <include refid="FIELDS" />
+        FROM `order`
+        WHERE
+        <include refid="selectWhere" />
+        LIMIT
+    </select>
+
+
 </mapper>

@@ -8,10 +8,10 @@ import cn.iocoder.common.framework.dataobject.DeletableDO;
  * @author Sin
  * @time 2019-03-22 21:15
  */
-public enum DeleteStatusEnum {
+public enum DeletedStatusEnum {
 
-    DELETE_NO(0, "正常(未删除)"),
-    DELETE_YES(1, "删除");
+    DELETED_NO(0, "正常(未删除)"),
+    DELETED_YES(1, "删除");
 
     /**
      * 状态值
@@ -22,7 +22,7 @@ public enum DeleteStatusEnum {
      */
     private String name;
 
-    DeleteStatusEnum(Integer value, String name) {
+    DeletedStatusEnum(Integer value, String name) {
         this.value = value;
         this.name = name;
     }

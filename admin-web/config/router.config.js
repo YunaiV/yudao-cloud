@@ -52,9 +52,22 @@ export default [
             component: './Admin/RoleList',
           },
           {
-              path: '/admin/dictionary-list',
-              name: 'dictionary-list',
-              component: './Admin/DictionaryList',
+            path: '/admin/dictionary-list',
+            name: 'dictionary-list',
+            component: './Admin/DictionaryList',
+          },
+        ],
+      },
+      // order
+      {
+        path: 'order',
+        name: 'order',
+        icon: 'user',
+        routes: [
+          {
+            path: '/order/order-list',
+            name: 'order-list',
+            component: './Order/OrderList',
           },
         ],
       },
@@ -62,7 +75,7 @@ export default [
       {
         path: '/product',
         name: 'product',
-        icon: 'product',
+        icon: 'user',
         routes: [
           {
             path: '/product/product-spu-list',
@@ -79,12 +92,7 @@ export default [
             name: 'product-category-list',
             component: './Product/ProductCategoryList',
           },
-          {
-            path: '/product/product-category-list',
-            name: 'product-category-list',
-            component: './Product/ProductCategoryList',
-          },
-        ]
+        ],
       },
       {
         path: '/dashboard',

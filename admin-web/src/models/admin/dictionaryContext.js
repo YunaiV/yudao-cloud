@@ -18,8 +18,7 @@ export default {
         const dicKey = item.enumValue;
         const dicTreeItem = {};
         item.values.map(item2 => {
-          dicTreeItem.text = item2.displayName;
-          dicTreeItem.value = item2.value;
+          dicTreeItem[item2.value] = item2.displayName;
           return true;
         });
         dicTreeMap[dicKey] = dicTreeItem;

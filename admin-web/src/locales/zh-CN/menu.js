@@ -50,5 +50,6 @@ export default {
   'menu.product.product-spu-add': '商品添加',
   'menu.product.product-category-list': '商品分类',
   // 订单
+  'menu.order': '订单管理',
   'menu.order.order-list': '订单管理',
 };

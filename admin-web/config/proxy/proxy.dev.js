@@ -6,9 +6,9 @@ export default {
     changeOrigin: true,
     pathRewrite: {},
   },
-  '/server/api/': {
-    target: 'https://preview.pro.ant.design/',
+  '/order-api/': {
+    target: 'http://127.0.0.1:18084/',
     changeOrigin: true,
-    pathRewrite: { '^/server': '' },
+    pathRewrite: {},
   },
 };

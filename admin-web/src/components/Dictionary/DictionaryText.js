@@ -14,7 +14,7 @@ export default class DictionaryText extends PureComponent {
           if (dicValues) {
             return dicValues[dicValue];
           }
-          return null;
+          return dicValue;
         }}
       </DictionaryContext.Consumer>
     );

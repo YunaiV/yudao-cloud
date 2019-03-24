@@ -19,7 +19,6 @@ import cn.iocoder.mall.order.dao.OrderMapper;
 import cn.iocoder.mall.order.dataobject.OrderDO;
 import cn.iocoder.mall.order.dataobject.OrderItemDO;
 import cn.iocoder.mall.order.dataobject.OrderLogisticsDO;
-import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -176,7 +175,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public CommonResult updateLogistics(OrderLogisticsDTO orderLogisticsDTO) {
+    public CommonResult updateLogistics(OrderLogisticsUpdateDTO orderLogisticsDTO) {
         OrderLogisticsDO orderLogisticsDO = OrderLogisticsConvert.INSTANCE.convert(orderLogisticsDTO);
         orderLogisticsMapper.updateById(orderLogisticsDO);
         return CommonResult.success(null);

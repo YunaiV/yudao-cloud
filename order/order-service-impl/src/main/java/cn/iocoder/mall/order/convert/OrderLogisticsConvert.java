@@ -1,7 +1,7 @@
 package cn.iocoder.mall.order.convert;
 
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
-import cn.iocoder.mall.order.api.dto.OrderLogisticsDTO;
+import cn.iocoder.mall.order.api.dto.OrderLogisticsUpdateDTO;
 import cn.iocoder.mall.order.dataobject.OrderLogisticsDO;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -20,5 +20,5 @@ public interface OrderLogisticsConvert {
     OrderLogisticsDO convert(OrderCreateDTO orderCreateDTO);
 
     @Mappings({})
-    OrderLogisticsDO convert(OrderLogisticsDTO orderLogisticsDTO);
+    OrderLogisticsDO convert(OrderLogisticsUpdateDTO orderLogisticsDTO);
 }

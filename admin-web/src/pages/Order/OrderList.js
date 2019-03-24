@@ -193,10 +193,6 @@ class BasicList extends PureComponent {
   }
 
   handleEditorClick = () => {
-    // this.setState({
-    //   visible: true,
-    //   current: item,
-    // });
     console.info('edit');
   };
 

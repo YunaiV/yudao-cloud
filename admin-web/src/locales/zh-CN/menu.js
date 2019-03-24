@@ -1,10 +1,4 @@
 export default {
-  // admin
-  'menu.admin': '系统设置',
-  'menu.admin.admin-list': '管理员列表',
-  'menu.admin.resource-list': '资源列表',
-  'menu.admin.role-list': '角色列表',
-  'menu.admin.dictionary-list': '数据字典',
   'menu.home': '首页',
   'menu.login': '登录',
   'menu.register': '注册',
@@ -44,9 +38,17 @@ export default {
   'menu.account.settings': '个人设置',
   'menu.account.trigger': '触发报错',
   'menu.account.logout': '退出登录',
+  // admin
+  'menu.admin': '系统设置',
+  'menu.admin.admin-list': '管理员列表',
+  'menu.admin.resource-list': '资源列表',
+  'menu.admin.role-list': '角色列表',
+  'menu.admin.dictionary-list': '数据字典',
   // 商品相关
   'menu.product': '商品管理',
   'menu.product.product-spu-list': '商品管理',
   'menu.product.product-spu-add': '商品添加',
   'menu.product.product-category-list': '商品分类',
+  // 订单
+  'menu.order.order-list': '订单管理',
 };

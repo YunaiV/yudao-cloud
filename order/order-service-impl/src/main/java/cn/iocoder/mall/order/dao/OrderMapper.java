@@ -55,5 +55,5 @@ public interface OrderMapper {
      * @param orderQueryDTO
      * @return
      */
-    List<OrderDO> selectPage(OrderQueryDTO orderQueryDTO, int offset, int pageSize);
+    List<OrderDO> selectPage(OrderQueryDTO orderQueryDTO);
 }

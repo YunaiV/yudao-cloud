@@ -10,6 +10,7 @@ import java.util.Date;
  * @time 2019-03-23 14:30
  */
 public class OrderPageBO implements Serializable {
+
     /**
      * id
      */
@@ -29,7 +30,7 @@ public class OrderPageBO implements Serializable {
     /**
      * 交易金额
      */
-    private Integer money;
+    private Integer price;
 
     ///
     /// 时间信息
@@ -77,18 +78,6 @@ public class OrderPageBO implements Serializable {
      * 备注
      */
     private String remark;
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-    /**
-     * 删除
-     */
-    private Integer deleted;
 
     @Override
     public String toString() {
@@ -97,7 +86,7 @@ public class OrderPageBO implements Serializable {
                 ", userId=" + userId +
                 ", orderLogisticsId=" + orderLogisticsId +
                 ", orderNo='" + orderNo + '\'' +
-                ", money=" + money +
+                ", price=" + price +
                 ", paymentTime=" + paymentTime +
                 ", deliveryTime=" + deliveryTime +
                 ", receiverTime=" + receiverTime +
@@ -105,9 +94,6 @@ public class OrderPageBO implements Serializable {
                 ", hasReturnExchange=" + hasReturnExchange +
                 ", status=" + status +
                 ", remark='" + remark + '\'' +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", deleted=" + deleted +
                 '}';
     }
 
@@ -147,12 +133,12 @@ public class OrderPageBO implements Serializable {
         return this;
     }
 
-    public Integer getMoney() {
-        return money;
+    public Integer getPrice() {
+        return price;
     }
 
-    public OrderPageBO setMoney(Integer money) {
-        this.money = money;
+    public OrderPageBO setPrice(Integer price) {
+        this.price = price;
         return this;
     }
 
@@ -216,33 +202,6 @@ public class OrderPageBO implements Serializable {
 
     public OrderPageBO setRemark(String remark) {
         this.remark = remark;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public OrderPageBO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public OrderPageBO setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-        return this;
-    }
-
-    public Integer getDeleted() {
-        return deleted;
-    }
-
-    public OrderPageBO setDeleted(Integer deleted) {
-        this.deleted = deleted;
         return this;
     }
 }

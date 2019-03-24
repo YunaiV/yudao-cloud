@@ -10,9 +10,9 @@ import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.constant.OrderHasReturnExchangeEnum;
 import cn.iocoder.mall.order.api.constant.OrderStatusEnum;
 import cn.iocoder.mall.order.api.dto.*;
-import cn.iocoder.mall.order.convert.OrderConvert;
-import cn.iocoder.mall.order.convert.OrderItemConvert;
-import cn.iocoder.mall.order.convert.OrderLogisticsConvert;
+import cn.iocoder.mall.order.application.convert.OrderConvert;
+import cn.iocoder.mall.order.application.convert.OrderItemConvert;
+import cn.iocoder.mall.order.application.convert.OrderLogisticsConvert;
 import cn.iocoder.mall.order.dao.OrderItemMapper;
 import cn.iocoder.mall.order.dao.OrderLogisticsMapper;
 import cn.iocoder.mall.order.dao.OrderMapper;
@@ -49,15 +49,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public CommonResult<List<OrderPageBO>> getOrderPage(OrderQueryDTO orderQueryDTO) {
 
-        int offset = orderQueryDTO.getPageNo() * orderQueryDTO.getPageSize();
-        int pageSize = orderQueryDTO.getPageSize();
-
         int totalCount = orderMapper.selectPageCount(orderQueryDTO);
         if (totalCount == 0) {
             return CommonResult.success(Collections.EMPTY_LIST);
         }
 
-        List<OrderDO> orderDOList = orderMapper.selectPage(orderQueryDTO, offset, pageSize);
+        List<OrderDO> orderDOList = orderMapper.selectPage(orderQueryDTO);
         List<OrderPageBO> orderPageBOList = OrderConvert.INSTANCE.convertPageBO(orderDOList);
         return CommonResult.success(orderPageBOList);
     }
@@ -68,6 +65,23 @@ public class OrderServiceImpl implements OrderService {
         List<OrderCreateItemDTO> orderItemDTOList = orderCreateDTO.getOrderItems();
         OrderLogisticsDO orderLogisticsDO = OrderLogisticsConvert.INSTANCE.convert(orderCreateDTO);
         List<OrderItemDO> orderItemDOList = OrderItemConvert.INSTANCE.convert(orderItemDTOList);
+
+        // TODO: 2019-03-24 sin 校验商品是否存在
+//        for (OrderItemDO orderItemDO : orderItemDOList) {
+//            CommonResult<ProductSpuDetailBO> result = productSpuService.getProductSpu(orderItemDO.getSkuId());
+//
+//            // 有任何商品获取失败，或者为 null，都直接返回失败。
+//            if (result.isError()) {
+//                return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_SKU_FAIL.getCode());
+//            }
+//
+//            if (result.getData() == null) {
+//                return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_SKU_NOT_EXISTENT.getCode());
+//            }
+//
+//            ProductSpuDetailBO spuDetailBO = result.getData();
+//            orderItemDO.setPrice(1000);
+//        }
 
         // 物流信息
         orderLogisticsDO
@@ -81,7 +95,7 @@ public class OrderServiceImpl implements OrderService {
                 .setUserId(userId)
                 .setOrderLogisticsId(orderLogisticsDO.getId())
                 .setOrderNo(UUID.randomUUID().toString().replace("-", ""))
-                .setMoney(-1) // 先设置一个默认值，金额在下面计算
+                .setPrice(-1) // 先设置一个默认值，金额在下面计算
                 .setClosingTime(null)
                 .setDeliveryTime(null)
                 .setPaymentTime(null)
@@ -119,7 +133,7 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.updateById(
                 new OrderDO()
                         .setId(orderDO.getId())
-                        .setMoney(totalAmount)
+                        .setPrice(totalAmount)
         );
 
         // TODO: 2019-03-17 Sin 需要发送 创建成果 MQ 消息
@@ -128,7 +142,7 @@ public class OrderServiceImpl implements OrderService {
                 new OrderBO()
                         .setId(orderDO.getId())
                         .setOrderNo(orderDO.getOrderNo())
-                        .setMoney(orderDO.getMoney())
+                        .setMoney(orderDO.getPrice())
         );
     }
 
@@ -136,6 +150,9 @@ public class OrderServiceImpl implements OrderService {
     public CommonResult updateOrderItem(OrderItemUpdateDTO orderUpdateDTO) {
         OrderItemDO orderItemDO = OrderItemConvert.INSTANCE.convert(orderUpdateDTO);
         orderItemMapper.updateById(orderItemDO);
+
+        // TODO: 2019-03-24 sin 需要重新计算金额
+        // TODO: 2019-03-24 sin 需要记录日志
         return CommonResult.success(null);
     }
 
@@ -169,7 +186,7 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.updateById(
                 new OrderDO()
                         .setId(orderId)
-                        .setMoney(totalAmount)
+                        .setPrice(totalAmount)
         );
         return CommonResult.success(null);
     }

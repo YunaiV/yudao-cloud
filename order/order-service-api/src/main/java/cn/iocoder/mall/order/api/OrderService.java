@@ -56,7 +56,7 @@ public interface OrderService {
      * - 联系人电话
      * - 联系人姓名
      */
-    CommonResult updateLogistics(OrderLogisticsDTO orderLogisticsDTO);
+    CommonResult updateLogistics(OrderLogisticsUpdateDTO orderLogisticsDTO);
 
     /**
      * 删除订单

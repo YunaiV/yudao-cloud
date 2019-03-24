@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.controller.users;
+package cn.iocoder.mall.order.application.controller.users;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

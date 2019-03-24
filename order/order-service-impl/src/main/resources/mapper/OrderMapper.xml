@@ -3,7 +3,7 @@
 <mapper namespace="cn.iocoder.mall.order.dao.OrderMapper">
 
     <sql id="FIELDS">
-        id, user_id, order_logistics_id, order_no, money, payment_time,
+        id, user_id, order_logistics_id, order_no, price, payment_time,
         delivery_time, receiver_time, closing_time, has_return_exchange,
         status, remark, create_time, update_time, `deleted`
     </sql>
@@ -13,12 +13,12 @@
     -->
     <insert id="insert" parameterType="OrderDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO `order` (
-            user_id, order_logistics_id, order_no, money, payment_time,
+            user_id, order_logistics_id, order_no, price, payment_time,
             delivery_time, receiver_time, closing_time,
             has_return_exchange, status, remark,
             create_time, update_time, `deleted`
         ) VALUES (
-             #{orderLogisticsId}, #{userId}, #{orderNo}, #{money}, #{paymentTime},
+             #{orderLogisticsId}, #{userId}, #{orderNo}, #{price}, #{paymentTime},
              #{deliveryTime}, #{receiverTime}, #{closingTime},
              #{hasReturnExchange}, #{status}, #{remark},
              #{createTime}, #{updateTime}, #{deleted}
@@ -36,8 +36,8 @@
             <if test="orderNo != null">
                 , order_no = #{orderNo}
             </if>
-            <if test="money != null">
-                , money = #{money}
+            <if test="price != null">
+                , price = #{price}
             </if>
 -- time
             <if test="paymentTime != null">
@@ -97,22 +97,22 @@
         查询条件
     -->
     <sql id="selectWhere">
-        <if test="id">
+        <if test="id != null">
             AND `id` = #{id}
         </if>
-        <if test="userId">
+        <if test="userId != null">
             AND `user_id` = #{userId}
         </if>
-        <if test="orderLogisticsId">
+        <if test="orderLogisticsId != null">
             AND `order_logistics_id` = #{orderLogisticsId}
         </if>
-        <if test="orderNo">
+        <if test="orderNo != null">
             AND `order_no` = #{orderNo}
         </if>
-        <if test="hasReturnExchange">
+        <if test="hasReturnExchange != null">
             AND `has_return_exchange` = #{hasReturnExchange}
         </if>
-        <if test="status">
+        <if test="status != null">
             AND `status` = #{status}
         </if>
     </sql>
@@ -124,7 +124,7 @@
         SELECT
         COUNT(*)
         FROM `order`
-        WHERE
+        WHERE 1 = 1
         <include refid="selectWhere" />
     </select>
 
@@ -135,9 +135,9 @@
         SELECT
         <include refid="FIELDS" />
         FROM `order`
-        WHERE
+        WHERE 1 = 1
         <include refid="selectWhere" />
-        LIMIT
+        LIMIT ${pageNo * pageSize}, ${pageSize}
     </select>
 
 

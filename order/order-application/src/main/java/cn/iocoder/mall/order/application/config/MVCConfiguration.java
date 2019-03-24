@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.config;
+package cn.iocoder.mall.order.application.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;

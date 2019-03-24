@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.convert;
+package cn.iocoder.mall.order.application.convert;
 
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderLogisticsUpdateDTO;

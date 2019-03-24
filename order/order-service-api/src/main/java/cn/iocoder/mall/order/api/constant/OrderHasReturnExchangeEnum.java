@@ -10,8 +10,8 @@ public enum OrderHasReturnExchangeEnum {
 
     NO(1, "没有"),
     RETURN_GOODS(2, "退货"),
-    EXCHANGE_GOODS(2, "换货"),
-    RETURN_EXCHANGE_GOODS(2, "退换货");
+    EXCHANGE_GOODS(3, "换货"),
+    RETURN_EXCHANGE_GOODS(4, "退换货");
 
     /**
      * 状态值

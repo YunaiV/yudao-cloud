@@ -10,7 +10,9 @@ package cn.iocoder.mall.order.api.constant;
  */
 public enum OrderErrorCodeEnum {
 
-    ORDER_ITEM_ONLY_ONE(1000001000, "订单Item只有一个"),
+    ORDER_ITEM_ONLY_ONE(1000001000, "订单Item只有一个!"),
+    ORDER_GET_SKU_FAIL(1000001001, "获取商品失败!"),
+    ORDER_GET_SKU_NOT_EXISTENT(1000001002, "获取的商品不存在!"),
     ;
 
     private final int code;

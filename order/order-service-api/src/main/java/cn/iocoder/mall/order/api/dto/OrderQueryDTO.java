@@ -25,6 +25,14 @@ public class OrderQueryDTO implements Serializable {
      */
     private Integer userId;
     /**
+     * 物流id
+     */
+    private Integer orderLogisticsId;
+    /**
+     * 是否退换货
+     */
+    private Integer hasReturnExchange;
+    /**
      * 付款时间（待发货）
      */
     private Date startPaymentTime;
@@ -38,10 +46,11 @@ public class OrderQueryDTO implements Serializable {
      * 删除状态
      */
     private Integer deleted;
-
-    @NotNull(message = "页码不能为空")
+    /**
+     * 状态
+     */
+    private Integer status;
     private Integer pageNo;
-    @NotNull(message = "每页条数不能为空")
     private Integer pageSize;
 
     @Override
@@ -50,11 +59,14 @@ public class OrderQueryDTO implements Serializable {
                 "id=" + id +
                 ", orderNo='" + orderNo + '\'' +
                 ", userId=" + userId +
+                ", orderLogisticsId=" + orderLogisticsId +
+                ", hasReturnExchange=" + hasReturnExchange +
                 ", startPaymentTime=" + startPaymentTime +
                 ", endPaymentTime=" + endPaymentTime +
                 ", startCreateTime=" + startCreateTime +
                 ", endCreateTime=" + endCreateTime +
                 ", deleted=" + deleted +
+                ", status=" + status +
                 ", pageNo=" + pageNo +
                 ", pageSize=" + pageSize +
                 '}';
@@ -84,6 +96,24 @@ public class OrderQueryDTO implements Serializable {
 
     public OrderQueryDTO setUserId(Integer userId) {
         this.userId = userId;
+        return this;
+    }
+
+    public Integer getOrderLogisticsId() {
+        return orderLogisticsId;
+    }
+
+    public OrderQueryDTO setOrderLogisticsId(Integer orderLogisticsId) {
+        this.orderLogisticsId = orderLogisticsId;
+        return this;
+    }
+
+    public Integer getHasReturnExchange() {
+        return hasReturnExchange;
+    }
+
+    public OrderQueryDTO setHasReturnExchange(Integer hasReturnExchange) {
+        this.hasReturnExchange = hasReturnExchange;
         return this;
     }
 
@@ -129,6 +159,15 @@ public class OrderQueryDTO implements Serializable {
 
     public OrderQueryDTO setDeleted(Integer deleted) {
         this.deleted = deleted;
+        return this;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public OrderQueryDTO setStatus(Integer status) {
+        this.status = status;
         return this;
     }
 

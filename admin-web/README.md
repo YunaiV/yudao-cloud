@@ -32,3 +32,7 @@ http://www.tuicool.com/articles/YrQ7j2a
 
 1.route目录下的文件需要加上文件头部注释（写清楚文件是什么功能）
 2.component文件需要加上头部注释 （写清楚改控件的用处）
+
+## 补充规范
+
+1. services 目录中，每个 api 文件，对应后端一个 api 服务。主要考虑是

@@ -105,7 +105,7 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
                   <a className={styles.tableDelete} onClick={() => handleDelete(record)}>
                     删除
                   </a>
-                </span> : ''
+                </span> : null
             }
           </Fragment>
         );
@@ -379,13 +379,14 @@ const RoleAssignModal = Form.create()(props => {
   );
 });
 
-@connect(({ adminList, loading }) => ({
+
+@connect(({ adminList }) => ({
   // list: adminList.list,
   // pagination: adminList.pagination,
   ...adminList,
-  loading: loading.models.resourceList,
 }))
 
+// 主界面
 @Form.create()
 class AdminList extends PureComponent {
   state = {

@@ -1,5 +1,6 @@
 package cn.iocoder.mall.product.application.controller.users;
 
+import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.ProductCategoryService;
 import cn.iocoder.mall.product.api.bo.ProductCategoryBO;
 import cn.iocoder.mall.product.application.convert.ProductCategoryConvert;
@@ -26,9 +27,9 @@ public class UsersProductCategoryController {
     @GetMapping("/list")
     @ApiOperation("获得指定编号下的子分类的数组")
     @ApiImplicitParam(name = "pid", value = "指定分类编号", required = true, example = "0")
-    public List<UsersProductCategoryVO> list(@RequestParam("pid") Integer pid) {
+    public CommonResult<List<UsersProductCategoryVO>> list(@RequestParam("pid") Integer pid) {
         List<ProductCategoryBO> result = productCategoryService.getListByPid(pid);
-        return ProductCategoryConvert.INSTANCE.convertToVO(result);
+        return CommonResult.success(ProductCategoryConvert.INSTANCE.convertToVO(result));
     }
 
 }

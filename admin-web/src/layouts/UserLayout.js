@@ -29,9 +29,7 @@ const links = [
 ];
 
 const copyright = (
-  <Fragment>
-    Copyright <Icon type="copyright" /> 2018 蚂蚁金服体验技术部出品
-  </Fragment>
+  <a href='https://pc.qq.com/detail/1/detail_2661.html'>请使用谷歌浏览器(Chrome)获取最佳用户体验</a>
 );
 
 class UserLayout extends Component {
@@ -63,10 +61,10 @@ class UserLayout extends Component {
               <div className={styles.header}>
                 <Link to="/">
                   <img alt="logo" className={styles.logo} src={logo} />
-                  <span className={styles.title}>后台管理系统</span>
+                  <span className={styles.title}>小商城管理平台</span>
                 </Link>
               </div>
-              <div className={styles.desc}>TODO....</div>
+              {/*<div className={styles.desc}>TODO....</div>*/}
             </div>
             {children}
           </div>

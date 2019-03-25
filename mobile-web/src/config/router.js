@@ -151,7 +151,14 @@ const routes = [
     }
   },
   {
-    path: '/search',
+    path: '/product/search',
+    component: () => import('../page/product/search'),
+    meta: {
+      title: '商品搜索'
+    }
+  },
+  {
+    path: '/products/list',
     component: () => import('../page/product/list'),
     meta: {
       title: '商品列表'

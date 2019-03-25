@@ -9,3 +9,15 @@ export function getProductCategoryList(pid) {
     }
   });
 }
+
+export function getProductSpuPage(cid, pageNo, pageSize) {
+  return request({
+    url: 'product-api/users/spu/page',
+    method: 'get',
+    params: {
+      cid,
+      pageNo: pageNo || 1,
+      pageSize: pageSize || 10,
+    }
+  });
+}

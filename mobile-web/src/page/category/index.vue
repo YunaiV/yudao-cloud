@@ -66,10 +66,10 @@
                     <!--<li><a ><img src="//img12.360buyimg.com/focus/s140x140_jfs/t1/345/33/944/5582/5b9236d2E62d8da2e/99f72d51b8f195ed.jpg"><span>电话手表</span></a></li>-->
                     <!--<li><a ><img src="//img30.360buyimg.com/focus/s140x140_jfs/t1/1446/14/631/8500/5b9237e5E0d1f9e16/b1a627b92323b5ed.png"><span>华为</span></a></li>-->
                     <li v-for="category in childCategories">
-                        <a >
+                        <router-link :to="'/products/list?title=' + activeCategory.name + '&cidFirst=' + activeCategory.id + '&cidSecond=' + category.id">
                             <img :src="category.picUrl" />
                             <span>{{ category.name }}</span>
-                        </a>
+                        </router-link>
                     </li>
                     <div style="clear:both">
                     </div>
@@ -96,6 +96,7 @@ export default {
       rootCategories: [],
       childCategories: [],
       activeKey: 0,
+      activeCategory: {}, // 选中的分类
       fullHeight: document.documentElement.clientHeight - 93,
       fullWidth: document.documentElement.clientWidth - 99
     };
@@ -113,7 +114,8 @@ export default {
       this.activeKey = key;
       // 读取子节点的分类
       if (this.rootCategories.length > key) {
-        let response = getProductCategoryList(this.rootCategories[key].id);
+        this.activeCategory = this.rootCategories[key];
+        let response = getProductCategoryList(this.activeCategory.id);
         response.then(data => {
           this.childCategories = data;
         });
@@ -129,6 +131,7 @@ export default {
       this.rootCategories = data;
       // 获得首个根节点的分类
       if (data && data.length > 0) {
+        this.activeCategory = data[0];
         let response = getProductCategoryList(data[0].id);
         response.then(data => {
           this.childCategories = data;

@@ -202,7 +202,7 @@ public class ProductSpuServiceImpl implements ProductSpuService {
     public CommonResult<ProductSpuPageBO> getProductSpuPage(ProductSpuPageDTO productSpuPageDTO) {
         ProductSpuPageBO productSpuPage = new ProductSpuPageBO();
         // 查询分页数据
-        int offset = productSpuPageDTO.getPageNo() * productSpuPageDTO.getPageSize();
+        int offset = (productSpuPageDTO.getPageNo() - 1) * productSpuPageDTO.getPageSize();
         productSpuPage.setSpus(ProductSpuConvert.INSTANCE.convert(productSpuMapper.selectListByNameLikeOrderBySortAsc(
                 productSpuPageDTO.getName(), productSpuPageDTO.getCid(), productSpuPageDTO.getVisible(),
             offset, productSpuPageDTO.getPageSize())));

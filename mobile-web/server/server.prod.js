@@ -7,7 +7,7 @@ const proxyBuild = require('./utils/proxy.build');
 
 // create app server
 const app = express();
-const port = 3000;
+const port = 3100;
 
 // host proxy
 app.use(proxyBuild(proxyConfig));

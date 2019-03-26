@@ -1,5 +1,5 @@
 {
-  "name": "admin-web",
+  "name": "mobile-web",
   "script": "./server.prod.js",
   "instances": "1",
   "env": {

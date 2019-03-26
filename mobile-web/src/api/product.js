@@ -21,3 +21,13 @@ export function getProductSpuPage(cid, pageNo, pageSize) {
     }
   });
 }
+
+export function getProductSpuInfo(id) {
+  return request({
+    url: 'product-api/users/spu/info',
+    method: 'get',
+    params: {
+      id,
+    }
+  });
+}

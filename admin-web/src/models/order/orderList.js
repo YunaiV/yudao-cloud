@@ -5,17 +5,32 @@ export default {
   namespace: 'orderList',
 
   state: {
-    list: [],
+    list: {
+      pagination: {
+        current: 0,
+        pageSize: 10,
+        total: 0,
+      },
+      dataSource: [],
+    },
   },
 
   effects: {
     *queryPage({ payload }, { call, put }) {
       const response = yield call(orderPage, payload);
-      message.info('查询成功!');
+      message.info('查询成功!', response);
+      const { total, orders } = response.data;
       yield put({
         type: 'queryPageSuccess',
         payload: {
-          list: response.data,
+          list: {
+            dataSource: orders,
+            pagination: {
+              total,
+              current: payload.pageNo,
+              pageSize: payload.pageSize,
+            },
+          },
         },
       });
     },
@@ -34,9 +49,10 @@ export default {
 
   reducers: {
     queryPageSuccess(state, { payload }) {
+      const { list } = payload;
       return {
         ...state,
-        ...payload,
+        list,
       };
     },
   },

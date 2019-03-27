@@ -1,128 +1,113 @@
-import React, { PureComponent } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
-import {
-  Button,
-  Card,
-  Col,
-  Dropdown,
-  Form,
-  Icon,
-  Input,
-  List,
-  Menu,
-  Modal,
-  Row,
-  Select,
-} from 'antd';
+import { Button, Card, Col, Divider, Form, Input, Row, Table, DatePicker } from 'antd';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import DictionaryText from '@/components/Dictionary/DictionaryText';
+import DictionarySelect from '@/components/Dictionary/DictionarySelect';
 import dictionary from '@/utils/dictionary';
 
 import styles from './OrderList.less';
 
+const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
-const SelectOption = Select.Option;
 
 const OrderList = props => {
-  const { list, loading } = props;
+  const { list, dispatch, loading, handleModalVisible } = props;
 
-  const paginationProps = {
-    showSizeChanger: true,
-    showQuickJumper: true,
-    pageSize: 5,
-    total: 50,
-  };
-
-  const deleteItem = id => {
-    const { dispatch } = props;
+  // 翻页
+  const onPageChange = page => {
+    const { searchParams } = props;
     dispatch({
-      type: 'list/submit',
-      payload: { id },
+      type: 'adminList/query',
+      payload: {
+        pageNo: page.current,
+        pageSize: page.pageSize,
+        ...searchParams,
+      },
     });
   };
 
-  const handleEditor = currentItem => {
-    const { handleEditorClick } = props;
-    if (handleEditorClick) {
-      handleEditorClick(currentItem);
-    }
+  const columns = [
+    {
+      title: '订单id',
+      dataIndex: 'id',
+    },
+    {
+      title: '用户',
+      dataIndex: 'userId',
+    },
+    {
+      title: '订单号',
+      dataIndex: 'orderNo',
+    },
+    {
+      title: '金额',
+      dataIndex: 'price',
+      render(val) {
+        return <span>{val} 元</span>;
+      },
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      render(val) {
+        return <DictionaryText dicKey={dictionary.ORDER_STATUS} dicValue={val} />;
+      },
+    },
+    {
+      title: '付款时间',
+      dataIndex: 'paymentTime',
+      render: val => (!val ? '' : <span>{moment(val).format('YYYY-MM-DD HH:mm')}</span>),
+    },
+    {
+      title: '发货时间',
+      dataIndex: 'deliveryTime',
+      render: val => (!val ? '' : <span>{moment(val).format('YYYY-MM-DD HH:mm')}</span>),
+    },
+    {
+      title: '收货时间',
+      dataIndex: 'receiverTime',
+      render: val => (!val ? '' : <span>{moment(val).format('YYYY-MM-DD HH:mm')}</span>),
+    },
+    {
+      title: '成交时间',
+      dataIndex: 'closingTime',
+      render: val => (!val ? '' : <span>{moment(val).format('YYYY-MM-DD HH:mm')}</span>),
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime',
+      render: val => (!val ? '' : <span>{moment(val).format('YYYY-MM-DD HH:mm')}</span>),
+    },
+    {
+      title: '操作',
+      width: 100,
+      render: (text, record) => {
+        return (
+          <Fragment>
+            <a onClick={() => handleModalVisible(true, 'update', record)}>编辑</a>
+            <Divider type="vertical" />
+          </Fragment>
+        );
+      },
+    },
+  ];
+
+  const tableScroll = {
+    x: 1400,
   };
-
-  const handleMoreMenu = (key, currentItem) => {
-    if (key === 'edit') {
-      handleEditor(currentItem);
-    } else if (key === 'delete') {
-      Modal.confirm({
-        title: '删除任务',
-        content: '确定删除该任务吗？',
-        okText: '确认',
-        cancelText: '取消',
-        onOk: () => deleteItem(currentItem.id),
-      });
-    }
-  };
-
-  const ListContent = ({ data }) => (
-    <div className={styles.listContent}>
-      <div className={styles.listContentItem}>
-        <span>金额: {data.price / 100} 元</span>
-        <p>编号: {data.orderNo}</p>
-      </div>
-      <div className={styles.listContentItem}>
-        <span>
-          付款时间: {data.paymentTime ? moment(data.paymentTime).format('YYYY-MM-DD HH:mm') : ''}
-        </span>
-        <p>创建时间：{moment(data.createTime).format('YYYY-MM-DD HH:mm')}</p>
-      </div>
-      <div className={styles.listContentItem}>
-        <span>
-          订单状态: <DictionaryText dicKey={dictionary.ORDER_STATUS} dicValue={data.status} />
-        </span>
-      </div>
-    </div>
-  );
-
-  const MoreBtn = () => (
-    <Dropdown
-      overlay={
-        <Menu onClick={({ key }) => handleMoreMenu(key, props.current)}>
-          <Menu.Item key="edit">编辑</Menu.Item>
-          <Menu.Item key="delete">删除</Menu.Item>
-        </Menu>
-      }
-    >
-      <a>
-        更多 <Icon type="down" />
-      </a>
-    </Dropdown>
-  );
 
   return (
-    <List
-      size="large"
+    <Table
       rowKey="id"
+      columns={columns}
+      dataSource={list.dataSource}
       loading={loading}
-      pagination={paginationProps}
-      dataSource={list}
-      renderItem={item => (
-        <List.Item
-          actions={[
-            <a
-              onClick={e => {
-                e.preventDefault();
-                handleEditor(item);
-              }}
-            >
-              编辑
-            </a>,
-            <MoreBtn current={item} />,
-          ]}
-        >
-          <ListContent data={item} />
-        </List.Item>
-      )}
+      pagination={list.pagination}
+      onChange={onPageChange}
+      scroll={tableScroll}
     />
   );
 };
@@ -131,29 +116,79 @@ const OrderList = props => {
 const SearchForm = props => {
   const {
     form: { getFieldDecorator },
+    form,
+    handleSearch,
   } = props;
 
   const handleFormReset = () => {};
 
-  const handleSearch = () => {};
+  const onSubmit = e => {
+    e.preventDefault();
+    form.validateFields((err, fields) => {
+      const buildTime = (fieldValue, key) => {
+        const res = {};
+        if (fieldValue) {
+          const keySuffix = key.substring(0, 1).toUpperCase() + key.substring(1);
+          // res[`start${keySuffix}`] = fieldValue[0].valueOf();
+          res[`start${keySuffix}`] = fieldValue[0].format('YYYY-MM-DD HH:mm:ss');
+          // res[`end${keySuffix}`] = fieldValue[1].valueOf();
+          res[`end${keySuffix}`] = fieldValue[1].format('YYYY-MM-DD HH:mm:ss');
+        }
+        return res;
+      };
+
+      const timeFields = ['createTime', 'closingTime'];
+      const buildSearchParams = fields2 => {
+        let res = {};
+        Object.keys(fields).map(objectKey => {
+          const fieldValue = fields2[objectKey];
+          if (timeFields.indexOf(objectKey) !== -1) {
+            // 处理时间
+            res = {
+              ...res,
+              ...buildTime(fieldValue, objectKey),
+            };
+          } else if (fieldValue !== undefined) {
+            res[objectKey] = fieldValue;
+          }
+          return true;
+        });
+        return res;
+      };
+
+      const searchParams = buildSearchParams(fields);
+      if (handleSearch) {
+        handleSearch(searchParams);
+      }
+    });
+  };
 
   return (
-    <Form onSubmit={handleSearch} layout="inline">
+    <Form onSubmit={onSubmit} layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={8} sm={24}>
-          <FormItem label="规则名称">
-            {getFieldDecorator('name')(<Input placeholder="请输入" />)}
+          <FormItem label="订单id">
+            {getFieldDecorator('id')(<Input placeholder="请输入订单id" />)}
           </FormItem>
         </Col>
         <Col md={8} sm={24}>
-          <FormItem label="使用状态">
-            {getFieldDecorator('status')(
-              <Select placeholder="请选择" style={{ width: '100%' }}>
-                <SelectOption value="0">关闭</SelectOption>
-                <SelectOption value="1">运行中</SelectOption>
-              </Select>
-            )}
+          <FormItem label="订单号">
+            {getFieldDecorator('orderNo')(<Input placeholder="请输入订单号" />)}
           </FormItem>
+        </Col>
+        <Col md={8} sm={24}>
+          <FormItem label="状态">
+            {getFieldDecorator('status', {})(<DictionarySelect dicKey={dictionary.ORDER_STATUS} />)}
+          </FormItem>
+        </Col>
+      </Row>
+
+      <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+        <Col md={8} sm={24}>
+          <FormItem label="创建时间">{getFieldDecorator('createTime')(<RangePicker />)}</FormItem>
+        </Col>
+        <Col md={8} sm={24}>
+          <FormItem label="成交时间">{getFieldDecorator('closingTime')(<RangePicker />)}</FormItem>
         </Col>
         <Col md={8} sm={24}>
           <span className={styles.submitButtons}>
@@ -171,43 +206,46 @@ const SearchForm = props => {
 };
 
 @connect(({ orderList, loading }) => ({
-  list: orderList.list,
   orderList,
+  list: orderList.list,
   loading: loading.models.orderList,
 }))
 @Form.create()
 class BasicList extends PureComponent {
-  state = {
-    current: {},
-  };
-
   componentDidMount() {
+    const {
+      list: { pagination },
+    } = this.props;
+
+    this.queryList({
+      pageNo: pagination.current,
+      pageSize: pagination.pageSize,
+    });
+  }
+
+  queryList = params => {
     const { dispatch } = this.props;
     dispatch({
       type: 'orderList/queryPage',
       payload: {
-        pageNo: 0,
-        pageSize: 10,
+        ...params,
       },
     });
-  }
+  };
 
   handleEditorClick = () => {
     console.info('edit');
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    const { dispatch, form } = this.props;
-    const { current } = this.state;
-    const id = current ? current.id : '';
+  handleSearch = fields => {
+    const {
+      list: { pagination },
+    } = this.props;
 
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      dispatch({
-        type: 'list/submit',
-        payload: { id, ...fieldsValue },
-      });
+    this.queryList({
+      ...fields,
+      pageNo: pagination.current,
+      pageSize: pagination.pageSize,
     });
   };
 
@@ -223,7 +261,7 @@ class BasicList extends PureComponent {
             bodyStyle={{ padding: '0 32px 40px 32px' }}
           >
             <div className={styles.tableListForm}>
-              <SearchForm {...this.props} />
+              <SearchForm {...this.props} handleSearch={this.handleSearch} />
             </div>
             <OrderList {...this.props} handleEditorClick={this.handleEditorClick} />
           </Card>

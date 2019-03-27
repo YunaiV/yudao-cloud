@@ -71,5 +71,33 @@ export function ExchangeCoupon(code){
   })
 }
 
+export function getUserInfo() {
+  return request({
+    url: 'user-api/users/user/info',
+    method: 'get',
+    headers: {
+      test: 1,
+    }
+  });
+}
 
-  
+export function doPassportMobileRegister(mobile, code) {
+  return request({
+    url: 'user-api/users/passport/mobile/register',
+    method: 'post',
+    params: {
+      mobile,
+      code,
+    }
+  });
+}
+
+export function doPassportMobileSendRegisterCode(mobile) {
+  return request({
+    url: 'user-api/users/passport/mobile/send_register_code',
+    method: 'post',
+    params: {
+      mobile,
+    }
+  });
+}

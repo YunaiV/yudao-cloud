@@ -82,21 +82,32 @@
 </template>
 
 <script>
-import { GetUserIndex } from "../../api/user.js";
+// import { GetUserIndex } from "../../api/user.js";
+import { getAccessToken } from '../../utils/cache.js';
+import { getUserInfo } from '../../api/user.js';
 
 export default {
   data(){
     return{
-      data:{}
+      data: {},
+      user: {},
     }
   },
   components: {
   },
   created:function(){
-      GetUserIndex().then(response=>{
-          this.data=response;
-      });
+      // GetUserIndex().then(response=>{
+      //     this.data=response;
+      // });
   },
+  mounted() {
+    if (getAccessToken()) { // 存在
+      let response = getUserInfo();
+      response.then(data => {
+        this.user = data;
+      });
+    }
+  }
 };
 </script>
 

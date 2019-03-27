@@ -22,6 +22,10 @@ export function getLoginToken() {
   return res;
 }
 
+export function getAccessToken() {
+  return getLocalStorage(cacheKeys.accessTokenKey);
+}
+
 ///
 /// 设置 localStorage 公共方法
 

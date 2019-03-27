@@ -1,11 +1,14 @@
 import axios from 'axios'
 import {baseUrl, dataSources} from './env';
 import datas from '../data/data';
-
+import { getAccessToken } from '../utils/cache.js';
 
 const service = axios.create({
   baseURL: baseUrl, // api 的 base_url
   timeout: 5000, // request timeout
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+  }
 });
 
 const servicef = function (parameter) {
@@ -21,6 +24,15 @@ const servicef = function (parameter) {
     })
     return promist;
   }
+  // 设置 access token
+  // debugger;
+  // if (getAccessToken()) {
+  //   parameter.headers = {
+  //     ...parameter.headers,
+  //     'Authorization': `Bearer ${getAccessToken()}`,
+  //   };
+  // }
+  // debugger;
   return service(parameter);
 }
 
@@ -32,6 +44,11 @@ service.interceptors.request.use(
     //     // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
     //     config.headers['X-Token'] = getToken()
     //   }
+
+    debugger;
+    if (getAccessToken()) {
+      config.headers['Authorization'] = `Bearer ${getAccessToken()}`;
+    }
 
     return config
   },

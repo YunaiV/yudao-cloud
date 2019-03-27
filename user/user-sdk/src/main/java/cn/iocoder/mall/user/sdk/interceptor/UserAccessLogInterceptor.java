@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -37,6 +38,11 @@ public class UserAccessLogInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        // TODO 芋艿，临时拿来处理 vue axios options 请求的问题。
+        if (HttpMethod.OPTIONS.matches(request.getMethod())) {
+
+            return false; // 通过这样的方式，让前端知道允许的 header 等等。
+        }
         // 记录当前时间
         START_TIME.set(new Date());
         return true;

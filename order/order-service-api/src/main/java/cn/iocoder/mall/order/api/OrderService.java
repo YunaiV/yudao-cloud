@@ -1,7 +1,6 @@
 package cn.iocoder.mall.order.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.order.api.bo.OrderBO;
 import cn.iocoder.mall.order.api.dto.*;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public interface OrderService {
      * @param orderQueryDTO
      * @return
      */
-    CommonResult<List<OrderPageBO>> getOrderPage(OrderQueryDTO orderQueryDTO);
+    CommonResult<OrderPageBO> getOrderPage(OrderQueryDTO orderQueryDTO);
 
     /**
      * 订单 - 创建
@@ -29,7 +28,7 @@ public interface OrderService {
      * @param orderCreateDTO
      * @return
      */
-    CommonResult<OrderBO> createOrder(Integer userId, OrderCreateDTO orderCreateDTO);
+    CommonResult<cn.iocoder.mall.order.api.bo.OrderBO> createOrder(Integer userId, OrderCreateDTO orderCreateDTO);
 
     /**
      * 订单item - 更新

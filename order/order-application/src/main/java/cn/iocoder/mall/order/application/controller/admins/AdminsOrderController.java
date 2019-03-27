@@ -2,14 +2,12 @@ package cn.iocoder.mall.order.application.controller.admins;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.OrderService;
-import cn.iocoder.mall.order.api.dto.OrderItemUpdateDTO;
-import cn.iocoder.mall.order.api.dto.OrderLogisticsUpdateDTO;
-import cn.iocoder.mall.order.api.dto.OrderPageBO;
-import cn.iocoder.mall.order.api.dto.OrderQueryDTO;
+import cn.iocoder.mall.order.api.dto.*;
 import cn.iocoder.mall.order.application.convert.OrderConvertAPP;
 import cn.iocoder.mall.order.application.vo.OrderItemUpdateVO;
 import cn.iocoder.mall.order.application.vo.OrderLogisticsVO;
 import cn.iocoder.mall.order.application.vo.OrderPageQueryVO;
+import cn.iocoder.mall.order.application.vo.OrderPageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +32,9 @@ public class AdminsOrderController {
 
     @GetMapping("page")
     @ApiOperation("订单列表")
-    public CommonResult<List<OrderPageBO>> getOrderPage(@Validated OrderPageQueryVO orderPageQueryVO) {
+    public CommonResult<OrderPageBO> getOrderPage(@Validated OrderPageQueryVO orderPageQueryVO) {
         OrderQueryDTO orderQueryDTO = OrderConvertAPP.INSTANCE.convertPageBO(orderPageQueryVO);
-        CommonResult<List<OrderPageBO>> result = orderService.getOrderPage(orderQueryDTO);
-        return result;
+        return orderService.getOrderPage(orderQueryDTO);
     }
 
     @PutMapping("order_item/update")

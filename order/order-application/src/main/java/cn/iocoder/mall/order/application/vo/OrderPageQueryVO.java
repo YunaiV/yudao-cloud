@@ -2,6 +2,7 @@ package cn.iocoder.mall.order.application.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -34,16 +35,27 @@ public class OrderPageQueryVO implements Serializable {
      * 付款时间（待发货）
      */
     @ApiModelProperty("start付款时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startPaymentTime;
     @ApiModelProperty("end付款时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endPaymentTime;
     /**
      * 创建时间
      */
     @ApiModelProperty("start订单创建时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startCreateTime;
     @ApiModelProperty("end订单创建时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endCreateTime;
+    /**
+     * 结束时间
+     */
+    @ApiModelProperty("start成交时间")
+    private Date startClosingTime;
+    @ApiModelProperty("end成交时间")
+    private Date endClosingTime;
     /**
      * 删除状态
      */
@@ -64,6 +76,8 @@ public class OrderPageQueryVO implements Serializable {
                 ", endPaymentTime=" + endPaymentTime +
                 ", startCreateTime=" + startCreateTime +
                 ", endCreateTime=" + endCreateTime +
+                ", startClosingTime=" + startClosingTime +
+                ", endClosingTime=" + endClosingTime +
                 ", deleted=" + deleted +
                 ", pageNo=" + pageNo +
                 ", pageSize=" + pageSize +
@@ -130,6 +144,24 @@ public class OrderPageQueryVO implements Serializable {
 
     public OrderPageQueryVO setEndCreateTime(Date endCreateTime) {
         this.endCreateTime = endCreateTime;
+        return this;
+    }
+
+    public Date getStartClosingTime() {
+        return startClosingTime;
+    }
+
+    public OrderPageQueryVO setStartClosingTime(Date startClosingTime) {
+        this.startClosingTime = startClosingTime;
+        return this;
+    }
+
+    public Date getEndClosingTime() {
+        return endClosingTime;
+    }
+
+    public OrderPageQueryVO setEndClosingTime(Date endClosingTime) {
+        this.endClosingTime = endClosingTime;
         return this;
     }
 

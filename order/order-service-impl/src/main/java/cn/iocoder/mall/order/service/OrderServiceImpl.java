@@ -5,7 +5,6 @@ import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.OrderCommon;
 import cn.iocoder.mall.order.api.OrderService;
-import cn.iocoder.mall.order.api.bo.OrderBO;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.constant.OrderHasReturnExchangeEnum;
 import cn.iocoder.mall.order.api.constant.OrderStatusEnum;
@@ -47,21 +46,26 @@ public class OrderServiceImpl implements OrderService {
     private OrderCommon orderCommon;
 
     @Override
-    public CommonResult<List<OrderPageBO>> getOrderPage(OrderQueryDTO orderQueryDTO) {
+    public CommonResult<OrderPageBO> getOrderPage(OrderQueryDTO orderQueryDTO) {
 
         int totalCount = orderMapper.selectPageCount(orderQueryDTO);
         if (totalCount == 0) {
-            return CommonResult.success(Collections.EMPTY_LIST);
+            return CommonResult.success(new OrderPageBO().setTotal(0));
         }
 
         List<OrderDO> orderDOList = orderMapper.selectPage(orderQueryDTO);
-        List<OrderPageBO> orderPageBOList = OrderConvert.INSTANCE.convertPageBO(orderDOList);
-        return CommonResult.success(orderPageBOList);
+        List<OrderBO> orderPageBOList = OrderConvert.INSTANCE.convertPageBO(orderDOList);
+
+        return CommonResult.success(
+                new OrderPageBO()
+                        .setTotal(totalCount)
+                        .setOrders(orderPageBOList)
+        );
     }
 
     @Override
     @Transactional
-    public CommonResult<OrderBO> createOrder(Integer userId, OrderCreateDTO orderCreateDTO) {
+    public CommonResult<cn.iocoder.mall.order.api.bo.OrderBO> createOrder(Integer userId, OrderCreateDTO orderCreateDTO) {
         List<OrderCreateItemDTO> orderItemDTOList = orderCreateDTO.getOrderItems();
         OrderLogisticsDO orderLogisticsDO = OrderLogisticsConvert.INSTANCE.convert(orderCreateDTO);
         List<OrderItemDO> orderItemDOList = OrderItemConvert.INSTANCE.convert(orderItemDTOList);
@@ -139,7 +143,7 @@ public class OrderServiceImpl implements OrderService {
         // TODO: 2019-03-17 Sin 需要发送 创建成果 MQ 消息
 
         return CommonResult.success(
-                new OrderBO()
+                new cn.iocoder.mall.order.api.bo.OrderBO()
                         .setId(orderDO.getId())
                         .setOrderNo(orderDO.getOrderNo())
                         .setMoney(orderDO.getPrice())

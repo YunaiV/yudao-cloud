@@ -75,8 +75,15 @@ export function getUserInfo() {
   return request({
     url: 'user-api/users/user/info',
     method: 'get',
-    headers: {
-      test: 1,
+  });
+}
+
+export function doUserUpdateNickname(nickname) {
+  return request({
+    url: 'user-api/users/user/update_nickname',
+    method: 'post',
+    params: {
+      nickname,
     }
   });
 }
@@ -101,3 +108,4 @@ export function doPassportMobileSendRegisterCode(mobile) {
     }
   });
 }
+

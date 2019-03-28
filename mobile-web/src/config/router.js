@@ -17,32 +17,32 @@ const routes = [
   },
   {
 		path: '/login',
-    component: () => import('../page/account/login'),
-    meta: {
-      title: '登录'
-    }
-  },
-  {
-		path: '/login/password',
-    component: () => import('../page/account/password'),
-    meta: {
-      title: '登录'
-    }
-  },
-  {
-		path: '/login/phone',
     component: () => import('../page/account/phonelogin'),
     meta: {
-      title: '手机号登录'
+      title: '登录'
     }
   },
-  {
-		path: '/login/register',
-    component: () => import('../page/account/register'),
-    meta: {
-      title: '注册'
-    }
-  },
+  // {
+	// 	path: '/login/password',
+  //   component: () => import('../page/account/password'),
+  //   meta: {
+  //     title: '登录'
+  //   }
+  // },
+  // {
+	// 	path: '/login/phone',
+  //   component: () => import('../page/account/phonelogin'),
+  //   meta: {
+  //     title: '手机号登录'
+  //   }
+  // },
+  // {
+	// 	path: '/login/register',
+  //   component: () => import('../page/account/register'),
+  //   meta: {
+  //     title: '注册'
+  //   }
+  // },
   {
 		path: '/user/index',
     component: () => import('../page/user/index'),
@@ -56,7 +56,7 @@ const routes = [
     component: () => import('../page/user/info/detail'),
     name: 'user',
     meta: {
-      title: '账号管理'
+      title: '个人信息'
     }
   },
   {

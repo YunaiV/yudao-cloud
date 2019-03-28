@@ -22,6 +22,8 @@ export function getLoginToken() {
   return res;
 }
 
+
+
 ///
 /// 设置 localStorage 公共方法
 
@@ -38,5 +40,13 @@ function getLocalStorage(key) {
     return localStorage.getItem(key);
   } catch (e) {
     throw new Error(`localStorage 获取错误! ${e}`);
+  }
+}
+
+function removeLocalStorage(key) {
+  try {
+    localStorage.removeItem(key);
+  } catch (e) {
+    throw new Error(`localStorage 设置错误! ${e}`);
   }
 }

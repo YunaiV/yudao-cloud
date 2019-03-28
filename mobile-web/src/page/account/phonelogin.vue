@@ -1,30 +1,85 @@
 <template>
     <div>
       <headerNav title="手机号登录"/>
-      <div style="background:url(https://haitao.nos.netease.com/f866dd18-12f0-4bb2-be6d-5cac85cf2627.png) center 18px no-repeat;background-size:161px;">
+      <div>
           <div style="padding-top: 70px;">
             <van-cell-group>
                 <van-field
                     placeholder="请输入手机号"
+                    @input="inputMobile"
                 />
                  <van-field
                     center
-                    clearable
                     placeholder="请输入短信验证码"
+                    @input="inputCode"
                 >
-                    <van-button slot="button" size="small" type="primary">发送验证码</van-button>
+                    <van-button slot="button" size="small" type="primary" @click="sendCode">发送验证码</van-button>
                 </van-field>
             </van-cell-group>
             <div style="margin: 10px;">
-                <van-button size="large" type="primary" style="height: 45px;line-height:45px;">登录</van-button>
+                <van-button size="large" type="primary" style="height: 45px;line-height:45px;" @click="submit">登录</van-button>
             </div>
+            <div>1. 新注册的手机号验证后自动创建账户</div>
+            <div>2. 默认验证码是 9999</div>
           </div>
       </div>
     </div>
 </template>
 
 <script>
+import { doPassportMobileSendRegisterCode, doPassportMobileRegister } from '../../api/user';
+import { Dialog } from 'vant';
+import { setLoginToken } from '../../utils/cache';
+
 export default {
+
+  data() {
+    return {
+      mobile: '',
+      code: '',
+    }
+  },
+
+  methods: {
+    inputMobile: function (value) {
+      this.mobile = value;
+    },
+    inputCode: function (value) {
+      this.code = value;
+    },
+    sendCode: function() {
+      if (!this.mobile || this.mobile.length !== 11) {
+        Dialog.alert({
+          title: '系统提示',
+          message: '手机号码不正确',
+        });
+        return;
+      }
+      let response = doPassportMobileSendRegisterCode(this.mobile);
+      response.then(data => {
+        Dialog.alert({
+          title: '系统提示',
+          message: '发送验证码成功',
+        });
+      });
+    },
+    submit: function () {
+      let that = this;
+      let response = doPassportMobileRegister(this.mobile, this.code);
+      response.then(data => {
+        setLoginToken(data.accessToken, data.refreshToken);
+        Dialog.alert({
+          title: '系统提示',
+          message: '登陆成功',
+          beforeClose: function (action, done) {
+            done();
+            // TODO 芋艿，先暂时不做 callback
+            that.$router.push('/user/index');
+          }
+        });
+      });
+    }
+  }
 
 }
 </script>

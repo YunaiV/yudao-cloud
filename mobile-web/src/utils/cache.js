@@ -22,6 +22,11 @@ export function getLoginToken() {
   return res;
 }
 
+export function clearLoginToken() {
+  removeLocalStorage(cacheKeys.accessTokenKey);
+  removeLocalStorage(cacheKeys.refreshTokenKey);
+}
+
 export function getAccessToken() {
   return getLocalStorage(cacheKeys.accessTokenKey);
 }
@@ -42,5 +47,13 @@ function getLocalStorage(key) {
     return localStorage.getItem(key);
   } catch (e) {
     throw new Error(`localStorage 获取错误! ${e}`);
+  }
+}
+
+function removeLocalStorage(key) {
+  try {
+    localStorage.removeItem(key);
+  } catch (e) {
+    throw new Error(`localStorage 设置错误! ${e}`);
   }
 }

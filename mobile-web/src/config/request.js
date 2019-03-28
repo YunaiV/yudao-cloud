@@ -2,6 +2,7 @@ import axios from 'axios'
 import {baseUrl, dataSources} from './env';
 import datas from '../data/data';
 import { getAccessToken } from '../utils/cache.js';
+import { Dialog } from 'vant';
 
 const service = axios.create({
   baseURL: baseUrl, // api 的 base_url
@@ -45,7 +46,15 @@ service.interceptors.request.use(
     //     config.headers['X-Token'] = getToken()
     //   }
 
-    debugger;
+    // debugger;
+    let url = config.url;
+    // TODO 芋艿，这些 url 不用增加认证 token 。可能这么写，有点脏，后面看看咋优化下。
+    if (url === 'user-api/users/passport/mobile/send_register_code'
+      || url === 'user-api/users/passport/mobile/register') {
+      return config;
+    }
+
+    // debugger;
     if (getAccessToken()) {
       config.headers['Authorization'] = `Bearer ${getAccessToken()}`;
     }
@@ -71,12 +80,9 @@ service.interceptors.response.use(
   response => {
     // debugger;
     const res = response.data;
-    if (res.code !== 0) {
-      // Message({
-      //   message: res.message,
-      //   type: 'error',
-      //   duration: 5 * 1000
-      // })
+    const code = res.code;
+    if (code !== 0) {
+
       // // 50008:非法的token; 50012:其他客户端登录了;  50014:Token 过期了;
       // if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
       //   // 请自行在引入 MessageBox
@@ -91,6 +97,32 @@ service.interceptors.response.use(
       //     })
       //   })
       // }
+
+
+
+      // TODO token 过期
+      // TODO 需要拿 refresh token 置换
+      if (code === 1001001012) {
+        Dialog.confirm({
+          title: '系统提示',
+          message: res.message,
+          confirmButtonText: '重新登陆',
+          beforeClose: function (action, done) {
+            done();
+            if (action === 'confirm') {
+              // debugger;
+              // this.$router.push({ path: '/login' })
+              // TODO 跳转到登陆页.不是很优雅
+              location.replace('/#login');
+            }
+          }
+        });
+      } else {
+        Dialog.alert({
+          title: '系统提示',
+          message: res.message,
+        });
+      }
       console.log(1);
       return Promise.reject('error')
     } else {

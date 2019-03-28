@@ -3,12 +3,12 @@
     <div class="user-profile">
       <div class="user-profile-avatar">
         <a href="/#/user/info">
-          <img :src="data.Avatar" alt="用户头像">
+          <img :src="user && user.avatar ? user.avatar : 'http://static.iocoder.cn/1553652151601.jpg?imageView2/2/w/308/h/210/interlace/1/q/100'">
         </a>
       </div>
       <div class="user-profile-username">
         <a href="/#/user/info">
-          <span class="m-nick">{{data.UserName}}</span>
+          <span class="m-nick">{{user ? user.nickname : '未登陆'}}</span>
         </a>  
       </div>
     </div>
@@ -75,7 +75,8 @@
     </van-cell-group>
 
     <van-cell-group>
-      <van-cell title="切换账号" is-link to="/login" />
+        <van-cell v-if="user" title="退出登录" @click="logout" />
+        <van-cell v-else title="登陆" is-link to="/login" />
     </van-cell-group>
     <navigate />
   </div>
@@ -83,17 +84,26 @@
 
 <script>
 // import { GetUserIndex } from "../../api/user.js";
-import { getAccessToken } from '../../utils/cache.js';
+import { getAccessToken, clearLoginToken } from '../../utils/cache.js';
 import { getUserInfo } from '../../api/user.js';
 
 export default {
   data(){
     return{
       data: {},
-      user: {},
+      user: undefined,
     }
   },
   components: {
+  },
+  methods: {
+    logout: function () {
+      // 清空本地 token
+      clearLoginToken();
+      // TODO 芋艿，后面最好处理下 token
+      // 跳转到登陆
+      this.$router.push('/login');
+    }
   },
   created:function(){
       // GetUserIndex().then(response=>{

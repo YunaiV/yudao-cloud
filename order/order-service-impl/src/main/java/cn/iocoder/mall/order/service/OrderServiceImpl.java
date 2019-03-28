@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.service;
 
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
+import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.OrderCommon;
@@ -53,13 +54,33 @@ public class OrderServiceImpl implements OrderService {
             return CommonResult.success(new OrderPageBO().setTotal(0));
         }
 
+        // 获取订单数据
         List<OrderDO> orderDOList = orderMapper.selectPage(orderQueryDTO);
+
+        // 获取订单 id
+        Set<Integer> orderIds = orderDOList.stream().map(orderDO -> orderDO.getId()).collect(Collectors.toSet());
+
+        // 获取 订单的 items
+        List<OrderItemDO> orderItemDOList = orderItemMapper
+                .selectByOrderIdsAndStatus(orderIds, DeletedStatusEnum.DELETED_NO.getValue());
+
+        List<OrderItemBO> orderItemBOList = OrderItemConvert.INSTANCE.convertOrderItemDO(orderItemDOList);
+        Map<Integer, List<OrderItemBO>> orderItemBOMultimap = CollectionUtil
+                .buildMultimap(orderItemBOList, Integer.class, OrderItemBO.class, "orderId");
+
+        // 转换 orderDO 为 OrderBO，并设置 item
         List<OrderBO> orderPageBOList = OrderConvert.INSTANCE.convertPageBO(orderDOList);
+        List<OrderBO> result = orderPageBOList.stream().map(orderBO -> {
+            if (orderItemBOMultimap.containsKey(orderBO.getId())) {
+                orderBO.setOrderItems(orderItemBOMultimap.get(orderBO.getId()));
+            }
+            return orderBO;
+        }).collect(Collectors.toList());
 
         return CommonResult.success(
                 new OrderPageBO()
                         .setTotal(totalCount)
-                        .setOrders(orderPageBOList)
+                        .setOrders(result)
         );
     }
 

@@ -2,6 +2,7 @@ package cn.iocoder.mall.order.api.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 订单 page
@@ -79,9 +80,17 @@ public class OrderBO implements Serializable {
      */
     private String remark;
 
+    ///
+    /// 关联信息
+
+    /**
+     * orderItem
+     */
+    private List<OrderItemBO> orderItems;
+
     @Override
     public String toString() {
-        return "OrderPageBO{" +
+        return "OrderBO{" +
                 "id=" + id +
                 ", userId=" + userId +
                 ", orderLogisticsId=" + orderLogisticsId +
@@ -94,6 +103,7 @@ public class OrderBO implements Serializable {
                 ", hasReturnExchange=" + hasReturnExchange +
                 ", status=" + status +
                 ", remark='" + remark + '\'' +
+                ", orderItems=" + orderItems +
                 '}';
     }
 
@@ -202,6 +212,15 @@ public class OrderBO implements Serializable {
 
     public OrderBO setRemark(String remark) {
         this.remark = remark;
+        return this;
+    }
+
+    public List<OrderItemBO> getOrderItems() {
+        return orderItems;
+    }
+
+    public OrderBO setOrderItems(List<OrderItemBO> orderItems) {
+        this.orderItems = orderItems;
         return this;
     }
 }

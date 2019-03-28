@@ -3,6 +3,7 @@ package cn.iocoder.mall.order.application.convert;
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderLogisticsUpdateDTO;
 import cn.iocoder.mall.order.dataobject.OrderLogisticsDO;
+import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
@@ -12,6 +13,7 @@ import org.mapstruct.factory.Mappers;
  * @author Sin
  * @time 2019-03-23 14:39
  */
+@Mapper
 public interface OrderLogisticsConvert {
 
     OrderLogisticsConvert INSTANCE = Mappers.getMapper(OrderLogisticsConvert.class);

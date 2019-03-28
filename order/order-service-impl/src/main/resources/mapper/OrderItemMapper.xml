@@ -110,4 +110,17 @@
           AND order_id = #{orderId}
         </if>
     </select>
+
+    <!--
+        查询 - 根据 orderIds 和 status
+    -->
+    <select id="selectByOrderIdsAndStatus" resultType="cn.iocoder.mall.order.dataobject.OrderItemDO">
+        SELECT * FROM `order_item`
+        WHERE `status` = #{status}
+        AND `order_id`
+        IN
+        <foreach collection="orderIds" index="orderId" open="(" close=")" separator=",">
+          #{orderId}
+        </foreach>
+    </select>
 </mapper>

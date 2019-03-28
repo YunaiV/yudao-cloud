@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -39,6 +40,18 @@ public interface OrderItemMapper {
     void updateByIds(
             @Param("ids") List<Integer> ids,
             OrderItemDO orderItemDO
+    );
+
+    /**
+     * 查询 - 根据 orderIds 和 status
+     *
+     * @param orderIds
+     * @param status
+     * @return
+     */
+    List<OrderItemDO> selectByOrderIdsAndStatus(
+            @Param("orderIds") Collection<Integer> orderIds,
+            @Param("status") Integer status
     );
 
     /**

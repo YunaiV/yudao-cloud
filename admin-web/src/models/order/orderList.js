@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { orderPage, updateOrderItem } from '../../services/order';
+import { orderPage, updateOrderItem, updateOrderItemPayAmount } from '../../services/order';
 
 export default {
   namespace: 'orderList',
@@ -13,11 +13,26 @@ export default {
       },
       dataSource: [],
     },
+    payAmountVisible: false,
+    payAmount: 0,
+    orderId: 0,
+    orderItemId: 0,
+    searchParams: {},
   },
 
   effects: {
     *queryPage({ payload }, { call, put }) {
       const response = yield call(orderPage, payload);
+
+      yield put({
+        type: 'changeSearchParams',
+        payload: {
+          searchParams: {
+            ...payload,
+          },
+        },
+      });
+
       message.info('查询成功!', response);
       const { total, orders } = response.data;
       yield put({
@@ -45,6 +60,23 @@ export default {
         },
       });
     },
+    *updatePayAmount({ payload }, { call, put }) {
+      const { searchParams, params } = payload;
+      yield call(updateOrderItemPayAmount, params);
+      yield put({
+        type: 'changePayAmountVisible',
+        payload: {
+          payAmountVisible: false,
+        },
+      });
+
+      yield put({
+        type: 'queryPage',
+        payload: {
+          ...searchParams,
+        },
+      });
+    },
   },
 
   reducers: {
@@ -53,6 +85,18 @@ export default {
       return {
         ...state,
         list,
+      };
+    },
+    changePayAmountVisible(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
+    changeSearchParams(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
       };
     },
   },

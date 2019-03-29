@@ -1,119 +1,123 @@
-import React, { Fragment, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
-import { Button, Card, Col, Divider, Form, Input, Row, Table, DatePicker } from 'antd';
+import { Button, Card, Col, Divider, Form, Input, Row, Tabs, DatePicker, List } from 'antd';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import DictionaryText from '@/components/Dictionary/DictionaryText';
-import DictionarySelect from '@/components/Dictionary/DictionarySelect';
+import OrderUpdatePayAmount from './OrderUpdatePayAmount';
 import dictionary from '@/utils/dictionary';
 
 import styles from './OrderList.less';
 
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
+const { TabPane } = Tabs;
 
-const OrderList = props => {
-  const { list, dispatch, loading, handleModalVisible } = props;
+const OrderContent = orderItem => {
+  const { dispatch, skuName, skuImage, quantity, price, payAmount, createTime, status } = orderItem;
 
-  // 翻页
-  const onPageChange = page => {
-    const { searchParams } = props;
+  const handleUpdatePayAmount = updateOrderItem => {
     dispatch({
-      type: 'adminList/query',
+      type: 'orderList/changePayAmountVisible',
       payload: {
-        pageNo: page.current,
-        pageSize: page.pageSize,
-        ...searchParams,
+        payAmountVisible: true,
+        payAmount: updateOrderItem.payAmount,
+        orderId: updateOrderItem.orderId,
+        orderItemId: updateOrderItem.id,
       },
     });
   };
 
-  const columns = [
-    {
-      title: '订单id',
-      dataIndex: 'id',
-    },
-    {
-      title: '用户',
-      dataIndex: 'userId',
-    },
-    {
-      title: '订单号',
-      dataIndex: 'orderNo',
-    },
-    {
-      title: '金额',
-      dataIndex: 'price',
-      render(val) {
-        return <span>{val} 元</span>;
-      },
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      render(val) {
-        return <DictionaryText dicKey={dictionary.ORDER_STATUS} dicValue={val} />;
-      },
-    },
-    {
-      title: '付款时间',
-      dataIndex: 'paymentTime',
-      render: val => (!val ? '' : <span>{moment(val).format('YYYY-MM-DD HH:mm')}</span>),
-    },
-    {
-      title: '发货时间',
-      dataIndex: 'deliveryTime',
-      render: val => (!val ? '' : <span>{moment(val).format('YYYY-MM-DD HH:mm')}</span>),
-    },
-    {
-      title: '收货时间',
-      dataIndex: 'receiverTime',
-      render: val => (!val ? '' : <span>{moment(val).format('YYYY-MM-DD HH:mm')}</span>),
-    },
-    {
-      title: '成交时间',
-      dataIndex: 'closingTime',
-      render: val => (!val ? '' : <span>{moment(val).format('YYYY-MM-DD HH:mm')}</span>),
-    },
-    {
-      title: '创建时间',
-      dataIndex: 'createTime',
-      render: val => (!val ? '' : <span>{moment(val).format('YYYY-MM-DD HH:mm')}</span>),
-    },
-    {
-      title: '操作',
-      width: 100,
-      render: (text, record) => {
-        return (
-          <Fragment>
-            <a onClick={() => handleModalVisible(true, 'update', record)}>编辑</a>
-            <Divider type="vertical" />
-          </Fragment>
-        );
-      },
-    },
-  ];
+  return (
+    <div className={styles.order}>
+      <img alt={skuName} className={`${styles.image}`} src={skuImage} />
+      <div className={styles.contentItem}>
+        <div className={styles.columnName}>(名称)</div>
+        <div>
+          <a>{skuName}</a>
+        </div>
+        <div>秋季精选</div>
+      </div>
+      <div className={styles.contentItem}>
+        <div className={styles.columnName}>(金额/物件)</div>
+        <div>{quantity}件</div>
+        <div>
+          {price / 100} 元/{quantity * (price / 100)} 元
+        </div>
+      </div>
+      <div className={styles.contentItem}>
+        <div className={styles.columnName}>(购买人)</div>
+        <div>范先生</div>
+        <div>13302926050</div>
+      </div>
+      <div className={styles.contentItem}>
+        <div className={styles.columnName}>(下单时间)</div>
+        <div>{moment(createTime).format('YYYY-MM-DD HH:mm')}</div>
+        <div>&nbsp;</div>
+      </div>
+      <div className={styles.contentItem}>
+        <div className={styles.columnName}>(订单状态)</div>
+        <div>
+          <DictionaryText dicKey={dictionary.ORDER_STATUS} dicValue={status} />
+        </div>
+        <div>{[0, 1, 2].indexOf(status) ? <Button>取消订单</Button> : ''}</div>
+      </div>
+      <div className={styles.contentItem}>
+        <div className={styles.columnName}>(实付金额)</div>
+        <div>{payAmount / 100}元</div>
+        <div>
+          <a onClick={() => handleUpdatePayAmount(orderItem)}>修改价格</a>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-  const tableScroll = {
-    x: 1400,
+const OrderList = props => {
+  const { list, dispatch, loading } = props;
+  const { pagination, dataSource } = list;
+
+  const paginationProps = {
+    ...pagination,
   };
 
   return (
-    <Table
+    <List
+      size="large"
       rowKey="id"
-      columns={columns}
-      dataSource={list.dataSource}
       loading={loading}
-      pagination={list.pagination}
-      onChange={onPageChange}
-      scroll={tableScroll}
+      pagination={paginationProps}
+      dataSource={dataSource}
+      renderItem={item => (
+        <List.Item>
+          <div className={styles.orderGroup}>
+            <div className={styles.header}>
+              <div>
+                <span>订单号: {item.orderNo}</span>
+                <Divider type="vertical" />
+                <span>支付金额: {item.payAmount / 100} 元</span>
+              </div>
+
+              <div>
+                <a>查看详情</a>
+                <Divider type="vertical" />
+                <a>备注</a>
+              </div>
+            </div>
+
+            {item.orderItems.map(orderItem => {
+              return <OrderContent key={orderItem.id} dispatch={dispatch} {...orderItem} />;
+            })}
+          </div>
+        </List.Item>
+      )}
     />
   );
 };
 
 // SearchForm
-const SearchForm = props => {
+const SearchForm = Form.create()(props => {
   const {
     form: { getFieldDecorator },
     form,
@@ -176,11 +180,6 @@ const SearchForm = props => {
             {getFieldDecorator('orderNo')(<Input placeholder="请输入订单号" />)}
           </FormItem>
         </Col>
-        <Col md={8} sm={24}>
-          <FormItem label="状态">
-            {getFieldDecorator('status', {})(<DictionarySelect dicKey={dictionary.ORDER_STATUS} />)}
-          </FormItem>
-        </Col>
       </Row>
 
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
@@ -203,14 +202,13 @@ const SearchForm = props => {
       </Row>
     </Form>
   );
-};
+});
 
 @connect(({ orderList, loading }) => ({
   orderList,
   list: orderList.list,
   loading: loading.models.orderList,
 }))
-@Form.create()
 class BasicList extends PureComponent {
   componentDidMount() {
     const {
@@ -225,6 +223,9 @@ class BasicList extends PureComponent {
 
   queryList = params => {
     const { dispatch } = this.props;
+    // 保存每次操作 searchParams
+    this.searchParams = params;
+    // dispatch
     dispatch({
       type: 'orderList/queryPage',
       payload: {
@@ -249,6 +250,15 @@ class BasicList extends PureComponent {
     });
   };
 
+  handleTabsChange = key => {
+    const params = {
+      ...this.searchParams,
+      status: key,
+    };
+
+    this.queryList(params);
+  };
+
   render() {
     return (
       <PageHeaderWrapper>
@@ -263,9 +273,20 @@ class BasicList extends PureComponent {
             <div className={styles.tableListForm}>
               <SearchForm {...this.props} handleSearch={this.handleSearch} />
             </div>
+            <Tabs defaultActiveKey={null} onChange={this.handleTabsChange}>
+              <TabPane tab="全部" key={null} />
+              <TabPane tab="待付款" key={0} />
+              <TabPane tab="待发货" key={1} />
+              <TabPane tab="已发货" key={2} />
+              <TabPane tab="已完成" key={3} />
+              <TabPane tab="已关闭" key={4} />
+            </Tabs>
+
             <OrderList {...this.props} handleEditorClick={this.handleEditorClick} />
           </Card>
         </div>
+
+        <OrderUpdatePayAmount {...this.props} />
       </PageHeaderWrapper>
     );
   }

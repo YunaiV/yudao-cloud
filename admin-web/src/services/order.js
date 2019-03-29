@@ -8,6 +8,12 @@ export async function orderPage(params) {
   });
 }
 
+export async function updateOrderItemPayAmount(params) {
+  return request(`/order-api/admins/order/order_item/update_pay_amount?${stringify(params)}`, {
+    method: 'PUT',
+  });
+}
+
 export async function updateOrderItem(params) {
   return request(`/order-api/admins/order_item/update?${stringify(params)}`, {
     method: 'PUT',

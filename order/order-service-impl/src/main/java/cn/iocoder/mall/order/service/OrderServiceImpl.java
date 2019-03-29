@@ -1,24 +1,25 @@
 package cn.iocoder.mall.order.service;
 
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
-import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.OrderCommon;
 import cn.iocoder.mall.order.api.OrderService;
+import cn.iocoder.mall.order.api.bo.*;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.constant.OrderHasReturnExchangeEnum;
 import cn.iocoder.mall.order.api.constant.OrderStatusEnum;
 import cn.iocoder.mall.order.api.dto.*;
-import cn.iocoder.mall.order.application.convert.OrderConvert;
-import cn.iocoder.mall.order.application.convert.OrderItemConvert;
-import cn.iocoder.mall.order.application.convert.OrderLogisticsConvert;
+import cn.iocoder.mall.order.convert.OrderConvert;
+import cn.iocoder.mall.order.convert.OrderItemConvert;
+import cn.iocoder.mall.order.convert.OrderLogisticsConvert;
 import cn.iocoder.mall.order.dao.OrderItemMapper;
 import cn.iocoder.mall.order.dao.OrderLogisticsMapper;
 import cn.iocoder.mall.order.dao.OrderMapper;
 import cn.iocoder.mall.order.dataobject.OrderDO;
 import cn.iocoder.mall.order.dataobject.OrderItemDO;
 import cn.iocoder.mall.order.dataobject.OrderLogisticsDO;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,21 +59,45 @@ public class OrderServiceImpl implements OrderService {
         List<OrderDO> orderDOList = orderMapper.selectPage(orderQueryDTO);
 
         // 获取订单 id
-        Set<Integer> orderIds = orderDOList.stream().map(orderDO -> orderDO.getId()).collect(Collectors.toSet());
+        Set<Integer> orderIds = orderDOList.stream()
+                .map(orderDO -> orderDO.getId())
+                .collect(Collectors.toSet());
+
+        Set<Integer> orderLogisticsIds = orderDOList.stream()
+                .map(orderDO -> orderDO.getOrderLogisticsId())
+                .collect(Collectors.toSet());
+
+        // 获取物流信息
+        List<OrderLogisticsDO> orderLogisticsDOList = orderLogisticsMapper.selectByIds(orderLogisticsIds);
+        List<OrderLogisticsBO> orderLogisticsBOList
+                = OrderLogisticsConvert.INSTANCE.convertOrderLogisticsBO(orderLogisticsDOList);
+        Map<Integer, OrderLogisticsBO> orderLogisticsDOMap
+                = orderLogisticsBOList.stream().collect(Collectors.toMap(OrderLogisticsBO::getId, obj -> obj));
 
         // 获取 订单的 items
         List<OrderItemDO> orderItemDOList = orderItemMapper
-                .selectByOrderIdsAndStatus(orderIds, DeletedStatusEnum.DELETED_NO.getValue());
+                .selectByOrderIdsAndDeleted(orderIds, DeletedStatusEnum.DELETED_NO.getValue());
 
         List<OrderItemBO> orderItemBOList = OrderItemConvert.INSTANCE.convertOrderItemDO(orderItemDOList);
-        Map<Integer, List<OrderItemBO>> orderItemBOMultimap = CollectionUtil
-                .buildMultimap(orderItemBOList, Integer.class, OrderItemBO.class, "orderId");
+        Map<Integer, List<OrderItemBO>> orderItemBOMultimap = orderItemBOList.stream().collect(
+                Collectors.toMap(
+                        OrderItemBO::getOrderId,
+                        item -> Lists.newArrayList(item),
+                        (oldVal, newVal) -> {
+                            oldVal.addAll(newVal);
+                            return oldVal;
+                        }
+                )
+        );
 
         // 转换 orderDO 为 OrderBO，并设置 item
         List<OrderBO> orderPageBOList = OrderConvert.INSTANCE.convertPageBO(orderDOList);
         List<OrderBO> result = orderPageBOList.stream().map(orderBO -> {
             if (orderItemBOMultimap.containsKey(orderBO.getId())) {
                 orderBO.setOrderItems(orderItemBOMultimap.get(orderBO.getId()));
+            }
+            if (orderLogisticsDOMap.containsKey(orderBO.getOrderLogisticsId())) {
+                orderBO.setOrderLogistics(orderLogisticsDOMap.get(orderBO.getOrderLogisticsId()));
             }
             return orderBO;
         }).collect(Collectors.toList());
@@ -86,7 +111,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public CommonResult<cn.iocoder.mall.order.api.bo.OrderBO> createOrder(Integer userId, OrderCreateDTO orderCreateDTO) {
+    public CommonResult<OrderCreateBO> createOrder(Integer userId, OrderCreateDTO orderCreateDTO) {
         List<OrderCreateItemDTO> orderItemDTOList = orderCreateDTO.getOrderItems();
         OrderLogisticsDO orderLogisticsDO = OrderLogisticsConvert.INSTANCE.convert(orderCreateDTO);
         List<OrderItemDO> orderItemDOList = OrderItemConvert.INSTANCE.convert(orderItemDTOList);
@@ -120,7 +145,7 @@ public class OrderServiceImpl implements OrderService {
                 .setUserId(userId)
                 .setOrderLogisticsId(orderLogisticsDO.getId())
                 .setOrderNo(UUID.randomUUID().toString().replace("-", ""))
-                .setPrice(-1) // 先设置一个默认值，金额在下面计算
+                .setPayAmount(-1) // 先设置一个默认值，金额在下面计算
                 .setClosingTime(null)
                 .setDeliveryTime(null)
                 .setPaymentTime(null)
@@ -140,6 +165,9 @@ public class OrderServiceImpl implements OrderService {
                     .setOrderId(orderDO.getId())
                     .setOrderNo(orderDO.getOrderNo())
                     .setPrice(goodsPrice)
+                    .setPayAmount(orderItemDO.getQuantity() * orderItemDO.getPrice())
+                    .setSkuName("夏季衣服-默认数据")
+                    .setSkuImage("//img.alicdn.com/tps/i4/TB1TiGwKXXXXXXRXFXXqVMCNVXX-400-400.jpg_350x350q90.jpg_.webp")
                     .setPaymentTime(null)
                     .setDeliveryTime(null)
                     .setReceiverTime(null)
@@ -158,16 +186,16 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.updateById(
                 new OrderDO()
                         .setId(orderDO.getId())
-                        .setPrice(totalAmount)
+                        .setPayAmount(totalAmount)
         );
 
         // TODO: 2019-03-17 Sin 需要发送 创建成果 MQ 消息
 
         return CommonResult.success(
-                new cn.iocoder.mall.order.api.bo.OrderBO()
+                new OrderCreateBO()
                         .setId(orderDO.getId())
                         .setOrderNo(orderDO.getOrderNo())
-                        .setMoney(orderDO.getPrice())
+                        .setPayAmount(orderDO.getPayAmount())
         );
     }
 
@@ -178,6 +206,19 @@ public class OrderServiceImpl implements OrderService {
 
         // TODO: 2019-03-24 sin 需要重新计算金额
         // TODO: 2019-03-24 sin 需要记录日志
+        return CommonResult.success(null);
+    }
+
+    @Override
+    @Transactional
+    public CommonResult updateOrderItemPayAmount(Integer orderId, Integer orderItemId, Integer payAmount) {
+        if (payAmount < 0) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_PAY_AMOUNT_NOT_NEGATIVE.getCode());
+        }
+        orderItemMapper.updateById(new OrderItemDO().setId(orderItemId).setPayAmount(payAmount));
+        List<OrderItemDO> orderItemDOList = orderItemMapper.selectByOrderIdAndDeleted(orderId, DeletedStatusEnum.DELETED_NO.getValue());
+        Integer orderPayAmount = orderCommon.calculatedAmount(orderItemDOList);
+        orderMapper.updateById(new OrderDO().setId(orderId).setPayAmount(orderPayAmount));
         return CommonResult.success(null);
     }
 
@@ -211,7 +252,7 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.updateById(
                 new OrderDO()
                         .setId(orderId)
-                        .setPrice(totalAmount)
+                        .setPayAmount(totalAmount)
         );
         return CommonResult.success(null);
     }

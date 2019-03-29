@@ -29,13 +29,25 @@ public class OrderItemDO extends DeletableDO {
      */
     private Integer skuId;
     /**
+     * 商品名称
+     */
+    private String skuName;
+    /**
+     * 商品图片
+     */
+    private String skuImage;
+    /**
      * 数量
      */
     private Integer quantity;
     /**
-     * 金额(分)
+     * 价格(分)
      */
     private Integer price;
+    /**
+     * 支付金额（实付金额）
+     */
+    private Integer payAmount;
 
     ///
     /// 时间信息
@@ -86,9 +98,12 @@ public class OrderItemDO extends DeletableDO {
                 "id=" + id +
                 ", orderId=" + orderId +
                 ", orderNo='" + orderNo + '\'' +
-                ", skuId='" + skuId + '\'' +
+                ", skuId=" + skuId +
+                ", skuName=" + skuName +
+                ", skuImage=" + skuImage +
                 ", quantity=" + quantity +
                 ", price=" + price +
+                ", payAmount=" + payAmount +
                 ", paymentTime=" + paymentTime +
                 ", deliveryTime=" + deliveryTime +
                 ", receiverTime=" + receiverTime +
@@ -134,6 +149,24 @@ public class OrderItemDO extends DeletableDO {
         return this;
     }
 
+    public String getSkuName() {
+        return skuName;
+    }
+
+    public OrderItemDO setSkuName(String skuName) {
+        this.skuName = skuName;
+        return this;
+    }
+
+    public String getSkuImage() {
+        return skuImage;
+    }
+
+    public OrderItemDO setSkuImage(String skuImage) {
+        this.skuImage = skuImage;
+        return this;
+    }
+
     public Integer getQuantity() {
         return quantity;
     }
@@ -149,6 +182,15 @@ public class OrderItemDO extends DeletableDO {
 
     public OrderItemDO setPrice(Integer price) {
         this.price = price;
+        return this;
+    }
+
+    public Integer getPayAmount() {
+        return payAmount;
+    }
+
+    public OrderItemDO setPayAmount(Integer payAmount) {
+        this.payAmount = payAmount;
         return this;
     }
 

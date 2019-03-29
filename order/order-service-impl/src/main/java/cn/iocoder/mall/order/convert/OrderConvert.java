@@ -1,6 +1,6 @@
-package cn.iocoder.mall.order.application.convert;
+package cn.iocoder.mall.order.convert;
 
-import cn.iocoder.mall.order.api.dto.OrderBO;
+import cn.iocoder.mall.order.api.bo.OrderBO;
 import cn.iocoder.mall.order.dataobject.OrderDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;

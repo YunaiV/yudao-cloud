@@ -3,7 +3,7 @@
 <mapper namespace="cn.iocoder.mall.order.dao.OrderMapper">
 
     <sql id="FIELDS">
-        id, user_id, order_logistics_id, order_no, price, payment_time,
+        id, user_id, order_logistics_id, order_no, pay_amount, payment_time,
         delivery_time, receiver_time, closing_time, has_return_exchange,
         status, remark, create_time, update_time, `deleted`
     </sql>
@@ -36,8 +36,8 @@
             <if test="orderNo != null">
                 , order_no = #{orderNo}
             </if>
-            <if test="price != null">
-                , price = #{price}
+            <if test="payAmount != null">
+                , pay_amount = #{payAmount}
             </if>
 -- time
             <if test="paymentTime != null">

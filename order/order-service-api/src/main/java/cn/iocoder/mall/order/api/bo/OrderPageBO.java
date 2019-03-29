@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.api.dto;
+package cn.iocoder.mall.order.api.bo;
 
 import java.io.Serializable;
 import java.util.List;

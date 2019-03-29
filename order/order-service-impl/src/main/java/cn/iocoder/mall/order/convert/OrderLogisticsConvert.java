@@ -1,11 +1,14 @@
-package cn.iocoder.mall.order.application.convert;
+package cn.iocoder.mall.order.convert;
 
+import cn.iocoder.mall.order.api.bo.OrderLogisticsBO;
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderLogisticsUpdateDTO;
 import cn.iocoder.mall.order.dataobject.OrderLogisticsDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 /**
  * 订单物流 convert
@@ -23,4 +26,7 @@ public interface OrderLogisticsConvert {
 
     @Mappings({})
     OrderLogisticsDO convert(OrderLogisticsUpdateDTO orderLogisticsDTO);
+
+    @Mappings({})
+    List<OrderLogisticsBO> convertOrderLogisticsBO(List<OrderLogisticsDO> orderLogisticsDOList);
 }

@@ -1,7 +1,6 @@
-package cn.iocoder.mall.order.dataobject;
+package cn.iocoder.mall.order.api.bo;
 
 import cn.iocoder.common.framework.dataobject.BaseDO;
-import cn.iocoder.common.framework.dataobject.DeletableDO;
 
 /**
  * 订单物流信息
@@ -9,16 +8,12 @@ import cn.iocoder.common.framework.dataobject.DeletableDO;
  * @author Sin
  * @time 2019-03-19 20:47
  */
-public class OrderLogisticsDO extends BaseDO {
+public class OrderLogisticsBO extends BaseDO {
 
     /**
      * id
      */
     private Integer id;
-    /**
-     * 订单编号
-     */
-    private Integer orderId;
     /**
      * 收件区域编号
      */
@@ -44,7 +39,6 @@ public class OrderLogisticsDO extends BaseDO {
     public String toString() {
         return "OrderLogisticsDO{" +
                 "id=" + id +
-                ", orderId=" + orderId +
                 ", areaNo='" + areaNo + '\'' +
                 ", name='" + name + '\'' +
                 ", mobile='" + mobile + '\'' +
@@ -57,17 +51,8 @@ public class OrderLogisticsDO extends BaseDO {
         return id;
     }
 
-    public OrderLogisticsDO setId(Integer id) {
+    public OrderLogisticsBO setId(Integer id) {
         this.id = id;
-        return this;
-    }
-
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public OrderLogisticsDO setOrderId(Integer orderId) {
-        this.orderId = orderId;
         return this;
     }
 
@@ -75,7 +60,7 @@ public class OrderLogisticsDO extends BaseDO {
         return areaNo;
     }
 
-    public OrderLogisticsDO setAreaNo(String areaNo) {
+    public OrderLogisticsBO setAreaNo(String areaNo) {
         this.areaNo = areaNo;
         return this;
     }
@@ -84,7 +69,7 @@ public class OrderLogisticsDO extends BaseDO {
         return name;
     }
 
-    public OrderLogisticsDO setName(String name) {
+    public OrderLogisticsBO setName(String name) {
         this.name = name;
         return this;
     }
@@ -93,7 +78,7 @@ public class OrderLogisticsDO extends BaseDO {
         return mobile;
     }
 
-    public OrderLogisticsDO setMobile(String mobile) {
+    public OrderLogisticsBO setMobile(String mobile) {
         this.mobile = mobile;
         return this;
     }
@@ -102,7 +87,7 @@ public class OrderLogisticsDO extends BaseDO {
         return address;
     }
 
-    public OrderLogisticsDO setAddress(String address) {
+    public OrderLogisticsBO setAddress(String address) {
         this.address = address;
         return this;
     }
@@ -111,7 +96,7 @@ public class OrderLogisticsDO extends BaseDO {
         return logisticsNo;
     }
 
-    public OrderLogisticsDO setLogisticsNo(String logisticsNo) {
+    public OrderLogisticsBO setLogisticsNo(String logisticsNo) {
         this.logisticsNo = logisticsNo;
         return this;
     }

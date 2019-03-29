@@ -2,19 +2,18 @@ package cn.iocoder.mall.order.application.controller.admins;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.OrderService;
+import cn.iocoder.mall.order.api.bo.OrderPageBO;
 import cn.iocoder.mall.order.api.dto.*;
 import cn.iocoder.mall.order.application.convert.OrderConvertAPP;
 import cn.iocoder.mall.order.application.vo.OrderItemUpdateVO;
 import cn.iocoder.mall.order.application.vo.OrderLogisticsVO;
 import cn.iocoder.mall.order.application.vo.OrderPageQueryVO;
-import cn.iocoder.mall.order.application.vo.OrderPageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 订单API(admins)
@@ -37,15 +36,23 @@ public class AdminsOrderController {
         return orderService.getOrderPage(orderQueryDTO);
     }
 
+    @PutMapping("order_item/update_pay_amount")
+    @ApiOperation("更新-订单item实付金额")
+    public CommonResult updateOrderItemPayAmount(@RequestParam("orderId") Integer orderId,
+                                                 @RequestParam("orderItemId") Integer orderItemId,
+                                                 @RequestParam("payAmount") Integer payAmount) {
+        return orderService.updateOrderItemPayAmount(orderId, orderItemId, payAmount);
+    }
+
     @PutMapping("order_item/update")
-    @ApiOperation("订单item更新")
+    @ApiOperation("更新-订单item")
     public CommonResult updateOrderItem(@RequestBody @Validated OrderItemUpdateVO orderItemUpdateVO) {
         OrderItemUpdateDTO dto = OrderConvertAPP.INSTANCE.convertPageBO(orderItemUpdateVO);
         return orderService.updateOrderItem(dto);
     }
 
     @PutMapping("logistics/update")
-    @ApiOperation("订单物流更新")
+    @ApiOperation("更新-订单物流")
     public CommonResult updateLogistics(@RequestBody @Validated OrderLogisticsVO orderLogisticsVO) {
         OrderLogisticsUpdateDTO dto = OrderConvertAPP.INSTANCE.convertPageBO(orderLogisticsVO);
         return orderService.updateLogistics(dto);

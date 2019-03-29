@@ -1,7 +1,11 @@
 package cn.iocoder.mall.order.dao;
 
 import cn.iocoder.mall.order.dataobject.OrderLogisticsDO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 订单 item mapper
@@ -25,4 +29,14 @@ public interface OrderLogisticsMapper {
      * @param orderLogisticsDO
      */
     void updateById(OrderLogisticsDO orderLogisticsDO);
+
+    /**
+     * 查询 - 根据 orderId
+     *
+     * @param ids
+     * @return
+     */
+    List<OrderLogisticsDO> selectByIds(
+            @Param("ids") Collection<Integer> ids
+    );
 }

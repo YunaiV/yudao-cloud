@@ -1,9 +1,9 @@
 package cn.iocoder.mall.order.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.order.api.bo.OrderCreateBO;
+import cn.iocoder.mall.order.api.bo.OrderPageBO;
 import cn.iocoder.mall.order.api.dto.*;
-
-import java.util.List;
 
 /**
  * 订单 service
@@ -28,7 +28,7 @@ public interface OrderService {
      * @param orderCreateDTO
      * @return
      */
-    CommonResult<cn.iocoder.mall.order.api.bo.OrderBO> createOrder(Integer userId, OrderCreateDTO orderCreateDTO);
+    CommonResult<OrderCreateBO> createOrder(Integer userId, OrderCreateDTO orderCreateDTO);
 
     /**
      * 订单item - 更新
@@ -37,6 +37,16 @@ public interface OrderService {
      *
      */
     CommonResult updateOrderItem(OrderItemUpdateDTO orderItemUpdateDTO);
+
+    /**
+     * 订单item - 更新 payAmount(实付金额)
+     *
+     * @param orderId
+     * @param orderItemId
+     * @param payAmount
+     * @return
+     */
+    CommonResult updateOrderItemPayAmount(Integer orderId, Integer orderItemId, Integer payAmount);
 
     /**
      * 订单item - 删除

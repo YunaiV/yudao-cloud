@@ -46,12 +46,12 @@ public interface OrderItemMapper {
      * 查询 - 根据 orderIds 和 status
      *
      * @param orderIds
-     * @param status
+     * @param deleted
      * @return
      */
-    List<OrderItemDO> selectByOrderIdsAndStatus(
+    List<OrderItemDO> selectByOrderIdsAndDeleted(
             @Param("orderIds") Collection<Integer> orderIds,
-            @Param("status") Integer status
+            @Param("deleted") Integer deleted
     );
 
     /**

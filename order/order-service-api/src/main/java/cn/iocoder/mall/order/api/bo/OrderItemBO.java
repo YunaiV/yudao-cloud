@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.api.dto;
+package cn.iocoder.mall.order.api.bo;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -28,13 +28,25 @@ public class OrderItemBO implements Serializable {
      */
     private Integer skuId;
     /**
+     * 商品名称
+     */
+    private String skuName;
+    /**
+     * 商品图片
+     */
+    private String skuImage;
+    /**
      * 数量
      */
     private Integer quantity;
     /**
-     * 金额(分)
+     * 价格(分)
      */
     private Integer price;
+    /**
+     * 支付金额（实付金额）
+     */
+    private Integer payAmount;
 
     ///
     /// 时间信息
@@ -79,21 +91,40 @@ public class OrderItemBO implements Serializable {
      */
     private Integer status;
 
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
+    /**
+     * 删除状态
+     */
+    private Integer deleted;
+
     @Override
     public String toString() {
-        return "OrderItemDO{" +
+        return "OrderItemBO{" +
                 "id=" + id +
                 ", orderId=" + orderId +
                 ", orderNo='" + orderNo + '\'' +
-                ", skuId='" + skuId + '\'' +
+                ", skuId=" + skuId +
+                ", skuName='" + skuName + '\'' +
+                ", skuImage='" + skuImage + '\'' +
                 ", quantity=" + quantity +
                 ", price=" + price +
+                ", payAmount=" + payAmount +
                 ", paymentTime=" + paymentTime +
                 ", deliveryTime=" + deliveryTime +
                 ", receiverTime=" + receiverTime +
                 ", closingTime=" + closingTime +
                 ", hasReturnExchange=" + hasReturnExchange +
                 ", status=" + status +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", deleted=" + deleted +
                 '}';
     }
 
@@ -133,6 +164,24 @@ public class OrderItemBO implements Serializable {
         return this;
     }
 
+    public String getSkuName() {
+        return skuName;
+    }
+
+    public OrderItemBO setSkuName(String skuName) {
+        this.skuName = skuName;
+        return this;
+    }
+
+    public String getSkuImage() {
+        return skuImage;
+    }
+
+    public OrderItemBO setSkuImage(String skuImage) {
+        this.skuImage = skuImage;
+        return this;
+    }
+
     public Integer getQuantity() {
         return quantity;
     }
@@ -148,6 +197,15 @@ public class OrderItemBO implements Serializable {
 
     public OrderItemBO setPrice(Integer price) {
         this.price = price;
+        return this;
+    }
+
+    public Integer getPayAmount() {
+        return payAmount;
+    }
+
+    public OrderItemBO setPayAmount(Integer payAmount) {
+        this.payAmount = payAmount;
         return this;
     }
 
@@ -202,6 +260,33 @@ public class OrderItemBO implements Serializable {
 
     public OrderItemBO setStatus(Integer status) {
         this.status = status;
+        return this;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public OrderItemBO setCreateTime(Date createTime) {
+        this.createTime = createTime;
+        return this;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public OrderItemBO setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+        return this;
+    }
+
+    public Integer getDeleted() {
+        return deleted;
+    }
+
+    public OrderItemBO setDeleted(Integer deleted) {
+        this.deleted = deleted;
         return this;
     }
 }

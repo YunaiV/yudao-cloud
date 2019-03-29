@@ -31,7 +31,7 @@ public class OrderDO extends DeletableDO {
     /**
      * 交易金额
      */
-    private Integer price;
+    private Integer payAmount;
 
     ///
     /// 时间信息
@@ -87,7 +87,7 @@ public class OrderDO extends DeletableDO {
                 ", userId=" + userId +
                 ", orderLogisticsId=" + orderLogisticsId +
                 ", orderNo='" + orderNo + '\'' +
-                ", price=" + price +
+                ", payAmount=" + payAmount +
                 ", paymentTime=" + paymentTime +
                 ", deliveryTime=" + deliveryTime +
                 ", receiverTime=" + receiverTime +
@@ -134,12 +134,12 @@ public class OrderDO extends DeletableDO {
         return this;
     }
 
-    public Integer getPrice() {
-        return price;
+    public Integer getPayAmount() {
+        return payAmount;
     }
 
-    public OrderDO setPrice(Integer price) {
-        this.price = price;
+    public OrderDO setPayAmount(Integer payAmount) {
+        this.payAmount = payAmount;
         return this;
     }
 

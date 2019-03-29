@@ -3,12 +3,11 @@ package cn.iocoder.mall.order.service;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.OrderApplicationTest;
 import cn.iocoder.mall.order.api.OrderService;
-import cn.iocoder.mall.order.api.bo.OrderBO;
+import cn.iocoder.mall.order.api.bo.OrderCreateBO;
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderCreateItemDTO;
 import cn.iocoder.mall.order.dao.OrderMapper;
 import cn.iocoder.mall.order.dataobject.OrderDO;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,7 +43,7 @@ public class OrderServiceImplTest {
                 .setSkuId(1)
                 .setQuantity(1);
 
-        CommonResult<OrderBO> result = orderService.createOrder(
+        CommonResult<OrderCreateBO> result = orderService.createOrder(
                 userId,
                 new OrderCreateDTO()
                 .setRemark("")

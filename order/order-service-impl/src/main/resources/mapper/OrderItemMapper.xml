@@ -3,7 +3,7 @@
 <mapper namespace="cn.iocoder.mall.order.dao.OrderItemMapper">
 
     <sql id="FIELDS">
-        id, order_id, order_no, sku_id, quantity, price,
+        id, order_id, order_no, sku_id, sku_name, sku_image, quantity, price, pay_amount,
         payment_time, delivery_time, receiver_time, closing_time,
         has_return_exchange, status, create_time, update_time, deleted
     </sql>
@@ -13,7 +13,7 @@
     -->
     <insert id="insert" parameterType="OrderItemDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO `order_item` (
-            order_id, order_no, sku_id, quantity, price,
+            order_id, order_no, sku_id, sku_name, sku_image, quantity, price, pay_amount,
             payment_time, delivery_time, receiver_time, closing_time,
             has_return_exchange, status, create_time, update_time, deleted
         ) VALUES (
@@ -38,13 +38,22 @@
             <if test="skuId != null">
                 , sku_id = #{skuId}
             </if>
+            <if test="skuName != null">
+                , sku_name = #{skuName}
+            </if>
+            <if test="skuImage != null">
+                , sku_image = #{skuImage}
+            </if>
             <if test="quantity != null">
                 , quantity = #{quantity}
             </if>
             <if test="price != null">
                 , price = #{price}
             </if>
-            -- time
+            <if test="payAmount != null">
+                , pay_amount = #{payAmount}
+            </if>
+
             <if test="paymentTime != null">
                 , payment_time = #{paymentTime}
             </if>
@@ -57,7 +66,7 @@
             <if test="closingTime != null">
                 , closing_time = #{closingTime}
             </if>
-            -- other
+
             <if test="hasReturnExchange != null">
                 , has_return_exchange = #{hasReturnExchange}
             </if>
@@ -114,12 +123,14 @@
     <!--
         查询 - 根据 orderIds 和 status
     -->
-    <select id="selectByOrderIdsAndStatus" resultType="cn.iocoder.mall.order.dataobject.OrderItemDO">
-        SELECT * FROM `order_item`
-        WHERE `status` = #{status}
+    <select id="selectByOrderIdsAndDeleted" resultType="cn.iocoder.mall.order.dataobject.OrderItemDO">
+        SELECT
+        <include refid="FIELDS" />
+        FROM `order_item`
+        WHERE `deleted` = #{deleted}
         AND `order_id`
         IN
-        <foreach collection="orderIds" index="orderId" open="(" close=")" separator=",">
+        <foreach collection="orderIds" item="orderId" open="(" close=")" separator=",">
           #{orderId}
         </foreach>
     </select>

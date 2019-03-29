@@ -1,7 +1,7 @@
-package cn.iocoder.mall.order.application.convert;
+package cn.iocoder.mall.order.convert;
 
 import cn.iocoder.mall.order.api.dto.OrderCreateItemDTO;
-import cn.iocoder.mall.order.api.dto.OrderItemBO;
+import cn.iocoder.mall.order.api.bo.OrderItemBO;
 import cn.iocoder.mall.order.api.dto.OrderItemUpdateDTO;
 import cn.iocoder.mall.order.dataobject.OrderItemDO;
 import org.mapstruct.Mapper;

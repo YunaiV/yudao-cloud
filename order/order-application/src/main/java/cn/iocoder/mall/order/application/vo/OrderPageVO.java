@@ -1,6 +1,6 @@
 package cn.iocoder.mall.order.application.vo;
 
-import cn.iocoder.mall.order.api.dto.OrderBO;
+import cn.iocoder.mall.order.api.bo.OrderBO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

@@ -21,6 +21,7 @@
         <module>admin</module>
         <module>ops</module>
         <module>pay</module>
+        <module>promotion</module>
     </modules>
     <packaging>pom</packaging>
 

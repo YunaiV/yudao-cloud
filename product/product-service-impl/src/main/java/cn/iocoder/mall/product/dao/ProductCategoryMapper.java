@@ -20,6 +20,4 @@ public interface ProductCategoryMapper {
 
     int update(ProductCategoryDO productCategoryDO);
 
-
-
 }

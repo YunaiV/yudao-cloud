@@ -40,4 +40,12 @@ public enum CommonStatusEnum {
         return this;
     }
 
+    public static boolean isValid(Integer status) {
+        if (status == null) {
+            return false;
+        }
+        return ENABLE.value.equals(status)
+                || DISABLE.value.equals(status);
+    }
+
 }

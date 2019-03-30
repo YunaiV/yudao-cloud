@@ -87,7 +87,7 @@ public class AdminController {
     @ApiOperation(value = "管理员分页")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "nickname", value = "昵称，模糊匹配", example = "小王"),
-            @ApiImplicitParam(name = "pageNo", value = "页码，从 0 开始", example = "0"),
+            @ApiImplicitParam(name = "pageNo", value = "页码，从 1 开始", example = "1"),
             @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, example = "10"),
     })
     public CommonResult<AdminPageVO> page(@RequestParam(value = "nickname", required = false) String nickname,

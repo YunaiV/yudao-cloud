@@ -36,7 +36,7 @@ public class UsersProductSpuController {
     @ApiOperation("商品 SPU 分页列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "cid", value = "分类编号", example = "1"),
-            @ApiImplicitParam(name = "pageNo", value = "页码，从 0 开始", example = "0"),
+            @ApiImplicitParam(name = "pageNo", value = "页码，从 1 开始", example = "1"),
             @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, example = "10"),
     })
     public CommonResult<UsersProductSpuPageVO> page(@RequestParam(value = "cid", required = false) Integer cid,

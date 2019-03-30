@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: promotion-application
+
+# server
+server:
+  port: 18085
+  servlet:
+    context-path: /promotion-api/

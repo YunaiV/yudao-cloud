@@ -1,13 +1,13 @@
-package cn.iocoder.mall.admin.api.dto;
+package cn.iocoder.mall.promotion.api.dto;
 
 import javax.validation.constraints.NotNull;
 
-public class AdminPageDTO {
+public class BannerPageDTO {
 
     /**
-     * 昵称，模糊匹配
+     * 标题，模糊匹配
      */
-    private String nickname;
+    private String title;
 
     @NotNull(message = "页码不能为空")
     private Integer pageNo;
@@ -18,7 +18,7 @@ public class AdminPageDTO {
         return pageNo;
     }
 
-    public AdminPageDTO setPageNo(Integer pageNo) {
+    public BannerPageDTO setPageNo(Integer pageNo) {
         this.pageNo = pageNo;
         return this;
     }
@@ -27,17 +27,17 @@ public class AdminPageDTO {
         return pageSize;
     }
 
-    public AdminPageDTO setPageSize(Integer pageSize) {
+    public BannerPageDTO setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
         return this;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getTitle() {
+        return title;
     }
 
-    public AdminPageDTO setNickname(String nickname) {
-        this.nickname = nickname;
+    public BannerPageDTO setTitle(String title) {
+        this.title = title;
         return this;
     }
 

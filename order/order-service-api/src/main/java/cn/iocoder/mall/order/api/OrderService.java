@@ -39,7 +39,7 @@ public interface OrderService {
     CommonResult updateOrderItem(OrderItemUpdateDTO orderItemUpdateDTO);
 
     /**
-     * 订单item - 更新 payAmount(实付金额)
+     * 更新订单item - payAmount(实付金额)
      *
      * @param orderId
      * @param orderItemId
@@ -49,7 +49,24 @@ public interface OrderService {
     CommonResult updateOrderItemPayAmount(Integer orderId, Integer orderItemId, Integer payAmount);
 
     /**
-     * 订单item - 删除
+     * 订单 - 取消订单
+     *
+     * @param orderId
+     * @return
+     */
+    CommonResult cancelOrder(Integer orderId, Integer reasons, String otherReasons);
+
+    /**
+     * 更新订单 - 备注
+     *
+     * @param orderId
+     * @param remake
+     * @return
+     */
+    CommonResult updateOrderRemake(Integer orderId, String remake);
+
+    /**
+     * 删除订单item
      *
      * @param orderItemDeletedDTO
      * @return

@@ -10,7 +10,7 @@ spring:
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: cn.iocoder.mall.order.dataobject
+  type-aliases-package: cn.iocoder.mall.order.biz.dataobject
 
 # dubbo
 dubbo:
@@ -22,9 +22,10 @@ dubbo:
     port: -1
     name: dubbo
   scan:
-    base-packages: cn.iocoder.mall.order.service
+    base-packages: cn.iocoder.mall.order.biz.service
 
 # logging
 logging:
   level:
-    cn.iocoder.mall.order.dao: debug
+    # dao 开启 debug 模式 mybatis 输入 sql
+    cn.iocoder.mall.order.biz.dao: debug

@@ -36,6 +36,22 @@ public class AdminsOrderController {
         return orderService.getOrderPage(orderQueryDTO);
     }
 
+    @PutMapping("update_remark")
+    @ApiOperation("更新-更新订单备注")
+    public CommonResult updateRemark(@RequestParam("orderId") Integer orderId,
+                                     @RequestParam("remark") String remark) {
+        return orderService.updateOrderRemake(orderId, remark);
+    }
+
+    @PutMapping("cancel_order")
+    @ApiOperation("取消订单")
+    public CommonResult cancelOrder(
+            @RequestParam("orderId") Integer orderId,
+            @RequestParam("reasons") Integer reasons,
+            @RequestParam(value = "otherReasons", required = false) String otherReasons) {
+        return orderService.cancelOrder(orderId, reasons, otherReasons);
+    }
+
     @PutMapping("order_item/update_pay_amount")
     @ApiOperation("更新-订单item实付金额")
     public CommonResult updateOrderItemPayAmount(@RequestParam("orderId") Integer orderId,

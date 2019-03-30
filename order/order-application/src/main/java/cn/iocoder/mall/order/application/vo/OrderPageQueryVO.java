@@ -59,6 +59,8 @@ public class OrderPageQueryVO implements Serializable {
     /**
      * 删除状态
      */
+    @ApiModelProperty("订单状态")
+    private Integer status;
     @ApiModelProperty("删除状态")
     private Integer deleted;
     @ApiModelProperty("分页pageNo")
@@ -78,6 +80,7 @@ public class OrderPageQueryVO implements Serializable {
                 ", endCreateTime=" + endCreateTime +
                 ", startClosingTime=" + startClosingTime +
                 ", endClosingTime=" + endClosingTime +
+                ", status=" + status +
                 ", deleted=" + deleted +
                 ", pageNo=" + pageNo +
                 ", pageSize=" + pageSize +
@@ -162,6 +165,15 @@ public class OrderPageQueryVO implements Serializable {
 
     public OrderPageQueryVO setEndClosingTime(Date endClosingTime) {
         this.endClosingTime = endClosingTime;
+        return this;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public OrderPageQueryVO setStatus(Integer status) {
+        this.status = status;
         return this;
     }
 

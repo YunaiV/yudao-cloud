@@ -209,7 +209,6 @@ class ProductCategoryList extends PureComponent {
       {
         title: '排序值',
         dataIndex: 'sort',
-        render: sort => <span>{sort}</span>,
       },
       {
         title: '创建时间',

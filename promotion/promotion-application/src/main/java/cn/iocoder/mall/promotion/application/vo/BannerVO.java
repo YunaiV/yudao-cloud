@@ -14,7 +14,7 @@ public class BannerVO {
     private String title;
     @ApiModelProperty(value = "跳转链接", required = true, example = "http://www.baidu.com")
     private String url;
-    @ApiModelProperty(value = "突脸链接", required = true, example = "http://www.iocoder.cn/01.jpg")
+    @ApiModelProperty(value = "图片链接", required = true, example = "http://www.iocoder.cn/01.jpg")
     private String picUrl;
     @ApiModelProperty(value = "排序", required = true, example = "10")
     private Integer sort;

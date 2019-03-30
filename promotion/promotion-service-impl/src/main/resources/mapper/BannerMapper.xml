@@ -76,7 +76,7 @@
             <if test="url != null">
                 url = #{url},
             </if>
-            <if test="pic_url != null">
+            <if test="picUrl != null">
                 pic_url = #{picUrl} ,
             </if>
             <if test="sort != null">
@@ -85,8 +85,8 @@
             <if test="status != null">
                 status = #{status},
             </if>
-            <if test="VALUES != null">
-                VALUES = #{VALUES},
+            <if test="memo != null">
+                memo = #{memo},
             </if>
             <if test="deleted != null">
                 deleted = #{deleted}

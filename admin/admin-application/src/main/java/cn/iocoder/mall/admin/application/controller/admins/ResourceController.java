@@ -66,14 +66,14 @@ public class ResourceController {
             @ApiImplicitParam(name = "sort", value = "排序", required = true, example = "1"),
             @ApiImplicitParam(name = "displayName", value = "菜单展示名", required = true, example = "商品管理"),
             @ApiImplicitParam(name = "pid", value = "父级资源编号", required = true, example = "1"),
-            @ApiImplicitParam(name = "handler", value = "操作", required = true, example = "/order/list"),
+            @ApiImplicitParam(name = "handler", value = "操作", example = "/order/list"),
     })
     public CommonResult<ResourceVO> add(@RequestParam("name") String name,
                                         @RequestParam("type") Integer type,
                                         @RequestParam("sort") Integer sort,
                                         @RequestParam("displayName") String displayName,
                                         @RequestParam("pid") Integer pid,
-                                        @RequestParam("handler") String handler) {
+                                        @RequestParam(value = "handler", required = false) String handler) {
         ResourceAddDTO resourceAddDTO = new ResourceAddDTO().setName(name).setType(type).setSort(sort)
                 .setDisplayName(displayName).setPid(pid).setHandler(handler);
         return ResourceConvert.INSTANCE.convert3(resourceService.addResource(AdminSecurityContextHolder.getContext().getAdminId(), resourceAddDTO));
@@ -87,14 +87,14 @@ public class ResourceController {
             @ApiImplicitParam(name = "sort", value = "排序", required = true, example = "1"),
             @ApiImplicitParam(name = "displayName", value = "菜单展示名", required = true, example = "商品管理"),
             @ApiImplicitParam(name = "pid", value = "父级资源编号", required = true, example = "1"),
-            @ApiImplicitParam(name = "handler", value = "操作", required = true, example = "/order/list"),
+            @ApiImplicitParam(name = "handler", value = "操作", example = "/order/list"),
     })
     public CommonResult<Boolean> update(@RequestParam("id") Integer id,
                                         @RequestParam("name") String name,
                                         @RequestParam("sort") Integer sort,
                                         @RequestParam("displayName") String displayName,
                                         @RequestParam("pid") Integer pid,
-                                        @RequestParam("handler") String handler) {
+                                        @RequestParam(value = "handler", required = false) String handler) {
         ResourceUpdateDTO resourceUpdateDTO = new ResourceUpdateDTO().setId(id).setName(name).setSort(sort).setDisplayName(displayName).setPid(pid).setHandler(handler);
         return resourceService.updateResource(AdminSecurityContextHolder.getContext().getAdminId(), resourceUpdateDTO);
     }

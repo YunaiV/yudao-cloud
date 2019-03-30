@@ -42,7 +42,7 @@ public class BannerServiceImpl implements BannerService {
     @Override
     public CommonResult<BannerBO> addBanner(Integer adminId, BannerAddDTO bannerAddDTO) {
         // 保存到数据库
-        BannerDO banner = BannerConvert.INSTANCE.convert(bannerAddDTO);
+        BannerDO banner = BannerConvert.INSTANCE.convert(bannerAddDTO).setStatus(CommonStatusEnum.ENABLE.getValue());
         banner.setDeleted(DeletedStatusEnum.DELETED_NO.getValue()).setCreateTime(new Date());
         bannerMapper.insert(banner);
         // 返回成功

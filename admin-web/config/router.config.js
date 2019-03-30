@@ -94,6 +94,29 @@ export default [
           },
         ],
       },
+      // promotion
+      {
+        path: '/promotion',
+        name: 'promotion',
+        icon: 'user',
+        routes: [
+          {
+            path: '/promotion/banner-list',
+            name: 'promotion-banner-list',
+            component: './Promotion/BannerList',
+          },
+          // {
+          //   path: '/product/product-spu-add',
+          //   name: 'product-spu-add',
+          //   component: './Product/ProductSpuAddOrUpdate',
+          // },
+          // {
+          //   path: '/product/product-category-list',
+          //   name: 'product-category-list',
+          //   component: './Product/ProductCategoryList',
+          // },
+        ],
+      },
       {
         path: '/dashboard',
         name: 'dashboard',

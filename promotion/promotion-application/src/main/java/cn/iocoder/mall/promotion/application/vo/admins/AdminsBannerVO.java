@@ -1,4 +1,4 @@
-package cn.iocoder.mall.promotion.application.vo;
+package cn.iocoder.mall.promotion.application.vo.admins;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 
 @ApiModel("Banner VO")
-public class BannerVO {
+public class AdminsBannerVO {
 
     @ApiModelProperty(value = "Banner 编号", required = true, example = "1")
     private Integer id;
@@ -29,7 +29,7 @@ public class BannerVO {
         return id;
     }
 
-    public BannerVO setId(Integer id) {
+    public AdminsBannerVO setId(Integer id) {
         this.id = id;
         return this;
     }
@@ -38,7 +38,7 @@ public class BannerVO {
         return title;
     }
 
-    public BannerVO setTitle(String title) {
+    public AdminsBannerVO setTitle(String title) {
         this.title = title;
         return this;
     }
@@ -47,7 +47,7 @@ public class BannerVO {
         return url;
     }
 
-    public BannerVO setUrl(String url) {
+    public AdminsBannerVO setUrl(String url) {
         this.url = url;
         return this;
     }
@@ -56,7 +56,7 @@ public class BannerVO {
         return sort;
     }
 
-    public BannerVO setSort(Integer sort) {
+    public AdminsBannerVO setSort(Integer sort) {
         this.sort = sort;
         return this;
     }
@@ -65,7 +65,7 @@ public class BannerVO {
         return status;
     }
 
-    public BannerVO setStatus(Integer status) {
+    public AdminsBannerVO setStatus(Integer status) {
         this.status = status;
         return this;
     }
@@ -74,7 +74,7 @@ public class BannerVO {
         return memo;
     }
 
-    public BannerVO setMemo(String memo) {
+    public AdminsBannerVO setMemo(String memo) {
         this.memo = memo;
         return this;
     }
@@ -83,7 +83,7 @@ public class BannerVO {
         return createTime;
     }
 
-    public BannerVO setCreateTime(Date createTime) {
+    public AdminsBannerVO setCreateTime(Date createTime) {
         this.createTime = createTime;
         return this;
     }
@@ -92,7 +92,7 @@ public class BannerVO {
         return picUrl;
     }
 
-    public BannerVO setPicUrl(String picUrl) {
+    public AdminsBannerVO setPicUrl(String picUrl) {
         this.picUrl = picUrl;
         return this;
     }

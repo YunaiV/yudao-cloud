@@ -32,6 +32,18 @@
         AND deleted = 0
     </select>
 
+    <select id="selectListByStatus" parameterType="Integer" resultType="BannerDO">
+        SELECT
+            <include refid="FIELDS" />
+        FROM banner
+        <where>
+            <if test="status != null">
+                status = #{status}
+            </if>
+            AND deleted = 0
+        </where>
+    </select>
+
     <select id="selectListByTitleLike" resultType="BannerDO">
         SELECT
           <include refid="FIELDS" />

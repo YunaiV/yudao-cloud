@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service // 实际上不用添加。添加的原因是，必须 Spring 报错提示
 @com.alibaba.dubbo.config.annotation.Service(validation = "true")
@@ -26,6 +27,12 @@ public class BannerServiceImpl implements BannerService {
 
     @Autowired
     private BannerMapper bannerMapper;
+
+    @Override
+    public CommonResult<List<BannerBO>> getBannerListByStatus(Integer status) {
+        List<BannerDO> banners = bannerMapper.selectListByStatus(status);
+        return CommonResult.success(BannerConvert.INSTANCE.convertToBO(banners));
+    }
 
     @Override
     public CommonResult<BannerPageBO> getBannerPage(BannerPageDTO bannerPageDTO) {

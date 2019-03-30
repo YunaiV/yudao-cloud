@@ -1,9 +1,13 @@
 <template>
 <div :style="'background-color:'+((page.BackgroundColor==undefined||page.BackgroundColor=='')?'#fff':page.BackgroundColor)">
     <div :style="'height:'+topheight+'px'" ></div>
+    <van-swipe :autoplay="3000" indicator-color="white" height="160">
+        <van-swipe-item v-for="(banner, index) in banners" :key="index" >
+            <img :src="banner.picUrl" height="100%" width="100%">
+        </van-swipe-item>
+    </van-swipe>
     <div v-for="(item,index) in page.Sections" :key="index">
-        <imageAd v-if="item.Code=='ImageAd'" :data="item.ParameterDictionary"></imageAd>
-        
+
         <imageText v-if="item.Code=='ImageText'" :data="item.ParameterDictionary"></imageText>
 
         <pageLine v-if="item.Code=='Line'"  :data="item.ParameterDictionary" ></pageLine>
@@ -38,6 +42,7 @@ import imageAd from "../../components/page/imageAd.vue";
 import imageText from "../../components/page/imageText.vue";
 import product from "../../components/page/product.vue";
 import { GetPage } from "../../api/page.js";
+import { getBannerList } from '../../api/promotion.js';
 
 export default {
     name:"page",
@@ -57,12 +62,20 @@ export default {
         return{
             topheight:0,
             page:{},
+          banners: [], // Banner 列表
         }
     },
     created:function(){
         GetPage().then(response=>{
             this.page=response;
         });
+    },
+    mounted: function() {
+      // 加载 Banner
+      let response = getBannerList();
+      response.then(data => {
+        this.banners = data;
+      });
     },
     methods:{
         settopheight:function(value){

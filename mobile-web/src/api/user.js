@@ -1,13 +1,5 @@
 import request from "../config/request";
 
-
-export function GetUserIndex() {
-  return request({
-    url: '/User/GetUserIndex',
-    method: 'get',
-  })
-}
-
 export function GetFavorite(data){
   return request({
     url: '/User/GetFavorite',
@@ -108,4 +100,3 @@ export function doPassportMobileSendRegisterCode(mobile) {
     }
   });
 }
-

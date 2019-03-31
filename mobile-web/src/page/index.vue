@@ -19,5 +19,3 @@ export default {
 <style>
 
 </style>
-
-

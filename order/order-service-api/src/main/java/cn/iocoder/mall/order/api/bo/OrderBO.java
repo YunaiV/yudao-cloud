@@ -90,7 +90,7 @@ public class OrderBO implements Serializable {
     /**
      * 订单物流信息
      */
-    private OrderLogisticsBO orderLogistics;
+    private OrderRecipientBO orderRecipient;
 
     @Override
     public String toString() {
@@ -108,7 +108,7 @@ public class OrderBO implements Serializable {
                 ", status=" + status +
                 ", remark='" + remark + '\'' +
                 ", orderItems=" + orderItems +
-                ", orderLogistics=" + orderLogistics +
+                ", orderRecipient=" + orderRecipient +
                 '}';
     }
 
@@ -229,12 +229,12 @@ public class OrderBO implements Serializable {
         return this;
     }
 
-    public OrderLogisticsBO getOrderLogistics() {
-        return orderLogistics;
+    public OrderRecipientBO getOrderRecipient() {
+        return orderRecipient;
     }
 
-    public OrderBO setOrderLogistics(OrderLogisticsBO orderLogistics) {
-        this.orderLogistics = orderLogistics;
+    public OrderBO setOrderRecipient(OrderRecipientBO orderRecipient) {
+        this.orderRecipient = orderRecipient;
         return this;
     }
 }

@@ -31,6 +31,8 @@
 
 <script>
 
+// TODO 芋艿，准备废弃。
+
 export default {
     name:'imageAd',
     components:{

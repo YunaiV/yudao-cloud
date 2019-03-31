@@ -7,7 +7,7 @@
 
 <script>
 import navigate from '../components/footer/navigate.vue'
-import page from './page/page.vue'
+import page from './page/index.vue'
 
 export default {
     components:{
@@ -19,5 +19,3 @@ export default {
 <style>
 
 </style>
-
-

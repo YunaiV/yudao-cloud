@@ -7,7 +7,11 @@ import cn.iocoder.mall.promotion.api.dto.BannerAddDTO;
 import cn.iocoder.mall.promotion.api.dto.BannerPageDTO;
 import cn.iocoder.mall.promotion.api.dto.BannerUpdateDTO;
 
+import java.util.List;
+
 public interface BannerService {
+
+    CommonResult<List<BannerBO>> getBannerListByStatus(Integer status);
 
     CommonResult<BannerPageBO> getBannerPage(BannerPageDTO bannerPageDTO);
 

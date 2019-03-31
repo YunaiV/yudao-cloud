@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.iocoder.mall.promotion.biz.dao.BannerMapper">
+<mapper namespace="cn.iocoder.mall.promotion.biz.dao.ProductRecommendMapper">
 
     <sql id="FIELDS">
-        id, title, url, pic_url, sort,
+        id, type, product_spu_id, sort,
         status, memo, create_time
     </sql>
 
 <!--    <select id="selectListByPidAndStatusOrderBySort" resultType="BannerDO">-->
 <!--        SELECT-->
 <!--            <include refid="FIELDS" />-->
-<!--        FROM banner-->
+<!--        FROM product_recommend-->
 <!--        WHERE pid = #{pid}-->
 <!--        AND status = #{status}-->
 <!--        AND deleted = 0-->
@@ -20,23 +20,41 @@
 <!--    <select id="selectList" resultType="BannerDO">-->
 <!--        SELECT-->
 <!--          <include refid="FIELDS" />-->
-<!--        FROM banner-->
+<!--        FROM product_recommend-->
 <!--        WHERE deleted = 0-->
 <!--    </select>-->
 
     <select id="selectById" parameterType="Integer" resultType="BannerDO">
         SELECT
           <include refid="FIELDS" />
-        FROM banner
+        FROM product_recommend
         WHERE id = #{id}
         AND deleted = 0
     </select>
 
-    <select id="selectListByStatus" parameterType="Integer" resultType="BannerDO">
+    <select id="selectByProductSpuIdAndType" resultType="BannerDO">
         SELECT
             <include refid="FIELDS" />
-        FROM banner
+        FROM product_recommend
         <where>
+            <if test="productSpuId != null">
+                product_spu_id = #{productSpuId}
+            </if>
+            <if test="type != null">
+                type = #{type}
+            </if>
+            AND deleted = 0
+        </where>
+    </select>
+
+    <select id="selectListByTypeAndStatus" parameterType="Integer" resultType="BannerDO">
+        SELECT
+            <include refid="FIELDS" />
+        FROM product_recommend
+        <where>
+            <if test="type != null">
+                type = #{type}
+            </if>
             <if test="status != null">
                 status = #{status}
             </if>
@@ -44,52 +62,49 @@
         </where>
     </select>
 
-    <select id="selectListByTitleLike" resultType="BannerDO">
+    <select id="selectPageByType" resultType="BannerDO">
         SELECT
           <include refid="FIELDS" />
-        FROM banner
+        FROM product_recommend
         <where>
-            <if test="title != null">
-                title LIKE "%"#{title}"%"
+            <if test="type != null">
+                type = #{type}
             </if>
             AND deleted = 0
         </where>
         LIMIT #{offset}, #{limit}
     </select>
 
-    <select id="selectCountByTitleLike" resultType="Integer">
+    <select id="selectCountByType" resultType="Integer">
         SELECT
           COUNT(1)
-        FROM banner
+        FROM product_recommend
         <where>
-            <if test="title != null">
-                title LIKE "%"#{title}"%"
+            <if test="type != null">
+                type = #{type}
             </if>
             AND deleted = 0
         </where>
     </select>
 
     <insert id="insert" parameterType="BannerDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO banner (
-          title, url, pic_url,  sort, status,
-          memo, create_time, deleted
+        INSERT INTO product_recommend (
+          type, product_spu_id, sort, status, memo,
+          create_time, deleted
         ) VALUES (
-          #{title}, #{url}, #{picUrl}, #{sort}, #{status},
-          #{memo}, #{createTime}, #{deleted}
+          #{type}, #{productSpuId}, #{sort}, #{status}, #{memo},
+          #{createTime}, #{deleted}
         )
     </insert>
 
     <update id="update" parameterType="BannerDO">
-        UPDATE banner
+        UPDATE product_recommend
         <set>
-            <if test="title != null">
-                title = #{title},
+            <if test="type != null">
+                type = #{type},
             </if>
-            <if test="url != null">
-                url = #{url},
-            </if>
-            <if test="picUrl != null">
-                pic_url = #{picUrl} ,
+            <if test="productSpuId != null">
+                product_spu_id = #{productSpuId},
             </if>
             <if test="sort != null">
                 sort = #{sort},

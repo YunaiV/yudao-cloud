@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service // 实际上不用添加。添加的原因是，必须 Spring 报错提示
 @com.alibaba.dubbo.config.annotation.Service(validation = "true")
@@ -26,6 +27,12 @@ public class BannerServiceImpl implements BannerService {
 
     @Autowired
     private BannerMapper bannerMapper;
+
+    @Override
+    public CommonResult<List<BannerBO>> getBannerListByStatus(Integer status) {
+        List<BannerDO> banners = bannerMapper.selectListByStatus(status);
+        return CommonResult.success(BannerConvert.INSTANCE.convertToBO(banners));
+    }
 
     @Override
     public CommonResult<BannerPageBO> getBannerPage(BannerPageDTO bannerPageDTO) {
@@ -42,7 +49,7 @@ public class BannerServiceImpl implements BannerService {
     @Override
     public CommonResult<BannerBO> addBanner(Integer adminId, BannerAddDTO bannerAddDTO) {
         // 保存到数据库
-        BannerDO banner = BannerConvert.INSTANCE.convert(bannerAddDTO);
+        BannerDO banner = BannerConvert.INSTANCE.convert(bannerAddDTO).setStatus(CommonStatusEnum.ENABLE.getValue());
         banner.setDeleted(DeletedStatusEnum.DELETED_NO.getValue()).setCreateTime(new Date());
         bannerMapper.insert(banner);
         // 返回成功
@@ -67,6 +74,10 @@ public class BannerServiceImpl implements BannerService {
         // 校验参数
         if (!CommonStatusEnum.isValid(status)) {
             return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "变更状态必须是开启（1）或关闭（2）"); // TODO 有点搓
+        }
+        // 校验 Banner 存在
+        if (bannerMapper.selectById(bannerId) == null) {
+            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.BANNER_NOT_EXISTS.getCode());
         }
         // 更新到数据库
         BannerDO updateBanner = new BannerDO().setId(bannerId).setStatus(status);

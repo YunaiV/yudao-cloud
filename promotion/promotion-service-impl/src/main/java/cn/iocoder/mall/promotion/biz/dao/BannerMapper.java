@@ -11,6 +11,8 @@ public interface BannerMapper {
 
     BannerDO selectById(@Param("id") Integer id);
 
+    List<BannerDO> selectListByStatus(@Param("status") Integer status);
+
     List<BannerDO> selectListByTitleLike(@Param("title") String title,
                                          @Param("offset") Integer offset,
                                          @Param("limit") Integer limit);

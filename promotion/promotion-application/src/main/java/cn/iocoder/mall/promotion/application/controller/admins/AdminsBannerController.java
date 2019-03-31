@@ -8,8 +8,8 @@ import cn.iocoder.mall.promotion.api.dto.BannerAddDTO;
 import cn.iocoder.mall.promotion.api.dto.BannerPageDTO;
 import cn.iocoder.mall.promotion.api.dto.BannerUpdateDTO;
 import cn.iocoder.mall.promotion.application.convert.BannerConvert;
-import cn.iocoder.mall.promotion.application.vo.BannerPageVO;
-import cn.iocoder.mall.promotion.application.vo.BannerVO;
+import cn.iocoder.mall.promotion.application.vo.admins.AdminsBannerPageVO;
+import cn.iocoder.mall.promotion.application.vo.admins.AdminsBannerVO;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -32,9 +32,9 @@ public class AdminsBannerController {
             @ApiImplicitParam(name = "pageNo", value = "页码，从 1 开始", example = "1"),
             @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, example = "10"),
     })
-    public CommonResult<BannerPageVO> page(@RequestParam(value = "title", required = false) String title,
-                                           @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
-                                           @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+    public CommonResult<AdminsBannerPageVO> page(@RequestParam(value = "title", required = false) String title,
+                                                 @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+                                                 @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         CommonResult<BannerPageBO> result = bannerService.getBannerPage(new BannerPageDTO().setTitle(title).setPageNo(pageNo).setPageSize(pageSize));
         return BannerConvert.INSTANCE.convert(result);
     }
@@ -48,11 +48,11 @@ public class AdminsBannerController {
             @ApiImplicitParam(name = "sort", value = "排序", required = true, example = "10"),
             @ApiImplicitParam(name = "memo", value = "备注", required = true, example = "活动很牛逼"),
     })
-    public CommonResult<BannerVO> add(@RequestParam("title") String title,
-                                      @RequestParam("url") String url,
-                                      @RequestParam("picUrl") String picUrl,
-                                      @RequestParam("sort") Integer sort,
-                                      @RequestParam(value = "memo", required = false) String memo) {
+    public CommonResult<AdminsBannerVO> add(@RequestParam("title") String title,
+                                            @RequestParam("url") String url,
+                                            @RequestParam("picUrl") String picUrl,
+                                            @RequestParam("sort") Integer sort,
+                                            @RequestParam(value = "memo", required = false) String memo) {
         BannerAddDTO bannerAddDTO = new BannerAddDTO().setTitle(title).setUrl(url).setPicUrl(picUrl)
                 .setSort(sort).setMemo(memo);
         return BannerConvert.INSTANCE.convert2(bannerService.addBanner(AdminSecurityContextHolder.getContext().getAdminId(), bannerAddDTO));

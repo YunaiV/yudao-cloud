@@ -1,21 +1,19 @@
-package cn.iocoder.mall.promotion.application.vo;
+package cn.iocoder.mall.promotion.application.vo.admins;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 
-@ApiModel("Banner VO")
-public class BannerVO {
+@ApiModel("商品推荐 VO")
+public class AdminsProductRecommendVO {
 
-    @ApiModelProperty(value = "Banner 编号", required = true, example = "1")
+    @ApiModelProperty(value = "编号", required = true, example = "1")
     private Integer id;
-    @ApiModelProperty(value = "标题", required = true, example = "活动 A")
-    private String title;
-    @ApiModelProperty(value = "跳转链接", required = true, example = "http://www.baidu.com")
-    private String url;
-    @ApiModelProperty(value = "突脸链接", required = true, example = "http://www.iocoder.cn/01.jpg")
-    private String picUrl;
+    @ApiModelProperty(value = "推荐类型", required = true, example = "1")
+    private Integer type;
+    @ApiModelProperty(value = "商品编号", required = true, example = "1")
+    private Integer productSpuId;
     @ApiModelProperty(value = "排序", required = true, example = "10")
     private Integer sort;
     @ApiModelProperty(value = "状态", required = true, example = "1")
@@ -29,26 +27,26 @@ public class BannerVO {
         return id;
     }
 
-    public BannerVO setId(Integer id) {
+    public AdminsProductRecommendVO setId(Integer id) {
         this.id = id;
         return this;
     }
 
-    public String getTitle() {
-        return title;
+    public Integer getType() {
+        return type;
     }
 
-    public BannerVO setTitle(String title) {
-        this.title = title;
+    public AdminsProductRecommendVO setType(Integer type) {
+        this.type = type;
         return this;
     }
 
-    public String getUrl() {
-        return url;
+    public Integer getProductSpuId() {
+        return productSpuId;
     }
 
-    public BannerVO setUrl(String url) {
-        this.url = url;
+    public AdminsProductRecommendVO setProductSpuId(Integer productSpuId) {
+        this.productSpuId = productSpuId;
         return this;
     }
 
@@ -56,7 +54,7 @@ public class BannerVO {
         return sort;
     }
 
-    public BannerVO setSort(Integer sort) {
+    public AdminsProductRecommendVO setSort(Integer sort) {
         this.sort = sort;
         return this;
     }
@@ -65,7 +63,7 @@ public class BannerVO {
         return status;
     }
 
-    public BannerVO setStatus(Integer status) {
+    public AdminsProductRecommendVO setStatus(Integer status) {
         this.status = status;
         return this;
     }
@@ -74,7 +72,7 @@ public class BannerVO {
         return memo;
     }
 
-    public BannerVO setMemo(String memo) {
+    public AdminsProductRecommendVO setMemo(String memo) {
         this.memo = memo;
         return this;
     }
@@ -83,17 +81,8 @@ public class BannerVO {
         return createTime;
     }
 
-    public BannerVO setCreateTime(Date createTime) {
+    public AdminsProductRecommendVO setCreateTime(Date createTime) {
         this.createTime = createTime;
-        return this;
-    }
-
-    public String getPicUrl() {
-        return picUrl;
-    }
-
-    public BannerVO setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
         return this;
     }
 }

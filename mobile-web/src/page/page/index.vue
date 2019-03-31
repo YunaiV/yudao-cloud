@@ -3,7 +3,9 @@
     <div :style="'height:'+topheight+'px'" ></div>
     <van-swipe :autoplay="3000" indicator-color="white" height="160">
         <van-swipe-item v-for="(banner, index) in banners" :key="index" >
-            <img :src="banner.picUrl" height="100%" width="100%">
+            <a :href="banner.url">
+                <img :src="banner.picUrl" height="100%" width="100%" >
+            </a>
         </van-swipe-item>
     </van-swipe>
     <div v-for="(item,index) in page.Sections" :key="index">
@@ -78,9 +80,13 @@ export default {
       });
     },
     methods:{
-        settopheight:function(value){
-            this.topheight=value;
-        }
+      onBannerClick: function(event, index) {
+        debugger;
+        console.log(event);
+      },
+      settopheight:function(value){
+        this.topheight=value;
+      }
     }
 }
 </script>

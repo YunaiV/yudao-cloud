@@ -1,21 +1,19 @@
 package cn.iocoder.mall.promotion.biz.dataobject;
 
+import cn.iocoder.common.framework.dataobject.BaseDO;
+
 import java.util.Date;
 
 /**
- * 优惠劵
+ * 优惠劵 DO
  */
-public class Coupon {
+public class CouponDO extends BaseDO {
 
     // ========== 基本信息 BEGIN ==========
     /**
-     * 卡券ID
+     * 优惠劵（码）编号
      */
     private Integer id;
-    /**
-     * 店铺编号
-     */
-    private Integer shopId;
     /**
      * 类型
      *
@@ -24,17 +22,13 @@ public class Coupon {
      */
     private Integer type;
     /**
-     * 优惠劵（码）分组编号，{@link CouponTemplate} 的 id
+     * 优惠劵（码）分组编号，{@link CouponTemplateDO} 的 id
      */
-    private Integer couponGroupId;
-    /**
-     * 核销码
-     */
-    private String verifyCode;
-    /**
-     * 创建时间
-     */
-    private Date createTime;
+    private Integer templateId;
+//    /**
+//     * 核销码
+//     */
+//    private String verifyCode;
     /**
      * 优惠码状态
      *
@@ -43,6 +37,8 @@ public class Coupon {
      * 3-已过期
      * 4-已删除
      * 5-已使用
+     *
+     * TODO 需要讨论下
      */
     private Integer status;
 
@@ -52,7 +48,7 @@ public class Coupon {
     /**
      * 是否领取
      */
-    private Boolean isTake;
+    private Boolean taked;
     /**
      * 领取用户编号
      */
@@ -61,6 +57,13 @@ public class Coupon {
      * 领取时间
      */
     private Date takeTime;
+    /**
+     * 领取类型
+     *
+     * 1 - 用户主动领取
+     * 2 - 后台自动发放
+     */
+    private Integer takeType;
     // ========== 领取情况 END ==========
 
     // ========== 使用规则 BEGIN ==========
@@ -79,32 +82,38 @@ public class Coupon {
      * 优惠类型
      *
      * 1-代金卷
-     * 2-折扣卷 【优惠劵独有】
+     * 2-折扣卷
      */
     private Integer preferentialType;
     /**
      * 折扣
      */
-    private Double discount;
+    private Double percentOff;
     /**
      * 优惠金额，单位：分。
      */
-    private Integer value;
+    private Integer priceOff;
+    /**
+     * 折扣上限，仅在 {@link #preferentialType} 等于 2 时生效。
+     *
+     * 例如，折扣上限为 20 元，当使用 8 折优惠券，订单金额为 1000 元时，最高只可折扣 20 元，而非 80  元。
+     */
+    private Integer discountPriceLimit;
     // ========== 使用效果 END ==========
 
     // ========== 使用情况 BEGIN ==========
     /**
      * 是否使用
      */
-    private Boolean isUsed;
+    private Boolean used;
     /**
      * 使用订单号
      */
-    private String usedInTid;
+    private String usedOrderId;
     /**
      * 订单中优惠面值，单位：分
      */
-    private Integer usedValue;
+    private Integer usedPrice;
     /**
      * 使用时间
      */

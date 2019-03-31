@@ -11,16 +11,9 @@ public class CouponDO extends BaseDO {
 
     // ========== 基本信息 BEGIN ==========
     /**
-     * 优惠劵（码）编号
+     * 优惠劵编号
      */
     private Integer id;
-    /**
-     * 类型
-     *
-     * 1-优惠劵
-     * 2-优惠码
-     */
-    private Integer type;
     /**
      * 优惠劵（码）分组编号，{@link CouponTemplateDO} 的 id
      */
@@ -46,17 +39,9 @@ public class CouponDO extends BaseDO {
 
     // ========== 领取情况 BEGIN ==========
     /**
-     * 是否领取
-     */
-    private Boolean taked;
-    /**
-     * 领取用户编号
+     * 用户编号
      */
     private Integer userId;
-    /**
-     * 领取时间
-     */
-    private Date takeTime;
     /**
      * 领取类型
      *

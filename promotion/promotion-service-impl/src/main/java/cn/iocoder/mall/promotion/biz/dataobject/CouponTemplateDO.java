@@ -32,6 +32,15 @@ public class CouponTemplateDO extends BaseDO {
      */
     private Integer type;
     /**
+     * 码类型
+     *
+     * 1-一卡一码（UNIQUE）
+     * 2-通用码（GENERAL）
+     *
+     * 【优惠码独有】 @see CouponCodeDO
+     */
+    private Integer codeType;
+    /**
      * 优惠码状态
      *
      * 1-生效中
@@ -56,26 +65,16 @@ public class CouponTemplateDO extends BaseDO {
      * 删除时间
      */
     private Date deleteTime;
+    /**
+     * 可领取的开始时间
+     */
+    private Date beginTime;
+    /**
+     * 可领取的结束时间
+     */
+    private Date endTime;
 
     // ========== 基本信息 END ==========
-
-    // ========== 码信息 BEGIN ==========
-    /**
-     * 码类型
-     *
-     * 1-一卡一码（UNIQUE）
-     * 2-通用码（GENERAL）
-     *
-     * 【优惠码独有】
-     */
-    private Integer codeType;
-    /**
-     * 优惠码
-     *
-     * 【优惠码独有】
-     */
-    private String code;
-    // ========== 码信息 END ==========
 
     // ========== 领取规则 BEGIN ==========
 //    /**
@@ -119,12 +118,15 @@ public class CouponTemplateDO extends BaseDO {
     /**
      * 可用范围的类型
      *
-     * 1-部分（ALL）：全部商品可用
-     * 2-全部（PART）：部分商品可用，或指定商品可用
+     * 10-全部（ALL）：所有可用
+     * 20-部分（PART）：部分商品可用，或指定商品可用
+     * 21-部分（PART）：部分商品不可用，或指定商品可用
+     * 30-部分（PART）：部分分类可用，或指定商品可用
+     * 31-部分（PART）：部分分类不可用，或指定商品可用
      */
     private Integer rangeType;
     /**
-     * 指定可用商品列表，使用逗号分隔商品编号
+     * 指定商品 / 分类列表，使用逗号分隔商品编号
      */
     private String rangeValues;
     /**

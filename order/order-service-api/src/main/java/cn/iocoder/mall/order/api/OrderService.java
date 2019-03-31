@@ -57,6 +57,14 @@ public interface OrderService {
     CommonResult cancelOrder(Integer orderId, Integer reasons, String otherReasons);
 
     /**
+     * 订单发货
+     *
+     * @param orderDelivery
+     * @return
+     */
+    CommonResult orderDelivery(OrderDeliveryDTO orderDelivery);
+
+    /**
      * 更新订单 - 备注
      *
      * @param orderId

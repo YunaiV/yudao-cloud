@@ -239,6 +239,8 @@
 // 订单content
 .orderGroup {
   @padding-slid: 10px;
+  @solid-color: rgba(167, 157, 160, 0.92);
+  @header-background: rgba(210, 219, 238, 0.99);
 
   display: flex;
   flex: 1;
@@ -254,7 +256,26 @@
     font-weight: bold;
     font-size: 15px;
     line-height: 35px;
-    background-color: #c0bfb9;
+    background-color: @header-background;
+  }
+
+  .goodsContainer {
+    :first-child {
+      border-top: none;
+      border-bottom: none;
+    }
+
+    :last-child {
+      border-bottom: none;
+    }
+  }
+
+  .orderGoods {
+    display: flex;
+    flex: 2;
+    flex-direction: row;
+    width: 500px;
+    border: 1px solid @solid-color;
   }
 
   .order {
@@ -264,7 +285,7 @@
     padding-right: @padding-slid;
     padding-left: @padding-slid;
     line-height: 100px;
-    border: 1px solid #c0bfb9;
+    border: 1px solid @solid-color;
 
     .contentItem {
       display: flex;
@@ -285,8 +306,8 @@
     }
 
     .image {
-      width: 100px;
-      height: 100px;
+      width: 80px;
+      height: 80px;
     }
   }
 }

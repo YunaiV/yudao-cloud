@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 
 @ApiModel("Banner 分页 VO")
-public class AdminBannerPageVO {
+public class AdminsBannerPageVO {
 
     @ApiModelProperty(value = "Banner 数组")
     private List<AdminsBannerVO> list;
@@ -17,7 +17,7 @@ public class AdminBannerPageVO {
         return list;
     }
 
-    public AdminBannerPageVO setList(List<AdminsBannerVO> list) {
+    public AdminsBannerPageVO setList(List<AdminsBannerVO> list) {
         this.list = list;
         return this;
     }
@@ -26,7 +26,7 @@ public class AdminBannerPageVO {
         return total;
     }
 
-    public AdminBannerPageVO setTotal(Integer total) {
+    public AdminsBannerPageVO setTotal(Integer total) {
         this.total = total;
         return this;
     }

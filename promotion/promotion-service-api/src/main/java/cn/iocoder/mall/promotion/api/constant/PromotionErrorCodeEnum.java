@@ -8,9 +8,15 @@ package cn.iocoder.mall.promotion.api.constant;
 public enum PromotionErrorCodeEnum {
 
     // ========== Banner 模块 ==========
-    BANNER_NOT_EXISTS(1002002000, "账号不存在"),
+    BANNER_NOT_EXISTS(1006000000, "账号不存在"),
+
+    // ========== PRODUCT RECOMMEND 模块 ==========
+    PRODUCT_RECOMMEND_NOT_EXISTS(1006001000, "商品推荐不存在"),
+    PRODUCT_RECOMMEND_PRODUCT_NOT_EXISTS(1006001001, "商品不存在"),
+    PRODUCT_RECOMMEND_EXISTS(1006001002, "该商品推荐已经存在"),
 
     ;
+
 
     private final int code;
     private final String message;

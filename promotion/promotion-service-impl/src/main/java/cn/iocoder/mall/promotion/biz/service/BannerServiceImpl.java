@@ -75,6 +75,10 @@ public class BannerServiceImpl implements BannerService {
         if (!CommonStatusEnum.isValid(status)) {
             return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "变更状态必须是开启（1）或关闭（2）"); // TODO 有点搓
         }
+        // 校验 Banner 存在
+        if (bannerMapper.selectById(bannerId) == null) {
+            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.BANNER_NOT_EXISTS.getCode());
+        }
         // 更新到数据库
         BannerDO updateBanner = new BannerDO().setId(bannerId).setStatus(status);
         bannerMapper.update(updateBanner);

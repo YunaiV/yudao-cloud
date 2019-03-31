@@ -8,7 +8,7 @@ import cn.iocoder.mall.promotion.api.dto.BannerAddDTO;
 import cn.iocoder.mall.promotion.api.dto.BannerPageDTO;
 import cn.iocoder.mall.promotion.api.dto.BannerUpdateDTO;
 import cn.iocoder.mall.promotion.application.convert.BannerConvert;
-import cn.iocoder.mall.promotion.application.vo.admins.AdminBannerPageVO;
+import cn.iocoder.mall.promotion.application.vo.admins.AdminsBannerPageVO;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsBannerVO;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
@@ -32,9 +32,9 @@ public class AdminsBannerController {
             @ApiImplicitParam(name = "pageNo", value = "页码，从 1 开始", example = "1"),
             @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, example = "10"),
     })
-    public CommonResult<AdminBannerPageVO> page(@RequestParam(value = "title", required = false) String title,
-                                                @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
-                                                @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+    public CommonResult<AdminsBannerPageVO> page(@RequestParam(value = "title", required = false) String title,
+                                                 @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+                                                 @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         CommonResult<BannerPageBO> result = bannerService.getBannerPage(new BannerPageDTO().setTitle(title).setPageNo(pageNo).setPageSize(pageSize));
         return BannerConvert.INSTANCE.convert(result);
     }

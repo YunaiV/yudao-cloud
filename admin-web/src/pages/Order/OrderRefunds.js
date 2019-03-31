@@ -7,7 +7,6 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import DictionaryText from '@/components/Dictionary/DictionaryText';
 import OrderUpdatePayAmount from './OrderUpdatePayAmount';
 import OrderRemark from './OrderRemark';
-import OrderCancel from './OrderCancel';
 import dictionary from '@/utils/dictionary';
 
 import styles from './OrderList.less';
@@ -17,9 +16,18 @@ const FormItem = Form.Item;
 const { TabPane } = Tabs;
 
 const OrderContent = props => {
-  const { dispatch, item } = props;
-  const { createTime, status, payAmount } = item;
-  const { name, mobile } = item.orderRecipient;
+  const {
+    dispatch,
+    skuName,
+    skuImage,
+    quantity,
+    price,
+    payAmount,
+    createTime,
+    status,
+    item,
+  } = props;
+  const { name, mobile } = item.orderLogistics;
 
   const handleUpdatePayAmount = updateOrderItem => {
     dispatch({
@@ -33,18 +41,6 @@ const OrderContent = props => {
     });
   };
 
-  // const handleCancelOrder = ({ orderId }) => {
-  //   dispatch({
-  //     type: 'orderList/changeOrderCancelVisible',
-  //     payload: {
-  //       orderCancelVisible: true,
-  //       orderId,
-  //     },
-  //   });
-  // };
-  //
-  // const handleRenderGoods = () => {};
-
   const renderStatusButtons = () => {
     let res = '';
     if (status === 1) {
@@ -55,32 +51,20 @@ const OrderContent = props => {
     return res;
   };
 
-  const renderGoods = orderItems => {
-    return orderItems.map(({ skuName, skuImage, quantity, price }) => {
-      return (
-        <div className={styles.orderGoods}>
-          <img alt={skuName} className={`${styles.image}`} src={skuImage} />
-          <div className={styles.contentItem}>
-            <div>
-              <a>{skuName}</a>
-            </div>
-            <div>秋季精选</div>
-          </div>
-          <div className={styles.contentItem}>
-            <div>{quantity}件</div>
-            <div>
-              {price / 100} 元/{quantity * (price / 100)} 元
-            </div>
-          </div>
-        </div>
-      );
-    });
-  };
-
   return (
     <div className={styles.order}>
-      <div className={`${styles.contentItem} ${styles.goodsContainer}`}>
-        {renderGoods(item.orderItems)}
+      <img alt={skuName} className={`${styles.image}`} src={skuImage} />
+      <div className={styles.contentItem}>
+        <div>
+          <a>{skuName}</a>
+        </div>
+        <div>秋季精选</div>
+      </div>
+      <div className={styles.contentItem}>
+        <div>{quantity}件</div>
+        <div>
+          {price / 100} 元/{quantity * (price / 100)} 元
+        </div>
       </div>
       <div className={styles.contentItem}>
         <div>{name}</div>
@@ -152,7 +136,11 @@ const OrderList = props => {
               </div>
             </div>
 
-            <OrderContent item={item} dispatch={dispatch} />
+            {item.orderItems.map(orderItem => {
+              return (
+                <OrderContent key={orderItem.id} item={item} dispatch={dispatch} {...orderItem} />
+              );
+            })}
           </div>
         </List.Item>
       )}
@@ -325,7 +313,6 @@ class BasicList extends PureComponent {
 
         <OrderUpdatePayAmount {...this.props} />
         <OrderRemark {...this.props} />
-        <OrderCancel {...this.props} />
       </PageHeaderWrapper>
     );
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Modal } from 'antd';
+import { Form, InputNumber, Modal } from 'antd';
 
 const FormItem = Form.Item;
 
@@ -52,7 +52,7 @@ const OrderUpdatePayAmount = Form.create()(props => {
             { max: 10000, min: 0, message: '金额值 0 - 100000 元' },
           ],
           initialValue: payAmount / 100,
-        })(<Input placeholder="请输入修改的金额" />)}
+        })(<InputNumber min={0} max={100000} placeholder="请输入修改的金额" />)}
       </FormItem>
     </Modal>
   );

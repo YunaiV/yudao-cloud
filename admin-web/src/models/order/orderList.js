@@ -1,5 +1,11 @@
 import { message } from 'antd';
-import { orderPage, updateOrderItem, updateOrderItemPayAmount } from '../../services/order';
+import {
+  orderPage,
+  updateOrderItem,
+  updateOrderItemPayAmount,
+  updateRemark,
+  cancelOrder,
+} from '../../services/order';
 
 export default {
   namespace: 'orderList',
@@ -18,6 +24,12 @@ export default {
     orderId: 0,
     orderItemId: 0,
     searchParams: {},
+
+    remarkVisible: false,
+    remark: '',
+
+    orderCancelVisible: false,
+    orderCancelShowOther: false,
   },
 
   effects: {
@@ -77,6 +89,40 @@ export default {
         },
       });
     },
+    *updateRemake({ payload }, { call, put }) {
+      const { searchParams, params } = payload;
+      yield call(updateRemark, params);
+      yield put({
+        type: 'changeRemakeVisible',
+        payload: {
+          remarkVisible: false,
+        },
+      });
+
+      yield put({
+        type: 'queryPage',
+        payload: {
+          ...searchParams,
+        },
+      });
+    },
+    *cancelOrder({ payload }, { call, put }) {
+      const { searchParams, params } = payload;
+      yield call(cancelOrder, params);
+      yield put({
+        type: 'changeOrderCancelVisible',
+        payload: {
+          orderCancelVisible: false,
+        },
+      });
+
+      yield put({
+        type: 'queryPage',
+        payload: {
+          ...searchParams,
+        },
+      });
+    },
   },
 
   reducers: {
@@ -94,6 +140,24 @@ export default {
       };
     },
     changeSearchParams(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
+    changeRemakeVisible(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
+    changeOrderCancelVisible(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
+    changeOrderCancelShowOther(state, { payload }) {
       return {
         ...state,
         ...payload,

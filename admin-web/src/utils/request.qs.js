@@ -9,11 +9,9 @@ import qs from 'qs';
 function filterEmptyStr(params) {
   function filterObject(object) {
     const res = {};
-    for (const key in params) {
-      const val = params[key];
-      if (typeof val === 'string' && val) {
-        res[key] = val;
-      } else {
+    for (const key in object) {
+      const val = object[key];
+      if (val !== undefined && val !== 'undefined' && val !== null && val !== 'null') {
         res[key] = val;
       }
     }

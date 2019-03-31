@@ -1,6 +1,10 @@
 <template>
 <div :style="'background-color:'+((page.BackgroundColor==undefined||page.BackgroundColor=='')?'#fff':page.BackgroundColor)">
     <div :style="'height:'+topheight+'px'" ></div>
+
+    <!-- TODO 搜索框 -->
+<!--    <search v-if="item.Code=='Search'" :data="item.ParameterDictionary" v-on:settopheight="settopheight($event)" ></search>-->
+
     <van-swipe :autoplay="3000" indicator-color="white" height="160">
         <van-swipe-item v-for="(banner, index) in banners" :key="index" >
             <a :href="banner.url">
@@ -8,26 +12,17 @@
             </a>
         </van-swipe-item>
     </van-swipe>
-    <div v-for="(item,index) in page.Sections" :key="index">
+    <van-panel title="新品推荐">
+        <div v-for="(item,index) in page.Sections" :key="index">
+            <product v-if="item.Code=='Product'" :data="item" ></product>
+        </div>
+    </van-panel>
 
-        <imageText v-if="item.Code=='ImageText'" :data="item.ParameterDictionary"></imageText>
-
-        <pageLine v-if="item.Code=='Line'"  :data="item.ParameterDictionary" ></pageLine>
-
-        <whitespace v-if="item.Code=='Line'" :data="item.ParameterDictionary"  />
-
-        <pageText v-if="item.Code=='Text'" :data="item.ParameterDictionary" ></pageText>
-
-        <notice v-if="item.Code=='Notice'" :data="item.ParameterDictionary" ></notice>
-
-        <search v-if="item.Code=='Search'" :data="item.ParameterDictionary" v-on:settopheight="settopheight($event)" ></search>
-
-        <pageTitle v-if="item.Code=='Title'" :data="item.ParameterDictionary" ></pageTitle>
-
-        <cube v-if="item.Code=='Cube'" :data="item.ParameterDictionary" ></cube>
-
-        <product v-if="item.Code=='Product'" :data="item" ></product>
-    </div>
+    <van-panel title="热卖推荐">
+        <div v-for="(item,index) in page.Sections" :key="index">
+            <product v-if="item.Code=='Product'" :data="item" ></product>
+        </div>
+    </van-panel>
 
 </div>
 </template>

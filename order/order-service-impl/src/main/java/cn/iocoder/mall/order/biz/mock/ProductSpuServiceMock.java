@@ -2,11 +2,15 @@ package cn.iocoder.mall.order.biz.mock;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.ProductSpuService;
+import cn.iocoder.mall.product.api.bo.ProductSpuBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuPageBO;
 import cn.iocoder.mall.product.api.dto.ProductSpuAddDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuPageDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuUpdateDTO;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Sin
@@ -35,6 +39,11 @@ public class ProductSpuServiceMock implements ProductSpuService {
 
     @Override
     public CommonResult<ProductSpuPageBO> getProductSpuPage(ProductSpuPageDTO productSpuPageDTO) {
+        return null;
+    }
+
+    @Override
+    public CommonResult<List<ProductSpuBO>> getProductSpuList(Collection<Integer> ids) {
         return null;
     }
 }

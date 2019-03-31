@@ -1,11 +1,15 @@
 package cn.iocoder.mall.product.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.product.api.bo.ProductSpuBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuPageBO;
 import cn.iocoder.mall.product.api.dto.ProductSpuAddDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuPageDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuUpdateDTO;
+
+import java.util.Collection;
+import java.util.List;
 
 public interface ProductSpuService {
 
@@ -18,5 +22,7 @@ public interface ProductSpuService {
     CommonResult<Boolean> updateProductSpuSort(Integer adminId, Integer spuId, Integer sort);
 
     CommonResult<ProductSpuPageBO> getProductSpuPage(ProductSpuPageDTO productSpuPageDTO);
+
+    CommonResult<List<ProductSpuBO>> getProductSpuList(Collection<Integer> ids);
 
 }

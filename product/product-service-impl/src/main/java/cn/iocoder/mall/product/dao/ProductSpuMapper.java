@@ -4,12 +4,15 @@ import cn.iocoder.mall.product.dataobject.ProductSpuDO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 @Repository
 public interface ProductSpuMapper {
 
     ProductSpuDO selectById(Integer id);
+
+    List<ProductSpuDO> selectByIds(Collection<Integer> ids);
 
     void insert(ProductSpuDO productSpuDO);
 

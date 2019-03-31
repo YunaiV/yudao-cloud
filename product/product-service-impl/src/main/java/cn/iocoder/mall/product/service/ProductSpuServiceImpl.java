@@ -7,6 +7,7 @@ import cn.iocoder.common.framework.util.StringUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.ProductSpuService;
 import cn.iocoder.mall.product.api.bo.ProductAttrAndValuePairBO;
+import cn.iocoder.mall.product.api.bo.ProductSpuBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuPageBO;
 import cn.iocoder.mall.product.api.constant.ProductErrorCodeEnum;
@@ -212,6 +213,19 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         return CommonResult.success(productSpuPage);
     }
 
+    @Override
+    public CommonResult<List<ProductSpuBO>> getProductSpuList(Collection<Integer> ids) {
+        List<ProductSpuDO> spus = productSpuMapper.selectByIds(ids);
+        return CommonResult.success(ProductSpuConvert.INSTANCE.convert(spus));
+    }
+
+    /**
+     * 校验 sku 是否合法
+     *
+     * @param productSkuAddDTOs sku 添加或修改信息
+     * @param productAttrDetailBOs 商品规格明细数组
+     * @return 是否校验通过
+     */
     private CommonResult<Boolean> validProductSku(List<ProductSkuAddOrUpdateDTO> productSkuAddDTOs, List<ProductAttrAndValuePairBO> productAttrDetailBOs) {
         // 创建 ProductAttrDetailBO 的映射。其中，KEY 为 ProductAttrDetailBO.attrValueId ，即规格值的编号
         Map<Integer, ProductAttrAndValuePairBO> productAttrDetailBOMap = productAttrDetailBOs.stream().collect(
@@ -241,6 +255,13 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         return CommonResult.success(true);
     }
 
+    /**
+     * 获得 sku 数组中，指定规格的 sku
+     *
+     * @param attrs 指定规格
+     * @param skus sku 数组
+     * @return 符合条件的 sku
+     */
     private ProductSkuDO findProductSku(Collection<Integer> attrs, List<ProductSkuDO> skus) {
         if (CollectionUtil.isEmpty(skus)) {
             return null;
@@ -256,6 +277,12 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         return null;
     }
 
+    /**
+     * 根据 sku 数组，计算相关的字段到 spu 中。
+     *
+     * @param spu spu
+     * @param skus sku 数组
+     */
     private void initSpuFromSkus(ProductSpuDO spu, List<ProductSkuAddOrUpdateDTO> skus) {
         assert skus.size() > 0; // 写个断言，避免下面警告
         spu.setPrice(skus.stream().min(Comparator.comparing(ProductSkuAddOrUpdateDTO::getPrice)).get().getPrice()); // 求最小价格

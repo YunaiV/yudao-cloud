@@ -16,6 +16,17 @@
         AND deleted = 0
     </select>
 
+    <select id="selectByIds" resultType="ProductSpuDO">
+        SELECT
+            <include refid="FIELDS" />
+        FROM product_spu
+        WHERE id IN
+            <foreach item="id" collection="ids" separator="," open="(" close=")" index="">
+                #{id}
+            </foreach>
+        AND deleted = 0
+    </select>
+
     <insert id="insert" parameterType="ProductSpuDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO product_spu (
             name, sell_point, description, cid, pic_urls,

@@ -1,8 +1,9 @@
 package cn.iocoder.mall.product.api.bo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ProductSpuPageBO {
+public class ProductSpuPageBO implements Serializable {
 
     /**
      * Spu 数组

@@ -110,11 +110,11 @@ export default [
             name: 'promotion-banner-list',
             component: './Promotion/BannerList',
           },
-          // {
-          //   path: '/product/product-spu-add',
-          //   name: 'product-spu-add',
-          //   component: './Product/ProductSpuAddOrUpdate',
-          // },
+          {
+            path: '/promotion/product-recommend-list',
+            name: 'product-recommend-list',
+            component: './Promotion/ProductRecommendList',
+          },
           // {
           //   path: '/product/product-category-list',
           //   name: 'product-category-list',

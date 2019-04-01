@@ -13,14 +13,15 @@
         </van-swipe-item>
     </van-swipe>
     <van-panel title="新品推荐">
-        <div v-for="(item,index) in page.Sections" :key="index">
-            <product v-if="item.Code=='Product'" :data="item" ></product>
+<!--        <product :data="productRecommends['1']" ></product>-->
+        <div v-for="(product,i) in productRecommends['1']" :key="i">
+            <product-card :product='product' @click="showProduct(product)" />
         </div>
     </van-panel>
 
     <van-panel title="热卖推荐">
-        <div v-for="(item,index) in page.Sections" :key="index">
-            <product v-if="item.Code=='Product'" :data="item" ></product>
+        <div v-for="(product,i) in productRecommends['2']" :key="i">
+            <product-card :product='product' @click="showProduct(product)" />
         </div>
     </van-panel>
 
@@ -39,7 +40,7 @@ import imageAd from "../../components/page/imageAd.vue";
 import imageText from "../../components/page/imageText.vue";
 import product from "../../components/page/product.vue";
 import { GetPage } from "../../api/page.js";
-import { getBannerList } from '../../api/promotion.js';
+import { getBannerList, getProductRecommendList } from '../../api/promotion.js';
 
 export default {
     name:"page",
@@ -60,6 +61,7 @@ export default {
             topheight:0,
             page:{},
           banners: [], // Banner 列表
+          productRecommends: [], // 推荐商品列表
         }
     },
     created:function(){
@@ -69,18 +71,30 @@ export default {
     },
     mounted: function() {
       // 加载 Banner
-      let response = getBannerList();
-      response.then(data => {
-        this.banners = data;
-      });
+      {
+          let response = getBannerList();
+          response.then(data => {
+            this.banners = data;
+          });
+      }
+      // 加载 getProductRecommendList
+      {
+        let response = getProductRecommendList();
+        response.then(data => {
+          this.productRecommends = data;
+        });
+      }
     },
     methods:{
-      onBannerClick: function(event, index) {
-        debugger;
-        console.log(event);
-      },
+      // onBannerClick: function(event, index) {
+      //   debugger;
+      //   console.log(event);
+      // },
       settopheight:function(value){
         this.topheight=value;
+      },
+      showProduct(product){
+        this.$router.push('/product/'+product.id);
       }
     }
 }

@@ -1,11 +1,12 @@
 package cn.iocoder.mall.product.api.bo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 商品分类 BO
  */
-public class ProductCategoryBO {
+public class ProductCategoryBO implements Serializable {
 
     /**
      * 分类编号

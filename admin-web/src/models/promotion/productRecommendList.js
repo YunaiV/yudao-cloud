@@ -1,18 +1,19 @@
-import {message} from 'antd';import {
-  addBanner,
-  deleteBanner,
-  queryBanner,
-  updateBanner,
-  updateBannerStatus,
+import {message} from 'antd';
+import {
+  addProductRecommend,
+  deleteProductRecommend,
+  queryProductRecommend,
+  updateProductRecommend,
+  updateProductRecommendStatus,
 } from '../../services/promotion';
 import PaginationHelper from '../../../helpers/PaginationHelper';
 
 const SEARCH_PARAMS_DEFAULT = {
-  title: '',
+  type: undefined,
 };
 
 export default {
-  namespace: 'bannerList',
+  namespace: 'productRecommendList',
 
   state: {
     // 分页列表相关
@@ -38,7 +39,7 @@ export default {
       });
 
       // 请求
-      const response = yield call(queryBanner, payload);
+      const response = yield call(queryProductRecommend, payload);
       // 响应
       yield put({
         type: 'setAll',
@@ -46,7 +47,7 @@ export default {
           list: response.data.list,
           pagination: PaginationHelper.formatPagination(response.data, payload),
           searchParams: {
-            title: payload.title || ''
+            type: payload.type
           }
         },
       });
@@ -66,7 +67,7 @@ export default {
       });
 
       // 请求
-      const response = yield call(addBanner, body);
+      const response = yield call(addProductRecommend, body);
       // 响应
       if (response.code === 0) {
         if (callback) {
@@ -96,7 +97,7 @@ export default {
       });
 
       // 请求
-      const response = yield call(updateBanner, body);
+      const response = yield call(updateProductRecommend, body);
       // 响应
       if (response.code === 0) {
         if (callback) {
@@ -120,7 +121,7 @@ export default {
 
     * updateStatus({ payload }, { call, put }) {
       // 请求
-      const response = yield call(updateBannerStatus, payload);
+      const response = yield call(updateProductRecommendStatus, payload);
       // 响应
       if (response.code === 0) {
         message.info('更新状态成功!');
@@ -136,7 +137,7 @@ export default {
 
     * delete({ payload }, { call, put }) {
       // 请求
-      const response = yield call(deleteBanner, payload);
+      const response = yield call(deleteProductRecommend, payload);
       // 响应
       if (response.code === 0) {
         message.info('删除成功!');

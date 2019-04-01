@@ -1,11 +1,12 @@
 package cn.iocoder.mall.product.api.bo;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 商品 Sku 明细 BO
  */
-public class ProductSkuDetailBO {
+public class ProductSkuDetailBO implements Serializable {
 
     /**
      * sku 编号

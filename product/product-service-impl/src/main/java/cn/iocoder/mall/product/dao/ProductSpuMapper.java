@@ -12,7 +12,7 @@ public interface ProductSpuMapper {
 
     ProductSpuDO selectById(Integer id);
 
-    List<ProductSpuDO> selectByIds(Collection<Integer> ids);
+    List<ProductSpuDO> selectByIds(@Param("ids") Collection<Integer> ids);
 
     void insert(ProductSpuDO productSpuDO);
 

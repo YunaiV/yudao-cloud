@@ -7,7 +7,7 @@
         status, memo, create_time
     </sql>
 
-<!--    <select id="selectListByPidAndStatusOrderBySort" resultType="BannerDO">-->
+<!--    <select id="selectListByPidAndStatusOrderBySort" resultType="ProductRecommendDO">-->
 <!--        SELECT-->
 <!--            <include refid="FIELDS" />-->
 <!--        FROM product_recommend-->
@@ -17,14 +17,14 @@
 <!--        ORDER BY sort ASC-->
 <!--    </select>-->
 
-<!--    <select id="selectList" resultType="BannerDO">-->
+<!--    <select id="selectList" resultType="ProductRecommendDO">-->
 <!--        SELECT-->
 <!--          <include refid="FIELDS" />-->
 <!--        FROM product_recommend-->
 <!--        WHERE deleted = 0-->
 <!--    </select>-->
 
-    <select id="selectById" parameterType="Integer" resultType="BannerDO">
+    <select id="selectById" parameterType="Integer" resultType="ProductRecommendDO">
         SELECT
           <include refid="FIELDS" />
         FROM product_recommend
@@ -32,7 +32,7 @@
         AND deleted = 0
     </select>
 
-    <select id="selectByProductSpuIdAndType" resultType="BannerDO">
+    <select id="selectByProductSpuIdAndType" resultType="ProductRecommendDO">
         SELECT
             <include refid="FIELDS" />
         FROM product_recommend
@@ -41,13 +41,13 @@
                 product_spu_id = #{productSpuId}
             </if>
             <if test="type != null">
-                type = #{type}
+                AND type = #{type}
             </if>
             AND deleted = 0
         </where>
     </select>
 
-    <select id="selectListByTypeAndStatus" parameterType="Integer" resultType="BannerDO">
+    <select id="selectListByTypeAndStatus" parameterType="Integer" resultType="ProductRecommendDO">
         SELECT
             <include refid="FIELDS" />
         FROM product_recommend
@@ -56,13 +56,13 @@
                 type = #{type}
             </if>
             <if test="status != null">
-                status = #{status}
+                AND status = #{status}
             </if>
             AND deleted = 0
         </where>
     </select>
 
-    <select id="selectPageByType" resultType="BannerDO">
+    <select id="selectPageByType" resultType="ProductRecommendDO">
         SELECT
           <include refid="FIELDS" />
         FROM product_recommend
@@ -87,7 +87,7 @@
         </where>
     </select>
 
-    <insert id="insert" parameterType="BannerDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <insert id="insert" parameterType="ProductRecommendDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO product_recommend (
           type, product_spu_id, sort, status, memo,
           create_time, deleted
@@ -97,7 +97,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="BannerDO">
+    <update id="update" parameterType="ProductRecommendDO">
         UPDATE product_recommend
         <set>
             <if test="type != null">

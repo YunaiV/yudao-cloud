@@ -27,8 +27,10 @@ import moment from "moment";
 import PaginationHelper from "../../../helpers/PaginationHelper";
 
 const FormItem = Form.Item;
+const SelectOption = Select.Option;
 const { TreeNode } = Tree;
 const status = ['未知', '正常', '禁用'];
+const types = ['未知', '新品推荐', '热卖推荐'];
 
 // 列表
 function List ({ dataSource, loading, pagination, searchParams, dispatch,
@@ -37,10 +39,10 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
   function handleStatus(record) {
     Modal.confirm({
       title: record.status === 1 ? '确认禁用' : '取消禁用',
-      content: `${record.username}`,
+      content: `${record.productSpuId}`,
       onOk() {
         dispatch({
-          type: 'bannerList/updateStatus',
+          type: 'productRecommendList/updateStatus',
           payload: {
             id: record.id,
             status: record.status === 1 ? 2 : 1,
@@ -54,10 +56,10 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
   function handleDelete(record) {
     Modal.confirm({
       title: `确认删除?`,
-      content: `${record.title}`,
+      content: `${record.productSpuId}`,
       onOk() {
         dispatch({
-          type: 'bannerList/delete',
+          type: 'productRecommendList/delete',
           payload: {
             id: record.id,
           },
@@ -69,19 +71,15 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
 
   const columns = [
     {
-      title: '标题',
-      dataIndex: 'title'
-    },
-    {
-      title: '跳转链接',
-      dataIndex: 'url',
-    },
-    {
-      title: '图片',
-      dataIndex: 'picUrl',
+      title: '推荐类型',
+      dataIndex: 'type',
       render(val) {
-        return <img width={120} src={val} />;
+        return <span>{types[val]}</span>; // TODO 芋艿，此处要改
       },
+    },
+    {
+      title: '商品',
+      dataIndex: 'productSpuId',
     },
     {
       title: '排序值',
@@ -132,7 +130,7 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
 
   function onPageChange(page) { // 翻页
     dispatch({
-      type: 'bannerList/query',
+      type: 'productRecommendList/query',
       payload: {
         pageNo: page.current,
         pageSize: page.pageSize,
@@ -164,7 +162,7 @@ const SearchForm = Form.create()(props => {
 
   function search() {
     dispatch({
-      type: 'bannerList/query',
+      type: 'productRecommendList/query',
       payload: {
         ...PaginationHelper.defaultPayload,
         ...form.getFieldsValue()
@@ -221,7 +219,7 @@ const AddOrUpdateForm = Form.create()(props => {
       // 添加表单
       if (modalType === 'add') {
         dispatch({
-          type: 'bannerList/add',
+          type: 'productRecommendList/add',
           payload: {
             body: {
               ...fields,
@@ -239,7 +237,7 @@ const AddOrUpdateForm = Form.create()(props => {
         // 修改表单
       } else {
         dispatch({
-          type: 'bannerList/update',
+          type: 'productRecommendList/update',
           payload: {
             body: {
               id: formVals.id,
@@ -269,27 +267,23 @@ const AddOrUpdateForm = Form.create()(props => {
       okText='保存'
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="标题">
-        {form.getFieldDecorator('title', {
-          rules: [{ required: true, message: '请输入标题！'},
-            {max: 32, min:2, message: '长度为 2-32 位'},
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="推荐类型">
+        {form.getFieldDecorator('type', {
+          rules: [{ required: true, message: '请输入推荐类型！'},
           ],
-          initialValue: formVals.title,
-        })(<Input placeholder="请输入" />)}
+          initialValue: formVals.type,
+        })(
+          <Select placeholder="请选择" style={{ maxWidth: 200, width: '100%' }}>
+            <SelectOption value="1">{ types[1] }</SelectOption>
+            <SelectOption value="2">{ types[2] }</SelectOption>
+          </Select>
+        )}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="跳转链接">
-        {form.getFieldDecorator('url', {
-          rules: [{ required: true, message: '请输入跳转链接！'},
-            { type: 'url', message: '必须是 URL！'},
-            {max: 255, message: '最大长度为 255 位'},
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品">
+        {form.getFieldDecorator('productSpuId', {
+          rules: [{ required: true, message: '请输入商品！'}, // TODO 芋艿，临时先输入商品编号，后面做成搜索。
           ],
-          initialValue: formVals.picUrl,
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图片">
-        {form.getFieldDecorator('picUrl', {
-          rules: [{ required: true, message: '请输入跳转链接！'},],
-            initialValue: formVals.picUrl,
+          initialValue: formVals.productSpuId,
         })(<Input placeholder="请输入" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="排序值">
@@ -310,10 +304,10 @@ const AddOrUpdateForm = Form.create()(props => {
   );
 });
 
-@connect(({ bannerList }) => ({
-  // list: bannerList.list,
-  // pagination: bannerList.pagination,
-  ...bannerList,
+@connect(({ productRecommendList }) => ({
+  // list: productRecommend.list,
+  // pagination: productRecommend.pagination,
+  ...productRecommendList,
 }))
 
 // 主界面
@@ -323,7 +317,7 @@ class BannerList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'bannerList/query',
+      type: 'productRecommendList/query',
       payload: {
         ...PaginationHelper.defaultPayload
       },
@@ -333,7 +327,7 @@ class BannerList extends PureComponent {
   handleModalVisible = (modalVisible, modalType, record) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'bannerList/setAll',
+      type: 'productRecommendList/setAll',
       payload: {
         modalVisible,
         modalType,
@@ -347,7 +341,7 @@ class BannerList extends PureComponent {
     const { dispatch,
       list, listLoading, searchParams, pagination,
       modalVisible, modalType, formVals,
-      confirmLoading,} = this.props;
+      confirmLoading,  } = this.props;
 
     // 列表属性
     const listProps = {
@@ -387,7 +381,7 @@ class BannerList extends PureComponent {
                 type="primary"
                 onClick={() => this.handleModalVisible(true, 'add', {})}
               >
-                新建 Banner
+                新建商品推荐
               </Button>
             </div>
           </div>

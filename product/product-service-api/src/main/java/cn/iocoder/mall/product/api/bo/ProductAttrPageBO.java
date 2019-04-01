@@ -1,11 +1,12 @@
 package cn.iocoder.mall.product.api.bo;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 商品规格明细分页 BO
  */
-public class ProductAttrPageBO {
+public class ProductAttrPageBO implements Serializable {
 
     /**
      * 规格数组

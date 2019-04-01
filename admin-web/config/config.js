@@ -65,7 +65,7 @@ if (APP_TYPE === 'site') {
 export default {
   // add for transfer to umi
   base: basePath,
-  // publicPath: basePath,
+  publicPath: basePath,
   plugins,
   define: {
     APP_TYPE: APP_TYPE || '',

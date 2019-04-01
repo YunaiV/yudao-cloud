@@ -55,4 +55,5 @@ export default {
   'menu.order.order-refunds': '退货维权',
   // 营销相关
   'menu.promotion.promotion-banner-list': 'Banner 管理',
+  'menu.promotion.product-recommend-list': '商品推荐',
 };

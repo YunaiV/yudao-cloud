@@ -1,7 +1,7 @@
 package cn.iocoder.mall.promotion.biz.config;
 
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
-import cn.iocoder.mall.user.service.api.constant.UserErrorCodeEnum;
+import cn.iocoder.mall.promotion.api.constant.PromotionErrorCodeEnum;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
@@ -18,7 +18,7 @@ public class ServiceExceptionConfiguration {
 //        } catch (IOException e) {
 //            throw new RuntimeException(e);
 //        }
-        for (UserErrorCodeEnum item : UserErrorCodeEnum.values()) {
+        for (PromotionErrorCodeEnum item : PromotionErrorCodeEnum.values()) {
             ServiceExceptionUtil.put(item.getCode(), item.getMessage());
         }
     }

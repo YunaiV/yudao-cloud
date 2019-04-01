@@ -19,8 +19,8 @@ if (process.env.NODE_ENV == 'development') {
 
 // baseUrl = 'http://127.0.0.1';
 // baseUrl = 'http://180.167.213.26:18099';
-// dataSources = 'remote';
-dataSources = 'local';
+dataSources = 'remote';
+// dataSources = 'local';
 
 export {
 	baseUrl,

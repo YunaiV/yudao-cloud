@@ -1,6 +1,8 @@
 package cn.iocoder.mall.product.api.bo;
 
-public class ProductSkuBO {
+import java.io.Serializable;
+
+public class ProductSkuBO implements Serializable {
 
     private Integer id;
 

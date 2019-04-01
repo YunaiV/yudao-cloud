@@ -7,6 +7,12 @@ export default {
     changeOrigin: true,
     pathRewrite: {},
   },
+  '/product-api/': {
+    // target: 'http://180.167.213.26:18083/',
+    target: 'http://127.0.0.1:18081/',
+    changeOrigin: true,
+    pathRewrite: {},
+  },
   '/order-api/': {
     target: 'http://127.0.0.1:18084/',
     changeOrigin: true,

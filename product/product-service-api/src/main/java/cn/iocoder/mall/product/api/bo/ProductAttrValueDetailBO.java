@@ -1,11 +1,12 @@
 package cn.iocoder.mall.product.api.bo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 商品规格值 VO
  */
-public class ProductAttrValueDetailBO {
+public class ProductAttrValueDetailBO implements Serializable {
 
     /**
      * 规格值编号

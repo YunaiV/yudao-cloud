@@ -8,3 +8,12 @@ export function getBannerList() {
     method: 'get',
   });
 }
+
+// Product Recommend
+
+export function getProductRecommendList() {
+  return request({
+    url: 'promotion-api/users/product_recommend/list',
+    method: 'get',
+  });
+}

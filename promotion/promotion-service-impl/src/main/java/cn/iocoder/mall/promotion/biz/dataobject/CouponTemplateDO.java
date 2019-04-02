@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * 优惠劵（码）模板 DO
  *
- * 当用户领取时，会生成 {@link CouponDO} 优惠劵（码）。
+ * 当用户领取时，会生成 {@link CouponCardDO} 优惠劵（码）。
  */
 public class CouponTemplateDO extends BaseDO {
 
@@ -43,14 +43,11 @@ public class CouponTemplateDO extends BaseDO {
     /**
      * 优惠码状态
      *
-     * 1-生效中
-     * 2-已失效
+     * 1-开启中
+     * 2-禁用中
      * 3-已过期
-     * 4-已删除
      *
-     * 当优惠劵（码）有效时，可以手动操作，设置成无效。
-     *
-     * TODO 需要讨论下
+     * 当优惠劵（码）开启中，可以手动操作，设置禁用中。
      */
     private Integer status;
 //    /**
@@ -61,10 +58,10 @@ public class CouponTemplateDO extends BaseDO {
      * 设置为失效时间
      */
     private Date invalidTime;
-    /**
-     * 删除时间
-     */
-    private Date deleteTime;
+//    /**
+//     * 删除时间
+//     */
+//    private Date deleteTime;
     /**
      * 可领取的开始时间
      */

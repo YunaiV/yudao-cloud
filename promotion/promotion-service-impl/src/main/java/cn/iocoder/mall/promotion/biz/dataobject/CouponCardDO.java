@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * 优惠劵 DO
  */
-public class CouponDO extends BaseDO {
+public class CouponCardDO extends BaseDO {
 
     // ========== 基本信息 BEGIN ==========
     /**
@@ -25,13 +25,9 @@ public class CouponDO extends BaseDO {
     /**
      * 优惠码状态
      *
-     * 1-生效中
-     * 2-已失效
-     * 3-已过期
-     * 4-已删除
-     * 5-已使用
-     *
-     * TODO 需要讨论下
+     * 1-未使用
+     * 2-已使用
+     * 3-已失效
      */
     private Integer status;
 
@@ -103,6 +99,9 @@ public class CouponDO extends BaseDO {
      * 使用时间
      */
     private Date usedTime;
+
+    // TODO 芋艿，后续要加优惠劵的使用日志，因为下单后，可能会取消。
+
     // ========== 使用情况 END ==========
 
 }

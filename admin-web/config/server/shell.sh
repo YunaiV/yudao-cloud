@@ -21,7 +21,7 @@ cp -rf config/server app/
 
 # npm 构建项目
 
-npm run build:admin-web
+npm run build
 
 # 复制文件到 server 努力
 

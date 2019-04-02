@@ -54,22 +54,14 @@ public class CouponTemplateDO extends BaseDO {
 //     * 是否可分享领取链接
 //     */
 //    private Boolean isShare;
-    /**
-     * 设置为失效时间
-     */
-    private Date invalidTime;
+//    /**
+//     * 设置为失效时间
+//     */
+//    private Date invalidTime;
 //    /**
 //     * 删除时间
 //     */
 //    private Date deleteTime;
-    /**
-     * 可领取的开始时间
-     */
-    private Date beginTime;
-    /**
-     * 可领取的结束时间
-     */
-    private Date endTime;
 
     // ========== 基本信息 END ==========
 
@@ -208,10 +200,10 @@ public class CouponTemplateDO extends BaseDO {
 //     * 领取优惠券的人数
 //     */
 //    private Integer statFetchUserNum;
-//    /**
-//     * 领取优惠券的次数
-//     */
-//    private Integer statFetchNum;
+    /**
+     * 领取优惠券的次数
+     */
+    private Integer statFetchNum;
 //    /**
 //     * 使用优惠券的次数
 //     */

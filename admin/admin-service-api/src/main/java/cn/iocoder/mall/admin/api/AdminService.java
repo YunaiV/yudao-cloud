@@ -1,5 +1,7 @@
 package cn.iocoder.mall.admin.api;
 
+import cn.iocoder.common.framework.constant.CommonStatusEnum;
+import cn.iocoder.common.framework.validator.InEnum;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.bo.AdminBO;
 import cn.iocoder.mall.admin.api.bo.AdminPageBO;
@@ -20,7 +22,8 @@ public interface AdminService {
 
     CommonResult<Boolean> updateAdmin(Integer adminId, AdminUpdateDTO adminUpdateDTO);
 
-    CommonResult<Boolean> updateAdminStatus(Integer adminId, Integer updateAdminId, Integer status);
+    CommonResult<Boolean> updateAdminStatus(Integer adminId, Integer updateAdminId,
+                                            @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}") Integer status);
 
     CommonResult<Boolean> deleteAdmin(Integer adminId, Integer updateAdminId);
 

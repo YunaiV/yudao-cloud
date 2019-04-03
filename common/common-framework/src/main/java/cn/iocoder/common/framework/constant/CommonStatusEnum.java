@@ -1,12 +1,18 @@
 package cn.iocoder.common.framework.constant;
 
+import cn.iocoder.common.framework.core.IntArrayValuable;
+
+import java.util.Arrays;
+
 /**
  * 通用状态枚举
  */
-public enum CommonStatusEnum {
+public enum CommonStatusEnum implements IntArrayValuable {
 
     ENABLE(1, "开启"),
     DISABLE(2, "关闭");
+
+    public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(CommonStatusEnum::getValue).toArray();
 
     /**
      * 状态值
@@ -46,6 +52,11 @@ public enum CommonStatusEnum {
         }
         return ENABLE.value.equals(status)
                 || DISABLE.value.equals(status);
+    }
+
+    @Override
+    public int[] array() {
+        return ARRAYS;
     }
 
 }

@@ -8,15 +8,6 @@ import cn.iocoder.common.framework.dataobject.DeletableDO;
 public class AdminDO extends DeletableDO {
 
     /**
-     * 账号状态 - 开启
-     */
-    public static final Integer STATUS_ENABLE = 1;
-    /**
-     * 账号状态 - 禁用
-     */
-    public static final Integer STATUS_DISABLE = 2;
-
-    /**
      * 管理员编号
      */
     private Integer id;

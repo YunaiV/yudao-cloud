@@ -1,7 +1,7 @@
 package cn.iocoder.mall.admin.service;
 
+import cn.iocoder.common.framework.constant.CommonStatusEnum;
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
-import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.AdminService;
@@ -53,7 +53,7 @@ public class AdminServiceImpl implements AdminService {
             return ServiceExceptionUtil.error(AdminErrorCodeEnum.ADMIN_PASSWORD_ERROR.getCode());
         }
         // 账号被禁用
-        if (AdminDO.STATUS_DISABLE.equals(admin.getStatus())) {
+        if (CommonStatusEnum.DISABLE.getValue().equals(admin.getStatus())) {
             return ServiceExceptionUtil.error(AdminErrorCodeEnum.ADMIN_IS_DISABLE.getCode());
         }
         // 校验成功，返回管理员。并且，去掉一些非关键字段，考虑安全性。
@@ -87,7 +87,7 @@ public class AdminServiceImpl implements AdminService {
         // 保存到数据库
         AdminDO admin = AdminConvert.INSTANCE.convert(adminAddDTO)
                 .setPassword(encodePassword(adminAddDTO.getPassword())) // 加密密码
-                .setStatus(AdminDO.STATUS_ENABLE);
+                .setStatus(CommonStatusEnum.ENABLE.getValue());
         admin.setCreateTime(new Date());
         admin.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
         adminMapper.insert(admin);
@@ -118,10 +118,6 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public CommonResult<Boolean> updateAdminStatus(Integer adminId, Integer updateAdminId, Integer status) {
-        // 校验参数
-        if (!isValidStatus(status)) {
-            return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "变更状态必须是开启（1）或关闭（2）"); // TODO 有点搓
-        }
         // 校验账号存在
         AdminDO admin = adminMapper.selectById(updateAdminId);
         if (admin == null) {
@@ -138,7 +134,7 @@ public class AdminServiceImpl implements AdminService {
         AdminDO updateAdmin = new AdminDO().setId(updateAdminId).setStatus(status);
         adminMapper.update(updateAdmin);
         // 如果是关闭管理员，则标记 token 失效。否则，管理员还可以继续蹦跶
-        if (AdminDO.STATUS_DISABLE.equals(status)) {
+        if (CommonStatusEnum.DISABLE.getValue().equals(status)) {
             oAuth2Service.removeToken(updateAdminId);
         }
         // TODO 插入操作日志
@@ -155,7 +151,7 @@ public class AdminServiceImpl implements AdminService {
             return ServiceExceptionUtil.error(AdminErrorCodeEnum.ADMIN_USERNAME_NOT_REGISTERED.getCode());
         }
         // 只有禁用的账号才可以删除
-        if (AdminDO.STATUS_ENABLE.equals(admin.getStatus())) {
+        if (CommonStatusEnum.ENABLE.getValue().equals(admin.getStatus())) {
             return ServiceExceptionUtil.error(AdminErrorCodeEnum.ADMIN_DELETE_ONLY_DISABLE.getCode());
         }
         // 标记删除 AdminDO
@@ -204,8 +200,4 @@ public class AdminServiceImpl implements AdminService {
         return DigestUtils.md5DigestAsHex(password.getBytes());
     }
 
-    private boolean isValidStatus(Integer status) {
-        return AdminDO.STATUS_ENABLE.equals(status)
-                || AdminDO.STATUS_DISABLE.equals(status);
-    }
 }

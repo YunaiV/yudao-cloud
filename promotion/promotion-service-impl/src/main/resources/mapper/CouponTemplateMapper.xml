@@ -72,15 +72,15 @@
     <insert id="insert" parameterType="CouponTemplateDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO coupon_template (
           title, description, type, code_type,
-          status, quota, stock, price_available, range_type,
+          status, quota, total, price_available, range_type,
           range_values, date_type, valid_start_time, valid_end_time, fixed_term,
           preferential_type, percent_off, price_off, discount_price_limit, stat_fetch_num,
           create_time
         ) VALUES (
-          #{title}, #{description, #{type, #{code_type},
-          #{status}, #{quota, #{stock}, #{priceAvailable}, #{rangeType},
-          #{rangeValues}, #{dateType}, #{validStartTime}, #{validEndTime, #{fixedTerm},
-          #{preferentialType, #{percentOff}, #{priceOff}, #{discountPriceLimit}, #{statFetchNum},
+          #{title}, #{description}, #{type}, #{codeType},
+          #{status}, #{quota}, #{total}, #{priceAvailable}, #{rangeType},
+          #{rangeValues}, #{dateType}, #{validStartTime}, #{validEndTime}, #{fixedTerm},
+          #{preferentialType}, #{percentOff}, #{priceOff}, #{discountPriceLimit}, #{statFetchNum},
           #{createTime}
         )
     </insert>
@@ -104,37 +104,37 @@
                 stock = #{stock},
             </if>
             <if test="priceAvailable != null">
-                price_available = #{priceAvailable}
+                price_available = #{priceAvailable},
             </if>
             <if test="rangeType != null">
-                range_type = #{rangeType}
+                range_type = #{rangeType},
             </if>
             <if test="rangeValues != null">
-                range_values = #{rangeValues}
+                range_values = #{rangeValues},
             </if>
             <if test="dateType != null">
-                date_type = #{dateType}
+                date_type = #{dateType},
             </if>
             <if test="validStartTime != null">
-                valid_start_time = #{validStartTime}
+                valid_start_time = #{validStartTime},
             </if>
             <if test="validEndTime != null">
-                valid_end_time = #{validEndTime}
+                valid_end_time = #{validEndTime},
             </if>
             <if test="fixedTerm != null">
-                fixed_term = #{fixedTerm}
+                fixed_term = #{fixedTerm},
             </if>
             <if test="preferentialType != null">
-                preferential_type = #{preferentialType}
+                preferential_type = #{preferentialType},
             </if>
             <if test="percentOff != null">
-                percent_off = #{percentOff}
+                percent_off = #{percentOff},
             </if>
             <if test="priceOff != null">
-                price_off = #{priceOff}
+                price_off = #{priceOff},
             </if>
             <if test="discountPriceLimit != null">
-                discount_price_limit = #{discountPriceLimit}
+                discount_price_limit = #{discountPriceLimit},
             </if>
         </set>
         WHERE id = #{id}

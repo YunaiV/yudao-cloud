@@ -195,7 +195,7 @@ public class CouponTemplateDO extends BaseDO {
     private Integer discountPriceLimit;
     // ========== 使用效果 END ==========
 
-//    // ========== 统计信息 BEGIN ==========
+    // ========== 统计信息 BEGIN ==========
 //    /**
 //     * 领取优惠券的人数
 //     */
@@ -208,6 +208,186 @@ public class CouponTemplateDO extends BaseDO {
 //     * 使用优惠券的次数
 //     */
 //    private Integer statUseNum;
-//    // ========== 统计信息 END ==========
+    // ========== 统计信息 END ==========
 
+
+    public Integer getId() {
+        return id;
+    }
+
+    public CouponTemplateDO setId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public CouponTemplateDO setTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public CouponTemplateDO setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public CouponTemplateDO setType(Integer type) {
+        this.type = type;
+        return this;
+    }
+
+    public Integer getCodeType() {
+        return codeType;
+    }
+
+    public CouponTemplateDO setCodeType(Integer codeType) {
+        this.codeType = codeType;
+        return this;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public CouponTemplateDO setStatus(Integer status) {
+        this.status = status;
+        return this;
+    }
+
+    public Integer getQuota() {
+        return quota;
+    }
+
+    public CouponTemplateDO setQuota(Integer quota) {
+        this.quota = quota;
+        return this;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public CouponTemplateDO setStock(Integer stock) {
+        this.stock = stock;
+        return this;
+    }
+
+    public Integer getPriceAvailable() {
+        return priceAvailable;
+    }
+
+    public CouponTemplateDO setPriceAvailable(Integer priceAvailable) {
+        this.priceAvailable = priceAvailable;
+        return this;
+    }
+
+    public Integer getRangeType() {
+        return rangeType;
+    }
+
+    public CouponTemplateDO setRangeType(Integer rangeType) {
+        this.rangeType = rangeType;
+        return this;
+    }
+
+    public String getRangeValues() {
+        return rangeValues;
+    }
+
+    public CouponTemplateDO setRangeValues(String rangeValues) {
+        this.rangeValues = rangeValues;
+        return this;
+    }
+
+    public Integer getDateType() {
+        return dateType;
+    }
+
+    public CouponTemplateDO setDateType(Integer dateType) {
+        this.dateType = dateType;
+        return this;
+    }
+
+    public Date getValidStartTime() {
+        return validStartTime;
+    }
+
+    public CouponTemplateDO setValidStartTime(Date validStartTime) {
+        this.validStartTime = validStartTime;
+        return this;
+    }
+
+    public Date getValidEndTime() {
+        return validEndTime;
+    }
+
+    public CouponTemplateDO setValidEndTime(Date validEndTime) {
+        this.validEndTime = validEndTime;
+        return this;
+    }
+
+    public Integer getFixedTerm() {
+        return fixedTerm;
+    }
+
+    public CouponTemplateDO setFixedTerm(Integer fixedTerm) {
+        this.fixedTerm = fixedTerm;
+        return this;
+    }
+
+    public Integer getPreferentialType() {
+        return preferentialType;
+    }
+
+    public CouponTemplateDO setPreferentialType(Integer preferentialType) {
+        this.preferentialType = preferentialType;
+        return this;
+    }
+
+    public Integer getPercentOff() {
+        return percentOff;
+    }
+
+    public CouponTemplateDO setPercentOff(Integer percentOff) {
+        this.percentOff = percentOff;
+        return this;
+    }
+
+    public Integer getPriceOff() {
+        return priceOff;
+    }
+
+    public CouponTemplateDO setPriceOff(Integer priceOff) {
+        this.priceOff = priceOff;
+        return this;
+    }
+
+    public Integer getDiscountPriceLimit() {
+        return discountPriceLimit;
+    }
+
+    public CouponTemplateDO setDiscountPriceLimit(Integer discountPriceLimit) {
+        this.discountPriceLimit = discountPriceLimit;
+        return this;
+    }
+
+    public Integer getStatFetchNum() {
+        return statFetchNum;
+    }
+
+    public CouponTemplateDO setStatFetchNum(Integer statFetchNum) {
+        this.statFetchNum = statFetchNum;
+        return this;
+    }
 }

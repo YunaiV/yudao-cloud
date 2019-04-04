@@ -56,4 +56,5 @@ export default {
   // 营销相关
   'menu.promotion.promotion-banner-list': 'Banner 管理',
   'menu.promotion.product-recommend-list': '商品推荐',
+  'menu.promotion.coupon-card-template-list': '优惠劵管理',
 };

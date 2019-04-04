@@ -257,7 +257,7 @@ const AddOrUpdateForm = Form.create()(props => {
     });
   };
 
-  const title = modalType === 'add' ? '新建 Banner' : '更新 Banner';
+  const title = modalType === 'add' ? '新建商品推荐' : '更新商品推荐';
   return (
     <Modal
       destroyOnClose

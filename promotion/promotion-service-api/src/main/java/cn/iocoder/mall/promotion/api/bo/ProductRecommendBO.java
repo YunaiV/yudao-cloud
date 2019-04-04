@@ -1,5 +1,7 @@
 package cn.iocoder.mall.promotion.api.bo;
 
+import cn.iocoder.mall.promotion.api.constant.ProductRecommendTypeEnum;
+
 import java.util.Date;
 
 /**
@@ -14,7 +16,7 @@ public class ProductRecommendBO {
     /**
      * 类型
      *
-     * {@link cn.iocoder.mall.promotion.api.constant.ProductRecommendType}
+     * {@link ProductRecommendTypeEnum}
      */
     private Integer type;
     /**

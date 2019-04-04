@@ -2,18 +2,15 @@ package cn.iocoder.mall.promotion.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.promotion.api.bo.CouponCardBO;
-import cn.iocoder.mall.promotion.api.bo.CouponCardTemplatePageBO;
-import cn.iocoder.mall.promotion.api.bo.CouponCodeTemplateBO;
-import cn.iocoder.mall.promotion.api.bo.CouponCodeTemplatePageBO;
+import cn.iocoder.mall.promotion.api.bo.CouponTemplateBO;
+import cn.iocoder.mall.promotion.api.bo.CouponTemplatePageBO;
 import cn.iocoder.mall.promotion.api.dto.*;
 
 public interface CouponService {
 
     // ========== 优惠劵（码）模板 ==========
 
-    CommonResult<CouponCodeTemplatePageBO> getCouponCodeTemplatePage(CouponCodeTemplatePageDTO couponCodeTemplatePageDTO);
-
-    CommonResult<CouponCardTemplatePageBO> getCouponCardTemplatePage(CouponCardTemplatePageDTO couponCardTemplatePageDTO);
+    CommonResult<CouponTemplatePageBO> getCouponTemplatePage(CouponTemplatePageDTO couponTemplatePageDTO);
 
     /**
      * 创建优惠码模板
@@ -21,7 +18,7 @@ public interface CouponService {
      * @param couponCodeTemplateAddDTO 优惠码模板添加 DTO
      * @return 优惠码模板
      */
-    CommonResult<CouponCodeTemplateBO> addCouponCodeTemplate(CouponCodeTemplateAddDTO couponCodeTemplateAddDTO);
+    CommonResult<CouponTemplateBO> addCouponCodeTemplate(CouponCodeTemplateAddDTO couponCodeTemplateAddDTO);
 
     /**
      * 创建优惠劵模板
@@ -29,7 +26,7 @@ public interface CouponService {
      * @param couponCardTemplateAddDTO 优惠码模板添加 DTO
      * @return 优惠劵模板
      */
-    CommonResult<CouponCodeTemplateBO> addCouponCardTemplate(CouponCardTemplateAddDTO couponCardTemplateAddDTO);
+    CommonResult<CouponTemplateBO> addCouponCardTemplate(CouponCardTemplateAddDTO couponCardTemplateAddDTO);
 
     /**
      * 更新优惠码模板

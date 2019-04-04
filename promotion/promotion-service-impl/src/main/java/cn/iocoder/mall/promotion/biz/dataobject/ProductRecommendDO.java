@@ -1,6 +1,7 @@
 package cn.iocoder.mall.promotion.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import cn.iocoder.mall.promotion.api.constant.ProductRecommendTypeEnum;
 
 /**
  * 商品推荐 DO
@@ -14,7 +15,7 @@ public class ProductRecommendDO extends DeletableDO {
     /**
      * 类型
      *
-     * {@link cn.iocoder.mall.promotion.api.constant.ProductRecommendType}
+     * {@link ProductRecommendTypeEnum}
      */
     private Integer type;
     /**

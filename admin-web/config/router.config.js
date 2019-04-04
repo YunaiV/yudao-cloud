@@ -120,6 +120,11 @@ export default [
           //   name: 'product-category-list',
           //   component: './Product/ProductCategoryList',
           // },
+          {
+            path: '/promotion/coupon-card-template-list',
+            name: 'coupon-card-template-list',
+            component: './Promotion/CouponCardTemplateList',
+          }
         ],
       },
       {

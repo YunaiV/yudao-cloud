@@ -1,46 +1,57 @@
-package cn.iocoder.mall.promotion.api.dto;
+package cn.iocoder.mall.promotion.api.bo;
 
-import cn.iocoder.common.framework.validator.InEnum;
-import cn.iocoder.mall.promotion.api.constant.CouponTemplateDateTypeEnum;
-import cn.iocoder.mall.promotion.api.constant.CouponTemplatePreferentialTypeEnum;
-import cn.iocoder.mall.promotion.api.constant.CouponTemplateRangeTypeEnum;
-import org.hibernate.validator.constraints.Length;
-
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-public class CouponCardTemplateAddDTO {
+public class CouponTemplateBO {
 
     // ========== 基本信息 BEGIN ==========
     /**
+     * 模板编号，自增唯一。
+     */
+    private Integer id;
+    /**
      * 标题
      */
-    @NotEmpty(message = "标题不能为空")
-    @Length(min = 6, max = 16, message = "标题长度为 {min}-{max} 位")
     private String title;
     /**
      * 使用说明
      */
-    @Length(max = 255, message = "使用说明最大长度为 {max} 位")
     private String description;
-    // ========== 基本信息 END ==========
-
-    // ========== 领取规则 BEGIN ==========
+    /**
+     * 类型
+     *
+     * 1-优惠劵
+     * 2-优惠码
+     */
+    private Integer type;
+    /**
+     * 码类型
+     *
+     * 1-一卡一码（UNIQUE）
+     * 2-通用码（GENERAL）
+     *
+     * 【优惠码独有】 @see CouponCodeDO
+     */
+    private Integer codeType;
+    /**
+     * 优惠码状态
+     *
+     * 1-开启中
+     * 2-禁用中
+     * 3-已过期
+     *
+     * 当优惠劵（码）开启中，可以手动操作，设置禁用中。
+     */
+    private Integer status;
     /**
      * 每人限领个数
      *
      * null - 则表示不限制
      */
-    @Min(value = 1, message = "每人限领个数最小为 {value}")
     private Integer quota;
     /**
      * 发放总量
      */
-    @NotNull(message = "发放总量不能为空")
-    @Min(value = 1, message = "每人限领个数最小为 {value}")
     private Integer total;
     // ========== 领取规则 END ==========
 
@@ -51,8 +62,6 @@ public class CouponCardTemplateAddDTO {
      * 0-不限制
      * 大于0-多少金额可用
      */
-    @NotNull(message = "使用金额门槛不能为空")
-    @Min(value = 0L, message = "使用金额门槛最低为 {value}")
     private Integer priceAvailable;
     /**
      * 可用范围的类型
@@ -60,11 +69,9 @@ public class CouponCardTemplateAddDTO {
      * 10-全部（ALL）：所有可用
      * 20-部分（PART）：部分商品可用，或指定商品可用
      * 21-部分（PART）：部分商品不可用，或指定商品可用
-     * 30-部分（PART）：部分分类可用，或指定分类可用
-     * 31-部分（PART）：部分分类不可用，或指定分类可用
+     * 30-部分（PART）：部分分类可用，或指定商品可用
+     * 31-部分（PART）：部分分类不可用，或指定商品可用
      */
-    @NotNull(message = "可用范围的类型不能为空")
-    @InEnum(value = CouponTemplateRangeTypeEnum.class, message = "可用范围的类型必须在 {value}")
     private Integer rangeType;
     /**
      * 指定商品 / 分类列表，使用逗号分隔商品编号
@@ -74,10 +81,8 @@ public class CouponCardTemplateAddDTO {
      * 生效日期类型
      *
      * 1-固定日期
-     * 2-领取日期：领到券 {@link #fixedEndTerm} 日开始 N 天内有效
+     * 2-领取日期：领到券 {@link #fixedBeginTerm} 日开始 N 天内有效
      */
-    @NotNull(message = "生效日期类型不能为空")
-    @InEnum(value = CouponTemplateDateTypeEnum.class, message = "生效日期类型必须在 {value}")
     private Integer dateType;
     /**
      * 固定日期-生效开始时间
@@ -92,12 +97,10 @@ public class CouponCardTemplateAddDTO {
      *
      * 例如，0-当天；1-次天
      */
-    @Min(value = 0L, message = "领取日期开始时间最小为 {value}")
     private Integer fixedBeginTerm;
     /**
      * 领取日期-结束天数
      */
-    @Min(value = 1L, message = "领取日期结束时间最小为 {value}")
     private Integer fixedEndTerm;
     // ========== 使用规则 END ==========
 
@@ -108,37 +111,52 @@ public class CouponCardTemplateAddDTO {
      * 1-代金卷
      * 2-折扣卷
      */
-    @NotNull(message = "优惠类型不能为空")
-    @InEnum(value = CouponTemplatePreferentialTypeEnum.class, message = "优惠类型必须在 {value}")
     private Integer preferentialType;
-    /**
-     * 优惠金额，单位：分
-     */
-    @Min(value = 1, message = "优惠金额最小值为 {value}")
-    private Integer priceOff;
     /**
      * 折扣百分比。
      *
      * 例如，80% 为 80。
      * 当 100% 为 100 ，则代表免费。
      */
-    @Max(value = 100, message = "折扣比最大值为 {value}")
     private Integer percentOff;
+    /**
+     * 优惠金额，单位：分
+     */
+    private Integer priceOff;
     /**
      * 折扣上限，仅在 {@link #preferentialType} 等于 2 时生效。
      *
      * 例如，折扣上限为 20 元，当使用 8 折优惠券，订单金额为 1000 元时，最高只可折扣 20 元，而非 80  元。
      */
-    @Min(value = 1, message = "折扣上限最小值为 {value}")
     private Integer discountPriceLimit;
     // ========== 使用效果 END ==========
 
+    // ========== 统计信息 BEGIN ==========
+    /**
+     * 领取优惠券的次数
+     */
+    private Integer statFetchNum;
+    // ========== 统计信息 END ==========
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public CouponTemplateBO setId(Integer id) {
+        this.id = id;
+        return this;
+    }
 
     public String getTitle() {
         return title;
     }
 
-    public CouponCardTemplateAddDTO setTitle(String title) {
+    public CouponTemplateBO setTitle(String title) {
         this.title = title;
         return this;
     }
@@ -147,8 +165,35 @@ public class CouponCardTemplateAddDTO {
         return description;
     }
 
-    public CouponCardTemplateAddDTO setDescription(String description) {
+    public CouponTemplateBO setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public CouponTemplateBO setType(Integer type) {
+        this.type = type;
+        return this;
+    }
+
+    public Integer getCodeType() {
+        return codeType;
+    }
+
+    public CouponTemplateBO setCodeType(Integer codeType) {
+        this.codeType = codeType;
+        return this;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public CouponTemplateBO setStatus(Integer status) {
+        this.status = status;
         return this;
     }
 
@@ -156,8 +201,17 @@ public class CouponCardTemplateAddDTO {
         return quota;
     }
 
-    public CouponCardTemplateAddDTO setQuota(Integer quota) {
+    public CouponTemplateBO setQuota(Integer quota) {
         this.quota = quota;
+        return this;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public CouponTemplateBO setTotal(Integer total) {
+        this.total = total;
         return this;
     }
 
@@ -165,7 +219,7 @@ public class CouponCardTemplateAddDTO {
         return priceAvailable;
     }
 
-    public CouponCardTemplateAddDTO setPriceAvailable(Integer priceAvailable) {
+    public CouponTemplateBO setPriceAvailable(Integer priceAvailable) {
         this.priceAvailable = priceAvailable;
         return this;
     }
@@ -174,7 +228,7 @@ public class CouponCardTemplateAddDTO {
         return rangeType;
     }
 
-    public CouponCardTemplateAddDTO setRangeType(Integer rangeType) {
+    public CouponTemplateBO setRangeType(Integer rangeType) {
         this.rangeType = rangeType;
         return this;
     }
@@ -183,7 +237,7 @@ public class CouponCardTemplateAddDTO {
         return rangeValues;
     }
 
-    public CouponCardTemplateAddDTO setRangeValues(String rangeValues) {
+    public CouponTemplateBO setRangeValues(String rangeValues) {
         this.rangeValues = rangeValues;
         return this;
     }
@@ -192,7 +246,7 @@ public class CouponCardTemplateAddDTO {
         return dateType;
     }
 
-    public CouponCardTemplateAddDTO setDateType(Integer dateType) {
+    public CouponTemplateBO setDateType(Integer dateType) {
         this.dateType = dateType;
         return this;
     }
@@ -201,7 +255,7 @@ public class CouponCardTemplateAddDTO {
         return validStartTime;
     }
 
-    public CouponCardTemplateAddDTO setValidStartTime(Date validStartTime) {
+    public CouponTemplateBO setValidStartTime(Date validStartTime) {
         this.validStartTime = validStartTime;
         return this;
     }
@@ -210,26 +264,8 @@ public class CouponCardTemplateAddDTO {
         return validEndTime;
     }
 
-    public CouponCardTemplateAddDTO setValidEndTime(Date validEndTime) {
+    public CouponTemplateBO setValidEndTime(Date validEndTime) {
         this.validEndTime = validEndTime;
-        return this;
-    }
-
-    public Integer getFixedBeginTerm() {
-        return fixedBeginTerm;
-    }
-
-    public CouponCardTemplateAddDTO setFixedBeginTerm(Integer fixedBeginTerm) {
-        this.fixedBeginTerm = fixedBeginTerm;
-        return this;
-    }
-
-    public Integer getFixedEndTerm() {
-        return fixedEndTerm;
-    }
-
-    public CouponCardTemplateAddDTO setFixedEndTerm(Integer fixedEndTerm) {
-        this.fixedEndTerm = fixedEndTerm;
         return this;
     }
 
@@ -237,7 +273,7 @@ public class CouponCardTemplateAddDTO {
         return preferentialType;
     }
 
-    public CouponCardTemplateAddDTO setPreferentialType(Integer preferentialType) {
+    public CouponTemplateBO setPreferentialType(Integer preferentialType) {
         this.preferentialType = preferentialType;
         return this;
     }
@@ -246,7 +282,7 @@ public class CouponCardTemplateAddDTO {
         return percentOff;
     }
 
-    public CouponCardTemplateAddDTO setPercentOff(Integer percentOff) {
+    public CouponTemplateBO setPercentOff(Integer percentOff) {
         this.percentOff = percentOff;
         return this;
     }
@@ -255,7 +291,7 @@ public class CouponCardTemplateAddDTO {
         return priceOff;
     }
 
-    public CouponCardTemplateAddDTO setPriceOff(Integer priceOff) {
+    public CouponTemplateBO setPriceOff(Integer priceOff) {
         this.priceOff = priceOff;
         return this;
     }
@@ -264,19 +300,45 @@ public class CouponCardTemplateAddDTO {
         return discountPriceLimit;
     }
 
-    public CouponCardTemplateAddDTO setDiscountPriceLimit(Integer discountPriceLimit) {
+    public CouponTemplateBO setDiscountPriceLimit(Integer discountPriceLimit) {
         this.discountPriceLimit = discountPriceLimit;
         return this;
     }
 
-    public Integer getTotal() {
-        return total;
+    public Integer getStatFetchNum() {
+        return statFetchNum;
     }
 
-    public CouponCardTemplateAddDTO setTotal(Integer total) {
-        this.total = total;
+    public CouponTemplateBO setStatFetchNum(Integer statFetchNum) {
+        this.statFetchNum = statFetchNum;
         return this;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public CouponTemplateBO setCreateTime(Date createTime) {
+        this.createTime = createTime;
+        return this;
+    }
+
+    public Integer getFixedBeginTerm() {
+        return fixedBeginTerm;
+    }
+
+    public CouponTemplateBO setFixedBeginTerm(Integer fixedBeginTerm) {
+        this.fixedBeginTerm = fixedBeginTerm;
+        return this;
+    }
+
+    public Integer getFixedEndTerm() {
+        return fixedEndTerm;
+    }
+
+    public CouponTemplateBO setFixedEndTerm(Integer fixedEndTerm) {
+        this.fixedEndTerm = fixedEndTerm;
+        return this;
+    }
 
 }

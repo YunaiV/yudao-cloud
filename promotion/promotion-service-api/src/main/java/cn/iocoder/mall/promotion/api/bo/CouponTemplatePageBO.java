@@ -1,5 +1,5 @@
 package cn.iocoder.mall.promotion.api.bo;
 
-public class CouponCardTemplatePageBO {
+public class CouponTemplatePageBO {
 
 }

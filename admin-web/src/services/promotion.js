@@ -64,3 +64,11 @@ export async function deleteProductRecommend(params) {
     method: 'POST',
   });
 }
+
+// coupon
+
+export async function addCouponCardTemplate(params) {
+  return request(`/promotion-api/admins/coupon/template/add_card?${stringify(params)}`, {
+    method: 'POST',
+  });
+}

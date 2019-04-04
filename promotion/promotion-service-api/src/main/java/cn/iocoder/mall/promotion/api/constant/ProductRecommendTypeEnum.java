@@ -3,7 +3,7 @@ package cn.iocoder.mall.promotion.api.constant;
 /**
  * 商品推荐类型
  */
-public enum ProductRecommendType {
+public enum ProductRecommendTypeEnum {
 
     HOT(1, "热卖推荐"),
     NEW(2, "新品推荐"),
@@ -19,7 +19,7 @@ public enum ProductRecommendType {
      */
     private final String name;
 
-    ProductRecommendType(Integer value, String name) {
+    ProductRecommendTypeEnum(Integer value, String name) {
         this.value = value;
         this.name = name;
     }

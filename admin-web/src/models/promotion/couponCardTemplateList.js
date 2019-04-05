@@ -1,8 +1,8 @@
 import {message} from 'antd';
 import {
-  updateProductRecommendStatus,
   addCouponCardTemplate,
   updateCouponCardTemplate,
+  updateCouponCardTemplateStatus,
   getCouponCardTemplatePage,
 } from '../../services/promotion';
 import PaginationHelper from '../../../helpers/PaginationHelper';
@@ -123,7 +123,7 @@ export default {
 
     * updateStatus({ payload }, { call, put }) {
       // 请求
-      const response = yield call(updateProductRecommendStatus, payload);
+      const response = yield call(updateCouponCardTemplateStatus, payload);
       // 响应
       if (response.code === 0) {
         message.info('更新状态成功!');

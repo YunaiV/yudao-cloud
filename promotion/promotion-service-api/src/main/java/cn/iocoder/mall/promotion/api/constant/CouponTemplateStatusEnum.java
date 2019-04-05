@@ -1,8 +1,10 @@
 package cn.iocoder.mall.promotion.api.constant;
 
+import cn.iocoder.common.framework.core.IntArrayValuable;
+
 import java.util.Arrays;
 
-public enum CouponTemplateStatusEnum {
+public enum CouponTemplateStatusEnum implements IntArrayValuable {
 
     ENABLE(1, "开启中"),
     DISABLE(2, "禁用中"),
@@ -33,4 +35,8 @@ public enum CouponTemplateStatusEnum {
         return name;
     }
 
+    @Override
+    public int[] array() {
+        return ARRAYS;
+    }
 }

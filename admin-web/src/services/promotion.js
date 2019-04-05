@@ -84,3 +84,9 @@ export async function updateCouponCardTemplate(params) {
     method: 'POST',
   });
 }
+
+export async function updateCouponCardTemplateStatus(params) {
+  return request(`/promotion-api/admins/coupon/template/update_status?${stringify(params)}`, {
+    method: 'POST',
+  });
+}

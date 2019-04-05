@@ -48,7 +48,7 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
   function handleStatus(record) {
     Modal.confirm({
       title: record.status === 1 ? '确认禁用' : '取消禁用',
-      content: `${record.productSpuId}`,
+      content: `${record.title}`,
       onOk() {
         dispatch({
           type: 'couponCardTemplateList/updateStatus',

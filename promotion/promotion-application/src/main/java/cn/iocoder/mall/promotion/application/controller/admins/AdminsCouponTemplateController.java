@@ -2,6 +2,7 @@ package cn.iocoder.mall.promotion.application.controller.admins;
 
 import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import cn.iocoder.mall.promotion.api.CouponService;
 import cn.iocoder.mall.promotion.api.bo.CouponTemplateBO;
 import cn.iocoder.mall.promotion.api.bo.CouponTemplatePageBO;
@@ -129,6 +130,17 @@ public class AdminsCouponTemplateController {
                 .setQuota(quota).setTotal(total)
                 .setRangeType(rangeType).setRangeValues(rangeValues);
         return couponService.updateCouponCardTemplate(couponCardTemplateUpdateDTO);
+    }
+
+    @PostMapping("/template/update_status")
+    @ApiOperation(value = "更新优惠劵（码）模板状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "Banner 编号", required = true, example = "1"),
+            @ApiImplicitParam(name = "status", value = "状态。1 - 开启；2 - 禁用", required = true, example = "1"),
+    })
+    public CommonResult<Boolean> updateStatus(@RequestParam("id") Integer id,
+                                              @RequestParam("status") Integer status) {
+        return couponService.updateCouponTemplateStatus(AdminSecurityContextHolder.getContext().getAdminId(), id, status);
     }
 
     // ========== 优惠劵 ==========

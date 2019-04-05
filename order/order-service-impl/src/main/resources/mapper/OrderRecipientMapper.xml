@@ -21,6 +21,16 @@
     </insert>
 
     <!--
+        查询 - 根据 orderId
+    -->
+    <select id="selectByOrderId" resultType="cn.iocoder.mall.order.biz.dataobject.OrderRecipientDO">
+        SELECT
+        <include refid="FIELDS" />
+        FROM `order_recipient`
+        WHERE order_id = #{orderId}
+    </select>
+
+    <!--
         查询 - 根据 orderIds
     -->
     <select id="selectByOrderIds" resultType="cn.iocoder.mall.order.biz.dataobject.OrderRecipientDO">
@@ -32,4 +42,5 @@
             #{orderId}
         </foreach>
     </select>
+
 </mapper>

@@ -119,6 +119,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public CommonResult<OrderRecipientBO> getOrderRecipientBO(Integer orderId) {
+        if (orderMapper.selectById(orderId) == null) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_NOT_EXISTENT.getCode());
+        }
+
+        OrderRecipientDO orderRecipientDO = orderRecipientMapper.selectByOrderId(orderId);
+        OrderRecipientBO orderRecipientBO = OrderRecipientConvert.INSTANCE.convert(orderRecipientDO);
+        return CommonResult.success(orderRecipientBO);
+    }
+
+    @Override
     @Transactional
     public CommonResult<OrderCreateBO> createOrder(Integer userId, OrderCreateDTO orderCreateDTO) {
         List<OrderCreateItemDTO> orderItemDTOList = orderCreateDTO.getOrderItems();

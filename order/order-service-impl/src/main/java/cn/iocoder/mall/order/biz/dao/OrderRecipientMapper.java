@@ -25,6 +25,16 @@ public interface OrderRecipientMapper {
     int insert(OrderRecipientDO orderRecipient);
 
     /**
+     * 查询 - 根据 orderId
+     *
+     * @param orderId
+     * @return
+     */
+    OrderRecipientDO selectByOrderId(
+            @Param("orderId") Integer orderId
+    );
+
+    /**
      * 查询 - 根据 orderIds
      *
      * @param orderIds
@@ -33,4 +43,5 @@ public interface OrderRecipientMapper {
     List<OrderRecipientDO> selectByOrderIds(
             @Param("orderIds")Collection<Integer> orderIds
     );
+
 }

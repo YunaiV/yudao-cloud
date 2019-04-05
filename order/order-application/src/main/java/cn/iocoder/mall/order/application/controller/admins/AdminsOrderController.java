@@ -4,6 +4,7 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.OrderService;
 import cn.iocoder.mall.order.api.bo.OrderItemBO;
 import cn.iocoder.mall.order.api.bo.OrderPageBO;
+import cn.iocoder.mall.order.api.bo.OrderRecipientBO;
 import cn.iocoder.mall.order.api.dto.*;
 import cn.iocoder.mall.order.application.convert.OrderConvertAPP;
 import cn.iocoder.mall.order.application.vo.OrderItemUpdateVO;
@@ -43,6 +44,12 @@ public class AdminsOrderController {
     @ApiOperation("订单列表")
     public CommonResult<List<OrderItemBO>> getOrderItems(@RequestParam("orderId") Integer orderId) {
         return orderService.getOrderItems(orderId);
+    }
+
+    @GetMapping("order_recipient_info")
+    @ApiOperation("订单收件人信息")
+    public CommonResult<OrderRecipientBO> getOrderRecipientBO(@RequestParam("orderId") Integer orderId) {
+        return orderService.getOrderRecipientBO(orderId);
     }
 
     @PutMapping("update_remark")

@@ -24,5 +24,8 @@ public interface OrderRecipientConvert {
     OrderRecipientDO convert(OrderCreateDTO orderCreateDTO);
 
     @Mappings({})
+    OrderRecipientBO convert(OrderRecipientDO orderRecipientDO);
+
+    @Mappings({})
     List<OrderRecipientBO> convert(List<OrderRecipientDO> orderRecipientDOList);
 }

@@ -4,6 +4,7 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.bo.OrderCreateBO;
 import cn.iocoder.mall.order.api.bo.OrderItemBO;
 import cn.iocoder.mall.order.api.bo.OrderPageBO;
+import cn.iocoder.mall.order.api.bo.OrderRecipientBO;
 import cn.iocoder.mall.order.api.dto.*;
 
 import java.util.List;
@@ -31,6 +32,14 @@ public interface OrderService {
      * @return
      */
     CommonResult<List<OrderItemBO>> getOrderItems(Integer orderId);
+
+    /**
+     * 订单收件人信息
+     *
+     * @param orderId
+     * @return
+     */
+    CommonResult<OrderRecipientBO> getOrderRecipientBO(Integer orderId);
 
     /**
      * 订单 - 创建

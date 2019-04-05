@@ -6,6 +6,7 @@ import cn.iocoder.mall.promotion.api.CouponService;
 import cn.iocoder.mall.promotion.api.bo.CouponTemplateBO;
 import cn.iocoder.mall.promotion.api.bo.CouponTemplatePageBO;
 import cn.iocoder.mall.promotion.api.dto.CouponCardTemplateAddDTO;
+import cn.iocoder.mall.promotion.api.dto.CouponCardTemplateUpdateDTO;
 import cn.iocoder.mall.promotion.api.dto.CouponTemplatePageDTO;
 import cn.iocoder.mall.promotion.application.convert.CouponTemplateConvert;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsCouponTemplatePageVO;
@@ -31,7 +32,7 @@ public class AdminsCouponTemplateController {
     // ========== 优惠劵（码）模板 ==========
 
     @GetMapping("/template/page")
-    @ApiOperation(value = "Banner 分页")
+    @ApiOperation(value = "优惠劵（码）模板分页")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "title", value = "标题，模糊匹配", example = "活动 A"),
             @ApiImplicitParam(name = "pageNo", value = "页码，从 1 开始", example = "1"),
@@ -75,7 +76,7 @@ public class AdminsCouponTemplateController {
                                                     @RequestParam(value = "total", required = false) Integer total,
                                                     @RequestParam(value = "priceAvailable") Integer priceAvailable,
                                                     @RequestParam(value = "rangeType") Integer rangeType,
-                                                    @RequestParam(value = "rangeType", required = false) String rangeValues,
+                                                    @RequestParam(value = "rangeValues", required = false) String rangeValues,
                                                     @RequestParam(value = "dateType") Integer dateType,
                                                     @DateTimeFormat(pattern = "yyyy-MM-dd")
                                                     @RequestParam(value = "validStartTime", required = false) Date validStartTime,
@@ -101,6 +102,33 @@ public class AdminsCouponTemplateController {
         CommonResult<CouponTemplateBO> result = couponService.addCouponCardTemplate(couponCardTemplateAddDTO);
         // 返回结果
         return CouponTemplateConvert.INSTANCE.convert2(result);
+    }
+
+    @PostMapping("/template/update_card")
+    @ApiOperation(value = "更新优惠劵模板")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "编号", required = true, example = "1"),
+            @ApiImplicitParam(name = "title", value = "标题", required = true, example = "优惠劵牛逼"),
+            @ApiImplicitParam(name = "description", value = "使用说明", example = "我只是描述"),
+            @ApiImplicitParam(name = "quota", value = "每人限领个数", required = true),
+            @ApiImplicitParam(name = "total", value = "发行总量"),
+            @ApiImplicitParam(name = "rangeType", value = "可用范围的类型", required = true, example = "参见 CouponTemplateRangeTypeEnum 枚举"),
+            @ApiImplicitParam(name = "rangeValues", value = "指定商品 / 分类列表，使用逗号分隔商品编号"),
+    })
+    public CommonResult<Boolean> update(@RequestParam(value = "id") Integer id,
+                                                       @RequestParam(value = "title") String title,
+                                                       @RequestParam(value = "description", required = false) String description,
+                                                       @RequestParam(value = "quota") Integer quota,
+                                                       @RequestParam(value = "total", required = false) Integer total,
+                                                       @RequestParam(value = "rangeType") Integer rangeType,
+                                                       @RequestParam(value = "rangeValues", required = false) String rangeValues) {
+        // 创建 CouponCardTemplateAddDTO 对象
+        CouponCardTemplateUpdateDTO couponCardTemplateUpdateDTO = new CouponCardTemplateUpdateDTO()
+                .setId(id)
+                .setTitle(title).setDescription(description)
+                .setQuota(quota).setTotal(total)
+                .setRangeType(rangeType).setRangeValues(rangeValues);
+        return couponService.updateCouponCardTemplate(couponCardTemplateUpdateDTO);
     }
 
     // ========== 优惠劵 ==========

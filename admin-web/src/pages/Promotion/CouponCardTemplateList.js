@@ -136,6 +136,7 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
       // 支付金额(元) TODO 芋艿
       // 客单价(元) TODO 芋艿
       render(val, record) {
+        // debugger;
         return `${record.statFetchNum} / ` + (record.total - record.statFetchNum);
       }
     },
@@ -302,6 +303,16 @@ const AddOrUpdateForm = Form.create()(props => {
             body: {
               id: formVals.id,
               ...newFileds,
+              priceAvailable: undefined,
+              dateType: undefined,
+              validStartTime: undefined,
+              validEndTime: undefined,
+              fixedStartTerm: undefined,
+              fixedEndTerm: undefined,
+              preferentialType: undefined,
+              priceOff: undefined,
+              percentOff: undefined,
+              discountPriceLimit: undefined,
             },
             callback: () => {
               // 清空表单
@@ -381,14 +392,14 @@ const AddOrUpdateForm = Form.create()(props => {
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="使用金额门槛">
         {form.getFieldDecorator('priceAvailable', {
           rules: [{ required: true, message: '请输入使用金额门槛！' },],
-          initialValue: formVals.priceAvailable,
-        })(<InputNumber placeholder="请输入" />)} 元
+          initialValue: formVals.priceAvailable / 100.0,
+        })(<InputNumber disabled={modalType != 'add'} placeholder="请输入" />)} 元
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="可用范围">
         {form.getFieldDecorator('rangeType', {
           rules: [{ required: true, message: '请选择可用范围！'}, // TODO 芋艿，需要修改
           ],
-          initialValue: formVals.rangeType,
+          initialValue: formVals.rangeType + '',
         })(
           <Select placeholder="请选择" style={{ maxWidth: 200, width: '100%' }} onChange={onRangeTypeChange} >
             <SelectOption value="10">所有可用</SelectOption>
@@ -416,10 +427,10 @@ const AddOrUpdateForm = Form.create()(props => {
         {form.getFieldDecorator('dateType', {
           rules: [{ required: true, message: '请选择可用范围！'}, // TODO 芋艿，需要修改
           ],
-          initialValue: formVals.dateType,
+          initialValue: formVals.dateType + '',
         })(
-          <Select placeholder="请选择" style={{ maxWidth: 200, width: '100%' }} onChange={onDateTypeChange}>
-            <SelectOption value="1"></SelectOption>
+          <Select disabled={modalType != 'add'} placeholder="请选择" style={{ maxWidth: 200, width: '100%' }} onChange={onDateTypeChange}>
+            <SelectOption value="1">固定日期</SelectOption>
             <SelectOption value="2">领取日期</SelectOption>
           </Select>
         )}
@@ -429,29 +440,29 @@ const AddOrUpdateForm = Form.create()(props => {
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="固定日期">
             {form.getFieldDecorator('validStartTime', {
               rules: [{ required: true, message: '请输入固定日期！' },],
-              initialValue: formVals.validStartTime,
-            })(<DatePicker format="YYYY-MM-DD" />)}
+              initialValue: formVals.validStartTime ? moment(formVals.validStartTime) : undefined,
+            })(<DatePicker disabled={modalType != 'add'} format="YYYY-MM-DD" />)}
             &nbsp;-&nbsp;
             {form.getFieldDecorator('validEndTime', {
               rules: [{ required: true, message: '请输入固定日期！' },],
-              initialValue: formVals.validEndTime,
-            })(<DatePicker format="YYYY-MM-DD" />)}
+              initialValue: formVals.validEndTime ? moment(formVals.validEndTime) : undefined,
+            })(<DatePicker disabled={modalType != 'add'} format="YYYY-MM-DD" />)}
           </FormItem> : ''
       }
       {
         formVals.dateType == 2 ?
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="领取日期">
-            {form.getFieldDecorator('fixedBeginTerm', {
+            {form.getFieldDecorator('fixedStartTerm', {
               rules: [{ required: true, message: '请输入固定日期！' },
                 {min: 1, type: 'number', message: '最小值为 1'}],
-              initialValue: formVals.fixedBeginTerm,
-            })(<InputNumber placeholder="请输入" />)}
+              initialValue: formVals.fixedStartTerm,
+            })(<InputNumber disabled={modalType != 'add'} placeholder="请输入" />)}
             &nbsp;-&nbsp;
             {form.getFieldDecorator('fixedEndTerm', {
               rules: [{ required: true, message: '请输入固定日期！' },
                 {min: 1, type: 'number', message: '最小值为 1'}],
               initialValue: formVals.fixedEndTerm,
-            })(<InputNumber placeholder="请输入" />)} 天
+            })(<InputNumber disabled={modalType != 'add'} placeholder="请输入" />)} 天
           </FormItem> : ''
       }
 
@@ -459,9 +470,9 @@ const AddOrUpdateForm = Form.create()(props => {
         {form.getFieldDecorator('preferentialType', {
           rules: [{ required: true, message: '请选择优惠类型！'}, // TODO 芋艿，需要修改
           ],
-          initialValue: formVals.preferentialType,
+          initialValue: formVals.preferentialType + '',
         })(
-          <Select placeholder="请选择" style={{ maxWidth: 200, width: '100%' }} onChange={onPreferentialTypeChange}>
+          <Select disabled={modalType != 'add'} placeholder="请选择" style={{ maxWidth: 200, width: '100%' }} onChange={onPreferentialTypeChange}>
             <SelectOption value="1">代金卷</SelectOption>
             <SelectOption value="2">折扣卷</SelectOption>
           </Select>
@@ -473,8 +484,8 @@ const AddOrUpdateForm = Form.create()(props => {
             {form.getFieldDecorator('priceOff', {
               rules: [{ required: true, message: '请输入优惠金额！' },
                 {min: 0.01, type: 'number', message: '最小值为 0.01'}],
-              initialValue: formVals.priceOff,
-            })(<InputNumber placeholder="请输入" />)}
+              initialValue: formVals.priceOff ? formVals.priceOff / 100.0 : undefined,
+            })(<InputNumber disabled={modalType != 'add'} placeholder="请输入" />)}
           </FormItem> : ''
       }
       {
@@ -486,15 +497,15 @@ const AddOrUpdateForm = Form.create()(props => {
                   {min: 1, max: 99, type: 'number', message: '范围为 [1, 99]'},
                 ],
                 initialValue: formVals.percentOff,
-              })(<InputNumber placeholder="请输入" />)}%
+              })(<InputNumber disabled={modalType != 'add'} placeholder="请输入" />)}%
             </FormItem>
             <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="最多优惠">
               {form.getFieldDecorator('discountPriceLimit', {
                 rules: [{ required: false, message: '请输入最多优惠！' },
                   {min: 0.01, type: 'number', message: '最小值为 0.01'},
                 ],
-                initialValue: formVals.discountPriceLimit,
-              })(<InputNumber placeholder="请输入" />)}元
+                initialValue: formVals.discountPriceLimit ? formVals.discountPriceLimit / 100.0 : undefineds,
+              })(<InputNumber disabled={modalType != 'add'} placeholder="请输入" />)}元
             </FormItem>
           </span> : ''
       }

@@ -20,7 +20,8 @@ export default {
     pathRewrite: {},
   },
   '/promotion-api/': {
-    target: 'http://180.167.213.26:18085/',
+    // target: 'http://180.167.213.26:18085/',
+    target: 'http://127.0.0.1:18085/',
     changeOrigin: true,
     pathRewrite: {},
   },

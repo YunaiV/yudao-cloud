@@ -1,15 +1,13 @@
 package cn.iocoder.mall.promotion.biz.service;
 
 import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
+import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.promotion.api.CouponService;
 import cn.iocoder.mall.promotion.api.bo.CouponCardBO;
 import cn.iocoder.mall.promotion.api.bo.CouponTemplateBO;
 import cn.iocoder.mall.promotion.api.bo.CouponTemplatePageBO;
-import cn.iocoder.mall.promotion.api.constant.CouponTemplateDateTypeEnum;
-import cn.iocoder.mall.promotion.api.constant.CouponTemplatePreferentialTypeEnum;
-import cn.iocoder.mall.promotion.api.constant.CouponTemplateStatusEnum;
-import cn.iocoder.mall.promotion.api.constant.CouponTemplateTypeEnum;
+import cn.iocoder.mall.promotion.api.constant.*;
 import cn.iocoder.mall.promotion.api.dto.*;
 import cn.iocoder.mall.promotion.biz.convert.CouponTemplateConvert;
 import cn.iocoder.mall.promotion.biz.dao.CouponTemplateMapper;
@@ -82,7 +80,24 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public CommonResult<Boolean> updateCouponCardTemplate(CouponCardTemplateUpdateDTO couponCardTemplateUpdateDTO) {
-        return null;
+        // 校验 CouponCardTemplate 存在
+        CouponTemplateDO template = couponTemplateMapper.selectById(couponCardTemplateUpdateDTO.getId());
+        if (template == null) {
+            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.PRODUCT_TEMPLATE_NOT_EXISTS.getCode());
+        }
+        // 校验 CouponCardTemplate 是 CARD
+        if (!CouponTemplateTypeEnum.CARD.getValue().equals(template.getType())) {
+            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.PRODUCT_TEMPLATE_NOT_CARD.getCode());
+        }
+        // 校验发放数量不能减少
+        if (couponCardTemplateUpdateDTO.getTotal() < template.getTotal()) {
+            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.PRODUCT_TEMPLATE_TOTAL_CAN_NOT_REDUCE.getCode());
+        }
+        // 更新优惠劵模板到数据库
+        CouponTemplateDO updateTemplateDO = CouponTemplateConvert.INSTANCE.convert(couponCardTemplateUpdateDTO);
+        couponTemplateMapper.update(updateTemplateDO);
+        // 返回成功
+        return CommonResult.success(true);
     }
 
     @Override

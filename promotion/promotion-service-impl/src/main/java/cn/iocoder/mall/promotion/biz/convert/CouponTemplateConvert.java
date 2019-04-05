@@ -2,7 +2,9 @@ package cn.iocoder.mall.promotion.biz.convert;
 
 import cn.iocoder.mall.promotion.api.bo.CouponTemplateBO;
 import cn.iocoder.mall.promotion.api.dto.CouponCardTemplateAddDTO;
+import cn.iocoder.mall.promotion.api.dto.CouponCardTemplateUpdateDTO;
 import cn.iocoder.mall.promotion.api.dto.CouponCodeTemplateAddDTO;
+import cn.iocoder.mall.promotion.api.dto.CouponCodeTemplateUpdateDTO;
 import cn.iocoder.mall.promotion.biz.dataobject.CouponTemplateDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
@@ -22,10 +24,16 @@ public interface CouponTemplateConvert {
     List<CouponTemplateBO> convertToBO(List<CouponTemplateDO> templateList);
 
     @Mappings({})
-    CouponTemplateDO convert(CouponCodeTemplateAddDTO template);
+    CouponTemplateDO convert(CouponCodeTemplateUpdateDTO template);
 
     @Mappings({})
     CouponTemplateDO convert(CouponCardTemplateAddDTO template);
+
+    @Mappings({})
+    CouponTemplateDO convert(CouponCardTemplateUpdateDTO template);
+
+    @Mappings({})
+    CouponTemplateDO convert(CouponCodeTemplateAddDTO template);
 
     @Mappings({})
     CouponTemplateBO convert(CouponTemplateDO template);

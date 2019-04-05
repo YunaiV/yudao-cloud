@@ -11,7 +11,13 @@ function filterEmptyStr(params) {
     const res = {};
     for (const key in object) {
       const val = object[key];
-      if (val !== undefined && val !== 'undefined' && val !== null && val !== 'null') {
+      if (
+        new String(val).length > 0 &&
+        val !== undefined &&
+        val !== 'undefined' &&
+        val !== null &&
+        val !== 'null'
+      ) {
         res[key] = val;
       }
     }

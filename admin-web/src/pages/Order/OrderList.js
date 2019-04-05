@@ -6,6 +6,7 @@ import { Button, Card, Col, Divider, Form, Input, Row, Tabs, DatePicker, List } 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import DictionaryText from '@/components/Dictionary/DictionaryText';
 import OrderUpdatePayAmount from './OrderUpdatePayAmount';
+import OrderDelivery from './OrderDelivery';
 import OrderRemark from './OrderRemark';
 import OrderCancel from './OrderCancel';
 import dictionary from '@/utils/dictionary';
@@ -18,8 +19,8 @@ const { TabPane } = Tabs;
 
 const OrderContent = props => {
   const { dispatch, item } = props;
-  const { createTime, status, payAmount } = item;
-  const { name, mobile } = item.orderRecipient;
+  const { createTime, status, payAmount, id } = item;
+  const { name, mobile } = item.orderRecipient || {};
 
   const handleUpdatePayAmount = updateOrderItem => {
     dispatch({
@@ -33,24 +34,29 @@ const OrderContent = props => {
     });
   };
 
-  // const handleCancelOrder = ({ orderId }) => {
-  //   dispatch({
-  //     type: 'orderList/changeOrderCancelVisible',
-  //     payload: {
-  //       orderCancelVisible: true,
-  //       orderId,
-  //     },
-  //   });
-  // };
-  //
-  // const handleRenderGoods = () => {};
+  const handleOrderDelivery = () => {
+    dispatch({
+      type: 'orderDelivery/changeVisible',
+      payload: {
+        visible: true,
+        orderId: id,
+      },
+    });
+
+    dispatch({
+      type: 'orderDelivery/getOrderItems',
+      payload: {
+        orderId: id,
+      },
+    });
+  };
 
   const renderStatusButtons = () => {
     let res = '';
     if (status === 1) {
       res = <Button>取消订单</Button>;
     } else if (status === 2) {
-      res = <Button>发货</Button>;
+      res = <Button onClick={() => handleOrderDelivery()}>发货</Button>;
     }
     return res;
   };
@@ -58,7 +64,7 @@ const OrderContent = props => {
   const renderGoods = orderItems => {
     return orderItems.map(({ skuName, skuImage, quantity, price }) => {
       return (
-        <div className={styles.orderGoods}>
+        <div key={skuName} className={styles.orderGoods}>
           <img alt={skuName} className={`${styles.image}`} src={skuImage} />
           <div className={styles.contentItem}>
             <div>
@@ -95,7 +101,7 @@ const OrderContent = props => {
         <div>
           <DictionaryText dicKey={dictionary.ORDER_STATUS} dicValue={status} />
         </div>
-        <div>{renderStatusButtons()}</div>
+        <div>{renderStatusButtons(props)}</div>
       </div>
       <div className={styles.contentItem}>
         <div className={styles.columnName}>(实付金额)</div>
@@ -243,10 +249,11 @@ const SearchForm = Form.create()(props => {
   );
 });
 
-@connect(({ orderList, loading }) => ({
+@connect(({ orderList, orderDelivery, loading }) => ({
   orderList,
   list: orderList.list,
   loading: loading.models.orderList,
+  orderDelivery,
 }))
 class BasicList extends PureComponent {
   componentDidMount() {
@@ -326,6 +333,8 @@ class BasicList extends PureComponent {
         <OrderUpdatePayAmount {...this.props} />
         <OrderRemark {...this.props} />
         <OrderCancel {...this.props} />
+
+        <OrderDelivery {...this.props} />
       </PageHeaderWrapper>
     );
   }

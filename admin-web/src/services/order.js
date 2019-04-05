@@ -8,6 +8,27 @@ export async function orderPage(params) {
   });
 }
 
+export async function orderItems(params) {
+  return request(`/order-api/admins/order/order_items?${stringify(params)}`, {
+    method: 'GET',
+  });
+}
+
+export async function getOrderRecipientInfo(params) {
+  return request(`/order-api/admins/order/order_recipient_info?${stringify(params)}`, {
+    method: 'GET',
+  });
+}
+
+export async function orderDeliver(params) {
+  return request(`/order-api/admins/order/order_deliver`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
 export async function updateOrderItemPayAmount(params) {
   return request(`/order-api/admins/order/order_item/update_pay_amount?${stringify(params)}`, {
     method: 'PUT',

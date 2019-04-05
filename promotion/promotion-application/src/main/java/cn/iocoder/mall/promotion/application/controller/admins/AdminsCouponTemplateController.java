@@ -1,5 +1,6 @@
 package cn.iocoder.mall.promotion.application.controller.admins;
 
+import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.promotion.api.CouponService;
 import cn.iocoder.mall.promotion.api.bo.CouponTemplateBO;
@@ -11,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 
 @RestController
-@RequestMapping("admins/product_recommend")
+@RequestMapping("admins/coupon")
 @Api("优惠劵（码）模块")
 public class AdminsCouponTemplateController {
 
@@ -33,8 +35,8 @@ public class AdminsCouponTemplateController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "title", value = "标题", required = true, example = "优惠劵牛逼"),
             @ApiImplicitParam(name = "description", value = "使用说明", example = "我只是描述"),
-            @ApiImplicitParam(name = "quota", value = "每人限领个数", example = "null - 则表示不限制"),
-            @ApiImplicitParam(name = "stock", value = "剩余可用库存", example = "null - 则表示无限库存"),
+            @ApiImplicitParam(name = "quota", value = "每人限领个数", required = true),
+            @ApiImplicitParam(name = "total", value = "发行总量"),
             @ApiImplicitParam(name = "priceAvailable", value = "是否设置满多少金额可用，单位：分", example = "0-不限制；大于0-多少金额可用"),
             @ApiImplicitParam(name = "rangeType", value = "可用范围的类型", required = true, example = "参见 CouponTemplateRangeTypeEnum 枚举"),
             @ApiImplicitParam(name = "rangeValues", value = "指定商品 / 分类列表，使用逗号分隔商品编号"),
@@ -50,13 +52,15 @@ public class AdminsCouponTemplateController {
     })
     public CommonResult<AdminsCouponTemplateVO> add(@RequestParam(value = "title") String title,
                                                     @RequestParam(value = "description", required = false) String description,
-                                                    @RequestParam(value = "quota", required = false) Integer quota,
-                                                    @RequestParam(value = "stock", required = false) Integer stock,
+                                                    @RequestParam(value = "quota") Integer quota,
+                                                    @RequestParam(value = "total", required = false) Integer total,
                                                     @RequestParam(value = "priceAvailable") Integer priceAvailable,
                                                     @RequestParam(value = "rangeType") Integer rangeType,
                                                     @RequestParam(value = "rangeType", required = false) String rangeValues,
                                                     @RequestParam(value = "dateType") Integer dateType,
+                                                    @DateTimeFormat(pattern = "yyyy-MM-dd")
                                                     @RequestParam(value = "validStartTime", required = false) Date validStartTime,
+                                                    @DateTimeFormat(pattern = "yyyy-MM-dd")
                                                     @RequestParam(value = "validEndTime", required = false) Date validEndTime,
                                                     @RequestParam(value = "fixedBeginTerm", required = false) Integer fixedBeginTerm,
                                                     @RequestParam(value = "fixedEndTerm", required = false) Integer fixedEndTerm,
@@ -65,9 +69,11 @@ public class AdminsCouponTemplateController {
                                                     @RequestParam(value = "percentOff", required = false) Integer percentOff,
                                                     @RequestParam(value = "discountPriceLimit", required = false) Integer discountPriceLimit) {
         // 创建 CouponCardTemplateAddDTO 对象
+        validStartTime = DateUtil.getDayBegin(validStartTime); // 开始时间，以当前 00:00:00 为准
+        validEndTime = DateUtil.getDayBegin(validEndTime); // 结束时间，以当前 25:59:59 为准
         CouponCardTemplateAddDTO couponCardTemplateAddDTO = new CouponCardTemplateAddDTO()
                 .setTitle(title).setDescription(description)
-                .setQuota(quota).setStock(stock)
+                .setQuota(quota).setTotal(total)
                 .setPriceAvailable(priceAvailable).setRangeType(rangeType).setRangeValues(rangeValues)
                 .setDateType(dateType).setValidStartTime(validStartTime).setValidEndTime(validEndTime)
                 .setFixedBeginTerm(fixedBeginTerm).setFixedEndTerm(fixedEndTerm)

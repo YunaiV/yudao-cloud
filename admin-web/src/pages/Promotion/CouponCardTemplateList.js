@@ -220,11 +220,12 @@ const AddOrUpdateForm = Form.create()(props => {
       if (err) return;
       let newFileds = {
         ...fields,
-        priceAvailable: fields['priceAvailable'] ? parseInt(fields.priceAvailable * 100) : undefined,
-        priceOff: fields['priceOff'] ? parseInt(fields.priceOff * 100) : undefined,
-        discountPriceLimit: fields['discountPriceLimit'] ? parseInt(fields.discountPriceLimit * 100) : undefined,
-      }
-      debugger;
+        priceAvailable: fields.priceAvailable ? parseInt(fields.priceAvailable * 100) : undefined,
+        priceOff: fields.priceOff ? parseInt(fields.priceOff * 100) : undefined,
+        discountPriceLimit: fields.discountPriceLimit ? parseInt(fields.discountPriceLimit * 100) : undefined,
+        validStartTime: fields.validStartTime ? fields.validStartTime.format('YYYY-MM-DD') : undefined,
+        validEndTime: fields.validEndTime ? fields.validEndTime.format('YYYY-MM-DD') : undefined
+      };
       // 添加表单
       if (modalType === 'add') {
         dispatch({
@@ -291,7 +292,8 @@ const AddOrUpdateForm = Form.create()(props => {
     >
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="标题">
         {form.getFieldDecorator('title', {
-          rules: [{ required: true, message: '请输入标题！' }],
+          rules: [{ required: true, message: '请输入标题！' },
+            {max: 16, min:2, message: '长度为 2-16 位'},],
           initialValue: formVals.title,
         })(<Input placeholder="请输入" />)}
       </FormItem>
@@ -310,7 +312,6 @@ const AddOrUpdateForm = Form.create()(props => {
           initialValue: formVals.quota,
         })(
           <Select placeholder="请选择" style={{ maxWidth: 200, width: '100%' }}>
-            <SelectOption value="">不限次数</SelectOption>
             <SelectOption value="1">1 次</SelectOption>
             <SelectOption value="2">2 次</SelectOption>
             <SelectOption value="3">3 次</SelectOption>
@@ -391,12 +392,14 @@ const AddOrUpdateForm = Form.create()(props => {
         formVals.dateType == 2 ?
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="领取日期">
             {form.getFieldDecorator('fixedBeginTerm', {
-              rules: [{ required: true, message: '请输入固定日期！' },],
+              rules: [{ required: true, message: '请输入固定日期！' },
+                {min: 1, type: 'number', message: '最小值为 1'}],
               initialValue: formVals.fixedBeginTerm,
             })(<InputNumber placeholder="请输入" />)}
             &nbsp;-&nbsp;
             {form.getFieldDecorator('fixedEndTerm', {
-              rules: [{ required: false, message: '请输入固定日期！' },],
+              rules: [{ required: true, message: '请输入固定日期！' },
+                {min: 1, type: 'number', message: '最小值为 1'}],
               initialValue: formVals.fixedEndTerm,
             })(<InputNumber placeholder="请输入" />)} 天
           </FormItem> : ''

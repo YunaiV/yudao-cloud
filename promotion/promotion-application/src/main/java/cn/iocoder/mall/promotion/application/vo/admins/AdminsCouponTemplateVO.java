@@ -136,15 +136,6 @@ public class AdminsCouponTemplateVO {
         return this;
     }
 
-    public Integer getStock() {
-        return stock;
-    }
-
-    public AdminsCouponTemplateVO setStock(Integer stock) {
-        this.stock = stock;
-        return this;
-    }
-
     public Integer getPriceAvailable() {
         return priceAvailable;
     }

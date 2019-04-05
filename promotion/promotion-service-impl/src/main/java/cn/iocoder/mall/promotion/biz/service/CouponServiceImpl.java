@@ -49,8 +49,8 @@ public class CouponServiceImpl implements CouponService {
         // 校验优惠类型
         CommonResult<Boolean> checkCouponTemplateDateTypeResult = this.checkCouponTemplatePreferentialType(
                 couponCardTemplateAddDTO.getPreferentialType(), couponCardTemplateAddDTO.getPercentOff(),
-                couponCardTemplateAddDTO.getPriceOff());
-        if (checkCouponCodeTemplateDateTypeResult.isError()) {
+                couponCardTemplateAddDTO.getPriceOff(), couponCardTemplateAddDTO.getPriceAvailable());
+        if (checkCouponTemplateDateTypeResult.isError()) {
             return CommonResult.error(checkCouponTemplateDateTypeResult);
         }
         // 保存优惠劵模板到数据库
@@ -58,6 +58,7 @@ public class CouponServiceImpl implements CouponService {
                 .setType(CouponTemplateTypeEnum.CARD.getValue())
                 .setStatus(CouponTemplateStatusEnum.ENABLE.getValue())
                 .setStatFetchNum(0);
+        template.setCreateTime(new Date());
         couponTemplateMapper.insert(template);
         // 返回成功
         return CommonResult.success(CouponTemplateConvert.INSTANCE.convert(template));
@@ -106,6 +107,9 @@ public class CouponServiceImpl implements CouponService {
             if (validEndTime == null) {
                 return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "生效结束时间不能为空");
             }
+            if (validStartTime.after(validEndTime)) {
+                return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "生效开始时间不能大于生效结束时间");
+            }
         } else if (CouponTemplateDateTypeEnum.FIXED_TERM.getValue().equals(dateType)) { // 领取日期
             if (fixedBeginTerm == null) {
                 return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "领取日期开始时间不能为空");
@@ -119,10 +123,14 @@ public class CouponServiceImpl implements CouponService {
         return CommonResult.success(true);
     }
 
-    private CommonResult<Boolean> checkCouponTemplatePreferentialType(Integer preferentialType, Integer percentOff, Integer priceOff) {
+    private CommonResult<Boolean> checkCouponTemplatePreferentialType(Integer preferentialType, Integer percentOff,
+                                                                      Integer priceOff, Integer priceAvailable) {
         if (CouponTemplatePreferentialTypeEnum.PRICE.getValue().equals(preferentialType)) {
             if (priceOff == null) {
                 return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "优惠金额不能为空");
+            }
+            if (priceOff >= priceAvailable) {
+                return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "优惠金额不能d大于等于使用金额门槛");
             }
         } else if (CouponTemplatePreferentialTypeEnum.DISCOUNT.getValue().equals(preferentialType)) {
             if (percentOff == null) {

@@ -19,7 +19,7 @@ public class CouponCardTemplateAddDTO {
      * 标题
      */
     @NotEmpty(message = "标题不能为空")
-    @Length(min = 6, max = 16, message = "标题长度为 {min}-{max} 位")
+    @Length(min = 2, max = 16, message = "标题长度为 {min}-{max} 位")
     private String title;
     /**
      * 使用说明
@@ -31,9 +31,8 @@ public class CouponCardTemplateAddDTO {
     // ========== 领取规则 BEGIN ==========
     /**
      * 每人限领个数
-     *
-     * null - 则表示不限制
      */
+    @NotNull(message = "每人限领个数不能为空")
     @Min(value = 1, message = "每人限领个数最小为 {value}")
     private Integer quota;
     /**

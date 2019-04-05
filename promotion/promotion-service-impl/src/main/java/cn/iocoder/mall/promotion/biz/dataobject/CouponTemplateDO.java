@@ -82,11 +82,9 @@ public class CouponTemplateDO extends BaseDO {
      */
     private Integer quota;
     /**
-     * 剩余可用库存
-     *
-     * null - 则表示无限库存
+     * 发行总量
      */
-    private Integer stock;
+    private Integer total;
     // ========== 领取规则 END ==========
 
     // ========== 使用规则 BEGIN ==========
@@ -274,12 +272,12 @@ public class CouponTemplateDO extends BaseDO {
         return this;
     }
 
-    public Integer getStock() {
-        return stock;
+    public Integer getTotal() {
+        return total;
     }
 
-    public CouponTemplateDO setStock(Integer stock) {
-        this.stock = stock;
+    public CouponTemplateDO setTotal(Integer total) {
+        this.total = total;
         return this;
     }
 

@@ -43,7 +43,74 @@ public class DateUtil {
         if (date == null) {
             return "";
         }
+        // TODO 芋艿，后面改成缓存
         return new SimpleDateFormat(pattern).format(date);
+    }
+
+    /**
+     * 获取指定天结束时间
+     *
+     * @param date 日期
+     * @return 获得该日期的开始
+     */
+    public static Date getDayBegin(Date date) {
+        if (date == null) {
+            return null;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        setCalender(calendar, 0, 0, 0, 0);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取当天开始时间
+     *
+     * @return 获得该日期的开始
+     */
+    public static Date getDayBegin() {
+        return getDayBegin(new Date());
+    }
+
+    /**
+     * 获取指定天结束时间
+     *
+     * @param date 日期
+     * @return 获得该日期的结束
+     */
+    public static Date getDayEnd(Date date) {
+        if (date == null) {
+            return null;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        setCalender(calendar, 23, 59, 59, 999);
+        return calendar.getTime();
+    }
+
+    /**
+     * 获取当天结束时间
+     *
+     * @return 获得该日期的开始
+     */
+    public static Date getDayEnd() {
+        return getDayEnd(new Date());
+    }
+
+    /**
+     * 设置Calendar的小时、分钟、秒、毫秒
+     *
+     * @param calendar    日历
+     * @param hour        小时
+     * @param minute      分钟
+     * @param second      秒
+     * @param milliSecond 毫秒
+     */
+    public static void setCalender(Calendar calendar, int hour, int minute, int second, int milliSecond) {
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, second);
+        calendar.set(Calendar.MILLISECOND, milliSecond);
     }
 
 }

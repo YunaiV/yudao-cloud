@@ -2,6 +2,7 @@ package cn.iocoder.mall.order.biz.convert;
 
 import cn.iocoder.mall.order.api.bo.OrderLogisticsBO;
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
+import cn.iocoder.mall.order.api.dto.OrderDeliveryDTO;
 import cn.iocoder.mall.order.api.dto.OrderLogisticsUpdateDTO;
 import cn.iocoder.mall.order.biz.dataobject.OrderLogisticsDO;
 import org.mapstruct.Mapper;
@@ -22,7 +23,7 @@ public interface OrderLogisticsConvert {
     OrderLogisticsConvert INSTANCE = Mappers.getMapper(OrderLogisticsConvert.class);
 
     @Mappings({})
-    OrderLogisticsDO convert(OrderCreateDTO orderCreateDTO);
+    OrderLogisticsDO convert(OrderDeliveryDTO orderDelivery);
 
     @Mappings({})
     OrderLogisticsDO convert(OrderLogisticsUpdateDTO orderLogisticsDTO);

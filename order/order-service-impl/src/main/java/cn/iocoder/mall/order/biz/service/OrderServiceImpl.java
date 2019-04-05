@@ -106,6 +106,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public CommonResult<List<OrderItemBO>> getOrderItems(Integer orderId) {
+        if (orderMapper.selectById(orderId) == null) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_NOT_EXISTENT.getCode());
+        }
+
+        List<OrderItemDO> orderItemDOList = orderItemMapper
+                .selectByOrderIdAndDeleted(orderId, DeletedStatusEnum.DELETED_NO.getValue());
+
+        List<OrderItemBO> orderItemBOList = OrderItemConvert.INSTANCE.convertOrderItemBO(orderItemDOList);
+        return CommonResult.success(orderItemBOList);
+    }
+
+    @Override
     @Transactional
     public CommonResult<OrderCreateBO> createOrder(Integer userId, OrderCreateDTO orderCreateDTO) {
         List<OrderCreateItemDTO> orderItemDTOList = orderCreateDTO.getOrderItems();
@@ -132,7 +145,6 @@ public class OrderServiceImpl implements OrderService {
         // order
         OrderDO orderDO = new OrderDO()
                 .setUserId(userId)
-                .setOrderLogisticsId(null)
                 .setOrderNo(UUID.randomUUID().toString().replace("-", ""))
                 .setPayAmount(-1) // 先设置一个默认值，金额在下面计算
                 .setClosingTime(null)
@@ -265,8 +277,25 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public CommonResult orderDelivery(OrderDeliveryDTO orderDelivery) {
-        return null;
+        List<Integer> orderItemIds = orderDelivery.getOrderItemIds();
+        List<OrderItemDO> orderItemDOList = orderItemMapper.selectByIds(orderItemIds);
+        if (orderItemDOList.size() != orderItemIds.size()) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_DELIVERY_INCORRECT_DATA.getCode());
+        }
+
+        // 保存物流信息
+        OrderLogisticsDO orderLogisticsDO = OrderLogisticsConvert.INSTANCE.convert(orderDelivery);
+        orderLogisticsDO
+                .setCreateTime(new Date())
+                .setUpdateTime(null);
+
+        orderLogisticsMapper.insert(orderLogisticsDO);
+
+        // 关联订单item 和 物流信息
+        orderItemMapper.updateByIds(orderItemIds, new OrderItemDO().setOrderLogisticsId(orderLogisticsDO.getId()));
+        return CommonResult.success(null);
     }
 
     @Override

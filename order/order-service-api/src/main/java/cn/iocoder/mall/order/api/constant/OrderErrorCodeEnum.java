@@ -15,7 +15,8 @@ public enum OrderErrorCodeEnum {
     ORDER_GET_SKU_FAIL(1008000001, "获取商品失败!"),
     ORDER_GET_SKU_NOT_EXISTENT(1008000002, "获取的商品不存在!"),
     ORDER_PAY_AMOUNT_NOT_NEGATIVE(1008000003, "支付金额不能为负数!"),
-    ORDER_STATUS_NOT_CANCEL(1008000004, "订单状态不能取消"),
+    ORDER_STATUS_NOT_CANCEL(1008000004, "订单状态不能取消!"),
+    ORDER_DELIVERY_INCORRECT_DATA(1008000005, "订单发货数据不正确!"),
 
     // order item
     ORDER_ITEM_ONLY_ONE(1008000004, "订单Item只有一个!"),

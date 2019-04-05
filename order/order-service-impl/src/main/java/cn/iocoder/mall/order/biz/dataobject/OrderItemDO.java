@@ -48,6 +48,10 @@ public class OrderItemDO extends DeletableDO {
      * 支付金额（实付金额）
      */
     private Integer payAmount;
+    /**
+     * 物流id
+     */
+    private Integer orderLogisticsId;
 
     ///
     /// 时间信息
@@ -99,11 +103,12 @@ public class OrderItemDO extends DeletableDO {
                 ", orderId=" + orderId +
                 ", orderNo='" + orderNo + '\'' +
                 ", skuId=" + skuId +
-                ", skuName=" + skuName +
-                ", skuImage=" + skuImage +
+                ", skuName='" + skuName + '\'' +
+                ", skuImage='" + skuImage + '\'' +
                 ", quantity=" + quantity +
                 ", price=" + price +
                 ", payAmount=" + payAmount +
+                ", orderLogisticsId=" + orderLogisticsId +
                 ", paymentTime=" + paymentTime +
                 ", deliveryTime=" + deliveryTime +
                 ", receiverTime=" + receiverTime +
@@ -191,6 +196,15 @@ public class OrderItemDO extends DeletableDO {
 
     public OrderItemDO setPayAmount(Integer payAmount) {
         this.payAmount = payAmount;
+        return this;
+    }
+
+    public Integer getOrderLogisticsId() {
+        return orderLogisticsId;
+    }
+
+    public OrderItemDO setOrderLogisticsId(Integer orderLogisticsId) {
+        this.orderLogisticsId = orderLogisticsId;
         return this;
     }
 

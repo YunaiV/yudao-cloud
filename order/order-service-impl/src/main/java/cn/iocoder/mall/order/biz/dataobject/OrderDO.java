@@ -21,10 +21,6 @@ public class OrderDO extends DeletableDO {
      */
     private Integer userId;
     /**
-     * 物流id
-     */
-    private Integer orderLogisticsId;
-    /**
      * 订单编号
      */
     private String orderNo;
@@ -85,7 +81,6 @@ public class OrderDO extends DeletableDO {
         return "OrderDO{" +
                 "id=" + id +
                 ", userId=" + userId +
-                ", orderLogisticsId=" + orderLogisticsId +
                 ", orderNo='" + orderNo + '\'' +
                 ", payAmount=" + payAmount +
                 ", paymentTime=" + paymentTime +
@@ -113,15 +108,6 @@ public class OrderDO extends DeletableDO {
 
     public OrderDO setUserId(Integer userId) {
         this.userId = userId;
-        return this;
-    }
-
-    public Integer getOrderLogisticsId() {
-        return orderLogisticsId;
-    }
-
-    public OrderDO setOrderLogisticsId(Integer orderLogisticsId) {
-        this.orderLogisticsId = orderLogisticsId;
         return this;
     }
 

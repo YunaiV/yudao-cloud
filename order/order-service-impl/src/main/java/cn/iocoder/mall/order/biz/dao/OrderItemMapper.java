@@ -49,6 +49,14 @@ public interface OrderItemMapper {
     );
 
     /**
+     * 获取 - 根据 ids 查询
+     *
+     * @param ids
+     * @return
+     */
+    List<OrderItemDO> selectByIds(Collection<Integer> ids);
+
+    /**
      * 查询 - 根据 orderIds 和 status
      *
      * @param orderIds

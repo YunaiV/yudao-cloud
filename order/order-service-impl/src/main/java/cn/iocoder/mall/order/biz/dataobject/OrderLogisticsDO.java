@@ -35,6 +35,10 @@ public class OrderLogisticsDO extends BaseDO {
      */
     private String address;
     /**
+     * 物流 (字典)
+     */
+    private Integer logistics;
+    /**
      * 物流编号
      */
     private String logisticsNo;
@@ -48,6 +52,7 @@ public class OrderLogisticsDO extends BaseDO {
                 ", name='" + name + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", address='" + address + '\'' +
+                ", logistics=" + logistics +
                 ", logisticsNo='" + logisticsNo + '\'' +
                 '}';
     }
@@ -103,6 +108,15 @@ public class OrderLogisticsDO extends BaseDO {
 
     public OrderLogisticsDO setAddress(String address) {
         this.address = address;
+        return this;
+    }
+
+    public Integer getLogistics() {
+        return logistics;
+    }
+
+    public OrderLogisticsDO setLogistics(Integer logistics) {
+        this.logistics = logistics;
         return this;
     }
 

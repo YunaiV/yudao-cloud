@@ -2,6 +2,7 @@ package cn.iocoder.mall.order.application.controller.admins;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.OrderService;
+import cn.iocoder.mall.order.api.bo.OrderItemBO;
 import cn.iocoder.mall.order.api.bo.OrderPageBO;
 import cn.iocoder.mall.order.api.dto.*;
 import cn.iocoder.mall.order.application.convert.OrderConvertAPP;
@@ -14,6 +15,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 订单API(admins)
@@ -34,6 +37,12 @@ public class AdminsOrderController {
     public CommonResult<OrderPageBO> getOrderPage(@Validated OrderPageQueryVO orderPageQueryVO) {
         OrderQueryDTO orderQueryDTO = OrderConvertAPP.INSTANCE.convertPageBO(orderPageQueryVO);
         return orderService.getOrderPage(orderQueryDTO);
+    }
+
+    @GetMapping("order_items")
+    @ApiOperation("订单列表")
+    public CommonResult<List<OrderItemBO>> getOrderItems(@RequestParam("orderId") Integer orderId) {
+        return orderService.getOrderItems(orderId);
     }
 
     @PutMapping("update_remark")

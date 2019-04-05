@@ -25,6 +25,9 @@ public interface OrderItemConvert {
     OrderItemDO convert(OrderItemUpdateDTO orderItemUpdateDTO);
 
     @Mappings({})
+    List<OrderItemBO> convertOrderItemBO(List<OrderItemDO> orderItemDOList);
+
+    @Mappings({})
     List<OrderItemDO> convert(List<OrderCreateItemDTO> orderCreateItemDTOList);
 
     @Mappings({})

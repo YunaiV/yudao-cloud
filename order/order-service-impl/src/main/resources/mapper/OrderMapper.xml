@@ -14,12 +14,12 @@
     -->
     <insert id="insert" parameterType="OrderDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO `order` (
-            user_id, order_logistics_id, order_no, price, payment_time,
+            user_id, order_no, price, payment_time,
             delivery_time, receiver_time, closing_time,
             has_return_exchange, status, remark,
             create_time, update_time, `deleted`
         ) VALUES (
-             #{orderLogisticsId}, #{userId}, #{orderNo}, #{price}, #{paymentTime},
+             #{userId}, #{orderNo}, #{price}, #{paymentTime},
              #{deliveryTime}, #{receiverTime}, #{closingTime},
              #{hasReturnExchange}, #{status}, #{remark},
              #{createTime}, #{updateTime}, #{deleted}
@@ -31,9 +31,6 @@
     -->
     <sql id="updateFieldSql" >
         <set>
-            <if test="orderLogisticsId != null">
-                , order_logistics_id = #{orderLogisticsId}
-            </if>
             <if test="orderNo != null">
                 , order_no = #{orderNo}
             </if>
@@ -109,9 +106,6 @@
         </if>
         <if test="orderNo != null">
             AND `order_no` = #{orderNo}
-        </if>
-        <if test="orderLogisticsId != null">
-            AND `order_logistics_id` = #{orderLogisticsId}
         </if>
         <if test="hasReturnExchange != null">
             AND `has_return_exchange` = #{hasReturnExchange}

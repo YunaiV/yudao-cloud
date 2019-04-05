@@ -29,7 +29,7 @@ public interface OrderItemMapper {
      *
      * @param orderItemDO
      */
-    void updateById(OrderItemDO orderItemDO);
+    void updateById(@Param("orderItemDO") OrderItemDO orderItemDO);
 
     /**
      * 更新 - 根据 orderId
@@ -45,7 +45,7 @@ public interface OrderItemMapper {
      */
     void updateByIds(
             @Param("ids") List<Integer> ids,
-            OrderItemDO orderItemDO
+            @Param("orderItemDO") OrderItemDO orderItemDO
     );
 
     /**
@@ -54,7 +54,7 @@ public interface OrderItemMapper {
      * @param ids
      * @return
      */
-    List<OrderItemDO> selectByIds(Collection<Integer> ids);
+    List<OrderItemDO> selectByIds(@Param("ids") Collection<Integer> ids);
 
     /**
      * 查询 - 根据 orderIds 和 status

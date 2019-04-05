@@ -5,6 +5,7 @@ import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderDeliveryDTO;
 import cn.iocoder.mall.order.api.dto.OrderLogisticsUpdateDTO;
 import cn.iocoder.mall.order.biz.dataobject.OrderLogisticsDO;
+import cn.iocoder.mall.order.biz.dataobject.OrderRecipientDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -27,6 +28,9 @@ public interface OrderLogisticsConvert {
 
     @Mappings({})
     OrderLogisticsDO convert(OrderLogisticsUpdateDTO orderLogisticsDTO);
+
+    @Mappings({})
+    OrderLogisticsDO convert(OrderRecipientDO orderRecipientDO);
 
     @Mappings({})
     List<OrderLogisticsBO> convertOrderLogisticsBO(List<OrderLogisticsDO> orderLogisticsDOList);

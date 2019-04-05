@@ -295,21 +295,55 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public CommonResult orderDelivery(OrderDeliveryDTO orderDelivery) {
         List<Integer> orderItemIds = orderDelivery.getOrderItemIds();
-        List<OrderItemDO> orderItemDOList = orderItemMapper.selectByIds(orderItemIds);
-        if (orderItemDOList.size() != orderItemIds.size()) {
+
+        // 获取所有订单 items
+        List<OrderItemDO> allOrderItems = orderItemMapper
+                .selectByOrderIdAndDeleted(orderDelivery.getOrderId(), DeletedStatusEnum.DELETED_NO.getValue());
+
+        // 当前需要发货订单，检查 id 和 status
+        List<OrderItemDO> needDeliveryOrderItems = allOrderItems.stream()
+                .filter(orderItemDO -> orderItemIds.contains(orderItemDO.getId())
+                        && OrderStatusEnum.WAIT_SHIPMENT.getValue() == orderItemDO.getStatus())
+                .collect(Collectors.toList());
+
+        List<OrderItemDO> deliveredOrderItems = allOrderItems.stream()
+                .filter(orderItemDO -> OrderStatusEnum.WAIT_SHIPMENT.getValue() == orderItemDO.getStatus())
+                .collect(Collectors.toList());
+
+        // 发货订单，检查
+        if (needDeliveryOrderItems.size() != orderItemIds.size()) {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_DELIVERY_INCORRECT_DATA.getCode());
         }
 
+        OrderRecipientDO orderRecipientDO = orderRecipientMapper.selectByOrderId(orderDelivery.getOrderId());
+        OrderLogisticsDO orderLogisticsDO = OrderLogisticsConvert.INSTANCE.convert(orderRecipientDO);
+
         // 保存物流信息
-        OrderLogisticsDO orderLogisticsDO = OrderLogisticsConvert.INSTANCE.convert(orderDelivery);
         orderLogisticsDO
+                .setLogisticsNo(orderDelivery.getLogisticsNo())
+                .setLogistics(orderDelivery.getLogistics())
                 .setCreateTime(new Date())
                 .setUpdateTime(null);
 
         orderLogisticsMapper.insert(orderLogisticsDO);
 
         // 关联订单item 和 物流信息
-        orderItemMapper.updateByIds(orderItemIds, new OrderItemDO().setOrderLogisticsId(orderLogisticsDO.getId()));
+        orderItemMapper.updateByIds(
+                orderItemIds,
+                new OrderItemDO()
+                        .setOrderLogisticsId(orderLogisticsDO.getId())
+                        .setStatus(OrderStatusEnum.ALREADY_SHIPMENT.getValue())
+        );
+
+        // 子订单是否全部发货，如果发完，就更新 order
+        if (deliveredOrderItems.size() <= 0) {
+            orderMapper.updateById(
+                    new OrderDO()
+                            .setId(orderDelivery.getOrderId())
+                            .setStatus(OrderStatusEnum.ALREADY_SHIPMENT.getValue())
+            );
+        }
+
         return CommonResult.success(null);
     }
 

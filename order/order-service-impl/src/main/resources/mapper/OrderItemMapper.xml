@@ -29,61 +29,64 @@
     -->
     <sql id="updateFieldSql" >
         <set>
-            <if test="orderId != null">
-                , order_id = #{orderId}
+            <if test="orderItemDO.orderId != null">
+                , order_id = #{orderItemDO.orderId}
             </if>
-            <if test="orderNo != null">
-                , order_no = #{orderNo}
+            <if test="orderItemDO.orderNo != null">
+                , order_no = #{orderItemDO.orderNo}
             </if>
-            <if test="skuId != null">
-                , sku_id = #{skuId}
+            <if test="orderItemDO.orderLogisticsId != null">
+                , order_logistics_id = #{orderItemDO.orderLogisticsId}
             </if>
-            <if test="skuName != null">
-                , sku_name = #{skuName}
+            <if test="orderItemDO.skuId != null">
+                , sku_id = #{orderItemDO.skuId}
             </if>
-            <if test="skuImage != null">
-                , sku_image = #{skuImage}
+            <if test="orderItemDO.skuName != null">
+                , sku_name = #{orderItemDO.skuName}
             </if>
-            <if test="quantity != null">
-                , quantity = #{quantity}
+            <if test="orderItemDO.skuImage != null">
+                , sku_image = #{orderItemDO.skuImage}
             </if>
-            <if test="price != null">
-                , price = #{price}
+            <if test="orderItemDO.quantity != null">
+                , quantity = #{orderItemDO.quantity}
             </if>
-            <if test="payAmount != null">
-                , pay_amount = #{payAmount}
+            <if test="orderItemDO.price != null">
+                , price = #{orderItemDO.price}
             </if>
-
-            <if test="paymentTime != null">
-                , payment_time = #{paymentTime}
-            </if>
-            <if test="deliveryTime != null">
-                , delivery_time = #{deliveryTime}
-            </if>
-            <if test="receiverTime != null">
-                , receiver_time = #{receiverTime}
-            </if>
-            <if test="closingTime != null">
-                , closing_time = #{closingTime}
+            <if test="orderItemDO.payAmount != null">
+                , pay_amount = #{orderItemDO.payAmount}
             </if>
 
-            <if test="hasReturnExchange != null">
-                , has_return_exchange = #{hasReturnExchange}
+            <if test="orderItemDO.paymentTime != null">
+                , payment_time = #{orderItemDO.paymentTime}
             </if>
-            <if test="status != null">
-                , status = #{status}
+            <if test="orderItemDO.deliveryTime != null">
+                , delivery_time = #{orderItemDO.deliveryTime}
             </if>
-            <if test="deliveryType != null">
-                , delivery_type = #{deliveryType}
+            <if test="orderItemDO.receiverTime != null">
+                , receiver_time = #{orderItemDO.receiverTime}
             </if>
-            <if test="deleted != null">
-                , `deleted` = #{deleted}
+            <if test="orderItemDO.closingTime != null">
+                , closing_time = #{orderItemDO.closingTime}
             </if>
-            <if test="createTime != null">
-                , create_time = #{createTime}
+
+            <if test="orderItemDO.hasReturnExchange != null">
+                , has_return_exchange = #{orderItemDO.hasReturnExchange}
             </if>
-            <if test="updateTime != null">
-                , update_time = #{updateTime}
+            <if test="orderItemDO.status != null">
+                , status = #{orderItemDO.status}
+            </if>
+            <if test="orderItemDO.deliveryType != null">
+                , delivery_type = #{orderItemDO.deliveryType}
+            </if>
+            <if test="orderItemDO.deleted != null">
+                , `deleted` = #{orderItemDO.deleted}
+            </if>
+            <if test="orderItemDO.createTime != null">
+                , create_time = #{orderItemDO.createTime}
+            </if>
+            <if test="orderItemDO.updateTime != null">
+                , update_time = #{orderItemDO.updateTime}
             </if>
         </set>
     </sql>
@@ -94,7 +97,7 @@
     <update id="updateById" parameterType="OrderDO">
         UPDATE `order_item`
         <include refid="updateFieldSql" />
-        WHERE id = #{id}
+        WHERE id = #{orderItemDO.id}
     </update>
 
     <!--

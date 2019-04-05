@@ -11,10 +11,10 @@
     -->
     <insert id="insert" parameterType="OrderLogisticsDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO `order_logistics` (
-            area_no, `name`, mobile, address, logistics_no, create_time, update_time
+            area_no, `name`, mobile, address, logistics, logistics_no, create_time, update_time
         ) VALUES (
              #{areaNo}, #{name}, #{mobile}, #{address},
-             #{logisticsNo}, #{createTime}, #{updateTime}
+             #{logistics}, #{logisticsNo}, #{createTime}, #{updateTime}
         )
     </insert>
 
@@ -34,6 +34,9 @@
             </if>
             <if test="address != null">
                 , address = #{address}
+            </if>
+            <if test="logistics != null">
+                , logistics = #{logistics}
             </if>
             <if test="logisticsNo != null">
                 , logistics_no = #{logisticsNo}

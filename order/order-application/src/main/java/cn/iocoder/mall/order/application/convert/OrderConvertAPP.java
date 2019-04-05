@@ -3,9 +3,9 @@ package cn.iocoder.mall.order.application.convert;
 import cn.iocoder.mall.order.api.dto.OrderItemUpdateDTO;
 import cn.iocoder.mall.order.api.dto.OrderLogisticsUpdateDTO;
 import cn.iocoder.mall.order.api.dto.OrderQueryDTO;
-import cn.iocoder.mall.order.application.vo.OrderItemUpdateVO;
-import cn.iocoder.mall.order.application.vo.OrderLogisticsVO;
-import cn.iocoder.mall.order.application.vo.OrderPageQueryVO;
+import cn.iocoder.mall.order.application.po.OrderItemUpdatePO;
+import cn.iocoder.mall.order.application.po.OrderPageQueryPO;
+import cn.iocoder.mall.order.application.po.OrderLogisticsPO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -24,11 +24,11 @@ public interface OrderConvertAPP {
     OrderConvertAPP INSTANCE = Mappers.getMapper(OrderConvertAPP.class);
 
     @Mappings({})
-    OrderQueryDTO convertPageBO(OrderPageQueryVO orderPageQueryVO);
+    OrderQueryDTO convertPageBO(OrderPageQueryPO orderPageQueryVO);
 
     @Mappings({})
-    OrderLogisticsUpdateDTO convertPageBO(OrderLogisticsVO orderLogisticsVO);
+    OrderLogisticsUpdateDTO convertPageBO(OrderLogisticsPO orderLogisticsVO);
 
     @Mappings({})
-    OrderItemUpdateDTO convertPageBO(OrderItemUpdateVO orderItemUpdateVO);
+    OrderItemUpdateDTO convertPageBO(OrderItemUpdatePO orderItemUpdateVO);
 }

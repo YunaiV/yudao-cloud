@@ -7,12 +7,13 @@ import cn.iocoder.mall.order.api.bo.OrderPageBO;
 import cn.iocoder.mall.order.api.bo.OrderRecipientBO;
 import cn.iocoder.mall.order.api.dto.*;
 import cn.iocoder.mall.order.application.convert.OrderConvertAPP;
-import cn.iocoder.mall.order.application.vo.OrderItemUpdateVO;
-import cn.iocoder.mall.order.application.vo.OrderLogisticsVO;
-import cn.iocoder.mall.order.application.vo.OrderPageQueryVO;
+import cn.iocoder.mall.order.application.convert.OrderDeliveryConvert;
+import cn.iocoder.mall.order.application.po.OrderDeliverPO;
+import cn.iocoder.mall.order.application.po.OrderItemUpdatePO;
+import cn.iocoder.mall.order.application.po.OrderLogisticsPO;
+import cn.iocoder.mall.order.application.po.OrderPageQueryPO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class AdminsOrderController {
 
     @GetMapping("page")
     @ApiOperation("订单列表")
-    public CommonResult<OrderPageBO> getOrderPage(@Validated OrderPageQueryVO orderPageQueryVO) {
+    public CommonResult<OrderPageBO> getOrderPage(@Validated OrderPageQueryPO orderPageQueryVO) {
         OrderQueryDTO orderQueryDTO = OrderConvertAPP.INSTANCE.convertPageBO(orderPageQueryVO);
         return orderService.getOrderPage(orderQueryDTO);
     }
@@ -50,6 +51,12 @@ public class AdminsOrderController {
     @ApiOperation("订单收件人信息")
     public CommonResult<OrderRecipientBO> getOrderRecipientBO(@RequestParam("orderId") Integer orderId) {
         return orderService.getOrderRecipientBO(orderId);
+    }
+
+    @PostMapping("order_deliver")
+    @ApiOperation("订单发货")
+    public CommonResult<OrderRecipientBO> orderDeliver(@RequestBody @Validated OrderDeliverPO orderDeliverPO) {
+        return orderService.orderDelivery(OrderDeliveryConvert.INSTANCE.convert(orderDeliverPO));
     }
 
     @PutMapping("update_remark")
@@ -78,14 +85,14 @@ public class AdminsOrderController {
 
     @PutMapping("order_item/update")
     @ApiOperation("更新-订单item")
-    public CommonResult updateOrderItem(@RequestBody @Validated OrderItemUpdateVO orderItemUpdateVO) {
+    public CommonResult updateOrderItem(@RequestBody @Validated OrderItemUpdatePO orderItemUpdateVO) {
         OrderItemUpdateDTO dto = OrderConvertAPP.INSTANCE.convertPageBO(orderItemUpdateVO);
         return orderService.updateOrderItem(dto);
     }
 
     @PutMapping("logistics/update")
     @ApiOperation("更新-订单物流")
-    public CommonResult updateLogistics(@RequestBody @Validated OrderLogisticsVO orderLogisticsVO) {
+    public CommonResult updateLogistics(@RequestBody @Validated OrderLogisticsPO orderLogisticsVO) {
         OrderLogisticsUpdateDTO dto = OrderConvertAPP.INSTANCE.convertPageBO(orderLogisticsVO);
         return orderService.updateLogistics(dto);
     }

@@ -2,10 +2,14 @@ package cn.iocoder.mall.promotion.application.vo.admins;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 
 @ApiModel("Banner VO")
+@Data
+@Accessors(chain = true)
 public class AdminsBannerVO {
 
     @ApiModelProperty(value = "Banner 编号", required = true, example = "1")
@@ -25,75 +29,4 @@ public class AdminsBannerVO {
     @ApiModelProperty(value = "创建时间", required = true, example = "时间戳格式")
     private Date createTime;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public AdminsBannerVO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public AdminsBannerVO setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public AdminsBannerVO setUrl(String url) {
-        this.url = url;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public AdminsBannerVO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public AdminsBannerVO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public String getMemo() {
-        return memo;
-    }
-
-    public AdminsBannerVO setMemo(String memo) {
-        this.memo = memo;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public AdminsBannerVO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
-
-    public String getPicUrl() {
-        return picUrl;
-    }
-
-    public AdminsBannerVO setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
-        return this;
-    }
 }

@@ -3,7 +3,7 @@ package cn.iocoder.mall.order.biz.dataobject;
 import cn.iocoder.common.framework.dataobject.BaseDO;
 
 /**
- * 订单收件人信息 order_recipient
+ * 订单收件人信息 order_recipient (配送信息)
  *
  * @author Sin
  * @time 2019-03-31 11:37
@@ -31,6 +31,12 @@ public class OrderRecipientDO extends BaseDO {
      */
     private String mobile;
     /**
+     * 配送类型
+     *
+     * - 1 快递
+     */
+    private Integer type;
+    /**
      * 收件详细地址
      */
     private String address;
@@ -43,6 +49,7 @@ public class OrderRecipientDO extends BaseDO {
                 ", areaNo='" + areaNo + '\'' +
                 ", name='" + name + '\'' +
                 ", mobile='" + mobile + '\'' +
+                ", type=" + type +
                 ", address='" + address + '\'' +
                 '}';
     }
@@ -89,6 +96,15 @@ public class OrderRecipientDO extends BaseDO {
 
     public OrderRecipientDO setMobile(String mobile) {
         this.mobile = mobile;
+        return this;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public OrderRecipientDO setType(Integer type) {
+        this.type = type;
         return this;
     }
 

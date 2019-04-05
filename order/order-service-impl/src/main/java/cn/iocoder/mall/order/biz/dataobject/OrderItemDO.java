@@ -86,6 +86,15 @@ public class OrderItemDO extends DeletableDO {
      */
     private Integer hasReturnExchange;
     /**
+     * 发货方式
+     *
+     * - 1 未选择
+     * - 2 在线下单
+     * - 3 自己联系快递
+     * - 4 无物流
+     */
+    private Integer deliveryType;
+    /**
      * 状态
      *
      * - 1、待付款
@@ -114,6 +123,7 @@ public class OrderItemDO extends DeletableDO {
                 ", receiverTime=" + receiverTime +
                 ", closingTime=" + closingTime +
                 ", hasReturnExchange=" + hasReturnExchange +
+                ", deliveryType=" + deliveryType +
                 ", status=" + status +
                 '}';
     }
@@ -250,6 +260,15 @@ public class OrderItemDO extends DeletableDO {
 
     public OrderItemDO setHasReturnExchange(Integer hasReturnExchange) {
         this.hasReturnExchange = hasReturnExchange;
+        return this;
+    }
+
+    public Integer getDeliveryType() {
+        return deliveryType;
+    }
+
+    public OrderItemDO setDeliveryType(Integer deliveryType) {
+        this.deliveryType = deliveryType;
         return this;
     }
 

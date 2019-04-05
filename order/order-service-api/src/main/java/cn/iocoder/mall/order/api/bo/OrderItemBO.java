@@ -81,6 +81,15 @@ public class OrderItemBO implements Serializable {
      */
     private Integer hasReturnExchange;
     /**
+     * 发货方式
+     *
+     * - 1 未选择
+     * - 2 在线下单
+     * - 3 自己联系快递
+     * - 4 无物流
+     */
+    private Integer deliveryType;
+    /**
      * 状态
      *
      * - 1、待付款
@@ -121,6 +130,7 @@ public class OrderItemBO implements Serializable {
                 ", receiverTime=" + receiverTime +
                 ", closingTime=" + closingTime +
                 ", hasReturnExchange=" + hasReturnExchange +
+                ", deliveryType=" + deliveryType +
                 ", status=" + status +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
@@ -251,6 +261,15 @@ public class OrderItemBO implements Serializable {
 
     public OrderItemBO setHasReturnExchange(Integer hasReturnExchange) {
         this.hasReturnExchange = hasReturnExchange;
+        return this;
+    }
+
+    public Integer getDeliveryType() {
+        return deliveryType;
+    }
+
+    public OrderItemBO setDeliveryType(Integer deliveryType) {
+        this.deliveryType = deliveryType;
         return this;
     }
 

@@ -31,6 +31,10 @@ public class OrderRecipientBO extends BaseDO {
      */
     private String mobile;
     /**
+     * 手机方式
+     */
+    private Integer type;
+    /**
      * 收件详细地址
      */
     private String address;
@@ -43,6 +47,7 @@ public class OrderRecipientBO extends BaseDO {
                 ", areaNo='" + areaNo + '\'' +
                 ", name='" + name + '\'' +
                 ", mobile='" + mobile + '\'' +
+                ", type=" + type +
                 ", address='" + address + '\'' +
                 '}';
     }
@@ -89,6 +94,15 @@ public class OrderRecipientBO extends BaseDO {
 
     public OrderRecipientBO setMobile(String mobile) {
         this.mobile = mobile;
+        return this;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public OrderRecipientBO setType(Integer type) {
+        this.type = type;
         return this;
     }
 

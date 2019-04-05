@@ -10,6 +10,8 @@ import cn.iocoder.mall.order.api.constant.OrderHasReturnExchangeEnum;
 import cn.iocoder.mall.order.api.constant.OrderStatusEnum;
 import cn.iocoder.mall.order.api.dto.*;
 import cn.iocoder.mall.order.biz.OrderCommon;
+import cn.iocoder.mall.order.biz.constants.OrderDeliveryTypeEnum;
+import cn.iocoder.mall.order.biz.constants.OrderRecipientTypeEnum;
 import cn.iocoder.mall.order.biz.convert.OrderConvert;
 import cn.iocoder.mall.order.biz.convert.OrderItemConvert;
 import cn.iocoder.mall.order.biz.convert.OrderLogisticsConvert;
@@ -173,6 +175,7 @@ public class OrderServiceImpl implements OrderService {
         // 收件人信息
         orderRecipientDO
                 .setOrderId(orderDO.getId())
+                .setType(OrderRecipientTypeEnum.EXPRESS.getValue())
                 .setCreateTime(new Date())
                 .setUpdateTime(null);
 
@@ -193,6 +196,7 @@ public class OrderServiceImpl implements OrderService {
                     .setReceiverTime(null)
                     .setClosingTime(null)
                     .setHasReturnExchange(OrderStatusEnum.WAITING_PAYMENT.getValue())
+                    .setDeliveryType(OrderDeliveryTypeEnum.NONE.getValue())
                     .setStatus(OrderStatusEnum.WAITING_PAYMENT.getValue())
                     .setDeleted(DeletedStatusEnum.DELETED_NO.getValue())
                     .setCreateTime(new Date())

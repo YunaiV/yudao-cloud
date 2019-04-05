@@ -5,7 +5,7 @@
     <sql id="FIELDS">
         id, order_id, order_no, sku_id, sku_name, sku_image, quantity, price, pay_amount,
         payment_time, delivery_time, receiver_time, closing_time,
-        has_return_exchange, status, create_time, update_time, deleted
+        has_return_exchange, delivery_type, status, create_time, update_time, deleted
     </sql>
 
     <!--
@@ -15,11 +15,11 @@
         INSERT INTO `order_item` (
             order_id, order_no, sku_id, sku_name, sku_image, quantity, price, pay_amount,
             payment_time, delivery_time, receiver_time, closing_time,
-            has_return_exchange, status, create_time, update_time, deleted
+            has_return_exchange, delivery_type, status, create_time, update_time, deleted
         ) VALUES (
             #{orderId}, #{orderNo}, #{skuId}, #{quantity}, #{price},
             #{paymentTime}, #{deliveryTime}, #{receiverTime}, #{closingTime},
-            #{hasReturnExchange}, #{status},
+            #{hasReturnExchange}, #{deliveryType}, #{status},
             #{createTime}, #{updateTime}, #{deleted}
         )
     </insert>
@@ -72,6 +72,9 @@
             </if>
             <if test="status != null">
                 , status = #{status}
+            </if>
+            <if test="deliveryType != null">
+                , delivery_type = #{deliveryType}
             </if>
             <if test="deleted != null">
                 , `deleted` = #{deleted}

@@ -3,7 +3,7 @@
 <mapper namespace="cn.iocoder.mall.order.biz.dao.OrderRecipientMapper">
 
     <sql id="FIELDS">
-        id, order_id, `area_no`, `name`, mobile, address,
+        id, order_id, `area_no`, `name`, mobile, address, `type`,
         create_time, update_time
     </sql>
 
@@ -13,10 +13,10 @@
     <insert id="insert" parameterType="OrderRecipientDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO `order_recipient` (
             order_id, `area_no`, `name`, mobile, address,
-            create_time, update_time
+            `type`, create_time, update_time
         ) VALUES (
             #{orderId}, #{areaNo}, #{name}, #{mobile}, #{address},
-            #{createTime}, #{updateTime}
+            #{type}, #{createTime}, #{updateTime}
         )
     </insert>
 

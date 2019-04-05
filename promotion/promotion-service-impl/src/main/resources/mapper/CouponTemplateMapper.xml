@@ -5,7 +5,7 @@
     <sql id="FIELDS">
         id, title, description, type, code_type,
         status, quota, total, price_available, range_type,
-        range_values, date_type, valid_start_time, valid_end_time, fixed_term,
+        range_values, date_type, valid_start_time, valid_end_time, fixed_start_term, fixed_end_term,
         preferential_type, percent_off, price_off, discount_price_limit, stat_fetch_num,
         create_time
     </sql>
@@ -39,8 +39,11 @@
           <include refid="FIELDS" />
         FROM coupon_template
         <where>
+            <if test="type != null">
+                AND type = #{type}
+            </if>
             <if test="title != null">
-                title LIKE "%"#{title}"%"
+                AND title LIKE "%"#{title}"%"
             </if>
             <if test="status != null">
                 AND status = #{status}
@@ -57,8 +60,11 @@
           COUNT(1)
         FROM coupon_template
         <where>
+            <if test="type != null">
+                AND type = #{type}
+            </if>
             <if test="title != null">
-                title LIKE "%"#{title}"%"
+                AND title LIKE "%"#{title}"%"
             </if>
             <if test="status != null">
                 AND status = #{status}
@@ -73,13 +79,13 @@
         INSERT INTO coupon_template (
           title, description, type, code_type,
           status, quota, total, price_available, range_type,
-          range_values, date_type, valid_start_time, valid_end_time, fixed_term,
+          range_values, date_type, valid_start_time, valid_end_time, fixed_start_term, fixed_end_term,
           preferential_type, percent_off, price_off, discount_price_limit, stat_fetch_num,
           create_time
         ) VALUES (
           #{title}, #{description}, #{type}, #{codeType},
           #{status}, #{quota}, #{total}, #{priceAvailable}, #{rangeType},
-          #{rangeValues}, #{dateType}, #{validStartTime}, #{validEndTime}, #{fixedTerm},
+          #{rangeValues}, #{dateType}, #{validStartTime}, #{validEndTime}, #{fixedStartTerm}, #{fixedEndTerm}
           #{preferentialType}, #{percentOff}, #{priceOff}, #{discountPriceLimit}, #{statFetchNum},
           #{createTime}
         )
@@ -121,8 +127,11 @@
             <if test="validEndTime != null">
                 valid_end_time = #{validEndTime},
             </if>
-            <if test="fixedTerm != null">
-                fixed_term = #{fixedTerm},
+            <if test="fixedStartTerm != null">
+                fixed_start_term = #{fixedStartTerm},
+            </if>
+            <if test="fixedEndTerm != null">
+                fixed_end_term = #{fixedEndTerm},
             </if>
             <if test="preferentialType != null">
                 preferential_type = #{preferentialType},

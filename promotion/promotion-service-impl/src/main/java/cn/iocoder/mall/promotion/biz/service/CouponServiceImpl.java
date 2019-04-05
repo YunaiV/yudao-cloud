@@ -28,7 +28,18 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public CommonResult<CouponTemplatePageBO> getCouponTemplatePage(CouponTemplatePageDTO couponTemplatePageDTO) {
-        return null;
+        CouponTemplatePageBO couponTemplatePageBO = new CouponTemplatePageBO();
+        // 查询分页数据
+        int offset = (couponTemplatePageDTO.getPageNo() - 1) * couponTemplatePageDTO.getPageSize();
+        couponTemplatePageBO.setList(CouponTemplateConvert.INSTANCE.convertToBO(couponTemplateMapper.selectListByPage(
+                couponTemplatePageDTO.getType(), couponTemplatePageDTO.getTitle(),
+                couponTemplatePageDTO.getStatus(), couponTemplatePageDTO.getPreferentialType(),
+                offset, couponTemplatePageDTO.getPageSize())));
+        // 查询分页总数
+        couponTemplatePageBO.setTotal(couponTemplateMapper.selectCountByPage(
+                couponTemplatePageDTO.getType(), couponTemplatePageDTO.getTitle(),
+                couponTemplatePageDTO.getStatus(), couponTemplatePageDTO.getPreferentialType()));
+        return CommonResult.success(couponTemplatePageBO);
     }
 
     @Override

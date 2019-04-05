@@ -1,16 +1,15 @@
 import {message} from 'antd';
 import {
-  addProductRecommend,
   deleteProductRecommend,
-  queryProductRecommend,
   updateProductRecommend,
   updateProductRecommendStatus,
   addCouponCardTemplate,
+  getCouponCardTemplatePage,
 } from '../../services/promotion';
 import PaginationHelper from '../../../helpers/PaginationHelper';
 
 const SEARCH_PARAMS_DEFAULT = {
-  type: 1,
+  // type: 1,
 };
 
 export default {
@@ -40,7 +39,10 @@ export default {
       });
 
       // 请求
-      const response = yield call(queryProductRecommend, payload);
+      const response = yield call(getCouponCardTemplatePage, {
+        ...payload,
+        type: 1
+      });
       // 响应
       yield put({
         type: 'setAll',
@@ -48,7 +50,7 @@ export default {
           list: response.data.list,
           pagination: PaginationHelper.formatPagination(response.data, payload),
           searchParams: {
-            type: payload.type
+            // type: payload.type
           }
         },
       });

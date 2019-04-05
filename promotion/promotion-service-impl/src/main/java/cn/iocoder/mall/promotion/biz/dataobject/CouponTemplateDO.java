@@ -120,7 +120,7 @@ public class CouponTemplateDO extends BaseDO {
      * 生效日期类型
      *
      * 1-固定日期
-     * 2-领取日期：领到券 {@link #fixedTerm} 日开始 N 天内有效
+     * 2-领取日期：领到券 {@link #fixedStartTerm} 日开始 N 天内有效
      */
     private Integer dateType;
     /**
@@ -131,16 +131,16 @@ public class CouponTemplateDO extends BaseDO {
      * 固定日期-生效结束时间
      */
     private Date validEndTime;
-//    /**
-//     * 领取日期-开始天数
-//     *
-//     * 例如，0-当天；1-次天
-//     */
-//    private Integer fixedBeginTerm;
+    /**
+     * 领取日期-开始天数
+     *
+     * 例如，0-当天；1-次天
+     */
+    private Integer fixedStartTerm;
     /**
      * 领取日期-结束天数
      */
-    private Integer fixedTerm;
+    private Integer fixedEndTerm;
 //    /**
 //     * 是否到期前4天发送提醒
 //     *
@@ -335,12 +335,21 @@ public class CouponTemplateDO extends BaseDO {
         return this;
     }
 
-    public Integer getFixedTerm() {
-        return fixedTerm;
+    public Integer getFixedStartTerm() {
+        return fixedStartTerm;
     }
 
-    public CouponTemplateDO setFixedTerm(Integer fixedTerm) {
-        this.fixedTerm = fixedTerm;
+    public CouponTemplateDO setFixedStartTerm(Integer fixedStartTerm) {
+        this.fixedStartTerm = fixedStartTerm;
+        return this;
+    }
+
+    public Integer getFixedEndTerm() {
+        return fixedEndTerm;
+    }
+
+    public CouponTemplateDO setFixedEndTerm(Integer fixedEndTerm) {
+        this.fixedEndTerm = fixedEndTerm;
         return this;
     }
 

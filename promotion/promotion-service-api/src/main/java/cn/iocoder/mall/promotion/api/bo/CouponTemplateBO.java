@@ -81,7 +81,7 @@ public class CouponTemplateBO {
      * 生效日期类型
      *
      * 1-固定日期
-     * 2-领取日期：领到券 {@link #fixedBeginTerm} 日开始 N 天内有效
+     * 2-领取日期：领到券 {@link #fixedStartTerm} 日开始 N 天内有效
      */
     private Integer dateType;
     /**
@@ -97,7 +97,7 @@ public class CouponTemplateBO {
      *
      * 例如，0-当天；1-次天
      */
-    private Integer fixedBeginTerm;
+    private Integer fixedStartTerm;
     /**
      * 领取日期-结束天数
      */
@@ -323,12 +323,12 @@ public class CouponTemplateBO {
         return this;
     }
 
-    public Integer getFixedBeginTerm() {
-        return fixedBeginTerm;
+    public Integer getFixedStartTerm() {
+        return fixedStartTerm;
     }
 
-    public CouponTemplateBO setFixedBeginTerm(Integer fixedBeginTerm) {
-        this.fixedBeginTerm = fixedBeginTerm;
+    public CouponTemplateBO setFixedStartTerm(Integer fixedStartTerm) {
+        this.fixedStartTerm = fixedStartTerm;
         return this;
     }
 

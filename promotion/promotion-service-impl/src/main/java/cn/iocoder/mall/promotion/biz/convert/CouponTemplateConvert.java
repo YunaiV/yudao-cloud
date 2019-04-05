@@ -8,6 +8,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper
 public interface CouponTemplateConvert {
 
@@ -16,8 +18,8 @@ public interface CouponTemplateConvert {
 //    @Mappings({})
 //    CouponTemplateBO convertToBO(CouponTemplateDO banner);
 //
-//    @Mappings({})
-//    List<CouponTemplateBO> convertToBO(List<CouponTemplateDO> bannerList);
+    @Mappings({})
+    List<CouponTemplateBO> convertToBO(List<CouponTemplateDO> templateList);
 
     @Mappings({})
     CouponTemplateDO convert(CouponCodeTemplateAddDTO template);

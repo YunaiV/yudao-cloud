@@ -67,6 +67,12 @@ export async function deleteProductRecommend(params) {
 
 // coupon
 
+export async function getCouponCardTemplatePage(params) {
+  return request(`/promotion-api/admins/coupon/template/page?${stringify(params)}`, {
+    method: 'GET',
+  });
+}
+
 export async function addCouponCardTemplate(params) {
   return request(`/promotion-api/admins/coupon/template/add_card?${stringify(params)}`, {
     method: 'POST',

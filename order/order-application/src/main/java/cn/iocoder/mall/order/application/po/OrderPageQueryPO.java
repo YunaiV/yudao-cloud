@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.application.vo;
+package cn.iocoder.mall.order.application.po;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,7 +14,7 @@ import java.util.Date;
  * @time 2019-03-24 10:40
  */
 @ApiModel("订单查询")
-public class OrderPageQueryVO implements Serializable {
+public class OrderPageQueryPO implements Serializable {
 
     /**
      * id
@@ -91,7 +91,7 @@ public class OrderPageQueryVO implements Serializable {
         return id;
     }
 
-    public OrderPageQueryVO setId(Integer id) {
+    public OrderPageQueryPO setId(Integer id) {
         this.id = id;
         return this;
     }
@@ -100,7 +100,7 @@ public class OrderPageQueryVO implements Serializable {
         return orderNo;
     }
 
-    public OrderPageQueryVO setOrderNo(String orderNo) {
+    public OrderPageQueryPO setOrderNo(String orderNo) {
         this.orderNo = orderNo;
         return this;
     }
@@ -109,7 +109,7 @@ public class OrderPageQueryVO implements Serializable {
         return userId;
     }
 
-    public OrderPageQueryVO setUserId(Integer userId) {
+    public OrderPageQueryPO setUserId(Integer userId) {
         this.userId = userId;
         return this;
     }
@@ -118,7 +118,7 @@ public class OrderPageQueryVO implements Serializable {
         return startPaymentTime;
     }
 
-    public OrderPageQueryVO setStartPaymentTime(Date startPaymentTime) {
+    public OrderPageQueryPO setStartPaymentTime(Date startPaymentTime) {
         this.startPaymentTime = startPaymentTime;
         return this;
     }
@@ -127,7 +127,7 @@ public class OrderPageQueryVO implements Serializable {
         return endPaymentTime;
     }
 
-    public OrderPageQueryVO setEndPaymentTime(Date endPaymentTime) {
+    public OrderPageQueryPO setEndPaymentTime(Date endPaymentTime) {
         this.endPaymentTime = endPaymentTime;
         return this;
     }
@@ -136,7 +136,7 @@ public class OrderPageQueryVO implements Serializable {
         return startCreateTime;
     }
 
-    public OrderPageQueryVO setStartCreateTime(Date startCreateTime) {
+    public OrderPageQueryPO setStartCreateTime(Date startCreateTime) {
         this.startCreateTime = startCreateTime;
         return this;
     }
@@ -145,7 +145,7 @@ public class OrderPageQueryVO implements Serializable {
         return endCreateTime;
     }
 
-    public OrderPageQueryVO setEndCreateTime(Date endCreateTime) {
+    public OrderPageQueryPO setEndCreateTime(Date endCreateTime) {
         this.endCreateTime = endCreateTime;
         return this;
     }
@@ -154,7 +154,7 @@ public class OrderPageQueryVO implements Serializable {
         return startClosingTime;
     }
 
-    public OrderPageQueryVO setStartClosingTime(Date startClosingTime) {
+    public OrderPageQueryPO setStartClosingTime(Date startClosingTime) {
         this.startClosingTime = startClosingTime;
         return this;
     }
@@ -163,7 +163,7 @@ public class OrderPageQueryVO implements Serializable {
         return endClosingTime;
     }
 
-    public OrderPageQueryVO setEndClosingTime(Date endClosingTime) {
+    public OrderPageQueryPO setEndClosingTime(Date endClosingTime) {
         this.endClosingTime = endClosingTime;
         return this;
     }
@@ -172,7 +172,7 @@ public class OrderPageQueryVO implements Serializable {
         return status;
     }
 
-    public OrderPageQueryVO setStatus(Integer status) {
+    public OrderPageQueryPO setStatus(Integer status) {
         this.status = status;
         return this;
     }
@@ -181,7 +181,7 @@ public class OrderPageQueryVO implements Serializable {
         return deleted;
     }
 
-    public OrderPageQueryVO setDeleted(Integer deleted) {
+    public OrderPageQueryPO setDeleted(Integer deleted) {
         this.deleted = deleted;
         return this;
     }
@@ -190,7 +190,7 @@ public class OrderPageQueryVO implements Serializable {
         return pageNo;
     }
 
-    public OrderPageQueryVO setPageNo(Integer pageNo) {
+    public OrderPageQueryPO setPageNo(Integer pageNo) {
         this.pageNo = pageNo;
         return this;
     }
@@ -199,7 +199,7 @@ public class OrderPageQueryVO implements Serializable {
         return pageSize;
     }
 
-    public OrderPageQueryVO setPageSize(Integer pageSize) {
+    public OrderPageQueryPO setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
         return this;
     }

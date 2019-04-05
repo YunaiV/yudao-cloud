@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.application.vo;
+package cn.iocoder.mall.order.application.po;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @time 2019-03-24 11:16
  */
 @ApiModel("订单item更新")
-public class OrderItemUpdateVO implements Serializable {
+public class OrderItemUpdatePO implements Serializable {
 
     /**
      * 编号
@@ -57,7 +57,7 @@ public class OrderItemUpdateVO implements Serializable {
         return id;
     }
 
-    public OrderItemUpdateVO setId(Integer id) {
+    public OrderItemUpdatePO setId(Integer id) {
         this.id = id;
         return this;
     }
@@ -66,7 +66,7 @@ public class OrderItemUpdateVO implements Serializable {
         return skuId;
     }
 
-    public OrderItemUpdateVO setSkuId(Integer skuId) {
+    public OrderItemUpdatePO setSkuId(Integer skuId) {
         this.skuId = skuId;
         return this;
     }
@@ -75,7 +75,7 @@ public class OrderItemUpdateVO implements Serializable {
         return quantity;
     }
 
-    public OrderItemUpdateVO setQuantity(Integer quantity) {
+    public OrderItemUpdatePO setQuantity(Integer quantity) {
         this.quantity = quantity;
         return this;
     }
@@ -84,7 +84,7 @@ public class OrderItemUpdateVO implements Serializable {
         return price;
     }
 
-    public OrderItemUpdateVO setPrice(Integer price) {
+    public OrderItemUpdatePO setPrice(Integer price) {
         this.price = price;
         return this;
     }

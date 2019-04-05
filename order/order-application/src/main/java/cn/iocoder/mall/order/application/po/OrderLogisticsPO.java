@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.application.vo;
+package cn.iocoder.mall.order.application.po;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @time 2019-03-24 11:01
  */
 @ApiModel("订单物流信息")
-public class OrderLogisticsVO implements Serializable {
+public class OrderLogisticsPO implements Serializable {
 
     /**
      * 订单 id
@@ -70,7 +70,7 @@ public class OrderLogisticsVO implements Serializable {
         return id;
     }
 
-    public OrderLogisticsVO setId(Integer id) {
+    public OrderLogisticsPO setId(Integer id) {
         this.id = id;
         return this;
     }
@@ -79,7 +79,7 @@ public class OrderLogisticsVO implements Serializable {
         return areaNo;
     }
 
-    public OrderLogisticsVO setAreaNo(String areaNo) {
+    public OrderLogisticsPO setAreaNo(String areaNo) {
         this.areaNo = areaNo;
         return this;
     }
@@ -88,7 +88,7 @@ public class OrderLogisticsVO implements Serializable {
         return name;
     }
 
-    public OrderLogisticsVO setName(String name) {
+    public OrderLogisticsPO setName(String name) {
         this.name = name;
         return this;
     }
@@ -97,7 +97,7 @@ public class OrderLogisticsVO implements Serializable {
         return mobile;
     }
 
-    public OrderLogisticsVO setMobile(String mobile) {
+    public OrderLogisticsPO setMobile(String mobile) {
         this.mobile = mobile;
         return this;
     }
@@ -106,7 +106,7 @@ public class OrderLogisticsVO implements Serializable {
         return address;
     }
 
-    public OrderLogisticsVO setAddress(String address) {
+    public OrderLogisticsPO setAddress(String address) {
         this.address = address;
         return this;
     }
@@ -115,7 +115,7 @@ public class OrderLogisticsVO implements Serializable {
         return logisticsNo;
     }
 
-    public OrderLogisticsVO setLogisticsNo(String logisticsNo) {
+    public OrderLogisticsPO setLogisticsNo(String logisticsNo) {
         this.logisticsNo = logisticsNo;
         return this;
     }

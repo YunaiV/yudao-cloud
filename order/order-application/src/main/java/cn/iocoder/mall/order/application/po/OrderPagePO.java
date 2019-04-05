@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.application.vo;
+package cn.iocoder.mall.order.application.po;
 
 import cn.iocoder.mall.order.api.bo.OrderBO;
 import io.swagger.annotations.ApiModel;
@@ -14,7 +14,7 @@ import java.util.List;
  * @time 2019-03-27 21:23
  */
 @ApiModel("订单VO")
-public class OrderPageVO implements Serializable {
+public class OrderPagePO implements Serializable {
 
     /**
      * 分页
@@ -45,7 +45,7 @@ public class OrderPageVO implements Serializable {
         return pageNo;
     }
 
-    public OrderPageVO setPageNo(Integer pageNo) {
+    public OrderPagePO setPageNo(Integer pageNo) {
         this.pageNo = pageNo;
         return this;
     }
@@ -54,7 +54,7 @@ public class OrderPageVO implements Serializable {
         return total;
     }
 
-    public OrderPageVO setTotal(Integer total) {
+    public OrderPagePO setTotal(Integer total) {
         this.total = total;
         return this;
     }
@@ -63,7 +63,7 @@ public class OrderPageVO implements Serializable {
         return orders;
     }
 
-    public OrderPageVO setOrders(List<OrderBO> orders) {
+    public OrderPagePO setOrders(List<OrderBO> orders) {
         this.orders = orders;
         return this;
     }

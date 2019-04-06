@@ -277,5 +277,4 @@ public class CouponCardTemplateAddDTO {
         return this;
     }
 
-
 }

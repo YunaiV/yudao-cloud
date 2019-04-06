@@ -1,12 +1,14 @@
 package cn.iocoder.mall.promotion.api.constant;
 
+import cn.iocoder.common.framework.core.IntArrayValuable;
+
 import java.util.Arrays;
 
-public enum CouponTemplateStatusEnum {
+public enum CouponTemplateStatusEnum implements IntArrayValuable {
 
     ENABLE(1, "开启中"),
     DISABLE(2, "禁用中"),
-    EXPIRE(3, "已过期"),
+//    EXPIRE(3, "已过期"), TODO 芋艿，暂时不考虑过期的
     ;
 
     public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(CouponTemplateStatusEnum::getValue).toArray();
@@ -33,4 +35,8 @@ public enum CouponTemplateStatusEnum {
         return name;
     }
 
+    @Override
+    public int[] array() {
+        return ARRAYS;
+    }
 }

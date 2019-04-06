@@ -49,7 +49,7 @@ public class AdminsCouponTemplateVO {
     @ApiModelProperty(value = "固定日期-生效结束时间")
     private Date validEndTime;
     @ApiModelProperty(value = "领取日期-开始天数", example = "例如，0-当天；1-次天")
-    private Integer fixedBeginTerm;
+    private Integer fixedStartTerm;
     @ApiModelProperty(value = "领取日期-结束天数")
     private Integer fixedEndTerm;
     // ========== 使用规则 END ==========
@@ -190,12 +190,12 @@ public class AdminsCouponTemplateVO {
         return this;
     }
 
-    public Integer getFixedBeginTerm() {
-        return fixedBeginTerm;
+    public Integer getFixedStartTerm() {
+        return fixedStartTerm;
     }
 
-    public AdminsCouponTemplateVO setFixedBeginTerm(Integer fixedBeginTerm) {
-        this.fixedBeginTerm = fixedBeginTerm;
+    public AdminsCouponTemplateVO setFixedStartTerm(Integer fixedStartTerm) {
+        this.fixedStartTerm = fixedStartTerm;
         return this;
     }
 
@@ -259,6 +259,15 @@ public class AdminsCouponTemplateVO {
 
     public AdminsCouponTemplateVO setCreateTime(Date createTime) {
         this.createTime = createTime;
+        return this;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public AdminsCouponTemplateVO setTotal(Integer total) {
+        this.total = total;
         return this;
     }
 }

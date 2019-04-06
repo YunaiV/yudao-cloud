@@ -32,7 +32,14 @@ const SelectOption = Select.Option;
 const { TreeNode } = Tree;
 const RangePicker = DatePicker.RangePicker;
 const status = ['未知', '正常', '禁用'];
-const types = ['未知', '新品推荐', '热卖推荐'];
+const rangeType = {
+  10: '所有可用',
+  20: '部分商品可用',
+  21: '部分商品不可用',
+  30: '部分分类可用',
+  31: '部分分类不可用'};
+const preferentialType = ['未知', '代金卷', '折扣卷'];
+const dateType = ['未知', '固定日期', '领取日期'];
 
 // 列表
 function List ({ dataSource, loading, pagination, searchParams, dispatch,
@@ -41,10 +48,10 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
   function handleStatus(record) {
     Modal.confirm({
       title: record.status === 1 ? '确认禁用' : '取消禁用',
-      content: `${record.productSpuId}`,
+      content: `${record.title}`,
       onOk() {
         dispatch({
-          type: 'productRecommendList/updateStatus',
+          type: 'couponCardTemplateList/updateStatus',
           payload: {
             id: record.id,
             status: record.status === 1 ? 2 : 1,
@@ -55,48 +62,92 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
     });
   }
 
-  function handleDelete(record) {
-    Modal.confirm({
-      title: `确认删除?`,
-      content: `${record.productSpuId}`,
-      onOk() {
-        dispatch({
-          type: 'productRecommendList/delete',
-          payload: {
-            id: record.id,
-          },
-        });
-      },
-      onCancel() {},
-    });
-  }
+  // function handleDelete(record) {
+  //   Modal.confirm({
+  //     title: `确认删除?`,
+  //     content: `${record.productSpuId}`,
+  //     onOk() {
+  //       dispatch({
+  //         type: 'couponCardTemplateList/delete',
+  //         payload: {
+  //           id: record.id,
+  //         },
+  //       });
+  //     },
+  //     onCancel() {},
+  //   });
+  // }
 
   const columns = [
     {
-      title: '推荐类型',
-      dataIndex: 'type',
+      title: '名称',
+      dataIndex: 'title',
+    },
+    {
+      title: '类型',
+      dataIndex: 'preferentialType',
       render(val) {
-        return <span>{types[val]}</span>; // TODO 芋艿，此处要改
+        return <span>{preferentialType[val]}</span>;
       },
     },
     {
-      title: '商品',
-      dataIndex: 'productSpuId',
+      title: '优惠内容',
+      render(val, record) {
+        let content;
+        // priceAvailable;
+        if (record.priceAvailable === 0) {
+          content = '无门槛,';
+        } else {
+          content = '满 ' + record.priceAvailable / 100 + ' 元,';
+        }
+        if (record.preferentialType === 1) {
+          content += '减 ' + record.priceOff / 100 + ' 元';
+        } else {
+          content += '打' + record.percentOff / 100.0 + '折';
+          if (record.discountPriceLimit) {
+            content += ', 最多减 ' + record.discountPriceLimit / 100 + ' 元';
+          }
+        }
+        return content;
+      }
     },
     {
-      title: '排序值',
-      dataIndex: 'sort',
+      title: '可使用商品',
+      dataIndex: 'rangeType',
+      render: val => <span>{rangeType[val]}</span>,
+    },
+    {
+      title: '有效期',
+      render(val, record) {
+        let content = dateType[record.dateType] + ' ';
+        // priceAvailable;
+        if (record.dateType === 1) {
+          content += moment(new Date(record.validStartTime)).format('YYYY-MM-DD')
+            + '~' +  moment(new Date(record.validEndTime)).format('YYYY-MM-DD');
+        } else if (record.dateType === 2) {
+          content += record.fixedStartTerm + '-' + record.fixedEndTerm + ' 天';
+        }
+        return content;
+      }
+    },
+    {
+      title: '已领取/剩余',
+      // 已使用 TODO 芋艿
+      // 支付金额(元) TODO 芋艿
+      // 客单价(元) TODO 芋艿
+      render(val, record) {
+        // debugger;
+        return `${record.statFetchNum} / ` + (record.total - record.statFetchNum);
+      }
     },
     {
       title: '状态',
       dataIndex: 'status',
-      render(val) {
-        return <span>{status[val]}</span>; // TODO 芋艿，此处要改
-      },
+      render: val => <span>{status[val]}</span>,
     },
     {
-      title: '备注',
-      dataIndex: 'memo',
+      title: '使用说明',
+      dataIndex: 'description',
     },
     {
       title: '创建时间',
@@ -105,7 +156,7 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
     },
     {
       title: '操作',
-      width: 360,
+      width: 120,
       render: (text, record) => {
         const statusText = record.status === 1 ? '禁用' : '开启'; // TODO 芋艿，此处要改
         return (
@@ -115,15 +166,15 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
             <a className={styles.tableDelete} onClick={() => handleStatus(record)}>
               {statusText}
             </a>
-            {
-              record.status === 2 ?
-                <span>
-                  <Divider type="vertical" />
-                  <a className={styles.tableDelete} onClick={() => handleDelete(record)}>
-                    删除
-                  </a>
-                </span> : null
-            }
+            {/*{*/}
+            {/*  record.status === 2 ?*/}
+            {/*    <span>*/}
+            {/*      <Divider type="vertical" />*/}
+            {/*      <a className={styles.tableDelete} onClick={() => handleDelete(record)}>*/}
+            {/*        删除*/}
+            {/*      </a>*/}
+            {/*    </span> : null*/}
+            {/*}*/}
           </Fragment>
         );
       },
@@ -132,7 +183,7 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
 
   function onPageChange(page) { // 翻页
     dispatch({
-      type: 'productRecommendList/query',
+      type: 'couponCardTemplateList/query',
       payload: {
         pageNo: page.current,
         pageSize: page.pageSize,
@@ -164,7 +215,7 @@ const SearchForm = Form.create()(props => {
 
   function search() {
     dispatch({
-      type: 'productRecommendList/query',
+      type: 'couponCardTemplateList/query',
       payload: {
         ...PaginationHelper.defaultPayload,
         ...form.getFieldsValue()
@@ -252,6 +303,16 @@ const AddOrUpdateForm = Form.create()(props => {
             body: {
               id: formVals.id,
               ...newFileds,
+              priceAvailable: undefined,
+              dateType: undefined,
+              validStartTime: undefined,
+              validEndTime: undefined,
+              fixedStartTerm: undefined,
+              fixedEndTerm: undefined,
+              preferentialType: undefined,
+              priceOff: undefined,
+              percentOff: undefined,
+              discountPriceLimit: undefined,
             },
             callback: () => {
               // 清空表单
@@ -331,14 +392,14 @@ const AddOrUpdateForm = Form.create()(props => {
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="使用金额门槛">
         {form.getFieldDecorator('priceAvailable', {
           rules: [{ required: true, message: '请输入使用金额门槛！' },],
-          initialValue: formVals.priceAvailable,
-        })(<InputNumber placeholder="请输入" />)} 元
+          initialValue: formVals.priceAvailable / 100.0,
+        })(<InputNumber disabled={modalType != 'add'} placeholder="请输入" />)} 元
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="可用范围">
         {form.getFieldDecorator('rangeType', {
           rules: [{ required: true, message: '请选择可用范围！'}, // TODO 芋艿，需要修改
           ],
-          initialValue: formVals.rangeType,
+          initialValue: formVals.rangeType + '',
         })(
           <Select placeholder="请选择" style={{ maxWidth: 200, width: '100%' }} onChange={onRangeTypeChange} >
             <SelectOption value="10">所有可用</SelectOption>
@@ -366,9 +427,9 @@ const AddOrUpdateForm = Form.create()(props => {
         {form.getFieldDecorator('dateType', {
           rules: [{ required: true, message: '请选择可用范围！'}, // TODO 芋艿，需要修改
           ],
-          initialValue: formVals.dateType,
+          initialValue: formVals.dateType + '',
         })(
-          <Select placeholder="请选择" style={{ maxWidth: 200, width: '100%' }} onChange={onDateTypeChange}>
+          <Select disabled={modalType != 'add'} placeholder="请选择" style={{ maxWidth: 200, width: '100%' }} onChange={onDateTypeChange}>
             <SelectOption value="1">固定日期</SelectOption>
             <SelectOption value="2">领取日期</SelectOption>
           </Select>
@@ -379,29 +440,29 @@ const AddOrUpdateForm = Form.create()(props => {
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="固定日期">
             {form.getFieldDecorator('validStartTime', {
               rules: [{ required: true, message: '请输入固定日期！' },],
-              initialValue: formVals.validStartTime,
-            })(<DatePicker format="YYYY-MM-DD" />)}
+              initialValue: formVals.validStartTime ? moment(formVals.validStartTime) : undefined,
+            })(<DatePicker disabled={modalType != 'add'} format="YYYY-MM-DD" />)}
             &nbsp;-&nbsp;
             {form.getFieldDecorator('validEndTime', {
               rules: [{ required: true, message: '请输入固定日期！' },],
-              initialValue: formVals.validEndTime,
-            })(<DatePicker format="YYYY-MM-DD" />)}
+              initialValue: formVals.validEndTime ? moment(formVals.validEndTime) : undefined,
+            })(<DatePicker disabled={modalType != 'add'} format="YYYY-MM-DD" />)}
           </FormItem> : ''
       }
       {
         formVals.dateType == 2 ?
           <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="领取日期">
-            {form.getFieldDecorator('fixedBeginTerm', {
+            {form.getFieldDecorator('fixedStartTerm', {
               rules: [{ required: true, message: '请输入固定日期！' },
                 {min: 1, type: 'number', message: '最小值为 1'}],
-              initialValue: formVals.fixedBeginTerm,
-            })(<InputNumber placeholder="请输入" />)}
+              initialValue: formVals.fixedStartTerm,
+            })(<InputNumber disabled={modalType != 'add'} placeholder="请输入" />)}
             &nbsp;-&nbsp;
             {form.getFieldDecorator('fixedEndTerm', {
               rules: [{ required: true, message: '请输入固定日期！' },
                 {min: 1, type: 'number', message: '最小值为 1'}],
               initialValue: formVals.fixedEndTerm,
-            })(<InputNumber placeholder="请输入" />)} 天
+            })(<InputNumber disabled={modalType != 'add'} placeholder="请输入" />)} 天
           </FormItem> : ''
       }
 
@@ -409,9 +470,9 @@ const AddOrUpdateForm = Form.create()(props => {
         {form.getFieldDecorator('preferentialType', {
           rules: [{ required: true, message: '请选择优惠类型！'}, // TODO 芋艿，需要修改
           ],
-          initialValue: formVals.preferentialType,
+          initialValue: formVals.preferentialType + '',
         })(
-          <Select placeholder="请选择" style={{ maxWidth: 200, width: '100%' }} onChange={onPreferentialTypeChange}>
+          <Select disabled={modalType != 'add'} placeholder="请选择" style={{ maxWidth: 200, width: '100%' }} onChange={onPreferentialTypeChange}>
             <SelectOption value="1">代金卷</SelectOption>
             <SelectOption value="2">折扣卷</SelectOption>
           </Select>
@@ -423,8 +484,8 @@ const AddOrUpdateForm = Form.create()(props => {
             {form.getFieldDecorator('priceOff', {
               rules: [{ required: true, message: '请输入优惠金额！' },
                 {min: 0.01, type: 'number', message: '最小值为 0.01'}],
-              initialValue: formVals.priceOff,
-            })(<InputNumber placeholder="请输入" />)}
+              initialValue: formVals.priceOff ? formVals.priceOff / 100.0 : undefined,
+            })(<InputNumber disabled={modalType != 'add'} placeholder="请输入" />)}
           </FormItem> : ''
       }
       {
@@ -436,15 +497,15 @@ const AddOrUpdateForm = Form.create()(props => {
                   {min: 1, max: 99, type: 'number', message: '范围为 [1, 99]'},
                 ],
                 initialValue: formVals.percentOff,
-              })(<InputNumber placeholder="请输入" />)}%
+              })(<InputNumber disabled={modalType != 'add'} placeholder="请输入" />)}%
             </FormItem>
             <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="最多优惠">
               {form.getFieldDecorator('discountPriceLimit', {
                 rules: [{ required: false, message: '请输入最多优惠！' },
                   {min: 0.01, type: 'number', message: '最小值为 0.01'},
                 ],
-                initialValue: formVals.discountPriceLimit,
-              })(<InputNumber placeholder="请输入" />)}元
+                initialValue: formVals.discountPriceLimit ? formVals.discountPriceLimit / 100.0 : undefineds,
+              })(<InputNumber disabled={modalType != 'add'} placeholder="请输入" />)}元
             </FormItem>
           </span> : ''
       }
@@ -452,10 +513,10 @@ const AddOrUpdateForm = Form.create()(props => {
   );
 });
 
-@connect(({ productRecommendList }) => ({
+@connect(({ couponCardTemplateList }) => ({
   // list: productRecommend.list,
   // pagination: productRecommend.pagination,
-  ...productRecommendList,
+  ...couponCardTemplateList,
 }))
 
 // 主界面
@@ -465,7 +526,7 @@ class CouponCardTemplateLists extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'productRecommendList/query',
+      type: 'couponCardTemplateList/query',
       payload: {
         ...PaginationHelper.defaultPayload
       },
@@ -475,7 +536,7 @@ class CouponCardTemplateLists extends PureComponent {
   handleModalVisible = (modalVisible, modalType, record) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'productRecommendList/setAll',
+      type: 'couponCardTemplateList/setAll',
       payload: {
         modalVisible,
         modalType,

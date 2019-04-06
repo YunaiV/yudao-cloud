@@ -1,10 +1,14 @@
 package cn.iocoder.mall.promotion.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * Banner 广告页
  */
+@Data
+@Accessors(chain = true)
 public class BannerDO extends DeletableDO {
 
     /**
@@ -39,68 +43,5 @@ public class BannerDO extends DeletableDO {
     private String memo;
 
     // TODO 芋艿 点击次数。&& 其他数据相关
-
-    public Integer getId() {
-        return id;
-    }
-
-    public BannerDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public BannerDO setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public BannerDO setUrl(String url) {
-        this.url = url;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public BannerDO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public String getMemo() {
-        return memo;
-    }
-
-    public BannerDO setMemo(String memo) {
-        this.memo = memo;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public BannerDO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public String getPicUrl() {
-        return picUrl;
-    }
-
-    public BannerDO setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
-        return this;
-    }
 
 }

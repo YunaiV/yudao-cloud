@@ -11,13 +11,15 @@ public interface CouponTemplateMapper {
 
     CouponTemplateDO selectById(@Param("id") Integer id);
 
-    List<CouponTemplateDO> selectListByPage(@Param("title") String title,
+    List<CouponTemplateDO> selectListByPage(@Param("type") Integer type,
+                                            @Param("title") String title,
                                             @Param("status") Integer status,
                                             @Param("preferentialType") Integer preferentialType,
                                             @Param("offset") Integer offset,
                                             @Param("limit") Integer limit);
 
-    Integer selectCountByPage(@Param("title") String title,
+    Integer selectCountByPage(@Param("type") Integer type,
+                              @Param("title") String title,
                               @Param("status") Integer status,
                               @Param("preferentialType") Integer preferentialType);
 

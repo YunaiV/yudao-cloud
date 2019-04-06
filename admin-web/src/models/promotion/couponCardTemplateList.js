@@ -1,16 +1,14 @@
 import {message} from 'antd';
 import {
-  addProductRecommend,
-  deleteProductRecommend,
-  queryProductRecommend,
-  updateProductRecommend,
-  updateProductRecommendStatus,
   addCouponCardTemplate,
+  updateCouponCardTemplate,
+  updateCouponCardTemplateStatus,
+  getCouponCardTemplatePage,
 } from '../../services/promotion';
 import PaginationHelper from '../../../helpers/PaginationHelper';
 
 const SEARCH_PARAMS_DEFAULT = {
-  type: 1,
+  title: '',
 };
 
 export default {
@@ -40,7 +38,10 @@ export default {
       });
 
       // 请求
-      const response = yield call(queryProductRecommend, payload);
+      const response = yield call(getCouponCardTemplatePage, {
+        ...payload,
+        type: 1
+      });
       // 响应
       yield put({
         type: 'setAll',
@@ -48,7 +49,7 @@ export default {
           list: response.data.list,
           pagination: PaginationHelper.formatPagination(response.data, payload),
           searchParams: {
-            type: payload.type
+            title: payload.title
           }
         },
       });
@@ -98,7 +99,7 @@ export default {
       });
 
       // 请求
-      const response = yield call(updateProductRecommend, body);
+      const response = yield call(updateCouponCardTemplate, body);
       // 响应
       if (response.code === 0) {
         if (callback) {
@@ -122,7 +123,7 @@ export default {
 
     * updateStatus({ payload }, { call, put }) {
       // 请求
-      const response = yield call(updateProductRecommendStatus, payload);
+      const response = yield call(updateCouponCardTemplateStatus, payload);
       // 响应
       if (response.code === 0) {
         message.info('更新状态成功!');
@@ -136,21 +137,21 @@ export default {
       }
     },
 
-    * delete({ payload }, { call, put }) {
-      // 请求
-      const response = yield call(deleteProductRecommend, payload);
-      // 响应
-      if (response.code === 0) {
-        message.info('删除成功!');
-        // 刷新列表
-        yield put({
-          type: 'query',
-          payload: {
-            ...PaginationHelper.defaultPayload
-          },
-        });
-      }
-    },
+    // * delete({ payload }, { call, put }) {
+    //   // 请求
+    //   const response = yield call(deleteProductRecommend, payload);
+    //   // 响应
+    //   if (response.code === 0) {
+    //     message.info('删除成功!');
+    //     // 刷新列表
+    //     yield put({
+    //       type: 'query',
+    //       payload: {
+    //         ...PaginationHelper.defaultPayload
+    //       },
+    //     });
+    //   }
+    // },
 
   },
 

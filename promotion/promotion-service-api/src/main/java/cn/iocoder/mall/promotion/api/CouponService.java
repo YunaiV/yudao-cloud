@@ -1,9 +1,11 @@
 package cn.iocoder.mall.promotion.api;
 
+import cn.iocoder.common.framework.validator.InEnum;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.promotion.api.bo.CouponCardBO;
 import cn.iocoder.mall.promotion.api.bo.CouponTemplateBO;
 import cn.iocoder.mall.promotion.api.bo.CouponTemplatePageBO;
+import cn.iocoder.mall.promotion.api.constant.CouponTemplateStatusEnum;
 import cn.iocoder.mall.promotion.api.dto.*;
 
 public interface CouponService {
@@ -52,7 +54,8 @@ public interface CouponService {
      * @param status 状态
      * @return 是否成功
      */
-    CommonResult<Boolean> updateCouponTemplateStatus(Integer adminId, Integer couponTemplateId, Integer status);
+    CommonResult<Boolean> updateCouponTemplateStatus(Integer adminId, Integer couponTemplateId,
+                                                     @InEnum(value = CouponTemplateStatusEnum.class, message = "修改状态必须是 {value}") Integer status);
 
     // ========== 优惠劵 ==========
 

@@ -70,13 +70,11 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>dubbo</artifactId>
-            <version>2.6.5</version>
         </dependency>
 
         <dependency>
             <groupId>com.alibaba.boot</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
-            <version>0.2.1.RELEASE</version>
         </dependency>
 
         <dependency>
@@ -88,7 +86,6 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId> <!-- use mapstruct-jdk8 for Java 8 or higher -->
-            <version>${org.mapstruct.version}</version>
         </dependency>
 
 

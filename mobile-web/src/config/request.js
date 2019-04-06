@@ -4,8 +4,74 @@ import datas from '../data/data';
 import { getAccessToken } from '../utils/cache.js';
 import { Dialog } from 'vant';
 
+const serviceRouter = function(requestUrl) {
+  function getConfig() {
+    const configDev = {
+      '/order-api': {
+        prefix: '/order-api',
+        target: 'http://127.0.0.1:18084/order-api',
+      },
+      '/user-api': {
+        prefix: '/user-api',
+        target: 'http://127.0.0.1:18082/user-api',
+      },
+    };
+
+    const configProd = {
+      '/order-api': {
+        prefix: '/order-api',
+        target: 'http://127.0.0.1:18084/order-api',
+      },
+      '/user-api': {
+        prefix: '/user-api',
+        target: 'http://127.0.0.1:18082/user-api',
+      },
+    };
+
+    if (process.env.NODE_ENV == 'development') {
+      return configDev;
+    } else {
+      return configProd
+    }
+  }
+
+  // function doCreateServer(config) {
+  //   // 获取请求配置文件
+  //   const createServer = {};
+  //   for (const configKey in config) {
+  //     const serverPrefix = configKey;
+  //     const {target} = config[configKey];
+  //     // 创建服务
+  //     createServer[serverPrefix] = axios.create({
+  //       baseURL: target, // api 的 base_url
+  //       timeout: 5000, // request timeout
+  //       headers: {
+  //         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+  //       }
+  //     });
+  //   }
+  // }
+
+  const config = getConfig();
+  // const createServer = doCreateServer(config);
+  const indexOf = requestUrl.indexOf("/", 1);
+  const _urlPrefix = requestUrl.substring(0,  indexOf);
+  if (!config[_urlPrefix]) {
+    throw new Error(`服务路由，未找到可用服务! ${requestUrl}`);
+  }
+  // if (!createServer[_urlPrefix]) {
+  //   throw new Error("服务路由，未找到可用服务!");
+  // }
+
+  // const { target } = config[_urlPrefix];
+  // const requestServer = createServer[_urlPrefix];
+  // const targetRequestUrl = _requestUrl.replace(_urlPrefix, target)
+  // return createServer;
+  return config[_urlPrefix];
+};
+
 const service = axios.create({
-  baseURL: baseUrl, // api 的 base_url
+  // baseURL: baseUrl, // api 的 base_url
   timeout: 5000, // request timeout
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -34,6 +100,7 @@ const servicef = function (parameter) {
   //   };
   // }
   // debugger;
+
   return service(parameter);
 }
 
@@ -46,11 +113,12 @@ service.interceptors.request.use(
     //     config.headers['X-Token'] = getToken()
     //   }
 
-    // debugger;
-    let url = config.url;
+    // 切换地址
+    const { target, prefix } = serviceRouter(config.url)
+    let url = config.url = config.url.replace(`${prefix}`, target);
     // TODO 芋艿，这些 url 不用增加认证 token 。可能这么写，有点脏，后面看看咋优化下。
-    if (url === 'user-api/users/passport/mobile/send_register_code'
-      || url === 'user-api/users/passport/mobile/register') {
+    if (url.indexOf('user-api/users/passport/mobile/send_register_code') != -1
+      || url.indexOf('user-api/users/passport/mobile/register') != -1) {
       return config;
     }
 

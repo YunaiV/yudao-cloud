@@ -18,31 +18,40 @@ export function DelFavorite(id){
 
 export function GetAddressList(){
   return request({
-    url: '/User/GetAddressList',
+    url: '/user-api/user/address/list',
     method: 'get',
   })
 }
 
 export function GetAddressById(id){
   return request({
-    url: '/User/GetAddressById',
+    url: '/user-api/user/address/address',
     method: 'get',
     params: { id }
   })
 }
 
-export function SaveAddress(data){
+export function UpdateAddress(data){
   return request({
-    url: '/User/SaveAddress',
-    method: 'post',
-    params: { data }
+    url: '/user-api/user/address/update',
+    method: 'PUT',
+    params: data
   })
 }
+
+export function SaveAddress(data){
+  return request({
+    url: '/user-api/user/address/add',
+    method: 'POST',
+    params: data
+  })
+}
+
 export function DelAddress(data){
   return request({
-    url: '/User/DelAddress',
-    method: 'post',
-    params: { data }
+    url: '/user-api/user/address/remove',
+    method: 'DELETE',
+    params: data
   })
 }
 

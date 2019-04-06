@@ -44,7 +44,7 @@ public class UserAddressServiceImpl implements UserAddressService {
                 .selectByUserIdAndId(userAddressAddDTO.getUserId(), userAddressAddDTO.getId());
 
         if (DeletedStatusEnum.DELETED_YES.getValue().equals(userAddress.getDeleted())) {
-            return CommonResult.success(UserErrorCodeEnum.USER_ADDRESS_IS_DELETED.getCode());
+            return ServiceExceptionUtil.error(UserErrorCodeEnum.USER_ADDRESS_IS_DELETED.getCode());
         }
 
         if (userAddress == null) {
@@ -88,5 +88,17 @@ public class UserAddressServiceImpl implements UserAddressService {
                 .INSTANCE.convertUserAddressBOList(userAddressDOList);
 
         return CommonResult.success(userAddressBOList);
+    }
+
+    @Override
+    public CommonResult<UserAddressBO> getAddress(Integer userId, Integer id) {
+        UserAddressDO userAddress = userAddressMapper.selectByUserIdAndId(userId, id);
+
+        if (DeletedStatusEnum.DELETED_YES.getValue().equals(userAddress.getDeleted())) {
+            return ServiceExceptionUtil.error(UserErrorCodeEnum.USER_ADDRESS_IS_DELETED.getCode());
+        }
+
+        UserAddressBO userAddressBO = UserAddressConvert.INSTANCE.convert(userAddress);
+        return CommonResult.success(userAddressBO);
     }
 }

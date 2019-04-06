@@ -28,5 +28,8 @@ public interface UserAddressConvert {
     UserAddressDO convert(UserAddressUpdateDTO userAddressUpdateDTO);
 
     @Mappings({})
+    UserAddressBO convert(UserAddressDO userAddressDO);
+
+    @Mappings({})
     List<UserAddressBO> convertUserAddressBOList(List<UserAddressDO> userAddressDOList);
 }

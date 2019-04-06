@@ -9,7 +9,8 @@
 
     <insert id="insert" parameterType="UserAddressDO" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user_address (
-            user_id, area_no, `name`, mobile, address
+            user_id, area_no, `name`, mobile, address,
+            create_time, update_time, deleted
         ) VALUES (
           #{userId}, #{areaNo}, #{name}, #{mobile}, #{address},
           #{createTime}, #{updateTime}, #{deleted}

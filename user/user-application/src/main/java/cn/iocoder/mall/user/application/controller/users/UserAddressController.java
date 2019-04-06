@@ -30,19 +30,19 @@ public class UserAddressController {
 
     @PostMapping("add")
     @ApiOperation(value = "用户地址-添加")
-    public CommonResult addAddress(@RequestBody @Validated UserAddressAddPO userAddressAddPO) {
+    public CommonResult addAddress(@Validated UserAddressAddPO userAddressAddPO) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         UserAddressAddDTO userAddressAddDTO = UserAddressConvert.INSTANCE.convert(userAddressAddPO);
-        userAddressAddDTO.setUserId(userId);
+        userAddressAddDTO.setUserId(1);
         return userAddressService.addAddress(userAddressAddDTO);
     }
 
     @PutMapping("update")
     @ApiOperation(value = "用户地址-更新")
-    public CommonResult updateAddress(@RequestBody @Validated UserAddressUpdatePO userAddressUpdatePO) {
+    public CommonResult updateAddress(@Validated UserAddressUpdatePO userAddressUpdatePO) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         UserAddressUpdateDTO userAddressUpdateDTO = UserAddressConvert.INSTANCE.convert(userAddressUpdatePO);
-        userAddressUpdateDTO.setUserId(userId);
+        userAddressUpdateDTO.setUserId(1);
         return userAddressService.updateAddress(userAddressUpdateDTO);
     }
 
@@ -50,7 +50,7 @@ public class UserAddressController {
     @ApiOperation(value = "用户地址-删除")
     public CommonResult removeAddress(@RequestParam("id") Integer id) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
-        return userAddressService.removeAddress(userId, id);
+        return userAddressService.removeAddress(1, id);
     }
 
     @GetMapping("list")
@@ -58,5 +58,12 @@ public class UserAddressController {
     public CommonResult addressList() {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         return userAddressService.addressList(1);
+    }
+
+    @GetMapping("address")
+    @ApiOperation(value = "获取地址")
+    public CommonResult getAddress(@RequestParam("id") Integer id) {
+        Integer userId = UserSecurityContextHolder.getContext().getUserId();
+        return userAddressService.getAddress(1, id);
     }
 }

@@ -22,4 +22,6 @@ public interface UserAddressService {
     CommonResult removeAddress(Integer userId, Integer addressId);
 
     CommonResult<List<UserAddressBO>> addressList(Integer userId);
+
+    CommonResult<UserAddressBO> getAddress(Integer userId, Integer id);
 }

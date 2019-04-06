@@ -15,6 +15,10 @@ const serviceRouter = function(requestUrl) {
         prefix: '/user-api',
         target: 'http://127.0.0.1:18082/user-api',
       },
+      '/promotion-api': {
+        prefix: '/promotion-api',
+        target: 'http://127.0.0.1:18085/promotion-api',
+      },
     };
 
     const configProd = {
@@ -25,6 +29,10 @@ const serviceRouter = function(requestUrl) {
       '/user-api': {
         prefix: '/user-api',
         target: 'http://127.0.0.1:18082/user-api',
+      },
+      '/promotion-api': {
+        prefix: '/promotion-api',
+        target: 'http://127.0.0.1:18085/promotion-api',
       },
     };
 
@@ -117,8 +125,8 @@ service.interceptors.request.use(
     const { target, prefix } = serviceRouter(config.url)
     let url = config.url = config.url.replace(`${prefix}`, target);
     // TODO 芋艿，这些 url 不用增加认证 token 。可能这么写，有点脏，后面看看咋优化下。
-    if (url.indexOf('user-api/users/passport/mobile/send_register_code') != -1
-      || url.indexOf('user-api/users/passport/mobile/register') != -1) {
+    if (url.indexOf('user-api/users/passport/mobile/send_register_code') !== -1
+      || url.indexOf('user-api/users/passport/mobile/register') !== -1) {
       return config;
     }
 

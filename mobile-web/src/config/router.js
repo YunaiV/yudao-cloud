@@ -185,6 +185,13 @@ const routes = [
       title: '分类'
     }
   },
+  {
+    path: '/coupon/fetch',
+    component: () => import('../page/coupon/fetch'),
+    meta: {
+      title: '优惠劵领取'
+    }
+  }
 ];
 
 // add route path

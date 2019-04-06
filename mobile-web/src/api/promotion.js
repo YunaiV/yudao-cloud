@@ -4,7 +4,7 @@ import request from "../config/request";
 
 export function getBannerList() {
   return request({
-    url: 'promotion-api/users/banner/list',
+    url: '/promotion-api/users/banner/list',
     method: 'get',
   });
 }
@@ -13,7 +13,11 @@ export function getBannerList() {
 
 export function getProductRecommendList() {
   return request({
-    url: 'promotion-api/users/product_recommend/list',
+    url: '/promotion-api/users/product_recommend/list',
     method: 'get',
   });
 }
+
+// Coupon Template
+
+// Coupon Card

@@ -1,6 +1,8 @@
 package cn.iocoder.mall.order.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 
@@ -12,6 +14,8 @@ import java.util.Date;
  * @author Sin
  * @time 2019-03-19 20:48
  */
+@Data
+@Accessors(chain = true)
 public class OrderLogisticsDetailDO extends DeletableDO {
 
     /**
@@ -30,50 +34,4 @@ public class OrderLogisticsDetailDO extends DeletableDO {
      * 物流信息
      */
     private String logisticsInformation;
-
-    @Override
-    public String toString() {
-        return "OrderLogisticsDetailDO{" +
-                "id=" + id +
-                ", orderLogisticsId=" + orderLogisticsId +
-                ", logisticsTime=" + logisticsTime +
-                ", logisticsInformation='" + logisticsInformation + '\'' +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public OrderLogisticsDetailDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getOrderLogisticsId() {
-        return orderLogisticsId;
-    }
-
-    public OrderLogisticsDetailDO setOrderLogisticsId(Integer orderLogisticsId) {
-        this.orderLogisticsId = orderLogisticsId;
-        return this;
-    }
-
-    public Date getLogisticsTime() {
-        return logisticsTime;
-    }
-
-    public OrderLogisticsDetailDO setLogisticsTime(Date logisticsTime) {
-        this.logisticsTime = logisticsTime;
-        return this;
-    }
-
-    public String getLogisticsInformation() {
-        return logisticsInformation;
-    }
-
-    public OrderLogisticsDetailDO setLogisticsInformation(String logisticsInformation) {
-        this.logisticsInformation = logisticsInformation;
-        return this;
-    }
 }

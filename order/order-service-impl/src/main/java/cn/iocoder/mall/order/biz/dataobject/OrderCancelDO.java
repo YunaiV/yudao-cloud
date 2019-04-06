@@ -1,6 +1,8 @@
 package cn.iocoder.mall.order.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.BaseDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -14,6 +16,8 @@ import java.io.Serializable;
  * @author Sin
  * @time 2019-03-30 16:20
  */
+@Data
+@Accessors(chain = true)
 public class OrderCancelDO extends BaseDO {
 
     /**
@@ -36,60 +40,4 @@ public class OrderCancelDO extends BaseDO {
      * 原因（如果选择其他，原因保存在这）
      */
     private String otherReason;
-
-    @Override
-    public String toString() {
-        return "OrderCancelDO{" +
-                "id=" + id +
-                ", orderId=" + orderId +
-                ", orderNo='" + orderNo + '\'' +
-                ", reason=" + reason +
-                ", otherReason='" + otherReason + '\'' +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public OrderCancelDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public OrderCancelDO setOrderId(Integer orderId) {
-        this.orderId = orderId;
-        return this;
-    }
-
-    public String getOrderNo() {
-        return orderNo;
-    }
-
-    public OrderCancelDO setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
-        return this;
-    }
-
-    public Integer getReason() {
-        return reason;
-    }
-
-    public OrderCancelDO setReason(Integer reason) {
-        this.reason = reason;
-        return this;
-    }
-
-    public String getOtherReason() {
-        return otherReason;
-    }
-
-    public OrderCancelDO setOtherReason(String otherReason) {
-        this.otherReason = otherReason;
-        return this;
-    }
 }

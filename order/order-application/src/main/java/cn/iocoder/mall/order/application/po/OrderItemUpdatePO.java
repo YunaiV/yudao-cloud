@@ -2,6 +2,8 @@ package cn.iocoder.mall.order.application.po;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -13,6 +15,8 @@ import java.io.Serializable;
  * @author Sin
  * @time 2019-03-24 11:16
  */
+@Data
+@Accessors(chain = true)
 @ApiModel("订单item更新")
 public class OrderItemUpdatePO implements Serializable {
 
@@ -42,50 +46,4 @@ public class OrderItemUpdatePO implements Serializable {
     @Size(max = 99999999, min = 0, message = "商品金额 0 ~ 99999999")
     @ApiModelProperty("商品金额")
     private Integer price;
-
-    @Override
-    public String toString() {
-        return "OrderItemUpdateVO{" +
-                "id=" + id +
-                ", skuId=" + skuId +
-                ", quantity=" + quantity +
-                ", price=" + price +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public OrderItemUpdatePO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getSkuId() {
-        return skuId;
-    }
-
-    public OrderItemUpdatePO setSkuId(Integer skuId) {
-        this.skuId = skuId;
-        return this;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public OrderItemUpdatePO setQuantity(Integer quantity) {
-        this.quantity = quantity;
-        return this;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public OrderItemUpdatePO setPrice(Integer price) {
-        this.price = price;
-        return this;
-    }
 }

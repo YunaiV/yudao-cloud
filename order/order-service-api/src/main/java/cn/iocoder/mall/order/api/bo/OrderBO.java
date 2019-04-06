@@ -1,5 +1,8 @@
 package cn.iocoder.mall.order.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +13,8 @@ import java.util.List;
  * @author Sin
  * @time 2019-03-23 14:30
  */
+@Data
+@Accessors(chain = true)
 public class OrderBO implements Serializable {
 
     /**
@@ -91,150 +96,4 @@ public class OrderBO implements Serializable {
      * 订单物流信息
      */
     private OrderRecipientBO orderRecipient;
-
-    @Override
-    public String toString() {
-        return "OrderBO{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", orderLogisticsId=" + orderLogisticsId +
-                ", orderNo='" + orderNo + '\'' +
-                ", payAmount=" + payAmount +
-                ", paymentTime=" + paymentTime +
-                ", deliveryTime=" + deliveryTime +
-                ", receiverTime=" + receiverTime +
-                ", closingTime=" + closingTime +
-                ", hasReturnExchange=" + hasReturnExchange +
-                ", status=" + status +
-                ", remark='" + remark + '\'' +
-                ", orderItems=" + orderItems +
-                ", orderRecipient=" + orderRecipient +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public OrderBO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public OrderBO setUserId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public Integer getOrderLogisticsId() {
-        return orderLogisticsId;
-    }
-
-    public OrderBO setOrderLogisticsId(Integer orderLogisticsId) {
-        this.orderLogisticsId = orderLogisticsId;
-        return this;
-    }
-
-    public String getOrderNo() {
-        return orderNo;
-    }
-
-    public OrderBO setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
-        return this;
-    }
-
-    public Integer getPayAmount() {
-        return payAmount;
-    }
-
-    public OrderBO setPayAmount(Integer payAmount) {
-        this.payAmount = payAmount;
-        return this;
-    }
-
-    public Date getPaymentTime() {
-        return paymentTime;
-    }
-
-    public OrderBO setPaymentTime(Date paymentTime) {
-        this.paymentTime = paymentTime;
-        return this;
-    }
-
-    public Date getDeliveryTime() {
-        return deliveryTime;
-    }
-
-    public OrderBO setDeliveryTime(Date deliveryTime) {
-        this.deliveryTime = deliveryTime;
-        return this;
-    }
-
-    public Date getReceiverTime() {
-        return receiverTime;
-    }
-
-    public OrderBO setReceiverTime(Date receiverTime) {
-        this.receiverTime = receiverTime;
-        return this;
-    }
-
-    public Date getClosingTime() {
-        return closingTime;
-    }
-
-    public OrderBO setClosingTime(Date closingTime) {
-        this.closingTime = closingTime;
-        return this;
-    }
-
-    public Integer getHasReturnExchange() {
-        return hasReturnExchange;
-    }
-
-    public OrderBO setHasReturnExchange(Integer hasReturnExchange) {
-        this.hasReturnExchange = hasReturnExchange;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public OrderBO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public OrderBO setRemark(String remark) {
-        this.remark = remark;
-        return this;
-    }
-
-    public List<OrderItemBO> getOrderItems() {
-        return orderItems;
-    }
-
-    public OrderBO setOrderItems(List<OrderItemBO> orderItems) {
-        this.orderItems = orderItems;
-        return this;
-    }
-
-    public OrderRecipientBO getOrderRecipient() {
-        return orderRecipient;
-    }
-
-    public OrderBO setOrderRecipient(OrderRecipientBO orderRecipient) {
-        this.orderRecipient = orderRecipient;
-        return this;
-    }
 }

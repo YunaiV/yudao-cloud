@@ -1,6 +1,8 @@
 package cn.iocoder.mall.order.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 
@@ -10,6 +12,8 @@ import java.util.Date;
  * @author Sin
  * @time 2019-03-16 13:49
  */
+@Data
+@Accessors(chain = true)
 public class OrderDO extends DeletableDO {
 
     /**
@@ -76,119 +80,4 @@ public class OrderDO extends DeletableDO {
      */
     private String remark;
 
-    @Override
-    public String toString() {
-        return "OrderDO{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", orderNo='" + orderNo + '\'' +
-                ", payAmount=" + payAmount +
-                ", paymentTime=" + paymentTime +
-                ", deliveryTime=" + deliveryTime +
-                ", receiverTime=" + receiverTime +
-                ", closingTime=" + closingTime +
-                ", hasReturnExchange=" + hasReturnExchange +
-                ", status=" + status +
-                ", remark='" + remark + '\'' +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public OrderDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public OrderDO setUserId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public String getOrderNo() {
-        return orderNo;
-    }
-
-    public OrderDO setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
-        return this;
-    }
-
-    public Integer getPayAmount() {
-        return payAmount;
-    }
-
-    public OrderDO setPayAmount(Integer payAmount) {
-        this.payAmount = payAmount;
-        return this;
-    }
-
-    public Date getPaymentTime() {
-        return paymentTime;
-    }
-
-    public OrderDO setPaymentTime(Date paymentTime) {
-        this.paymentTime = paymentTime;
-        return this;
-    }
-
-    public Date getDeliveryTime() {
-        return deliveryTime;
-    }
-
-    public OrderDO setDeliveryTime(Date deliveryTime) {
-        this.deliveryTime = deliveryTime;
-        return this;
-    }
-
-    public Date getReceiverTime() {
-        return receiverTime;
-    }
-
-    public OrderDO setReceiverTime(Date receiverTime) {
-        this.receiverTime = receiverTime;
-        return this;
-    }
-
-    public Date getClosingTime() {
-        return closingTime;
-    }
-
-    public OrderDO setClosingTime(Date closingTime) {
-        this.closingTime = closingTime;
-        return this;
-    }
-
-    public Integer getHasReturnExchange() {
-        return hasReturnExchange;
-    }
-
-    public OrderDO setHasReturnExchange(Integer hasReturnExchange) {
-        this.hasReturnExchange = hasReturnExchange;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public OrderDO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public OrderDO setRemark(String remark) {
-        this.remark = remark;
-        return this;
-    }
 }

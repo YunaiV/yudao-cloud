@@ -1,5 +1,8 @@
 package cn.iocoder.mall.order.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +11,8 @@ import java.io.Serializable;
  * @author Sin
  * @time 2019-03-16 14:38
  */
+@Data
+@Accessors(chain = true)
 public class OrderCreateBO implements Serializable {
 
     /**
@@ -22,40 +27,4 @@ public class OrderCreateBO implements Serializable {
      * 订单金额
      */
     private Integer payAmount;
-
-    @Override
-    public String toString() {
-        return "OrderCreateBO{" +
-                "id=" + id +
-                ", orderNo='" + orderNo + '\'' +
-                ", payAmount=" + payAmount +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public OrderCreateBO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getOrderNo() {
-        return orderNo;
-    }
-
-    public OrderCreateBO setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
-        return this;
-    }
-
-    public Integer getPayAmount() {
-        return payAmount;
-    }
-
-    public OrderCreateBO setPayAmount(Integer payAmount) {
-        this.payAmount = payAmount;
-        return this;
-    }
 }

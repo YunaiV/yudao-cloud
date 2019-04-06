@@ -2,6 +2,8 @@ package cn.iocoder.mall.order.application.po;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -13,6 +15,8 @@ import java.util.List;
  * @author Sin
  * @time 2019-04-05 16:55
  */
+@Data
+@Accessors(chain = true)
 @ApiModel(description = "订单发货PO")
 public class OrderDeliverPO implements Serializable {
 
@@ -40,50 +44,4 @@ public class OrderDeliverPO implements Serializable {
     @ApiModelProperty("订单items")
     @NotNull(message = "没有选择发货的商品")
     private List<Integer> orderItemIds;
-
-    @Override
-    public String toString() {
-        return "OrderDeliverPO{" +
-                "orderId=" + orderId +
-                ", logistics=" + logistics +
-                ", logisticsNo='" + logisticsNo + '\'' +
-                ", orderItemIds=" + orderItemIds +
-                '}';
-    }
-
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public OrderDeliverPO setOrderId(Integer orderId) {
-        this.orderId = orderId;
-        return this;
-    }
-
-    public Integer getLogistics() {
-        return logistics;
-    }
-
-    public OrderDeliverPO setLogistics(Integer logistics) {
-        this.logistics = logistics;
-        return this;
-    }
-
-    public String getLogisticsNo() {
-        return logisticsNo;
-    }
-
-    public OrderDeliverPO setLogisticsNo(String logisticsNo) {
-        this.logisticsNo = logisticsNo;
-        return this;
-    }
-
-    public List<Integer> getOrderItemIds() {
-        return orderItemIds;
-    }
-
-    public OrderDeliverPO setOrderItemIds(List<Integer> orderItemIds) {
-        this.orderItemIds = orderItemIds;
-        return this;
-    }
 }

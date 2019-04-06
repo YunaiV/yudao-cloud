@@ -21,29 +21,4 @@ public class OrderCreateItemDTO {
     @Max(value = 1000)
     private Integer quantity;
 
-    @Override
-    public String toString() {
-        return "OrderCreateItemDTO{" +
-                "skuId='" + skuId + '\'' +
-                ", quantity=" + quantity +
-                '}';
-    }
-
-    public Integer getSkuId() {
-        return skuId;
-    }
-
-    public OrderCreateItemDTO setSkuId(Integer skuId) {
-        this.skuId = skuId;
-        return this;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public OrderCreateItemDTO setQuantity(Integer quantity) {
-        this.quantity = quantity;
-        return this;
-    }
 }

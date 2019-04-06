@@ -1,6 +1,8 @@
 package cn.iocoder.mall.order.api.bo;
 
 import cn.iocoder.common.framework.dataobject.BaseDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 订单物流信息
@@ -8,6 +10,8 @@ import cn.iocoder.common.framework.dataobject.BaseDO;
  * @author Sin
  * @time 2019-03-19 20:47
  */
+@Data
+@Accessors(chain = true)
 public class OrderLogisticsBO extends BaseDO {
 
     /**
@@ -34,70 +38,4 @@ public class OrderLogisticsBO extends BaseDO {
      * 物流编号
      */
     private String logisticsNo;
-
-    @Override
-    public String toString() {
-        return "OrderLogisticsDO{" +
-                "id=" + id +
-                ", areaNo='" + areaNo + '\'' +
-                ", name='" + name + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", address='" + address + '\'' +
-                ", logisticsNo='" + logisticsNo + '\'' +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public OrderLogisticsBO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getAreaNo() {
-        return areaNo;
-    }
-
-    public OrderLogisticsBO setAreaNo(String areaNo) {
-        this.areaNo = areaNo;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public OrderLogisticsBO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public OrderLogisticsBO setMobile(String mobile) {
-        this.mobile = mobile;
-        return this;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public OrderLogisticsBO setAddress(String address) {
-        this.address = address;
-        return this;
-    }
-
-    public String getLogisticsNo() {
-        return logisticsNo;
-    }
-
-    public OrderLogisticsBO setLogisticsNo(String logisticsNo) {
-        this.logisticsNo = logisticsNo;
-        return this;
-    }
 }

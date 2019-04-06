@@ -2,6 +2,8 @@ package cn.iocoder.mall.order.application.po;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -13,6 +15,8 @@ import java.util.Date;
  * @author Sin
  * @time 2019-03-24 10:40
  */
+@Data
+@Accessors(chain = true)
 @ApiModel("订单查询")
 public class OrderPageQueryPO implements Serializable {
 
@@ -67,140 +71,4 @@ public class OrderPageQueryPO implements Serializable {
     private Integer pageNo;
     @ApiModelProperty("每页大小")
     private Integer pageSize;
-
-    @Override
-    public String toString() {
-        return "OrderPageQueryVO{" +
-                "id=" + id +
-                ", orderNo='" + orderNo + '\'' +
-                ", userId=" + userId +
-                ", startPaymentTime=" + startPaymentTime +
-                ", endPaymentTime=" + endPaymentTime +
-                ", startCreateTime=" + startCreateTime +
-                ", endCreateTime=" + endCreateTime +
-                ", startClosingTime=" + startClosingTime +
-                ", endClosingTime=" + endClosingTime +
-                ", status=" + status +
-                ", deleted=" + deleted +
-                ", pageNo=" + pageNo +
-                ", pageSize=" + pageSize +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public OrderPageQueryPO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getOrderNo() {
-        return orderNo;
-    }
-
-    public OrderPageQueryPO setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
-        return this;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public OrderPageQueryPO setUserId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public Date getStartPaymentTime() {
-        return startPaymentTime;
-    }
-
-    public OrderPageQueryPO setStartPaymentTime(Date startPaymentTime) {
-        this.startPaymentTime = startPaymentTime;
-        return this;
-    }
-
-    public Date getEndPaymentTime() {
-        return endPaymentTime;
-    }
-
-    public OrderPageQueryPO setEndPaymentTime(Date endPaymentTime) {
-        this.endPaymentTime = endPaymentTime;
-        return this;
-    }
-
-    public Date getStartCreateTime() {
-        return startCreateTime;
-    }
-
-    public OrderPageQueryPO setStartCreateTime(Date startCreateTime) {
-        this.startCreateTime = startCreateTime;
-        return this;
-    }
-
-    public Date getEndCreateTime() {
-        return endCreateTime;
-    }
-
-    public OrderPageQueryPO setEndCreateTime(Date endCreateTime) {
-        this.endCreateTime = endCreateTime;
-        return this;
-    }
-
-    public Date getStartClosingTime() {
-        return startClosingTime;
-    }
-
-    public OrderPageQueryPO setStartClosingTime(Date startClosingTime) {
-        this.startClosingTime = startClosingTime;
-        return this;
-    }
-
-    public Date getEndClosingTime() {
-        return endClosingTime;
-    }
-
-    public OrderPageQueryPO setEndClosingTime(Date endClosingTime) {
-        this.endClosingTime = endClosingTime;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public OrderPageQueryPO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public Integer getDeleted() {
-        return deleted;
-    }
-
-    public OrderPageQueryPO setDeleted(Integer deleted) {
-        this.deleted = deleted;
-        return this;
-    }
-
-    public Integer getPageNo() {
-        return pageNo;
-    }
-
-    public OrderPageQueryPO setPageNo(Integer pageNo) {
-        this.pageNo = pageNo;
-        return this;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public OrderPageQueryPO setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-        return this;
-    }
 }

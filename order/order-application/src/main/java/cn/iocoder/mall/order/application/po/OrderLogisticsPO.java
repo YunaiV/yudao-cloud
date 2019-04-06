@@ -2,6 +2,8 @@ package cn.iocoder.mall.order.application.po;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -13,6 +15,8 @@ import java.io.Serializable;
  * @author Sin
  * @time 2019-03-24 11:01
  */
+@Data
+@Accessors(chain = true)
 @ApiModel("订单物流信息")
 public class OrderLogisticsPO implements Serializable {
 
@@ -54,69 +58,4 @@ public class OrderLogisticsPO implements Serializable {
     @ApiModelProperty("物流订号")
     private String logisticsNo;
 
-    @Override
-    public String toString() {
-        return "OrderLogisticsVO{" +
-                "id=" + id +
-                ", areaNo='" + areaNo + '\'' +
-                ", name='" + name + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", address='" + address + '\'' +
-                ", logisticsNo='" + logisticsNo + '\'' +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public OrderLogisticsPO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getAreaNo() {
-        return areaNo;
-    }
-
-    public OrderLogisticsPO setAreaNo(String areaNo) {
-        this.areaNo = areaNo;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public OrderLogisticsPO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public OrderLogisticsPO setMobile(String mobile) {
-        this.mobile = mobile;
-        return this;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public OrderLogisticsPO setAddress(String address) {
-        this.address = address;
-        return this;
-    }
-
-    public String getLogisticsNo() {
-        return logisticsNo;
-    }
-
-    public OrderLogisticsPO setLogisticsNo(String logisticsNo) {
-        this.logisticsNo = logisticsNo;
-        return this;
-    }
 }

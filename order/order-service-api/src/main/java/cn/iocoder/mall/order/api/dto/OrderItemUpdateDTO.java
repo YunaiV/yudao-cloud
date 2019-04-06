@@ -32,49 +32,4 @@ public class OrderItemUpdateDTO implements Serializable {
     @NotNull
     private Integer price;
 
-    @Override
-    public String toString() {
-        return "OrderItemUpdateDTO{" +
-                "id=" + id +
-                ", skuId=" + skuId +
-                ", quantity=" + quantity +
-                ", price=" + price +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public OrderItemUpdateDTO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getSkuId() {
-        return skuId;
-    }
-
-    public OrderItemUpdateDTO setSkuId(Integer skuId) {
-        this.skuId = skuId;
-        return this;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public OrderItemUpdateDTO setQuantity(Integer quantity) {
-        this.quantity = quantity;
-        return this;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public OrderItemUpdateDTO setPrice(Integer price) {
-        this.price = price;
-        return this;
-    }
 }

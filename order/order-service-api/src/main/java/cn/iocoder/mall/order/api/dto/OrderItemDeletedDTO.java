@@ -17,30 +17,4 @@ public class OrderItemDeletedDTO implements Serializable {
      * 订单item id
      */
     private List<Integer> orderItemIds;
-
-    @Override
-    public String toString() {
-        return "OrderItemDeletedDTO{" +
-                "orderId=" + orderId +
-                ", orderItemIds=" + orderItemIds +
-                '}';
-    }
-
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public OrderItemDeletedDTO setOrderId(Integer orderId) {
-        this.orderId = orderId;
-        return this;
-    }
-
-    public List<Integer> getOrderItemIds() {
-        return orderItemIds;
-    }
-
-    public OrderItemDeletedDTO setOrderItemIds(List<Integer> orderItemIds) {
-        this.orderItemIds = orderItemIds;
-        return this;
-    }
 }

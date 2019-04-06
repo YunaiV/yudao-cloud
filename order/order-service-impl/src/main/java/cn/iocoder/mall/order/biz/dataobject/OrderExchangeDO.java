@@ -1,6 +1,8 @@
 package cn.iocoder.mall.order.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 
@@ -10,6 +12,8 @@ import java.util.Date;
  * @author Sin
  * @time 2019-03-19 19:48
  */
+@Data
+@Accessors(chain = true)
 public class OrderExchangeDO extends DeletableDO {
 
     /**
@@ -107,169 +111,4 @@ public class OrderExchangeDO extends DeletableDO {
      */
     private Integer status;
 
-    @Override
-    public String toString() {
-        return "OrderExchangeDO{" +
-                "id=" + id +
-                ", orderId=" + orderId +
-                ", orderNo='" + orderNo + '\'' +
-                ", orderItemId=" + orderItemId +
-                ", skuId='" + skuId + '\'' +
-                ", exchangeSkuId='" + exchangeSkuId + '\'' +
-                ", exchangeOrderLogisticsId=" + exchangeOrderLogisticsId +
-                ", receiverOrderLogisticsId=" + receiverOrderLogisticsId +
-                ", orderReasonId=" + orderReasonId +
-                ", reason='" + reason + '\'' +
-                ", paymentTime=" + paymentTime +
-                ", deliveryTime=" + deliveryTime +
-                ", receiverTime=" + receiverTime +
-                ", closingTime=" + closingTime +
-                ", orderType=" + orderType +
-                ", status=" + status +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public OrderExchangeDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public OrderExchangeDO setOrderId(Integer orderId) {
-        this.orderId = orderId;
-        return this;
-    }
-
-    public String getOrderNo() {
-        return orderNo;
-    }
-
-    public OrderExchangeDO setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
-        return this;
-    }
-
-    public Integer getOrderItemId() {
-        return orderItemId;
-    }
-
-    public OrderExchangeDO setOrderItemId(Integer orderItemId) {
-        this.orderItemId = orderItemId;
-        return this;
-    }
-
-    public String getSkuId() {
-        return skuId;
-    }
-
-    public OrderExchangeDO setSkuId(String skuId) {
-        this.skuId = skuId;
-        return this;
-    }
-
-    public String getExchangeSkuId() {
-        return exchangeSkuId;
-    }
-
-    public OrderExchangeDO setExchangeSkuId(String exchangeSkuId) {
-        this.exchangeSkuId = exchangeSkuId;
-        return this;
-    }
-
-    public Integer getExchangeOrderLogisticsId() {
-        return exchangeOrderLogisticsId;
-    }
-
-    public OrderExchangeDO setExchangeOrderLogisticsId(Integer exchangeOrderLogisticsId) {
-        this.exchangeOrderLogisticsId = exchangeOrderLogisticsId;
-        return this;
-    }
-
-    public Integer getReceiverOrderLogisticsId() {
-        return receiverOrderLogisticsId;
-    }
-
-    public OrderExchangeDO setReceiverOrderLogisticsId(Integer receiverOrderLogisticsId) {
-        this.receiverOrderLogisticsId = receiverOrderLogisticsId;
-        return this;
-    }
-
-    public Integer getOrderReasonId() {
-        return orderReasonId;
-    }
-
-    public OrderExchangeDO setOrderReasonId(Integer orderReasonId) {
-        this.orderReasonId = orderReasonId;
-        return this;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public OrderExchangeDO setReason(String reason) {
-        this.reason = reason;
-        return this;
-    }
-
-    public Date getPaymentTime() {
-        return paymentTime;
-    }
-
-    public OrderExchangeDO setPaymentTime(Date paymentTime) {
-        this.paymentTime = paymentTime;
-        return this;
-    }
-
-    public Date getDeliveryTime() {
-        return deliveryTime;
-    }
-
-    public OrderExchangeDO setDeliveryTime(Date deliveryTime) {
-        this.deliveryTime = deliveryTime;
-        return this;
-    }
-
-    public Date getReceiverTime() {
-        return receiverTime;
-    }
-
-    public OrderExchangeDO setReceiverTime(Date receiverTime) {
-        this.receiverTime = receiverTime;
-        return this;
-    }
-
-    public Date getClosingTime() {
-        return closingTime;
-    }
-
-    public OrderExchangeDO setClosingTime(Date closingTime) {
-        this.closingTime = closingTime;
-        return this;
-    }
-
-    public Integer getOrderType() {
-        return orderType;
-    }
-
-    public OrderExchangeDO setOrderType(Integer orderType) {
-        this.orderType = orderType;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public OrderExchangeDO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
 }

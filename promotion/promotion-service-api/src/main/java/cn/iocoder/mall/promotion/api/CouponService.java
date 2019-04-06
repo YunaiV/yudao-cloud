@@ -12,6 +12,8 @@ public interface CouponService {
 
     // ========== 优惠劵（码）模板 ==========
 
+    CommonResult<CouponTemplateBO> getCouponTemplate(Integer couponTemplateId);
+
     CommonResult<CouponTemplatePageBO> getCouponTemplatePage(CouponTemplatePageDTO couponTemplatePageDTO);
 
     /**

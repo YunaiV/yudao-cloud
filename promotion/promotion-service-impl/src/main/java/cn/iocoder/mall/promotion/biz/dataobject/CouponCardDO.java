@@ -53,11 +53,11 @@ public class CouponCardDO extends BaseDO {
 
     // ========== 使用规则 BEGIN ==========
     /**
-     * 固定日期-生效开始时间
+     * 生效开始时间
      */
     private Date validStartTime;
     /**
-     * 固定日期-生效结束时间
+     * 生效结束时间
      */
     private Date validEndTime;
     // ========== 使用规则 END ==========
@@ -73,7 +73,7 @@ public class CouponCardDO extends BaseDO {
     /**
      * 折扣
      */
-    private Double percentOff;
+    private Integer percentOff;
     /**
      * 优惠金额，单位：分。
      */
@@ -88,13 +88,9 @@ public class CouponCardDO extends BaseDO {
 
     // ========== 使用情况 BEGIN ==========
     /**
-     * 是否使用
-     */
-    private Boolean used;
-    /**
      * 使用订单号
      */
-    private String usedOrderId;
+    private Integer usedOrderId;
     /**
      * 订单中优惠面值，单位：分
      */

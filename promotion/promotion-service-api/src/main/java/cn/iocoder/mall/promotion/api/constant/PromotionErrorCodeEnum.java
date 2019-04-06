@@ -21,6 +21,7 @@ public enum PromotionErrorCodeEnum {
     PRODUCT_TEMPLATE_NOT_CARD(1006002001, "不是优惠劵模板"),
     PRODUCT_TEMPLATE_NOT_CODE(1006002002, "不是优惠码模板"),
     PRODUCT_TEMPLATE_TOTAL_CAN_NOT_REDUCE(1006002003, "优惠劵（码）模板的发放数量不能减小"),
+    PRODUCT_TEMPLATE_STATUS_NOT_ENABLE(1006002004, "优惠劵模板（码）未开启"),
 
     ;
 

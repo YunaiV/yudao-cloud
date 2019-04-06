@@ -5,6 +5,7 @@ import cn.iocoder.mall.promotion.api.bo.CouponTemplateBO;
 import cn.iocoder.mall.promotion.api.bo.CouponTemplatePageBO;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsCouponTemplatePageVO;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsCouponTemplateVO;
+import cn.iocoder.mall.promotion.application.vo.users.UsersCouponTemplateVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -27,6 +28,9 @@ public interface CouponTemplateConvert {
 
     @Mappings({})
     List<AdminsCouponTemplateVO> convertList(List<CouponTemplateBO> templates);
+
+    @Mappings({})
+    UsersCouponTemplateVO convert2(CouponTemplateBO template);
 
 //
 //    @Mappings({})

@@ -1,4 +1,4 @@
-package cn.iocoder.mall.promotion.application.vo.admins;
+package cn.iocoder.mall.promotion.application.vo.users;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,33 +10,15 @@ import java.util.Date;
 @ApiModel("CouponTemplate VO")
 @Data
 @Accessors(chain = true)
-public class AdminsCouponTemplateVO {
+public class UsersCouponTemplateVO {
 
     // ========== 基本信息 BEGIN ==========
     @ApiModelProperty(value = "模板编号，自增唯一", required = true, example = "1")
     private Integer id;
     @ApiModelProperty(value = "标题", required = true, example = "优惠劵牛逼")
     private String title;
-    @ApiModelProperty(value = "使用说明", required = true, example = "我只是描述")
-    private String description;
-    @ApiModelProperty(value = "优惠劵类型", required = true, example = "参见 CouponTemplateTypeEnum 枚举")
-    private Integer type;
-    /**
-     * 码类型
-     *
-     * 1-一卡一码（UNIQUE）
-     * 2-通用码（GENERAL）
-     *
-     * 【优惠码独有】 @see CouponCodeDO
-     */
-    // TODO
-    private Integer codeType;
     @ApiModelProperty(value = "优惠码状态", required = true, example = "参见 CouponTemplateStatusEnum 枚举")
     private Integer status;
-    @ApiModelProperty(value = "每人限领个数", example = "null - 则表示不限制")
-    private Integer quota;
-    @ApiModelProperty(value = "发放总量")
-    private Integer total;
     // ========== 领取规则 END ==========
 
     // ========== 使用规则 BEGIN ==========
@@ -68,13 +50,5 @@ public class AdminsCouponTemplateVO {
     @ApiModelProperty(value = "折扣上限")
     private Integer discountPriceLimit;
     // ========== 使用效果 END ==========
-
-    // ========== 统计信息 BEGIN ==========
-    @ApiModelProperty(value = "领取优惠券的次数", required = true)
-    private Integer statFetchNum;
-    // ========== 统计信息 END ==========
-
-    @ApiModelProperty(value = "创建时间", required = true)
-    private Date createTime;
 
 }

@@ -26,6 +26,9 @@ public class DateUtil {
      * @return 计算后的日志
      */
     public static Date addDate(Date date, int field, int amount) {
+        if (amount == 0) {
+            return date;
+        }
         Calendar c = Calendar.getInstance();
         if (date != null) {
             c.setTime(date);

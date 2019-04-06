@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("users/banner")
 @Api("Banner 模块")
-public class UsersProductCategoryController {
+public class UsersBannerController {
 
     @Reference(validation = "true")
     private BannerService bannerService;

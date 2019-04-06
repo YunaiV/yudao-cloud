@@ -10,7 +10,7 @@ spring:
 mybatis:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: cn.iocoder.mall.user.dataobject
+  type-aliases-package: cn.iocoder.mall.user.biz.dataobject
 
 # dubbo
 dubbo:
@@ -22,7 +22,7 @@ dubbo:
     port: -1
     name: dubbo
   scan:
-    base-packages: cn.iocoder.mall.user.service
+    base-packages: cn.iocoder.mall.user.biz.service
 demo:
   service:
     version: 1.0.0

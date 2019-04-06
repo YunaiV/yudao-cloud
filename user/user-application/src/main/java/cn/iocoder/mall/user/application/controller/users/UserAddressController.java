@@ -4,10 +4,10 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.user.application.convert.UserAddressConvert;
 import cn.iocoder.mall.user.application.po.UserAddressAddPO;
 import cn.iocoder.mall.user.application.po.UserAddressUpdatePO;
+import cn.iocoder.mall.user.api.dto.UserAddressAddDTO;
+import cn.iocoder.mall.user.api.dto.UserAddressUpdateDTO;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
-import cn.iocoder.mall.user.service.api.UserAddressService;
-import cn.iocoder.mall.user.service.api.dto.UserAddressAddDTO;
-import cn.iocoder.mall.user.service.api.dto.UserAddressUpdateDTO;
+import cn.iocoder.mall.user.api.UserAddressService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class UserAddressController {
         return userAddressService.addAddress(userAddressAddDTO);
     }
 
-    @PostMapping("update")
+    @PutMapping("update")
     @ApiOperation(value = "用户地址-更新")
     public CommonResult updateAddress(@RequestBody @Validated UserAddressUpdatePO userAddressUpdatePO) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
@@ -57,6 +57,6 @@ public class UserAddressController {
     @ApiOperation(value = "用户地址列表")
     public CommonResult addressList() {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
-        return userAddressService.addressList(userId);
+        return userAddressService.addressList(1);
     }
 }

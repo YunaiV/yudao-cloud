@@ -1,8 +1,8 @@
 package cn.iocoder.mall.user.sdk.interceptor;
 
 import cn.iocoder.common.framework.util.HttpUtil;
-import cn.iocoder.mall.user.service.api.UserAccessLogService;
-import cn.iocoder.mall.user.service.api.dto.UserAccessLogAddDTO;
+import cn.iocoder.mall.user.api.UserAccessLogService;
+import cn.iocoder.mall.user.api.dto.UserAccessLogAddDTO;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.exception.ExceptionUtils;

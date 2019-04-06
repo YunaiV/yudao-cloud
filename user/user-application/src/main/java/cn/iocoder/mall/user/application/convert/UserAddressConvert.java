@@ -2,8 +2,8 @@ package cn.iocoder.mall.user.application.convert;
 
 import cn.iocoder.mall.user.application.po.UserAddressAddPO;
 import cn.iocoder.mall.user.application.po.UserAddressUpdatePO;
-import cn.iocoder.mall.user.service.api.dto.UserAddressAddDTO;
-import cn.iocoder.mall.user.service.api.dto.UserAddressUpdateDTO;
+import cn.iocoder.mall.user.api.dto.UserAddressAddDTO;
+import cn.iocoder.mall.user.api.dto.UserAddressUpdateDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;

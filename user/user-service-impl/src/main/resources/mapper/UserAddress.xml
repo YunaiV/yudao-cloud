@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.iocoder.mall.user.dao.UserAddressMapper">
+<mapper namespace="cn.iocoder.mall.user.biz.dao.UserAddressMapper">
 
     <sql id="FIELDS">
-        id, user_id, areaNo, `name`, mobile, address,
+        id, user_id, area_no, `name`, mobile, address,
         create_time, update_time, deleted
     </sql>
 
     <insert id="insert" parameterType="UserAddressDO" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user_address (
-            user_id, areaNo, `name`, mobile, address
+            user_id, area_no, `name`, mobile, address
         ) VALUES (
           #{userId}, #{areaNo}, #{name}, #{mobile}, #{address},
           #{createTime}, #{updateTime}, #{deleted}
         )
     </insert>
 
-    <update id="updateById" resultType="Integer">
+    <update id="updateById">
         UPDATE user_address
         <set>
-            <if test="area_no != null">
-                , area_no = #{areaNo}
+            <if test="userAddressDO.areaNo != null">
+                , area_no = #{userAddressDO.areaNo}
             </if>
-            <if test="name != null">
-                , `name` = #{name}
+            <if test="userAddressDO.name != null">
+                , `name` = #{userAddressDO.name}
             </if>
-            <if test="mobile != null">
-                , mobile = #{mobile}
+            <if test="userAddressDO.mobile != null">
+                , mobile = #{userAddressDO.mobile}
             </if>
-            <if test="address != null">
-                , address = #{address}
+            <if test="userAddressDO.address != null">
+                , address = #{userAddressDO.address}
             </if>
-            <if test="updateTime != null">
-                , update_time = #{updateTime}
+            <if test="userAddressDO.updateTime != null">
+                , update_time = #{userAddressDO.updateTime}
             </if>
-            <if test="deleted != null">
-                , deleted = #{deleted}
+            <if test="userAddressDO.deleted != null">
+                , deleted = #{userAddressDO.deleted}
             </if>
         </set>
         WHERE id = #{id}
     </update>
 
-    <select id="selectByUserIdAndId" resultType="cn.iocoder.mall.user.dataobject.UserAddressDO">
+    <select id="selectByUserIdAndId" resultType="cn.iocoder.mall.user.biz.dataobject.UserAddressDO">
         SELECT
         <include refid="FIELDS" />
         FROM user_address
@@ -49,7 +49,7 @@
         AND id = #{id}
     </select>
 
-    <select id="selectByUserIdAndDeleted" resultType="cn.iocoder.mall.user.dataobject.UserAddressDO">
+    <select id="selectByUserIdAndDeleted" resultType="cn.iocoder.mall.user.biz.dataobject.UserAddressDO">
         SELECT
         <include refid="FIELDS" />
         FROM user_address

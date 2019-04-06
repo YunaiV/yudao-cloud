@@ -12,7 +12,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2019-04-06T01:40:11+0800",
+    date = "2019-04-06T20:54:04+0800",
     comments = "version: 1.3.0.Final, compiler: javac, environment: Java 1.8.0_121 (Oracle Corporation)"
 )
 public class CouponTemplateConvertImpl implements CouponTemplateConvert {
@@ -121,14 +121,14 @@ public class CouponTemplateConvertImpl implements CouponTemplateConvert {
         couponTemplateBO.setDateType( template.getDateType() );
         couponTemplateBO.setValidStartTime( template.getValidStartTime() );
         couponTemplateBO.setValidEndTime( template.getValidEndTime() );
+        couponTemplateBO.setFixedStartTerm( template.getFixedStartTerm() );
+        couponTemplateBO.setFixedEndTerm( template.getFixedEndTerm() );
         couponTemplateBO.setPreferentialType( template.getPreferentialType() );
         couponTemplateBO.setPercentOff( template.getPercentOff() );
         couponTemplateBO.setPriceOff( template.getPriceOff() );
         couponTemplateBO.setDiscountPriceLimit( template.getDiscountPriceLimit() );
         couponTemplateBO.setStatFetchNum( template.getStatFetchNum() );
         couponTemplateBO.setCreateTime( template.getCreateTime() );
-        couponTemplateBO.setFixedStartTerm( template.getFixedStartTerm() );
-        couponTemplateBO.setFixedEndTerm( template.getFixedEndTerm() );
 
         return couponTemplateBO;
     }

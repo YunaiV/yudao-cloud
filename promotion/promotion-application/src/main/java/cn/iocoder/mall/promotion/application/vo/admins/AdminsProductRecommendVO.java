@@ -2,10 +2,14 @@ package cn.iocoder.mall.promotion.application.vo.admins;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 
 @ApiModel("商品推荐 VO")
+@Data
+@Accessors(chain = true)
 public class AdminsProductRecommendVO {
 
     @ApiModelProperty(value = "编号", required = true, example = "1")
@@ -23,66 +27,4 @@ public class AdminsProductRecommendVO {
     @ApiModelProperty(value = "创建时间", required = true, example = "时间戳格式")
     private Date createTime;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public AdminsProductRecommendVO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public AdminsProductRecommendVO setType(Integer type) {
-        this.type = type;
-        return this;
-    }
-
-    public Integer getProductSpuId() {
-        return productSpuId;
-    }
-
-    public AdminsProductRecommendVO setProductSpuId(Integer productSpuId) {
-        this.productSpuId = productSpuId;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public AdminsProductRecommendVO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public AdminsProductRecommendVO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public String getMemo() {
-        return memo;
-    }
-
-    public AdminsProductRecommendVO setMemo(String memo) {
-        this.memo = memo;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public AdminsProductRecommendVO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
 }

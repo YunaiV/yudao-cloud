@@ -1,7 +1,15 @@
 package cn.iocoder.mall.promotion.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.util.List;
 
+/**
+ * Banner 分页 BO
+ */
+@Data
+@Accessors(chain = true)
 public class BannerPageBO {
 
     /**
@@ -12,23 +20,5 @@ public class BannerPageBO {
      * 总量
      */
     private Integer total;
-
-    public List<BannerBO> getList() {
-        return list;
-    }
-
-    public BannerPageBO setList(List<BannerBO> list) {
-        this.list = list;
-        return this;
-    }
-
-    public Integer getTotal() {
-        return total;
-    }
-
-    public BannerPageBO setTotal(Integer total) {
-        this.total = total;
-        return this;
-    }
 
 }

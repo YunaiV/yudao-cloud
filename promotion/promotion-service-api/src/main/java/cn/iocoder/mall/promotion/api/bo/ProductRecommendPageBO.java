@@ -1,7 +1,15 @@
 package cn.iocoder.mall.promotion.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.util.List;
 
+/**
+ * 商品推荐分页 BO
+ */
+@Data
+@Accessors(chain = true)
 public class ProductRecommendPageBO {
 
     /**
@@ -12,23 +20,5 @@ public class ProductRecommendPageBO {
      * 总量
      */
     private Integer total;
-
-    public List<ProductRecommendBO> getList() {
-        return list;
-    }
-
-    public ProductRecommendPageBO setList(List<ProductRecommendBO> list) {
-        this.list = list;
-        return this;
-    }
-
-    public Integer getTotal() {
-        return total;
-    }
-
-    public ProductRecommendPageBO setTotal(Integer total) {
-        this.total = total;
-        return this;
-    }
 
 }

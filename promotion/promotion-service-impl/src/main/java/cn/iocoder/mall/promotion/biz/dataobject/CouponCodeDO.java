@@ -1,12 +1,16 @@
 package cn.iocoder.mall.promotion.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.BaseDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 
 /**
  * 优惠码
  */
+@Data
+@Accessors(chain = true)
 public class CouponCodeDO extends BaseDO {
 
     /**
@@ -34,57 +38,4 @@ public class CouponCodeDO extends BaseDO {
      */
     private Integer couponId;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public CouponCodeDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getTemplateId() {
-        return templateId;
-    }
-
-    public CouponCodeDO setTemplateId(Integer templateId) {
-        this.templateId = templateId;
-        return this;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public CouponCodeDO setCode(Integer code) {
-        this.code = code;
-        return this;
-    }
-
-    public Date getTakeTime() {
-        return takeTime;
-    }
-
-    public CouponCodeDO setTakeTime(Date takeTime) {
-        this.takeTime = takeTime;
-        return this;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public CouponCodeDO setUserId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public Integer getCouponId() {
-        return couponId;
-    }
-
-    public CouponCodeDO setCouponId(Integer couponId) {
-        this.couponId = couponId;
-        return this;
-    }
 }

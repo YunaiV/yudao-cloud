@@ -1,12 +1,16 @@
 package cn.iocoder.mall.promotion.api.bo;
 
 import cn.iocoder.mall.promotion.api.constant.ProductRecommendTypeEnum;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 
 /**
  * 商品推荐 BO
  */
+@Data
+@Accessors(chain = true)
 public class ProductRecommendBO {
 
     /**
@@ -41,68 +45,5 @@ public class ProductRecommendBO {
      * 创建时间
      */
     private Date createTime;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public ProductRecommendBO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public ProductRecommendBO setType(Integer type) {
-        this.type = type;
-        return this;
-    }
-
-    public Integer getProductSpuId() {
-        return productSpuId;
-    }
-
-    public ProductRecommendBO setProductSpuId(Integer productSpuId) {
-        this.productSpuId = productSpuId;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public ProductRecommendBO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public ProductRecommendBO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public String getMemo() {
-        return memo;
-    }
-
-    public ProductRecommendBO setMemo(String memo) {
-        this.memo = memo;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public ProductRecommendBO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
 
 }

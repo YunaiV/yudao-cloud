@@ -1,7 +1,15 @@
 package cn.iocoder.mall.promotion.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.util.Date;
 
+/**
+ * 优惠劵（码）模板 BO
+ */
+@Data
+@Accessors(chain = true)
 public class CouponTemplateBO {
 
     // ========== 基本信息 BEGIN ==========
@@ -142,203 +150,5 @@ public class CouponTemplateBO {
      * 创建时间
      */
     private Date createTime;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public CouponTemplateBO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public CouponTemplateBO setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public CouponTemplateBO setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public CouponTemplateBO setType(Integer type) {
-        this.type = type;
-        return this;
-    }
-
-    public Integer getCodeType() {
-        return codeType;
-    }
-
-    public CouponTemplateBO setCodeType(Integer codeType) {
-        this.codeType = codeType;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public CouponTemplateBO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public Integer getQuota() {
-        return quota;
-    }
-
-    public CouponTemplateBO setQuota(Integer quota) {
-        this.quota = quota;
-        return this;
-    }
-
-    public Integer getTotal() {
-        return total;
-    }
-
-    public CouponTemplateBO setTotal(Integer total) {
-        this.total = total;
-        return this;
-    }
-
-    public Integer getPriceAvailable() {
-        return priceAvailable;
-    }
-
-    public CouponTemplateBO setPriceAvailable(Integer priceAvailable) {
-        this.priceAvailable = priceAvailable;
-        return this;
-    }
-
-    public Integer getRangeType() {
-        return rangeType;
-    }
-
-    public CouponTemplateBO setRangeType(Integer rangeType) {
-        this.rangeType = rangeType;
-        return this;
-    }
-
-    public String getRangeValues() {
-        return rangeValues;
-    }
-
-    public CouponTemplateBO setRangeValues(String rangeValues) {
-        this.rangeValues = rangeValues;
-        return this;
-    }
-
-    public Integer getDateType() {
-        return dateType;
-    }
-
-    public CouponTemplateBO setDateType(Integer dateType) {
-        this.dateType = dateType;
-        return this;
-    }
-
-    public Date getValidStartTime() {
-        return validStartTime;
-    }
-
-    public CouponTemplateBO setValidStartTime(Date validStartTime) {
-        this.validStartTime = validStartTime;
-        return this;
-    }
-
-    public Date getValidEndTime() {
-        return validEndTime;
-    }
-
-    public CouponTemplateBO setValidEndTime(Date validEndTime) {
-        this.validEndTime = validEndTime;
-        return this;
-    }
-
-    public Integer getPreferentialType() {
-        return preferentialType;
-    }
-
-    public CouponTemplateBO setPreferentialType(Integer preferentialType) {
-        this.preferentialType = preferentialType;
-        return this;
-    }
-
-    public Integer getPercentOff() {
-        return percentOff;
-    }
-
-    public CouponTemplateBO setPercentOff(Integer percentOff) {
-        this.percentOff = percentOff;
-        return this;
-    }
-
-    public Integer getPriceOff() {
-        return priceOff;
-    }
-
-    public CouponTemplateBO setPriceOff(Integer priceOff) {
-        this.priceOff = priceOff;
-        return this;
-    }
-
-    public Integer getDiscountPriceLimit() {
-        return discountPriceLimit;
-    }
-
-    public CouponTemplateBO setDiscountPriceLimit(Integer discountPriceLimit) {
-        this.discountPriceLimit = discountPriceLimit;
-        return this;
-    }
-
-    public Integer getStatFetchNum() {
-        return statFetchNum;
-    }
-
-    public CouponTemplateBO setStatFetchNum(Integer statFetchNum) {
-        this.statFetchNum = statFetchNum;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public CouponTemplateBO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
-
-    public Integer getFixedStartTerm() {
-        return fixedStartTerm;
-    }
-
-    public CouponTemplateBO setFixedStartTerm(Integer fixedStartTerm) {
-        this.fixedStartTerm = fixedStartTerm;
-        return this;
-    }
-
-    public Integer getFixedEndTerm() {
-        return fixedEndTerm;
-    }
-
-    public CouponTemplateBO setFixedEndTerm(Integer fixedEndTerm) {
-        this.fixedEndTerm = fixedEndTerm;
-        return this;
-    }
 
 }

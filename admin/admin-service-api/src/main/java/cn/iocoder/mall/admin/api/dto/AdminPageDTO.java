@@ -1,7 +1,15 @@
 package cn.iocoder.mall.admin.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotNull;
 
+/**
+ * 管理员分页 DTO
+ */
+@Data
+@Accessors(chain = true)
 public class AdminPageDTO {
 
     /**
@@ -13,32 +21,5 @@ public class AdminPageDTO {
     private Integer pageNo;
     @NotNull(message = "每页条数不能为空")
     private Integer pageSize;
-
-    public Integer getPageNo() {
-        return pageNo;
-    }
-
-    public AdminPageDTO setPageNo(Integer pageNo) {
-        this.pageNo = pageNo;
-        return this;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public AdminPageDTO setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-        return this;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public AdminPageDTO setNickname(String nickname) {
-        this.nickname = nickname;
-        return this;
-    }
 
 }

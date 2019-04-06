@@ -1,8 +1,13 @@
 package cn.iocoder.mall.user.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 /**
  * 用户更新 DTO
  */
+@Data
+@Accessors(chain = true)
 public class UserUpdateDTO {
 
     /**
@@ -17,32 +22,5 @@ public class UserUpdateDTO {
      * 头像
      */
     private String avatar;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public UserUpdateDTO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public UserUpdateDTO setNickname(String nickname) {
-        this.nickname = nickname;
-        return this;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public UserUpdateDTO setAvatar(String avatar) {
-        this.avatar = avatar;
-        return this;
-    }
 
 }

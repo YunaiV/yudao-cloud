@@ -1,10 +1,15 @@
 package cn.iocoder.mall.pay.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.util.Date;
 
 /**
  * 支付交易 BO
  */
+@Data
+@Accessors(chain = true)
 public class PayTransactionBO {
 
     /**
@@ -85,158 +90,5 @@ public class PayTransactionBO {
      * 创建时间
      */
     private Date createTime;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public PayTransactionBO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getAppId() {
-        return appId;
-    }
-
-    public PayTransactionBO setAppId(String appId) {
-        this.appId = appId;
-        return this;
-    }
-
-    public String getCreateIp() {
-        return createIp;
-    }
-
-    public PayTransactionBO setCreateIp(String createIp) {
-        this.createIp = createIp;
-        return this;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public PayTransactionBO setOrderId(String orderId) {
-        this.orderId = orderId;
-        return this;
-    }
-
-    public String getOrderSubject() {
-        return orderSubject;
-    }
-
-    public PayTransactionBO setOrderSubject(String orderSubject) {
-        this.orderSubject = orderSubject;
-        return this;
-    }
-
-    public String getOrderDescription() {
-        return orderDescription;
-    }
-
-    public PayTransactionBO setOrderDescription(String orderDescription) {
-        this.orderDescription = orderDescription;
-        return this;
-    }
-
-    public String getOrderMemo() {
-        return orderMemo;
-    }
-
-    public PayTransactionBO setOrderMemo(String orderMemo) {
-        this.orderMemo = orderMemo;
-        return this;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public PayTransactionBO setPrice(Integer price) {
-        this.price = price;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public PayTransactionBO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public Date getExpireTime() {
-        return expireTime;
-    }
-
-    public PayTransactionBO setExpireTime(Date expireTime) {
-        this.expireTime = expireTime;
-        return this;
-    }
-
-    public Date getFinishTime() {
-        return finishTime;
-    }
-
-    public PayTransactionBO setFinishTime(Date finishTime) {
-        this.finishTime = finishTime;
-        return this;
-    }
-
-    public Integer getExtensionId() {
-        return extensionId;
-    }
-
-    public PayTransactionBO setExtensionId(Integer extensionId) {
-        this.extensionId = extensionId;
-        return this;
-    }
-
-    public Integer getPayChannel() {
-        return payChannel;
-    }
-
-    public PayTransactionBO setPayChannel(Integer payChannel) {
-        this.payChannel = payChannel;
-        return this;
-    }
-
-    public Date getPaymentTime() {
-        return paymentTime;
-    }
-
-    public PayTransactionBO setPaymentTime(Date paymentTime) {
-        this.paymentTime = paymentTime;
-        return this;
-    }
-
-    public Date getNotifyTime() {
-        return notifyTime;
-    }
-
-    public PayTransactionBO setNotifyTime(Date notifyTime) {
-        this.notifyTime = notifyTime;
-        return this;
-    }
-
-    public String getTradeNo() {
-        return tradeNo;
-    }
-
-    public PayTransactionBO setTradeNo(String tradeNo) {
-        this.tradeNo = tradeNo;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public PayTransactionBO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
 
 }

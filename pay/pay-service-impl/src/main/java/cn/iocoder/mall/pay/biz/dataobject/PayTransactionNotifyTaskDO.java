@@ -2,12 +2,16 @@ package cn.iocoder.mall.pay.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
 import cn.iocoder.mall.pay.biz.service.PayServiceImpl;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 
 /**
  * 支付交易通知 App 的任务 DO
  */
+@Data
+@Accessors(chain = true)
 public class PayTransactionNotifyTaskDO extends DeletableDO {
 
     /**
@@ -83,104 +87,5 @@ public class PayTransactionNotifyTaskDO extends DeletableDO {
      * 通知地址
      */
     private String notifyUrl;
-
-    public Integer getTransactionId() {
-        return transactionId;
-    }
-
-    public PayTransactionNotifyTaskDO setTransactionId(Integer transactionId) {
-        this.transactionId = transactionId;
-        return this;
-    }
-
-    public String getAppId() {
-        return appId;
-    }
-
-    public PayTransactionNotifyTaskDO setAppId(String appId) {
-        this.appId = appId;
-        return this;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public PayTransactionNotifyTaskDO setOrderId(String orderId) {
-        this.orderId = orderId;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public PayTransactionNotifyTaskDO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public Date getNextNotifyTime() {
-        return nextNotifyTime;
-    }
-
-    public PayTransactionNotifyTaskDO setNextNotifyTime(Date nextNotifyTime) {
-        this.nextNotifyTime = nextNotifyTime;
-        return this;
-    }
-
-    public Integer getNotifyTimes() {
-        return notifyTimes;
-    }
-
-    public PayTransactionNotifyTaskDO setNotifyTimes(Integer notifyTimes) {
-        this.notifyTimes = notifyTimes;
-        return this;
-    }
-
-    public Integer getMaxNotifyTimes() {
-        return maxNotifyTimes;
-    }
-
-    public PayTransactionNotifyTaskDO setMaxNotifyTimes(Integer maxNotifyTimes) {
-        this.maxNotifyTimes = maxNotifyTimes;
-        return this;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public PayTransactionNotifyTaskDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getTransactionExtensionId() {
-        return transactionExtensionId;
-    }
-
-    public PayTransactionNotifyTaskDO setTransactionExtensionId(Integer transactionExtensionId) {
-        this.transactionExtensionId = transactionExtensionId;
-        return this;
-    }
-
-    public String getNotifyUrl() {
-        return notifyUrl;
-    }
-
-    public PayTransactionNotifyTaskDO setNotifyUrl(String notifyUrl) {
-        this.notifyUrl = notifyUrl;
-        return this;
-    }
-
-    public Date getLastExecuteTime() {
-        return lastExecuteTime;
-    }
-
-    public PayTransactionNotifyTaskDO setLastExecuteTime(Date lastExecuteTime) {
-        this.lastExecuteTime = lastExecuteTime;
-        return this;
-    }
 
 }

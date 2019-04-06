@@ -1,11 +1,16 @@
 package cn.iocoder.mall.product.dataobject;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.util.Date;
 
 /**
  * Product 库存
  */
 @Deprecated // TODO 芋艿，咱暂时不加库存表和库存服务
+@Data
+@Accessors(chain = true)
 public class ProductStockDO {
 
     /**

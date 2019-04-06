@@ -1,5 +1,8 @@
 package cn.iocoder.mall.user.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -9,6 +12,8 @@ import java.util.List;
  * @author Sin
  * @time 2019-04-06 13:56
  */
+@Data
+@Accessors(chain = true)
 public class UserAddressPageBO implements Serializable {
 
     /**
@@ -20,29 +25,4 @@ public class UserAddressPageBO implements Serializable {
      */
     private List<UserAddressBO> list;
 
-    @Override
-    public String toString() {
-        return "UserAddressPageBO{" +
-                "total=" + total +
-                ", list=" + list +
-                '}';
-    }
-
-    public Integer getTotal() {
-        return total;
-    }
-
-    public UserAddressPageBO setTotal(Integer total) {
-        this.total = total;
-        return this;
-    }
-
-    public List<UserAddressBO> getList() {
-        return list;
-    }
-
-    public UserAddressPageBO setList(List<UserAddressBO> list) {
-        this.list = list;
-        return this;
-    }
 }

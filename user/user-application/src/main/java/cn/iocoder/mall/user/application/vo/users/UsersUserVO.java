@@ -2,8 +2,12 @@ package cn.iocoder.mall.user.application.vo.users;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 @ApiModel("用户信息 VO")
+@Data
+@Accessors(chain = true)
 public class UsersUserVO {
 
     @ApiModelProperty(value = "用户编号", required = true, example = "123")
@@ -14,41 +18,5 @@ public class UsersUserVO {
     private String nickname;
     @ApiModelProperty(value = "头像", required = true, example = "http://www.iocoder.cn/xxx.jpg")
     private String avatar;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public UsersUserVO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public UsersUserVO setMobile(String mobile) {
-        this.mobile = mobile;
-        return this;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public UsersUserVO setNickname(String nickname) {
-        this.nickname = nickname;
-        return this;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public UsersUserVO setAvatar(String avatar) {
-        this.avatar = avatar;
-        return this;
-    }
 
 }

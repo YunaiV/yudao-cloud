@@ -1,11 +1,16 @@
 package cn.iocoder.mall.product.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * 商品 Sku 明细 BO
  */
+@Data
+@Accessors(chain = true)
 public class ProductSkuDetailBO implements Serializable {
 
     /**
@@ -32,60 +37,5 @@ public class ProductSkuDetailBO implements Serializable {
      * 库存数量
      */
     private Integer quantity;
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public ProductSkuDetailBO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getSpuId() {
-        return spuId;
-    }
-
-    public ProductSkuDetailBO setSpuId(Integer spuId) {
-        this.spuId = spuId;
-        return this;
-    }
-
-    public String getPicURL() {
-        return picURL;
-    }
-
-    public ProductSkuDetailBO setPicURL(String picURL) {
-        this.picURL = picURL;
-        return this;
-    }
-
-    public List<ProductAttrAndValuePairBO> getAttrs() {
-        return attrs;
-    }
-
-    public ProductSkuDetailBO setAttrs(List<ProductAttrAndValuePairBO> attrs) {
-        this.attrs = attrs;
-        return this;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public ProductSkuDetailBO setPrice(Integer price) {
-        this.price = price;
-        return this;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public ProductSkuDetailBO setQuantity(Integer quantity) {
-        this.quantity = quantity;
-        return this;
-    }
 
 }

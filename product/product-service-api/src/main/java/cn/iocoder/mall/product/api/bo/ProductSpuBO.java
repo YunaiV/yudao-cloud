@@ -1,8 +1,16 @@
 package cn.iocoder.mall.product.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 商品 SPU BO
+ */
+@Data
+@Accessors(chain = true)
 public class ProductSpuBO implements Serializable {
 
     /**
@@ -63,93 +71,4 @@ public class ProductSpuBO implements Serializable {
      */
     private Integer quantity;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public ProductSpuBO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ProductSpuBO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getSellPoint() {
-        return sellPoint;
-    }
-
-    public ProductSpuBO setSellPoint(String sellPoint) {
-        this.sellPoint = sellPoint;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public ProductSpuBO setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public Integer getCid() {
-        return cid;
-    }
-
-    public ProductSpuBO setCid(Integer cid) {
-        this.cid = cid;
-        return this;
-    }
-
-    public List<String> getPicUrls() {
-        return picUrls;
-    }
-
-    public ProductSpuBO setPicUrls(List<String> picUrls) {
-        this.picUrls = picUrls;
-        return this;
-    }
-
-    public Boolean getVisible() {
-        return visible;
-    }
-
-    public ProductSpuBO setVisible(Boolean visible) {
-        this.visible = visible;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public ProductSpuBO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public ProductSpuBO setPrice(Integer price) {
-        this.price = price;
-        return this;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public ProductSpuBO setQuantity(Integer quantity) {
-        this.quantity = quantity;
-        return this;
-    }
 }

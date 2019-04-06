@@ -1,5 +1,8 @@
 package cn.iocoder.mall.pay.biz.dataobject;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 /**
  * 交易日志 DO
  *
@@ -7,6 +10,8 @@ package cn.iocoder.mall.pay.biz.dataobject;
  *
  * TODO 芋艿，后面在捉摸
  */
+@Data
+@Accessors(chain = true)
 public class PayLogDO {
 
     /**

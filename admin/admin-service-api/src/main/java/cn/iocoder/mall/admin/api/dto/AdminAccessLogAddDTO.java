@@ -1,12 +1,17 @@
 package cn.iocoder.mall.admin.api.dto;
 
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
  * 管理员访问日志添加 DTO
  */
+@Data
+@Accessors(chain = true)
 public class AdminAccessLogAddDTO {
 
     /**
@@ -56,77 +61,5 @@ public class AdminAccessLogAddDTO {
      */
     @NotNull(message = "响应时长不能为空")
     private Integer responseTime;
-
-    public Integer getAdminId() {
-        return adminId;
-    }
-
-    public AdminAccessLogAddDTO setAdminId(Integer adminId) {
-        this.adminId = adminId;
-        return this;
-    }
-
-    public String getUri() {
-        return uri;
-    }
-
-    public AdminAccessLogAddDTO setUri(String uri) {
-        this.uri = uri;
-        return this;
-    }
-
-    public String getQueryString() {
-        return queryString;
-    }
-
-    public AdminAccessLogAddDTO setQueryString(String queryString) {
-        this.queryString = queryString;
-        return this;
-    }
-
-    public String getMethod() {
-        return method;
-    }
-
-    public AdminAccessLogAddDTO setMethod(String method) {
-        this.method = method;
-        return this;
-    }
-
-    public String getUserAgent() {
-        return userAgent;
-    }
-
-    public AdminAccessLogAddDTO setUserAgent(String userAgent) {
-        this.userAgent = userAgent;
-        return this;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public AdminAccessLogAddDTO setIp(String ip) {
-        this.ip = ip;
-        return this;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public AdminAccessLogAddDTO setStartTime(Date startTime) {
-        this.startTime = startTime;
-        return this;
-    }
-
-    public Integer getResponseTime() {
-        return responseTime;
-    }
-
-    public AdminAccessLogAddDTO setResponseTime(Integer responseTime) {
-        this.responseTime = responseTime;
-        return this;
-    }
 
 }

@@ -1,7 +1,15 @@
 package cn.iocoder.mall.promotion.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.util.List;
 
+/**
+ * 优惠劵（码）模板分页 BO
+ */
+@Data
+@Accessors(chain = true)
 public class CouponTemplatePageBO {
 
     /**
@@ -13,21 +21,4 @@ public class CouponTemplatePageBO {
      */
     private Integer total;
 
-    public CouponTemplatePageBO setList(List<CouponTemplateBO> list) {
-        this.list = list;
-        return this;
-    }
-
-    public CouponTemplatePageBO setTotal(Integer total) {
-        this.total = total;
-        return this;
-    }
-
-    public List<CouponTemplateBO> getList() {
-        return list;
-    }
-
-    public Integer getTotal() {
-        return total;
-    }
 }

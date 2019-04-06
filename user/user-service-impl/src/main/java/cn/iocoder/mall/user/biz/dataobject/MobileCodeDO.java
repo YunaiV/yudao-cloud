@@ -1,8 +1,13 @@
 package cn.iocoder.mall.user.biz.dataobject;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.util.Date;
 
 // TODO 优化，IP
+@Data
+@Accessors(chain = true)
 public class MobileCodeDO {
 
     /**
@@ -37,77 +42,5 @@ public class MobileCodeDO {
      * 使用时间
      */
     private Date usedTime;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public MobileCodeDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public MobileCodeDO setMobile(String mobile) {
-        this.mobile = mobile;
-        return this;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public MobileCodeDO setCode(String code) {
-        this.code = code;
-        return this;
-    }
-
-    public Integer getTodayIndex() {
-        return todayIndex;
-    }
-
-    public MobileCodeDO setTodayIndex(Integer todayIndex) {
-        this.todayIndex = todayIndex;
-        return this;
-    }
-
-    public Boolean getUsed() {
-        return used;
-    }
-
-    public MobileCodeDO setUsed(Boolean used) {
-        this.used = used;
-        return this;
-    }
-
-    public Integer getUsedUserId() {
-        return usedUserId;
-    }
-
-    public MobileCodeDO setUsedUserId(Integer usedUserId) {
-        this.usedUserId = usedUserId;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public MobileCodeDO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
-
-    public Date getUsedTime() {
-        return usedTime;
-    }
-
-    public MobileCodeDO setUsedTime(Date usedTime) {
-        this.usedTime = usedTime;
-        return this;
-    }
 
 }

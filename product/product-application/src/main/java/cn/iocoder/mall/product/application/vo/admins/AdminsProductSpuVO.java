@@ -2,10 +2,14 @@ package cn.iocoder.mall.product.application.vo.admins;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
 @ApiModel(value = "商品 SPU VO", description = "不包括 SKU 信息 VO")
+@Data
+@Accessors(chain = true)
 public class AdminsProductSpuVO {
 
     @ApiModelProperty(value = "SPU 编号", required = true, example = "1")
@@ -30,86 +34,5 @@ public class AdminsProductSpuVO {
     private Boolean visible;
     @ApiModelProperty(value = "排序字段", required = true, example = "10")
     private Integer sort;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public AdminsProductSpuVO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public AdminsProductSpuVO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getSellPoint() {
-        return sellPoint;
-    }
-
-    public AdminsProductSpuVO setSellPoint(String sellPoint) {
-        this.sellPoint = sellPoint;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public AdminsProductSpuVO setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public Integer getCid() {
-        return cid;
-    }
-
-    public AdminsProductSpuVO setCid(Integer cid) {
-        this.cid = cid;
-        return this;
-    }
-
-    public List<String> getPicUrls() {
-        return picUrls;
-    }
-
-    public AdminsProductSpuVO setPicUrls(List<String> picUrls) {
-        this.picUrls = picUrls;
-        return this;
-    }
-
-    public Boolean getVisible() {
-        return visible;
-    }
-
-    public AdminsProductSpuVO setVisible(Boolean visible) {
-        this.visible = visible;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public AdminsProductSpuVO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public AdminsProductSpuVO setQuantity(Integer quantity) {
-        this.quantity = quantity;
-        return this;
-    }
 
 }

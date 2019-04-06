@@ -1,5 +1,8 @@
 package cn.iocoder.mall.product.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -7,6 +10,8 @@ import java.util.List;
 /**
  * 商品 SPU + SKU 添加 DTO
  */
+@Data
+@Accessors(chain = true)
 public class ProductSpuAddDTO {
 
     // ========== 基本信息 =========
@@ -53,68 +58,5 @@ public class ProductSpuAddDTO {
      */
     @NotNull(message = "SKU 不能为空")
     private List<ProductSkuAddOrUpdateDTO> skus;
-
-    public String getName() {
-        return name;
-    }
-
-    public ProductSpuAddDTO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getSellPoint() {
-        return sellPoint;
-    }
-
-    public ProductSpuAddDTO setSellPoint(String sellPoint) {
-        this.sellPoint = sellPoint;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public ProductSpuAddDTO setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public Integer getCid() {
-        return cid;
-    }
-
-    public ProductSpuAddDTO setCid(Integer cid) {
-        this.cid = cid;
-        return this;
-    }
-
-    public List<String> getPicUrls() {
-        return picUrls;
-    }
-
-    public ProductSpuAddDTO setPicUrls(List<String> picUrls) {
-        this.picUrls = picUrls;
-        return this;
-    }
-
-    public Boolean getVisible() {
-        return visible;
-    }
-
-    public ProductSpuAddDTO setVisible(Boolean visible) {
-        this.visible = visible;
-        return this;
-    }
-
-    public List<ProductSkuAddOrUpdateDTO> getSkus() {
-        return skus;
-    }
-
-    public ProductSpuAddDTO setSkus(List<ProductSkuAddOrUpdateDTO> skus) {
-        this.skus = skus;
-        return this;
-    }
 
 }

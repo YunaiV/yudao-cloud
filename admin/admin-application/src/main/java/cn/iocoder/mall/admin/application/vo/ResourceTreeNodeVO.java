@@ -2,11 +2,15 @@ package cn.iocoder.mall.admin.application.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 import java.util.List;
 
 @ApiModel("资源树结构 VO")
+@Data
+@Accessors(chain = true)
 public class ResourceTreeNodeVO {
 
     @ApiModelProperty(value = "资源编号", required = true, example = "1")
@@ -27,86 +31,5 @@ public class ResourceTreeNodeVO {
     private String handler;
     @ApiModelProperty(value = "子节点数组")
     private List<ResourceTreeNodeVO> children;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public ResourceTreeNodeVO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ResourceTreeNodeVO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public ResourceTreeNodeVO setType(Integer type) {
-        this.type = type;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public ResourceTreeNodeVO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public ResourceTreeNodeVO setDisplayName(String displayName) {
-        this.displayName = displayName;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public ResourceTreeNodeVO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
-
-    public Integer getPid() {
-        return pid;
-    }
-
-    public ResourceTreeNodeVO setPid(Integer pid) {
-        this.pid = pid;
-        return this;
-    }
-
-    public String getHandler() {
-        return handler;
-    }
-
-    public ResourceTreeNodeVO setHandler(String handler) {
-        this.handler = handler;
-        return this;
-    }
-
-    public List<ResourceTreeNodeVO> getChildren() {
-        return children;
-    }
-
-    public ResourceTreeNodeVO setChildren(List<ResourceTreeNodeVO> children) {
-        this.children = children;
-        return this;
-    }
 
 }

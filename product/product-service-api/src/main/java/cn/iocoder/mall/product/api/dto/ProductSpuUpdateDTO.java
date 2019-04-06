@@ -1,5 +1,8 @@
 package cn.iocoder.mall.product.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -7,6 +10,8 @@ import java.util.List;
 /**
  * 商品 SPU + SKU 更新 DTO
  */
+@Data
+@Accessors(chain = true)
 public class ProductSpuUpdateDTO {
 
     /**
@@ -60,75 +65,4 @@ public class ProductSpuUpdateDTO {
     @NotNull(message = "SKU 不能为空")
     private List<ProductSkuAddOrUpdateDTO> skus;
 
-    public String getName() {
-        return name;
-    }
-
-    public ProductSpuUpdateDTO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getSellPoint() {
-        return sellPoint;
-    }
-
-    public ProductSpuUpdateDTO setSellPoint(String sellPoint) {
-        this.sellPoint = sellPoint;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public ProductSpuUpdateDTO setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public Integer getCid() {
-        return cid;
-    }
-
-    public ProductSpuUpdateDTO setCid(Integer cid) {
-        this.cid = cid;
-        return this;
-    }
-
-    public List<String> getPicUrls() {
-        return picUrls;
-    }
-
-    public ProductSpuUpdateDTO setPicUrls(List<String> picUrls) {
-        this.picUrls = picUrls;
-        return this;
-    }
-
-    public Boolean getVisible() {
-        return visible;
-    }
-
-    public ProductSpuUpdateDTO setVisible(Boolean visible) {
-        this.visible = visible;
-        return this;
-    }
-
-    public List<ProductSkuAddOrUpdateDTO> getSkus() {
-        return skus;
-    }
-
-    public ProductSpuUpdateDTO setSkus(List<ProductSkuAddOrUpdateDTO> skus) {
-        this.skus = skus;
-        return this;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public ProductSpuUpdateDTO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
 }

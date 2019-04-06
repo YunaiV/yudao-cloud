@@ -1,11 +1,16 @@
 package cn.iocoder.mall.pay.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
  * 支付交易提交 DTO
  */
+@Data
+@Accessors(chain = true)
 public class PayTransactionSubmitDTO {
 
     /**
@@ -28,41 +33,5 @@ public class PayTransactionSubmitDTO {
      */
     @NotNull(message = "支付渠道")
     private Integer payChannel;
-
-    public String getAppId() {
-        return appId;
-    }
-
-    public PayTransactionSubmitDTO setAppId(String appId) {
-        this.appId = appId;
-        return this;
-    }
-
-    public String getCreateIp() {
-        return createIp;
-    }
-
-    public PayTransactionSubmitDTO setCreateIp(String createIp) {
-        this.createIp = createIp;
-        return this;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public PayTransactionSubmitDTO setOrderId(String orderId) {
-        this.orderId = orderId;
-        return this;
-    }
-
-    public Integer getPayChannel() {
-        return payChannel;
-    }
-
-    public PayTransactionSubmitDTO setPayChannel(Integer payChannel) {
-        this.payChannel = payChannel;
-        return this;
-    }
 
 }

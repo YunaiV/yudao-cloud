@@ -1,5 +1,13 @@
 package cn.iocoder.mall.admin.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
+/**
+ * 角色分页 DTO
+ */
+@Data
+@Accessors(chain = true)
 public class RolePageDTO {
 
     private Integer pageNo;

@@ -1,8 +1,16 @@
 package cn.iocoder.mall.admin.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.util.Set;
 
+/**
+ * OAUTH2 认证 BO
+ */
+@Data
+@Accessors(chain = true)
 public class OAuth2AuthenticationBO implements Serializable {
 
     /**
@@ -13,23 +21,5 @@ public class OAuth2AuthenticationBO implements Serializable {
      * 角色编号数组
      */
     private Set<Integer> roleIds;
-
-    public Integer getAdminId() {
-        return adminId;
-    }
-
-    public OAuth2AuthenticationBO setAdminId(Integer adminId) {
-        this.adminId = adminId;
-        return this;
-    }
-
-    public Set<Integer> getRoleIds() {
-        return roleIds;
-    }
-
-    public OAuth2AuthenticationBO setRoleIds(Set<Integer> roleIds) {
-        this.roleIds = roleIds;
-        return this;
-    }
 
 }

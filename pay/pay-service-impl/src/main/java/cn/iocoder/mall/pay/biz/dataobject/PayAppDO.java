@@ -1,10 +1,14 @@
 package cn.iocoder.mall.pay.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 支付应用（业务线）DO
  */
+@Data
+@Accessors(chain = true)
 public class PayAppDO extends DeletableDO {
 
     /**
@@ -23,41 +27,5 @@ public class PayAppDO extends DeletableDO {
      * 状态
      */
     private Integer status;
-
-    public String getId() {
-        return id;
-    }
-
-    public PayAppDO setId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public PayAppDO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getNotifyUrl() {
-        return notifyUrl;
-    }
-
-    public PayAppDO setNotifyUrl(String notifyUrl) {
-        this.notifyUrl = notifyUrl;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public PayAppDO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
 
 }

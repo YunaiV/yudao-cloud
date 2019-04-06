@@ -1,10 +1,15 @@
 package cn.iocoder.mall.admin.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotEmpty;
 
 /**
  * 角色添加 DTO
  */
+@Data
+@Accessors(chain = true)
 public class RoleAddDTO {
 
     /**
@@ -12,14 +17,5 @@ public class RoleAddDTO {
      */
     @NotEmpty(message = "角色名字不能为空")
     private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public RoleAddDTO setName(String name) {
-        this.name = name;
-        return this;
-    }
 
 }

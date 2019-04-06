@@ -36,7 +36,7 @@ public class AdminsProductCategoryController {
     public CommonResult<List<AdminsProductCategoryTreeNodeVO>> tree() {
         List<ProductCategoryBO> productCategories = productCategoryService.getAll().getData();
         // 创建 ProductCategoryTreeNodeVO Map
-        Map<Integer, AdminsProductCategoryTreeNodeVO> treeNodeMap = productCategories.stream().collect(Collectors.toMap(ProductCategoryBO::getId, ProductCategoryConvert.INSTANCE::convert));
+        Map<Integer, AdminsProductCategoryTreeNodeVO> treeNodeMap = productCategories.stream().collect(Collectors.toMap(ProductCategoryBO::getId, ProductCategoryConvert.Admins.INSTANCE::convert));
         // 处理父子关系
         treeNodeMap.values().stream()
                 .filter(node -> !node.getPid().equals(ProductCategoryConstants.PID_ROOT))
@@ -77,7 +77,7 @@ public class AdminsProductCategoryController {
         // 创建商品分类
         CommonResult<ProductCategoryBO> result = productCategoryService.addProductCategory(AdminSecurityContextHolder.getContext().getAdminId(), productCategoryAddDTO);
         // 返回结果
-        return ProductCategoryConvert.INSTANCE.convert2(result);
+        return ProductCategoryConvert.Admins.INSTANCE.convert2(result);
     }
 
     @PostMapping("/update")

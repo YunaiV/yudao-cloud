@@ -1,10 +1,14 @@
 package cn.iocoder.mall.product.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * Product 规格值
  */
+@Data
+@Accessors(chain = true)
 public class ProductAttrValueDO extends DeletableDO {
 
     /**
@@ -26,41 +30,5 @@ public class ProductAttrValueDO extends DeletableDO {
      * 2-禁用
      */
     private Integer status;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public ProductAttrValueDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getAttrId() {
-        return attrId;
-    }
-
-    public ProductAttrValueDO setAttrId(Integer attrId) {
-        this.attrId = attrId;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ProductAttrValueDO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public ProductAttrValueDO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
 
 }

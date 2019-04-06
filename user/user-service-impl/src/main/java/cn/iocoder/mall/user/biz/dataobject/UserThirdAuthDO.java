@@ -1,10 +1,15 @@
 package cn.iocoder.mall.user.biz.dataobject;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.util.Date;
 
 /**
  * 用户三方开放平台授权，例如：QQ / 微博 / 微信等等。
  */
+@Data
+@Accessors(chain = true)
 public class UserThirdAuthDO {
 
     /**

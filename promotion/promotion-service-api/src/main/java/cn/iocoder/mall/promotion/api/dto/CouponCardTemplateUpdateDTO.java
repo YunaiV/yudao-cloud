@@ -2,15 +2,22 @@ package cn.iocoder.mall.promotion.api.dto;
 
 import cn.iocoder.common.framework.validator.InEnum;
 import cn.iocoder.mall.promotion.api.constant.CouponTemplateRangeTypeEnum;
+import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+/**
+ * 优惠劵模板更新 DTO
+ */
+@Data
+@Accessors(chain = true)
 public class CouponCardTemplateUpdateDTO {
 
-        @NotNull(message = "编号不能为空")
+    @NotNull(message = "编号不能为空")
     private Integer id;
 
     // ========== 基本信息 BEGIN ==========

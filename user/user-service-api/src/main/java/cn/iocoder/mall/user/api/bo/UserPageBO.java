@@ -1,7 +1,12 @@
 package cn.iocoder.mall.user.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.util.List;
 
+@Data
+@Accessors(chain = true)
 public class UserPageBO {
 
     /**
@@ -12,23 +17,5 @@ public class UserPageBO {
      * 总量
      */
     private Integer count;
-
-    public List<UserBO> getUsers() {
-        return users;
-    }
-
-    public UserPageBO setUsers(List<UserBO> users) {
-        this.users = users;
-        return this;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public UserPageBO setCount(Integer count) {
-        this.count = count;
-        return this;
-    }
 
 }

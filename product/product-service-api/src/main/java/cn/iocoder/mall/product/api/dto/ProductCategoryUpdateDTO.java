@@ -1,10 +1,15 @@
 package cn.iocoder.mall.product.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotNull;
 
 /**
  * 商品分类更新 DTO
  */
+@Data
+@Accessors(chain = true)
 public class ProductCategoryUpdateDTO {
 
     /**
@@ -38,57 +43,4 @@ public class ProductCategoryUpdateDTO {
     @NotNull(message = "排序值不能为空")
     private Integer sort;
 
-    public Integer getPid() {
-        return pid;
-    }
-
-    public ProductCategoryUpdateDTO setPid(Integer pid) {
-        this.pid = pid;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ProductCategoryUpdateDTO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public ProductCategoryUpdateDTO setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public String getPicUrl() {
-        return picUrl;
-    }
-
-    public ProductCategoryUpdateDTO setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public ProductCategoryUpdateDTO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public ProductCategoryUpdateDTO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
 }

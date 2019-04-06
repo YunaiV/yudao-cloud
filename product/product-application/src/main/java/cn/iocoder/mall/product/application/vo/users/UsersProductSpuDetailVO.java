@@ -2,10 +2,14 @@ package cn.iocoder.mall.product.application.vo.users;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
 @ApiModel(value = "商品 SPU 详细 VO", description = "包括 SKU 信息 VO")
+@Data
+@Accessors(chain = true)
 public class UsersProductSpuDetailVO {
 
     @ApiModelProperty(value = "SPU 编号", required = true, example = "1")
@@ -30,66 +34,4 @@ public class UsersProductSpuDetailVO {
      */
     private List<UsersProductSkuDetailVO> skus;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public UsersProductSpuDetailVO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public UsersProductSpuDetailVO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getSellPoint() {
-        return sellPoint;
-    }
-
-    public UsersProductSpuDetailVO setSellPoint(String sellPoint) {
-        this.sellPoint = sellPoint;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public UsersProductSpuDetailVO setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public Integer getCid() {
-        return cid;
-    }
-
-    public UsersProductSpuDetailVO setCid(Integer cid) {
-        this.cid = cid;
-        return this;
-    }
-
-    public List<String> getPicUrls() {
-        return picUrls;
-    }
-
-    public UsersProductSpuDetailVO setPicUrls(List<String> picUrls) {
-        this.picUrls = picUrls;
-        return this;
-    }
-
-    public List<UsersProductSkuDetailVO> getSkus() {
-        return skus;
-    }
-
-    public UsersProductSpuDetailVO setSkus(List<UsersProductSkuDetailVO> skus) {
-        this.skus = skus;
-        return this;
-    }
 }

@@ -1,7 +1,12 @@
 package cn.iocoder.mall.user.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotNull;
 
+@Data
+@Accessors(chain = true)
 public class UserPageDTO {
 
     /**
@@ -15,32 +20,5 @@ public class UserPageDTO {
     private Integer pageNo;
     @NotNull(message = "每页条数不能为空")
     private Integer pageSize;
-
-    public Integer getPageNo() {
-        return pageNo;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public UserPageDTO setNickname(String nickname) {
-        this.nickname = nickname;
-        return this;
-    }
-
-    public UserPageDTO setPageNo(Integer pageNo) {
-        this.pageNo = pageNo;
-        return this;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public UserPageDTO setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-        return this;
-    }
 
 }

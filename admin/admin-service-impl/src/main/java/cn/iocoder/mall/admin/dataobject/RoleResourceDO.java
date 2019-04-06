@@ -1,10 +1,14 @@
 package cn.iocoder.mall.admin.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * {@link RoleDO} 和 {@link ResourceDO} 的关联表
  */
+@Data
+@Accessors(chain = true)
 public class RoleResourceDO extends DeletableDO {
 
     /**
@@ -19,32 +23,5 @@ public class RoleResourceDO extends DeletableDO {
      * 资源编号(外键：{@link ResourceDO}
      */
     private Integer resourceId;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public RoleResourceDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public RoleResourceDO setRoleId(Integer roleId) {
-        this.roleId = roleId;
-        return this;
-    }
-
-    public Integer getResourceId() {
-        return resourceId;
-    }
-
-    public RoleResourceDO setResourceId(Integer resourceId) {
-        this.resourceId = resourceId;
-        return this;
-    }
 
 }

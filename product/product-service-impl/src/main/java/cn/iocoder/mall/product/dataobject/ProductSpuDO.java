@@ -1,10 +1,14 @@
 package cn.iocoder.mall.product.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 商品 SPU
  */
+@Data
+@Accessors(chain = true)
 public class ProductSpuDO extends DeletableDO {
 
     /**
@@ -68,95 +72,5 @@ public class ProductSpuDO extends DeletableDO {
      * 目前的计算方式是，以 Sku 库存累加为准
      */
     private Integer quantity;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public ProductSpuDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ProductSpuDO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getSellPoint() {
-        return sellPoint;
-    }
-
-    public ProductSpuDO setSellPoint(String sellPoint) {
-        this.sellPoint = sellPoint;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public ProductSpuDO setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public Integer getCid() {
-        return cid;
-    }
-
-    public ProductSpuDO setCid(Integer cid) {
-        this.cid = cid;
-        return this;
-    }
-
-    public String getPicUrls() {
-        return picUrls;
-    }
-
-    public ProductSpuDO setPicUrls(String picUrls) {
-        this.picUrls = picUrls;
-        return this;
-    }
-
-    public Boolean getVisible() {
-        return visible;
-    }
-
-    public ProductSpuDO setVisible(Boolean visible) {
-        this.visible = visible;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public ProductSpuDO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public ProductSpuDO setPrice(Integer price) {
-        this.price = price;
-        return this;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public ProductSpuDO setQuantity(Integer quantity) {
-        this.quantity = quantity;
-        return this;
-    }
 
 }

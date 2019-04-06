@@ -4,6 +4,8 @@ import cn.iocoder.common.framework.validator.InEnum;
 import cn.iocoder.mall.promotion.api.constant.CouponTemplateDateTypeEnum;
 import cn.iocoder.mall.promotion.api.constant.CouponTemplatePreferentialTypeEnum;
 import cn.iocoder.mall.promotion.api.constant.CouponTemplateRangeTypeEnum;
+import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Max;
@@ -12,6 +14,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+/**
+ * 优惠劵模板添加 DTO
+ */
+@Data
+@Accessors(chain = true)
 public class CouponCardTemplateAddDTO {
 
     // ========== 基本信息 BEGIN ==========
@@ -131,150 +138,5 @@ public class CouponCardTemplateAddDTO {
     @Min(value = 1, message = "折扣上限最小值为 {value}")
     private Integer discountPriceLimit;
     // ========== 使用效果 END ==========
-
-
-    public String getTitle() {
-        return title;
-    }
-
-    public CouponCardTemplateAddDTO setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public CouponCardTemplateAddDTO setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public Integer getQuota() {
-        return quota;
-    }
-
-    public CouponCardTemplateAddDTO setQuota(Integer quota) {
-        this.quota = quota;
-        return this;
-    }
-
-    public Integer getPriceAvailable() {
-        return priceAvailable;
-    }
-
-    public CouponCardTemplateAddDTO setPriceAvailable(Integer priceAvailable) {
-        this.priceAvailable = priceAvailable;
-        return this;
-    }
-
-    public Integer getRangeType() {
-        return rangeType;
-    }
-
-    public CouponCardTemplateAddDTO setRangeType(Integer rangeType) {
-        this.rangeType = rangeType;
-        return this;
-    }
-
-    public String getRangeValues() {
-        return rangeValues;
-    }
-
-    public CouponCardTemplateAddDTO setRangeValues(String rangeValues) {
-        this.rangeValues = rangeValues;
-        return this;
-    }
-
-    public Integer getDateType() {
-        return dateType;
-    }
-
-    public CouponCardTemplateAddDTO setDateType(Integer dateType) {
-        this.dateType = dateType;
-        return this;
-    }
-
-    public Date getValidStartTime() {
-        return validStartTime;
-    }
-
-    public CouponCardTemplateAddDTO setValidStartTime(Date validStartTime) {
-        this.validStartTime = validStartTime;
-        return this;
-    }
-
-    public Date getValidEndTime() {
-        return validEndTime;
-    }
-
-    public CouponCardTemplateAddDTO setValidEndTime(Date validEndTime) {
-        this.validEndTime = validEndTime;
-        return this;
-    }
-
-    public Integer getFixedBeginTerm() {
-        return fixedBeginTerm;
-    }
-
-    public CouponCardTemplateAddDTO setFixedBeginTerm(Integer fixedBeginTerm) {
-        this.fixedBeginTerm = fixedBeginTerm;
-        return this;
-    }
-
-    public Integer getFixedEndTerm() {
-        return fixedEndTerm;
-    }
-
-    public CouponCardTemplateAddDTO setFixedEndTerm(Integer fixedEndTerm) {
-        this.fixedEndTerm = fixedEndTerm;
-        return this;
-    }
-
-    public Integer getPreferentialType() {
-        return preferentialType;
-    }
-
-    public CouponCardTemplateAddDTO setPreferentialType(Integer preferentialType) {
-        this.preferentialType = preferentialType;
-        return this;
-    }
-
-    public Integer getPercentOff() {
-        return percentOff;
-    }
-
-    public CouponCardTemplateAddDTO setPercentOff(Integer percentOff) {
-        this.percentOff = percentOff;
-        return this;
-    }
-
-    public Integer getPriceOff() {
-        return priceOff;
-    }
-
-    public CouponCardTemplateAddDTO setPriceOff(Integer priceOff) {
-        this.priceOff = priceOff;
-        return this;
-    }
-
-    public Integer getDiscountPriceLimit() {
-        return discountPriceLimit;
-    }
-
-    public CouponCardTemplateAddDTO setDiscountPriceLimit(Integer discountPriceLimit) {
-        this.discountPriceLimit = discountPriceLimit;
-        return this;
-    }
-
-    public Integer getTotal() {
-        return total;
-    }
-
-    public CouponCardTemplateAddDTO setTotal(Integer total) {
-        this.total = total;
-        return this;
-    }
 
 }

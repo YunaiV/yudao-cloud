@@ -1,12 +1,16 @@
 package cn.iocoder.mall.promotion.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.BaseDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 
 /**
  * 优惠劵 DO
  */
+@Data
+@Accessors(chain = true)
 public class CouponCardDO extends BaseDO {
 
     // ========== 基本信息 BEGIN ==========

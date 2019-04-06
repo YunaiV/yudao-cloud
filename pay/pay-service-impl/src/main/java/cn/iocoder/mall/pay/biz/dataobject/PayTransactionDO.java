@@ -1,12 +1,16 @@
 package cn.iocoder.mall.pay.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 
 /**
  * 支付交易 DO
  */
+@Data
+@Accessors(chain = true)
 public class PayTransactionDO extends DeletableDO {
 
     /**
@@ -100,156 +104,4 @@ public class PayTransactionDO extends DeletableDO {
      */
     private String tradeNo;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public PayTransactionDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getAppId() {
-        return appId;
-    }
-
-    public PayTransactionDO setAppId(String appId) {
-        this.appId = appId;
-        return this;
-    }
-
-    public String getCreateIp() {
-        return createIp;
-    }
-
-    public PayTransactionDO setCreateIp(String createIp) {
-        this.createIp = createIp;
-        return this;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public PayTransactionDO setOrderId(String orderId) {
-        this.orderId = orderId;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public PayTransactionDO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public PayTransactionDO setPrice(Integer price) {
-        this.price = price;
-        return this;
-    }
-
-    public Integer getPayChannel() {
-        return payChannel;
-    }
-
-    public PayTransactionDO setPayChannel(Integer payChannel) {
-        this.payChannel = payChannel;
-        return this;
-    }
-
-    public Date getPaymentTime() {
-        return paymentTime;
-    }
-
-    public PayTransactionDO setPaymentTime(Date paymentTime) {
-        this.paymentTime = paymentTime;
-        return this;
-    }
-
-    public Date getNotifyTime() {
-        return notifyTime;
-    }
-
-    public PayTransactionDO setNotifyTime(Date notifyTime) {
-        this.notifyTime = notifyTime;
-        return this;
-    }
-
-    public String getTradeNo() {
-        return tradeNo;
-    }
-
-    public PayTransactionDO setTradeNo(String tradeNo) {
-        this.tradeNo = tradeNo;
-        return this;
-    }
-
-    public String getOrderSubject() {
-        return orderSubject;
-    }
-
-    public PayTransactionDO setOrderSubject(String orderSubject) {
-        this.orderSubject = orderSubject;
-        return this;
-    }
-
-    public String getOrderDescription() {
-        return orderDescription;
-    }
-
-    public PayTransactionDO setOrderDescription(String orderDescription) {
-        this.orderDescription = orderDescription;
-        return this;
-    }
-
-    public String getOrderMemo() {
-        return orderMemo;
-    }
-
-    public PayTransactionDO setOrderMemo(String orderMemo) {
-        this.orderMemo = orderMemo;
-        return this;
-    }
-
-    public Date getExpireTime() {
-        return expireTime;
-    }
-
-    public PayTransactionDO setExpireTime(Date expireTime) {
-        this.expireTime = expireTime;
-        return this;
-    }
-
-    public Date getFinishTime() {
-        return finishTime;
-    }
-
-    public PayTransactionDO setFinishTime(Date finishTime) {
-        this.finishTime = finishTime;
-        return this;
-    }
-
-    public Integer getExtensionId() {
-        return extensionId;
-    }
-
-    public PayTransactionDO setExtensionId(Integer extensionId) {
-        this.extensionId = extensionId;
-        return this;
-    }
-
-    public String getNotifyUrl() {
-        return notifyUrl;
-    }
-
-    public PayTransactionDO setNotifyUrl(String notifyUrl) {
-        this.notifyUrl = notifyUrl;
-        return this;
-    }
 }

@@ -1,6 +1,8 @@
 package cn.iocoder.mall.user.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 用户地址信息
@@ -8,6 +10,8 @@ import cn.iocoder.common.framework.dataobject.DeletableDO;
  * @author Sin
  * @time 2019-04-06 13:22
  */
+@Data
+@Accessors(chain = true)
 public class UserAddressDO extends DeletableDO {
 
     /**
@@ -35,69 +39,4 @@ public class UserAddressDO extends DeletableDO {
      */
     private String address;
 
-    @Override
-    public String toString() {
-        return "UserAddressDO{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", areaNo='" + areaNo + '\'' +
-                ", name='" + name + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", address='" + address + '\'' +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public UserAddressDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public UserAddressDO setUserId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public String getAreaNo() {
-        return areaNo;
-    }
-
-    public UserAddressDO setAreaNo(String areaNo) {
-        this.areaNo = areaNo;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public UserAddressDO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public UserAddressDO setMobile(String mobile) {
-        this.mobile = mobile;
-        return this;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public UserAddressDO setAddress(String address) {
-        this.address = address;
-        return this;
-    }
 }

@@ -1,9 +1,14 @@
 package cn.iocoder.mall.user.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 /**
  * @author Sin
  * @time 2019-04-06 13:28
  */
+@Data
+@Accessors(chain = true)
 public class UserAddressBO {
 
 
@@ -32,69 +37,4 @@ public class UserAddressBO {
      */
     private String address;
 
-    @Override
-    public String toString() {
-        return "UserAddressBO{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", areaNo='" + areaNo + '\'' +
-                ", name='" + name + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", address='" + address + '\'' +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public UserAddressBO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public UserAddressBO setUserId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public String getAreaNo() {
-        return areaNo;
-    }
-
-    public UserAddressBO setAreaNo(String areaNo) {
-        this.areaNo = areaNo;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public UserAddressBO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public UserAddressBO setMobile(String mobile) {
-        this.mobile = mobile;
-        return this;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public UserAddressBO setAddress(String address) {
-        this.address = address;
-        return this;
-    }
 }

@@ -1,7 +1,15 @@
 package cn.iocoder.mall.admin.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.util.List;
 
+/**
+ * 角色分页 BO
+ */
+@Data
+@Accessors(chain = true)
 public class RolePageBO {
 
     /**
@@ -12,23 +20,5 @@ public class RolePageBO {
      * 总量
      */
     private Integer count;
-
-    public List<RoleBO> getRoles() {
-        return roles;
-    }
-
-    public RolePageBO setRoles(List<RoleBO> roles) {
-        this.roles = roles;
-        return this;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public RolePageBO setCount(Integer count) {
-        this.count = count;
-        return this;
-    }
 
 }

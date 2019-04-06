@@ -2,10 +2,14 @@ package cn.iocoder.mall.promotion.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
 import cn.iocoder.mall.promotion.api.constant.ProductRecommendTypeEnum;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 商品推荐 DO
  */
+@Data
+@Accessors(chain = true)
 public class ProductRecommendDO extends DeletableDO {
 
     /**
@@ -37,59 +41,5 @@ public class ProductRecommendDO extends DeletableDO {
      * 备注
      */
     private String memo;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public ProductRecommendDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public ProductRecommendDO setType(Integer type) {
-        this.type = type;
-        return this;
-    }
-
-    public Integer getProductSpuId() {
-        return productSpuId;
-    }
-
-    public ProductRecommendDO setProductSpuId(Integer productSpuId) {
-        this.productSpuId = productSpuId;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public ProductRecommendDO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public ProductRecommendDO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public String getMemo() {
-        return memo;
-    }
-
-    public ProductRecommendDO setMemo(String memo) {
-        this.memo = memo;
-        return this;
-    }
 
 }

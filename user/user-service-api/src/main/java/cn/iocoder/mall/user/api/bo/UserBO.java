@@ -1,7 +1,12 @@
 package cn.iocoder.mall.user.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.util.Date;
 
+@Data
+@Accessors(chain = true)
 public class UserBO {
 
     /**
@@ -32,57 +37,4 @@ public class UserBO {
      */
     private Date createTime;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public UserBO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public UserBO setMobile(String mobile) {
-        this.mobile = mobile;
-        return this;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public UserBO setNickname(String nickname) {
-        this.nickname = nickname;
-        return this;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public UserBO setAvatar(String avatar) {
-        this.avatar = avatar;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public UserBO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public UserBO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
 }

@@ -2,10 +2,14 @@ package cn.iocoder.mall.admin.application.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 
 @ApiModel("资源 VO")
+@Data
+@Accessors(chain = true)
 public class ResourceVO {
 
     @ApiModelProperty(value = "资源编号", required = true, example = "1")
@@ -24,77 +28,5 @@ public class ResourceVO {
     private Integer pid;
     @ApiModelProperty(value = "操作", required = true, example = "/order/list")
     private String handler;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public ResourceVO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ResourceVO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public ResourceVO setType(Integer type) {
-        this.type = type;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public ResourceVO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public ResourceVO setDisplayName(String displayName) {
-        this.displayName = displayName;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public ResourceVO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
-
-    public Integer getPid() {
-        return pid;
-    }
-
-    public ResourceVO setPid(Integer pid) {
-        this.pid = pid;
-        return this;
-    }
-
-    public String getHandler() {
-        return handler;
-    }
-
-    public ResourceVO setHandler(String handler) {
-        this.handler = handler;
-        return this;
-    }
 
 }

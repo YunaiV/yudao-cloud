@@ -1,10 +1,15 @@
 package cn.iocoder.mall.user.biz.dataobject;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.util.Date;
 
 /**
  * 用户注册信息
  */
+@Data
+@Accessors(chain = true)
 public class UserRegisterDO {
 
     /**
@@ -19,24 +24,5 @@ public class UserRegisterDO {
     // TODO 芋艿 ip
     // TODO 芋艿 ua
     // TODO 芋艿 方式，手机注册、qq 等等
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public UserRegisterDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public UserRegisterDO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
 
 }

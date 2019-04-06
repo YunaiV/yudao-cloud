@@ -1,5 +1,8 @@
 package cn.iocoder.mall.user.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +11,8 @@ import java.io.Serializable;
  * @author Sin
  * @time 2019-04-06 13:28
  */
+@Data
+@Accessors(chain = true)
 public class UserAddressUpdateDTO implements Serializable {
 
     /**
@@ -35,69 +40,4 @@ public class UserAddressUpdateDTO implements Serializable {
      */
     private String address;
 
-    @Override
-    public String toString() {
-        return "UserAddressUpdateDTO{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", areaNo='" + areaNo + '\'' +
-                ", name='" + name + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", address='" + address + '\'' +
-                '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public UserAddressUpdateDTO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public UserAddressUpdateDTO setUserId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public String getAreaNo() {
-        return areaNo;
-    }
-
-    public UserAddressUpdateDTO setAreaNo(String areaNo) {
-        this.areaNo = areaNo;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public UserAddressUpdateDTO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public UserAddressUpdateDTO setMobile(String mobile) {
-        this.mobile = mobile;
-        return this;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public UserAddressUpdateDTO setAddress(String address) {
-        this.address = address;
-        return this;
-    }
 }

@@ -1,7 +1,15 @@
 package cn.iocoder.mall.admin.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.util.List;
 
+/**
+ * 管理员分页 BO
+ */
+@Data
+@Accessors(chain = true)
 public class AdminPageBO {
 
     /**
@@ -12,23 +20,5 @@ public class AdminPageBO {
      * 总量
      */
     private Integer total;
-
-    public List<AdminBO> getList() {
-        return list;
-    }
-
-    public AdminPageBO setList(List<AdminBO> list) {
-        this.list = list;
-        return this;
-    }
-
-    public Integer getTotal() {
-        return total;
-    }
-
-    public AdminPageBO setTotal(Integer total) {
-        this.total = total;
-        return this;
-    }
 
 }

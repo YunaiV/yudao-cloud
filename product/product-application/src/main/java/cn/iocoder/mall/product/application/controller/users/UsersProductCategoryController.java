@@ -29,7 +29,7 @@ public class UsersProductCategoryController {
     @ApiImplicitParam(name = "pid", value = "指定分类编号", required = true, example = "0")
     public CommonResult<List<UsersProductCategoryVO>> list(@RequestParam("pid") Integer pid) {
         List<ProductCategoryBO> result = productCategoryService.getListByPid(pid);
-        return CommonResult.success(ProductCategoryConvert.INSTANCE.convertToVO(result));
+        return CommonResult.success(ProductCategoryConvert.Users.INSTANCE.convertToVO(result));
     }
 
 }

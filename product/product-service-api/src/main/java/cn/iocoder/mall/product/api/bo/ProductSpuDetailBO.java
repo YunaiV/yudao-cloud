@@ -1,11 +1,16 @@
 package cn.iocoder.mall.product.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * 商品 Spu 明细 BO（包括 Sku 明细）
  */
+@Data
+@Accessors(chain = true)
 public class ProductSpuDetailBO implements Serializable {
 
     /**
@@ -58,86 +63,5 @@ public class ProductSpuDetailBO implements Serializable {
      * SKU 数组
      */
     private List<ProductSkuDetailBO> skus;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public ProductSpuDetailBO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ProductSpuDetailBO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getSellPoint() {
-        return sellPoint;
-    }
-
-    public ProductSpuDetailBO setSellPoint(String sellPoint) {
-        this.sellPoint = sellPoint;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public ProductSpuDetailBO setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public Integer getCid() {
-        return cid;
-    }
-
-    public ProductSpuDetailBO setCid(Integer cid) {
-        this.cid = cid;
-        return this;
-    }
-
-    public List<String> getPicUrls() {
-        return picUrls;
-    }
-
-    public ProductSpuDetailBO setPicUrls(List<String> picUrls) {
-        this.picUrls = picUrls;
-        return this;
-    }
-
-    public Boolean getVisible() {
-        return visible;
-    }
-
-    public ProductSpuDetailBO setVisible(Boolean visible) {
-        this.visible = visible;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public ProductSpuDetailBO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public List<ProductSkuDetailBO> getSkus() {
-        return skus;
-    }
-
-    public ProductSpuDetailBO setSkus(List<ProductSkuDetailBO> skus) {
-        this.skus = skus;
-        return this;
-    }
 
 }

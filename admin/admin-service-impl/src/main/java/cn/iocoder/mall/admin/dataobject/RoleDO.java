@@ -1,10 +1,14 @@
 package cn.iocoder.mall.admin.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 角色实体
  */
+@Data
+@Accessors(chain = true)
 public class RoleDO extends DeletableDO {
 
     /**
@@ -15,23 +19,5 @@ public class RoleDO extends DeletableDO {
      * 角色名
      */
     private String name;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public RoleDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public RoleDO setName(String name) {
-        this.name = name;
-        return this;
-    }
 
 }

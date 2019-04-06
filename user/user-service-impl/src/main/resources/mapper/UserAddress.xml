@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iocoder.mall.user.dao.UserAddressMapper">
+
+    <sql id="FIELDS">
+        id, user_id, areaNo, `name`, mobile, address,
+        create_time, update_time, deleted
+    </sql>
+
+    <insert id="insert" parameterType="UserAddressDO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_address (
+            user_id, areaNo, `name`, mobile, address
+        ) VALUES (
+          #{userId}, #{areaNo}, #{name}, #{mobile}, #{address},
+          #{createTime}, #{updateTime}, #{deleted}
+        )
+    </insert>
+
+    <update id="updateById" resultType="Integer">
+        UPDATE user_address
+        <set>
+            <if test="area_no != null">
+                , area_no = #{areaNo}
+            </if>
+            <if test="name != null">
+                , `name` = #{name}
+            </if>
+            <if test="mobile != null">
+                , mobile = #{mobile}
+            </if>
+            <if test="address != null">
+                , address = #{address}
+            </if>
+            <if test="updateTime != null">
+                , update_time = #{updateTime}
+            </if>
+            <if test="deleted != null">
+                , deleted = #{deleted}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectByUserIdAndId" resultType="cn.iocoder.mall.user.dataobject.UserAddressDO">
+        SELECT
+        <include refid="FIELDS" />
+        FROM user_address
+        WHERE user_id = #{userId}
+        AND id = #{id}
+    </select>
+
+    <select id="selectByUserIdAndDeleted" resultType="cn.iocoder.mall.user.dataobject.UserAddressDO">
+        SELECT
+        <include refid="FIELDS" />
+        FROM user_address
+        WHERE deleted = #{deleted}
+        AND `user_id` = #{userId}
+    </select>
+</mapper>

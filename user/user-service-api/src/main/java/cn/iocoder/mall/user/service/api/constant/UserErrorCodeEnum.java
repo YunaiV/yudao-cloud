@@ -30,7 +30,11 @@ public enum UserErrorCodeEnum {
     MOBILE_CODE_USED(1001003002, "验证码已使用"),
     MOBILE_CODE_NOT_CORRECT(1001003003, "验证码不正确"),
     MOBILE_CODE_EXCEED_SEND_MAXIMUM_QUANTITY_PER_DAY(1001003004, "超过每日短信发送数量"),
-    MOBILE_CODE_SEND_TOO_FAST(1001003005, "短信发送过于频率")
+    MOBILE_CODE_SEND_TOO_FAST(1001003005, "短信发送过于频率"),
+
+    // ========== 用户地址 ==========
+    USER_ADDRESS_NOT_EXISTENT(1001004000, "用户地址不存在!"),
+    USER_ADDRESS_IS_DELETED(1001004000, "用户地址已被删除!"),
     ;
 
     private final int code;

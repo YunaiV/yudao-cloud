@@ -26,10 +26,15 @@
     <packaging>pom</packaging>
 
     <properties>
-        <com.alibab.dubbo.version>2.6.6</com.alibab.dubbo.version>
+        <com.alibab.dubbo.version>2.6.5</com.alibab.dubbo.version>
         <mysql-connector-java.version>5.1.47</mysql-connector-java.version>
         <dubbo-spring-boot-starter.version>0.2.1.RELEASE</dubbo-spring-boot-starter.version>
         <org.mapstruct.version>1.3.0.Final</org.mapstruct.version>
+
+        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
+        <org.projectlombok.version>1.16.14</org.projectlombok.version>
+
+        <java.version>1.8</java.version>
     </properties>
 
     <dependencyManagement>
@@ -42,7 +47,7 @@
             <dependency>
                 <groupId>com.alibaba.boot</groupId>
                 <artifactId>dubbo-spring-boot-starter</artifactId>
-                <version>0.2.1.RELEASE</version>
+                <version>${dubbo-spring-boot-starter.version}</version>
             </dependency>
 
             <dependency>
@@ -62,6 +67,12 @@
                 <version>${org.mapstruct.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${org.projectlombok.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -74,5 +85,32 @@
         <!--</snapshotRepository>-->
     <!--</distributionManagement>-->
 
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>${java.version}</source> <!-- or higher, depending on your project -->
+                        <target>${java.version}</target> <!-- or higher, depending on your project -->
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${org.mapstruct.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${org.projectlombok.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>

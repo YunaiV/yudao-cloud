@@ -1,8 +1,13 @@
 package cn.iocoder.mall.pay.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 /**
  * 支付交易提交结果 BO
  */
+@Data
+@Accessors(chain = true)
 public class PayTransactionSubmitBO {
 
     /**
@@ -13,23 +18,5 @@ public class PayTransactionSubmitBO {
      * 调用三方平台的响应结果
      */
     private String invokeResponse;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public PayTransactionSubmitBO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getInvokeResponse() {
-        return invokeResponse;
-    }
-
-    public PayTransactionSubmitBO setInvokeResponse(String invokeResponse) {
-        this.invokeResponse = invokeResponse;
-        return this;
-    }
 
 }

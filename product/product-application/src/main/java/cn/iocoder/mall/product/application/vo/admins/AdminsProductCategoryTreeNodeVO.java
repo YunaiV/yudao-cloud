@@ -2,11 +2,15 @@ package cn.iocoder.mall.product.application.vo.admins;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 import java.util.List;
 
 @ApiModel("产品分类树节点 VO")
+@Data
+@Accessors(chain = true)
 public class AdminsProductCategoryTreeNodeVO {
 
     @ApiModelProperty(value = "分类编号", required = true, example = "1")
@@ -27,86 +31,5 @@ public class AdminsProductCategoryTreeNodeVO {
     private Date createTime;
     @ApiModelProperty(value = "子节点数组")
     private List<AdminsProductCategoryTreeNodeVO> children;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public AdminsProductCategoryTreeNodeVO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getPid() {
-        return pid;
-    }
-
-    public AdminsProductCategoryTreeNodeVO setPid(Integer pid) {
-        this.pid = pid;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public AdminsProductCategoryTreeNodeVO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public AdminsProductCategoryTreeNodeVO setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public String getPicUrl() {
-        return picUrl;
-    }
-
-    public AdminsProductCategoryTreeNodeVO setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public AdminsProductCategoryTreeNodeVO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public AdminsProductCategoryTreeNodeVO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public AdminsProductCategoryTreeNodeVO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
-
-    public List<AdminsProductCategoryTreeNodeVO> getChildren() {
-        return children;
-    }
-
-    public AdminsProductCategoryTreeNodeVO setChildren(List<AdminsProductCategoryTreeNodeVO> children) {
-        this.children = children;
-        return this;
-    }
 
 }

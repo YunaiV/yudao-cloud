@@ -2,8 +2,12 @@ package cn.iocoder.mall.product.application.vo.users;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 @ApiModel(value = "商品规格属性和值对 VO")
+@Data
+@Accessors(chain = true)
 public class UsersProductAttrAndValuePairVO {
 
     @ApiModelProperty(value = "规格编号", required = true, example = "1")
@@ -14,41 +18,5 @@ public class UsersProductAttrAndValuePairVO {
     private Integer attrValueId;
     @ApiModelProperty(value = "规格值名", required = true, example = "红色")
     private String attrValueName;
-
-    public Integer getAttrId() {
-        return attrId;
-    }
-
-    public UsersProductAttrAndValuePairVO setAttrId(Integer attrId) {
-        this.attrId = attrId;
-        return this;
-    }
-
-    public String getAttrName() {
-        return attrName;
-    }
-
-    public UsersProductAttrAndValuePairVO setAttrName(String attrName) {
-        this.attrName = attrName;
-        return this;
-    }
-
-    public Integer getAttrValueId() {
-        return attrValueId;
-    }
-
-    public UsersProductAttrAndValuePairVO setAttrValueId(Integer attrValueId) {
-        this.attrValueId = attrValueId;
-        return this;
-    }
-
-    public String getAttrValueName() {
-        return attrValueName;
-    }
-
-    public UsersProductAttrAndValuePairVO setAttrValueName(String attrValueName) {
-        this.attrValueName = attrValueName;
-        return this;
-    }
 
 }

@@ -1,10 +1,14 @@
 package cn.iocoder.mall.product.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 商品分类
  */
+@Data
+@Accessors(chain = true)
 public class ProductCategoryDO extends DeletableDO {
 
     /**
@@ -41,66 +45,4 @@ public class ProductCategoryDO extends DeletableDO {
      */
     private Integer status;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public ProductCategoryDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getPid() {
-        return pid;
-    }
-
-    public ProductCategoryDO setPid(Integer pid) {
-        this.pid = pid;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ProductCategoryDO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public ProductCategoryDO setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public String getPicUrl() {
-        return picUrl;
-    }
-
-    public ProductCategoryDO setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public ProductCategoryDO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public ProductCategoryDO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
 }

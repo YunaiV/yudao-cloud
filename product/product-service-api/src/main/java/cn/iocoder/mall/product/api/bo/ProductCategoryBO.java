@@ -1,11 +1,16 @@
 package cn.iocoder.mall.product.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 商品分类 BO
  */
+@Data
+@Accessors(chain = true)
 public class ProductCategoryBO implements Serializable {
 
     /**
@@ -45,72 +50,5 @@ public class ProductCategoryBO implements Serializable {
      * 创建时间
      */
     private Date createTime;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getPid() {
-        return pid;
-    }
-
-    public void setPid(Integer pid) {
-        this.pid = pid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPicUrl() {
-        return picUrl;
-    }
-
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public void setSort(Integer sort) {
-        this.sort = sort;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public ProductCategoryBO setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public ProductCategoryBO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public ProductCategoryBO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
 
 }

@@ -11,12 +11,7 @@
 
     <artifactId>product-service-impl</artifactId>
 
-    <properties>
-        <org.mapstruct.version>1.3.0.Final</org.mapstruct.version>
-    </properties>
-
     <dependencies>
-
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
             <artifactId>product-service-api</artifactId>

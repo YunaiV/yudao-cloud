@@ -2,10 +2,14 @@ package cn.iocoder.mall.product.application.vo.admins;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
 @ApiModel(value = "商品 SPU 详细 VO", description = "包括 SKU 信息 VO")
+@Data
+@Accessors(chain = true)
 public class AdminsProductSpuDetailVO {
 
     @ApiModelProperty(value = "SPU 编号", required = true, example = "1")
@@ -35,86 +39,5 @@ public class AdminsProductSpuDetailVO {
      * SKU 数组
      */
     private List<AdminsProductSkuDetailVO> skus;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public AdminsProductSpuDetailVO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public AdminsProductSpuDetailVO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getSellPoint() {
-        return sellPoint;
-    }
-
-    public AdminsProductSpuDetailVO setSellPoint(String sellPoint) {
-        this.sellPoint = sellPoint;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public AdminsProductSpuDetailVO setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public Integer getCid() {
-        return cid;
-    }
-
-    public AdminsProductSpuDetailVO setCid(Integer cid) {
-        this.cid = cid;
-        return this;
-    }
-
-    public List<String> getPicUrls() {
-        return picUrls;
-    }
-
-    public AdminsProductSpuDetailVO setPicUrls(List<String> picUrls) {
-        this.picUrls = picUrls;
-        return this;
-    }
-
-    public Boolean getVisible() {
-        return visible;
-    }
-
-    public AdminsProductSpuDetailVO setVisible(Boolean visible) {
-        this.visible = visible;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public AdminsProductSpuDetailVO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public List<AdminsProductSkuDetailVO> getSkus() {
-        return skus;
-    }
-
-    public AdminsProductSpuDetailVO setSkus(List<AdminsProductSkuDetailVO> skus) {
-        this.skus = skus;
-        return this;
-    }
 
 }

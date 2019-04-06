@@ -1,10 +1,14 @@
 package cn.iocoder.mall.product.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 商品 SKU
  */
+@Data
+@Accessors(chain = true)
 public class ProductSkuDO extends DeletableDO {
 
     /**
@@ -51,69 +55,5 @@ public class ProductSkuDO extends DeletableDO {
 //     * 销量
 //     */
 //    private Integer soldNum;
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public ProductSkuDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getSpuId() {
-        return spuId;
-    }
-
-    public ProductSkuDO setSpuId(Integer spuId) {
-        this.spuId = spuId;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public ProductSkuDO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public String getPicUrl() {
-        return picUrl;
-    }
-
-    public ProductSkuDO setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
-        return this;
-    }
-
-    public String getAttrs() {
-        return attrs;
-    }
-
-    public ProductSkuDO setAttrs(String attrs) {
-        this.attrs = attrs;
-        return this;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public ProductSkuDO setPrice(Integer price) {
-        this.price = price;
-        return this;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public ProductSkuDO setQuantity(Integer quantity) {
-        this.quantity = quantity;
-        return this;
-    }
 
 }

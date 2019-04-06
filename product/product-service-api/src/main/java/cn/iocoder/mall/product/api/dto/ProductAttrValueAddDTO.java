@@ -1,11 +1,16 @@
 package cn.iocoder.mall.product.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
  * Product 规格值添加 DTO
  */
+@Data
+@Accessors(chain = true)
 public class ProductAttrValueAddDTO {
 
     /**
@@ -18,23 +23,5 @@ public class ProductAttrValueAddDTO {
      */
     @NotEmpty(message = "规格值名不能为空")
     private String name;
-
-    public Integer getAttrId() {
-        return attrId;
-    }
-
-    public ProductAttrValueAddDTO setAttrId(Integer attrId) {
-        this.attrId = attrId;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ProductAttrValueAddDTO setName(String name) {
-        this.name = name;
-        return this;
-    }
 
 }

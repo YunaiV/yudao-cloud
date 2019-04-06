@@ -1,11 +1,16 @@
 package cn.iocoder.mall.product.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 商品规格值 VO
  */
+@Data
+@Accessors(chain = true)
 public class ProductAttrValueDetailBO implements Serializable {
 
     /**
@@ -25,39 +30,4 @@ public class ProductAttrValueDetailBO implements Serializable {
      */
     private Date createTime;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public ProductAttrValueDetailBO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ProductAttrValueDetailBO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public ProductAttrValueDetailBO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public ProductAttrValueDetailBO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
 }

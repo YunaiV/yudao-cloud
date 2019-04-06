@@ -1,10 +1,15 @@
 package cn.iocoder.mall.product.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotEmpty;
 
 /**
  * Product 规格添加 DTO
  */
+@Data
+@Accessors(chain = true)
 public class ProductAttrAddDTO {
 
     /**
@@ -12,14 +17,5 @@ public class ProductAttrAddDTO {
      */
     @NotEmpty(message = "规格名不能为空")
     private String name;
-
-    public String getName() {
-        return name;
-    }
-
-    public ProductAttrAddDTO setName(String name) {
-        this.name = name;
-        return this;
-    }
 
 }

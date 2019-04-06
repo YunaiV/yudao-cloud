@@ -2,10 +2,14 @@ package cn.iocoder.mall.product.application.vo.users;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
 @ApiModel(value = "商品 SPU VO", description = "不包括 SKU 信息 VO")
+@Data
+@Accessors(chain = true)
 public class UsersProductSpuVO {
 
     @ApiModelProperty(value = "SPU 编号", required = true, example = "1")
@@ -35,66 +39,4 @@ public class UsersProductSpuVO {
      */
     private Integer quantity;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public UsersProductSpuVO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public UsersProductSpuVO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getSellPoint() {
-        return sellPoint;
-    }
-
-    public UsersProductSpuVO setSellPoint(String sellPoint) {
-        this.sellPoint = sellPoint;
-        return this;
-    }
-
-    public Integer getCid() {
-        return cid;
-    }
-
-    public UsersProductSpuVO setCid(Integer cid) {
-        this.cid = cid;
-        return this;
-    }
-
-    public List<String> getPicUrls() {
-        return picUrls;
-    }
-
-    public UsersProductSpuVO setPicUrls(List<String> picUrls) {
-        this.picUrls = picUrls;
-        return this;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public UsersProductSpuVO setPrice(Integer price) {
-        this.price = price;
-        return this;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public UsersProductSpuVO setQuantity(Integer quantity) {
-        this.quantity = quantity;
-        return this;
-    }
 }

@@ -1,11 +1,16 @@
 package cn.iocoder.mall.product.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * 商品规格明细分页 BO
  */
+@Data
+@Accessors(chain = true)
 public class ProductAttrPageBO implements Serializable {
 
     /**
@@ -16,23 +21,5 @@ public class ProductAttrPageBO implements Serializable {
      * 总数
      */
     private Integer count;
-
-    public List<ProductAttrDetailBO> getAttrs() {
-        return attrs;
-    }
-
-    public ProductAttrPageBO setAttrs(List<ProductAttrDetailBO> attrs) {
-        this.attrs = attrs;
-        return this;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public ProductAttrPageBO setCount(Integer count) {
-        this.count = count;
-        return this;
-    }
 
 }

@@ -2,10 +2,14 @@ package cn.iocoder.mall.product.application.vo.admins;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.Date;
 
 @ApiModel("产品分类 VO")
+@Data
+@Accessors(chain = true)
 public class AdminsProductCategoryVO {
 
     @ApiModelProperty(value = "分类编号", required = true, example = "1")
@@ -24,77 +28,5 @@ public class AdminsProductCategoryVO {
     private Integer status;
     @ApiModelProperty(value = "创建时间", required = true, example = "时间戳")
     private Date createTime;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public AdminsProductCategoryVO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getPid() {
-        return pid;
-    }
-
-    public AdminsProductCategoryVO setPid(Integer pid) {
-        this.pid = pid;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public AdminsProductCategoryVO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public AdminsProductCategoryVO setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public String getPicUrl() {
-        return picUrl;
-    }
-
-    public AdminsProductCategoryVO setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public AdminsProductCategoryVO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public AdminsProductCategoryVO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public AdminsProductCategoryVO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
 
 }

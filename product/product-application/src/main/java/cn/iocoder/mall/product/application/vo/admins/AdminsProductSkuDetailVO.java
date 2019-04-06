@@ -1,12 +1,16 @@
 package cn.iocoder.mall.product.application.vo.admins;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
 /**
  * 商品 Sku 明细 BO
  */
+@Data
+@Accessors(chain = true)
 public class AdminsProductSkuDetailVO {
 
     @ApiModelProperty(value = "sku 编号", required = true, example = "1")
@@ -21,59 +25,5 @@ public class AdminsProductSkuDetailVO {
     private Integer price;
     @ApiModelProperty(value = "库存数量", required = true, example = "100")
     private Integer quantity;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public AdminsProductSkuDetailVO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public Integer getSpuId() {
-        return spuId;
-    }
-
-    public AdminsProductSkuDetailVO setSpuId(Integer spuId) {
-        this.spuId = spuId;
-        return this;
-    }
-
-    public String getPicURL() {
-        return picURL;
-    }
-
-    public AdminsProductSkuDetailVO setPicURL(String picURL) {
-        this.picURL = picURL;
-        return this;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public AdminsProductSkuDetailVO setPrice(Integer price) {
-        this.price = price;
-        return this;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public AdminsProductSkuDetailVO setQuantity(Integer quantity) {
-        this.quantity = quantity;
-        return this;
-    }
-
-    public List<AdminsProductAttrAndValuePairVO> getAttrs() {
-        return attrs;
-    }
-
-    public AdminsProductSkuDetailVO setAttrs(List<AdminsProductAttrAndValuePairVO> attrs) {
-        this.attrs = attrs;
-        return this;
-    }
 
 }

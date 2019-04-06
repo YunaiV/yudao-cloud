@@ -1,8 +1,16 @@
 package cn.iocoder.mall.product.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 商品 SPU 分页 BO
+ */
+@Data
+@Accessors(chain = true)
 public class ProductSpuPageBO implements Serializable {
 
     /**
@@ -13,23 +21,5 @@ public class ProductSpuPageBO implements Serializable {
      * 总量
      */
     private Integer count;
-
-    public List<ProductSpuBO> getSpus() {
-        return spus;
-    }
-
-    public ProductSpuPageBO setSpus(List<ProductSpuBO> spus) {
-        this.spus = spus;
-        return this;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
-
-    public ProductSpuPageBO setCount(Integer count) {
-        this.count = count;
-        return this;
-    }
 
 }

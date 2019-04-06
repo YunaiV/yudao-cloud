@@ -1,11 +1,16 @@
 package cn.iocoder.mall.admin.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
  * 资源更新 DTO
  */
+@Data
+@Accessors(chain = true)
 public class ResourceUpdateDTO {
 
     /**
@@ -36,59 +41,5 @@ public class ResourceUpdateDTO {
      * 操作
      */
     private String handler;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public ResourceUpdateDTO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ResourceUpdateDTO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public ResourceUpdateDTO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public ResourceUpdateDTO setDisplayName(String displayName) {
-        this.displayName = displayName;
-        return this;
-    }
-
-    public Integer getPid() {
-        return pid;
-    }
-
-    public ResourceUpdateDTO setPid(Integer pid) {
-        this.pid = pid;
-        return this;
-    }
-
-    public String getHandler() {
-        return handler;
-    }
-
-    public ResourceUpdateDTO setHandler(String handler) {
-        this.handler = handler;
-        return this;
-    }
 
 }

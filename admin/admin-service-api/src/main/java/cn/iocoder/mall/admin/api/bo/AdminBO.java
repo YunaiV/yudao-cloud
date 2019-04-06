@@ -1,7 +1,15 @@
 package cn.iocoder.mall.admin.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.util.Date;
 
+/**
+ * 管理员 BO
+ */
+@Data
+@Accessors(chain = true)
 public class AdminBO {
 
     /**
@@ -25,48 +33,4 @@ public class AdminBO {
      */
     private Date createTime;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public AdminBO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public AdminBO setUsername(String username) {
-        this.username = username;
-        return this;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public AdminBO setNickname(String nickname) {
-        this.nickname = nickname;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public AdminBO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public AdminBO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
 }

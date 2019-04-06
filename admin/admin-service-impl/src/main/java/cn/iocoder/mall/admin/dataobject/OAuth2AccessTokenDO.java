@@ -1,7 +1,15 @@
 package cn.iocoder.mall.admin.dataobject;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.util.Date;
 
+/**
+ * OAUTH2 AccessToken
+ */
+@Data
+@Accessors(chain = true)
 public class OAuth2AccessTokenDO {
 
     /**

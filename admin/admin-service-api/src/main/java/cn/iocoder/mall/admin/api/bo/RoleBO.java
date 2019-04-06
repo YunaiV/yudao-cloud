@@ -1,10 +1,15 @@
 package cn.iocoder.mall.admin.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.util.Date;
 
 /**
  * 角色 BO
  */
+@Data
+@Accessors(chain = true)
 public class RoleBO {
 
     /**
@@ -19,32 +24,5 @@ public class RoleBO {
      * 添加时间
      */
     private Date createTime;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public RoleBO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public RoleBO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public RoleBO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
 
 }

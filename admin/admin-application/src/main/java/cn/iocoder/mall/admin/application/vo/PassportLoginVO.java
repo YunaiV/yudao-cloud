@@ -2,8 +2,12 @@ package cn.iocoder.mall.admin.application.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 @ApiModel("登陆结果 VO")
+@Data
+@Accessors(chain = true)
 public class PassportLoginVO {
 
     @ApiModelProperty(value = "访问令牌", required = true, example = "2e3d7635c15e47e997611707a237859f")
@@ -12,32 +16,4 @@ public class PassportLoginVO {
     private String refreshToken;
     @ApiModelProperty(value = "过期时间，单位：秒", required = true, example = "2879")
     private Integer expiresIn;
-
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public PassportLoginVO setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-        return this;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public PassportLoginVO setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-        return this;
-    }
-
-    public Integer getExpiresIn() {
-        return expiresIn;
-    }
-
-    public PassportLoginVO setExpiresIn(Integer expiresIn) {
-        this.expiresIn = expiresIn;
-        return this;
-    }
-
 }

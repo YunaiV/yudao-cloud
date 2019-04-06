@@ -1,6 +1,8 @@
 package cn.iocoder.mall.admin.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 数据字典
@@ -11,6 +13,8 @@ import cn.iocoder.common.framework.dataobject.DeletableDO;
  *      value：1 男
  *      value：2 女
  */
+@Data
+@Accessors(chain = true)
 public class DataDictDO extends DeletableDO {
 
     /**
@@ -38,57 +42,4 @@ public class DataDictDO extends DeletableDO {
      */
     private String memo;
 
-    public String getEnumValue() {
-        return enumValue;
-    }
-
-    public DataDictDO setEnumValue(String enumValue) {
-        this.enumValue = enumValue;
-        return this;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public DataDictDO setValue(String value) {
-        this.value = value;
-        return this;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public DataDictDO setDisplayName(String displayName) {
-        this.displayName = displayName;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public DataDictDO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public String getMemo() {
-        return memo;
-    }
-
-    public DataDictDO setMemo(String memo) {
-        this.memo = memo;
-        return this;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public DataDictDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
 }

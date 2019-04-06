@@ -1,11 +1,16 @@
 package cn.iocoder.mall.admin.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
  * 数据字典更新 DTO
  */
+@Data
+@Accessors(chain = true)
 public class DataDictUpdateDTO {
 
     /**
@@ -32,50 +37,5 @@ public class DataDictUpdateDTO {
      * 备注
      */
     private String memo;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public DataDictUpdateDTO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public DataDictUpdateDTO setValue(String value) {
-        this.value = value;
-        return this;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public DataDictUpdateDTO setDisplayName(String displayName) {
-        this.displayName = displayName;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public DataDictUpdateDTO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public String getMemo() {
-        return memo;
-    }
-
-    public DataDictUpdateDTO setMemo(String memo) {
-        this.memo = memo;
-        return this;
-    }
 
 }

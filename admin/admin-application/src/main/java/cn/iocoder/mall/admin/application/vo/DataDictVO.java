@@ -2,8 +2,12 @@ package cn.iocoder.mall.admin.application.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 @ApiModel("数据字典 VO")
+@Data
+@Accessors(chain = true)
 public class DataDictVO {
 
     @ApiModelProperty(value = "编号", required = true, example = "1")
@@ -18,59 +22,5 @@ public class DataDictVO {
     private Integer sort;
     @ApiModelProperty(value = "备注", example = "你猜")
     private String memo;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public DataDictVO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getEnumValue() {
-        return enumValue;
-    }
-
-    public DataDictVO setEnumValue(String enumValue) {
-        this.enumValue = enumValue;
-        return this;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public DataDictVO setValue(String value) {
-        this.value = value;
-        return this;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public DataDictVO setDisplayName(String displayName) {
-        this.displayName = displayName;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public DataDictVO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public String getMemo() {
-        return memo;
-    }
-
-    public DataDictVO setMemo(String memo) {
-        this.memo = memo;
-        return this;
-    }
 
 }

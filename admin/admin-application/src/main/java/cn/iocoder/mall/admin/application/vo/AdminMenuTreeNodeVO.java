@@ -2,10 +2,14 @@ package cn.iocoder.mall.admin.application.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
 @ApiModel("管理员拥有的菜单 VO")
+@Data
+@Accessors(chain = true)
 public class AdminMenuTreeNodeVO {
 
     @ApiModelProperty(value = "菜单编号", required = true, example = "1")
@@ -22,59 +26,5 @@ public class AdminMenuTreeNodeVO {
     private String displayName;
     @ApiModelProperty(value = "子节点数组")
     private List<AdminMenuTreeNodeVO> children;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public AdminMenuTreeNodeVO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getHandler() {
-        return handler;
-    }
-
-    public AdminMenuTreeNodeVO setHandler(String handler) {
-        this.handler = handler;
-        return this;
-    }
-
-    public Integer getPid() {
-        return pid;
-    }
-
-    public AdminMenuTreeNodeVO setPid(Integer pid) {
-        this.pid = pid;
-        return this;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public AdminMenuTreeNodeVO setSort(Integer sort) {
-        this.sort = sort;
-        return this;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public AdminMenuTreeNodeVO setDisplayName(String displayName) {
-        this.displayName = displayName;
-        return this;
-    }
-
-    public List<AdminMenuTreeNodeVO> getChildren() {
-        return children;
-    }
-
-    public AdminMenuTreeNodeVO setChildren(List<AdminMenuTreeNodeVO> children) {
-        this.children = children;
-        return this;
-    }
 
 }

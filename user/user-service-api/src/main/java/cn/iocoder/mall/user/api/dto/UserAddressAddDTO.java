@@ -1,5 +1,8 @@
 package cn.iocoder.mall.user.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +11,8 @@ import java.io.Serializable;
  * @author Sin
  * @time 2019-04-06 13:25
  */
+@Data
+@Accessors(chain = true)
 public class UserAddressAddDTO implements Serializable {
 
     /**
@@ -31,59 +36,4 @@ public class UserAddressAddDTO implements Serializable {
      */
     private String address;
 
-    @Override
-    public String toString() {
-        return "UserAddressAddDTO{" +
-                "userId=" + userId +
-                ", areaNo='" + areaNo + '\'' +
-                ", name='" + name + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", address='" + address + '\'' +
-                '}';
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public UserAddressAddDTO setUserId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public String getAreaNo() {
-        return areaNo;
-    }
-
-    public UserAddressAddDTO setAreaNo(String areaNo) {
-        this.areaNo = areaNo;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public UserAddressAddDTO setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public UserAddressAddDTO setMobile(String mobile) {
-        this.mobile = mobile;
-        return this;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public UserAddressAddDTO setAddress(String address) {
-        this.address = address;
-        return this;
-    }
 }

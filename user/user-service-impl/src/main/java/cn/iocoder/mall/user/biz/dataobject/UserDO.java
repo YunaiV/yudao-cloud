@@ -1,12 +1,16 @@
 package cn.iocoder.mall.user.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 用户实体，存储用户基本数据。
  *
  * idx_mobile 唯一索引
  */
+@Data
+@Accessors(chain = true)
 public class UserDO extends DeletableDO {
 
     /**
@@ -33,49 +37,5 @@ public class UserDO extends DeletableDO {
      */
     private Integer status;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public UserDO setId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public UserDO setMobile(String mobile) {
-        this.mobile = mobile;
-        return this;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public UserDO setNickname(String nickname) {
-        this.nickname = nickname;
-        return this;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public UserDO setAvatar(String avatar) {
-        this.avatar = avatar;
-        return this;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public UserDO setStatus(Integer status) {
-        this.status = status;
-        return this;
-    }
 
 }

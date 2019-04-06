@@ -1,7 +1,12 @@
 package cn.iocoder.mall.user.biz.dataobject;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.util.Date;
 
+@Data
+@Accessors(chain = true)
 public class OAuth2AccessTokenDO {
 
     /**
@@ -29,57 +34,4 @@ public class OAuth2AccessTokenDO {
      */
     private Date createTime;
 
-    public String getId() {
-        return id;
-    }
-
-    public OAuth2AccessTokenDO setId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public OAuth2AccessTokenDO setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-        return this;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public OAuth2AccessTokenDO setUserId(Integer userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public Date getExpiresTime() {
-        return expiresTime;
-    }
-
-    public OAuth2AccessTokenDO setExpiresTime(Date expiresTime) {
-        this.expiresTime = expiresTime;
-        return this;
-    }
-
-    public Boolean getValid() {
-        return valid;
-    }
-
-    public OAuth2AccessTokenDO setValid(Boolean valid) {
-        this.valid = valid;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public OAuth2AccessTokenDO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
 }

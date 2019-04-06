@@ -1,7 +1,12 @@
 package cn.iocoder.mall.user.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 
+@Data
+@Accessors(chain = true)
 public class OAuth2AccessTokenBO implements Serializable {
 
     /**
@@ -16,32 +21,5 @@ public class OAuth2AccessTokenBO implements Serializable {
      * 过期时间，单位：秒。
      */
     private Integer expiresIn;
-
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public OAuth2AccessTokenBO setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-        return this;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public OAuth2AccessTokenBO setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-        return this;
-    }
-
-    public Integer getExpiresIn() {
-        return expiresIn;
-    }
-
-    public OAuth2AccessTokenBO setExpiresIn(Integer expiresIn) {
-        this.expiresIn = expiresIn;
-        return this;
-    }
 
 }

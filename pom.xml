@@ -135,6 +135,7 @@
     <build>
         <pluginManagement>
             <plugins>
+                <!-- 提供给 mapstruct 使用 -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -154,6 +155,15 @@
                                 <version>${org.projectlombok.version}</version>
                             </path>
                         </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+
+                <!-- 打包 -->
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <configuration>
+                        <fork>true</fork>
                     </configuration>
                 </plugin>
             </plugins>

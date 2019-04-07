@@ -11,9 +11,13 @@ public interface CouponCardMapper {
 
     CouponCardDO selectById(@Param("id") Integer id);
 
-    List<CouponCardDO> selectListByPage(@Param("status") Integer status);
+    List<CouponCardDO> selectListByPage(@Param("userId") Integer userId,
+                                        @Param("status") Integer status,
+                                        @Param("offset") Integer offset,
+                                        @Param("limit") Integer limit);
 
-    Integer selectCountByPage(@Param("status") Integer status);
+    Integer selectCountByPage(@Param("userId") Integer userId,
+                              @Param("status") Integer status);
 
     int selectCountByUserIdAndTemplateId(@Param("userId") Integer userId,
                                          @Param("templateId") Integer templateId);

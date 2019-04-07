@@ -35,7 +35,10 @@ public class AdminsCouponController {
     @GetMapping("/template/page")
     @ApiOperation(value = "优惠劵（码）模板分页")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", value = "类型", example = "参考 CouponTemplateTypeEnum 枚举"),
             @ApiImplicitParam(name = "title", value = "标题，模糊匹配", example = "活动 A"),
+            @ApiImplicitParam(name = "status", value = "状态", example = "参考 CouponTemplateStatusEnum 枚举"),
+            @ApiImplicitParam(name = "preferentialType", value = "优惠类型", example = "参考 CouponTemplatePreferentialTypeEnum 枚举"),
             @ApiImplicitParam(name = "pageNo", value = "页码，从 1 开始", example = "1"),
             @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, example = "10"),
     })

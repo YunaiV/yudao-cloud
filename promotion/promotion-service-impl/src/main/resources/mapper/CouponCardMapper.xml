@@ -38,6 +38,9 @@
           <include refid="FIELDS" />
         FROM coupon_card
         <where>
+            <if test="userId != null">
+                AND user_id = #{userId}
+            </if>
             <if test="status != null">
                 AND status = #{status}
             </if>
@@ -50,6 +53,9 @@
           COUNT(1)
         FROM coupon_card
         <where>
+            <if test="userId != null">
+                AND user_id = #{userId}
+            </if>
             <if test="status != null">
                 AND status = #{status}
             </if>

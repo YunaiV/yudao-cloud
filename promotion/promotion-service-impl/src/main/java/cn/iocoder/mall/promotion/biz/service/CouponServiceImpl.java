@@ -6,6 +6,7 @@ import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.promotion.api.CouponService;
 import cn.iocoder.mall.promotion.api.bo.CouponCardBO;
+import cn.iocoder.mall.promotion.api.bo.CouponCardPageBO;
 import cn.iocoder.mall.promotion.api.bo.CouponTemplateBO;
 import cn.iocoder.mall.promotion.api.bo.CouponTemplatePageBO;
 import cn.iocoder.mall.promotion.api.constant.*;
@@ -175,6 +176,20 @@ public class CouponServiceImpl implements CouponService {
     }
 
     // ========== 优惠劵 ==========
+
+    @Override
+    public CommonResult<CouponCardPageBO> getCouponCardPage(CouponCardPageDTO couponCardPageDTO) {
+        CouponCardPageBO pageBO = new CouponCardPageBO();
+        // 查询分页数据
+        int offset = (couponCardPageDTO.getPageNo() - 1) * couponCardPageDTO.getPageSize();
+        pageBO.setList(CouponCardConvert.INSTANCE.convertToBO(couponCardMapper.selectListByPage(
+                couponCardPageDTO.getUserId(), couponCardPageDTO.getStatus(),
+                offset, couponCardPageDTO.getPageSize())));
+        // 查询分页总数
+        pageBO.setTotal(couponCardMapper.selectCountByPage(
+                couponCardPageDTO.getUserId(), couponCardPageDTO.getStatus()));
+        return CommonResult.success(pageBO);
+    }
 
     @Override
     @Transactional

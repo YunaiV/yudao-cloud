@@ -81,7 +81,7 @@ export function getUserInfo() {
 
 export function doUserUpdateNickname(nickname) {
   return request({
-    url: 'user-api/users/user/update_nickname',
+    url: '/user-api/users/user/update_nickname',
     method: 'post',
     params: {
       nickname,
@@ -91,7 +91,7 @@ export function doUserUpdateNickname(nickname) {
 
 export function doPassportMobileRegister(mobile, code) {
   return request({
-    url: 'user-api/users/passport/mobile/register',
+    url: '/user-api/users/passport/mobile/register',
     method: 'post',
     params: {
       mobile,
@@ -102,7 +102,7 @@ export function doPassportMobileRegister(mobile, code) {
 
 export function doPassportMobileSendRegisterCode(mobile) {
   return request({
-    url: 'user-api/users/passport/mobile/send_register_code',
+    url: '/user-api/users/passport/mobile/send_register_code',
     method: 'post',
     params: {
       mobile,

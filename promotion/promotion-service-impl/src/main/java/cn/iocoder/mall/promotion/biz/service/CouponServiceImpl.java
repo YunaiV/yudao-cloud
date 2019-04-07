@@ -19,6 +19,7 @@ import cn.iocoder.mall.promotion.biz.dataobject.CouponCardDO;
 import cn.iocoder.mall.promotion.biz.dataobject.CouponTemplateDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -176,6 +177,7 @@ public class CouponServiceImpl implements CouponService {
     // ========== 优惠劵 ==========
 
     @Override
+    @Transactional
     public CommonResult<CouponCardBO> addCouponCard(Integer userId, Integer couponTemplateId) {
         // 校验 CouponCardTemplate 存在
         CouponTemplateDO template = couponTemplateMapper.selectById(couponTemplateId);
@@ -189,6 +191,19 @@ public class CouponServiceImpl implements CouponService {
         // 校验 CouponCardTemplate 状态是否开启
         if (!CouponTemplateStatusEnum.ENABLE.getValue().equals(template.getStatus())) {
             return ServiceExceptionUtil.error(PromotionErrorCodeEnum.PRODUCT_TEMPLATE_STATUS_NOT_ENABLE.getCode());
+        }
+        // 校验 CouponCardTemplate 是否到达可领取的上限
+        if (template.getStatFetchNum() > template.getTotal()) {
+            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.PRODUCT_TEMPLATE_TOTAL_NOT_ENOUGH.getCode());
+        }
+        //  校验单人可领取优惠劵是否到达上限
+        if (couponCardMapper.selectCountByUserIdAndTemplateId(userId, couponTemplateId) > template.getQuota()) {
+            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.PRODUCT_TEMPLATE_CARD_ADD_EXCEED_QUOTA.getCode());
+        }
+        // 增加优惠劵已领取量
+        int updateTemplateCount = couponTemplateMapper.updateStatFetchNumIncr(couponTemplateId);
+        if (updateTemplateCount == 0) { // 超过 CouponCardTemplate 发放量
+            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.PRODUCT_TEMPLATE_CARD_ADD_EXCEED_QUOTA.getCode());
         }
         // 创建优惠劵
         // 1. 基本信息 + 领取情况

@@ -149,4 +149,11 @@
         WHERE id = #{id}
     </update>
 
+    <update id="updateStatFetchNumIncr" parameterType="Integer">
+        UPDATE coupon_template
+        SET stat_fetch_Num = stat_fetch_Num + 1
+        WHERE id = #{id}
+        AND total > stat_fetch_Num
+    </update>
+
 </mapper>

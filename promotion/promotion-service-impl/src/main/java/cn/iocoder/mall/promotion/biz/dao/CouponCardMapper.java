@@ -15,6 +15,9 @@ public interface CouponCardMapper {
 
     Integer selectCountByPage(@Param("status") Integer status);
 
+    int selectCountByUserIdAndTemplateId(@Param("userId") Integer userId,
+                                         @Param("templateId") Integer templateId);
+
     void insert(CouponCardDO couponCardDO);
 
     int update(CouponCardDO couponCardDO);

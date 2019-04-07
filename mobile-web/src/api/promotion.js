@@ -20,4 +20,24 @@ export function getProductRecommendList() {
 
 // Coupon Template
 
+export function getCouponTemplate(id) {
+  return request({
+    url: '/promotion-api/users/coupon/template/get',
+    method: 'get',
+    params: {
+      id,
+    }
+  });
+}
+
+export function doAddCouponCard(templateId) {
+  return request({
+    url: '/promotion-api/users/coupon/card/add',
+    method: 'post',
+    params: {
+      templateId,
+    }
+  });
+}
+
 // Coupon Card

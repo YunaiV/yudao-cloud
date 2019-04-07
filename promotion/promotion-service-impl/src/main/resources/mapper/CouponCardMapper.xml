@@ -56,6 +56,20 @@
         </where>
     </select>
 
+    <select id="selectCountByUserIdAndTemplateId" resultType="Integer">
+        SELECT
+            COUNT(1)
+        FROM coupon_card
+        <where>
+            <if test="userId != null">
+                AND user_id = #{userId}
+            </if>
+            <if test="templateId != null">
+                AND template_id = #{templateId}
+            </if>
+        </where>
+    </select>
+
     <insert id="insert" parameterType="CouponCardDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO coupon_card (
           template_id, status, user_id, take_type,

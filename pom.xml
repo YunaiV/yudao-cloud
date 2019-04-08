@@ -22,6 +22,7 @@
         <module>ops</module>
         <module>pay</module>
         <module>promotion</module>
+        <module>cart</module>
     </modules>
     <packaging>pom</packaging>
 

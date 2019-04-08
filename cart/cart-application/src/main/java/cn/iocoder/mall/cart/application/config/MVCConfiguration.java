@@ -1,4 +1,4 @@
-package cn.iocoder.mall.product.application.config;
+package cn.iocoder.mall.cart.application.config;
 
 import cn.iocoder.common.framework.config.GlobalExceptionHandler;
 import cn.iocoder.common.framework.servlet.CorsFilter;

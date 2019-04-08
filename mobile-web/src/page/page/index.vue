@@ -65,9 +65,9 @@ export default {
         }
     },
     created:function(){
-        GetPage().then(response=>{
-            this.page=response;
-        });
+        // GetPage().then(response=>{
+        //     this.page=response;
+        // });
     },
     mounted: function() {
       // 加载 Banner

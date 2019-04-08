@@ -27,4 +27,6 @@ public interface CouponTemplateMapper {
 
     int update(CouponTemplateDO couponTemplate);
 
+    int updateStatFetchNumIncr(@Param("id") Integer id);
+
 }

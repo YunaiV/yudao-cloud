@@ -25,7 +25,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("admins/coupon")
 @Api("优惠劵（码）模块")
-public class AdminsCouponTemplateController {
+public class AdminsCouponController {
 
     @Reference(validation = "true")
     private CouponService couponService;
@@ -35,16 +35,19 @@ public class AdminsCouponTemplateController {
     @GetMapping("/template/page")
     @ApiOperation(value = "优惠劵（码）模板分页")
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", value = "类型", example = "参考 CouponTemplateTypeEnum 枚举"),
             @ApiImplicitParam(name = "title", value = "标题，模糊匹配", example = "活动 A"),
+            @ApiImplicitParam(name = "status", value = "状态", example = "参考 CouponTemplateStatusEnum 枚举"),
+            @ApiImplicitParam(name = "preferentialType", value = "优惠类型", example = "参考 CouponTemplatePreferentialTypeEnum 枚举"),
             @ApiImplicitParam(name = "pageNo", value = "页码，从 1 开始", example = "1"),
             @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, example = "10"),
     })
-    public CommonResult<AdminsCouponTemplatePageVO> page(@RequestParam(value = "type", required = false) Integer type,
-                                                         @RequestParam(value = "title", required = false) String title,
-                                                         @RequestParam(value = "status", required = false) Integer status,
-                                                         @RequestParam(value = "preferentialType", required = false) Integer preferentialType,
-                                                         @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
-                                                         @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+    public CommonResult<AdminsCouponTemplatePageVO> templatePage(@RequestParam(value = "type", required = false) Integer type,
+                                                                 @RequestParam(value = "title", required = false) String title,
+                                                                 @RequestParam(value = "status", required = false) Integer status,
+                                                                 @RequestParam(value = "preferentialType", required = false) Integer preferentialType,
+                                                                 @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+                                                                 @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         CommonResult<CouponTemplatePageBO> result = couponService.getCouponTemplatePage(new CouponTemplatePageDTO()
                 .setType(type).setTitle(title).setStatus(status).setPreferentialType(preferentialType)
                 .setPageNo(pageNo).setPageSize(pageSize));
@@ -71,24 +74,24 @@ public class AdminsCouponTemplateController {
             @ApiImplicitParam(name = "percentOff", value = "折扣百分比", example = "当 preferentialType 为折扣卷时，非空"),
             @ApiImplicitParam(name = "discountPriceLimit", value = "折扣上限", example = "当 preferentialType 为折扣卷时，非空"),
     })
-    public CommonResult<AdminsCouponTemplateVO> add(@RequestParam(value = "title") String title,
-                                                    @RequestParam(value = "description", required = false) String description,
-                                                    @RequestParam(value = "quota") Integer quota,
-                                                    @RequestParam(value = "total", required = false) Integer total,
-                                                    @RequestParam(value = "priceAvailable") Integer priceAvailable,
-                                                    @RequestParam(value = "rangeType") Integer rangeType,
-                                                    @RequestParam(value = "rangeValues", required = false) String rangeValues,
-                                                    @RequestParam(value = "dateType") Integer dateType,
-                                                    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    public CommonResult<AdminsCouponTemplateVO> templateCardAdd(@RequestParam(value = "title") String title,
+                                                                @RequestParam(value = "description", required = false) String description,
+                                                                @RequestParam(value = "quota") Integer quota,
+                                                                @RequestParam(value = "total", required = false) Integer total,
+                                                                @RequestParam(value = "priceAvailable") Integer priceAvailable,
+                                                                @RequestParam(value = "rangeType") Integer rangeType,
+                                                                @RequestParam(value = "rangeValues", required = false) String rangeValues,
+                                                                @RequestParam(value = "dateType") Integer dateType,
+                                                                @DateTimeFormat(pattern = "yyyy-MM-dd")
                                                     @RequestParam(value = "validStartTime", required = false) Date validStartTime,
-                                                    @DateTimeFormat(pattern = "yyyy-MM-dd")
+                                                                @DateTimeFormat(pattern = "yyyy-MM-dd")
                                                     @RequestParam(value = "validEndTime", required = false) Date validEndTime,
-                                                    @RequestParam(value = "fixedBeginTerm", required = false) Integer fixedBeginTerm,
-                                                    @RequestParam(value = "fixedEndTerm", required = false) Integer fixedEndTerm,
-                                                    @RequestParam(value = "preferentialType") Integer preferentialType,
-                                                    @RequestParam(value = "priceOff", required = false) Integer priceOff,
-                                                    @RequestParam(value = "percentOff", required = false) Integer percentOff,
-                                                    @RequestParam(value = "discountPriceLimit", required = false) Integer discountPriceLimit) {
+                                                                @RequestParam(value = "fixedBeginTerm", required = false) Integer fixedBeginTerm,
+                                                                @RequestParam(value = "fixedEndTerm", required = false) Integer fixedEndTerm,
+                                                                @RequestParam(value = "preferentialType") Integer preferentialType,
+                                                                @RequestParam(value = "priceOff", required = false) Integer priceOff,
+                                                                @RequestParam(value = "percentOff", required = false) Integer percentOff,
+                                                                @RequestParam(value = "discountPriceLimit", required = false) Integer discountPriceLimit) {
         // 创建 CouponCardTemplateAddDTO 对象
         validStartTime = DateUtil.getDayBegin(validStartTime); // 开始时间，以当前 00:00:00 为准
         validEndTime = DateUtil.getDayBegin(validEndTime); // 结束时间，以当前 25:59:59 为准
@@ -116,13 +119,13 @@ public class AdminsCouponTemplateController {
             @ApiImplicitParam(name = "rangeType", value = "可用范围的类型", required = true, example = "参见 CouponTemplateRangeTypeEnum 枚举"),
             @ApiImplicitParam(name = "rangeValues", value = "指定商品 / 分类列表，使用逗号分隔商品编号"),
     })
-    public CommonResult<Boolean> update(@RequestParam(value = "id") Integer id,
-                                                       @RequestParam(value = "title") String title,
-                                                       @RequestParam(value = "description", required = false) String description,
-                                                       @RequestParam(value = "quota") Integer quota,
-                                                       @RequestParam(value = "total", required = false) Integer total,
-                                                       @RequestParam(value = "rangeType") Integer rangeType,
-                                                       @RequestParam(value = "rangeValues", required = false) String rangeValues) {
+    public CommonResult<Boolean> templateCardUpdate(@RequestParam(value = "id") Integer id,
+                                                    @RequestParam(value = "title") String title,
+                                                    @RequestParam(value = "description", required = false) String description,
+                                                    @RequestParam(value = "quota") Integer quota,
+                                                    @RequestParam(value = "total", required = false) Integer total,
+                                                    @RequestParam(value = "rangeType") Integer rangeType,
+                                                    @RequestParam(value = "rangeValues", required = false) String rangeValues) {
         // 创建 CouponCardTemplateAddDTO 对象
         CouponCardTemplateUpdateDTO couponCardTemplateUpdateDTO = new CouponCardTemplateUpdateDTO()
                 .setId(id)
@@ -138,8 +141,8 @@ public class AdminsCouponTemplateController {
             @ApiImplicitParam(name = "id", value = "Banner 编号", required = true, example = "1"),
             @ApiImplicitParam(name = "status", value = "状态。1 - 开启；2 - 禁用", required = true, example = "1"),
     })
-    public CommonResult<Boolean> updateStatus(@RequestParam("id") Integer id,
-                                              @RequestParam("status") Integer status) {
+    public CommonResult<Boolean> templateUpdateStatus(@RequestParam("id") Integer id,
+                                                      @RequestParam("status") Integer status) {
         return couponService.updateCouponTemplateStatus(AdminSecurityContextHolder.getContext().getAdminId(), id, status);
     }
 

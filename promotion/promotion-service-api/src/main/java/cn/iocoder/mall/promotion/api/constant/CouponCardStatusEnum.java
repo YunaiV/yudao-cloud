@@ -4,14 +4,17 @@ import cn.iocoder.common.framework.core.IntArrayValuable;
 
 import java.util.Arrays;
 
-public enum CouponTemplateStatusEnum implements IntArrayValuable {
+/**
+ * 优惠劵状态枚举
+ */
+public enum CouponCardStatusEnum implements IntArrayValuable {
 
-    ENABLE(1, "生效中"),
-    DISABLE(2, "已失效"),
-//    EXPIRE(3, "已过期"), TODO 芋艿，暂时不考虑过期的
+    UNUSED(1, "未使用"),
+    USED(2, "已使用"),
+    EXPIRE(3, "已过期"),
     ;
 
-    public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(CouponTemplateStatusEnum::getValue).toArray();
+    public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(CouponCardStatusEnum::getValue).toArray();
 
     /**
      * 值
@@ -22,7 +25,7 @@ public enum CouponTemplateStatusEnum implements IntArrayValuable {
      */
     private final String name;
 
-    CouponTemplateStatusEnum(Integer value, String name) {
+    CouponCardStatusEnum(Integer value, String name) {
         this.value = value;
         this.name = name;
     }

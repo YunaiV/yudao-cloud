@@ -44,11 +44,10 @@ public interface OrderService {
     /**
      * 订单 - 创建
      *
-     * @param userId
      * @param orderCreateDTO
      * @return
      */
-    CommonResult<OrderCreateBO> createOrder(Integer userId, OrderCreateDTO orderCreateDTO);
+    CommonResult<OrderCreateBO> createOrder(OrderCreateDTO orderCreateDTO);
 
     /**
      * 订单item - 更新

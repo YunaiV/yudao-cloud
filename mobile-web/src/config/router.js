@@ -182,6 +182,13 @@ const routes = [
     }
   },
   {
+    path: '/order/success',
+    component: () => import('../page/shipping/order-success'),
+    meta: {
+      title: '确认订单'
+    }
+  },
+  {
     name: 'category',
     component: () => import('../page/category/index'),
     meta: {

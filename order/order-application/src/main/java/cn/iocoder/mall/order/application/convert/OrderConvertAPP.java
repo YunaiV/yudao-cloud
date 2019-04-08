@@ -1,11 +1,13 @@
 package cn.iocoder.mall.order.application.convert;
 
+import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderItemUpdateDTO;
 import cn.iocoder.mall.order.api.dto.OrderLogisticsUpdateDTO;
 import cn.iocoder.mall.order.api.dto.OrderQueryDTO;
-import cn.iocoder.mall.order.application.po.OrderItemUpdatePO;
-import cn.iocoder.mall.order.application.po.OrderPageQueryPO;
-import cn.iocoder.mall.order.application.po.OrderLogisticsPO;
+import cn.iocoder.mall.order.application.po.admin.OrderItemUpdatePO;
+import cn.iocoder.mall.order.application.po.admin.OrderLogisticsPO;
+import cn.iocoder.mall.order.application.po.admin.OrderPageQueryPO;
+import cn.iocoder.mall.order.application.po.user.OrderCreatePO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -24,11 +26,14 @@ public interface OrderConvertAPP {
     OrderConvertAPP INSTANCE = Mappers.getMapper(OrderConvertAPP.class);
 
     @Mappings({})
-    OrderQueryDTO convertPageBO(OrderPageQueryPO orderPageQueryVO);
+    OrderQueryDTO convert(OrderPageQueryPO orderPageQueryVO);
 
     @Mappings({})
-    OrderLogisticsUpdateDTO convertPageBO(OrderLogisticsPO orderLogisticsVO);
+    OrderLogisticsUpdateDTO convert(OrderLogisticsPO orderLogisticsVO);
 
     @Mappings({})
-    OrderItemUpdateDTO convertPageBO(OrderItemUpdatePO orderItemUpdateVO);
+    OrderItemUpdateDTO convert(OrderItemUpdatePO orderItemUpdateVO);
+
+    @Mappings({})
+    OrderCreateDTO convert(OrderCreatePO orderCreatePO);
 }

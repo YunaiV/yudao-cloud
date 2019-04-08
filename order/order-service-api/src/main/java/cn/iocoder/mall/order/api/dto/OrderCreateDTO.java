@@ -3,8 +3,6 @@ package cn.iocoder.mall.order.api.dto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -23,34 +21,20 @@ public class OrderCreateDTO implements Serializable {
      */
     private Integer userId;
     /**
-     * 收件区域编号
+     * 用户地址
      */
-    @NotNull
-    private String areaNo;
-    /**
-     * 收件人名称
-     */
-    @NotNull
-    private String name;
-    /**
-     * 收件手机号
-     */
-    @NotNull
-    private String mobile;
-    /**
-     * 收件详细地址
-     */
-    @NotNull
-    private String address;
+    private Integer userAddressId;
     /**
      * 备注
      */
     private String remark;
+    /**
+     * ip信息
+     */
+    private String ip;
 
     ///
     /// order item
 
-    @NotNull
-    @Size(max = 1000, min = 1)
     private List<OrderCreateItemDTO> orderItems;
 }

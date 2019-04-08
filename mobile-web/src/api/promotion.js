@@ -15,6 +15,9 @@ export function getProductRecommendList() {
   return request({
     url: '/promotion-api/users/product_recommend/list',
     method: 'get',
+    params: {
+      id,
+    }
   });
 }
 
@@ -39,6 +42,7 @@ export function doAddCouponCard(templateId) {
     }
   });
 }
+
 
 // Coupon Card
 

@@ -74,7 +74,7 @@ export function ExchangeCoupon(code){
 
 export function getUserInfo() {
   return request({
-    url: 'user-api/users/user/info',
+    url: '/user-api/users/user/info',
     method: 'get',
   });
 }

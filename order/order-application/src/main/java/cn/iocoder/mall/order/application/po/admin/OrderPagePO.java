@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.application.po;
+package cn.iocoder.mall.order.application.po.admin;
 
 import cn.iocoder.mall.order.api.bo.OrderBO;
 import io.swagger.annotations.ApiModel;

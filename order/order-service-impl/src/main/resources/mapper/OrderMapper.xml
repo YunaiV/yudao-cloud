@@ -14,15 +14,15 @@
     -->
     <insert id="insert" parameterType="OrderDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO `order` (
-            user_id, order_no, price, payment_time,
+            user_id, order_no, pay_amount, payment_time,
             delivery_time, receiver_time, closing_time,
-            has_return_exchange, status, remark,
-            create_time, update_time, `deleted`
+            has_return_exchange,
+            status, remark, create_time, update_time, `deleted`
         ) VALUES (
-             #{userId}, #{orderNo}, #{price}, #{paymentTime},
+             #{userId}, #{orderNo}, #{payAmount}, #{paymentTime},
              #{deliveryTime}, #{receiverTime}, #{closingTime},
-             #{hasReturnExchange}, #{status}, #{remark},
-             #{createTime}, #{updateTime}, #{deleted}
+             #{hasReturnExchange},
+             #{status}, #{remark}, #{createTime}, #{updateTime}, #{deleted}
         )
     </insert>
 

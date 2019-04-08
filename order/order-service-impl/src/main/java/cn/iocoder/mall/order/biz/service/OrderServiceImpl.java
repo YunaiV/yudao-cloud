@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.biz.service;
 
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
+import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.OrderService;
@@ -8,6 +9,7 @@ import cn.iocoder.mall.order.api.bo.*;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.constant.OrderHasReturnExchangeEnum;
 import cn.iocoder.mall.order.api.constant.OrderStatusEnum;
+import cn.iocoder.mall.order.api.constant.PayAppId;
 import cn.iocoder.mall.order.api.dto.*;
 import cn.iocoder.mall.order.biz.OrderCommon;
 import cn.iocoder.mall.order.biz.constants.OrderDeliveryTypeEnum;
@@ -18,10 +20,18 @@ import cn.iocoder.mall.order.biz.convert.OrderLogisticsConvert;
 import cn.iocoder.mall.order.biz.convert.OrderRecipientConvert;
 import cn.iocoder.mall.order.biz.dao.*;
 import cn.iocoder.mall.order.biz.dataobject.*;
+import cn.iocoder.mall.pay.api.PayTransactionService;
+import cn.iocoder.mall.pay.api.dto.PayTransactionCreateDTO;
+import cn.iocoder.mall.product.api.ProductSpuService;
+import cn.iocoder.mall.product.api.bo.ProductSpuBO;
+import cn.iocoder.mall.user.api.UserAddressService;
+import cn.iocoder.mall.user.api.bo.UserAddressBO;
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
@@ -37,6 +47,11 @@ import java.util.stream.Collectors;
 @com.alibaba.dubbo.config.annotation.Service(validation = "true")
 public class OrderServiceImpl implements OrderService {
 
+    /**
+     * 支付过期时间 15 分钟
+     */
+    public static final int PAY_EXPIRE_TIME = 15;
+
     @Autowired
     private OrderMapper orderMapper;
     @Autowired
@@ -50,6 +65,13 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderCommon orderCommon;
 
+    @Reference
+    private ProductSpuService productSpuService;
+    @Reference
+    private UserAddressService userAddressService;
+    @Reference
+    private PayTransactionService payTransactionService;
+
     @Override
     public CommonResult<OrderPageBO> getOrderPage(OrderQueryDTO orderQueryDTO) {
 
@@ -60,6 +82,10 @@ public class OrderServiceImpl implements OrderService {
 
         // 获取订单数据
         List<OrderDO> orderDOList = orderMapper.selectPage(orderQueryDTO);
+
+        if (CollectionUtils.isEmpty(orderDOList)) {
+            return CommonResult.success(new OrderPageBO().setOrders(Collections.EMPTY_LIST).setTotal(totalCount));
+        }
 
         // 获取订单 id
         Set<Integer> orderIds = orderDOList.stream()
@@ -133,33 +159,59 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public CommonResult<OrderCreateBO> createOrder(Integer userId, OrderCreateDTO orderCreateDTO) {
+    public CommonResult<OrderCreateBO> createOrder(OrderCreateDTO orderCreateDTO) {
+        Integer userId = orderCreateDTO.getUserId();
         List<OrderCreateItemDTO> orderItemDTOList = orderCreateDTO.getOrderItems();
-        OrderRecipientDO orderRecipientDO = OrderRecipientConvert.INSTANCE.convert(orderCreateDTO);
         List<OrderItemDO> orderItemDOList = OrderItemConvert.INSTANCE.convert(orderItemDTOList);
 
-        // TODO: 2019-03-24 sin 校验商品是否存在
-//        for (OrderItemDO orderItemDO : orderItemDOList) {
-//            CommonResult<ProductSpuDetailBO> result = productSpuService.getProductSpu(orderItemDO.getSkuId());
-//
-//            // 有任何商品获取失败，或者为 null，都直接返回失败。
-//            if (result.isError()) {
-//                return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_SKU_FAIL.getCode());
-//            }
-//
-//            if (result.getData() == null) {
-//                return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_SKU_NOT_EXISTENT.getCode());
-//            }
-//
-//            ProductSpuDetailBO spuDetailBO = result.getData();
-//            orderItemDO.setPrice(1000);
-//        }
+        // 获取商品信息
+        Set<Integer> skuIds = orderItemDOList.stream()
+                .map(orderItemDO -> orderItemDO.getSkuId()).collect(Collectors.toSet());
+
+        CommonResult<List<ProductSpuBO>> result = productSpuService.getProductSpuList(skuIds);
+
+        // 校验商品信息
+        if (result.isError()) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_SKU_FAIL.getCode());
+        }
+
+        if (result.getData() == null) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_SKU_NOT_EXISTENT.getCode());
+        }
+
+        if (orderItemDTOList.size() != result.getData().size()) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_GOODS_INFO_INCORRECT.getCode());
+        }
+
+        // 设置 orderItem
+
+        Map<Integer, ProductSpuBO> productSpuBOMap = result.getData()
+                .stream().collect(Collectors.toMap(o -> o.getId(), o -> o));
+
+        for (OrderItemDO orderItemDO : orderItemDOList) {
+            ProductSpuBO productSpuBO = productSpuBOMap.get(orderItemDO.getSkuId());
+            if (productSpuBO.getQuantity() <= 0) {
+                return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_INSUFFICIENT_INVENTORY.getCode());
+            }
+
+            if (productSpuBO.getPrice() <= 0) {
+                return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GOODS_AMOUNT_INCORRECT.getCode());
+            }
+
+            orderItemDO.setSkuImage(Optional.ofNullable(productSpuBO.getPicUrls().get(0)).get());
+            orderItemDO.setSkuName(productSpuBO.getName());
+            orderItemDO.setPrice(productSpuBO.getPrice());
+
+            int payAmount = orderItemDO.getQuantity() * orderItemDO.getPrice();
+            orderItemDO.setPayAmount(payAmount);
+        }
 
         // order
+        Integer totalAmount = orderCommon.calculatedAmount(orderItemDOList);
         OrderDO orderDO = new OrderDO()
                 .setUserId(userId)
                 .setOrderNo(UUID.randomUUID().toString().replace("-", ""))
-                .setPayAmount(-1) // 先设置一个默认值，金额在下面计算
+                .setPayAmount(totalAmount)
                 .setClosingTime(null)
                 .setDeliveryTime(null)
                 .setPaymentTime(null)
@@ -173,6 +225,12 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.insert(orderDO);
 
         // 收件人信息
+        CommonResult<UserAddressBO> userAddressResult = userAddressService.getAddress(userId, orderCreateDTO.getUserAddressId());
+        if (userAddressResult.isError()) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_USER_ADDRESS_FAIL.getCode());
+        }
+        UserAddressBO userAddressBO = userAddressResult.getData();
+        OrderRecipientDO orderRecipientDO = OrderRecipientConvert.INSTANCE.convert(userAddressBO);
         orderRecipientDO
                 .setOrderId(orderDO.getId())
                 .setType(OrderRecipientTypeEnum.EXPRESS.getValue())
@@ -183,14 +241,9 @@ public class OrderServiceImpl implements OrderService {
 
         // order item
         orderItemDOList.forEach(orderItemDO -> {
-            int goodsPrice = 1000; // 商品单价
             orderItemDO
                     .setOrderId(orderDO.getId())
                     .setOrderNo(orderDO.getOrderNo())
-                    .setPrice(goodsPrice)
-                    .setPayAmount(orderItemDO.getQuantity() * orderItemDO.getPrice())
-                    .setSkuName("夏季衣服-默认数据")
-                    .setSkuImage("//img.alicdn.com/tps/i4/TB1TiGwKXXXXXXRXFXXqVMCNVXX-400-400.jpg_350x350q90.jpg_.webp")
                     .setPaymentTime(null)
                     .setDeliveryTime(null)
                     .setReceiverTime(null)
@@ -201,20 +254,31 @@ public class OrderServiceImpl implements OrderService {
                     .setDeleted(DeletedStatusEnum.DELETED_NO.getValue())
                     .setCreateTime(new Date())
                     .setUpdateTime(null);
-
             orderItemMapper.insert(orderItemDO);
         });
 
-        // 更新订单金额
-        Integer totalAmount = orderCommon.calculatedAmount(orderItemDOList);
-        orderMapper.updateById(
-                new OrderDO()
-                        .setId(orderDO.getId())
-                        .setPayAmount(totalAmount)
+        // 创建预订单
+        // TODO sin 支付订单 orderSubject 暂时取第一个子订单商品信息
+        String orderSubject = orderItemDOList.get(0).getSkuName();
+        Date expireTime = DateUtil.addDate(Calendar.MINUTE, PAY_EXPIRE_TIME);
+        CommonResult commonResult = payTransactionService.createTransaction(
+                new PayTransactionCreateDTO()
+                        .setCreateIp(orderCreateDTO.getIp())
+                        .setAppId(PayAppId.APP_ID_1024)
+                        .setExpireTime(expireTime)
+                        .setPrice(orderDO.getPayAmount())
+                        .setOrderSubject(orderSubject)
+                        .setOrderMemo(orderDO.getRemark())
+                        .setOrderDescription("")
         );
 
-        // TODO: 2019-03-17 Sin 需要发送 创建成果 MQ 消息
+        if (commonResult.isError()) {
+            //手动开启事务回滚
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_PAY_FAIL.getCode());
+        }
 
+        // TODO: 2019-03-17 Sin 需要发送 创建成果 MQ 消息，业务扩展和统计
         return CommonResult.success(
                 new OrderCreateBO()
                         .setId(orderDO.getId())

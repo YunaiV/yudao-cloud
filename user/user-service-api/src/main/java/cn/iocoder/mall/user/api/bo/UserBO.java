@@ -3,11 +3,12 @@ package cn.iocoder.mall.user.api.bo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @Accessors(chain = true)
-public class UserBO {
+public class UserBO implements Serializable {
 
     /**
      * 用户编号

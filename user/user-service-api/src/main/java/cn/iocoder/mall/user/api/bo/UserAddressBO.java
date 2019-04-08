@@ -3,13 +3,15 @@ package cn.iocoder.mall.user.api.bo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * @author Sin
  * @time 2019-04-06 13:28
  */
 @Data
 @Accessors(chain = true)
-public class UserAddressBO {
+public class UserAddressBO implements Serializable {
 
 
     /**

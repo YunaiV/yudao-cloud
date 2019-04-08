@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.application.po;
+package cn.iocoder.mall.order.application.po.admin;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

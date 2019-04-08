@@ -6,7 +6,7 @@ package cn.iocoder.mall.order.api.constant;
  * @author Sin
  * @time 2019-03-16 14:32
  */
-public enum OrderPayStatusEnum {
+public enum OrderPayStatus {
 
     WAITING_PAYMENT(0, "等待支付"),
     SUCCESSFUL_PAYMENT(1, "支付成功"),
@@ -19,7 +19,7 @@ public enum OrderPayStatusEnum {
 
     private final String name;
 
-    OrderPayStatusEnum(int value, String name) {
+    OrderPayStatus(int value, String name) {
         this.value = value;
         this.name = name;
     }

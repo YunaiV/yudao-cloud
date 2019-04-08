@@ -1,7 +1,7 @@
 package cn.iocoder.mall.order.application.convert;
 
 import cn.iocoder.mall.order.api.dto.OrderDeliveryDTO;
-import cn.iocoder.mall.order.application.po.OrderDeliverPO;
+import cn.iocoder.mall.order.application.po.admin.OrderDeliverPO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;

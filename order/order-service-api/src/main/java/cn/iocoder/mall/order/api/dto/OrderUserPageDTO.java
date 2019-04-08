@@ -7,14 +7,14 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 订单 query
+ * 用户订单 page
  *
  * @author Sin
- * @time 2019-03-23 14:15
+ * @time 2019-04-08 17:50
  */
 @Data
 @Accessors(chain = true)
-public class OrderQueryDTO implements Serializable {
+public class OrderUserPageDTO implements Serializable {
 
     /**
      * id
@@ -29,14 +29,6 @@ public class OrderQueryDTO implements Serializable {
      */
     private Integer userId;
     /**
-     * 物流id
-     */
-    private Integer orderLogisticsId;
-    /**
-     * 是否退换货
-     */
-    private Integer hasReturnExchange;
-    /**
      * 付款时间（待发货）
      */
     private Date startPaymentTime;
@@ -47,13 +39,7 @@ public class OrderQueryDTO implements Serializable {
     private Date startCreateTime;
     private Date endCreateTime;
     /**
-     * 删除状态
-     */
-    private Integer deleted;
-    /**
      * 状态
      */
     private Integer status;
-    private Integer pageNo;
-    private Integer pageSize;
 }

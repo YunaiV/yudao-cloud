@@ -3,6 +3,7 @@ package cn.iocoder.mall.order.biz.convert;
 import cn.iocoder.mall.order.api.bo.OrderRecipientBO;
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
 import cn.iocoder.mall.order.biz.dataobject.OrderRecipientDO;
+import cn.iocoder.mall.user.api.bo.UserAddressBO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -22,6 +23,9 @@ public interface OrderRecipientConvert {
 
     @Mappings({})
     OrderRecipientDO convert(OrderCreateDTO orderCreateDTO);
+
+    @Mappings({})
+    OrderRecipientDO convert(UserAddressBO userAddressBO);
 
     @Mappings({})
     OrderRecipientBO convert(OrderRecipientDO orderRecipientDO);

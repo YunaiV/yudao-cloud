@@ -33,6 +33,10 @@ public class OrderItemDO extends DeletableDO {
      */
     private Integer skuId;
     /**
+     * 物流id
+     */
+    private Integer orderLogisticsId;
+    /**
      * 商品名称
      */
     private String skuName;
@@ -52,10 +56,6 @@ public class OrderItemDO extends DeletableDO {
      * 支付金额（实付金额）
      */
     private Integer payAmount;
-    /**
-     * 物流id
-     */
-    private Integer orderLogisticsId;
 
     ///
     /// 时间信息

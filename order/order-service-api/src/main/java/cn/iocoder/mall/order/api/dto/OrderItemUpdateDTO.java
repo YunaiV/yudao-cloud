@@ -1,5 +1,8 @@
 package cn.iocoder.mall.order.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -9,6 +12,8 @@ import java.io.Serializable;
  * @author Sin
  * @time 2019-03-16 14:46
  */
+@Data
+@Accessors(chain = true)
 public class OrderItemUpdateDTO implements Serializable {
 
     /**

@@ -3,9 +3,11 @@
 <mapper namespace="cn.iocoder.mall.order.biz.dao.OrderItemMapper">
 
     <sql id="FIELDS">
-        id, order_id, order_no, sku_id, sku_name, sku_image, quantity, price, pay_amount,
+        id, order_id, order_no, sku_id, sku_name, sku_image, order_logistics_id,
+        quantity, price, pay_amount,
         payment_time, delivery_time, receiver_time, closing_time,
-        has_return_exchange, delivery_type, status, create_time, update_time, deleted
+        has_return_exchange, delivery_type, status,
+        create_time, update_time, deleted
     </sql>
 
     <!--
@@ -13,11 +15,14 @@
     -->
     <insert id="insert" parameterType="OrderItemDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO `order_item` (
-            order_id, order_no, sku_id, sku_name, sku_image, quantity, price, pay_amount,
+            order_id, order_no, sku_id, sku_name, sku_image, order_logistics_id,
+            quantity, price, pay_amount,
             payment_time, delivery_time, receiver_time, closing_time,
-            has_return_exchange, delivery_type, status, create_time, update_time, deleted
+            has_return_exchange, delivery_type, status,
+            create_time, update_time, deleted
         ) VALUES (
-            #{orderId}, #{orderNo}, #{skuId}, #{quantity}, #{price},
+            #{orderId}, #{orderNo}, #{skuId}, #{skuName}, #{skuImage}, #{orderLogisticsId},
+            #{quantity}, #{price}, #{payAmount},
             #{paymentTime}, #{deliveryTime}, #{receiverTime}, #{closingTime},
             #{hasReturnExchange}, #{deliveryType}, #{status},
             #{createTime}, #{updateTime}, #{deleted}

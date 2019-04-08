@@ -33,4 +33,12 @@ public class MVCConfiguration implements WebMvcConfigurer {
         registry.addResourceHandler("webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
+    // TODO 芋艿，允许跨域
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedHeaders("*")
+                .allowedMethods("*")
+                .allowedOrigins("*");
+    }
 }

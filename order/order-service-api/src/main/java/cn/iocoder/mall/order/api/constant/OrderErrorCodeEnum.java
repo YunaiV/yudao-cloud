@@ -17,9 +17,16 @@ public enum OrderErrorCodeEnum {
     ORDER_PAY_AMOUNT_NOT_NEGATIVE(1008000003, "支付金额不能为负数!"),
     ORDER_STATUS_NOT_CANCEL(1008000004, "订单状态不能取消!"),
     ORDER_DELIVERY_INCORRECT_DATA(1008000005, "订单发货数据不正确!"),
+    ORDER_INSUFFICIENT_INVENTORY(1008000006, "库存不足!"),
+    ORDER_GOODS_AMOUNT_INCORRECT(1008000007, "商品金额非法!"),
+    ORDER_GET_GOODS_INFO_INCORRECT(1008000008, "获取额商品信息不正确!"),
+    ORDER_GET_USER_ADDRESS_FAIL(1008000009, "获取用户地址失败!"),
+    ORDER_GET_PAY_FAIL(1008000009, "调用pay失败!"),
 
     // order item
     ORDER_ITEM_ONLY_ONE(1008000004, "订单Item只有一个!"),
+
+
     ;
 
     private final int code;

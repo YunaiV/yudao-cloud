@@ -11,10 +11,6 @@
 
     <artifactId>order-service-api</artifactId>
 
-    <properties>
-        <org.projectlombok.version>1.16.14</org.projectlombok.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
@@ -27,9 +23,16 @@
             <artifactId>validation-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId> <!-- use mapstruct-jdk8 for Java 8 or higher -->
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-jdk8</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${org.projectlombok.version}</version>
         </dependency>
     </dependencies>
 </project>

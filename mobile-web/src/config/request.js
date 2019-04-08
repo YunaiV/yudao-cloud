@@ -15,6 +15,14 @@ const serviceRouter = function(requestUrl) {
         prefix: '/user-api',
         target: 'http://127.0.0.1:18082/user-api',
       },
+      '/product-api': {
+        prefix: '/product-api',
+        target: 'http://127.0.0.1:18081/product-api',
+      },
+      '/promotion-api': {
+        prefix: '/promotion-api',
+        target: 'http://127.0.0.1:18085//promotion-api',
+      },
     };
 
     const configProd = {
@@ -25,6 +33,14 @@ const serviceRouter = function(requestUrl) {
       '/user-api': {
         prefix: '/user-api',
         target: 'http://127.0.0.1:18082/user-api',
+      },
+      '/product-api': {
+        prefix: '/product-api',
+        target: 'http://127.0.0.1:18081/product-api',
+      },
+      '/promotion-api': {
+        prefix: '/promotion-api',
+        target: 'http://127.0.0.1:18085//promotion-api',
       },
     };
 
@@ -57,7 +73,9 @@ const serviceRouter = function(requestUrl) {
   const indexOf = requestUrl.indexOf("/", 1);
   const _urlPrefix = requestUrl.substring(0,  indexOf);
   if (!config[_urlPrefix]) {
-    throw new Error(`服务路由，未找到可用服务! ${requestUrl}`);
+    // throw new Error(`服务路由，未找到可用服务! ${requestUrl}`);
+    console.error(`服务路由，未找到可用服务! ${requestUrl}`)
+    return ''
   }
   // if (!createServer[_urlPrefix]) {
   //   throw new Error("服务路由，未找到可用服务!");

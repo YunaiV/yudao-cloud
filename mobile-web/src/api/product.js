@@ -2,7 +2,7 @@ import request from "../config/request";
 
 export function getProductCategoryList(pid) {
   return request({
-    url: 'product-api/users/category/list',
+    url: '/product-api/users/category/list',
     method: 'get',
     params: {
       pid
@@ -12,7 +12,7 @@ export function getProductCategoryList(pid) {
 
 export function getProductSpuPage(cid, pageNo, pageSize) {
   return request({
-    url: 'product-api/users/spu/page',
+    url: '/product-api/users/spu/page',
     method: 'get',
     params: {
       cid,
@@ -24,7 +24,7 @@ export function getProductSpuPage(cid, pageNo, pageSize) {
 
 export function getProductSpuInfo(id) {
   return request({
-    url: 'product-api/users/spu/info',
+    url: '/product-api/users/spu/info',
     method: 'get',
     params: {
       id,

@@ -23,24 +23,32 @@ const serviceRouter = function(requestUrl) {
         prefix: '/promotion-api',
         target: 'http://127.0.0.1:18085//promotion-api',
       },
+      '/pay-api': {
+        prefix: '/pay-api',
+        target: 'http://127.0.0.1:18084//promotion-api',
+      },
     };
 
     const configProd = {
       '/order-api': {
         prefix: '/order-api',
-        target: 'http://127.0.0.1:18084/order-api',
+        target: 'http://api.shop.iocoder.cn:18099/order-api',
       },
       '/user-api': {
         prefix: '/user-api',
-        target: 'http://127.0.0.1:18082/user-api',
+        target: 'http://api.shop.iocoder.cn:18099/user-api',
       },
       '/product-api': {
         prefix: '/product-api',
-        target: 'http://127.0.0.1:18081/product-api',
+        target: 'http://api.shop.iocoder.cn:18099/product-api',
       },
       '/promotion-api': {
         prefix: '/promotion-api',
-        target: 'http://127.0.0.1:18085//promotion-api',
+        target: 'http://api.shop.iocoder.cn:18099/promotion-api',
+      },
+      '/pay-api': {
+        prefix: '/pay-api',
+        target: 'http://api.shop.iocoder.cn:18099/promotion-api',
       },
     };
 

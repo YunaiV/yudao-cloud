@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import { getAccessToken } from '../utils/cache';
+
 Vue.use(Router);
 
 const routes = [
@@ -84,7 +86,8 @@ const routes = [
     path: '/user/coupon',
     component: () => import('../page/user/coupon/list'),
     meta: {
-      title: '我的优惠券'
+      title: '我的优惠券',
+      requireAuth: true,
     }
   },
   {
@@ -202,10 +205,23 @@ routes.forEach(route => {
 const router = new Router({ routes });
 
 router.beforeEach((to, from, next) => {
+  // 判断是否需要认证
+  const requireAuth = to.meta && to.meta.requireAuth;
+  if (requireAuth) {
+    if (!getAccessToken()) { // 未登陆
+      next({
+        path: '/login',
+        query: {redirect: to.fullPath}  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+      });
+      return;
+    }
+  }
+  // 处理标题
   const title = to.meta && to.meta.title;
   if (title) {
     document.title = title;
   }
+  // 继续路由
   next();
 });
 

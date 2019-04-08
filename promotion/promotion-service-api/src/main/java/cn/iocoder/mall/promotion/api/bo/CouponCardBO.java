@@ -21,6 +21,10 @@ public class CouponCardBO {
      * 优惠劵（码）分组编号
      */
     private Integer templateId;
+    /**
+     * 优惠劵名
+     */
+    private String title;
 //    /**
 //     * 核销码
 //     */
@@ -51,6 +55,10 @@ public class CouponCardBO {
     // ========== 领取情况 END ==========
 
     // ========== 使用规则 BEGIN ==========
+    /**
+     * 是否设置满多少金额可用，单位：分
+     */
+    private Integer priceAvailable;
     /**
      * 生效开始时间
      */

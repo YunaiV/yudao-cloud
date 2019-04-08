@@ -224,10 +224,12 @@ public class CouponServiceImpl implements CouponService {
         // 1. 基本信息 + 领取情况
         CouponCardDO card = new CouponCardDO()
                 .setTemplateId(couponTemplateId)
+                .setTitle(template.getTitle())
                 .setStatus(CouponCardStatusEnum.UNUSED.getValue())
                 .setUserId(userId)
                 .setTakeType(CouponCardTakeTypeEnum.BY_USER.getValue()); // TODO 需要改
         // 2. 使用规则
+        card.setPriceAvailable(template.getPriceAvailable());
         setCouponCardValidTime(card, template);
         // 3. 使用效果
         card.setPreferentialType(template.getPreferentialType())

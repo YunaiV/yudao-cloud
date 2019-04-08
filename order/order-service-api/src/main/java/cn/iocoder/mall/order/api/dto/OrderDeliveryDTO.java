@@ -1,5 +1,8 @@
 package cn.iocoder.mall.order.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -9,6 +12,8 @@ import java.util.List;
  * @author Sin
  * @time 2019-03-30 22:31
  */
+@Data
+@Accessors(chain = true)
 public class OrderDeliveryDTO implements Serializable {
 
     /**

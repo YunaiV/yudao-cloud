@@ -6,8 +6,8 @@ import java.util.Arrays;
 
 public enum CouponTemplateStatusEnum implements IntArrayValuable {
 
-    ENABLE(1, "开启中"),
-    DISABLE(2, "禁用中"),
+    ENABLE(1, "生效中"),
+    DISABLE(2, "已失效"),
 //    EXPIRE(3, "已过期"), TODO 芋艿，暂时不考虑过期的
     ;
 

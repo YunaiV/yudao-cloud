@@ -36,15 +36,6 @@ public class CouponTemplateDO extends BaseDO {
      */
     private Integer type;
     /**
-     * 码类型
-     *
-     * 1-一卡一码（UNIQUE）
-     * 2-通用码（GENERAL）
-     *
-     * 【优惠码独有】 @see CouponCodeDO
-     */
-    private Integer codeType;
-    /**
      * 优惠码状态
      *
      * 1-开启中
@@ -211,5 +202,21 @@ public class CouponTemplateDO extends BaseDO {
 //     */
 //    private Integer statUseNum;
     // ========== 统计信息 END ==========
+
+    // ========== 优惠码 BEGIN ==========
+    /**
+     * 码类型
+     *
+     * 1-一卡一码（UNIQUE）
+     * 2-通用码（GENERAL）
+     *
+     * 【优惠码独有】 @see CouponCodeDO
+     */
+    private Integer codeType;
+    /**
+     * 通用码
+     */
+    private String commonCode;
+    // ========== 优惠码 BEGIN ==========
 
 }

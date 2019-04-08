@@ -41,3 +41,15 @@ export function doAddCouponCard(templateId) {
 }
 
 // Coupon Card
+
+export function getCouponPage(status, pageNo, pageSize) {
+  return request({
+    url: '/promotion-api/users/coupon/card/page',
+    method: 'get',
+    params: {
+      status,
+      pageNo,
+      pageSize
+    }
+  });
+}

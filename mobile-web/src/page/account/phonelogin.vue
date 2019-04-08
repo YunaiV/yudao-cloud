@@ -73,8 +73,9 @@ export default {
           message: '登陆成功',
           beforeClose: function (action, done) {
             done();
-            // TODO 芋艿，先暂时不做 callback
-            that.$router.push('/user/index');
+            // TODO 芋艿，简单的 callback 后续完善
+            let redirect = that.$route.query.redirect || '/user/index';
+            that.$router.push(redirect);
           }
         });
       });

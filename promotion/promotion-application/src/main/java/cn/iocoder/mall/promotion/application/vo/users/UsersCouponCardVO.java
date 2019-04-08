@@ -18,12 +18,16 @@ public class UsersCouponCardVO {
     private Integer id;
     @ApiModelProperty(value = "模板编号，自增唯一", required = true, example = "1")
     private Integer templateId;
+    @ApiModelProperty(value = "优惠劵名", required = true, example = "大保剑")
+    private String title;
     @ApiModelProperty(value = "优惠码状态", required = true, example = "参见 CouponCardStatusEnum 枚举")
     private Integer status;
 
     // ========== 基本信息 END ==========
 
     // ========== 使用规则 BEGIN ==========
+    @ApiModelProperty(value = "是否设置满多少金额可用，单位：分", required = true)
+    private Integer priceAvailable;
     @ApiModelProperty(value = "固定日期-生效开始时间", required = true)
     private Date validStartTime;
     @ApiModelProperty(value = "固定日期-生效结束时间", required = true)

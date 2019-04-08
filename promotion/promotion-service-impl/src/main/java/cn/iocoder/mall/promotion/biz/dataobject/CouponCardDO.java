@@ -22,6 +22,14 @@ public class CouponCardDO extends BaseDO {
      * 优惠劵（码）分组编号，{@link CouponTemplateDO} 的 id
      */
     private Integer templateId;
+    /**
+     * 优惠劵名
+     *
+     * 冗余自 {@link CouponTemplateDO} 的 title
+     *
+     * TODO 芋艿，暂时不考虑冗余的更新
+     */
+    private String title;
 //    /**
 //     * 核销码
 //     */
@@ -52,6 +60,10 @@ public class CouponCardDO extends BaseDO {
     // ========== 领取情况 END ==========
 
     // ========== 使用规则 BEGIN ==========
+    /**
+     * 是否设置满多少金额可用，单位：分
+     */
+    private Integer priceAvailable;
     /**
      * 生效开始时间
      */

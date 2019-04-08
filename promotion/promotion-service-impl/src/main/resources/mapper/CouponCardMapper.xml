@@ -3,8 +3,8 @@
 <mapper namespace="cn.iocoder.mall.promotion.biz.dao.CouponCardMapper">
 
     <sql id="FIELDS">
-        id, template_id, status, user_id, take_type,
-        valid_start_time, valid_end_time, preferential_type, percent_off, price_off,
+        id, template_id, title, status, user_id, take_type,
+        price_available, valid_start_time, valid_end_time, preferential_type, percent_off, price_off,
         discount_price_limit, used_order_id,  used_price, used_time,
         create_time
     </sql>
@@ -78,13 +78,13 @@
 
     <insert id="insert" parameterType="CouponCardDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO coupon_card (
-          template_id, status, user_id, take_type,
-          valid_start_time, valid_end_time, preferential_type, percent_off, price_off,
+          template_id, title, status, user_id, take_type,
+          price_available, valid_start_time, valid_end_time, preferential_type, percent_off, price_off,
           discount_price_limit, used_order_id,  used_price, used_time,
           create_time
         ) VALUES (
-          #{templateId}, #{status}, #{userId}, #{takeType},
-          #{validStartTime}, #{validEndTime}, #{preferentialType}, #{percentOff}, #{priceOff},
+          #{templateId}, #{title}, #{status}, #{userId}, #{takeType},
+          #{priceAvailable}, #{validStartTime}, #{validEndTime}, #{preferentialType}, #{percentOff}, #{priceOff},
           #{discountPriceLimit}, #{usedOrderId}, #{usedPrice}, #{usedTime},
           #{createTime}
         )

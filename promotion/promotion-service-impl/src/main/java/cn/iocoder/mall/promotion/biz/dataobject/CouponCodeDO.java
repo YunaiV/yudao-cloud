@@ -38,4 +38,6 @@ public class CouponCodeDO extends BaseDO {
      */
     private Integer couponId;
 
+    // TODO 芋艿，后续要考虑状态的追踪
+
 }

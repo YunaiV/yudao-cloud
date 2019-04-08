@@ -1,5 +1,8 @@
 package cn.iocoder.mall.order.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
@@ -7,6 +10,8 @@ import javax.validation.constraints.NotNull;
  * @author Sin
  * @time 2019-03-17 09:37
  */
+@Data
+@Accessors(chain = true)
 public class OrderCreateItemDTO {
 
     /**

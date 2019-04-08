@@ -6,7 +6,7 @@
             center
             clearable
             placeholder="请输入优惠码"
-            
+
             v-model="couponCode"
         >
             <van-button slot="button" size="small" type="primary" :loading="exchangeLoading" @click="onExchange">兑换</van-button>
@@ -16,41 +16,50 @@
             <van-tab title="未使用">
                 <ul>
                     <van-list
-                            v-model="loading"
-                            :finished="finished"
+                            v-model="unusedData.loading"
+                            :finished="unusedData.finished"
                             @load="onLoad"
                             >
-                        <li  v-for="(item,index) in list" :key="index" :class="'couponitem '+(item.show?'show':'') ">
+                        <li  v-for="(item,index) in unusedData.list" :key="index" :class="'couponitem '+(item.show?'show':'') ">
                             <div class="couponTop">
                                 <div class="cpnamount">
                                     <div class="amountWrap">
-                                        <div class="amount">
-                                                <span class="amountSign" v-if="item.SignPosition=='left'" >{{item.Sign}}</span>
-                                                <span class="amountNum">{{item.Coupon}}</span>
-                                                <span class="amountSign" v-if="item.SignPosition=='right'" >{{item.Sign}}</span>                   
+                                        <div class="amount" v-if="item.preferentialType === 1">
+                                                <span class="amountSign" >￥</span>
+                                                <span class="amountNum">{{item.priceOff / 100}}</span>
+                                        </div>
+                                        <div class="amount" v-else="item.preferentialType === 2">
+                                            <span class="amountNum">{{item.percentOff / 10.0}}</span>
+                                            <span class="amountSign">折</span>
                                         </div>
                                         <div class="condition">
-                                            <span>{{item.Condition}}</span>
+                                            <span>满 {{item.priceAvailable}} 元可用</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="couponInfoWrap">
                                     <div class="cpninfo">
                                         <div class="detail">
-                                        <span class="name">{{item.Name}}</span></div>
+                                        <span class="name">{{item.title}}</span></div>
                                     </div>
                                     <div class="validity">
-                                        <span>{{item.BeginDate}}-{{item.EndDate}}
-                                        </span>
+                                        <span>{{item.validStartTime | formatDate('yyyy-MM-dd')}}
+                                            ~ {{item.validEndTime | formatDate('yyyy-MM-dd')}}</span>
                                     </div>
                                     <van-button type="danger" size="mini">立即使用</van-button>
                                 </div>
                             </div>
-                            <div class="couponMid " v-if="item.Info!=''">
-                                <span>详细信息</span>
-                                <van-icon name="arrow" class="down" @click="onShowInfo(item.Id,index)" />
-                            </div>
-                            <div class="info"  v-if="item.Info!=''" >
+<!--                            <div class="couponMid " v-if="item.Info!=''">-->
+<!--                                <span>详细信息</span>-->
+<!--                                <van-icon name="arrow" class="down" @click="onShowInfo(item.Id,index)" />-->
+<!--                            </div>-->
+<!--                            <div class="info"  v-if="item.Info!=''" >-->
+<!--                                <div class="text">-->
+<!--                                    {{item.Info}}-->
+<!--                                </div>-->
+<!--                            </div>-->
+                            <!-- todo 芋艿，后续做优化。指定哪些商品 / 分类可用 -->
+                            <div class="info" v-if="item.Info!=''" >
                                 <div class="text">
                                     {{item.Info}}
                                 </div>
@@ -62,32 +71,35 @@
             <van-tab title="使用记录">
                 <ul class="gray" >
                     <van-list
-                            v-model="useLoading"
-                            :finished="useFinished"
+                            v-model="usedData.loading"
+                            :finished="usedData.finished"
                             @load="onLoadUse"
                             >
-                        <li  v-for="(item,index) in useList" :key="index" class="couponitem">
+                        <li  v-for="(item,index) in usedData.list" :key="index" class="couponitem">
                             <div class="couponTop">
                                 <div class="cpnamount">
                                     <div class="amountWrap">
-                                        <div class="amount">
-                                                <span class="amountSign" v-if="item.SignPosition=='left'" >{{item.Sign}}</span>
-                                                <span class="amountNum">{{item.Coupon}}</span>
-                                                <span class="amountSign" v-if="item.SignPosition=='right'" >{{item.Sign}}</span>                   
+                                        <div class="amount" v-if="item.preferentialType === 1">
+                                            <span class="amountSign" >￥</span>
+                                            <span class="amountNum">{{item.priceOff / 100}}</span>
+                                        </div>
+                                        <div class="amount" v-else="item.preferentialType === 2">
+                                            <span class="amountNum">{{item.percentOff / 10.0}}</span>
+                                            <span class="amountSign">折</span>
                                         </div>
                                         <div class="condition">
-                                            <span>{{item.Condition}}</span>
+                                            <span>满 {{item.priceAvailable}} 元可用</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="couponInfoWrap">
                                     <div class="cpninfo">
                                         <div class="detail">
-                                        <span class="name">{{item.Name}}</span></div>
+                                        <span class="name">{{item.title}}</span></div>
                                     </div>
                                     <div class="validity">
-                                        <span>{{item.BeginDate}}-{{item.EndDate}}
-                                        </span>
+                                        <span>{{item.validStartTime | formatDate('yyyy-MM-dd')}}
+                                            ~ {{item.validEndTime | formatDate('yyyy-MM-dd')}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -97,34 +109,37 @@
             </van-tab>
             <van-tab title="已过期">
                 <ul class="gray" >
-                    
+
                     <van-list
-                            v-model="endLoading"
-                            :finished="endFinished"
+                            v-model="expireData.loading"
+                            :finished="expireData.finished"
                             @load="onLoadEnd"
                             >
-                        <li  v-for="(item,index) in endList" :key="index" class="couponitem">
+                        <li  v-for="(item,index) in expireData.list" :key="index" class="couponitem">
                             <div class="couponTop">
                                 <div class="cpnamount">
                                     <div class="amountWrap">
-                                        <div class="amount">
-                                                <span class="amountSign" v-if="item.SignPosition=='left'" >{{item.Sign}}</span>
-                                                <span class="amountNum">{{item.Coupon}}</span>
-                                                <span class="amountSign" v-if="item.SignPosition=='right'" >{{item.Sign}}</span>                   
+                                        <div class="amount" v-if="item.preferentialType === 1">
+                                            <span class="amountSign" >￥</span>
+                                            <span class="amountNum">{{item.priceOff / 100}}</span>
+                                        </div>
+                                        <div class="amount" v-else="item.preferentialType === 2">
+                                            <span class="amountNum">{{item.percentOff / 10.0}}</span>
+                                            <span class="amountSign">折</span>
                                         </div>
                                         <div class="condition">
-                                            <span>{{item.Condition}}</span>
+                                            <span>满 {{item.priceAvailable}} 元可用</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="couponInfoWrap">
                                     <div class="cpninfo">
                                         <div class="detail">
-                                        <span class="name">{{item.Name}}</span></div>
+                                            <span class="name">{{item.title}}</span></div>
                                     </div>
                                     <div class="validity">
-                                        <span>{{item.BeginDate}}-{{item.EndDate}}
-                                        </span>
+                                        <span>{{item.validStartTime | formatDate('yyyy-MM-dd')}}
+                                            ~ {{item.validEndTime | formatDate('yyyy-MM-dd')}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -138,83 +153,131 @@
 
 <script>
 import { GetCoupon,ExchangeCoupon } from "../../../api/user.js";
+import { getCouponPage } from "../../../api/promotion.js";
 
 export default {
   components: {
   },
   data() {
     return {
-            loading:false,
-            finished:false,
-            list:[],
-            page:0,
-
-            
-            useLoading:false,
-            useFinished:false,
-            useList:[],
-            usePage:0,
-
-            
-            endLoading:false,
-            endFinished:false,
-            endList:[],
-            endPage:0,
+            // loading:false,
+            // finished:false,
+            // list:[],
+            // page:0,
+            //
+            //
+            // useLoading:false,
+            // useFinished:false,
+            // useList:[],
+            // usePage:0,
+            //
+            //
+            // endLoading:false,
+            // endFinished:false,
+            // endList:[],
+            // endPage:0,
 
             couponCode:'',
             exchangeLoading:false,
+
+      unusedData: {
+        page: 0,
+        pageSize: 10,
+        list: [],
+        loading: false,
+        finished: false,
+      },
+
+      usedData: {
+        page: 0,
+        pageSize: 10,
+        list: [],
+        loading: false,
+        finished: false,
+      },
+
+      expireData: {
+        page: 0,
+        pageSize: 10,
+        list: [],
+        loading: false,
+        finished: false,
+      },
     };
   },
   computed: {
   },
   methods: {
         onLoad() {
-            this.page++;
-            GetCoupon({page:this.page}).then(response=>{
-                response.List.forEach(item => {
-                    item.show=false;
-                    this.list.push(item);
-                });
-                this.loading = false;
-                if(response.TotalPage<=this.page){
-                    this.finished = true;
-                }
-            
-            })
-        },
-        onShowInfo(id,index){
-            this.list.forEach((item,itemIndex) => {
-                if(index==itemIndex){
-                    item.show=!item.show;
-                    return;
-                }
+            // 进入下一页
+            let page = this.unusedData.page + 1;
+            getCouponPage(1, page, this.unusedData.pageSize).then(data => {
+              // debugger;
+              // 设置下页面
+              this.unusedData.page = page;
+              // 数据保存到 list 中
+              this.unusedData.list.push(...data.list);
+              // 判断页数
+              if (this.unusedData.list.length >= data.total) {
+                this.unusedData.finished = true;
+              }
+              // 标记不在加载中
+              this.unusedData.loading = false;
             });
+
+            // GetCoupon({page:this.page}).then(response=>{
+            //     response.List.forEach(item => {
+            //         item.show=false;
+            //         this.list.push(item);
+            //     });
+            //     this.loading = false;
+            //     if(response.TotalPage<=this.page){
+            //         this.finished = true;
+            //     }
+            //
+            // })
         },
+        // onShowInfo(id,index){
+        //     this.list.forEach((item,itemIndex) => {
+        //         if(index==itemIndex){
+        //             item.show=!item.show;
+        //             return;
+        //         }
+        //     });
+        // },
         onLoadUse() {
-            this.usePage++;
-            GetCoupon({page:this.usePage}).then(response=>{
-                response.List.forEach(item => {
-                    this.useList.push(item);
-                });
-                this.useLoading = false;
-                if(response.TotalPage<=this.usePage){
-                    this.useFinished = true;
-                }
-            
-            })
+          // 进入下一页
+          let page = this.usedData.page + 1;
+          getCouponPage(2, page, this.usedData.pageSize).then(data => {
+            // debugger;
+            // 设置下页面
+            this.usedData.page = page;
+            // 数据保存到 list 中
+            this.usedData.list.push(...data.list);
+            // 判断页数
+            if (this.usedData.list.length >= data.total) {
+              this.usedData.finished = true;
+            }
+            // 标记不在加载中
+            this.usedData.loading = false;
+          });
         },
         onLoadEnd() {
-            this.endPage++;
-            GetCoupon({page:this.endPage}).then(response=>{
-                response.List.forEach(item => {
-                    this.endList.push(item);
-                });
-                this.endLoading = false;
-                if(response.TotalPage<=this.endPage){
-                    this.endFinished = true;
-                }
-            
-            })
+          // 进入下一页
+          let page = this.expireData.page + 1;
+          getCouponPage(3, page, this.expireData.pageSize).then(data => {
+            // debugger;
+            // 设置下页面
+            this.expireData.page = page;
+            // 数据保存到 list 中
+            this.expireData.list.push(...data.list);
+            // 判断页数
+            if (this.expireData.list.length >= data.total) {
+              this.expireData.finished = true;
+            }
+            // 标记不在加载中
+            this.expireData.loading = false;
+          });
         },
         onExchange(){
             if(this.exchangeLoading){
@@ -222,9 +285,9 @@ export default {
             }
             this.exchangeLoading=true;
             ExchangeCoupon(this.couponCode).then(response=>{
-                this.$toast('兑换成功'); 
+                this.$toast('兑换成功');
                 this.exchangeLoading=false;
-                this.$router.go(0); 
+                this.$router.go(0);
             })
         }
   }
@@ -308,7 +371,7 @@ export default {
     line-height: 31px;
     padding-left: 16px;
     font-size: 12px;
-    
+
     background-color: #fcebeb;
     border-left: 1px solid #f3d4d4;
     border-right: 1px solid #f3d4d4;
@@ -321,10 +384,10 @@ export default {
         position: absolute;
         top: 8px;
          -webkit-transform: rotate(90deg);
-        transform: rotate(90deg);   
+        transform: rotate(90deg);
     }
   }
-  
+
   .info{
       display: none;
       background-color: #fcebeb;
@@ -338,14 +401,14 @@ padding: 10px 25px 12px 15px;
   }
 }
   .show{
-      
+
   .couponMid {
           border-bottom: 1px dashed #f3d4d4;
           border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     i{
          -webkit-transform: rotate(-90deg);
-        transform: rotate(-90deg);   
+        transform: rotate(-90deg);
     }
   }
   .info{

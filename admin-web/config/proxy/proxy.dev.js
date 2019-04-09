@@ -15,7 +15,7 @@ export default {
   },
   '/order-api/': {
     // target: 'http://180.167.213.26:18084/',
-    target: 'http://127.0.0.1:18084/',
+    target: 'http://127.0.0.1:18088/',
     changeOrigin: true,
     pathRewrite: {},
   },

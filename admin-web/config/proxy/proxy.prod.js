@@ -2,11 +2,24 @@
 
 export default {
   '/admin-api/': {
-    target: 'http://180.167.213.26:18083/',
+    target: 'http://api.shop.iocoder.cn:18099/admin-api',
     changeOrigin: true,
-    pathRewrite: {
-      '^/admin-api': `/admin-web/admin-api`,
-    },
+    pathRewrite: {},
+  },
+  '/order-api/': {
+    target: 'http://api.shop.iocoder.cn:18099/order-api',
+    changeOrigin: true,
+    pathRewrite: {},
+  },
+  '/pay-api/': {
+    target: 'http://api.shop.iocoder.cn:18099/pay-api',
+    changeOrigin: true,
+    pathRewrite: {},
+  },
+  '/user-api/': {
+    target: 'http://api.shop.iocoder.cn:18099/user-api',
+    changeOrigin: true,
+    pathRewrite: {},
   },
   '/server/api/': {
     target: 'https://preview.pro.ant.design/',

@@ -1,10 +1,7 @@
 package cn.iocoder.mall.order.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.order.api.bo.OrderCreateBO;
-import cn.iocoder.mall.order.api.bo.OrderItemBO;
-import cn.iocoder.mall.order.api.bo.OrderPageBO;
-import cn.iocoder.mall.order.api.bo.OrderRecipientBO;
+import cn.iocoder.mall.order.api.bo.*;
 import cn.iocoder.mall.order.api.dto.*;
 
 import java.util.List;
@@ -40,6 +37,14 @@ public interface OrderService {
      * @return
      */
     CommonResult<OrderRecipientBO> getOrderRecipientBO(Integer orderId);
+
+    /**
+     * 计算订单金额，返回计算结果
+     *
+     * @param calcOrderPriceDTO 计算订单金额 DTO
+     * @return 计算订单金额结果
+     */
+    CalcOrderPriceBO calcOrderPrice(CalcOrderPriceDTO calcOrderPriceDTO);
 
     /**
      * 订单 - 创建

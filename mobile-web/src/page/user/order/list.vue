@@ -11,7 +11,7 @@
 
     <div v-for="(item,index) in list" :key="index">
       <van-cell-group class="order-item">
-        <van-panel :title="'订单：'+item.ordercode" :status="item.state">
+        <van-panel :title="'订单：'+item.ordercode" :status="['', '代付款', '待发货', '待收货', '已完成', '已关闭'][item.state]">
           <div slot="header">
             <van-cell class="title" :title="'订单：'+item.ordercode" :value="item.state"
                       :to="'/user/order/info/'+item.orderid"/>
@@ -32,8 +32,9 @@
           </div>
           <div slot="footer">
             <span class="total">总价：{{item.payAmount / 100}} 元</span>
-            <van-button size="small">确认收货</van-button>
-            <van-button size="small" type="danger">支付</van-button>
+            <van-button v-if="[2,3,4,5].indexOf(item.status) != -1" size="small">查看物流</van-button>
+            <van-button v-if="item.status === 2 " size="small">确认收货</van-button>
+            <van-button v-if="item.status === 1 " size="small" type="danger">支付</van-button>
           </div>
         </van-panel>
       </van-cell-group>
@@ -156,6 +157,7 @@
       },
 
       queryOrderPage(params) {
+        const statusArray = ['', '代付款', '待发货', '待收货', '已完成', '已关闭']
         getOrderPage({
           pageNo: 0,
           pageSize: 10,
@@ -165,6 +167,7 @@
           const list = orders.map(order => {
             const {orderItems} = order;
             const products = orderItems.map(order => {
+
               return {
                 imageURL: order.skuImage,
                 title: order.skuName,
@@ -176,7 +179,8 @@
             return {
               orderid: order.id,
               ordercode: order.orderNo,
-              state: `${order.status}`,
+              state: `${statusArray[order.status]}`,
+              status: order.status,
               products,
               payAmount: order.payAmount,
             };

@@ -50,20 +50,23 @@ public class MobileCodeServiceImpl implements MobileCodeService {
      * @return 手机验证码信息
      */
     public CommonResult<MobileCodeDO> validLastMobileCode(String mobile, String code) {
-        MobileCodeDO mobileCodePO = mobileCodeMapper.selectLast1ByMobile(mobile);
-        if (mobileCodePO == null) { // 若验证码不存在，抛出异常
-            return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_NOT_FOUND.getCode());
-        }
-        if (System.currentTimeMillis() - mobileCodePO.getCreateTime().getTime() >= codeExpireTimes) { // 验证码已过期
-            return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_EXPIRED.getCode());
-        }
-        if (mobileCodePO.getUsed()) { // 验证码已使用
-            return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_USED.getCode());
-        }
-        if (!mobileCodePO.getCode().equals(code)) {
-            return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_NOT_CORRECT.getCode());
-        }
-        return CommonResult.success(mobileCodePO);
+
+        // TODO: 2019-04-09 Sin 暂时先忽略掉验证码校验
+        return CommonResult.success(new MobileCodeDO().setCode(code).setCreateTime(new Date()).setId(1));
+//        MobileCodeDO mobileCodePO = mobileCodeMapper.selectLast1ByMobile(mobile);
+//        if (mobileCodePO == null) { // 若验证码不存在，抛出异常
+//            return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_NOT_FOUND.getCode());
+//        }
+//        if (System.currentTimeMillis() - mobileCodePO.getCreateTime().getTime() >= codeExpireTimes) { // 验证码已过期
+//            return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_EXPIRED.getCode());
+//        }
+//        if (mobileCodePO.getUsed()) { // 验证码已使用
+//            return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_USED.getCode());
+//        }
+//        if (!mobileCodePO.getCode().equals(code)) {
+//            return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_NOT_CORRECT.getCode());
+//        }
+//        return CommonResult.success(mobileCodePO);
     }
 
     /**

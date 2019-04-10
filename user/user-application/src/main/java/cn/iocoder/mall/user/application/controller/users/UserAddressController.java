@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
  * @time 2019-04-06 14:11
  */
 @RestController
-@RequestMapping("user/address")
+@RequestMapping("users/address")
 @Api(description = "用户地址API")
 public class UserAddressController {
 
@@ -33,7 +33,7 @@ public class UserAddressController {
     public CommonResult addAddress(@Validated UserAddressAddPO userAddressAddPO) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         UserAddressAddDTO userAddressAddDTO = UserAddressConvert.INSTANCE.convert(userAddressAddPO);
-        userAddressAddDTO.setUserId(1);
+        userAddressAddDTO.setUserId(userId);
         return userAddressService.addAddress(userAddressAddDTO);
     }
 
@@ -42,7 +42,7 @@ public class UserAddressController {
     public CommonResult updateAddress(@Validated UserAddressUpdatePO userAddressUpdatePO) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         UserAddressUpdateDTO userAddressUpdateDTO = UserAddressConvert.INSTANCE.convert(userAddressUpdatePO);
-        userAddressUpdateDTO.setUserId(1);
+        userAddressUpdateDTO.setUserId(userId);
         return userAddressService.updateAddress(userAddressUpdateDTO);
     }
 
@@ -50,20 +50,20 @@ public class UserAddressController {
     @ApiOperation(value = "用户地址-删除")
     public CommonResult removeAddress(@RequestParam("id") Integer id) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
-        return userAddressService.removeAddress(1, id);
+        return userAddressService.removeAddress(userId, id);
     }
 
     @GetMapping("list")
     @ApiOperation(value = "用户地址列表")
     public CommonResult addressList() {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
-        return userAddressService.addressList(1);
+        return userAddressService.addressList(userId);
     }
 
     @GetMapping("address")
     @ApiOperation(value = "获取地址")
     public CommonResult getAddress(@RequestParam("id") Integer id) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
-        return userAddressService.getAddress(1, id);
+        return userAddressService.getAddress(userId, id);
     }
 }

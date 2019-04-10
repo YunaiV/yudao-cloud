@@ -15,11 +15,11 @@ public class CalcOrderPriceDTO {
     /**
      * 商品数组
      */
-    private List<Integer> items;
+    private List<Item> items;
 
     @Data
     @Accessors(chain = true)
-    private static class Item {
+    public static class Item {
 
         /**
          * SKU 编号
@@ -36,6 +36,14 @@ public class CalcOrderPriceDTO {
          */
         private Boolean selected;
 
+        public Item() {
+        }
+
+        public Item(Integer skuId, Integer quantity, Boolean selected) {
+            this.skuId = skuId;
+            this.quantity = quantity;
+            this.selected = selected;
+        }
     }
 
 }

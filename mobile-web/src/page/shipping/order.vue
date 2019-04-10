@@ -17,9 +17,11 @@
       </template>
     </van-cell>
     <div style="height:15px;"></div>
+
     <div class="card" v-for="(product,i) in products" :key="i">
       <product-card :product='product'/>
     </div>
+
     <div style="height:15px;"></div>
     <van-cell-group>
       <van-field
@@ -37,10 +39,10 @@
 
     <div style="height:15px;"></div>
     <van-cell-group class="total">
-      <van-cell title="商品总额" value="9.99"/>
-      <van-cell title="运费" value="+ 0.00"/>
-      <van-cell title="折扣" value="- 5.00"/>
-      <van-cell title="实付金额" value="4.99" style="font-weight: 700;"/>
+      <van-cell title="商品总额" :value="fee.originalTotal"/>
+      <van-cell title="运费" :value="+ fee.postageTotal"/>
+      <van-cell title="折扣" :value="- fee.discountTotal"/>
+      <van-cell title="实付金额" :value="fee.presentTotal" style="font-weight: 700;"/>
     </van-cell-group>
 
     <div style="height:50px;"></div>
@@ -56,7 +58,7 @@
 
 <script>
 
-  import {createOrder} from '../../api/order';
+  import {createOrder, getConfirmCreateOrder} from '../../api/order';
   import {GetDefaultAddress} from '../../api/user';
   import orderStore from '../../store/order'
   import eventBus from '../eventBus';
@@ -64,10 +66,25 @@
   export default {
     data() {
       return {
+        from: 'direct_order', // 目前有两个来源。direct_order：直接下单; card: 购物车下单。
+
+        // 如下两个参数，在直接下单时使用
+        skuId: this.$route.query.skuId,
+        quantity: this.$route.query.quantity,
+
         type: "add",
         addressData: {
 
         },
+
+        itemGroups: [],
+        fee: {
+          originalTotal: undefined,
+          discountTotal: undefined,
+          postageTotal: undefined,
+          presentTotal: undefined,
+        },
+
         products: [
           {
             imageURL:
@@ -124,6 +141,9 @@
           remark,
         })
       },
+      convertProduct() {
+
+      }
     },
     mounted: function() {
       if (this.$store.state.addressData.name) {
@@ -132,14 +152,25 @@
         this.type = 'add';
       }
       this.addressData = this.$store.state.addressData;
+
+      // 加载商品信息
+      if (this.from === 'direct_order') {
+        getConfirmCreateOrder(this.skuId, this.quantity).then(data => {
+          this.itemGroups = data.itemGroups;
+          this.fee = data.fee;
+        })
+      }
+
     },
     created() {
+      // 加载地址
       GetDefaultAddress().then((result) => {
         if (result) {
           this.type = 'add1'
           this.addressData = result
         }
       })
+      // 处理来源
     },
     store: orderStore,
   };

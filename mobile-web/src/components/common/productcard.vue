@@ -8,17 +8,22 @@
                     style="background:#fff"
             >
                 <template slot="thumb">
-                    <img :src="product.picUrl"/>
-                    <p v-if="product.imageTag!=null&&product.imageTag!=''" class="image_tag">{{product.imageTag}}</p>
+                    <!--  TODO 芋艿 暂时去掉，等会就恢复 -->
+<!--                    <img :src="product.picUrls[0]"/>-->
+                    <!--  TODO 芋艿 暂时去掉 -->
+<!--                    <p v-if="product.imageTag!=null&&product.imageTag!=''" class="image_tag">{{product.imageTag}}</p>-->
                 </template>
                 <template slot="tags">
-                    <p class="price" v-if="product.price!=null&&product.price!=''">
+                    <p class="price" v-if="product.price!=null && product.price !== ''">
                         ￥<span>{{product.price}}</span>
-                        <van-tag v-if="product.tags!=null" v-for="tag in product.tags" :key="tag" plain type="danger">
-                            {{tag}}
-                        </van-tag>
+                        <!--  TODO 芋艿 暂时去掉 -->
+<!--                        <van-tag v-if="product.tags!=null" v-for="tag in product.tags" :key="tag" plain type="danger">-->
+<!--                            {{tag}}-->
+<!--                        </van-tag>-->
+
                     </p>
-                    <van-stepper v-if="iscard" v-model="product.quantity" :max="product.max" :min="product.min"/>
+                    <!--  TODO 芋艿 暂时去掉 -->
+<!--                    <van-stepper v-if="iscard" v-model="product.quantity" :max="product.max" :min="product.min"/>-->
                 </template>
             </van-card>
             <!-- TODO 芋艿，暂时去掉赠品 -->

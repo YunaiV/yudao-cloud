@@ -6,10 +6,7 @@ import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.StringUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.ProductSpuService;
-import cn.iocoder.mall.product.api.bo.ProductAttrAndValuePairBO;
-import cn.iocoder.mall.product.api.bo.ProductSpuBO;
-import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
-import cn.iocoder.mall.product.api.bo.ProductSpuPageBO;
+import cn.iocoder.mall.product.api.bo.*;
 import cn.iocoder.mall.product.api.constant.ProductErrorCodeEnum;
 import cn.iocoder.mall.product.api.constant.ProductSpuConstants;
 import cn.iocoder.mall.product.api.dto.ProductSkuAddOrUpdateDTO;
@@ -44,14 +41,14 @@ public class ProductSpuServiceImpl implements ProductSpuService {
     private ProductAttrServiceImpl productAttrService;
 
 //    @Override
-//    public ProductSpuBO getProductSpu(Integer id) {
+//    public ProductSpuBO getProductSpuDetail(Integer id) {
 //        ProductSpuDO productSpuDO = productSpuMapper.selectById(id);
 //        // 转换成 BO
 //        return ProductSpuConvert.INSTANCE.convert(productSpuDO);
 //    }
 
     @Override
-    public CommonResult<ProductSpuDetailBO> getProductSpu(Integer id) {
+    public CommonResult<ProductSpuDetailBO> getProductSpuDetail(Integer id) {
         // 校验商品 spu 存在
         ProductSpuDO spu = productSpuMapper.selectById(id);
         if (spu == null) {
@@ -64,9 +61,6 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         skus.forEach(sku -> productAttrValueIds.addAll(StringUtil.splitToInt(sku.getAttrs(), ",")));
         CommonResult<List<ProductAttrAndValuePairBO>> validAttrResult = productAttrService.validProductAttrAndValue(productAttrValueIds,
                 false); // 读取规格时，不考虑规格是否被禁用
-        if (validAttrResult.isError()) {
-            return CommonResult.error(validAttrResult);
-        }
         // 返回成功
         return CommonResult.success(ProductSpuConvert.INSTANCE.convert2(spu, skus, validAttrResult.getData()));
     }
@@ -217,6 +211,27 @@ public class ProductSpuServiceImpl implements ProductSpuService {
     public CommonResult<List<ProductSpuBO>> getProductSpuList(Collection<Integer> ids) {
         List<ProductSpuDO> spus = productSpuMapper.selectByIds(ids);
         return CommonResult.success(ProductSpuConvert.INSTANCE.convert(spus));
+    }
+
+    @Override
+    public CommonResult<List<ProductSkuDetailBO>> getProductSkuDetailList(Collection<Integer> ids) {
+        // 查询 SKU 数组
+        List<ProductSkuDO> skus = productSkuMapper.selectByIds(ids);
+        if (skus.isEmpty()) {
+            return CommonResult.success(Collections.emptyList());
+        }
+        // 查询 SPU 数组
+        List<ProductSpuDO> spus = productSpuMapper.selectByIds(skus.stream().map(ProductSkuDO::getSpuId).collect(Collectors.toSet()));
+        if (spus.isEmpty()) {
+            return CommonResult.success(Collections.emptyList());
+        }
+        // 获得规格
+        Set<Integer> productAttrValueIds = new HashSet<>();
+        skus.forEach(sku -> productAttrValueIds.addAll(StringUtil.splitToInt(sku.getAttrs(), ",")));
+        CommonResult<List<ProductAttrAndValuePairBO>> validAttrResult = productAttrService.validProductAttrAndValue(productAttrValueIds,
+                false); // 读取规格时，不考虑规格是否被禁用
+        // 返回成功
+        return CommonResult.success(ProductSpuConvert.INSTANCE.convert3(skus, spus, validAttrResult.getData()));
     }
 
     /**

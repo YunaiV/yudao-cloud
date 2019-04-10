@@ -58,7 +58,7 @@ public class ProductRecommendServiceImpl implements ProductRecommendService {
             return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "推荐类型必须是新品（1）或热卖（2）"); // TODO 有点搓
         }
         // 校验商品不存在
-        if (productSpuService.getProductSpu(productRecommendAddDTO.getProductSpuId()) == null) {
+        if (productSpuService.getProductSpuDetail(productRecommendAddDTO.getProductSpuId()) == null) {
             return ServiceExceptionUtil.error(PromotionErrorCodeEnum.PRODUCT_RECOMMEND_PRODUCT_NOT_EXISTS.getCode());
         }
         // 校验商品是否已经推荐
@@ -84,7 +84,7 @@ public class ProductRecommendServiceImpl implements ProductRecommendService {
             return ServiceExceptionUtil.error(PromotionErrorCodeEnum.PRODUCT_RECOMMEND_NOT_EXISTS.getCode());
         }
         // 校验商品不存在
-        if (productSpuService.getProductSpu(productRecommendUpdateDTO.getProductSpuId()) == null) {
+        if (productSpuService.getProductSpuDetail(productRecommendUpdateDTO.getProductSpuId()) == null) {
             return ServiceExceptionUtil.error(PromotionErrorCodeEnum.PRODUCT_RECOMMEND_PRODUCT_NOT_EXISTS.getCode());
         }
         // 校验商品是否已经推荐

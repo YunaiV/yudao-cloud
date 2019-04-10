@@ -21,6 +21,17 @@ export function cancelOrder(id) {
   });
 }
 
+export function getConfirmCreateOrder(skuId, quantity) {
+  return request({
+    url: '/order-api/users/order/confirm_create_order',
+    method: 'get',
+    params: {
+      skuId,
+      quantity,
+    }
+  });
+}
+
 export function createOrder(params) {
   return request({
     headers: {

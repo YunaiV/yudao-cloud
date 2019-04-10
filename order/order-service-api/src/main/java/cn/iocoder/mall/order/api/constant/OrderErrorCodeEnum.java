@@ -25,7 +25,7 @@ public enum OrderErrorCodeEnum {
 
     // order item
     ORDER_ITEM_ONLY_ONE(1008000004, "订单Item只有一个!"),
-
+    ORDER_ITEM_SOME_NOT_EXISTS(-1, "有不存在的商品"), // TODO 芋艿 后面改下错误码
 
     ;
 

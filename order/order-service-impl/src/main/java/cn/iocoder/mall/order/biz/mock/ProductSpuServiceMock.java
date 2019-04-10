@@ -2,6 +2,7 @@ package cn.iocoder.mall.order.biz.mock;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.ProductSpuService;
+import cn.iocoder.mall.product.api.bo.ProductSkuDetailBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuPageBO;
@@ -17,8 +18,9 @@ import java.util.List;
  * @time 2019-03-24 15:24
  */
 public class ProductSpuServiceMock implements ProductSpuService {
+
     @Override
-    public CommonResult<ProductSpuDetailBO> getProductSpu(Integer id) {
+    public CommonResult<ProductSpuDetailBO> getProductSpuDetail(Integer id) {
         return null;
     }
 
@@ -46,4 +48,10 @@ public class ProductSpuServiceMock implements ProductSpuService {
     public CommonResult<List<ProductSpuBO>> getProductSpuList(Collection<Integer> ids) {
         return null;
     }
+
+    @Override
+    public CommonResult<List<ProductSkuDetailBO>> getProductSkuDetailList(Collection<Integer> ids) {
+        return null;
+    }
+
 }

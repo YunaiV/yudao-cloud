@@ -62,6 +62,40 @@ public class ProductSpuDetailBO implements Serializable {
     /**
      * SKU 数组
      */
-    private List<ProductSkuDetailBO> skus;
+    private List<Sku> skus;
+
+    /**
+     * 商品 Sku 明细 BO
+     */
+    @Data
+    @Accessors(chain = true)
+    public static class Sku implements Serializable {
+
+        /**
+         * sku 编号
+         */
+        private Integer id;
+        /**
+         * 商品编号
+         */
+        private Integer spuId;
+        /**
+         * 图片地址
+         */
+        private String picURL;
+        /**
+         * 规格值数组
+         */
+        private List<ProductAttrAndValuePairBO> attrs;
+        /**
+         * 价格，单位：分
+         */
+        private Integer price;
+        /**
+         * 库存数量
+         */
+        private Integer quantity;
+
+    }
 
 }

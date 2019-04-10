@@ -59,9 +59,19 @@ public interface ProductSpuConvert {
     ProductSpuDetailBO convert2(ProductSpuDO spu);
 
     @Mappings({
+            @Mapping(source = "picUrls", target = "picUrls", ignore = true)
+    })
+    ProductSkuDetailBO.Spu convert3(ProductSpuDO spu);
+
+    @Mappings({
             @Mapping(source = "attrs", target = "attrs", ignore = true)
     })
-    ProductSkuDetailBO convert2(ProductSkuDO sku);
+    ProductSpuDetailBO.Sku convert2(ProductSkuDO sku);
+
+    @Mappings({
+            @Mapping(source = "attrs", target = "attrs", ignore = true)
+    })
+    ProductSkuDetailBO convert3(ProductSkuDO sku);
 
     @Mappings({}) // TODO 芋艿，后续细看下 mapstruct 的 API ，优化这块
     default ProductSpuDetailBO convert2(ProductSpuDO spu, List<ProductSkuDO> skus, List<ProductAttrAndValuePairBO> productAttrDetailBOs) {
@@ -74,7 +84,7 @@ public interface ProductSpuConvert {
         spuDetail.setSkus(new ArrayList<>());
         skus.forEach(sku -> {
             // 创建 ProductSpuDetailBO 对象
-            ProductSkuDetailBO skuDetail = ProductSpuConvert.this.convert2(sku)
+            ProductSpuDetailBO.Sku skuDetail = ProductSpuConvert.this.convert2(sku)
                     .setAttrs(new ArrayList<>());
             spuDetail.getSkus().add(skuDetail);
             // 设置 ProductSpuDetailBO 的 attrs 规格属性
@@ -83,6 +93,30 @@ public interface ProductSpuConvert {
         });
         // 返回
         return spuDetail;
+    }
+
+    @Mappings({}) // TODO 芋艿，后续细看下 mapstruct 的 API ，优化这块
+    default List<ProductSkuDetailBO> convert3(List<ProductSkuDO> skus, List<ProductSpuDO> spus, List<ProductAttrAndValuePairBO> productAttrDetailBOs) {
+        // 创建 ProductAttrDetailBO 的映射。其中，KEY 为 ProductAttrDetailBO.attrValueId ，即规格值的编号
+        Map<Integer, ProductAttrAndValuePairBO> productAttrDetailBOMap = productAttrDetailBOs.stream().collect(
+                Collectors.toMap(ProductAttrAndValuePairBO::getAttrValueId, productAttrDetailBO -> productAttrDetailBO));
+        // 创建 ProductSpuDO 的映射
+        Map<Integer, ProductSkuDetailBO.Spu> spuMap = spus.stream().collect(
+                Collectors.toMap(ProductSpuDO::getId, spu -> ProductSpuConvert.this.convert3(spu).setPicUrls(StringUtil.split(spu.getPicUrls(), ","))));
+        // 拼装结果
+        List<ProductSkuDetailBO> spuDetailList = new ArrayList<>(skus.size());
+        for (ProductSkuDO sku : skus) {
+            // 创建 ProductSkuDetailBO 对象
+            ProductSkuDetailBO skuDetail = ProductSpuConvert.this.convert3(sku)
+                    .setAttrs(new ArrayList<>())
+                    .setSpu(spuMap.get(sku.getSpuId()));
+            spuDetailList.add(skuDetail);
+            // 设置 ProductSpuDetailBO 的 attrs 规格属性
+            List<String> attrs = StringUtil.split(sku.getAttrs(), ",");
+            attrs.forEach(attr -> skuDetail.getAttrs().add(productAttrDetailBOMap.get(Integer.valueOf(attr))));
+        }
+        // 返回
+        return spuDetailList;
     }
 
     @Named("translatePicUrlsFromString")

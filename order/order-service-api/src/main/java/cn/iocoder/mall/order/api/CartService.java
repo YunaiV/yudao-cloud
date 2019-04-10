@@ -1,9 +1,11 @@
 package cn.iocoder.mall.order.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.order.api.bo.CalcOrderPriceBO;
 import cn.iocoder.mall.order.api.bo.CartBO;
 import cn.iocoder.mall.order.api.bo.CartItemBO;
 import cn.iocoder.mall.order.api.bo.OrderCreateBO;
+import cn.iocoder.mall.order.api.dto.CalcOrderPriceDTO;
 import org.springframework.lang.Nullable;
 
 import java.util.List;
@@ -77,6 +79,14 @@ public interface CartService {
     List<CartItemBO> list(Integer userId, @Nullable  Boolean selected);
 
     // ========== 购物车与订单相关的逻辑 ==========
+
+    /**
+     * 计算订单金额，返回计算结果
+     *
+     * @param calcOrderPriceDTO 计算订单金额 DTO
+     * @return 计算订单金额结果
+     */
+    CommonResult<CalcOrderPriceBO> calcOrderPrice(CalcOrderPriceDTO calcOrderPriceDTO);
 
     /**
      * 获得购物车明细

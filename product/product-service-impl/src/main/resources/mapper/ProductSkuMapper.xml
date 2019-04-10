@@ -12,7 +12,18 @@
             <include refid="FIELDS" />
         FROM product_sku
         WHERE id = #{id}
-        AND delete = 0
+        AND deleted = 0
+    </select>
+
+    <select id="selectByIds" resultType="ProductSkuDO">
+        SELECT
+            <include refid="FIELDS" />
+        FROM product_sku
+            WHERE id IN
+            <foreach item="id" collection="ids" separator="," open="(" close=")" index="">
+                #{id}
+            </foreach>
+            AND deleted = 0
     </select>
 
     <insert id="insertList" useGeneratedKeys="true" keyColumn="id" keyProperty="id">

@@ -39,14 +39,6 @@ public interface OrderService {
     CommonResult<OrderRecipientBO> getOrderRecipientBO(Integer orderId);
 
     /**
-     * 计算订单金额，返回计算结果
-     *
-     * @param calcOrderPriceDTO 计算订单金额 DTO
-     * @return 计算订单金额结果
-     */
-    CalcOrderPriceBO calcOrderPrice(CalcOrderPriceDTO calcOrderPriceDTO);
-
-    /**
      * 订单 - 创建
      *
      * @param orderCreateDTO

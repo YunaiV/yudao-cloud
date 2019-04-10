@@ -1,26 +1,19 @@
-package cn.iocoder.mall.order.api.bo;
+package cn.iocoder.mall.order.application.vo;
 
-import cn.iocoder.mall.product.api.bo.ProductSkuDetailBO;
+import cn.iocoder.mall.product.api.bo.ProductAttrAndValuePairBO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.util.List;
 
-/**
- * 计算订单价格结果 BO
- */
 @Data
 @Accessors(chain = true)
-public class CalcOrderPriceBO {
+public class UsersOrderConfirmCreateVO {
 
     /**
      * 商品分组数组
      */
     private List<ItemGroup> itemGroups;
-    /**
-     * 邮费信息
-     */
-    private Postage postage;
     /**
      * 费用
      */
@@ -40,22 +33,75 @@ public class CalcOrderPriceBO {
         /**
          * 商品数组
          */
-        private List<Item> items;
+        private List<Sku> items;
 
     }
 
     @Data
     @Accessors(chain = true)
-    public static class Item extends ProductSkuDetailBO { // TODO 芋艿，此处先偷懒继承
+    public static class Sku {
 
+        // SKU 自带信息
         /**
-         * 是否选中
+         * sku 编号
          */
-        private Boolean selected;
+        private Integer id;
+        /**
+         * SPU 信息
+         */
+        private Spu spu;
+        /**
+         * 图片地址
+         */
+        private String picURL;
+        /**
+         * 规格值数组
+         */
+        private List<ProductAttrAndValuePairBO> attrs; // TODO 后面改下
+        /**
+         * 价格，单位：分
+         */
+        private Integer price;
+        /**
+         * 库存数量
+         */
+        private Integer quantity;
+
+        // 非 SKU 自带信息
+
         /**
          * 购买数量
          */
         private Integer buyQuantity;
+
+    }
+
+    @Data
+    @Accessors(chain = true)
+    public static class Spu {
+
+        /**
+         * SPU 编号
+         */
+        private Integer id;
+
+        // ========== 基本信息 =========
+        /**
+         * SPU 名字
+         */
+        private String name;
+        /**
+         * 分类编号
+         */
+        private Integer cid;
+        /**
+         * 商品主图地址
+         *
+         * 数组，以逗号分隔
+         *
+         * 建议尺寸：800*800像素，你可以拖拽图片调整顺序，最多上传15张
+         */
+        private List<String> picUrls;
 
     }
 
@@ -87,15 +133,6 @@ public class CalcOrderPriceBO {
          */
         private Integer presentTotal;
 
-        public Fee() {
-        }
-
-        public Fee(Integer originalTotal, Integer discountTotal, Integer postageTotal, Integer presentTotal) {
-            this.originalTotal = originalTotal;
-            this.discountTotal = discountTotal;
-            this.postageTotal = postageTotal;
-            this.presentTotal = presentTotal;
-        }
     }
 
     /**

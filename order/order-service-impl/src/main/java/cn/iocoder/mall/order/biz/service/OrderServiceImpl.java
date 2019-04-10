@@ -158,11 +158,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public CalcOrderPriceBO calcOrderPrice(CalcOrderPriceDTO calcOrderPriceDTO) {
-        return null;
-    }
-
-    @Override
     @Transactional
     public CommonResult<OrderCreateBO> createOrder(OrderCreateDTO orderCreateDTO) {
         Integer userId = orderCreateDTO.getUserId();

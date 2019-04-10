@@ -29,7 +29,7 @@ public class UsersProductSpuController {
     @ApiOperation("商品 SPU 明细")
     @ApiImplicitParam(name = "id", value = "SPU 编号", required = true, example = "100")
     public CommonResult<UsersProductSpuDetailVO> info(@RequestParam("id") Integer id) {
-        return ProductSpuConvert.INSTANCE.convert4(productSpuService.getProductSpu(id));
+        return ProductSpuConvert.INSTANCE.convert4(productSpuService.getProductSpuDetail(id));
     }
 
     @GetMapping("/page")

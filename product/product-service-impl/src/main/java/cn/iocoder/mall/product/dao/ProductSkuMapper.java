@@ -4,12 +4,15 @@ import cn.iocoder.mall.product.dataobject.ProductSkuDO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 @Repository
 public interface ProductSkuMapper {
 
     ProductSkuDO selectById(Integer id);
+
+    List<ProductSkuDO> selectByIds(@Param("ids") Collection<Integer> ids);
 
     List<ProductSkuDO> selectListBySpuIdAndStatus(@Param("spuId") Integer spuId,
                                                   @Param("status") Integer status);

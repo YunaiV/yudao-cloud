@@ -3,6 +3,7 @@ package cn.iocoder.mall.user.biz.service;
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.user.api.constant.UserAddressHasDefaultEnum;
 import cn.iocoder.mall.user.api.constant.UserErrorCodeEnum;
 import cn.iocoder.mall.user.biz.convert.UserAddressConvert;
 import cn.iocoder.mall.user.biz.dao.UserAddressMapper;
@@ -13,6 +14,7 @@ import cn.iocoder.mall.user.api.dto.UserAddressAddDTO;
 import cn.iocoder.mall.user.api.dto.UserAddressUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -31,12 +33,28 @@ public class UserAddressServiceImpl implements UserAddressService {
     private UserAddressMapper userAddressMapper;
 
     @Override
+    @Transactional
     public CommonResult addAddress(UserAddressAddDTO userAddressAddDTO) {
         UserAddressDO userAddressDO = UserAddressConvert.INSTANCE.convert(userAddressAddDTO);
         userAddressDO.setCreateTime(new Date());
         userAddressDO.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
-        userAddressMapper.insert(userAddressDO);
-        return CommonResult.success(null);
+
+        // 检查是否设置为默认地址
+        if (UserAddressHasDefaultEnum.DEFAULT_ADDRESS_YES.getValue() == userAddressAddDTO.getHasDefault()) {
+            UserAddressDO defaultUserAddress = userAddressMapper.selectHasDefault(
+                    DeletedStatusEnum.DELETED_NO.getValue(),
+                    userAddressAddDTO.getUserId(), UserAddressHasDefaultEnum.DEFAULT_ADDRESS_YES.getValue());
+
+            if (defaultUserAddress != null) {
+                userAddressMapper.updateById(defaultUserAddress.getId(),
+                        new UserAddressDO()
+                                .setHasDefault(UserAddressHasDefaultEnum.DEFAULT_ADDRESS_NO.getValue())
+                );
+            }
+        }
+
+        int result = userAddressMapper.insert(userAddressDO);
+        return CommonResult.success(result);
     }
 
     @Override
@@ -50,6 +68,32 @@ public class UserAddressServiceImpl implements UserAddressService {
 
         if (userAddress == null) {
             return ServiceExceptionUtil.error(UserErrorCodeEnum.USER_ADDRESS_NOT_EXISTENT.getCode());
+        }
+
+        // 检查是否设置为默认地址
+        if (UserAddressHasDefaultEnum.DEFAULT_ADDRESS_YES.getValue() == userAddressAddDTO.getHasDefault()) {
+            UserAddressDO defaultUserAddress = userAddressMapper.selectHasDefault(
+                    DeletedStatusEnum.DELETED_NO.getValue(),
+                    userAddressAddDTO.getUserId(), UserAddressHasDefaultEnum.DEFAULT_ADDRESS_YES.getValue());
+
+            if (defaultUserAddress != null && !userAddressAddDTO.getId().equals(defaultUserAddress.getId())) {
+                userAddressMapper.updateById(defaultUserAddress.getId(),
+                        new UserAddressDO()
+                                .setHasDefault(UserAddressHasDefaultEnum.DEFAULT_ADDRESS_NO.getValue())
+                );
+            }
+        }
+
+
+        UserAddressDO defaultUserAddress = userAddressMapper.selectHasDefault(
+                DeletedStatusEnum.DELETED_NO.getValue(),
+                userAddressAddDTO.getUserId(), UserAddressHasDefaultEnum.DEFAULT_ADDRESS_YES.getValue());
+
+        if (defaultUserAddress != null && !userAddressAddDTO.getId().equals(defaultUserAddress.getId())) {
+            userAddressMapper.updateById(defaultUserAddress.getId(),
+                    new UserAddressDO()
+                            .setHasDefault(UserAddressHasDefaultEnum.DEFAULT_ADDRESS_NO.getValue())
+            );
         }
 
         UserAddressDO userAddressDO = UserAddressConvert.INSTANCE.convert(userAddressAddDTO);

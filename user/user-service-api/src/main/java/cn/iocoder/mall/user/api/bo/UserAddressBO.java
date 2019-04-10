@@ -13,7 +13,6 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class UserAddressBO implements Serializable {
 
-
     /**
      * 编号
      */
@@ -38,5 +37,8 @@ public class UserAddressBO implements Serializable {
      * 收件详细地址
      */
     private String address;
-
+    /**
+     * 是否默认
+     */
+    private Integer hasDefault;
 }

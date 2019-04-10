@@ -39,5 +39,8 @@ public class UserAddressUpdateDTO implements Serializable {
      * 收件详细地址
      */
     private String address;
-
+    /**
+     * 是否默认地址
+     */
+    private Integer hasDefault;
 }

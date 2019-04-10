@@ -35,5 +35,11 @@ public class UserAddressAddDTO implements Serializable {
      * 收件详细地址
      */
     private String address;
-
+    /**
+     * 是否默认
+     *
+     * - 1 不是
+     * - 2 是
+     */
+    private Integer hasDefault;
 }

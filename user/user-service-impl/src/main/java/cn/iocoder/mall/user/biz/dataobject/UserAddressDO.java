@@ -38,5 +38,9 @@ public class UserAddressDO extends DeletableDO {
      * 收件详细地址
      */
     private String address;
+    /**
+     * 是否为默认
+     */
+    private Integer hasDefault;
 
 }

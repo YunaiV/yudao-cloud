@@ -20,7 +20,6 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class UserAddressUpdatePO implements Serializable {
 
-
     /**
      * 收件区域编号
      */
@@ -53,5 +52,10 @@ public class UserAddressUpdatePO implements Serializable {
     @NotNull(message = "详细地址不能为空")
     @Size(min = 10, max = 100, message = "地址在 10 ~ 100 字之间!")
     private String address;
-
+    /**
+     * 是否设置默认
+     */
+    @ApiModelProperty("是否设置默认")
+    @NotNull(message = "是否设置默认不能为空")
+    private Integer hasDefault;
 }

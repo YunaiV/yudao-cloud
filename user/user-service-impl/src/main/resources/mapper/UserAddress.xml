@@ -57,4 +57,13 @@
         WHERE deleted = #{deleted}
         AND `user_id` = #{userId}
     </select>
+
+    <select id="selectHasDefault" resultType="cn.iocoder.mall.user.biz.dataobject.UserAddressDO">
+        SELECT
+        <include refid="FIELDS" />
+        FROM user_address
+        WHERE deleted = #{deleted}
+        AND `user_id` = #{userId}
+        AND `has_default` = #{hasDefault}
+    </select>
 </mapper>

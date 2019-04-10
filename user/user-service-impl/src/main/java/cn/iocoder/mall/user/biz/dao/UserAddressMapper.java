@@ -31,4 +31,10 @@ public interface UserAddressMapper {
             Integer userId,
             Integer id
     );
+
+    UserAddressDO selectHasDefault(
+            Integer deleted,
+            Integer userId,
+            Integer hasDefault
+    );
 }

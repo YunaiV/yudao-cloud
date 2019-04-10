@@ -1,6 +1,7 @@
 package cn.iocoder.mall.user.application.controller.users;
 
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.user.api.bo.UserAddressBO;
 import cn.iocoder.mall.user.application.convert.UserAddressConvert;
 import cn.iocoder.mall.user.application.po.UserAddressAddPO;
 import cn.iocoder.mall.user.application.po.UserAddressUpdatePO;
@@ -13,6 +14,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 用户地址
@@ -55,7 +58,7 @@ public class UserAddressController {
 
     @GetMapping("list")
     @ApiOperation(value = "用户地址列表")
-    public CommonResult addressList() {
+    public CommonResult<List<UserAddressBO>> addressList() {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         return userAddressService.addressList(userId);
     }

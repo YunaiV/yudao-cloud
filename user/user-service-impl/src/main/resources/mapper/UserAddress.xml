@@ -4,16 +4,16 @@
 
     <sql id="FIELDS">
         id, user_id, area_no, `name`, mobile, address,
-        create_time, update_time, deleted
+        create_time, update_time, has_default, deleted
     </sql>
 
     <insert id="insert" parameterType="UserAddressDO" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user_address (
             user_id, area_no, `name`, mobile, address,
-            create_time, update_time, deleted
+            create_time, update_time, has_default, deleted
         ) VALUES (
           #{userId}, #{areaNo}, #{name}, #{mobile}, #{address},
-          #{createTime}, #{updateTime}, #{deleted}
+          #{createTime}, #{updateTime}, #{hasDefault}, #{deleted}
         )
     </insert>
 
@@ -34,6 +34,9 @@
             </if>
             <if test="userAddressDO.updateTime != null">
                 , update_time = #{userAddressDO.updateTime}
+            </if>
+            <if test="userAddressDO.hasDefault != null">
+                , has_default = #{userAddressDO.hasDefault}
             </if>
             <if test="userAddressDO.deleted != null">
                 , deleted = #{userAddressDO.deleted}

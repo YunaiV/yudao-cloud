@@ -24,4 +24,6 @@ public interface UserAddressService {
     CommonResult<List<UserAddressBO>> addressList(Integer userId);
 
     CommonResult<UserAddressBO> getAddress(Integer userId, Integer id);
+
+    CommonResult<UserAddressBO> getDefaultAddress(Integer userId);
 }

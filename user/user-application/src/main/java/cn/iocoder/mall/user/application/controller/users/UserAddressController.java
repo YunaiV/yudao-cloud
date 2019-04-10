@@ -65,8 +65,15 @@ public class UserAddressController {
 
     @GetMapping("address")
     @ApiOperation(value = "获取地址")
-    public CommonResult getAddress(@RequestParam("id") Integer id) {
+    public CommonResult<UserAddressBO> getAddress(@RequestParam("id") Integer id) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         return userAddressService.getAddress(userId, id);
+    }
+
+    @GetMapping("default_address")
+    @ApiOperation(value = "获取默认地址")
+    public CommonResult<UserAddressBO> getDefaultAddress() {
+        Integer userId = UserSecurityContextHolder.getContext().getUserId();
+        return userAddressService.getDefaultAddress(userId);
     }
 }

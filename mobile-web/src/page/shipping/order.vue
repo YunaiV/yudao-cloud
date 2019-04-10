@@ -12,8 +12,8 @@
         <strong>选择地址</strong>
       </template>
       <template v-else>
-        <strong>张三 138****6520</strong>
-        <div>广东省深圳市南山区科技园</div>
+        <strong>{{addressData.name}} {{addressData.mobile}}</strong>
+        <div>{{addressData.address}}</div>
       </template>
     </van-cell>
     <div style="height:15px;"></div>
@@ -57,12 +57,16 @@
 <script>
 
   import {createOrder} from '../../api/order';
+  import orderStore from '../../store/order'
   import eventBus from '../eventBus';
 
   export default {
     data() {
       return {
-        type: "add1",
+        type: "add",
+        addressData: {
+
+        },
         products: [
           {
             imageURL:
@@ -105,7 +109,7 @@
       onSubmit() {
         this.$toast("点击按钮");
         const { skuId, quantity } = this.$route.query;
-        const userAddressId = 1;
+        const userAddressId = this.addressData.id;
         const remark = '';
 
         const orderItems = [{
@@ -120,23 +124,18 @@
         })
       },
     },
-
-
+    mounted: function() {
+      if (this.$store.state.addressData.name) {
+        this.type = 'add1';
+      } else {
+        this.type = 'add';
+      }
+      this.addressData = this.$store.state.addressData;
+    },
     activated() {
 
-      console.log('activated')
-      //根据key名获取传递回来的参数，data就是map
-      // eventBus.$on('selectaddress', function(data){
-      //   //赋值给首页的附近医院数据模型
-      //   console.log('selectaddress', data);
-      // }.bind(this));
-
-      //根据key名获取传递回来的参数，data就是map
-      this.$on('selectaddress', function (data) {
-        //赋值给首页的附近医院数据模型
-        console.log('selectaddress', data);
-      }.bind(this));
     },
+    store: orderStore,
   };
 </script>
 

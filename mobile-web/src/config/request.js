@@ -32,7 +32,7 @@ const serviceRouter = function(requestUrl) {
     const configProd = {
       '/order-api': {
         prefix: '/order-api',
-        target: 'http://api.shop.iocoder.cn:18099/order-api',
+        target: 'http://api.shop.iocoder.cn:18088/order-api',
       },
       '/user-api': {
         prefix: '/user-api',

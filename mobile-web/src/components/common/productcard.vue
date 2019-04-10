@@ -8,7 +8,7 @@
                     style="background:#fff"
             >
                 <template slot="thumb">
-                    <img :src="product.picUrls[0]"/>
+                    <img :src="product.picUrl"/>
                     <p v-if="product.imageTag!=null&&product.imageTag!=''" class="image_tag">{{product.imageTag}}</p>
                 </template>
                 <template slot="tags">

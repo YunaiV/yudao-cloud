@@ -57,6 +57,7 @@
 <script>
 
   import {createOrder} from '../../api/order';
+  import eventBus from '../eventBus';
 
   export default {
     data() {
@@ -122,10 +123,18 @@
 
 
     activated() {
+
+      console.log('activated')
       //根据key名获取传递回来的参数，data就是map
-      this.$on('selectAddress', function (data) {
+      // eventBus.$on('selectaddress', function(data){
+      //   //赋值给首页的附近医院数据模型
+      //   console.log('selectaddress', data);
+      // }.bind(this));
+
+      //根据key名获取传递回来的参数，data就是map
+      this.$on('selectaddress', function (data) {
         //赋值给首页的附近医院数据模型
-        console.log(1);
+        console.log('selectaddress', data);
       }.bind(this));
     },
   };

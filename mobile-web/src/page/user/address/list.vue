@@ -16,7 +16,8 @@
 <script>
 
   import {GetAddressList} from "../../../api/user.js";
-  import {AddressList} from 'vant';
+  import { AddressList } from 'vant';
+  import eventBus from '../../eventBus';
 
   export default {
     components: {
@@ -42,7 +43,9 @@
         if (!this.isSelect) {
           return;
         }
-        this.$emit('selectAddress', item);
+        this.$emit('selectaddress', item);
+        //传递一个map，choiceHospital是key，hospital是value
+        // eventBus.$emit('selectaddress',item);
         this.$router.go(-1);
       }
     },

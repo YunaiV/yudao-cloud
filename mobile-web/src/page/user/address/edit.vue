@@ -45,7 +45,7 @@
           hasDefault: data.isDefault,
         };
 
-        if (data.id !== 0) {
+        if (data.id) {
           UpdateAddress(params).then(response => {
             this.$toast('更新成功');
             this.$router.go(-1);

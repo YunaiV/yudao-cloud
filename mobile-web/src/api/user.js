@@ -18,14 +18,14 @@ export function DelFavorite(id){
 
 export function GetAddressList(){
   return request({
-    url: '/user-api/user/address/list',
+    url: '/user-api/users/address/list',
     method: 'get',
   })
 }
 
 export function GetAddressById(id){
   return request({
-    url: '/user-api/user/address/address',
+    url: '/user-api/users/address/address',
     method: 'get',
     params: { id }
   })
@@ -33,7 +33,7 @@ export function GetAddressById(id){
 
 export function UpdateAddress(data){
   return request({
-    url: '/user-api/user/address/update',
+    url: '/user-api/users/address/update',
     method: 'PUT',
     params: data
   })
@@ -41,7 +41,7 @@ export function UpdateAddress(data){
 
 export function SaveAddress(data){
   return request({
-    url: '/user-api/user/address/add',
+    url: '/user-api/users/address/add',
     method: 'POST',
     params: data
   })
@@ -49,12 +49,11 @@ export function SaveAddress(data){
 
 export function DelAddress(data){
   return request({
-    url: '/user-api/user/address/remove',
+    url: '/user-api/users/address/remove',
     method: 'DELETE',
     params: data
   })
 }
-
 
 export function GetCoupon(data){
   return request({

@@ -94,6 +94,9 @@ public class UserAddressServiceImpl implements UserAddressService {
     @Override
     public CommonResult<UserAddressBO> getAddress(Integer userId, Integer id) {
         UserAddressDO userAddress = userAddressMapper.selectByUserIdAndId(userId, id);
+        if (userAddress == null) {
+            return ServiceExceptionUtil.error(UserErrorCodeEnum.USER_GET_ADDRESS_NOT_EXISTS.getCode());
+        }
 
         if (DeletedStatusEnum.DELETED_YES.getValue().equals(userAddress.getDeleted())) {
             return ServiceExceptionUtil.error(UserErrorCodeEnum.USER_ADDRESS_IS_DELETED.getCode());

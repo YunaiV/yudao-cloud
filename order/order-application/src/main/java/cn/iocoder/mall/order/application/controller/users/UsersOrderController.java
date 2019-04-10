@@ -37,7 +37,7 @@ public class UsersOrderController {
     public CommonResult<OrderCreateBO> createOrder(@RequestBody @Validated OrderCreatePO orderCreatePO) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         OrderCreateDTO orderCreateDTO = OrderConvertAPP.INSTANCE.convert(orderCreatePO);
-        orderCreateDTO.setUserId(1);
+        orderCreateDTO.setUserId(userId);
         return orderService.createOrder(orderCreateDTO);
     }
 }

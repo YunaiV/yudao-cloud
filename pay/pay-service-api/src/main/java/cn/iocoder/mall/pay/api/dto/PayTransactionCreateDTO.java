@@ -7,6 +7,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-public class PayTransactionCreateDTO {
+public class PayTransactionCreateDTO implements Serializable {
 
     /**
      * 应用编号

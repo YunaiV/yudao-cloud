@@ -4,6 +4,6 @@ spring:
 
 # server
 server:
-  port: 18084
+  port: 18088
   servlet:
     context-path: /order-api/

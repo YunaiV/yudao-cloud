@@ -26,7 +26,7 @@
     },
     data() {
       return {
-        chosenAddressId: '1',
+        chosenAddressId: -1,
         isSelect: false,
         list: [],
       }
@@ -55,6 +55,9 @@
       this.isSelect = this.$route.query.id > 0;
       GetAddressList().then(response => {
         this.list = response.map(item => {
+          if (item.hasDefault == 2) {
+            this.chosenAddressId = item.id;
+          }
 
           // convert data
           return {

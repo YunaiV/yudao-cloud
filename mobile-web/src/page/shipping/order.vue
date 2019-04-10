@@ -57,6 +57,7 @@
 <script>
 
   import {createOrder} from '../../api/order';
+  import {GetDefaultAddress} from '../../api/user';
   import orderStore from '../../store/order'
   import eventBus from '../eventBus';
 
@@ -132,8 +133,13 @@
       }
       this.addressData = this.$store.state.addressData;
     },
-    activated() {
-
+    created() {
+      GetDefaultAddress().then((result) => {
+        if (result) {
+          this.type = 'add1'
+          this.addressData = result
+        }
+      })
     },
     store: orderStore,
   };

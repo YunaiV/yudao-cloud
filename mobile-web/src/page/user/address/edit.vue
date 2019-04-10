@@ -42,7 +42,7 @@
           country: data.country,
           mobile: data.tel,
           name: data.name,
-          hasDefault: data.isDefault,
+          hasDefault: data.isDefault ? 2 : 1,
         };
 
         if (data.id) {

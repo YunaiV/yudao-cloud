@@ -114,7 +114,7 @@ const servicef = function (parameter) {
         data = JSON.parse(data);
       }
       resolve(data);
-    })
+    });
     return promist;
   }
   // 设置 access token
@@ -128,7 +128,7 @@ const servicef = function (parameter) {
   // debugger;
 
   return service(parameter);
-}
+};
 
 
 service.interceptors.request.use(
@@ -160,7 +160,7 @@ service.interceptors.request.use(
     console.log(error) // for debug
     Promise.reject(error)
   }
-)
+);
 
 // response interceptor
 service.interceptors.response.use(
@@ -192,8 +192,6 @@ service.interceptors.response.use(
       //   })
       // }
 
-
-
       // TODO token 过期
       // TODO 需要拿 refresh token 置换
       if (code === 1001001012) {
@@ -218,7 +216,6 @@ service.interceptors.response.use(
           message: res.message,
         });
       }
-      console.log(1);
       return Promise.reject('error')
     } else {
       // if (typeof response.data.Tag == 'string') {
@@ -231,10 +228,15 @@ service.interceptors.response.use(
     }
   },
   error => {
-
-    return Promise.reject(error)
+    Dialog.alert({
+      title: '系统提示',
+      message: error,
+    });
+    console.error(`请求失败`, error);
+    throw new Error(error);
+    // return Promise.reject(error)
   }
-)
+);
 
 
 export default servicef

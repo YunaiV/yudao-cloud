@@ -76,7 +76,6 @@
     data() {
       return {
         from: 'direct_order', // 目前有两个来源。direct_order：直接下单; card: 购物车下单。
-
         // 如下两个参数，在直接下单时使用
         skuId: this.$route.query.skuId,
         quantity: this.$route.query.quantity,
@@ -85,7 +84,6 @@
         addressData: {
 
         },
-
         itemGroups: [],
         fee: {
           originalTotal: undefined,
@@ -93,48 +91,11 @@
           postageTotal: undefined,
           presentTotal: undefined,
         },
-
-        products: [
-          {
-            imageURL:
-              "https://img10.360buyimg.com/mobilecms/s88x88_jfs/t17572/12/840082281/351445/e1828c58/5aab8dbbNedb77d88.jpg",
-            title: "良品铺子 肉肉聚汇猪肉脯 猪蹄卤 辣味小吃520g",
-            desc: "0.670kg/件，肉肉聚汇520g",
-            price: "59.80",
-            quantity: 2
-          },
-          {
-            imageURL:
-              "https://img10.360buyimg.com/mobilecms/s88x88_jfs/t22720/128/1410375403/319576/8dbd859f/5b5e69b3Nf4f0e9e7.jpg",
-            title: "元朗 鸡蛋卷 饼干糕点 中秋礼盒 广东特产680g",
-            desc: "1.320kg/件",
-            price: "65.80",
-            quantity: 1,
-            gift: [
-              {
-                title: "星巴克（Starbucks）星冰乐小熊吊饰星巴克（Starbucks）星冰乐小熊吊饰",
-                quantity: 2
-              },
-              {
-                title: "星巴克（Starbucks）星冰乐小熊吊饰星巴克（Starbucks）星冰乐小熊吊饰",
-                quantity: 1
-              }
-            ]
-          },
-          {
-            imageURL:
-              "https://img10.360buyimg.com/mobilecms/s88x88_jfs/t17572/12/840082281/351445/e1828c58/5aab8dbbNedb77d88.jpg",
-            title: "良品铺子 肉肉聚汇猪肉脯 猪蹄卤 辣味小吃520g",
-            desc: "0.670kg/件，肉肉聚汇520g",
-            price: "59.80",
-            quantity: 2
-          },
-        ]
+        products: [],
       };
     },
     methods: {
       onSubmit() {
-        this.$toast("点击按钮");
         const { skuId, quantity } = this.$route.query;
         const userAddressId = this.addressData.id;
         const remark = '';
@@ -148,6 +109,16 @@
           orderItems,
           userAddressId,
           remark,
+        }).then(result => {
+          if (result) {
+            const { orderNo } = result;
+            this.$router.push({  //核心语句
+              path:`/order/success`,   //跳转的路径
+              query:{           //路由传参时push和query搭配使用 ，作用时传递参数
+                ...result,
+              }
+            });
+          }
         })
       },
       convertProduct(item) {

@@ -245,12 +245,10 @@
       },
       onBuyClicked(data) {
         const { selectedNum } = data;
-        // debugger;
-        // console.log(data);
-        // this.$toast(JSON.stringify(data));
         this.$router.push({
           path:'/order',
           query:{
+            goodsId: data.id,
             skuId: data.selectedSkuComb.id,
             quantity: selectedNum,
           }

@@ -23,17 +23,19 @@
               </div>
               <div v-if="item.products.length > 0" class="more">
                 <div class="item" v-for="(product,i) in item.products" :key="i">
-                  <div>
+                  <div class="products-item">
                     <img :src="product.imageURL"/>
+                    <span class="product-title">{{product.title}}</span>
+                    <!--<span class="product-title">￥{{product.price / 100}} x{{product.quantity}}</span>-->
                   </div>
                 </div>
               </div>
             </router-link>
           </div>
-          <div slot="footer">
+          <div slot="footer" class="footer">
             <span class="total">总价：{{item.payAmount / 100}} 元</span>
-            <van-button v-if="[2,3,4,5].indexOf(item.status) != -1" size="small">查看物流</van-button>
-            <van-button v-if="item.status === 2 " size="small">确认收货</van-button>
+            <van-button v-if="[3,4,5].indexOf(item.status) != -1" size="small">查看物流</van-button>
+            <van-button v-if="item.status === 3 " size="small">确认收货</van-button>
             <van-button v-if="item.status === 1 " size="small" type="danger">支付</van-button>
           </div>
         </van-panel>
@@ -51,85 +53,7 @@
     data() {
       return {
         active: 0,
-
-        list: [
-          {
-            orderid: 1,
-            ordercode: '4511248234235',
-            state: '待付款',
-            products: [
-              {
-                imageURL: 'https://pop.nosdn.127.net/19e33c9b-6c22-4a4b-96da-1cb7afb32712',
-                title: 'BEYOND博洋家纺 床上套件 秋冬保暖纯棉床单被套 双人被罩 磨毛全棉印花床品四件套',
-                price: '499',
-                quantity: 2
-              },
-              {
-                imageURL: 'https://pop.nosdn.127.net/19e33c9b-6c22-4a4b-96da-1cb7afb32712',
-                title: 'BEYOND博洋家纺 床上套件 秋冬保暖纯棉床单被套 双人被罩 磨毛全棉印花床品四件套',
-                price: '499',
-                quantity: 1
-              },
-              {
-                imageURL: 'https://pop.nosdn.127.net/19e33c9b-6c22-4a4b-96da-1cb7afb32712',
-                title: 'BEYOND博洋家纺 床上套件 秋冬保暖纯棉床单被套 双人被罩 磨毛全棉印花床品四件套',
-                price: '499',
-                quantity: 2
-              },
-              {
-                imageURL: 'https://pop.nosdn.127.net/19e33c9b-6c22-4a4b-96da-1cb7afb32712',
-                title: 'BEYOND博洋家纺 床上套件 秋冬保暖纯棉床单被套 双人被罩 磨毛全棉印花床品四件套',
-                price: '499',
-                quantity: 2
-              },
-              {
-                imageURL: 'https://pop.nosdn.127.net/19e33c9b-6c22-4a4b-96da-1cb7afb32712',
-                title: 'BEYOND博洋家纺 床上套件 秋冬保暖纯棉床单被套 双人被罩 磨毛全棉印花床品四件套',
-                price: '499',
-                quantity: 2
-              },
-            ]
-          },
-          {
-            orderid: 2,
-            ordercode: '4511248234235',
-            state: '待收货',
-            products: [
-              {
-                imageURL: 'https://pop.nosdn.127.net/19e33c9b-6c22-4a4b-96da-1cb7afb32712',
-                title: 'BEYOND博洋家纺 床上套件 秋冬保暖纯棉床单被套 双人被罩 磨毛全棉印花床品四件套',
-                price: '499',
-                quantity: 2
-              }
-            ]
-          },
-          {
-            orderid: 3,
-            ordercode: '4511248234235',
-            state: '已完成',
-            products: [
-              {
-                imageURL: 'https://pop.nosdn.127.net/19e33c9b-6c22-4a4b-96da-1cb7afb32712',
-                title: 'BEYOND博洋家纺 床上套件 秋冬保暖纯棉床单被套 双人被罩 磨毛全棉印花床品四件套',
-                price: '499',
-                quantity: 2
-              }
-            ]
-          },
-          {
-            orderid: 4,
-            ordercode: '4511248234235',
-            state: '已取消',
-            products: [
-              {
-                imageURL: 'https://pop.nosdn.127.net/19e33c9b-6c22-4a4b-96da-1cb7afb32712',
-                title: 'BEYOND博洋家纺 床上套件 秋冬保暖纯棉床单被套 双人被罩 磨毛全棉印花床品四件套',
-                price: '499',
-                quantity: 2
-              }
-            ]
-          },
-        ]
+        list: [],
       }
     },
     methods: {
@@ -221,6 +145,11 @@
       border-bottom: 1px solid #e5e5e5;
     }
 
+    .footer {
+      display: block;
+      height: 30px;
+    }
+
     .van-button {
       margin-left: 5px;
     }
@@ -247,6 +176,18 @@
         img {
           width: 100%;
         }
+      }
+    }
+
+
+
+    .products-item {
+      /*display: flex;*/
+      /*flex-direction: row;*/
+
+      .product-title {
+        justify-items: center;
+        margin: 10px;
       }
     }
   }

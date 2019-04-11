@@ -8,8 +8,7 @@
                     style="background:#fff"
             >
                 <template slot="thumb">
-                    <!--  TODO 芋艿 暂时去掉，等会就恢复 -->
-<!--                    <img :src="product.picUrls[0]"/>-->
+                    <img :src="product.picUrls[0]"/>
                     <!--  TODO 芋艿 暂时去掉 -->
 <!--                    <p v-if="product.imageTag!=null&&product.imageTag!=''" class="image_tag">{{product.imageTag}}</p>-->
                 </template>

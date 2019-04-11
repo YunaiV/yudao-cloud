@@ -214,6 +214,12 @@ public class ProductSpuServiceImpl implements ProductSpuService {
     }
 
     @Override
+    public CommonResult<ProductSkuBO> getProductSku(Integer id) {
+        ProductSkuDO sku = productSkuMapper.selectById(id);
+        return CommonResult.success(ProductSpuConvert.INSTANCE.convert4(sku));
+    }
+
+    @Override
     public CommonResult<List<ProductSkuDetailBO>> getProductSkuDetailList(Collection<Integer> ids) {
         // 查询 SKU 数组
         List<ProductSkuDO> skus = productSkuMapper.selectByIds(ids);

@@ -39,9 +39,10 @@ public interface CartService {
      *
      * @param userId 用户编号
      * @param skuId 商品 SKU 编号
+     * @param selected 是否选中
      * @return 是否成功
      */
-    CommonResult<Boolean> updateSelected(Integer userId, Integer skuId);
+    CommonResult<Boolean> updateSelected(Integer userId, Integer skuId, Boolean selected);
 
     /**
      * 购物车删除商品
@@ -67,7 +68,7 @@ public interface CartService {
      * @param userId 用户编号
      * @return 商品数量
      */
-    CommonResult<Integer> count(Integer userId, String nobody, Integer shopId);
+    CommonResult<Integer> count(Integer userId);
 
     /**
      * 显示买家购物车中的商品列表，并根据 selected 进行过滤。

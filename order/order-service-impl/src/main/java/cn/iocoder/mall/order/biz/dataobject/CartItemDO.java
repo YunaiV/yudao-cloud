@@ -76,7 +76,7 @@ public class CartItemDO extends BaseDO {
     /**
      * 订单编号
      */
-    private String orderId;
+    private Integer orderId;
     /**
      * 订单创建时间
      */

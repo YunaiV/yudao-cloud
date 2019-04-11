@@ -13,4 +13,5 @@ import org.springframework.stereotype.Repository;
 public interface OrderCancelMapper {
 
     int insert(OrderCancelDO orderCancelDO);
+
 }

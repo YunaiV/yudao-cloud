@@ -133,6 +133,15 @@ public class UsersOrderConfirmCreateVO {
          */
         private Integer presentTotal;
 
+        public Fee() {
+        }
+
+        public Fee(Integer originalTotal, Integer discountTotal, Integer postageTotal, Integer presentTotal) {
+            this.originalTotal = originalTotal;
+            this.discountTotal = discountTotal;
+            this.postageTotal = postageTotal;
+            this.presentTotal = presentTotal;
+        }
     }
 
     /**

@@ -27,6 +27,12 @@ public enum OrderErrorCodeEnum {
     ORDER_ITEM_ONLY_ONE(1008000004, "订单Item只有一个!"),
     ORDER_ITEM_SOME_NOT_EXISTS(-1, "有不存在的商品"), // TODO 芋艿 后面改下错误码
 
+
+    // ========== 购物车 ==========
+    CARD_ITEM_NOT_FOUND(1008003000, "购物车项不存在"),
+    CARD_ITEM_SKU_NOT_FOUND(1008003001, "商品不存在"),
+    CARD_ITEM_SKU_QUANTITY_NOT_ENOUGH(1008003002, "商品库存不足"),
+
     ;
 
     private final int code;

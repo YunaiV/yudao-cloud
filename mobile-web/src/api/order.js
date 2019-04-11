@@ -45,3 +45,24 @@ export function createOrder(params) {
   });
 }
 
+// Cart
+
+export function addCart(skuId, quantity) {
+  return request({
+    url: '/order-api/users/cart/add',
+    method: 'post',
+    params: {
+      skuId,
+      quantity,
+    }
+  });
+}
+
+export function countCart() {
+  return request({
+    url: '/order-api/users/cart/count',
+    method: 'get',
+    params: {
+    }
+  });
+}

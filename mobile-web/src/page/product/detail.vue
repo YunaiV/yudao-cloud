@@ -74,7 +74,7 @@
       <van-goods-action-mini-btn icon="like-o" @click="sorry">
         收藏
       </van-goods-action-mini-btn>
-      <van-goods-action-mini-btn icon="cart" @click="onClickCart">
+      <van-goods-action-mini-btn icon="cart" :info="cartCount > 0 ? cartCount : undefined" @click="onClickCart">
         购物车
       </van-goods-action-mini-btn>
       <van-goods-action-big-btn @click="showSku">
@@ -167,6 +167,8 @@
 <script>
   // import skuData from '../../data/sku';
   import {getProductSpuInfo} from '../../api/product';
+  import {addCart, countCart} from '../../api/order';
+  import { Dialog } from 'vant';
 
   export default {
     components: {},
@@ -190,25 +192,11 @@
         },
         attrValueMap: new Map(), // 规格值的映射
 
-        // show:false,
-        // showTag:false,
-        // goods: {
-        //   title: '【每日一粒益智又长高】 Lifeline Care 儿童果冻鱼油DHA维生素D3聪明长高 软糖 30粒 2件装',
-        //   subtitle:'【品牌直采】Q弹美味，无腥味果冻鱼油，每粒含足量鱼油DHA，帮助视网膜和大脑健康发育，让你的宝宝明眼又聪明，同时补充400国际单位维生素D3，强壮骨骼和牙齿。特含DPA，让宝宝免疫力更强，没病来扰。',
-        //   price: 2680,
-        //   market_price:9999,
-        //   express: '免运费',
-        //   remain: 19,
-        //   thumb: [
-        //     'https://img.yzcdn.cn/public_files/2017/10/24/e5a5a02309a41f9f5def56684808d9ae.jpeg',
-        //     'https://img.yzcdn.cn/public_files/2017/10/24/1791ba14088f9c2be8c610d0a6cc0f93.jpeg'
-        //   ],
-        //   info:'<p style="text-align:center;"><img src="https://haitao.nosdn2.127.net/ac19460151ee4d95a6657202bcfc653c1531470912089jjjq8ml410763.jpg" ></p><p style="text-align:center;"><img src="https://haitao.nos.netease.com/2a91cfad22404e5498d347672b1440301531470912182jjjq8mnq10764.jpg" ></p><p style="text-align:center;"><img src="https://haitao.nos.netease.com/caddd5a213de4c1cb1347c267e8275731531470912412jjjq8mu410765.jpg" ></p>',
-        // },
-
-        showBase: false, // 是否显示 sku 坦诚
+        showBase: false, // 是否显示 sku 弹层
         closeOnClickOverlay: true, // 是否在点击蒙层后关闭
         hideStock: true, // 是否显示商品剩余库存
+
+        cartCount: 0,
 
       };
     },
@@ -231,9 +219,9 @@
         this.initialSku.quantity = value;
       },
       skuSelected({skuValue, selectedSku, selectedSkuComb}) { // 选择 sku
-        console.log(skuValue);
-        console.log(selectedSku);
-        console.log(selectedSkuComb);
+        // console.log(skuValue);
+        // console.log(selectedSku);
+        // console.log(selectedSkuComb);
         this.initialSku = {
           ...selectedSkuComb,
           quantity: 1,
@@ -256,25 +244,36 @@
         this.showTag = true;
       },
       onBuyClicked(data) {
-        const { selectedNum, goodsId } = data;
-        console.log(data);
+        const { selectedNum } = data;
+        // debugger;
+        // console.log(data);
         // this.$toast(JSON.stringify(data));
         this.$router.push({
           path:'/order',
           query:{
-            skuId: goodsId,
+            skuId: data.selectedSkuComb.id,
             quantity: selectedNum,
           }
         });
       },
       onAddCartClicked(data) {
-        this.$toast(JSON.stringify(data));
+        const { selectedNum } = data;
+        // debugger;
+        addCart(data.selectedSkuComb.id,selectedNum).then(data => {
+          // 修改购物车数量
+          this.cartCount = data;
+          // 提示
+          Dialog.alert({
+            title: '系统提示',
+            message: '添加购物车成功',
+          });
+        });
       },
     },
     mounted() {
+      // 获得商品数据
       let id = this.$route.params.id; // 商品编号
-      let response = getProductSpuInfo(id);
-      response.then(data => {
+      getProductSpuInfo(id).then(data => {
         // 设置 spu
         this.spu = data;
         // 初始化 vanSku
@@ -337,6 +336,10 @@
         this.initialSku = vanSku.list[0];
         this.initialSku.quantity = 1;
       });
+      // 获得购物车数量
+      countCart().then(data => {
+        this.cartCount = data;
+      })
     }
   };
 </script>

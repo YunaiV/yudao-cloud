@@ -1,10 +1,7 @@
 package cn.iocoder.mall.product.convert;
 
 import cn.iocoder.common.framework.util.StringUtil;
-import cn.iocoder.mall.product.api.bo.ProductAttrAndValuePairBO;
-import cn.iocoder.mall.product.api.bo.ProductSkuDetailBO;
-import cn.iocoder.mall.product.api.bo.ProductSpuBO;
-import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
+import cn.iocoder.mall.product.api.bo.*;
 import cn.iocoder.mall.product.api.dto.ProductSkuAddOrUpdateDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuAddDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuUpdateDTO;
@@ -72,6 +69,11 @@ public interface ProductSpuConvert {
             @Mapping(source = "attrs", target = "attrs", ignore = true)
     })
     ProductSkuDetailBO convert3(ProductSkuDO sku);
+
+    @Mappings({
+//            @Mapping(source = "attrs", target = "attrs", ignore = true) // TODO 芋艿 后续补充
+    })
+    ProductSkuBO convert4(ProductSkuDO sku);
 
     @Mappings({}) // TODO 芋艿，后续细看下 mapstruct 的 API ，优化这块
     default ProductSpuDetailBO convert2(ProductSpuDO spu, List<ProductSkuDO> skus, List<ProductAttrAndValuePairBO> productAttrDetailBOs) {

@@ -16,11 +16,21 @@
         <div>{{addressData.address}}</div>
       </template>
     </van-cell>
-    <div style="height:15px;"></div>
+      <div style="height:15px;"></div>
 
-    <div class="card" v-for="(product,i) in products" :key="i">
-      <product-card :product='product'/>
+
+
+<!--    <div class="card" v-for="(product,i) in products" :key="i">-->
+<!--      <product-card :product='product'/>-->
+<!--    </div>-->
+    <div v-for="(itemGroup, i) in itemGroups" >
+        <div class="card" v-for="(item, j) in itemGroup.items" :key="j">
+            <product-card :product='convertProduct(item)'/>
+        </div>
+        <div style="height:15px;"></div>
     </div>
+
+
 
     <div style="height:15px;"></div>
     <van-cell-group>
@@ -61,7 +71,6 @@
   import {createOrder, getConfirmCreateOrder} from '../../api/order';
   import {GetDefaultAddress} from '../../api/user';
   import orderStore from '../../store/order'
-  import eventBus from '../eventBus';
 
   export default {
     data() {
@@ -141,8 +150,17 @@
           remark,
         })
       },
-      convertProduct() {
-
+      convertProduct(item) {
+        // debugger;
+        return {
+          ...item.spu,
+          quantity: item.buyQuantity,
+          price: item.price,
+          sku: {
+            ...item,
+            spu: undefined,
+          }
+        };
       }
     },
     mounted: function() {

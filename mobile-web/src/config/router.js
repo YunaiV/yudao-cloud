@@ -58,7 +58,8 @@ const routes = [
     component: () => import('../page/user/info/detail'),
     name: 'user',
     meta: {
-      title: '个人信息'
+      title: '个人信息',
+      requireAuth: true,
     }
   },
   {
@@ -178,7 +179,8 @@ const routes = [
     path: '/order',
     component: () => import('../page/shipping/order'),
     meta: {
-      title: '确认订单'
+      title: '确认订单',
+      requireAuth: true,
     }
   },
   {

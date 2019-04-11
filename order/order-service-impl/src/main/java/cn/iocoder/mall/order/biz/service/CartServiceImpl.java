@@ -1,5 +1,6 @@
 package cn.iocoder.mall.order.biz.service;
 
+import cn.iocoder.common.framework.constant.CommonStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.CartService;
@@ -7,12 +8,17 @@ import cn.iocoder.mall.order.api.bo.CalcOrderPriceBO;
 import cn.iocoder.mall.order.api.bo.CartBO;
 import cn.iocoder.mall.order.api.bo.CartItemBO;
 import cn.iocoder.mall.order.api.bo.OrderCreateBO;
+import cn.iocoder.mall.order.api.constant.CartItemStatusEnum;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.dto.CalcOrderPriceDTO;
 import cn.iocoder.mall.order.biz.convert.CartConvert;
+import cn.iocoder.mall.order.biz.dao.CartMapper;
+import cn.iocoder.mall.order.biz.dataobject.CartItemDO;
 import cn.iocoder.mall.product.api.ProductSpuService;
+import cn.iocoder.mall.product.api.bo.ProductSkuBO;
 import cn.iocoder.mall.product.api.bo.ProductSkuDetailBO;
 import com.alibaba.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -28,19 +34,97 @@ public class CartServiceImpl implements CartService {
     @Reference(validation = "true")
     private ProductSpuService productSpuService;
 
+    @Autowired
+    private CartMapper cartMapper;
+
     @Override
+    @SuppressWarnings("Duplicates")
     public CommonResult<Boolean> add(Integer userId, Integer skuId, Integer quantity) {
-        return null;
+        // 查询 SKU 是否合法
+        CommonResult<ProductSkuBO> skuResult = productSpuService.getProductSku(skuId);
+        if (skuResult.isError()) {
+            return CommonResult.error(skuResult);
+        }
+        ProductSkuBO sku = skuResult.getData();
+        if (sku == null
+                || CommonStatusEnum.DISABLE.getValue().equals(sku.getStatus())) { // sku 被禁用
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());
+        }
+        // TODO 芋艿，后续基于商品是否上下架进一步完善。
+        // 查询 CartItemDO
+        CartItemDO item = cartMapper.selectByUserIdAndSkuIdAndStatus(userId, skuId, CartItemStatusEnum.ENABLE.getValue());
+        // 存在，则进行数量更新
+        if (item != null) {
+            return updateQuantity0(item, sku, quantity);
+        }
+        // 不存在，则进行插入
+        return add0(userId, sku, quantity);
+    }
+
+    private CommonResult<Boolean> add0(Integer userId, ProductSkuBO sku, Integer quantity) {
+        // 校验库存
+        if (quantity > sku.getQuantity()) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());
+        }
+        // 创建 CartItemDO 对象，并进行保存。
+        CartItemDO item = new CartItemDO()
+                // 基础字段
+                .setStatus(CartItemStatusEnum.ENABLE.getValue()).setSelected(true)
+                // 买家信息
+                .setUserId(userId)
+                // 商品信息
+                .setSpuId(sku.getSpuId()).setSkuId(sku.getId()).setQuantity(quantity);
+        item.setCreateTime(new Date());
+        cartMapper.insert(item);
+        // 返回成功
+        return CommonResult.success(true);
     }
 
     @Override
+    @SuppressWarnings("Duplicates")
     public CommonResult<Boolean> updateQuantity(Integer userId, Integer skuId, Integer quantity) {
-        return null;
+        // 查询 SKU 是否合法
+        CommonResult<ProductSkuBO> skuResult = productSpuService.getProductSku(skuId);
+        if (skuResult.isError()) {
+            return CommonResult.error(skuResult);
+        }
+        ProductSkuBO sku = skuResult.getData();
+        if (sku == null
+                || CommonStatusEnum.DISABLE.getValue().equals(sku.getStatus())) { // sku 被禁用
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());
+        }
+        // 查询 CartItemDO
+        CartItemDO item = cartMapper.selectByUserIdAndSkuIdAndStatus(userId, skuId, CartItemStatusEnum.ENABLE.getValue());
+        if (item == null) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.CARD_ITEM_NOT_FOUND.getCode());
+        }
+        // TODO 芋艿，后续基于商品是否上下架进一步完善。
+        return updateQuantity0(item, sku, quantity);
+    }
+
+    private CommonResult<Boolean> updateQuantity0(CartItemDO item, ProductSkuBO sku, Integer quantity) {
+        // 校验库存
+        if (item.getQuantity() + quantity > sku.getQuantity()) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());
+        }
+        // 更新 CartItemDO
+        cartMapper.updateQuantity(item.getId(), quantity);
+        // 返回成功
+        return CommonResult.success(true);
     }
 
     @Override
-    public CommonResult<Boolean> updateSelected(Integer userId, Integer skuId) {
-        return null;
+    public CommonResult<Boolean> updateSelected(Integer userId, Integer skuId, Boolean selected) {
+        // 查询 CartItemDO
+        CartItemDO item = cartMapper.selectByUserIdAndSkuIdAndStatus(userId, skuId, CartItemStatusEnum.ENABLE.getValue());
+        if (item == null) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.CARD_ITEM_NOT_FOUND.getCode());
+        }
+        // 更新 CartItemDO
+        CartItemDO updateCartItem = new CartItemDO().setId(item.getId()).setSelected(selected);
+        cartMapper.update(updateCartItem);
+        // 返回成功
+        return CommonResult.success(true);
     }
 
     @Override
@@ -54,8 +138,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CommonResult<Integer> count(Integer userId, String nobody, Integer shopId) {
-        return null;
+    public CommonResult<Integer> count(Integer userId) {
+        return CommonResult.success(cartMapper.selectQuantitySumByUserIdAndStatus(userId, CartItemStatusEnum.ENABLE.getValue()));
     }
 
     @Override

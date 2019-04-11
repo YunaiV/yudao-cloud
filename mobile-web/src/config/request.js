@@ -208,6 +208,7 @@ service.interceptors.response.use(
               // this.$router.push({ path: '/login' })
               // TODO 跳转到登陆页.不是很优雅
               location.replace('/#login');
+              location.reload();
             }
           }
         });

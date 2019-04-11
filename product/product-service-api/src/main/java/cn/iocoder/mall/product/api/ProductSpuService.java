@@ -17,6 +17,8 @@ public interface ProductSpuService {
 
     CommonResult<List<ProductSpuBO>> getProductSpuList(Collection<Integer> ids);
 
+    CommonResult<ProductSkuBO> getProductSku(Integer id);
+
     CommonResult<List<ProductSkuDetailBO>> getProductSkuDetailList(Collection<Integer> ids);
 
     CommonResult<ProductSpuDetailBO> addProductSpu(Integer adminId, ProductSpuAddDTO productSpuAddDTO);

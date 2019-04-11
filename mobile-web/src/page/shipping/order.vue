@@ -183,9 +183,9 @@
     created() {
       // 加载地址
       GetDefaultAddress().then((result) => {
-        if (result) {
-          this.type = 'add1'
-          this.addressData = result
+        if (!this.addressData.name && result) {
+          this.type = 'add1';
+          this.addressData = result;
         }
       })
       // 处理来源

@@ -58,6 +58,7 @@ public class UserAddressServiceImpl implements UserAddressService {
     }
 
     @Override
+    @Transactional
     public CommonResult updateAddress(UserAddressUpdateDTO userAddressAddDTO) {
         UserAddressDO userAddress = userAddressMapper
                 .selectByUserIdAndId(userAddressAddDTO.getUserId(), userAddressAddDTO.getId());

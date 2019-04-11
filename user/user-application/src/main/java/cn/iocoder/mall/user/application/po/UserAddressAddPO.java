@@ -46,5 +46,10 @@ public class UserAddressAddPO implements Serializable {
     @NotNull(message = "详细地址不能为空")
     @Size(min = 10, max = 100, message = "地址在 10 ~ 100 字之间!")
     private String address;
-
+    /**
+     * 收件详细地址
+     */
+    @ApiModelProperty("默认地址")
+    @NotNull(message = "默认地址不能为空")
+    private Integer hasDefault;
 }

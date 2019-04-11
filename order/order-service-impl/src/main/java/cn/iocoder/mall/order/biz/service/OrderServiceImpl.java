@@ -1,7 +1,6 @@
 package cn.iocoder.mall.order.biz.service;
 
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
-import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.OrderService;
@@ -9,7 +8,6 @@ import cn.iocoder.mall.order.api.bo.*;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.constant.OrderHasReturnExchangeEnum;
 import cn.iocoder.mall.order.api.constant.OrderStatusEnum;
-import cn.iocoder.mall.order.api.constant.PayAppId;
 import cn.iocoder.mall.order.api.dto.*;
 import cn.iocoder.mall.order.biz.OrderCommon;
 import cn.iocoder.mall.order.biz.constants.OrderDeliveryTypeEnum;
@@ -21,9 +19,8 @@ import cn.iocoder.mall.order.biz.convert.OrderRecipientConvert;
 import cn.iocoder.mall.order.biz.dao.*;
 import cn.iocoder.mall.order.biz.dataobject.*;
 import cn.iocoder.mall.pay.api.PayTransactionService;
-import cn.iocoder.mall.pay.api.dto.PayTransactionCreateDTO;
 import cn.iocoder.mall.product.api.ProductSpuService;
-import cn.iocoder.mall.product.api.bo.ProductSpuBO;
+import cn.iocoder.mall.product.api.bo.ProductSkuDetailBO;
 import cn.iocoder.mall.user.api.UserAddressService;
 import cn.iocoder.mall.user.api.bo.UserAddressBO;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -31,7 +28,6 @@ import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
@@ -92,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
                 .map(orderDO -> orderDO.getId())
                 .collect(Collectors.toSet());
 
-        // 获取物流信息
+        // 获取配送信息
         List<OrderRecipientDO> orderRecipientDOList = orderRecipientMapper.selectByOrderIds(orderIds);
         List<OrderRecipientBO> orderRecipientBOList = OrderRecipientConvert.INSTANCE.convert(orderRecipientDOList);
         Map<Integer, OrderRecipientBO> orderRecipientBOMap
@@ -125,8 +121,7 @@ public class OrderServiceImpl implements OrderService {
             }
             return orderBO;
         }).collect(Collectors.toList());
-
-        return CommonResult.success(
+            return CommonResult.success(
                 new OrderPageBO()
                         .setTotal(totalCount)
                         .setOrders(result)
@@ -168,54 +163,57 @@ public class OrderServiceImpl implements OrderService {
         Set<Integer> skuIds = orderItemDOList.stream()
                 .map(orderItemDO -> orderItemDO.getSkuId()).collect(Collectors.toSet());
 
-        CommonResult<List<ProductSpuBO>> result = productSpuService.getProductSpuList(skuIds);
+        CommonResult<List<ProductSkuDetailBO>> productResult = productSpuService.getProductSkuDetailList(skuIds);
 
         // 校验商品信息
-        if (result.isError()) {
+        if (productResult.isError()) {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_SKU_FAIL.getCode());
         }
 
-        if (result.getData() == null) {
+        if (productResult.getData() == null) {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_SKU_NOT_EXISTENT.getCode());
         }
 
-        if (orderItemDTOList.size() != result.getData().size()) {
+        if (orderItemDTOList.size() != productResult.getData().size()) {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_GOODS_INFO_INCORRECT.getCode());
         }
 
         // 设置 orderItem
 
-        Map<Integer, ProductSpuBO> productSpuBOMap = result.getData()
+        Map<Integer, ProductSkuDetailBO> productSpuBOMap = productResult.getData()
                 .stream().collect(Collectors.toMap(o -> o.getId(), o -> o));
 
         for (OrderItemDO orderItemDO : orderItemDOList) {
-            ProductSpuBO productSpuBO = productSpuBOMap.get(orderItemDO.getSkuId());
-            if (productSpuBO.getQuantity() <= 0) {
+            ProductSkuDetailBO productSkuDetailBO = productSpuBOMap.get(orderItemDO.getSkuId());
+            if (productSkuDetailBO.getQuantity() <= 0) {
                 return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_INSUFFICIENT_INVENTORY.getCode());
             }
 
-            if (productSpuBO.getPrice() <= 0) {
+            if (productSkuDetailBO.getPrice() <= 0) {
                 return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GOODS_AMOUNT_INCORRECT.getCode());
             }
 
-            orderItemDO.setSkuImage(Optional.ofNullable(productSpuBO.getPicUrls().get(0)).get());
-            orderItemDO.setSkuName(productSpuBO.getName());
-            orderItemDO.setPrice(productSpuBO.getPrice());
+            orderItemDO.setSkuImage(Optional.ofNullable(productSkuDetailBO.getSpu().getPicUrls().get(0)).get());
+            orderItemDO.setSkuName(productSkuDetailBO.getSpu().getName());
+            orderItemDO.setPrice(productSkuDetailBO.getPrice());
 
             int payAmount = orderItemDO.getQuantity() * orderItemDO.getPrice();
             orderItemDO.setPayAmount(payAmount);
         }
 
         // order
+
+        // TODO: 2019-04-11 Sin 订单号需要生成规则
+        String orderNo = UUID.randomUUID().toString().replace("-", "").substring(0, 16);
         Integer totalAmount = orderCommon.calculatedAmount(orderItemDOList);
         OrderDO orderDO = new OrderDO()
                 .setUserId(userId)
-                .setOrderNo(UUID.randomUUID().toString().replace("-", ""))
+                .setOrderNo(orderNo)
                 .setPayAmount(totalAmount)
                 .setClosingTime(null)
                 .setDeliveryTime(null)
                 .setPaymentTime(null)
-                .setStatus(OrderStatusEnum.WAIT_SHIPMENT.getValue())
+                .setStatus(OrderStatusEnum.WAITING_PAYMENT.getValue())
                 .setHasReturnExchange(OrderHasReturnExchangeEnum.NO.getValue())
                 .setRemark(Optional.ofNullable(orderCreateDTO.getRemark()).orElse(""));
 
@@ -259,24 +257,24 @@ public class OrderServiceImpl implements OrderService {
 
         // 创建预订单
         // TODO sin 支付订单 orderSubject 暂时取第一个子订单商品信息
-        String orderSubject = orderItemDOList.get(0).getSkuName();
-        Date expireTime = DateUtil.addDate(Calendar.MINUTE, PAY_EXPIRE_TIME);
-        CommonResult commonResult = payTransactionService.createTransaction(
-                new PayTransactionCreateDTO()
-                        .setCreateIp(orderCreateDTO.getIp())
-                        .setAppId(PayAppId.APP_ID_1024)
-                        .setExpireTime(expireTime)
-                        .setPrice(orderDO.getPayAmount())
-                        .setOrderSubject(orderSubject)
-                        .setOrderMemo(orderDO.getRemark())
-                        .setOrderDescription("")
-        );
+//        String orderSubject = orderItemDOList.get(0).getSkuName();
+//        Date expireTime = DateUtil.addDate(Calendar.MINUTE, PAY_EXPIRE_TIME);
+//        CommonResult commonResult = payTransactionService.createTransaction(
+//                new PayTransactionCreateDTO()
+//                        .setCreateIp(orderCreateDTO.getIp())
+//                        .setAppId(PayAppId.APP_ID_1024)
+//                        .setExpireTime(expireTime)
+//                        .setPrice(orderDO.getPayAmount())
+//                        .setOrderSubject(orderSubject)
+//                        .setOrderMemo(orderDO.getRemark())
+//                        .setOrderDescription("")
+//        );
 
-        if (commonResult.isError()) {
-            //手动开启事务回滚
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_PAY_FAIL.getCode());
-        }
+//        if (commonResult.isError()) {
+//            //手动开启事务回滚
+//            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+//            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_PAY_FAIL.getCode());
+//        }
 
         // TODO: 2019-03-17 Sin 需要发送 创建成果 MQ 消息，业务扩展和统计
         return CommonResult.success(
@@ -370,10 +368,6 @@ public class OrderServiceImpl implements OrderService {
                         && OrderStatusEnum.WAIT_SHIPMENT.getValue() == orderItemDO.getStatus())
                 .collect(Collectors.toList());
 
-        List<OrderItemDO> deliveredOrderItems = allOrderItems.stream()
-                .filter(orderItemDO -> OrderStatusEnum.WAIT_SHIPMENT.getValue() == orderItemDO.getStatus())
-                .collect(Collectors.toList());
-
         // 发货订单，检查
         if (needDeliveryOrderItems.size() != orderItemIds.size()) {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_DELIVERY_INCORRECT_DATA.getCode());
@@ -400,7 +394,12 @@ public class OrderServiceImpl implements OrderService {
         );
 
         // 子订单是否全部发货，如果发完，就更新 order
-        if (deliveredOrderItems.size() <= 0) {
+        List<OrderItemDO> unShippedOrderItems = allOrderItems.stream()
+                .filter(orderItemDO -> OrderStatusEnum.WAIT_SHIPMENT.getValue() == orderItemDO.getStatus()
+                        && !orderItemIds.contains(orderItemDO.getId()))
+                .collect(Collectors.toList());
+
+        if (unShippedOrderItems.size() <= 0) {
             orderMapper.updateById(
                     new OrderDO()
                             .setId(orderDelivery.getOrderId())

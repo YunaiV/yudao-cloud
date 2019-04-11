@@ -21,11 +21,11 @@ public enum OrderErrorCodeEnum {
     ORDER_GOODS_AMOUNT_INCORRECT(1008000007, "商品金额非法!"),
     ORDER_GET_GOODS_INFO_INCORRECT(1008000008, "获取额商品信息不正确!"),
     ORDER_GET_USER_ADDRESS_FAIL(1008000009, "获取用户地址失败!"),
-    ORDER_GET_PAY_FAIL(1008000009, "调用pay失败!"),
+    ORDER_GET_PAY_FAIL(1008000010, "调用pay失败!"),
 
     // order item
-    ORDER_ITEM_ONLY_ONE(1008000004, "订单Item只有一个!"),
-    ORDER_ITEM_SOME_NOT_EXISTS(-1, "有不存在的商品"), // TODO 芋艿 后面改下错误码
+    ORDER_ITEM_ONLY_ONE(1008000200, "订单Item只有一个!"),
+    ORDER_ITEM_SOME_NOT_EXISTS(1008000201, "有不存在的商品!"),
 
 
     // ========== 购物车 ==========

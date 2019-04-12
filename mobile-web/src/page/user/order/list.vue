@@ -34,8 +34,10 @@
           </div>
           <div slot="footer" class="footer">
             <span class="total">总价：{{item.payAmount / 100}} 元</span>
-            <van-button v-if="[3,4,5].indexOf(item.status) != -1" size="small">查看物流</van-button>
-            <van-button v-if="item.status === 3 " size="small">确认收货</van-button>
+            <router-link :to="'/user/order/logistics/'+item.orderid">
+              <van-button v-if="[3,4,5].indexOf(item.status) != -1" size="small">查看物流</van-button>
+            </router-link>
+            <van-button v-if="item.status === 3 " size="small" v-on:click="clickConfirmReceiving(item)">确认收货</van-button>
             <van-button v-if="item.status === 1 " size="small" type="danger">支付</van-button>
           </div>
         </van-panel>
@@ -46,7 +48,7 @@
 
 <script>
 
-  import {getOrderPage} from '../../../api/order';
+  import {getOrderPage, confirmReceiving} from '../../../api/order';
 
   export default {
     components: {},
@@ -54,12 +56,11 @@
       return {
         active: 0,
         list: [],
+        row: {},
       }
     },
     methods: {
       onTabChange(index) {
-        console.log('onTabChange', index)
-
         // status 和 tab index 对应的关系
         const statusArray = [null, 1, 3, 4, 5];
         // if (index === 0) {
@@ -81,7 +82,8 @@
       },
 
       queryOrderPage(params) {
-        const statusArray = ['', '代付款', '待发货', '待收货', '已完成', '已关闭']
+        this.queryParams = params;
+        const statusArray = ['', '待付款', '待发货', '待收货', '已完成', '已关闭']
         getOrderPage({
           pageNo: 0,
           pageSize: 10,
@@ -113,6 +115,11 @@
           this.list = list;
           // console.log('list', list)
         });
+      },
+      clickConfirmReceiving({ orderid }) {
+        confirmReceiving(orderid).then(res => {
+          this.queryOrderPage(this.queryParams)
+        })
       },
     },
     mounted() {

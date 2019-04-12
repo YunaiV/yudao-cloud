@@ -11,12 +11,12 @@ export function getOrderPage(params) {
   });
 }
 
-export function cancelOrder(id) {
+export function confirmReceiving(orderId) {
   return request({
-    url: '/product-api/users/spu/info',
-    method: 'get',
+    url: '/order-api/users/order/confirm_receiving',
+    method: 'post',
     params: {
-      id,
+      orderId,
     }
   });
 }
@@ -63,6 +63,18 @@ export function countCart() {
     url: '/order-api/users/cart/count',
     method: 'get',
     params: {
+    }
+  });
+}
+
+// 物流信息
+
+export function getLogisticsInfo(params) {
+  return request({
+    url: '/order-api/users/order_logistics/logistics_info',
+    method: 'get',
+    params: {
+      ...params,
     }
   });
 }

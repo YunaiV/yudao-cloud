@@ -51,10 +51,20 @@ const OrderContent = props => {
     });
   };
 
+  const handleCancelOrder = () => {
+    dispatch({
+      type: 'orderList/changeOrderCancelVisible',
+      payload: {
+        orderCancelVisible: true,
+        orderId: id,
+      },
+    });
+  };
+
   const renderStatusButtons = () => {
     let res = '';
     if (status === 1) {
-      res = <Button>取消订单</Button>;
+      res = <Button onClick={() => handleCancelOrder()}>取消订单</Button>;
     } else if (status === 2) {
       res = <Button onClick={() => handleOrderDelivery()}>发货</Button>;
     }
@@ -70,7 +80,6 @@ const OrderContent = props => {
             <div>
               <a>{skuName}</a>
             </div>
-            <div>秋季精选</div>
           </div>
           <div className={styles.contentItem}>
             <div>{quantity}件</div>
@@ -107,7 +116,7 @@ const OrderContent = props => {
         <div className={styles.columnName}>(实付金额)</div>
         <div>{payAmount / 100}元</div>
         <div>
-          <a onClick={() => handleUpdatePayAmount(props)}>修改价格</a>
+          {status === 1 ? <a onClick={() => handleUpdatePayAmount(props)}>修改价格</a> : ''}
         </div>
       </div>
     </div>
@@ -319,11 +328,11 @@ class BasicList extends PureComponent {
             </div>
             <Tabs defaultActiveKey={null} onChange={this.handleTabsChange}>
               <TabPane tab="全部" key={null} />
-              <TabPane tab="待付款" key={0} />
-              <TabPane tab="待发货" key={1} />
-              <TabPane tab="已发货" key={2} />
-              <TabPane tab="已完成" key={3} />
-              <TabPane tab="已关闭" key={4} />
+              <TabPane tab="待付款" key={1} />
+              <TabPane tab="待发货" key={2} />
+              <TabPane tab="已发货" key={3} />
+              <TabPane tab="已完成" key={4} />
+              <TabPane tab="已关闭" key={5} />
             </Tabs>
 
             <OrderList {...this.props} handleEditorClick={this.handleEditorClick} />

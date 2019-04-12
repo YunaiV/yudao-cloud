@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.biz.convert;
 
 import cn.iocoder.mall.order.api.bo.OrderLogisticsBO;
+import cn.iocoder.mall.order.api.bo.OrderLogisticsInfoBO;
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderDeliveryDTO;
 import cn.iocoder.mall.order.api.dto.OrderLogisticsUpdateDTO;
@@ -33,5 +34,5 @@ public interface OrderLogisticsConvert {
     OrderLogisticsDO convert(OrderRecipientDO orderRecipientDO);
 
     @Mappings({})
-    List<OrderLogisticsBO> convertOrderLogisticsBO(List<OrderLogisticsDO> orderLogisticsDOList);
+    List<OrderLogisticsInfoBO.Logistics> convertLogistics(List<OrderLogisticsDO> orderLogisticsDOList);
 }

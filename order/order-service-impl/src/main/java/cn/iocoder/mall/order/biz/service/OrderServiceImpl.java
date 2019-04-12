@@ -96,7 +96,7 @@ public class OrderServiceImpl implements OrderService {
 
         // 获取 订单的 items
         List<OrderItemDO> orderItemDOList = orderItemMapper
-                .selectByOrderIdsAndDeleted(orderIds, DeletedStatusEnum.DELETED_NO.getValue());
+                .selectByDeletedAndOrderIds(orderIds, DeletedStatusEnum.DELETED_NO.getValue());
 
         List<OrderItemBO> orderItemBOList = OrderItemConvert.INSTANCE.convertOrderItemDO(orderItemDOList);
         Map<Integer, List<OrderItemBO>> orderItemBOMultimap = orderItemBOList.stream().collect(
@@ -135,7 +135,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         List<OrderItemDO> orderItemDOList = orderItemMapper
-                .selectByOrderIdAndDeleted(orderId, DeletedStatusEnum.DELETED_NO.getValue());
+                .selectByDeletedAndOrderId(orderId, DeletedStatusEnum.DELETED_NO.getValue());
 
         List<OrderItemBO> orderItemBOList = OrderItemConvert.INSTANCE.convertOrderItemBO(orderItemDOList);
         return CommonResult.success(orderItemBOList);
@@ -310,7 +310,7 @@ public class OrderServiceImpl implements OrderService {
         orderItemMapper.updateById(new OrderItemDO().setId(orderItemId).setPayAmount(payAmount));
 
         // 再重新计算订单金额
-        List<OrderItemDO> orderItemDOList = orderItemMapper.selectByOrderIdAndDeleted(orderId, DeletedStatusEnum.DELETED_NO.getValue());
+        List<OrderItemDO> orderItemDOList = orderItemMapper.selectByDeletedAndOrderId(orderId, DeletedStatusEnum.DELETED_NO.getValue());
         Integer orderPayAmount = orderCommon.calculatedAmount(orderItemDOList);
         orderMapper.updateById(new OrderDO().setId(orderId).setPayAmount(orderPayAmount));
         return CommonResult.success(null);
@@ -341,9 +341,8 @@ public class OrderServiceImpl implements OrderService {
 
         // 关闭订单，修改状态 item
         orderItemMapper.updateByOrderId(
-                new OrderItemDO()
-                        .setOrderId(orderId)
-                        .setStatus(OrderStatusEnum.CLOSED.getValue())
+                orderId,
+                new OrderItemDO().setStatus(OrderStatusEnum.CLOSED.getValue())
         );
 
         // 关闭订单，修改状态 order
@@ -360,7 +359,7 @@ public class OrderServiceImpl implements OrderService {
 
         // 获取所有订单 items
         List<OrderItemDO> allOrderItems = orderItemMapper
-                .selectByOrderIdAndDeleted(orderDelivery.getOrderId(), DeletedStatusEnum.DELETED_NO.getValue());
+                .selectByDeletedAndOrderId(orderDelivery.getOrderId(), DeletedStatusEnum.DELETED_NO.getValue());
 
         // 当前需要发货订单，检查 id 和 status
         List<OrderItemDO> needDeliveryOrderItems = allOrderItems.stream()
@@ -425,7 +424,7 @@ public class OrderServiceImpl implements OrderService {
 
         // 获取当前有效的订单 item
         List<OrderItemDO> orderItemDOList = orderItemMapper
-                .selectByOrderIdAndDeleted(orderId, DeletedStatusEnum.DELETED_NO.getValue());
+                .selectByDeletedAndOrderId(orderId, DeletedStatusEnum.DELETED_NO.getValue());
 
         List<OrderItemDO> effectiveOrderItems = orderItemDOList.stream()
                 .filter(orderItemDO -> !orderItemIds.contains(orderItemDO.getId()))
@@ -449,6 +448,36 @@ public class OrderServiceImpl implements OrderService {
                 new OrderDO()
                         .setId(orderId)
                         .setPayAmount(totalAmount)
+        );
+        return CommonResult.success(null);
+    }
+
+    @Override
+    public CommonResult confirmReceiving(Integer userId, Integer orderId) {
+        OrderDO orderDO = orderMapper.selectById(orderId);
+
+        // 是否该用户的订单
+        if (!userId.equals(orderDO.getUserId())) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_NOT_USER_ORDER.getCode());
+        }
+
+        if (OrderStatusEnum.ALREADY_SHIPMENT.getValue() != orderDO.getStatus()) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_UNABLE_CONFIRM_ORDER.getCode());
+        }
+
+        orderMapper.updateById(
+                new OrderDO()
+                        .setId(orderId)
+                        .setReceiverTime(new Date())
+                        .setStatus(OrderStatusEnum.COMPLETED.getValue())
+
+        );
+
+        orderItemMapper.updateByOrderId(
+                orderId,
+                new OrderItemDO()
+                        .setStatus(OrderStatusEnum.COMPLETED.getValue())
+                        .setReceiverTime(new Date())
         );
         return CommonResult.success(null);
     }

@@ -31,7 +31,7 @@ public interface OrderLogisticsMapper {
     void updateById(OrderLogisticsDO orderLogisticsDO);
 
     /**
-     * 查询 - 根据 orderId
+     * 查询 - 根据 ids
      *
      * @param ids
      * @return
@@ -39,4 +39,5 @@ public interface OrderLogisticsMapper {
     List<OrderLogisticsDO> selectByIds(
             @Param("ids") Collection<Integer> ids
     );
+
 }

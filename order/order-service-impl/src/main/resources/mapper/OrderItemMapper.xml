@@ -34,12 +34,12 @@
     -->
     <sql id="updateFieldSql" >
         <set>
-            <!--<if test="orderItemDO.orderId != null">-->
-                <!--, order_id = #{orderItemDO.orderId}-->
-            <!--</if>-->
-            <!--<if test="orderItemDO.orderNo != null">-->
-                <!--, order_no = #{orderItemDO.orderNo}-->
-            <!--</if>-->
+            <if test="orderItemDO.orderId != null">
+                , order_id = #{orderItemDO.orderId}
+            </if>
+            <if test="orderItemDO.orderNo != null">
+                , order_no = #{orderItemDO.orderNo}
+            </if>
             <if test="orderItemDO.orderLogisticsId != null">
                 , order_logistics_id = #{orderItemDO.orderLogisticsId}
             </if>
@@ -123,7 +123,7 @@
     <update id="updateByOrderId">
         UPDATE `order_item`
         <include refid="updateFieldSql" />
-        WHERE order_id = #{orderItemDO.orderId}
+        WHERE order_id = #{orderId}
     </update>
 
     <!--
@@ -142,7 +142,7 @@
     <!--
         查询 - 根据 orderId 下的 item
     -->
-    <select id="selectByOrderIdAndDeleted" resultType="cn.iocoder.mall.order.biz.dataobject.OrderItemDO">
+    <select id="selectByDeletedAndOrderId" resultType="cn.iocoder.mall.order.biz.dataobject.OrderItemDO">
         SELECT * FROM `order_item`
         WHERE 1=1
         <if test="deleted">
@@ -156,7 +156,7 @@
     <!--
         查询 - 根据 orderIds 和 status
     -->
-    <select id="selectByOrderIdsAndDeleted" resultType="cn.iocoder.mall.order.biz.dataobject.OrderItemDO">
+    <select id="selectByDeletedAndOrderIds" resultType="cn.iocoder.mall.order.biz.dataobject.OrderItemDO">
         SELECT
         <include refid="FIELDS" />
         FROM `order_item`

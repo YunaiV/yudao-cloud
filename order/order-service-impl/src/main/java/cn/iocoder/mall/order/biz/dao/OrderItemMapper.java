@@ -33,9 +33,13 @@ public interface OrderItemMapper {
 
     /**
      * 更新 - 根据 orderId
+     * @param orderId
      * @param orderItemDO
      */
-    void updateByOrderId(@Param("orderItemDO") OrderItemDO orderItemDO);
+    void updateByOrderId(
+            @Param("orderId") Integer orderId,
+            @Param("orderItemDO") OrderItemDO orderItemDO
+    );
 
     /**
      * 更新 - 根据Ids
@@ -63,7 +67,7 @@ public interface OrderItemMapper {
      * @param deleted
      * @return
      */
-    List<OrderItemDO> selectByOrderIdsAndDeleted(
+    List<OrderItemDO> selectByDeletedAndOrderIds(
             @Param("orderIds") Collection<Integer> orderIds,
             @Param("deleted") Integer deleted
     );
@@ -74,7 +78,7 @@ public interface OrderItemMapper {
      * @param orderId
      * @return
      */
-    List<OrderItemDO> selectByOrderIdAndDeleted(
+    List<OrderItemDO> selectByDeletedAndOrderId(
             @Param("orderId") Integer orderId,
             @Param("deleted") @NotNull Integer deleted
     );

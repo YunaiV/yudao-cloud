@@ -98,6 +98,15 @@ public interface OrderService {
     CommonResult deleteOrderItem(OrderItemDeletedDTO orderItemDeletedDTO);
 
     /**
+     * 用户确认订单
+     *
+     * @param userId
+     * @param orderId
+     * @return
+     */
+    CommonResult confirmReceiving(Integer userId, Integer orderId);
+
+    /**
      * 更新订单 - 收件这信息
      *
      * 包含：

@@ -22,6 +22,8 @@ public enum OrderErrorCodeEnum {
     ORDER_GET_GOODS_INFO_INCORRECT(1008000008, "获取额商品信息不正确!"),
     ORDER_GET_USER_ADDRESS_FAIL(1008000009, "获取用户地址失败!"),
     ORDER_GET_PAY_FAIL(1008000010, "调用pay失败!"),
+    ORDER_NOT_USER_ORDER(1008000011, "不是该用户的订单!"),
+    ORDER_UNABLE_CONFIRM_ORDER(1008000012, "状态不对不能确认订单!"),
 
     // order item
     ORDER_ITEM_ONLY_ONE(1008000200, "订单Item只有一个!"),

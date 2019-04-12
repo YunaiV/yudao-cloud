@@ -19,10 +19,6 @@ public class OrderLogisticsDO extends BaseDO {
      */
     private Integer id;
     /**
-     * 订单编号
-     */
-    private Integer orderId;
-    /**
      * 收件区域编号
      */
     private String areaNo;

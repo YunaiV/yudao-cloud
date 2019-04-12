@@ -15,6 +15,7 @@ import cn.iocoder.mall.order.application.po.user.OrderCreatePO;
 import cn.iocoder.mall.order.application.vo.UsersOrderConfirmCreateVO;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import com.alibaba.dubbo.config.annotation.Reference;
+import io.swagger.annotations.Api;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ import java.util.Collections;
  */
 @RestController
 @RequestMapping("users/order")
+@Api(description = "用户订单")
 public class UsersOrderController {
 
     @Reference(validation = "true")
@@ -50,7 +52,7 @@ public class UsersOrderController {
         return orderService.createOrder(orderCreateDTO);
     }
 
-    @GetMapping("/confirm_create_order")
+    @GetMapping("confirm_create_order")
     public CommonResult<UsersOrderConfirmCreateVO> getConfirmCreateOrder(@RequestParam("skuId") Integer skuId,
                                                                          @RequestParam("quantity") Integer quantity) {
         // 创建 CalcOrderPriceDTO 对象，并执行价格计算
@@ -62,6 +64,12 @@ public class UsersOrderController {
         }
         // 执行数据拼装
         return CommonResult.success(CartConvert.INSTANCE.convert(calcOrderPriceResult.getData()));
+    }
+
+    @PostMapping("confirm_receiving")
+    public CommonResult confirmReceiving(@RequestParam("orderId") Integer orderId) {
+        Integer userId = UserSecurityContextHolder.getContext().getUserId();
+        return orderService.confirmReceiving(userId, orderId);
     }
 
 }

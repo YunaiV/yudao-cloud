@@ -34,12 +34,12 @@
     -->
     <sql id="updateFieldSql" >
         <set>
-            <if test="orderItemDO.orderId != null">
-                , order_id = #{orderItemDO.orderId}
-            </if>
-            <if test="orderItemDO.orderNo != null">
-                , order_no = #{orderItemDO.orderNo}
-            </if>
+            <!--<if test="orderItemDO.orderId != null">-->
+                <!--, order_id = #{orderItemDO.orderId}-->
+            <!--</if>-->
+            <!--<if test="orderItemDO.orderNo != null">-->
+                <!--, order_no = #{orderItemDO.orderNo}-->
+            <!--</if>-->
             <if test="orderItemDO.orderLogisticsId != null">
                 , order_logistics_id = #{orderItemDO.orderLogisticsId}
             </if>
@@ -123,7 +123,7 @@
     <update id="updateByOrderId">
         UPDATE `order_item`
         <include refid="updateFieldSql" />
-        WHERE order_id = #{orderId}
+        WHERE order_id = #{orderItemDO.orderId}
     </update>
 
     <!--

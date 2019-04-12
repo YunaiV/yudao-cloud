@@ -35,7 +35,7 @@ public interface OrderItemMapper {
      * 更新 - 根据 orderId
      * @param orderItemDO
      */
-    void updateByOrderId(OrderItemDO orderItemDO);
+    void updateByOrderId(@Param("orderItemDO") OrderItemDO orderItemDO);
 
     /**
      * 更新 - 根据Ids

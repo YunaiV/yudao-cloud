@@ -3,17 +3,17 @@
     <headerNav title="购物车"/>
        <van-cell  value="编辑商品" class="head">
         <template slot="title">
-          <van-checkbox v-model="checkedAll" >全选</van-checkbox>
+          <van-checkbox v-model="checkedAll" @change="onSelectAll" >全选</van-checkbox>
         </template>
       </van-cell>
 
-    <van-checkbox-group class="card-goods" v-model="checkedGoods">
+    <van-checkbox-group class="card-goods" v-model="checkedItemIds" @change="onItemSelectedChange">
 
       <div class="promotion-group">
-        <div  v-for="(item,index) in goods" :key="index" class="card-goods__item">
-          <van-checkbox :name="item.id"></van-checkbox>
+<!--        <div  v-for="(item,index) in goods" :key="index" class="card-goods__item">-->
+<!--          <van-checkbox :name="item.id" />-->
 
-          <product-card :product='item' :iscard='false' >
+<!--          <product-card :product='item' :iscard='false' >-->
 <!--            <template slot>-->
 <!--              <van-cell value="修改" >-->
 <!--                  <template slot="title">-->
@@ -22,11 +22,20 @@
 <!--                  </template>-->
 <!--              </van-cell>-->
 <!--            </template>-->
-          </product-card>
-        </div>
+<!--          </product-card>-->
+<!--        </div>-->
+
+          <div v-for="(itemGroup, i) in itemGroups" class="card-goods__item">
+              <div class="card" v-for="(item, j) in itemGroup.items" :key="j">
+                  <van-checkbox :key="item.id" :name="item.id" v-model="item.selected" style="position: relative;" />
+                  <product-card :product='convertProduct(item)'/>
+              </div>
+              <div style="height:15px;"></div>
+          </div>
+
       </div>
 
-<!--      <div class="promotion-group">-->
+        <!--      <div class="promotion-group">-->
 
 <!--       <van-cell  is-link class="head">-->
 <!--        <template slot="title">-->
@@ -38,13 +47,13 @@
 
     <div style="height:50px;"></div>
     <van-submit-bar
-      :price="totalPrice"
-      :disabled="!checkedGoods.length"
+      :price="fee.presentTotal"
+      :disabled="!checkedItemIds || !checkedItemIds.length"
       :button-text="submitBarText"
       @submit="onSubmit"
     >
     <template slot>
-      <van-checkbox v-model="checkedAll" >全选</van-checkbox>
+      <van-checkbox v-model="checkedAll" @change="onSelectAll">全选</van-checkbox>
     </template>
     </van-submit-bar>
   </div>
@@ -52,62 +61,123 @@
 
 <script>
 
+import {listCart, updateCartSelected} from "../../api/order";
+
 export default {
   components: {
   },
   data() {
     return {
-      checkedAll:true,
-      checkedGoods: ['1', '2', '3'],
-      goods: [{
-        id: '1',
-        title: '星巴克(Starbucks)星冰乐 轻盈香草味 咖啡饮料 281ml*6瓶礼盒装低脂减糖',
-        desc: '3.18kg/件',
-        price: '200.00',
-        quantity: 1,
-        picUrls: ['https://img.yzcdn.cn/public_files/2017/10/24/2f9a36046449dafb8608e99990b3c205.jpeg'],
-        imageTag:'比加入时降5元',
-      }, {
-        id: '2',
-        title: '陕西蜜梨',
-        desc: '约600g',
-        price: '690.00',
-        quantity: 1,
-        picUrls: ['https://img.yzcdn.cn/public_files/2017/10/24/f6aabd6ac5521195e01e8e89ee9fc63f.jpeg'],
-          gift: [
-            {
-              title: "星巴克（Starbucks）星冰乐小熊吊饰星巴克（Starbucks）星冰乐小熊吊饰",
-              quantity: 2
-            },
-            {
-              title: "星巴克（Starbucks）星冰乐小熊吊饰星巴克（Starbucks）星冰乐小熊吊饰",
-              quantity: 1
-            }
-          ]
-      }, {
-        id: '3',
-        title: '美国伽力果',
-        desc: '约680g/3个',
-        price: '2680.00',
-        quantity: 1,
-        picUrls: ['https://img.yzcdn.cn/public_files/2017/10/24/320454216bbe9e25c7651e1fa51b31fd.jpeg']
-      }]
-    };
+      itemGroups: [],
+      fee: {
+        originalTotal: undefined,
+        discountTotal: undefined,
+        postageTotal: undefined,
+        presentTotal: undefined,
+      },
+      checkedItemIds: undefined, // 通过计算得出
+      oldCheckedItemIds: undefined, // 因为 vue 是双向绑定，用于解决 change 的时候，拿不到老值
+      checkedAll: undefined, // 通过计算得出
+    }
   },
   computed: {
     submitBarText() {
-      const count = this.checkedGoods.length;
+      const count = this.checkedItemIds ? this.checkedItemIds.length : 0;
       return '结算' + (count ? `(${count})` : '');
-    },
-    totalPrice() {
-      return this.goods.reduce((total, item) => total + (this.checkedGoods.indexOf(item.id) !== -1 ? parseFloat(item.price): 0), 0);
     },
   },
   methods: {
+    calCheckedItemIds() {
+      // debugger;
+      let itemIds = [];
+      let checkedAll = true;
+      for (let i in this.itemGroups) {
+        let items = this.itemGroups[i].items;
+        for (let j in items) {
+          if (items[j].selected) {
+            itemIds.push(items[j].id);
+          } else {
+            checkedAll = false;
+          }
+        }
+      }
+      // 赋值给 checkedItemIds、oldCheckedItemIds、checkedAll
+      this.checkedItemIds = itemIds;
+      this.oldCheckedItemIds = itemIds;
+      this.checkedAll = checkedAll;
+    },
+    getItemIds() {
+      let itemIds = [];
+      for (let i in this.itemGroups) {
+        let items = this.itemGroups[i].items;
+        for (let j in items) {
+          itemIds.push(items[j].id);
+        }
+      }
+      return itemIds;
+    },
+    handleData(data) {
+      this.itemGroups = data.itemGroups;
+      this.fee = data.fee;
+      // 计算 checkedItemIds + checkedAll
+      this.calCheckedItemIds();
+    },
+    onItemSelectedChange(newVal) {
+      if (!this.checkedItemIds) {
+        return;
+      }
+      // debugger;
+      let selected;
+      let diffItemIds;
+      if (newVal.length > this.oldCheckedItemIds.length) { // 新增
+        selected = true;
+        let that = this;
+        diffItemIds = [...newVal].filter(function(val) {
+          return that.oldCheckedItemIds.indexOf(val) < 0; // 找不到
+        });
+      } else if (newVal.length < this.oldCheckedItemIds.length) { // 减少
+        selected = false;
+        diffItemIds = [...this.oldCheckedItemIds].filter(function(val) {
+          return newVal.indexOf(val) < 0; // 找不到
+        });
+      } else {
+        return;
+      }
+      updateCartSelected(diffItemIds, selected).then(data => {
+        this.handleData(data);
+      })
+      // debugger;
+    },
+    onSelectAll(newVal) {
+      if (this.checkedAll === undefined) {
+        return;
+      }
+      updateCartSelected(this.getItemIds(), newVal).then(data => {
+        this.handleData(data);
+      })
+    },
     onSubmit() {
-
       this.$router.push('/order')
+    },
+    convertProduct(item) {
+      // debugger;
+      return {
+        ...item.spu,
+        quantity: item.buyQuantity,
+        price: item.price,
+        sku: {
+          ...item,
+          spu: undefined,
+        },
+        selected: item.selected,
+      };
     }
+  },
+  mounted() {
+    // 获得购物车列表
+    listCart().then(data => {
+      this.handleData(data);
+    });
   }
 };
 </script>

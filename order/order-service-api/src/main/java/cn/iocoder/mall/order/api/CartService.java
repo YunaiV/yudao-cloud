@@ -8,6 +8,7 @@ import cn.iocoder.mall.order.api.bo.OrderCreateBO;
 import cn.iocoder.mall.order.api.dto.CalcOrderPriceDTO;
 import org.springframework.lang.Nullable;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface CartService {
@@ -38,11 +39,11 @@ public interface CartService {
      * 购物车更新商品是否选中
      *
      * @param userId 用户编号
-     * @param skuId 商品 SKU 编号
+     * @param skuIds 商品 SKU 编号数组
      * @param selected 是否选中
      * @return 是否成功
      */
-    CommonResult<Boolean> updateSelected(Integer userId, Integer skuId, Boolean selected);
+    CommonResult<Boolean> updateSelected(Integer userId, Collection<Integer> skuIds, Boolean selected);
 
     /**
      * 购物车删除商品
@@ -77,7 +78,7 @@ public interface CartService {
      * @param selected 是否选中。若为空，则不进行筛选
      * @return 购物车中商品列表信息
      */
-    List<CartItemBO> list(Integer userId, @Nullable  Boolean selected);
+    CommonResult<List<CartItemBO>> list(Integer userId, @Nullable  Boolean selected);
 
     // ========== 购物车与订单相关的逻辑 ==========
 

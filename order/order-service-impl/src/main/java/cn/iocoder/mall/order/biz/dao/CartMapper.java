@@ -21,7 +21,9 @@ public interface CartMapper {
     Integer selectQuantitySumByUserIdAndStatus(@Param("userId") Integer userId,
                                                @Param("status") Integer status);
 
-//    List<CartItemDO> selectListByStatus(@Param("status") Integer status);
+    List<CartItemDO> selectByUserIdAndStatusAndSelected(@Param("userId") Integer userId,
+                                                        @Param("status") Integer status,
+                                                        @Param("selected") Boolean selected);
 //
 //    List<CartItemDO> selectListByTitleLike(@Param("title") String title,
 //                                         @Param("offset") Integer offset,
@@ -35,5 +37,9 @@ public interface CartMapper {
 
     int updateQuantity(@Param("id") Integer id,
                        @Param("quantityIncr") Integer quantityIncr);
+
+    int updateListSelected(@Param("userId") Integer userId,
+                           @Param("skuIds") Collection<Integer> skuIds,
+                           @Param("selected") Boolean selected);
 
 }

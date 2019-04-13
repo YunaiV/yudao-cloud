@@ -38,6 +38,18 @@
         LIMIT 1
     </select>
 
+    <select id="selectByUserIdAndStatusAndSelected" resultType="CartItemDO">
+        SELECT
+            <include refid="FIELDS" />
+        FROM cart_item
+        WHERE user_id = #{userId}
+        AND status = #{status}
+        <if test="selected != null">
+            AND selected = #{selected}
+        </if>
+        --         AND deleted = 0
+    </select>
+
     <select id="selectQuantitySumByUserIdAndStatus" resultType="Integer">
         SELECT
             SUM(quantity)
@@ -94,6 +106,17 @@
         UPDATE cart_item
         SET quantity = quantity + #{quantityIncr}
         WHERE id = #{id}
+    </update>
+
+    <update id="updateListSelected">
+        UPDATE cart_item
+        SET selected = #{selected}
+        WHERE user_id = #{userId}
+        AND sku_id IN
+            <foreach item="skuId" collection="skuIds" separator="," open="(" close=")" index="">
+                #{skuId}
+            </foreach>
+        --         AND deleted = 0
     </update>
 
 </mapper>

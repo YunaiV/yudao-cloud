@@ -114,15 +114,9 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CommonResult<Boolean> updateSelected(Integer userId, Integer skuId, Boolean selected) {
-        // 查询 CartItemDO
-        CartItemDO item = cartMapper.selectByUserIdAndSkuIdAndStatus(userId, skuId, CartItemStatusEnum.ENABLE.getValue());
-        if (item == null) {
-            return ServiceExceptionUtil.error(OrderErrorCodeEnum.CARD_ITEM_NOT_FOUND.getCode());
-        }
-        // 更新 CartItemDO
-        CartItemDO updateCartItem = new CartItemDO().setId(item.getId()).setSelected(selected);
-        cartMapper.update(updateCartItem);
+    public CommonResult<Boolean> updateSelected(Integer userId, Collection<Integer> skuIds, Boolean selected) {
+        // 更新 CartItemDO 们
+        cartMapper.updateListSelected(userId, skuIds, selected);
         // 返回成功
         return CommonResult.success(true);
     }
@@ -143,8 +137,9 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public List<CartItemBO> list(Integer userId, Boolean selected) {
-        return null;
+    public CommonResult<List<CartItemBO>> list(Integer userId, Boolean selected) {
+        List<CartItemDO> items = cartMapper.selectByUserIdAndStatusAndSelected(userId, CartItemStatusEnum.ENABLE.getValue(), selected);
+        return CommonResult.success(CartConvert.INSTANCE.convert(items));
     }
 
     @Override

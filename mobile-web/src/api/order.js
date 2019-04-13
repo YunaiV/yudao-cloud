@@ -67,6 +67,26 @@ export function countCart() {
   });
 }
 
+export function listCart() {
+  return request({
+    url: '/order-api/users/cart/list',
+    method: 'get',
+    params: {
+    }
+  });
+}
+
+export function updateCartSelected(skuIds, selected) {
+  return request({
+    url: '/order-api/users/cart/update_selected',
+    method: 'post',
+    params: {
+      skuIds: skuIds.join(','),
+      selected,
+    }
+  });
+}
+
 // 物流信息
 
 export function getLogisticsInfo(params) {

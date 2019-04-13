@@ -44,10 +44,6 @@ public class CartItemDO extends BaseDO {
      * 用户编号
      */
     private Integer userId;
-//    /**
-//     * 会话 key
-//     */
-//    private String nobody;
 
     // ========= 买家信息 END =========
 

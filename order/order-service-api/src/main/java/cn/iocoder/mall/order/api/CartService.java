@@ -53,7 +53,7 @@ public interface CartService {
      *
      * @return 是否成功
      */
-    CommonResult<Boolean> delete(Integer userId, List<Integer> skuIds);
+    CommonResult<Boolean> deleteList(Integer userId, List<Integer> skuIds);
 
     /**
      * 清空购物车

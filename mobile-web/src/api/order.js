@@ -21,7 +21,7 @@ export function confirmReceiving(orderId) {
   });
 }
 
-export function getConfirmCreateOrder(skuId, quantity) {
+export function getOrderConfirmCreateOrder(skuId, quantity) {
   return request({
     url: '/order-api/users/order/confirm_create_order',
     method: 'get',
@@ -42,6 +42,18 @@ export function createOrder(params) {
     data: {
       ...params,
     },
+  });
+}
+
+export function createOrderFromCart(userAddressId,
+                                    remark) {
+  return request({
+    url: '/order-api/users/order/create_order_from_cart',
+    method: 'post',
+    params: {
+      userAddressId,
+      remark,
+    }
   });
 }
 
@@ -83,6 +95,17 @@ export function updateCartSelected(skuIds, selected) {
     params: {
       skuIds: skuIds.join(','),
       selected,
+    }
+  });
+}
+
+export function getCartConfirmCreateOrder(skuId, quantity) {
+  return request({
+    url: '/order-api/users/cart/confirm_create_order',
+    method: 'get',
+    params: {
+      skuId,
+      quantity,
     }
   });
 }

@@ -1,11 +1,15 @@
 package cn.iocoder.mall.order.application.controller.users;
 
+import cn.iocoder.common.framework.util.HttpUtil;
+import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.CartService;
 import cn.iocoder.mall.order.api.OrderService;
 import cn.iocoder.mall.order.api.bo.CalcOrderPriceBO;
+import cn.iocoder.mall.order.api.bo.CartItemBO;
 import cn.iocoder.mall.order.api.bo.OrderCreateBO;
 import cn.iocoder.mall.order.api.bo.OrderPageBO;
+import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.dto.CalcOrderPriceDTO;
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderQueryDTO;
@@ -19,7 +23,10 @@ import io.swagger.annotations.Api;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 订单API(users)
@@ -50,6 +57,31 @@ public class UsersOrderController {
         OrderCreateDTO orderCreateDTO = OrderConvertAPP.INSTANCE.convert(orderCreatePO);
         orderCreateDTO.setUserId(userId);
         return orderService.createOrder(orderCreateDTO);
+    }
+
+    @PostMapping("create_order_from_cart")
+    public CommonResult<OrderCreateBO> createOrderFromCart(@RequestParam("userAddressId") Integer userAddressId,
+                                                           @RequestParam(value = "remark", required = false) String remark,
+                                                           HttpServletRequest request) {
+        Integer userId = UserSecurityContextHolder.getContext().getUserId();
+        // 获得购物车中选中的商品
+        List<CartItemBO> cartItems = cartService.list(userId, true).getData();
+        if (cartItems.isEmpty()) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_CREATE_CART_IS_EMPTY.getCode());
+        }
+        // 创建 OrderCreateDTO 对象
+        OrderCreateDTO orderCreateDTO = OrderConvertAPP.INSTANCE.createOrderCreateDTO(userId, userAddressId,
+                remark, HttpUtil.getIp(request),
+                cartItems);
+        // 创建订单
+        CommonResult<OrderCreateBO> createResult= orderService.createOrder(orderCreateDTO);
+        if (createResult.isError()) {
+            return CommonResult.error(createResult);
+        }
+        // 清空购物车 // TODO 芋艿，需要标记删除的原因，即结果为创建为某个订单。
+        cartService.deleteList(userId, cartItems.stream().map(CartItemBO::getSkuId).collect(Collectors.toList()));
+        // 返回结果
+        return createResult;
     }
 
     @GetMapping("confirm_create_order")

@@ -68,7 +68,12 @@
 
 <script>
 
-  import {createOrder, getConfirmCreateOrder} from '../../api/order';
+  import {
+    createOrder,
+    getOrderConfirmCreateOrder,
+    getCartConfirmCreateOrder,
+    createOrderFromCart
+  } from '../../api/order';
   import {GetDefaultAddress} from '../../api/user';
   import orderStore from '../../store/order'
 
@@ -96,30 +101,43 @@
     },
     methods: {
       onSubmit() {
-        const { skuId, quantity } = this.$route.query;
         const userAddressId = this.addressData.id;
         const remark = '';
 
-        const orderItems = [{
-          skuId,
-          quantity,
-        }];
-
-        createOrder({
-          orderItems,
-          userAddressId,
-          remark,
-        }).then(result => {
-          if (result) {
-            const { orderNo } = result;
-            this.$router.push({  //核心语句
-              path:`/order/success`,   //跳转的路径
-              query:{           //路由传参时push和query搭配使用 ，作用时传递参数
-                ...result,
+        if (this.from === 'direct_order') {
+            const { skuId, quantity } = this.$route.query;
+            const orderItems = [{
+              skuId,
+              quantity,
+            }];
+            createOrder({
+              orderItems,
+              userAddressId,
+              remark,
+            }).then(result => {
+              if (result) {
+                const { orderNo } = result;
+                this.$router.push({  //核心语句
+                  path:`/order/success`,   //跳转的路径
+                  query:{           //路由传参时push和query搭配使用 ，作用时传递参数
+                    ...result,
+                  }
+                });
               }
             });
-          }
-        })
+        } else if (this.from === 'cart') {
+          createOrderFromCart(userAddressId, remark).then(result => {
+            if (result) {
+              const { orderNo } = result;
+              this.$router.push({  //核心语句
+                path:`/order/success`,   //跳转的路径
+                query:{           //路由传参时push和query搭配使用 ，作用时传递参数
+                  ...result,
+                }
+              });
+            }
+          });
+        }
       },
       convertProduct(item) {
         // debugger;
@@ -143,13 +161,18 @@
       this.addressData = this.$store.state.addressData;
 
       // 加载商品信息
+      // debugger;
       if (this.from === 'direct_order') {
-        getConfirmCreateOrder(this.skuId, this.quantity).then(data => {
+        getOrderConfirmCreateOrder(this.skuId, this.quantity).then(data => {
+          this.itemGroups = data.itemGroups;
+          this.fee = data.fee;
+        })
+      } else if (this.from === 'cart') {
+        getCartConfirmCreateOrder().then(data => {
           this.itemGroups = data.itemGroups;
           this.fee = data.fee;
         })
       }
-
     },
     created() {
       // 加载地址
@@ -160,6 +183,9 @@
         }
       })
       // 处理来源
+      if (this.$route.query.from === 'cart') {
+        this.from = this.$route.query.from;
+      }
     },
     store: orderStore,
   };

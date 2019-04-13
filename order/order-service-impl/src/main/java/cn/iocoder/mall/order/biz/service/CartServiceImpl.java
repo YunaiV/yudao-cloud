@@ -116,14 +116,17 @@ public class CartServiceImpl implements CartService {
     @Override
     public CommonResult<Boolean> updateSelected(Integer userId, Collection<Integer> skuIds, Boolean selected) {
         // 更新 CartItemDO 们
-        cartMapper.updateListSelected(userId, skuIds, selected);
+        cartMapper.updateListByUserIdAndSkuId(userId, skuIds, selected, null);
         // 返回成功
         return CommonResult.success(true);
     }
 
     @Override
-    public CommonResult<Boolean> delete(Integer userId, List<Integer> skuIds) {
-        return null;
+    public CommonResult<Boolean> deleteList(Integer userId, List<Integer> skuIds) {
+        // 更新 CartItemDO 们
+        cartMapper.updateListByUserIdAndSkuId(userId, skuIds, null, CartItemStatusEnum.DELETE_BY_MANUAL.getValue());
+        // 返回成功
+        return CommonResult.success(true);
     }
 
     @Override

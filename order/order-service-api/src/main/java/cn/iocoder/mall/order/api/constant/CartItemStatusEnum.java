@@ -6,7 +6,7 @@ public enum CartItemStatusEnum {
 
     ENABLE(1, "正常"),
     DELETE_BY_MANUAL(2, "主动删除"),
-    DELETE_BY_(3, "下单删除"),
+    DELETE_BY_ORDER(3, "下单删除"),
     ;
 
     public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(CartItemStatusEnum::getValue).toArray();

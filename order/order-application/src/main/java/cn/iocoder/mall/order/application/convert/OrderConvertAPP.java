@@ -1,9 +1,7 @@
 package cn.iocoder.mall.order.application.convert;
 
-import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
-import cn.iocoder.mall.order.api.dto.OrderItemUpdateDTO;
-import cn.iocoder.mall.order.api.dto.OrderLogisticsUpdateDTO;
-import cn.iocoder.mall.order.api.dto.OrderQueryDTO;
+import cn.iocoder.mall.order.api.bo.CartItemBO;
+import cn.iocoder.mall.order.api.dto.*;
 import cn.iocoder.mall.order.application.po.admin.OrderItemUpdatePO;
 import cn.iocoder.mall.order.application.po.admin.OrderLogisticsPO;
 import cn.iocoder.mall.order.application.po.admin.OrderPageQueryPO;
@@ -11,6 +9,8 @@ import cn.iocoder.mall.order.application.po.user.OrderCreatePO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 /**
  * application 订单 convert
@@ -36,4 +36,19 @@ public interface OrderConvertAPP {
 
     @Mappings({})
     OrderCreateDTO convert(OrderCreatePO orderCreatePO);
+
+    @Mappings({})
+    List<OrderCreateItemDTO> convert(List<CartItemBO> cartItems);
+
+    default OrderCreateDTO createOrderCreateDTO(Integer userId, Integer userAddressId,
+                                                String remark, String ip,
+                                                List<CartItemBO> cartItems) {
+        return new OrderCreateDTO()
+                .setUserId(userId)
+                .setUserAddressId(userAddressId)
+                .setRemark(remark)
+                .setIp(ip)
+                .setOrderItems(this.convert(cartItems));
+    }
+
 }

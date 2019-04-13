@@ -157,7 +157,7 @@ export default {
       })
     },
     onSubmit() {
-      this.$router.push('/order')
+      this.$router.push('/order?from=cart')
     },
     convertProduct(item) {
       // debugger;

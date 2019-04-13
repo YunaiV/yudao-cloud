@@ -108,9 +108,16 @@
         WHERE id = #{id}
     </update>
 
-    <update id="updateListSelected">
+    <update id="updateListByUserIdAndSkuId">
         UPDATE cart_item
-        SET selected = #{selected}
+        <set>
+            <if test="selected != null">
+                selected = #{selected},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
         WHERE user_id = #{userId}
         AND sku_id IN
             <foreach item="skuId" collection="skuIds" separator="," open="(" close=")" index="">

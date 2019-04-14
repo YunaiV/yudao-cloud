@@ -1,5 +1,19 @@
 import request from "../config/request";
 
+// order
+
+export function createOrder(params) {
+  return request({
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    url: '/order-api/users/order/create_order',
+    method: 'post',
+    data: {
+      ...params,
+    },
+  });
+}
 
 export function getOrderPage(params) {
   return request({
@@ -32,21 +46,19 @@ export function getOrderConfirmCreateOrder(skuId, quantity) {
   });
 }
 
-export function createOrder(params) {
+export function getOrderInfo(orderId) {
   return request({
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    url: '/order-api/users/order/create_order',
-    method: 'post',
-    data: {
-      ...params,
-    },
+    url: '/order-api/users/order/info',
+    method: 'get',
+    params: {
+      orderId,
+    }
   });
 }
 
-export function createOrderFromCart(userAddressId,
-                                    remark) {
+// Cart
+
+export function createOrderFromCart(userAddressId, remark) {
   return request({
     url: '/order-api/users/order/create_order_from_cart',
     method: 'post',
@@ -56,8 +68,6 @@ export function createOrderFromCart(userAddressId,
     }
   });
 }
-
-// Cart
 
 export function addCart(skuId, quantity) {
   return request({

@@ -3,12 +3,12 @@ package cn.iocoder.mall.order.application.controller.users;
 import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.admin.api.DataDictService;
+import cn.iocoder.mall.admin.api.bo.DataDictBO;
 import cn.iocoder.mall.order.api.CartService;
 import cn.iocoder.mall.order.api.OrderService;
-import cn.iocoder.mall.order.api.bo.CalcOrderPriceBO;
-import cn.iocoder.mall.order.api.bo.CartItemBO;
-import cn.iocoder.mall.order.api.bo.OrderCreateBO;
-import cn.iocoder.mall.order.api.bo.OrderPageBO;
+import cn.iocoder.mall.order.api.bo.*;
+import cn.iocoder.mall.order.api.constant.DictKeysConstants;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.dto.CalcOrderPriceDTO;
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
@@ -20,6 +20,7 @@ import cn.iocoder.mall.order.application.vo.UsersOrderConfirmCreateVO;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,8 +44,11 @@ public class UsersOrderController {
     private OrderService orderService;
     @Reference(validation = "true")
     private CartService cartService;
+    @Reference(validation = "true")
+    private DataDictService dataDictService;
 
     @GetMapping("order_page")
+    @ApiOperation("订单分页")
     public CommonResult<OrderPageBO> getOrderPage(@Validated OrderQueryDTO orderQueryDTO) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         orderQueryDTO.setUserId(userId);
@@ -52,6 +56,7 @@ public class UsersOrderController {
     }
 
     @PostMapping("create_order")
+    @ApiOperation("创建订单")
     public CommonResult<OrderCreateBO> createOrder(@RequestBody @Validated OrderCreatePO orderCreatePO) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         OrderCreateDTO orderCreateDTO = OrderConvertAPP.INSTANCE.convert(orderCreatePO);
@@ -60,6 +65,7 @@ public class UsersOrderController {
     }
 
     @PostMapping("create_order_from_cart")
+    @ApiOperation("创建订单购物车")
     public CommonResult<OrderCreateBO> createOrderFromCart(@RequestParam("userAddressId") Integer userAddressId,
                                                            @RequestParam(value = "remark", required = false) String remark,
                                                            HttpServletRequest request) {
@@ -85,6 +91,7 @@ public class UsersOrderController {
     }
 
     @GetMapping("confirm_create_order")
+    @ApiOperation("确认创建订单")
     public CommonResult<UsersOrderConfirmCreateVO> getConfirmCreateOrder(@RequestParam("skuId") Integer skuId,
                                                                          @RequestParam("quantity") Integer quantity) {
         // 创建 CalcOrderPriceDTO 对象，并执行价格计算
@@ -99,9 +106,22 @@ public class UsersOrderController {
     }
 
     @PostMapping("confirm_receiving")
+    @ApiOperation("确认收货")
     public CommonResult confirmReceiving(@RequestParam("orderId") Integer orderId) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         return orderService.confirmReceiving(userId, orderId);
     }
 
+    @GetMapping("info")
+    @ApiOperation("订单详情")
+    public CommonResult<OrderInfoBO> orderInfo(@RequestParam("orderId") Integer orderId) {
+        Integer userId = UserSecurityContextHolder.getContext().getUserId();
+        CommonResult<OrderInfoBO> commonResult = orderService.info(userId, orderId);
+
+        OrderInfoBO orderInfoBO = commonResult.getData();
+        CommonResult<DataDictBO> dictResult = dataDictService
+                .getDataDict(DictKeysConstants.ORDER_STATUS_KEY, orderInfoBO.getStatus());
+        orderInfoBO.setStatusText(dictResult.getData().getDisplayName());
+        return commonResult;
+    }
 }

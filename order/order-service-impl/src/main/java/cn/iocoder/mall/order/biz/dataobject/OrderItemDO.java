@@ -56,6 +56,10 @@ public class OrderItemDO extends DeletableDO {
      * 支付金额（实付金额）
      */
     private Integer payAmount;
+    /**
+     * 物流金额 (分)
+     */
+    private Integer logisticsPrice;
 
     ///
     /// 时间信息

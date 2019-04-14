@@ -17,6 +17,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class OrderCommonImpl implements OrderCommon {
 
     @Override
+    public Integer calculatedPrice(List<OrderItemDO> items) {
+        if (CollectionUtils.isEmpty(items)) {
+            return 0;
+        }
+        AtomicInteger totalPrice = new AtomicInteger(0);
+        items.forEach(orderItemDO -> {
+            totalPrice.addAndGet(orderItemDO.getPrice() * orderItemDO.getQuantity());
+        });
+        return totalPrice.get();
+    }
+
+    @Override
     public Integer calculatedAmount(List<OrderItemDO> items) {
         if (CollectionUtils.isEmpty(items)) {
             return 0;
@@ -24,6 +36,18 @@ public class OrderCommonImpl implements OrderCommon {
         AtomicInteger totalAmount = new AtomicInteger(0);
         items.forEach(orderItemDO -> {
             totalAmount.addAndGet(orderItemDO.getPayAmount() * orderItemDO.getQuantity());
+        });
+        return totalAmount.get();
+    }
+
+    @Override
+    public Integer calculatedLogisticsPrice(List<OrderItemDO> items) {
+        if (CollectionUtils.isEmpty(items)) {
+            return 0;
+        }
+        AtomicInteger totalAmount = new AtomicInteger(0);
+        items.forEach(orderItemDO -> {
+            totalAmount.addAndGet(orderItemDO.getLogisticsPrice());
         });
         return totalAmount.get();
     }

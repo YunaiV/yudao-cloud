@@ -4,6 +4,7 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.OrderLogisticsService;
 import cn.iocoder.mall.order.api.bo.OrderLogisticsInfoBO;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
+import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(description = "订单物流信息")
 public class OrderLogisticsController {
 
-    @Autowired
+    @Reference(validation = "true")
     private OrderLogisticsService orderLogisticsService;
 
     @GetMapping("logistics_info")

@@ -12,11 +12,28 @@ import java.util.List;
  */
 public interface OrderCommon {
 
+
     /**
-     * 计算订单金额
+     * 计算总价格
+     *
+     * @param items
+     * @return
+     */
+    Integer calculatedPrice(List<OrderItemDO> items);
+
+    /**
+     * 计算订单实付金额
      *
      * @param items
      * @return
      */
     Integer calculatedAmount(List<OrderItemDO> items);
+
+    /**
+     * 计算物流金额
+     *
+     * @param items
+     * @return
+     */
+    Integer calculatedLogisticsPrice(List<OrderItemDO> items);
 }

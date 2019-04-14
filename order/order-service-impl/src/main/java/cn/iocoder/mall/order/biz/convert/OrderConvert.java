@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.biz.convert;
 
 import cn.iocoder.mall.order.api.bo.OrderBO;
+import cn.iocoder.mall.order.api.bo.OrderInfoBO;
 import cn.iocoder.mall.order.biz.dataobject.OrderDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
@@ -21,4 +22,7 @@ public interface OrderConvert {
 
     @Mappings({})
     List<OrderBO> convertPageBO(List<OrderDO> orderDOList);
+
+    @Mappings({})
+    OrderInfoBO convert(OrderDO orderDO);
 }

@@ -46,4 +46,19 @@
           #{orderLogisticsId}
         </foreach>
     </select>
+
+    <!--
+        查询 - 最新的物流信息
+    -->
+    <select id="selectLatest" resultType="cn.iocoder.mall.order.biz.dataobject.OrderLogisticsDetailDO">
+        SELECT
+        <include refid="FIELDS"/>
+        FROM order_logistics_detail
+        WHERE order_logistics_id IN
+        <foreach collection="orderLogisticsIds" item="orderLogisticsId" separator="," open="(" close=")">
+            #{orderLogisticsId}
+        </foreach>
+        ORDER BY create_time DESC
+        LIMIT 0, 1
+    </select>
 </mapper>

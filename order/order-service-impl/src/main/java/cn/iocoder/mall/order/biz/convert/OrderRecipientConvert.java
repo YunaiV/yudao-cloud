@@ -1,5 +1,6 @@
 package cn.iocoder.mall.order.biz.convert;
 
+import cn.iocoder.mall.order.api.bo.OrderInfoBO;
 import cn.iocoder.mall.order.api.bo.OrderRecipientBO;
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
 import cn.iocoder.mall.order.biz.dataobject.OrderRecipientDO;
@@ -32,4 +33,7 @@ public interface OrderRecipientConvert {
 
     @Mappings({})
     List<OrderRecipientBO> convert(List<OrderRecipientDO> orderRecipientDOList);
+
+    @Mappings({})
+    OrderInfoBO.Recipient convertOrderInfoRecipient(OrderRecipientDO orderRecipientDO);
 }

@@ -43,4 +43,14 @@ public interface OrderLogisticsDetailMapper {
     List<OrderLogisticsDetailDO> selectByOrderLogisticsIds(
             @Param("orderLogisticsIds") Collection<Integer> orderLogisticsIds
     );
+
+    /**
+     * 查询 - 获取最新的物流信息
+     *
+     * @param orderLogisticsIds
+     * @return
+     */
+    OrderLogisticsDetailDO selectLatest(
+            @Param("orderLogisticsIds") Collection<Integer> orderLogisticsIds
+    );
 }

@@ -1,5 +1,6 @@
 package cn.iocoder.mall.order.biz.convert;
 
+import cn.iocoder.mall.order.api.bo.OrderInfoBO;
 import cn.iocoder.mall.order.api.bo.OrderLogisticsInfoBO;
 import cn.iocoder.mall.order.biz.dataobject.OrderLogisticsDetailDO;
 import org.mapstruct.Mapper;
@@ -21,4 +22,7 @@ public interface OrderLogisticsDetailConvert {
 
     @Mappings({})
     List<OrderLogisticsInfoBO.LogisticsDetail> convertLogisticsDetail(List<OrderLogisticsDetailDO> orderLogisticsDOList);
+
+    @Mappings({})
+    OrderInfoBO.LogisticsDetail convertLogisticsDetail(OrderLogisticsDetailDO orderLogisticsDetailDO);
 }

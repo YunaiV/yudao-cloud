@@ -5,7 +5,6 @@ import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.OrderLogisticsService;
-import cn.iocoder.mall.order.api.bo.OrderLogisticsBO;
 import cn.iocoder.mall.order.api.bo.OrderLogisticsInfoBO;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.biz.convert.OrderLogisticsConvert;
@@ -34,6 +33,7 @@ import java.util.stream.Collectors;
  * @time 2019-04-12 21:32
  */
 @Service
+@com.alibaba.dubbo.config.annotation.Service(validation = "true")
 public class OrderLogisticsServiceImpl implements OrderLogisticsService {
 
     @Autowired
@@ -63,7 +63,9 @@ public class OrderLogisticsServiceImpl implements OrderLogisticsService {
 
         // 获取物流 信息
         Set<Integer> orderLogisticsIds = orderItemDOList.stream()
-                .map(o -> o.getOrderLogisticsId()).collect(Collectors.toSet());
+                .filter(o -> o.getOrderLogisticsId() != null)
+                .map(o -> o.getOrderLogisticsId())
+                .collect(Collectors.toSet());
 
         List<OrderLogisticsDO> orderLogisticsDOList = orderLogisticsMapper.selectByIds(orderLogisticsIds);
 

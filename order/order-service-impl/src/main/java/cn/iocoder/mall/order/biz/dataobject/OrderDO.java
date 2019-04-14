@@ -29,6 +29,14 @@ public class OrderDO extends DeletableDO {
      */
     private String orderNo;
     /**
+     * 价格(分)
+     */
+    private Integer price;
+    /**
+     * 物流金额 (分)
+     */
+    private Integer logisticsPrice;
+    /**
      * 交易金额
      */
     private Integer payAmount;

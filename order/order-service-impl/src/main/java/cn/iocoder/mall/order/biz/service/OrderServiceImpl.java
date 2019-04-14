@@ -12,10 +12,7 @@ import cn.iocoder.mall.order.api.dto.*;
 import cn.iocoder.mall.order.biz.OrderCommon;
 import cn.iocoder.mall.order.biz.constants.OrderDeliveryTypeEnum;
 import cn.iocoder.mall.order.biz.constants.OrderRecipientTypeEnum;
-import cn.iocoder.mall.order.biz.convert.OrderConvert;
-import cn.iocoder.mall.order.biz.convert.OrderItemConvert;
-import cn.iocoder.mall.order.biz.convert.OrderLogisticsConvert;
-import cn.iocoder.mall.order.biz.convert.OrderRecipientConvert;
+import cn.iocoder.mall.order.biz.convert.*;
 import cn.iocoder.mall.order.biz.dao.*;
 import cn.iocoder.mall.order.biz.dataobject.*;
 import cn.iocoder.mall.pay.api.PayTransactionService;
@@ -54,6 +51,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderItemMapper orderItemMapper;
     @Autowired
     private OrderLogisticsMapper orderLogisticsMapper;
+    @Autowired
+    private OrderLogisticsDetailMapper orderLogisticsDetailMapper;
     @Autowired
     private OrderRecipientMapper orderRecipientMapper;
     @Autowired
@@ -153,6 +152,41 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public CommonResult<OrderInfoBO> info(Integer userId, Integer orderId) {
+        OrderDO orderDO = orderMapper.selectById(orderId);
+        if (orderDO == null) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_NOT_EXISTENT.getCode());
+        }
+
+        List<OrderItemDO> itemDOList = orderItemMapper
+                .selectByDeletedAndOrderId(orderId, DeletedStatusEnum.DELETED_NO.getValue());
+
+        Set<Integer> orderLogisticsIds = itemDOList.stream()
+                .filter(o -> o.getOrderLogisticsId() != null)
+                .map(o -> o.getOrderLogisticsId())
+                .collect(Collectors.toSet());
+
+        // 收件人信息
+        OrderRecipientDO orderRecipientDO = orderRecipientMapper.selectByOrderId(orderId);
+
+        // 订单物流信息
+        OrderLogisticsDetailDO orderLogisticsDetailDO = null;
+        if (!CollectionUtils.isEmpty(orderLogisticsIds)) {
+            orderLogisticsDetailDO = orderLogisticsDetailMapper.selectLatest(orderLogisticsIds);
+        }
+
+        // convert 信息
+        OrderInfoBO.LogisticsDetail logisticsDetail
+                = OrderLogisticsDetailConvert.INSTANCE.convertLogisticsDetail(orderLogisticsDetailDO);
+
+        OrderInfoBO.Recipient recipient = OrderRecipientConvert.INSTANCE.convertOrderInfoRecipient(orderRecipientDO);
+        OrderInfoBO orderInfoBO = OrderConvert.INSTANCE.convert(orderDO);
+        orderInfoBO.setRecipient(recipient);
+        orderInfoBO.setLatestLogisticsDetail(logisticsDetail);
+        return CommonResult.success(orderInfoBO);
+    }
+
+    @Override
     @Transactional
     public CommonResult<OrderCreateBO> createOrder(OrderCreateDTO orderCreateDTO) {
         Integer userId = orderCreateDTO.getUserId();
@@ -196,6 +230,7 @@ public class OrderServiceImpl implements OrderService {
             orderItemDO.setSkuImage(Optional.ofNullable(productSkuDetailBO.getSpu().getPicUrls().get(0)).get());
             orderItemDO.setSkuName(productSkuDetailBO.getSpu().getName());
             orderItemDO.setPrice(productSkuDetailBO.getPrice());
+            orderItemDO.setLogisticsPrice(0);
 
             int payAmount = orderItemDO.getQuantity() * orderItemDO.getPrice();
             orderItemDO.setPayAmount(payAmount);
@@ -206,10 +241,14 @@ public class OrderServiceImpl implements OrderService {
         // TODO: 2019-04-11 Sin 订单号需要生成规则
         String orderNo = UUID.randomUUID().toString().replace("-", "").substring(0, 16);
         Integer totalAmount = orderCommon.calculatedAmount(orderItemDOList);
+        Integer totalPrice = orderCommon.calculatedPrice(orderItemDOList);
+        Integer totalLogisticsPrice = orderCommon.calculatedLogisticsPrice(orderItemDOList);
         OrderDO orderDO = new OrderDO()
                 .setUserId(userId)
                 .setOrderNo(orderNo)
+                .setPrice(totalPrice)
                 .setPayAmount(totalAmount)
+                .setLogisticsPrice(totalLogisticsPrice)
                 .setClosingTime(null)
                 .setDeliveryTime(null)
                 .setPaymentTime(null)
@@ -223,7 +262,9 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.insert(orderDO);
 
         // 收件人信息
-        CommonResult<UserAddressBO> userAddressResult = userAddressService.getAddress(userId, orderCreateDTO.getUserAddressId());
+        CommonResult<UserAddressBO> userAddressResult
+                = userAddressService.getAddress(userId, orderCreateDTO.getUserAddressId());
+
         if (userAddressResult.isError()) {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_USER_ADDRESS_FAIL.getCode());
         }
@@ -310,9 +351,16 @@ public class OrderServiceImpl implements OrderService {
         orderItemMapper.updateById(new OrderItemDO().setId(orderItemId).setPayAmount(payAmount));
 
         // 再重新计算订单金额
-        List<OrderItemDO> orderItemDOList = orderItemMapper.selectByDeletedAndOrderId(orderId, DeletedStatusEnum.DELETED_NO.getValue());
-        Integer orderPayAmount = orderCommon.calculatedAmount(orderItemDOList);
-        orderMapper.updateById(new OrderDO().setId(orderId).setPayAmount(orderPayAmount));
+        List<OrderItemDO> orderItemDOList = orderItemMapper
+                .selectByDeletedAndOrderId(orderId, DeletedStatusEnum.DELETED_NO.getValue());
+        Integer price = orderCommon.calculatedPrice(orderItemDOList);
+        Integer amount = orderCommon.calculatedAmount(orderItemDOList);
+        orderMapper.updateById(
+                new OrderDO()
+                        .setId(orderId)
+                        .setPrice(price)
+                        .setPayAmount(amount)
+        );
         return CommonResult.success(null);
     }
 

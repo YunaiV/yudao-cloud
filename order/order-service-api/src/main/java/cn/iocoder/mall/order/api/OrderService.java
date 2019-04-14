@@ -39,6 +39,15 @@ public interface OrderService {
     CommonResult<OrderRecipientBO> getOrderRecipientBO(Integer orderId);
 
     /**
+     * 订单info
+     *
+     * @param userId
+     * @param orderId
+     * @return
+     */
+    CommonResult<OrderInfoBO> info(Integer userId, Integer orderId);
+
+    /**
      * 订单 - 创建
      *
      * @param orderCreateDTO

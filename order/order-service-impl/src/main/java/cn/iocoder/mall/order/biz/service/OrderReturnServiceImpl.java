@@ -19,6 +19,7 @@ import java.util.Date;
  * @time 2019-03-30 15:35
  */
 @Service
+@com.alibaba.dubbo.config.annotation.Service(validation = "true")
 public class OrderReturnServiceImpl implements OrderReturnService {
 
     @Autowired

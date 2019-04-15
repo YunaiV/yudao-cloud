@@ -1,18 +1,14 @@
-package cn.iocoder.mall.promotion.biz.dataobject;
+package cn.iocoder.mall.promotion.api.bo;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
-/**
- * 促销活动 DO
- */
 @Data
 @Accessors(chain = true)
-public class PromotionActivityDO extends BaseDO {
+public class PromotionActivityBO {
 
     /**
      * 活动编号
@@ -27,12 +23,7 @@ public class PromotionActivityDO extends BaseDO {
      *
      * 参见 {@link cn.iocoder.mall.promotion.api.constant.PromotionActivityTypeEnum} 枚举
      */
-    private Integer activityType;
-//    /**
-//     * 促销类型
-//     * // TODO 芋艿 https://jos.jd.com/api/complexTemplate.htm?webPamer=promotion_v_o&groupName=%E4%BF%83%E9%94%80API&id=54&restName=jingdong.seller.promotion.list&isMulti=false 促销类型，可选值：单品促销（1），赠品促销（4），套装促销（6），总价促销（10）
-//     */
-//    private Integer promotionType;
+    private Integer type;
     /**
      * 活动状态
      *
@@ -40,29 +31,9 @@ public class PromotionActivityDO extends BaseDO {
      */
     private Integer status;
     /**
-     * 开始时间
+     * 匹配的商品 SPU 编号
      */
-    private Date startTime;
-    /**
-     * 结束时间
-     */
-    private Date endTime;
-    /**
-     * 失效时间
-     */
-    private Date invalidTime;
-    /**
-     * 删除时间
-     */
-    private Date deleteTime;
-    /**
-     * 限制折扣字符串，使用 JSON 序列化成字符串存储
-     */
-    private String timeLimitedDiscount;
-    /**
-     * 满减送字符串，使用 JSON 序列化成字符串存储
-     */
-    private String fullPrivilege;
+    private Set<Integer> spuIds;
 
     /**
      * 限制折扣
@@ -139,26 +110,6 @@ public class PromotionActivityDO extends BaseDO {
              * 优惠值
              */
             private Integer preferentialValue;
-//            /**
-//             * 是否包邮
-//             */
-//            private Boolean isPostage;
-//            /**
-//             * 积分
-//             */
-//            private Integer score;
-//            /**
-//             * 优惠劵（码）分组编号
-//             */
-//            private Integer couponTemplateId;
-//            /**
-//             * 优惠劵（码）数量
-//             */
-//            private Integer couponNum;
-//            /**
-//             * 赠品编号
-//             */
-//            private Integer presentId;
 
         }
 

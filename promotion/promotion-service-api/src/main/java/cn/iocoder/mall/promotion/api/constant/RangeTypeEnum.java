@@ -4,7 +4,7 @@ import cn.iocoder.common.framework.core.IntArrayValuable;
 
 import java.util.Arrays;
 
-public enum CouponTemplateRangeTypeEnum implements IntArrayValuable {
+public enum RangeTypeEnum implements IntArrayValuable {
 
     ALL(10, "所有可用"),
     PRODUCT_INCLUDE_PRT(20, "部分商品可用，或指定商品可用"),
@@ -13,7 +13,7 @@ public enum CouponTemplateRangeTypeEnum implements IntArrayValuable {
     CATEGORY_EXCLUDE_PRT(31, "部分分类不可用，或指定分类可用"),
     ;
 
-    public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(CouponTemplateRangeTypeEnum::getValue).toArray();
+    public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(RangeTypeEnum::getValue).toArray();
 
     /**
      * 值
@@ -24,7 +24,7 @@ public enum CouponTemplateRangeTypeEnum implements IntArrayValuable {
      */
     private final String name;
 
-    CouponTemplateRangeTypeEnum(Integer value, String name) {
+    RangeTypeEnum(Integer value, String name) {
         this.value = value;
         this.name = name;
     }

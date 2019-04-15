@@ -4,13 +4,16 @@ import cn.iocoder.common.framework.core.IntArrayValuable;
 
 import java.util.Arrays;
 
-public enum CouponTemplatePreferentialTypeEnum implements IntArrayValuable {
+/**
+ * 优惠类型枚举
+ */
+public enum PreferentialTypeEnum implements IntArrayValuable {
 
     PRICE(1, "代金卷"),
     DISCOUNT(2, "折扣卷"),
     ;
 
-    public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(CouponTemplatePreferentialTypeEnum::getValue).toArray();
+    public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(PreferentialTypeEnum::getValue).toArray();
 
     /**
      * 值
@@ -21,7 +24,7 @@ public enum CouponTemplatePreferentialTypeEnum implements IntArrayValuable {
      */
     private final String name;
 
-    CouponTemplatePreferentialTypeEnum(Integer value, String name) {
+    PreferentialTypeEnum(Integer value, String name) {
         this.value = value;
         this.name = name;
     }

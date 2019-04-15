@@ -5,8 +5,8 @@ package cn.iocoder.mall.promotion.api.constant;
  */
 public enum PromotionActivityTypeEnum {
 
-    LIMIT_DISCOUNT(1, "限时折扣"),
-    MEET_REDUCE(2, "满减送"),
+    TIME_LIMITED_DISCOUNT(1, "限时折扣"),
+    FULL_PRIVILEGE(2, "满减送"),
     ;
 
     /**

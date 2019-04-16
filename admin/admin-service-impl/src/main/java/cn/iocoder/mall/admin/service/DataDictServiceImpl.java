@@ -14,8 +14,11 @@ import cn.iocoder.mall.admin.dataobject.DataDictDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 数据字典 Service
@@ -92,5 +95,13 @@ public class DataDictServiceImpl implements DataDictService {
         DataDictDO dataDictDO = dataDictMapper.selectByEnumValueAndValue(dictKey, String.valueOf(dictValue));
         DataDictBO dataDictBO = DataDictConvert.INSTANCE.convert(dataDictDO);
         return CommonResult.success(dataDictBO);
+    }
+
+    @Override
+    public CommonResult<List<DataDictBO>> getDataDictList(String dictKey, Collection<?> dictValueList) {
+        Set<String> convertDictValueList = dictValueList.stream().map(o -> String.valueOf(o)).collect(Collectors.toSet());
+        List<DataDictDO> dataDictDOList = dataDictMapper.selectByEnumValueAndValues(dictKey, convertDictValueList);
+        List<DataDictBO> dataDictBOList = DataDictConvert.INSTANCE.convert(dataDictDOList);
+        return CommonResult.success(dataDictBOList);
     }
 }

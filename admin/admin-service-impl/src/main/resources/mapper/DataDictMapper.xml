@@ -17,6 +17,19 @@
         LIMIT 1
     </select>
 
+    <select id="selectByEnumValueAndValues" resultType="cn.iocoder.mall.admin.dataobject.DataDictDO">
+        SELECT
+        <include refid="FIELDS"/>
+        FROM data_dict
+        WHERE deleted = 0
+        AND enum_value = #{enumValue}
+        AND `value` IN
+        <foreach collection="values" item="value" separator="," open="(" close=")">
+            #{value}
+        </foreach>
+    </select>
+
+
     <select id="selectById" resultType="DataDictDO">
         SELECT
             <include refid="FIELDS"/>

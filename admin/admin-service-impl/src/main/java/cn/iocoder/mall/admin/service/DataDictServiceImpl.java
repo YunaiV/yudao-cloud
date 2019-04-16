@@ -98,7 +98,7 @@ public class DataDictServiceImpl implements DataDictService {
     }
 
     @Override
-    public CommonResult<List<DataDictBO>> getDataDict(String dictKey, Collection<Object> dictValueList) {
+    public CommonResult<List<DataDictBO>> getDataDictList(String dictKey, Collection<?> dictValueList) {
         Set<String> convertDictValueList = dictValueList.stream().map(o -> String.valueOf(o)).collect(Collectors.toSet());
         List<DataDictDO> dataDictDOList = dataDictMapper.selectByEnumValueAndValues(dictKey, convertDictValueList);
         List<DataDictBO> dataDictBOList = DataDictConvert.INSTANCE.convert(dataDictDOList);

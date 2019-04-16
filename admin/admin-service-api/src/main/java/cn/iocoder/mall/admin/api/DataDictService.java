@@ -5,6 +5,7 @@ import cn.iocoder.mall.admin.api.bo.DataDictBO;
 import cn.iocoder.mall.admin.api.dto.DataDictAddDTO;
 import cn.iocoder.mall.admin.api.dto.DataDictUpdateDTO;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface DataDictService {
@@ -17,5 +18,25 @@ public interface DataDictService {
 
     CommonResult<Boolean> deleteDataDict(Integer adminId, Integer dataDictId);
 
+    /**
+     * 获取字典值 - 单个
+     *
+     *  注意: dictValue:Object 为了方便调用，会自动转换为 dictValue:String
+     *
+     * @param dictKey
+     * @param dictValue
+     * @return
+     */
     CommonResult<DataDictBO> getDataDict(String dictKey, Object dictValue);
+
+    /**
+     * 获取字典值 - 多个
+     *
+     *  注意：dictValueList:? 为了方便调用，会自动转换为 Set:String
+     *
+     * @param dictKey
+     * @param dictValueList
+     * @return
+     */
+    CommonResult<List<DataDictBO>> getDataDictList(String dictKey, Collection<?> dictValueList);
 }

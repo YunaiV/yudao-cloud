@@ -3,6 +3,7 @@ package cn.iocoder.mall.promotion.api.bo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class CouponCardPageBO {
+public class CouponCardPageBO implements Serializable {
 
     /**
      * 优惠劵数组

@@ -9,8 +9,8 @@ import java.util.Arrays;
  */
 public enum PreferentialTypeEnum implements IntArrayValuable {
 
-    PRICE(1, "代金卷"),
-    DISCOUNT(2, "折扣卷"),
+    PRICE(1, "减价"),
+    DISCOUNT(2, "打折"),
     ;
 
     public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(PreferentialTypeEnum::getValue).toArray();

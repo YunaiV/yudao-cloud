@@ -4,9 +4,11 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.CartService;
 import cn.iocoder.mall.order.api.OrderService;
 import cn.iocoder.mall.order.api.bo.CalcOrderPriceBO;
+import cn.iocoder.mall.order.api.bo.CalcSkuPriceBO;
 import cn.iocoder.mall.order.api.bo.CartItemBO;
 import cn.iocoder.mall.order.api.dto.CalcOrderPriceDTO;
 import cn.iocoder.mall.order.application.convert.CartConvert;
+import cn.iocoder.mall.order.application.vo.UsersCalcSkuPriceVO;
 import cn.iocoder.mall.order.application.vo.UsersCartDetailVO;
 import cn.iocoder.mall.order.application.vo.UsersOrderConfirmCreateVO;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
@@ -127,6 +129,17 @@ public class UsersCartController {
         }
         // 执行计算
         return cartService.calcOrderPrice(calcOrderPriceDTO);
+    }
+
+    @GetMapping("/calc_sku_price")
+    public CommonResult<UsersCalcSkuPriceVO> calcSkuPrice(@RequestParam("skuId") Integer skuId) {
+        // 计算 sku 的价格
+        CommonResult<CalcSkuPriceBO> calcSkuPriceResult = cartService.calcSkuPrice(skuId);
+        // 返回结果
+        if (calcSkuPriceResult.isError()) {
+            return CommonResult.error(calcSkuPriceResult);
+        }
+        return CommonResult.success(CartConvert.INSTANCE.convert2(calcSkuPriceResult.getData()));
     }
 
     public CommonResult<Object> confirmOrder() {

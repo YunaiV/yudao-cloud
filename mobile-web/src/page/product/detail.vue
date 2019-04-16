@@ -7,27 +7,13 @@
       </van-swipe-item>
     </van-swipe>
       <!-- TODO 这里需要优化下，芋艿 -->
-      <div class="limit-dising-banner">
-          <div class="row no-wrap flex-center limit-price">
-              <span class="font-13 pusht">¥</span><span class="price">2.8</span>
-              <div class="pushl">
-                  <div><del>¥14</del></div>
-                  <div><span class="tag">限时抢购</span></div>
-              </div>
-          </div>
-          <div class="counting">
-              <p>距离结束仅剩</p>
-              <div class="row no-wrap flex-center counting-clock" style="display: block;"><span class="num">71</span><i class="wxIcon wxIcon-colon"></i><span class="num">42</span><i class="wxIcon wxIcon-colon"></i><span class="num">02</span></div>
-          </div>
-      </div>
-
       <van-cell-group>
-      <van-cell>
-        <span class="goods-price">{{ formatPrice(initialSku.price) }}</span>
-        <!--<span class="goods-market-price">{{ formatPrice(goods.market_price) }}</span>-->
-        <div class="goods-title">{{ spu.name }}</div>
-        <div class="goods-subtit">{{spu.sellPoint}}</div>
-      </van-cell>
+          <van-cell>
+            <span class="goods-price">{{ formatPrice(initialSku.price) }}</span>
+            <!--<span class="goods-market-price">{{ formatPrice(goods.market_price) }}</span>-->
+            <div class="goods-title">{{ spu.name }}</div>
+            <div class="goods-subtit">{{spu.sellPoint}}</div>
+          </van-cell>
 
       <!--<van-cell   @click="onClickShowTag" class="goods-tag" >-->
       <!--<template slot="title" style="font-size:10px;">-->
@@ -79,6 +65,25 @@
 
     </van-cell-group>
 
+<!--      <van-cell is-link @click="sorry">-->
+<!--          <template slot="title">-->
+<!--              <van-tag type="danger">多买优惠</van-tag>-->
+<!--              <span> 满2件，总价打9折</span>-->
+<!--          </template>-->
+<!--      </van-cell>-->
+      <van-cell is-link @click="sorry">
+          <template slot="title">
+              <van-tag type="danger">满减</van-tag>
+              <span> 满100元减50元</span>
+          </template>
+      </van-cell>
+      <van-cell is-link @click="sorry">
+          <template slot="title">
+              <van-tag type="danger">限购</van-tag>
+              <span> 购买不超过5件时享受单件价￥8.00，超出数量以结算价为准</span>
+          </template>
+      </van-cell>
+
     <div class="goods-info">
       <p class="goods-info-title">图文详情</p>
       <div v-html="spu.description"></div>
@@ -98,28 +103,6 @@
         立即购买
       </van-goods-action-big-btn>
     </van-goods-action>
-
-    <!--<van-actionsheet v-model="show" title="促销" style="font-size:14px;">-->
-    <!---->
-    <!--<van-cell  is-link @click="sorry" >-->
-    <!--<template slot="title">-->
-    <!--<van-tag type="danger">多买优惠</van-tag>-->
-    <!--<span> 满2件，总价打9折</span>-->
-    <!--</template>-->
-    <!--</van-cell>-->
-    <!--<van-cell  is-link @click="sorry" >-->
-    <!--<template slot="title">-->
-    <!--<van-tag type="danger">满减</van-tag>-->
-    <!--<span> 满100元减50元</span>-->
-    <!--</template>-->
-    <!--</van-cell>-->
-    <!--<van-cell  is-link @click="sorry" >-->
-    <!--<template slot="title">-->
-    <!--<van-tag type="danger">限购</van-tag>-->
-    <!--<span> 购买不超过5件时享受单件价￥8.00，超出数量以结算价为准</span>-->
-    <!--</template>-->
-    <!--</van-cell>-->
-    <!--</van-actionsheet>-->
 
     <!--<van-actionsheet v-model="showTag" title="服务说明" style="font-size:14px;">-->
     <!---->
@@ -181,8 +164,8 @@
 <script>
   // import skuData from '../../data/sku';
   import {getProductSpuInfo} from '../../api/product';
-  import {addCart, countCart} from '../../api/order';
-  import { Dialog } from 'vant';
+  import {addCart, countCart, getCartCalcSkuPrice} from '../../api/order';
+  import {Dialog} from 'vant';
 
   export default {
     components: {},
@@ -212,6 +195,10 @@
 
         cartCount: 0,
 
+        calSkuPriceResult: {
+
+        },
+
       };
     },
     methods: {
@@ -233,6 +220,7 @@
         this.initialSku.quantity = value;
       },
       skuSelected({skuValue, selectedSku, selectedSkuComb}) { // 选择 sku
+        // TODO 芋艿，需要改下，禁用用户取消选中。
         // console.log(skuValue);
         // console.log(selectedSku);
         // console.log(selectedSkuComb);
@@ -240,8 +228,14 @@
           ...selectedSkuComb,
           quantity: 1,
         };
+        // 执行 sku 价格计算
+        this.doCalcSkuPrice(this.initialSku.id)
       },
-
+      doCalcSkuPrice(skuId) {
+        getCartCalcSkuPrice(skuId).then(data => {
+          this.calSkuPriceResult = data;
+        });
+      },
       onClickCart() {
         this.$router.push('/cart');
       },
@@ -347,6 +341,8 @@
         // TODO 芋艿，需要处理下第一个有效的 sku
         this.initialSku = vanSku.list[0];
         this.initialSku.quantity = 1;
+        // 执行 sku 价格计算
+        this.doCalcSkuPrice(this.initialSku.id);
       });
       // 获得购物车数量
       countCart().then(data => {

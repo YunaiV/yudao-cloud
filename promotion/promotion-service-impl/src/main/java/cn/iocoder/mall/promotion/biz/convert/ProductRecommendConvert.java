@@ -16,15 +16,15 @@ public interface ProductRecommendConvert {
     ProductRecommendConvert INSTANCE = Mappers.getMapper(ProductRecommendConvert.class);
 
     @Mappings({})
-    ProductRecommendBO convertToBO(ProductRecommendDO banner);
+    ProductRecommendBO convertToBO(ProductRecommendDO recommend);
 
     @Mappings({})
-    List<ProductRecommendBO> convertToBO(List<ProductRecommendDO> bannerList);
+    List<ProductRecommendBO> convertToBO(List<ProductRecommendDO> recommendList);
 
     @Mappings({})
-    ProductRecommendDO convert(ProductRecommendAddDTO bannerAddDTO);
+    ProductRecommendDO convert(ProductRecommendAddDTO recommendAddDTO);
 
     @Mappings({})
-    ProductRecommendDO convert(ProductRecommendUpdateDTO bannerUpdateDTO);
+    ProductRecommendDO convert(ProductRecommendUpdateDTO recommendUpdateDTO);
 
 }

@@ -87,24 +87,14 @@ public interface CartService {
      */
     CommonResult<CalcOrderPriceBO> calcOrderPrice(CalcOrderPriceDTO calcOrderPriceDTO);
 
+    /**
+     * 计算指定商品 SKU 的金额，并返回计算结果
+     *
+     * TODO 芋艿，此处只会计算，限时折扣带来的价格变化。
+     *
+     * @param skuId 商品 SKU 编号
+     * @return 计算订单金额结果
+     */
     CommonResult<CalcSkuPriceBO> calcSkuPrice(Integer skuId);
-
-    /**
-     * 获得购物车明细
-     *
-     * TODO 芋艿，可能放在 Controller 更合适
-     *
-     * @param userId 用户编号
-     * @return 购物车明细
-     */
-    CommonResult<CartBO> details(Integer userId);
-
-    /**
-     * 基于购物车创建订单
-     *
-     * @param userId 用户编号
-     * @return 订单信息
-     */
-    CommonResult<OrderCreateBO> createOrder(Integer userId);
 
 }

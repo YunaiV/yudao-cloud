@@ -3,6 +3,7 @@ package cn.iocoder.mall.promotion.api.bo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-public class BannerBO {
+public class BannerBO implements Serializable {
 
     /**
      * 编号

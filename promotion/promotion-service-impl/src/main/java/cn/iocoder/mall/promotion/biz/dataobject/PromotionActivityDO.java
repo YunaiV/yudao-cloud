@@ -58,11 +58,11 @@ public class PromotionActivityDO extends BaseDO {
     /**
      * 限制折扣字符串，使用 JSON 序列化成字符串存储
      */
-    private String timeLimitedDiscount;
+    private TimeLimitedDiscount timeLimitedDiscount;
     /**
      * 满减送字符串，使用 JSON 序列化成字符串存储
      */
-    private String fullPrivilege;
+    private FullPrivilege fullPrivilege;
 
     /**
      * 限制折扣
@@ -173,6 +173,10 @@ public class PromotionActivityDO extends BaseDO {
          * 指定可用商品列表
          */
         private List<Integer> rangeValues;
+        /**
+         * 是否循环
+         */
+        private Boolean cycled;
         /**
          * 优惠数组
          */

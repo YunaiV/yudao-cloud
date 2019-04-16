@@ -103,7 +103,8 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         // 校验 Sku 规格
         CommonResult<Boolean> validProductSkuResult = validProductSku(productSpuAddDTO.getSkus(), validAttrResult.getData());
         if (validProductSkuResult.isError()) {
-            return CommonResult.error(validProductSkuResult);
+//            return CommonResult.error(validProductSkuResult);
+            throw ServiceExceptionUtil.exception(validProductSkuResult.getCode());
         }
         productSkuMapper.insertList(skus);
         // 返回成功

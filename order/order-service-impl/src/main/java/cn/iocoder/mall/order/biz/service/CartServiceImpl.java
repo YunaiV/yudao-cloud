@@ -4,7 +4,9 @@ import cn.iocoder.common.framework.constant.CommonStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.CartService;
-import cn.iocoder.mall.order.api.bo.*;
+import cn.iocoder.mall.order.api.bo.CalcOrderPriceBO;
+import cn.iocoder.mall.order.api.bo.CalcSkuPriceBO;
+import cn.iocoder.mall.order.api.bo.CartItemBO;
 import cn.iocoder.mall.order.api.constant.CartItemStatusEnum;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.dto.CalcOrderPriceDTO;
@@ -14,6 +16,11 @@ import cn.iocoder.mall.order.biz.dataobject.CartItemDO;
 import cn.iocoder.mall.product.api.ProductSpuService;
 import cn.iocoder.mall.product.api.bo.ProductSkuBO;
 import cn.iocoder.mall.product.api.bo.ProductSkuDetailBO;
+import cn.iocoder.mall.promotion.api.PromotionActivityService;
+import cn.iocoder.mall.promotion.api.bo.PromotionActivityBO;
+import cn.iocoder.mall.promotion.api.constant.PreferentialTypeEnum;
+import cn.iocoder.mall.promotion.api.constant.PromotionActivityStatusEnum;
+import cn.iocoder.mall.promotion.api.constant.PromotionActivityTypeEnum;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +37,8 @@ public class CartServiceImpl implements CartService {
 
     @Reference(validation = "true")
     private ProductSpuService productSpuService;
+    @Reference(validation = "true")
+    private PromotionActivityService promotionActivityService;
 
     @Autowired
     private CartMapper cartMapper;
@@ -188,17 +197,62 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @SuppressWarnings("Duplicates")
     public CommonResult<CalcSkuPriceBO> calcSkuPrice(Integer skuId) {
-        return null;
+        // 查询 SKU 是否合法
+        CommonResult<ProductSkuBO> skuResult = productSpuService.getProductSku(skuId);
+        if (skuResult.isError()) {
+            return CommonResult.error(skuResult);
+        }
+        ProductSkuBO sku = skuResult.getData();
+        if (sku == null
+                || CommonStatusEnum.DISABLE.getValue().equals(sku.getStatus())) { // sku 被禁用
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());
+        }
+        // 查询促销活动
+        CommonResult<List<PromotionActivityBO>> activityListResult = promotionActivityService.getPromotionActivityListBySpuId(sku.getSpuId(),
+                Arrays.asList(PromotionActivityStatusEnum.WAIT.getValue(), PromotionActivityStatusEnum.RUN.getValue()));
+        if (activityListResult.isError()) {
+            return CommonResult.error(activityListResult);
+        }
+        // 如果无促销活动，则直接返回默认结果即可
+        List<PromotionActivityBO> activityList = activityListResult.getData();
+        if (activityList.isEmpty()) {
+            return CommonResult.success(new CalcSkuPriceBO().setOriginalPrice(sku.getPrice()).setPresentPrice(sku.getPrice()));
+        }
+        // 如果有促销活动，则开始做计算 TODO 芋艿，因为现在暂时只有限时折扣 + 满减送。所以写的比较简单先
+        PromotionActivityBO fullPrivilege = findPromotionActivityByType(activityList, PromotionActivityTypeEnum.FULL_PRIVILEGE);
+        PromotionActivityBO timeLimitedDiscount = findPromotionActivityByType(activityList, PromotionActivityTypeEnum.TIME_LIMITED_DISCOUNT);
+        Integer presentPrice = calcSkuPriceByTimeLimitDiscount(sku, timeLimitedDiscount);
+        // 返回结果
+        return CommonResult.success(new CalcSkuPriceBO().setFullPrivilege(fullPrivilege).setTimeLimitedDiscount(timeLimitedDiscount)
+                .setOriginalPrice(sku.getPrice()).setPresentPrice(presentPrice));
     }
 
-    @Override
-    public CommonResult<CartBO> details(Integer userId) {
-        return null;
+    private Integer calcSkuPriceByTimeLimitDiscount(ProductSkuBO sku, PromotionActivityBO timeLimitedDiscount) {
+        // 获得对应的优惠项
+        PromotionActivityBO.TimeLimitedDiscount.Item item = timeLimitedDiscount.getTimeLimitedDiscount().getItems().stream()
+                .filter(item0 -> item0.getSpuId().equals(sku.getSpuId()))
+                .findFirst().orElse(null);
+        if (item == null) {
+            throw new IllegalArgumentException(String.format("折扣活动(%s) 不存在商品(%s) 的优惠配置",
+                    timeLimitedDiscount.toString(), sku.toString()));
+        }
+        // 计算价格
+        if (PreferentialTypeEnum.PRICE.getValue().equals(item.getPreferentialType())) { // 减价
+            int presentPrice = sku.getPrice() - item.getPreferentialValue();
+            return presentPrice >= 0 ? presentPrice : sku.getPrice(); // 如果计算优惠价格小于 0 ，则说明无法使用优惠。
+        }
+        if (PreferentialTypeEnum.DISCOUNT.getValue().equals(item.getPreferentialType())) { // 打折
+            return sku.getPrice() * item.getPreferentialValue() / 100;
+        }
+        throw new IllegalArgumentException(String.format("折扣活动(%s) 的优惠类型不正确", timeLimitedDiscount.toString()));
     }
 
-    @Override
-    public CommonResult<OrderCreateBO> createOrder(Integer userId) {
-        return null;
+    private PromotionActivityBO findPromotionActivityByType(List<PromotionActivityBO> activityList, PromotionActivityTypeEnum type) {
+        return activityList.stream()
+                .filter(activity -> type.getValue().equals(activity.getActivityType()))
+                .findFirst().orElse(null);
     }
+
 }

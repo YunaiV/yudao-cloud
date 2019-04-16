@@ -4,6 +4,7 @@ import cn.iocoder.mall.promotion.api.constant.ProductRecommendTypeEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-public class ProductRecommendBO {
+public class ProductRecommendBO implements Serializable {
 
     /**
      * 编号

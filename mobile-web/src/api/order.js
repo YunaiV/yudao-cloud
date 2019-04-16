@@ -120,6 +120,16 @@ export function getCartConfirmCreateOrder(skuId, quantity) {
   });
 }
 
+export function getCartCalcSkuPrice(skuId) {
+  return request({
+    url: '/order-api/users/cart/calc_sku_price',
+    method: 'get',
+    params: {
+      skuId,
+    }
+  });
+}
+
 // 物流信息
 
 export function getLogisticsInfo(params) {

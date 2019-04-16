@@ -3,12 +3,12 @@ package cn.iocoder.mall.promotion.api.bo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @Accessors(chain = true)
-public class PromotionActivityBO {
+public class PromotionActivityBO implements Serializable {
 
     /**
      * 活动编号
@@ -23,7 +23,7 @@ public class PromotionActivityBO {
      *
      * 参见 {@link cn.iocoder.mall.promotion.api.constant.PromotionActivityTypeEnum} 枚举
      */
-    private Integer type;
+    private Integer activityType;
     /**
      * 活动状态
      *
@@ -31,23 +31,27 @@ public class PromotionActivityBO {
      */
     private Integer status;
     /**
-     * 匹配的商品 SPU 编号
+     * 限制折扣
      */
-    private Set<Integer> spuIds;
+    private TimeLimitedDiscount timeLimitedDiscount;
+    /**
+     * 满减送
+     */
+    private FullPrivilege fullPrivilege;
 
     /**
      * 限制折扣
      */
     @Data
     @Accessors(chain = true)
-    public static class TimeLimitedDiscount {
+    public static class TimeLimitedDiscount implements Serializable {
 
         /**
          * 商品折扣
          */
         @Data
         @Accessors(chain = true)
-        public static class Item {
+        public static class Item implements Serializable {
 
             /**
              * 商品 SPU 编号
@@ -82,14 +86,14 @@ public class PromotionActivityBO {
      */
     @Data
     @Accessors(chain = true)
-    public static class FullPrivilege {
+    public static class FullPrivilege implements Serializable {
 
         /**
          * 优惠
          */
         @Data
         @Accessors(chain = true)
-        public static class Privilege {
+        public static class Privilege implements Serializable {
 
             /**
              * 满足类型

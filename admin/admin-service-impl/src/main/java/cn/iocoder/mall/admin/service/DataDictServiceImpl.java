@@ -88,8 +88,8 @@ public class DataDictServiceImpl implements DataDictService {
     }
 
     @Override
-    public CommonResult<DataDictBO> getDataDict(String dictKey, String dictValue) {
-        DataDictDO dataDictDO = dataDictMapper.selectByEnumValueAndValue(dictKey, dictValue);
+    public CommonResult<DataDictBO> getDataDict(String dictKey, Object dictValue) {
+        DataDictDO dataDictDO = dataDictMapper.selectByEnumValueAndValue(dictKey, String.valueOf(dictValue));
         DataDictBO dataDictBO = DataDictConvert.INSTANCE.convert(dataDictDO);
         return CommonResult.success(dataDictBO);
     }

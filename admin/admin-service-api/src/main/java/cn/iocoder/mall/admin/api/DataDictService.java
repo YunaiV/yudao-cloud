@@ -17,5 +17,5 @@ public interface DataDictService {
 
     CommonResult<Boolean> deleteDataDict(Integer adminId, Integer dataDictId);
 
-    CommonResult<DataDictBO> getDataDict(String dictKey, String dictValue);
+    CommonResult<DataDictBO> getDataDict(String dictKey, Object dictValue);
 }

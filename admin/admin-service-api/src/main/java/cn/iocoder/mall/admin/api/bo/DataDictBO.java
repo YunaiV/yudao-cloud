@@ -3,6 +3,7 @@ package cn.iocoder.mall.admin.api.bo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-public class DataDictBO {
+public class DataDictBO implements Serializable {
 
     /**
      * 编号

@@ -8,7 +8,7 @@
     <van-tabs>
       <van-tab v-for="(item, index) in logistics" :key="index" :title="'包裹' + (index + 1)">
         <van-cell-group>
-          <van-cell title="快递方式" :value="item.logistics + 'TODO 字典值'"/>
+          <van-cell title="快递方式" :value="item.logisticsText"/>
           <van-cell title="快递单号" :value="item.logisticsNo"/>
         </van-cell-group>
         <van-steps direction="vertical" :active="0" active-color="#f60" style="margin-top: 15px;">

@@ -6,8 +6,22 @@
         <img :src="thumb">
       </van-swipe-item>
     </van-swipe>
+      <!-- TODO 这里需要优化下，芋艿 -->
+      <div class="limit-dising-banner">
+          <div class="row no-wrap flex-center limit-price">
+              <span class="font-13 pusht">¥</span><span class="price">2.8</span>
+              <div class="pushl">
+                  <div><del>¥14</del></div>
+                  <div><span class="tag">限时抢购</span></div>
+              </div>
+          </div>
+          <div class="counting">
+              <p>距离结束仅剩</p>
+              <div class="row no-wrap flex-center counting-clock" style="display: block;"><span class="num">71</span><i class="wxIcon wxIcon-colon"></i><span class="num">42</span><i class="wxIcon wxIcon-colon"></i><span class="num">02</span></div>
+          </div>
+      </div>
 
-    <van-cell-group>
+      <van-cell-group>
       <van-cell>
         <span class="goods-price">{{ formatPrice(initialSku.price) }}</span>
         <!--<span class="goods-market-price">{{ formatPrice(goods.market_price) }}</span>-->

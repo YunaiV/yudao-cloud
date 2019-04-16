@@ -2,8 +2,8 @@ package cn.iocoder.mall.promotion.api.dto;
 
 import cn.iocoder.common.framework.validator.InEnum;
 import cn.iocoder.mall.promotion.api.constant.CouponTemplateDateTypeEnum;
-import cn.iocoder.mall.promotion.api.constant.CouponTemplatePreferentialTypeEnum;
-import cn.iocoder.mall.promotion.api.constant.CouponTemplateRangeTypeEnum;
+import cn.iocoder.mall.promotion.api.constant.PreferentialTypeEnum;
+import cn.iocoder.mall.promotion.api.constant.RangeTypeEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
@@ -70,7 +70,7 @@ public class CouponCardTemplateAddDTO {
      * 31-部分（PART）：部分分类不可用，或指定分类可用
      */
     @NotNull(message = "可用范围的类型不能为空")
-    @InEnum(value = CouponTemplateRangeTypeEnum.class, message = "可用范围的类型必须在 {value}")
+    @InEnum(value = RangeTypeEnum.class, message = "可用范围的类型必须在 {value}")
     private Integer rangeType;
     /**
      * 指定商品 / 分类列表，使用逗号分隔商品编号
@@ -115,7 +115,7 @@ public class CouponCardTemplateAddDTO {
      * 2-折扣卷
      */
     @NotNull(message = "优惠类型不能为空")
-    @InEnum(value = CouponTemplatePreferentialTypeEnum.class, message = "优惠类型必须在 {value}")
+    @InEnum(value = PreferentialTypeEnum.class, message = "优惠类型必须在 {value}")
     private Integer preferentialType;
     /**
      * 优惠金额，单位：分

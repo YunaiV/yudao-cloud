@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.api.bo;
 
 import cn.iocoder.mall.product.api.bo.ProductSkuDetailBO;
+import cn.iocoder.mall.promotion.api.bo.PromotionActivityBO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -35,8 +36,11 @@ public class CalcOrderPriceBO {
     @Accessors(chain = true)
     public static class ItemGroup {
 
-        // TODO 优惠活动
-        private Object activity;
+        /**
+         * 优惠活动
+         */
+        // TODO 芋艿，目前只会有【满减送】的情况，未来有新的促销方式，可能需要改成数组
+        private PromotionActivityBO activity;
         /**
          * 商品数组
          */
@@ -56,6 +60,16 @@ public class CalcOrderPriceBO {
          * 购买数量
          */
         private Integer buyQuantity;
+        /**
+         * 优惠活动
+         */
+        private PromotionActivityBO activity;
+        /**
+         * 费用
+         *
+         * TODO 芋艿，这里先偷懒，postageTotal 字段用不到。
+         */
+        private Fee fee;
 
     }
 

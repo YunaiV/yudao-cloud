@@ -158,14 +158,14 @@ public class CouponServiceImpl implements CouponService {
 
     private CommonResult<Boolean> checkCouponTemplatePreferentialType(Integer preferentialType, Integer percentOff,
                                                                       Integer priceOff, Integer priceAvailable) {
-        if (CouponTemplatePreferentialTypeEnum.PRICE.getValue().equals(preferentialType)) {
+        if (PreferentialTypeEnum.PRICE.getValue().equals(preferentialType)) {
             if (priceOff == null) {
                 return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "优惠金额不能为空");
             }
             if (priceOff >= priceAvailable) {
                 return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "优惠金额不能d大于等于使用金额门槛");
             }
-        } else if (CouponTemplatePreferentialTypeEnum.DISCOUNT.getValue().equals(preferentialType)) {
+        } else if (PreferentialTypeEnum.DISCOUNT.getValue().equals(preferentialType)) {
             if (percentOff == null) {
                 return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "折扣百分比不能为空");
             }

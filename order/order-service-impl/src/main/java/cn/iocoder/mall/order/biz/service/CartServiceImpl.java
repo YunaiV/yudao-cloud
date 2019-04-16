@@ -4,10 +4,7 @@ import cn.iocoder.common.framework.constant.CommonStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.CartService;
-import cn.iocoder.mall.order.api.bo.CalcOrderPriceBO;
-import cn.iocoder.mall.order.api.bo.CartBO;
-import cn.iocoder.mall.order.api.bo.CartItemBO;
-import cn.iocoder.mall.order.api.bo.OrderCreateBO;
+import cn.iocoder.mall.order.api.bo.*;
 import cn.iocoder.mall.order.api.constant.CartItemStatusEnum;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.dto.CalcOrderPriceDTO;
@@ -188,6 +185,11 @@ public class CartServiceImpl implements CartService {
         calcOrderPriceBO.setFee(fee);
         // 返回
         return CommonResult.success(calcOrderPriceBO);
+    }
+
+    @Override
+    public CommonResult<CalcSkuPriceBO> calcSkuPrice(Integer skuId) {
+        return null;
     }
 
     @Override

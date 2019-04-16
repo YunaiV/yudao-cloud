@@ -1,7 +1,7 @@
 package cn.iocoder.mall.promotion.api.dto;
 
 import cn.iocoder.common.framework.validator.InEnum;
-import cn.iocoder.mall.promotion.api.constant.CouponTemplateRangeTypeEnum;
+import cn.iocoder.mall.promotion.api.constant.RangeTypeEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
@@ -69,7 +69,7 @@ public class CouponCardTemplateUpdateDTO {
      * 31-部分（PART）：部分分类不可用，或指定分类可用
      */
     @NotNull(message = "可用范围的类型不能为空")
-    @InEnum(value = CouponTemplateRangeTypeEnum.class, message = "可用范围的类型必须在 {value}")
+    @InEnum(value = RangeTypeEnum.class, message = "可用范围的类型必须在 {value}")
     private Integer rangeType;
     /**
      * 指定商品 / 分类列表，使用逗号分隔商品编号

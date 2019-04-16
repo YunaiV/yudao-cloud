@@ -11,44 +11,7 @@ import styles from './ProductSpuList.less';
 const FormItem = Form.Item;
 const { TreeNode } = Tree;
 
-// 添加 form 表单
-const CreateForm = Form.create()(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible, modalType, initValues } = props;
-
-  const okHandle = () => {
-    form.validateFields((err, fieldsValue) => {
-      if (err) return;
-      form.resetFields();
-      handleAdd({
-        fields: fieldsValue,
-        modalType,
-        initValues,
-      });
-    });
-  };
-
-  const title = modalType === 'add' ? '添加一个 Role' : '更新一个 Role';
-  const okText = modalType === 'add' ? '添加' : '更新';
-  return (
-    <Modal
-      destroyOnClose
-      title={title}
-      visible={modalVisible}
-      onOk={okHandle}
-      okText={okText}
-      onCancel={() => handleModalVisible()}
-    >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="角色名">
-        {form.getFieldDecorator('name', {
-          rules: [{ required: true, message: '请输入角色名！', min: 2 }],
-          initialValue: initValues.name,
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-    </Modal>
-  );
-});
-
-// roleList
+// productSpuList
 @connect(({ productSpuList, loading }) => ({
   productSpuList,
   list: productSpuList.list.spus,
@@ -71,8 +34,8 @@ class ProductSpuList extends PureComponent {
       type: 'productSpuList/page',
       payload: {
         name: '',
-        pageNo: 0,
-        pageSize: 10,
+        pageNo: 1,
+          pageSize: 20,
       },
     });
   }
@@ -168,7 +131,6 @@ class ProductSpuList extends PureComponent {
           </div>
           <Table columns={columns} dataSource={list} rowKey="id" />
         </Card>
-        <CreateForm {...parentMethods} modalVisible={modalVisible} />
       </PageHeaderWrapper>
     );
   }

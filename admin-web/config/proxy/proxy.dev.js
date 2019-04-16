@@ -8,8 +8,8 @@ export default {
     pathRewrite: {},
   },
   '/product-api/': {
-    target: 'http://180.167.213.26:18083/',
-    // target: 'http://127.0.0.1:18081/',
+    // target: 'http://180.167.213.26:18083/',
+    target: 'http://127.0.0.1:18081/',
     changeOrigin: true,
     pathRewrite: {},
   },

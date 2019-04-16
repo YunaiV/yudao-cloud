@@ -47,19 +47,6 @@ class ProductSpuAddOrUpdate extends Component {
     });
   }
 
-  // handleSubmit = e => {
-  //   const { dispatch, form } = this.props;
-  //   e.preventDefault();
-  //   form.validateFieldsAndScroll((err, values) => {
-  //     if (!err) {
-  //       dispatch({
-  //         type: 'form/submitRegularForm',
-  //         payload: values,
-  //       });
-  //     }
-  //   });
-  // }
-
   handleAddAttr = e => {
     // alert('你猜');
     const { dispatch } = this.props;
@@ -83,7 +70,7 @@ class ProductSpuAddOrUpdate extends Component {
       }
       let newAttr = {
         attrs: [],
-        price: sku.price,
+        price: sku.price * 100,
         quantity: sku.quantity,
       }
       for (let j in sku.attrs) {

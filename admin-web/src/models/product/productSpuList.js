@@ -56,8 +56,8 @@ export default {
       yield put(routerRedux.replace('/product/product-spu-add'));
     },
     *page({ payload }, { call, put }) {
-      const { queryParams } = payload;
-      const response = yield call(productSpuPage, queryParams);
+      // const { queryParams } = payload;
+      const response = yield call(productSpuPage, payload);
       message.info('查询成功!');
       yield put({
         type: 'treeSuccess',

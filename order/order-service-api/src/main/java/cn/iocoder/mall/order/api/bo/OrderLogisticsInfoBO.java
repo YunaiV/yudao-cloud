@@ -59,6 +59,10 @@ public class OrderLogisticsInfoBO implements Serializable {
          */
         private Integer logistics;
         /**
+         * 物流 (字典) 转换后的值
+         */
+        private String logisticsText;
+        /**
          * 物流编号
          */
         private String logisticsNo;

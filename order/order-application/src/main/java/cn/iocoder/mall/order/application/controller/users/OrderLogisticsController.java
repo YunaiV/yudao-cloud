@@ -1,17 +1,26 @@
 package cn.iocoder.mall.order.application.controller.users;
 
+import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.admin.api.DataDictService;
+import cn.iocoder.mall.admin.api.bo.DataDictBO;
 import cn.iocoder.mall.order.api.OrderLogisticsService;
 import cn.iocoder.mall.order.api.bo.OrderLogisticsInfoBO;
+import cn.iocoder.mall.order.api.constant.DictKeyConstants;
+import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 订单物流 controller
@@ -26,11 +35,41 @@ public class OrderLogisticsController {
 
     @Reference(validation = "true")
     private OrderLogisticsService orderLogisticsService;
+    @Reference(validation = "true")
+    private DataDictService dataDictService;
 
     @GetMapping("logistics_info")
     @ApiOperation("物流详细 - 返回订单所关联的所有物流信息")
     public CommonResult<OrderLogisticsInfoBO> logisticsInfo(@RequestParam("orderId") Integer orderId) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
-        return orderLogisticsService.logisticsInfo(userId, orderId);
+        CommonResult<OrderLogisticsInfoBO> commonResult = orderLogisticsService.logisticsInfo(userId, orderId);
+        if (commonResult.isSuccess()) {
+            OrderLogisticsInfoBO orderLogisticsInfoBO = commonResult.getData();
+            List<OrderLogisticsInfoBO.Logistics> logisticsList = orderLogisticsInfoBO.getLogistics();
+
+            // 获取字典值
+            Set<Integer> dictValues = logisticsList.stream().map(o -> o.getLogistics()).collect(Collectors.toSet());
+            CommonResult<List<DataDictBO>> dictResult = dataDictService
+                    .getDataDictList(DictKeyConstants.ORDER_LOGISTICS_COMPANY, dictValues);
+
+            if (dictResult.isError()) {
+                // 错误情况
+                return ServiceExceptionUtil.error(OrderErrorCodeEnum.DICT_SERVER_INVOKING_FAIL.getCode());
+            }
+
+            // 转换结果字典值
+            Map<String, DataDictBO> dataDictBOMap = dictResult.getData()
+                    .stream().collect(Collectors.toMap(o -> o.getValue(), o -> o));
+
+            logisticsList.stream().map(o -> {
+                String dicValue = o.getLogistics().toString();
+                if (dataDictBOMap.containsKey(dicValue)) {
+                    o.setLogisticsText(dataDictBOMap.get(dicValue).getDisplayName());
+                }
+                return o;
+            }).collect(Collectors.toList());
+        }
+
+        return commonResult;
     }
 }

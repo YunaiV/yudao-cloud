@@ -8,7 +8,7 @@ import cn.iocoder.mall.admin.api.bo.DataDictBO;
 import cn.iocoder.mall.order.api.CartService;
 import cn.iocoder.mall.order.api.OrderService;
 import cn.iocoder.mall.order.api.bo.*;
-import cn.iocoder.mall.order.api.constant.DictKeysConstants;
+import cn.iocoder.mall.order.api.constant.DictKeyConstants;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.dto.CalcOrderPriceDTO;
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
@@ -120,7 +120,7 @@ public class UsersOrderController {
 
         OrderInfoBO orderInfoBO = commonResult.getData();
         CommonResult<DataDictBO> dictResult = dataDictService
-                .getDataDict(DictKeysConstants.ORDER_STATUS_KEY, orderInfoBO.getStatus());
+                .getDataDict(DictKeyConstants.ORDER_STATUS, orderInfoBO.getStatus());
         orderInfoBO.setStatusText(dictResult.getData().getDisplayName());
         return commonResult;
     }

@@ -3,7 +3,7 @@
 <mapper namespace="cn.iocoder.mall.order.biz.dao.OrderLogisticsMapper">
 
     <sql id="FIELDS">
-        id, area_no, `name`, mobile, address, logistics_no, create_time, update_time
+        id, area_no, `name`, mobile, address, logistics, logistics_no, create_time, update_time
     </sql>
 
     <!--

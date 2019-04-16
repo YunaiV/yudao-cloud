@@ -9,8 +9,14 @@
       <!-- TODO 这里需要优化下，芋艿 -->
       <van-cell-group>
           <van-cell>
-            <span class="goods-price">{{ formatPrice(initialSku.price) }}</span>
-            <!--<span class="goods-market-price">{{ formatPrice(goods.market_price) }}</span>-->
+            <div v-if="calSkuPriceResult.originalPrice && calSkuPriceResult.originalPrice !== calSkuPriceResult.presentPrice">
+                <span class="goods-price">{{ formatPrice(calSkuPriceResult.presentPrice) }}</span>
+                <span class="goods-market-price">{{ formatPrice(calSkuPriceResult.originalPrice) }}</span>
+            </div>
+            <div v-else>
+                <span class="goods-price">{{ formatPrice(initialSku.price) }}</span>
+            </div>
+
             <div class="goods-title">{{ spu.name }}</div>
             <div class="goods-subtit">{{spu.sellPoint}}</div>
           </van-cell>
@@ -45,6 +51,7 @@
     <!--</template>-->
     <!--</van-cell>-->
     <!---->
+
     <!--<van-cell  is-link @click="showPromotion" >-->
     <!--<template slot="title">-->
     <!--<span style="margin-right: 10px;">促销</span>-->
@@ -71,16 +78,17 @@
 <!--              <span> 满2件，总价打9折</span>-->
 <!--          </template>-->
 <!--      </van-cell>-->
-      <van-cell is-link @click="sorry">
+      <!-- TODO 芋艿，后续【限时折扣】需要改下样式 -->
+      <van-cell v-if="calSkuPriceResult.timeLimitedDiscount" is-link @click="sorry">
           <template slot="title">
-              <van-tag type="danger">满减</van-tag>
-              <span> 满100元减50元</span>
+              <van-tag type="danger">限时折扣</van-tag>
+              <span> {{ formatTimeLimitedDiscountText(calSkuPriceResult.timeLimitedDiscount) }} </span>
           </template>
       </van-cell>
-      <van-cell is-link @click="sorry">
+      <van-cell v-if="calSkuPriceResult.fullPrivilege" is-link @click="sorry">
           <template slot="title">
-              <van-tag type="danger">限购</van-tag>
-              <span> 购买不超过5件时享受单件价￥8.00，超出数量以结算价为准</span>
+              <van-tag type="danger">满减送</van-tag>
+              <span>  {{ formatFullPrivilegeText(calSkuPriceResult.fullPrivilege) }} </span>
           </template>
       </van-cell>
 
@@ -215,6 +223,43 @@
         text = text + 'x ' + data.quantity + ' 件';
         return text;
       },
+      formatTimeLimitedDiscountText(activity) {
+        let text = '';
+        let timeLimitedDiscount = activity.timeLimitedDiscount.items[0];
+        if (timeLimitedDiscount.preferentialType === 1) {
+          text += '减 ' + timeLimitedDiscount.preferentialValue / 100.0 + ' 元';
+        } else if (timeLimitedDiscount.preferentialType === 2) {
+          text += '打 ' + timeLimitedDiscount.preferentialValue / 10.0 + ' 折';
+        }
+        if (activity.timeLimitedDiscount.quota > 0) {
+          text += '【限购 ' + activity.timeLimitedDiscount.quota + ' 件】';
+        }
+        return text;
+      },
+      formatFullPrivilegeText(activity) {
+        let text = '';
+        let fullPrivilege = activity.fullPrivilege;
+        for (let i in fullPrivilege.privileges) {
+          let privilege = fullPrivilege.privileges[i];
+          if (i > 0) {
+            text += ';';
+          }
+          if (fullPrivilege.cycled) {
+            text += '每';
+          }
+          if (privilege.meetType === 1) {
+            text += '满 ' + privilege.meetValue + ' 元,';
+          } else if (privilege.meetType === 2) {
+            text += '满 ' + privilege.meetValue + ' 件,';
+          }
+          if (privilege.preferentialType === 1) {
+            text += '减 ' + privilege.preferentialValue / 100.0 + ' 元';
+          } else if (privilege.preferentialType === 2) {
+            text += '打 ' + privilege.preferentialValue / 10.0 + ' 折';
+          }
+        }
+        return text;
+      },
 
       stepperChange(value) { // 选择 sku 数量时
         this.initialSku.quantity = value;
@@ -234,6 +279,14 @@
       doCalcSkuPrice(skuId) {
         getCartCalcSkuPrice(skuId).then(data => {
           this.calSkuPriceResult = data;
+          // 修改 vanSku.list 里匹配的 sku 的价格（目的，将优惠价赋值到其上）
+          for (let i in this.vanSku.list) {
+            let sku = this.vanSku.list[i];
+            if (sku.id === skuId) {
+              sku.price = data.presentPrice;
+              break;
+            }
+          }
         });
       },
       onClickCart() {

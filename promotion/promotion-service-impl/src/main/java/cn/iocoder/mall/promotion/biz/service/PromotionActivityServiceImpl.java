@@ -56,6 +56,11 @@ public class PromotionActivityServiceImpl implements PromotionActivityService {
             // 不匹配，则进行移除
             if (!matched) {
                 iterator.remove();
+            } else { // 匹配，则做一些后续的处理
+                // 如果是限时折扣，移除不在 spuId 数组中的折扣规则
+                if (PromotionActivityTypeEnum.TIME_LIMITED_DISCOUNT.getValue().equals(activity.getActivityType())) {
+                    activity.getTimeLimitedDiscount().getItems().removeIf(item -> !spuIds.contains(item.getSpuId()));
+                }
             }
         }
         // 返回最终结果

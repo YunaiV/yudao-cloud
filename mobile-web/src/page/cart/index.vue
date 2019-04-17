@@ -28,6 +28,9 @@
               <div class="card" v-for="(item, j) in itemGroup.items" :key="j">
                   <van-checkbox :key="item.id" :name="item.id" v-model="item.selected" style="position: relative;top: 40px;" />
                   <product-card :product='convertProduct(item)'/>
+                  <van-cell title="优惠信息">
+                      {{ formatTimeLimitedDiscountText(item.activity) }}
+                  </van-cell>
               </div>
               <div style="height:15px;"></div>
           </div>
@@ -88,6 +91,9 @@ export default {
   },
   methods: {
     formatFullPrivilegeText(activity) {
+      if (!activity) {
+        return '';
+      }
       let text = '';
       let fullPrivilege = activity.fullPrivilege;
       for (let i in fullPrivilege.privileges) {
@@ -108,6 +114,22 @@ export default {
         } else if (privilege.preferentialType === 2) {
           text += '打 ' + privilege.preferentialValue / 10.0 + ' 折';
         }
+      }
+      return text;
+    },
+    formatTimeLimitedDiscountText(activity) {
+      if (!activity) {
+        return '';
+      }
+      let text = '';
+      let timeLimitedDiscount = activity.timeLimitedDiscount.items[0];
+      if (timeLimitedDiscount.preferentialType === 1) {
+        text += '减 ' + timeLimitedDiscount.preferentialValue / 100.0 + ' 元';
+      } else if (timeLimitedDiscount.preferentialType === 2) {
+        text += '打 ' + timeLimitedDiscount.preferentialValue / 10.0 + ' 折';
+      }
+      if (activity.timeLimitedDiscount.quota > 0) {
+        text += '【限购 ' + activity.timeLimitedDiscount.quota + ' 件】';
       }
       return text;
     },

@@ -248,7 +248,7 @@
             text += '每';
           }
           if (privilege.meetType === 1) {
-            text += '满 ' + privilege.meetValue + ' 元,';
+            text += '满 ' + privilege.meetValue / 100.0 + ' 元,';
           } else if (privilege.meetType === 2) {
             text += '满 ' + privilege.meetValue + ' 件,';
           }

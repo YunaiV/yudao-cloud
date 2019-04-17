@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.application.vo;
 
 import cn.iocoder.mall.product.api.bo.ProductAttrAndValuePairBO;
+import cn.iocoder.mall.promotion.api.bo.PromotionActivityBO;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -30,12 +31,30 @@ public class UsersCartDetailVO {
     @Accessors(chain = true)
     public static class ItemGroup {
 
-        // TODO 优惠活动
-        private Object activity;
+        /**
+         * 优惠活动
+         */
+        private PromotionActivityBO activity; // TODO 芋艿，偷懒
+        /**
+         * 优惠活动是否生效
+         *
+         * 多个商品，参与某个活动，因为并发达到条件，所以会存在未生效的情况。所以一共有三种情况
+         *
+         * 1. activity 非空，activityEffectEffective 为 true，参与活动，且生效
+         * 2. activity 非空，activityEffectEffective 为 false ，参与活动，并未生效
+         * 3. activity 为空，activityEffectEffective 为空，并未参与活动。
+         */
+        private Boolean activityEffectEffective;
         /**
          * 商品数组
          */
         private List<Sku> items;
+        /**
+         * 费用
+         *
+         * TODO 芋艿，这里先偷懒，postageTotal 字段用不到。
+         */
+        private Fee fee;
 
     }
 
@@ -79,6 +98,20 @@ public class UsersCartDetailVO {
          * 是否选中
          */
         private Boolean selected;
+        /**
+         * 优惠活动
+         */
+        private PromotionActivityBO activity;
+        /**
+         * 折扣价
+         */
+        private Integer discountPrice;
+        /**
+         * 费用
+         *
+         * TODO 芋艿，这里先偷懒，postageTotal 字段用不到。
+         */
+        private Fee fee;
 
     }
 
@@ -151,7 +184,7 @@ public class UsersCartDetailVO {
     }
 
     /**
-     * 邮费信息
+     * 邮费信息 TODO 芋艿，未完成
      */
     @Data
     @Accessors(chain = true)

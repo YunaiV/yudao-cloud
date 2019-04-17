@@ -42,9 +42,25 @@ public class CalcOrderPriceBO {
         // TODO 芋艿，目前只会有【满减送】的情况，未来有新的促销方式，可能需要改成数组
         private PromotionActivityBO activity;
         /**
+         * 优惠活动是否生效
+         *
+         * 多个商品，参与某个活动，因为并发达到条件，所以会存在未生效的情况。所以一共有三种情况
+         *
+         * 1. activity 非空，activityEffectEffective 为 true，参与活动，且生效
+         * 2. activity 非空，activityEffectEffective 为 false ，参与活动，并未生效
+         * 3. activity 为空，activityEffectEffective 为空，并未参与活动。
+         */
+        private Boolean activityEffectEffective;
+        /**
          * 商品数组
          */
         private List<Item> items;
+        /**
+         * 费用
+         *
+         * TODO 芋艿，这里先偷懒，postageTotal 字段用不到。
+         */
+        private Fee fee;
 
     }
 
@@ -70,6 +86,10 @@ public class CalcOrderPriceBO {
          * TODO 芋艿，这里先偷懒，postageTotal 字段用不到。
          */
         private Fee fee;
+        /**
+         * 折扣价
+         */
+        private Integer discountPrice;
 
     }
 

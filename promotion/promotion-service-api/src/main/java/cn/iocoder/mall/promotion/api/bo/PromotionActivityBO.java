@@ -129,6 +129,10 @@ public class PromotionActivityBO implements Serializable {
          */
         private List<Integer> rangeValues;
         /**
+         * 是否循环
+         */
+        private Boolean cycled;
+        /**
          * 优惠数组
          */
         private List<Privilege> privileges;

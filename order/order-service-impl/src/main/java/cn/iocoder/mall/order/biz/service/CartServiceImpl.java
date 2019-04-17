@@ -18,12 +18,11 @@ import cn.iocoder.mall.product.api.bo.ProductSkuBO;
 import cn.iocoder.mall.product.api.bo.ProductSkuDetailBO;
 import cn.iocoder.mall.promotion.api.PromotionActivityService;
 import cn.iocoder.mall.promotion.api.bo.PromotionActivityBO;
-import cn.iocoder.mall.promotion.api.constant.PreferentialTypeEnum;
-import cn.iocoder.mall.promotion.api.constant.PromotionActivityStatusEnum;
-import cn.iocoder.mall.promotion.api.constant.PromotionActivityTypeEnum;
+import cn.iocoder.mall.promotion.api.constant.*;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -155,43 +154,41 @@ public class CartServiceImpl implements CartService {
     public CommonResult<CalcOrderPriceBO> calcOrderPrice(CalcOrderPriceDTO calcOrderPriceDTO) {
         // 校验商品都存在
         Map<Integer, CalcOrderPriceDTO.Item> calcOrderItemMap = calcOrderPriceDTO.getItems().stream()
-                .collect(Collectors.toMap(CalcOrderPriceDTO.Item::getSkuId, item -> item));
+                .collect(Collectors.toMap(CalcOrderPriceDTO.Item::getSkuId, item -> item)); // KEY：skuId
         List<ProductSkuDetailBO> skus = productSpuService.getProductSkuDetailList(calcOrderItemMap.keySet()).getData();
         if (skus.size() != calcOrderPriceDTO.getItems().size()) {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_ITEM_SOME_NOT_EXISTS.getCode());
         }
         // TODO 库存相关
-        // TODO 获得促销活动
-        // TODO 处理促销相关信息
-        // 拼装结果
+        // 查询促销活动
+        CommonResult<List<PromotionActivityBO>> activityListResult = promotionActivityService.getPromotionActivityListBySpuIds(
+                skus.stream().map(sku -> sku.getSpu().getId()).collect(Collectors.toSet()),
+                Collections.singletonList(PromotionActivityStatusEnum.RUN.getValue()));
+        if (activityListResult.isError()) {
+            return CommonResult.error(activityListResult);
+        }
+        List<PromotionActivityBO> activityList = activityListResult.getData();
+        // 拼装结果（主要是计算价格）
         CalcOrderPriceBO calcOrderPriceBO = new CalcOrderPriceBO();
-        // 1. 商品分组
-        CalcOrderPriceBO.ItemGroup itemGroup0 = new CalcOrderPriceBO.ItemGroup()
-                .setItems(new ArrayList<>());
-        for (ProductSkuDetailBO sku : skus) {
-            CalcOrderPriceBO.Item item = CartConvert.INSTANCE.convert(sku);
-            // 将是否选中，购物数量，复制到 item 中
-            CalcOrderPriceDTO.Item calcOrderItem = calcOrderItemMap.get(sku.getId());
-            item.setSelected(calcOrderItem.getSelected());
-            item.setBuyQuantity(calcOrderItem.getQuantity());
-            // 添加到 itemGroup 中
-            itemGroup0.getItems().add(item);
-        }
-        calcOrderPriceBO.setItemGroups(Collections.singletonList(itemGroup0));
-        // 2. 计算价格
-        CalcOrderPriceBO.Fee fee = new CalcOrderPriceBO.Fee(0, 0, 0, 0);
+        // 1. 创建初始的每一项的数组
+        List<CalcOrderPriceBO.Item> items = initCalcOrderPriceItems(skus, calcOrderItemMap);
+        // 2. 计算【限时折扣】促销
+        modifyPriceByTimeLimitDiscount(items, activityList);
+        // 3. 计算【满减送】促销
+        List<CalcOrderPriceBO.ItemGroup> itemGroups = groupByFullPrivilege(items, activityList);
+        calcOrderPriceBO.setItemGroups(itemGroups);
+        // 4. 计算最终的价格
+        Integer originalTotal = 0;
+        Integer presentTotal = 0;
+        Integer discountTotal = 0;
         for (CalcOrderPriceBO.ItemGroup itemGroup : calcOrderPriceBO.getItemGroups()) {
-            int originalTotal = 0;
-            for (CalcOrderPriceBO.Item item : itemGroup.getItems()) {
-                if (!item.getSelected()) { // 未选中，则不计算到其中
-                    continue;
-                }
-                originalTotal += item.getPrice() * item.getBuyQuantity();
-            }
-            fee.setOriginalTotal(fee.getOriginalTotal() + originalTotal);
-            fee.setPresentTotal(fee.getOriginalTotal()); // TODO 芋艿，后续要计算优惠价格
+            originalTotal += itemGroup.getItems().stream().mapToInt(item -> item.getSelected() ? item.getFee().getOriginalTotal() : 0).sum();
+            discountTotal += itemGroup.getFee().getDiscountTotal() + itemGroup.getItems().stream().mapToInt(item -> item.getSelected() ? item.getFee().getDiscountTotal() : 0).sum();
+            presentTotal += itemGroup.getFee().getPresentTotal();
         }
-        calcOrderPriceBO.setFee(fee);
+        Assert.isTrue(originalTotal - discountTotal ==  presentTotal,
+                String.format("价格合计( %d - %d == %d )不正确", originalTotal, discountTotal, presentTotal));
+        calcOrderPriceBO.setFee(new CalcOrderPriceBO.Fee(originalTotal, discountTotal, 0, presentTotal));
         // 返回
         return CommonResult.success(calcOrderPriceBO);
     }
@@ -229,7 +226,107 @@ public class CartServiceImpl implements CartService {
                 .setOriginalPrice(sku.getPrice()).setPresentPrice(presentPrice));
     }
 
+    private List<CalcOrderPriceBO.Item> initCalcOrderPriceItems(List<ProductSkuDetailBO> skus,
+                                                                Map<Integer, CalcOrderPriceDTO.Item> calcOrderItemMap) {
+        List<CalcOrderPriceBO.Item> items = new ArrayList<>();
+        for (ProductSkuDetailBO sku : skus) {
+            CalcOrderPriceBO.Item item = CartConvert.INSTANCE.convert(sku);
+            items.add(item);
+            // 将是否选中，购物数量，复制到 item 中
+            CalcOrderPriceDTO.Item calcOrderItem = calcOrderItemMap.get(sku.getId());
+            item.setSelected(calcOrderItem.getSelected());
+            item.setBuyQuantity(calcOrderItem.getQuantity());
+            // 计算初始价格
+            CalcOrderPriceBO.Fee fee = new CalcOrderPriceBO.Fee(0, 0, 0, 0);
+            fee.setOriginalTotal(item.getPrice() * item.getBuyQuantity());
+            fee.setPresentTotal(fee.getOriginalTotal());
+            item.setFee(fee);
+        }
+        return items;
+    }
+
+    private void modifyPriceByTimeLimitDiscount(List<CalcOrderPriceBO.Item> items, List<PromotionActivityBO> activityList) {
+        for (CalcOrderPriceBO.Item item : items) {
+            // 获得符合条件的限时折扣
+            PromotionActivityBO timeLimitedDiscount = activityList.stream()
+                    .filter(activity -> PromotionActivityTypeEnum.TIME_LIMITED_DISCOUNT.getValue().equals(activity.getActivityType())
+                            && activity.getTimeLimitedDiscount().getItems().stream().anyMatch(item0 -> item0.getSpuId().equals(item.getSpu().getId())))
+                    .findFirst().orElse(null);
+            if (timeLimitedDiscount == null) {
+                continue;
+            }
+            // 计算价格
+            ProductSkuBO sku = new ProductSkuBO().setId(item.getId()).setSpuId(item.getSpu().getId()).setPrice(item.getPrice());
+            Integer newPrice = calcSkuPriceByTimeLimitDiscount(sku, timeLimitedDiscount);
+            if (newPrice.equals(item.getPrice())) {
+                continue;
+            }
+            // 设置优惠
+            item.setActivity(timeLimitedDiscount);
+            // 设置价格
+            item.setDiscountPrice(newPrice);
+            CalcOrderPriceBO.Fee fee = item.getFee();
+            fee.setDiscountTotal(fee.getDiscountTotal() + (item.getPrice() - newPrice) * item.getBuyQuantity());
+            fee.setPresentTotal(fee.getOriginalTotal() - fee.getDiscountTotal() + fee.getPostageTotal());
+        }
+    }
+
+    private List<CalcOrderPriceBO.ItemGroup> groupByFullPrivilege(List<CalcOrderPriceBO.Item> items, List<PromotionActivityBO> activityList) {
+        List<CalcOrderPriceBO.ItemGroup> itemGroups = new ArrayList<>();
+        // 获得所有满减送促销
+        List<PromotionActivityBO> fullPrivileges = activityList.stream()
+                .filter(activity -> PromotionActivityTypeEnum.FULL_PRIVILEGE.getValue().equals(activity.getActivityType()))
+                .collect(Collectors.toList());
+        // 基于满减送促销，进行分组
+        if (!fullPrivileges.isEmpty()) {
+            items = new ArrayList<>(items); // 因为下面会修改数组，进行浅拷贝，避免影响传入的 items 。
+            for (PromotionActivityBO fullPrivilege : fullPrivileges) {
+                // 创建 fullPrivilege 对应的分组
+                CalcOrderPriceBO.ItemGroup itemGroup = new CalcOrderPriceBO.ItemGroup()
+                        .setActivity(fullPrivilege)
+                        .setItems(new ArrayList<>());
+                // 筛选商品到分组中
+                for (Iterator<CalcOrderPriceBO.Item> iterator = items.iterator(); iterator.hasNext(); ) {
+                    CalcOrderPriceBO.Item item = iterator.next();
+                    if (!isSpuMatchFullPrivilege(item.getSpu().getId(), fullPrivilege)) {
+                        continue;
+                    }
+                    itemGroup.getItems().add(item);
+                    iterator.remove();
+                }
+                // 如果匹配到，则添加到 itemGroups 中
+                if (!itemGroup.getItems().isEmpty()) {
+                    itemGroups.add(itemGroup);
+                }
+            }
+        }
+        // 处理未参加活动的商品，形成一个分组
+        if (!items.isEmpty()) {
+            CalcOrderPriceBO.ItemGroup itemGroup = new CalcOrderPriceBO.ItemGroup()
+                    .setItems(items);
+            itemGroups.add(itemGroup);
+        }
+        // 计算每个分组的价格
+        for (CalcOrderPriceBO.ItemGroup itemGroup : itemGroups) {
+            itemGroup.setFee(calcSkuPriceByFullPrivilege(itemGroup));
+            itemGroup.setActivityEffectEffective(itemGroup.getFee().getDiscountTotal() > 0);
+        }
+        // 返回结果
+        return itemGroups;
+    }
+
+    /**
+     * 计算指定 SKU 在限时折扣下的价格
+     *
+     * @param sku                 SKU
+     * @param timeLimitedDiscount 限时折扣促销。
+     *                            传入的该活动，要保证该 SKU 在该促销下一定有优惠。
+     * @return 计算后的价格
+     */
     private Integer calcSkuPriceByTimeLimitDiscount(ProductSkuBO sku, PromotionActivityBO timeLimitedDiscount) {
+        if (timeLimitedDiscount == null) {
+            return sku.getPrice();
+        }
         // 获得对应的优惠项
         PromotionActivityBO.TimeLimitedDiscount.Item item = timeLimitedDiscount.getTimeLimitedDiscount().getItems().stream()
                 .filter(item0 -> item0.getSpuId().equals(sku.getSpuId()))
@@ -244,15 +341,84 @@ public class CartServiceImpl implements CartService {
             return presentPrice >= 0 ? presentPrice : sku.getPrice(); // 如果计算优惠价格小于 0 ，则说明无法使用优惠。
         }
         if (PreferentialTypeEnum.DISCOUNT.getValue().equals(item.getPreferentialType())) { // 打折
-            return sku.getPrice() * item.getPreferentialValue() / 10;
+            return sku.getPrice() * item.getPreferentialValue() / 100;
         }
         throw new IllegalArgumentException(String.format("折扣活动(%s) 的优惠类型不正确", timeLimitedDiscount.toString()));
+    }
+
+    private CalcOrderPriceBO.Fee calcSkuPriceByFullPrivilege(CalcOrderPriceBO.ItemGroup itemGroup) {
+        if (itemGroup.getActivity() == null) {
+            Integer originalTotal = itemGroup.getItems().stream().mapToInt(item -> item.getSelected() ? item.getFee().getPresentTotal() : 0).sum();
+            return new CalcOrderPriceBO.Fee(originalTotal, 0, 0, originalTotal);
+        }
+        PromotionActivityBO activity = itemGroup.getActivity();
+        Assert.isTrue(PromotionActivityTypeEnum.FULL_PRIVILEGE.getValue().equals(activity.getActivityType()),
+                "传入的必须的满减送活动必须是满减送");
+        // 获得优惠信息
+        Integer itemCnt = itemGroup.getItems().stream().mapToInt(item -> item.getSelected() ? item.getBuyQuantity() : 0).sum();
+        Integer originalTotal = itemGroup.getItems().stream().mapToInt(item -> item.getSelected() ? item.getFee().getPresentTotal() : 0).sum();
+        List<PromotionActivityBO.FullPrivilege.Privilege> privileges = activity.getFullPrivilege().getPrivileges().stream()
+                .filter(privilege -> {
+                    if (MeetTypeEnum.PRICE.getValue().equals(privilege.getMeetType())) {
+                        return originalTotal >= privilege.getMeetValue();
+                    }
+                    if (MeetTypeEnum.QUANTITY.getValue().equals(privilege.getMeetType())) {
+                        return itemCnt >= privilege.getMeetValue();
+                    }
+                    throw new IllegalArgumentException(String.format("满减送活动(%s) 的匹配(%s)不正确", itemGroup.getActivity().toString(), privilege.toString()));
+                }).collect(Collectors.toList());
+        // 获得不到优惠信息，返回原始价格
+        if (privileges.isEmpty()) {
+            return new CalcOrderPriceBO.Fee(originalTotal, 0, 0, originalTotal);
+        }
+        // 获得到优惠信息，进行价格计算
+        PromotionActivityBO.FullPrivilege.Privilege privilege = privileges.get(privileges.size() - 1);
+        Integer presentTotal;
+        if (PreferentialTypeEnum.PRICE.getValue().equals(privilege.getPreferentialType())) { // 减价
+            // 计算循环次数。这样，后续优惠的金额就是相乘了
+            Integer cycleCount = 1;
+            if (activity.getFullPrivilege().getCycled()) {
+                if (MeetTypeEnum.PRICE.getValue().equals(privilege.getMeetType())) {
+                    cycleCount = originalTotal / privilege.getMeetValue();
+                } else if (MeetTypeEnum.QUANTITY.getValue().equals(privilege.getMeetType())) {
+                    cycleCount = itemCnt / privilege.getMeetValue();
+                }
+            }
+            presentTotal = originalTotal - cycleCount * privilege.getMeetValue();
+            if (presentTotal < 0) { // 如果计算优惠价格小于 0 ，则说明无法使用优惠。
+                presentTotal = originalTotal;
+            }
+        } else if (PreferentialTypeEnum.DISCOUNT.getValue().equals(privilege.getPreferentialType())) { // 打折
+            presentTotal = originalTotal * privilege.getPreferentialValue() / 100;
+        } else {
+            throw new IllegalArgumentException(String.format("满减送促销(%s) 的优惠类型不正确", activity.toString()));
+        }
+        return new CalcOrderPriceBO.Fee(originalTotal, originalTotal - presentTotal, 0, presentTotal);
     }
 
     private PromotionActivityBO findPromotionActivityByType(List<PromotionActivityBO> activityList, PromotionActivityTypeEnum type) {
         return activityList.stream()
                 .filter(activity -> type.getValue().equals(activity.getActivityType()))
                 .findFirst().orElse(null);
+    }
+
+    private List<PromotionActivityBO> findPromotionActivityListByType(List<PromotionActivityBO> activityList, PromotionActivityTypeEnum type) {
+        return activityList.stream()
+                .filter(activity -> type.getValue().equals(activity.getActivityType()))
+                .collect(Collectors.toList());
+    }
+
+    private boolean isSpuMatchFullPrivilege(Integer spuId, PromotionActivityBO activity) {
+        Assert.isTrue(PromotionActivityTypeEnum.FULL_PRIVILEGE.getValue().equals(activity.getActivityType()),
+                "传入的必须的促销活动必须是满减送");
+        PromotionActivityBO.FullPrivilege fullPrivilege = activity.getFullPrivilege();
+        if (RangeTypeEnum.ALL.getValue().equals(fullPrivilege.getRangeType())) {
+            return true;
+        } else if (RangeTypeEnum.PRODUCT_INCLUDE_PART.getValue().equals(fullPrivilege.getRangeType())) {
+            return fullPrivilege.getRangeValues().contains(spuId);
+        } else {
+            throw new IllegalArgumentException(String.format("促销活动(%s) 可用范围的类型是不正确", activity.toString()));
+        }
     }
 
 }

@@ -14,20 +14,19 @@
 <!--          <van-checkbox :name="item.id" />-->
 
 <!--          <product-card :product='item' :iscard='false' >-->
-<!--            <template slot>-->
-<!--              <van-cell value="修改" >-->
-<!--                  <template slot="title">-->
-<!--                      <van-tag type="danger">促销</van-tag>-->
-<!--                      <span class="van-cell-text" >满60元减5元</span>-->
-<!--                  </template>-->
-<!--              </van-cell>-->
-<!--            </template>-->
+
 <!--          </product-card>-->
 <!--        </div>-->
 
           <div v-for="(itemGroup, i) in itemGroups" class="card-goods__item">
+              <van-cell >
+                  <template v-if="itemGroup.activity" slot="title">
+                      <van-tag type="danger">满减送</van-tag>
+                      <span class="van-cell-text" >  {{ formatFullPrivilegeText(itemGroup.activity) }} </span>
+                  </template>
+              </van-cell>
               <div class="card" v-for="(item, j) in itemGroup.items" :key="j">
-                  <van-checkbox :key="item.id" :name="item.id" v-model="item.selected" style="position: relative;" />
+                  <van-checkbox :key="item.id" :name="item.id" v-model="item.selected" style="position: relative;top: 40px;" />
                   <product-card :product='convertProduct(item)'/>
               </div>
               <div style="height:15px;"></div>
@@ -47,13 +46,14 @@
 
     <div style="height:50px;"></div>
     <van-submit-bar
+      :tip="this.formatItemGroupDiscountPriceText()"
       :price="fee.presentTotal"
       :disabled="!checkedItemIds || !checkedItemIds.length"
       :button-text="submitBarText"
       @submit="onSubmit"
     >
     <template slot>
-      <van-checkbox v-model="checkedAll" @change="onSelectAll">全选</van-checkbox>
+      <van-checkbox v-model="checkedAll" @click="onSelectAll">全选</van-checkbox>
     </template>
     </van-submit-bar>
   </div>
@@ -87,6 +87,39 @@ export default {
     },
   },
   methods: {
+    formatFullPrivilegeText(activity) {
+      let text = '';
+      let fullPrivilege = activity.fullPrivilege;
+      for (let i in fullPrivilege.privileges) {
+        let privilege = fullPrivilege.privileges[i];
+        if (i > 0) {
+          text += ';';
+        }
+        if (fullPrivilege.cycled) {
+          text += '每';
+        }
+        if (privilege.meetType === 1) {
+          text += '满 ' + privilege.meetValue / 100.0 + ' 元,';
+        } else if (privilege.meetType === 2) {
+          text += '满 ' + privilege.meetValue + ' 件,';
+        }
+        if (privilege.preferentialType === 1) {
+          text += '减 ' + privilege.preferentialValue / 100.0 + ' 元';
+        } else if (privilege.preferentialType === 2) {
+          text += '打 ' + privilege.preferentialValue / 10.0 + ' 折';
+        }
+      }
+      return text;
+    },
+    formatItemGroupDiscountPriceText() {
+      let price = 0;
+      for (let i in this.itemGroups) {
+        let itemGroup = this.itemGroups[i];
+        price += itemGroup.fee.discountTotal;
+      }
+      return price > 0 ? '立减 ' + price / 100.0 + ' 元' : '';
+    },
+
     calCheckedItemIds() {
       // debugger;
       let itemIds = [];
@@ -122,11 +155,10 @@ export default {
       // 计算 checkedItemIds + checkedAll
       this.calCheckedItemIds();
     },
-    onItemSelectedChange(newVal) {
+    onItemSelectedChange(newVal) { // TODO 芋艿，后续研究下。这样的处理方式，很奇怪。
       if (!this.checkedItemIds) {
         return;
       }
-      // debugger;
       let selected;
       let diffItemIds;
       if (newVal.length > this.oldCheckedItemIds.length) { // 新增
@@ -152,9 +184,17 @@ export default {
       if (this.checkedAll === undefined) {
         return;
       }
-      updateCartSelected(this.getItemIds(), newVal).then(data => {
-        this.handleData(data);
-      })
+      // debugger;
+      // updateCartSelected(this.getItemIds(), newVal).then(data => {
+      //   this.handleData(data);
+      // })
+      if (newVal) {
+        this.onItemSelectedChange(this.getItemIds());
+      } else {
+        // alert('有 bug ，后续修复');
+        // this.onItemSelectedChange(this.getItemIds());
+        // TODO 芋艿，暂时有 bug 。后续修复
+      }
     },
     onSubmit() {
       this.$router.push('/order?from=cart')
@@ -164,7 +204,7 @@ export default {
       return {
         ...item.spu,
         quantity: item.buyQuantity,
-        price: item.price,
+        price: item.discountPrice || item.price,
         sku: {
           ...item,
           spu: undefined,

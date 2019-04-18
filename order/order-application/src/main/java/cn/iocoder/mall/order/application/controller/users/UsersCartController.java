@@ -11,6 +11,8 @@ import cn.iocoder.mall.order.application.convert.CartConvert;
 import cn.iocoder.mall.order.application.vo.UsersCalcSkuPriceVO;
 import cn.iocoder.mall.order.application.vo.UsersCartDetailVO;
 import cn.iocoder.mall.order.application.vo.UsersOrderConfirmCreateVO;
+import cn.iocoder.mall.promotion.api.CouponService;
+import cn.iocoder.mall.promotion.api.bo.CouponCardAvailableBO;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,8 @@ public class UsersCartController {
     private CartService cartService;
     @Reference(validation = "true")
     private OrderService orderService;
+    @Reference(validation = "true")
+    private CouponService couponService;
 
     @PostMapping("add")
     public CommonResult<Integer> add(@RequestParam("skuId") Integer skuId,
@@ -102,8 +106,9 @@ public class UsersCartController {
 
     @GetMapping("/confirm_create_order")
     public CommonResult<UsersOrderConfirmCreateVO> getConfirmCreateOrder() {
+        Integer userId = UserSecurityContextHolder.getContext().getUserId();
         // 获得购物车中选中的
-        List<CartItemBO> cartItems = cartService.list(UserSecurityContextHolder.getContext().getUserId(), true).getData();
+        List<CartItemBO> cartItems = cartService.list(userId, true).getData();
         // 购物车为空时，构造空的 UsersOrderConfirmCreateVO 返回
         if (cartItems.isEmpty()) {
             UsersOrderConfirmCreateVO result = new UsersOrderConfirmCreateVO();
@@ -116,8 +121,13 @@ public class UsersCartController {
         if (calcOrderPriceResult.isError()) {
             return CommonResult.error(calcOrderPriceResult);
         }
+        // 获得优惠劵
+        CalcOrderPriceBO calcOrderPrice = calcOrderPriceResult.getData();
+        List<CouponCardAvailableBO> couponCards = couponService.getCouponCardList(userId,
+                CartConvert.INSTANCE.convertList(calcOrderPrice.getItemGroups())).getData();
         // 执行数据拼装
-        return CommonResult.success(CartConvert.INSTANCE.convert(calcOrderPriceResult.getData()));
+        return CommonResult.success(CartConvert.INSTANCE.convert(calcOrderPrice)
+                .setCouponCards(couponCards));
     }
 
     private CommonResult<CalcOrderPriceBO> list0(List<CartItemBO> cartItems) {

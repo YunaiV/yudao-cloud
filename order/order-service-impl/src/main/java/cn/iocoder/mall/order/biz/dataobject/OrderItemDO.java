@@ -49,17 +49,61 @@ public class OrderItemDO extends DeletableDO {
      */
     private Integer quantity;
     /**
-     * 价格(分)
+     * 商品成交单价(分)
      */
+    @Deprecated
     private Integer price;
     /**
      * 支付金额（实付金额）
      */
+    @Deprecated
     private Integer payAmount;
     /**
      * 物流金额 (分)
      */
+    @Deprecated
     private Integer logisticsPrice;
+
+    /**
+     * 原始单价，单位：分。
+     */
+    private Integer originPrice;
+    /**
+     * 购买单价，单位：分
+     */
+    private Integer buyPrice;
+    /**
+     * 最终价格，单位：分。
+     */
+    private Integer presentPrice;
+    /**
+     * 购买总金额，单位：分
+     *
+     * 用途类似 {@link #presentTotal}
+     */
+    private Integer buyTotal;
+    /**
+     * 优惠总金额，单位：分。
+     */
+    private Integer discountTotal;
+    /**
+     * 最终总金额，单位：分。
+     *
+     * 注意，presentPrice * quantity 不一定等于 presentTotal 。
+     * 因为，存在无法整除的情况。
+     * 举个例子，presentPrice = 8.33 ，quantity = 3 的情况，presentTotal 有可能是 24.99 ，也可能是 25 。
+     * 所以，需要存储一个该字段。
+     */
+    private Integer presentTotal;
+    // 如上字段，举个例子：
+    // 假设购买三个，即 quantity = 3 。
+    // originPrice = 15
+    // 使用限时折扣（单品优惠）8 折，buyPrice = 12
+    // 开始算总的价格
+    // buyTotal = buyPrice * quantity = 12 * 3 = 36
+    // discountTotal ，假设有满减送（分组优惠）满 20 减 10 ，并且使用优惠劵满 1.01 减 1 ，则 discountTotal = 10 + 1 = 11
+    // presentTotal = buyTotal - discountTotal = 24 - 11 = 13
+    // 最终 presentPrice = presentTotal / quantity = 13 / 3 = 4.33
 
     ///
     /// 时间信息

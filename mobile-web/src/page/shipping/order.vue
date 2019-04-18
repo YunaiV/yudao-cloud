@@ -43,21 +43,36 @@
       />
     </van-cell-group>
     <div style="height:15px;"></div>
-    <van-cell-group class="total">
-      <van-cell title="优惠券" is-link value="抵扣¥5.00"/>
-    </van-cell-group>
+
+
+      <!-- 优惠券单元格 -->
+      <van-coupon-cell
+              :coupons="coupons"
+              :chosen-coupon="chosenCoupon"
+              @click="showCouponPopup = true"
+      />
+      <!-- 优惠券列表 -->
+      <van-popup v-model="showCouponPopup" position="bottom">
+          <van-coupon-list
+                  :coupons="coupons"
+                  :chosen-coupon="chosenCoupon"
+                  :disabled-coupons="disabledCoupons"
+                  @change="onCouponChange"
+                  @exchange="onCouponExchange"
+          />
+      </van-popup>
 
     <div style="height:15px;"></div>
     <van-cell-group class="total">
-      <van-cell title="商品总额" :value="fee.originalTotal"/>
-      <van-cell title="运费" :value="+ fee.postageTotal"/>
-      <van-cell title="折扣" :value="- fee.discountTotal"/>
-      <van-cell title="实付金额" :value="fee.presentTotal" style="font-weight: 700;"/>
+      <van-cell title="商品总额" :value="fee.buyTotal / 100.0"/>
+      <van-cell title="运费" :value="+ fee.postageTotal / 100.0"/>
+      <van-cell title="折扣" :value="- fee.discountTotal / 100.0"/>
+      <van-cell title="实付金额" :value="fee.presentTotal / 100.0" style="font-weight: 700;"/>
     </van-cell-group>
 
     <div style="height:50px;"></div>
     <van-submit-bar
-      :price="3050"
+      :price="fee.presentTotal"
       button-text="提交订单"
       label='实付金额：'
       @submit="onSubmit"
@@ -75,7 +90,8 @@
     createOrderFromCart
   } from '../../api/order';
   import {GetDefaultAddress} from '../../api/user';
-  import orderStore from '../../store/order'
+  import orderStore from '../../store/order';
+  import { Dialog } from 'vant';
 
   export default {
     data() {
@@ -89,6 +105,8 @@
         addressData: {
 
         },
+
+        // 商品 + 促销相关
         itemGroups: [],
         fee: {
           originalTotal: undefined,
@@ -96,12 +114,36 @@
           postageTotal: undefined,
           presentTotal: undefined,
         },
-        products: [],
+        // products: [], // 应该没用了
+
+        // 优惠劵相关
+        showCouponPopup: false,
+        coupons: [],
+        disabledCoupons: [],
+        chosenCoupon: -1,
       };
     },
     methods: {
+      onCouponChange(a, b, c) {
+        debugger;
+      },
+      onCouponExchange(a, b, c) {
+        Dialog.alert({
+          title: '系统提示',
+          message: '暂未开发', // TODO 芋艿
+        });
+      },
+
       onSubmit() {
         const userAddressId = this.addressData.id;
+        if (!userAddressId) {
+          Dialog.alert({
+            title: '系统提示',
+            message: '请选择收获地址',
+          });
+          return;
+        }
+
         const remark = '';
 
         if (this.from === 'direct_order') {
@@ -116,7 +158,7 @@
               remark,
             }).then(result => {
               if (result) {
-                const { orderNo } = result;
+                // const { orderNo } = result;
                 this.$router.push({  //核心语句
                   path:`/order/success`,   //跳转的路径
                   query:{           //路由传参时push和query搭配使用 ，作用时传递参数
@@ -128,7 +170,7 @@
         } else if (this.from === 'cart') {
           createOrderFromCart(userAddressId, remark).then(result => {
             if (result) {
-              const { orderNo } = result;
+              // const { orderNo } = result;
               this.$router.push({  //核心语句
                 path:`/order/success`,   //跳转的路径
                 query:{           //路由传参时push和query搭配使用 ，作用时传递参数
@@ -140,16 +182,34 @@
         }
       },
       convertProduct(item) {
-        // debugger;
         return {
           ...item.spu,
           quantity: item.buyQuantity,
-          price: item.price,
+          price: item.buyPrice || item.price,
           sku: {
             ...item,
             spu: undefined,
           }
         };
+      },
+      convertCouponList(cards) {
+        let newCards = [];
+        for (let i in cards) {
+          let card = cards[i];
+          newCards.push({
+            id: card.id,
+            name: card.title,
+            condition: '满 ' + card.priceAvailable / 100.0 + ' 元可用',
+            startAt: card.validStartTime / 1000,
+            endAt: card.validEndTime / 1000,
+            // description: '述信息，优惠券可用时展示',
+            reason: card.unavailableReason,
+            value:	card.preferentialType === 1 ? card.priceOff : card.percentOff,
+            valueDesc: card.preferentialType === 1 ? card.priceOff / 100 : card.percentOff / 10.0,
+            unitDesc: card.preferentialType === 1 ? '元' : '折'
+          })
+        }
+        return newCards;
       }
     },
     mounted: function() {
@@ -166,11 +226,19 @@
         getOrderConfirmCreateOrder(this.skuId, this.quantity).then(data => {
           this.itemGroups = data.itemGroups;
           this.fee = data.fee;
+          // 获得优惠劵列表
         })
       } else if (this.from === 'cart') {
         getCartConfirmCreateOrder().then(data => {
           this.itemGroups = data.itemGroups;
           this.fee = data.fee;
+          // 获得优惠劵列表
+          this.coupons = this.convertCouponList(data.couponCards.filter(function (element) {
+            return element.available;
+          }));
+          this.disabledCoupons = this.convertCouponList(data.couponCards.filter(function (element) {
+            return !element.available;
+          }));
         })
       }
     },

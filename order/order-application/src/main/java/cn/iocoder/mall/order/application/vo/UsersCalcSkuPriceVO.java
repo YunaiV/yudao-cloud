@@ -29,6 +29,6 @@ public class UsersCalcSkuPriceVO {
     /**
      * 最终价格，单位：分。
      */
-    private Integer presentPrice;
+    private Integer buyPrice;
 
 }

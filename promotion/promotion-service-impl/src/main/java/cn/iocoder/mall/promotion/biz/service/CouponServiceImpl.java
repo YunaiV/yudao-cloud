@@ -3,12 +3,10 @@ package cn.iocoder.mall.promotion.biz.service;
 import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
 import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.util.StringUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.promotion.api.CouponService;
-import cn.iocoder.mall.promotion.api.bo.CouponCardBO;
-import cn.iocoder.mall.promotion.api.bo.CouponCardPageBO;
-import cn.iocoder.mall.promotion.api.bo.CouponTemplateBO;
-import cn.iocoder.mall.promotion.api.bo.CouponTemplatePageBO;
+import cn.iocoder.mall.promotion.api.bo.*;
 import cn.iocoder.mall.promotion.api.constant.*;
 import cn.iocoder.mall.promotion.api.dto.*;
 import cn.iocoder.mall.promotion.biz.convert.CouponCardConvert;
@@ -22,8 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service // 实际上不用添加。添加的原因是，必须 Spring 报错提示
 @com.alibaba.dubbo.config.annotation.Service(validation = "true")
@@ -252,6 +250,23 @@ public class CouponServiceImpl implements CouponService {
         return null;
     }
 
+    @Override
+    public CommonResult<List<CouponCardAvailableBO>> getCouponCardList(Integer userId, List<CouponCardSpuDTO> spus) {
+        // 查询用户未使用的优惠劵列表
+        List<CouponCardDO> cards = couponCardMapper.selectListByUserIdAndStatus(userId, CouponCardStatusEnum.UNUSED.getValue());
+        Map<Integer, CouponTemplateDO> templates = couponTemplateMapper.selectListByIds(cards.stream().map(CouponCardDO::getTemplateId).collect(Collectors.toSet()))
+                .stream().collect(Collectors.toMap(CouponTemplateDO::getId, template -> template));
+        // 逐个判断是否可用
+        List<CouponCardAvailableBO> availableCards = cards.stream().map(card -> {
+            CouponCardAvailableBO availableCard = CouponCardConvert.INSTANCE.convert2(card, true);
+            availableCard.setUnavailableReason(isMatch(card, templates.get(card.getTemplateId()), spus));
+            availableCard.setAvailable(availableCard.getUnavailableReason() == null);
+            return availableCard;
+        }).collect(Collectors.toList());
+        // 返回结果
+        return CommonResult.success(availableCards);
+    }
+
     private void setCouponCardValidTime(CouponCardDO card, CouponTemplateDO template) {
         if (CouponTemplateDateTypeEnum.FIXED_DATE.getValue().equals(template.getDateType())) {
             card.setValidStartTime(template.getValidStartTime()).setValidEndTime(template.getValidEndTime());
@@ -261,6 +276,35 @@ public class CouponServiceImpl implements CouponService {
             Date validEndTime = DateUtil.getDayEnd(card.getValidStartTime());
             card.setValidEndTime(DateUtil.addDate(validEndTime, Calendar.DAY_OF_YEAR, template.getFixedEndTerm() - 1));
         }
+    }
+
+    // 如果匹配，则返回 null 即可。
+    private String isMatch(CouponCardDO card, CouponTemplateDO template, List<CouponCardSpuDTO> spus) {
+        int totalPrice = 0;
+        if (RangeTypeEnum.ALL.getValue().equals(template.getRangeType())) {
+            totalPrice = spus.stream().mapToInt(spu -> spu.getPrice() * spu.getQuantity()).sum();
+        } else if (RangeTypeEnum.PRODUCT_INCLUDE_PART.getValue().equals(template.getRangeType())) {
+            List<Integer> spuIds = StringUtil.splitToInt(template.getRangeValues(), ",");
+            totalPrice = spus.stream().mapToInt(spu -> spuIds.contains(spu.getSpuId()) ? spu.getPrice() * spu.getQuantity() : 0).sum();
+        } else if (RangeTypeEnum.PRODUCT_EXCLUDE_PART.getValue().equals(template.getRangeType())) {
+            List<Integer> spuIds = StringUtil.splitToInt(template.getRangeValues(), ",");
+            totalPrice = spus.stream().mapToInt(spu -> !spuIds.contains(spu.getSpuId()) ? spu.getPrice() * spu.getQuantity() : 0).sum();
+        } else if (RangeTypeEnum.CATEGORY_INCLUDE_PART.getValue().equals(template.getRangeType())) {
+            List<Integer> spuIds = StringUtil.splitToInt(template.getRangeValues(), ",");
+            totalPrice = spus.stream().mapToInt(spu -> spuIds.contains(spu.getCategoryId()) ? spu.getPrice() * spu.getQuantity() : 0).sum();
+        } else if (RangeTypeEnum.CATEGORY_EXCLUDE_PART.getValue().equals(template.getRangeType())) {
+            List<Integer> spuIds = StringUtil.splitToInt(template.getRangeValues(), ",");
+            totalPrice = spus.stream().mapToInt(spu -> !spuIds.contains(spu.getCategoryId()) ? spu.getPrice() * spu.getQuantity() : 0).sum();
+        }
+        // 总价为 0 时，说明优惠劵丫根不匹配
+        if (totalPrice == 0) {
+            return "优惠劵不匹配";
+        }
+        // 如果不满足金额
+        if (totalPrice < card.getPriceAvailable()) {
+            return String.format("差 %1$,.2f 元可用优惠劵", (card.getPriceAvailable() - totalPrice) / 100D);
+        }
+        return null;
     }
 
     // ========== 优惠码 ==========

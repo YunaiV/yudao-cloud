@@ -212,6 +212,8 @@ public class OrderServiceImpl implements OrderService {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_GOODS_INFO_INCORRECT.getCode());
         }
 
+        //
+
         // 设置 orderItem
 
         Map<Integer, ProductSkuDetailBO> productSpuBOMap = productResult.getData()
@@ -293,7 +295,7 @@ public class OrderServiceImpl implements OrderService {
                     .setDeleted(DeletedStatusEnum.DELETED_NO.getValue())
                     .setCreateTime(new Date())
                     .setUpdateTime(null);
-            orderItemMapper.insert(orderItemDO);
+            orderItemMapper.insert(orderItemDO); // TODO 芋艿，需要改成一次性插入
         });
 
         // 创建预订单

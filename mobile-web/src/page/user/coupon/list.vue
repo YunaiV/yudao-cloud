@@ -33,7 +33,7 @@
                                             <span class="amountSign">折</span>
                                         </div>
                                         <div class="condition">
-                                            <span>满 {{item.priceAvailable}} 元可用</span>
+                                            <span>满 {{item.priceAvailable / 100.0}} 元可用</span>
                                         </div>
                                     </div>
                                 </div>

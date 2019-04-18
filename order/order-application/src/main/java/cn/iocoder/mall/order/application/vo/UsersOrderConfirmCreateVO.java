@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.application.vo;
 
 import cn.iocoder.mall.product.api.bo.ProductAttrAndValuePairBO;
+import cn.iocoder.mall.promotion.api.bo.CouponCardAvailableBO;
 import cn.iocoder.mall.promotion.api.bo.PromotionActivityBO;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -19,6 +20,10 @@ public class UsersOrderConfirmCreateVO {
      * 费用
      */
     private Fee fee;
+    /**
+     * 优惠劵列表 TODO 芋艿，后续改改
+     */
+    private List<CouponCardAvailableBO> couponCards;
 
     /**
      * 商品分组
@@ -79,9 +84,36 @@ public class UsersOrderConfirmCreateVO {
          */
         private Integer buyQuantity;
         /**
-         * 折扣价
+         * 原始单价，单位：分。
          */
-        private Integer discountPrice;
+        private Integer originPrice;
+        /**
+         * 购买单价，单位：分
+         */
+        private Integer buyPrice;
+        /**
+         * 最终价格，单位：分。
+         */
+        private Integer presentPrice;
+        /**
+         * 购买总金额，单位：分
+         *
+         * 用途类似 {@link #presentTotal}
+         */
+        private Integer buyTotal;
+        /**
+         * 优惠总金额，单位：分。
+         */
+        private Integer discountTotal;
+        /**
+         * 最终总金额，单位：分。
+         *
+         * 注意，presentPrice * quantity 不一定等于 presentTotal 。
+         * 因为，存在无法整除的情况。
+         * 举个例子，presentPrice = 8.33 ，quantity = 3 的情况，presentTotal 有可能是 24.99 ，也可能是 25 。
+         * 所以，需要存储一个该字段。
+         */
+        private Integer presentTotal;
 
     }
 
@@ -122,9 +154,9 @@ public class UsersOrderConfirmCreateVO {
     public static class Fee {
 
         /**
-         * 总价
+         * 购买总价
          */
-        private Integer originalTotal;
+        private Integer buyTotal;
         /**
          * 优惠总价
          *
@@ -145,8 +177,8 @@ public class UsersOrderConfirmCreateVO {
         public Fee() {
         }
 
-        public Fee(Integer originalTotal, Integer discountTotal, Integer postageTotal, Integer presentTotal) {
-            this.originalTotal = originalTotal;
+        public Fee(Integer buyTotal, Integer discountTotal, Integer postageTotal, Integer presentTotal) {
+            this.buyTotal = buyTotal;
             this.discountTotal = discountTotal;
             this.postageTotal = postageTotal;
             this.presentTotal = presentTotal;

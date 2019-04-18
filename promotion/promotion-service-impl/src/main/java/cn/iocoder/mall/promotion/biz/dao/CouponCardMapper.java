@@ -11,6 +11,9 @@ public interface CouponCardMapper {
 
     CouponCardDO selectById(@Param("id") Integer id);
 
+    List<CouponCardDO> selectListByUserIdAndStatus(@Param("userId") Integer userId,
+                                                   @Param("status") Integer status);
+
     List<CouponCardDO> selectListByPage(@Param("userId") Integer userId,
                                         @Param("status") Integer status,
                                         @Param("offset") Integer offset,

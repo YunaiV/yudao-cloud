@@ -34,6 +34,16 @@
         WHERE id = #{id}
     </select>
 
+    <select id="selectListByIds" resultType="CouponTemplateDO">
+        SELECT
+            <include refid="FIELDS"/>
+        FROM coupon_template
+        WHERE id IN
+        <foreach item="id" collection="ids" separator="," open="(" close=")" index="">
+            #{id}
+        </foreach>
+    </select>
+
     <select id="selectListByPage" resultType="CouponTemplateDO">
         SELECT
           <include refid="FIELDS" />

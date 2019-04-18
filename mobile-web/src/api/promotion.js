@@ -16,7 +16,6 @@ export function getProductRecommendList() {
     url: '/promotion-api/users/product_recommend/list',
     method: 'get',
     params: {
-      id,
     }
   });
 }

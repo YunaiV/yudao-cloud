@@ -1,5 +1,6 @@
 package cn.iocoder.mall.promotion.biz.convert;
 
+import cn.iocoder.mall.promotion.api.bo.CouponCardAvailableBO;
 import cn.iocoder.mall.promotion.api.bo.CouponCardBO;
 import cn.iocoder.mall.promotion.biz.dataobject.CouponCardDO;
 import org.mapstruct.Mapper;
@@ -21,5 +22,8 @@ public interface CouponCardConvert {
 
     @Mappings({})
     CouponCardBO convert(CouponCardDO card);
+
+    @Mappings({})
+    CouponCardAvailableBO convert2(CouponCardDO card,  boolean x); // TODO 芋艿，临时用来解决 mapstruct 无法正确匹配方法的问题
 
 }

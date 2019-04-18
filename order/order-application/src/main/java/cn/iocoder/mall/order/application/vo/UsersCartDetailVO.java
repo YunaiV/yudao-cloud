@@ -36,25 +36,16 @@ public class UsersCartDetailVO {
          */
         private PromotionActivityBO activity; // TODO 芋艿，偷懒
         /**
-         * 优惠活动是否生效
+         * 促销减少的金额
          *
-         * 多个商品，参与某个活动，因为并发达到条件，所以会存在未生效的情况。所以一共有三种情况
-         *
-         * 1. activity 非空，activityEffectEffective 为 true，参与活动，且生效
-         * 2. activity 非空，activityEffectEffective 为 false ，参与活动，并未生效
-         * 3. activity 为空，activityEffectEffective 为空，并未参与活动。
+         * 1. 若未参与促销活动，或不满足促销条件，返回 null
+         * 2. 该金额，已经分摊到每个 Item 的 discountTotal ，需要注意。
          */
-        private Boolean activityEffectEffective;
+        private Integer activityDiscountTotal;
         /**
          * 商品数组
          */
         private List<Sku> items;
-        /**
-         * 费用
-         *
-         * TODO 芋艿，这里先偷懒，postageTotal 字段用不到。
-         */
-        private Fee fee;
 
     }
 
@@ -103,15 +94,36 @@ public class UsersCartDetailVO {
          */
         private PromotionActivityBO activity;
         /**
-         * 折扣价
+         * 原始单价，单位：分。
          */
-        private Integer discountPrice;
+        private Integer originPrice;
         /**
-         * 费用
-         *
-         * TODO 芋艿，这里先偷懒，postageTotal 字段用不到。
+         * 购买单价，单位：分
          */
-        private Fee fee;
+        private Integer buyPrice;
+        /**
+         * 最终价格，单位：分。
+         */
+        private Integer presentPrice;
+        /**
+         * 购买总金额，单位：分
+         *
+         * 用途类似 {@link #presentTotal}
+         */
+        private Integer buyTotal;
+        /**
+         * 优惠总金额，单位：分。
+         */
+        private Integer discountTotal;
+        /**
+         * 最终总金额，单位：分。
+         *
+         * 注意，presentPrice * quantity 不一定等于 presentTotal 。
+         * 因为，存在无法整除的情况。
+         * 举个例子，presentPrice = 8.33 ，quantity = 3 的情况，presentTotal 有可能是 24.99 ，也可能是 25 。
+         * 所以，需要存储一个该字段。
+         */
+        private Integer presentTotal;
 
     }
 
@@ -152,9 +164,9 @@ public class UsersCartDetailVO {
     public static class Fee {
 
         /**
-         * 总价
+         * 购买总价
          */
-        private Integer originalTotal;
+        private Integer buyTotal;
         /**
          * 优惠总价
          *
@@ -175,8 +187,8 @@ public class UsersCartDetailVO {
         public Fee() {
         }
 
-        public Fee(Integer originalTotal, Integer discountTotal, Integer postageTotal, Integer presentTotal) {
-            this.originalTotal = originalTotal;
+        public Fee(Integer buyTotal, Integer discountTotal, Integer postageTotal, Integer presentTotal) {
+            this.buyTotal = buyTotal;
             this.discountTotal = discountTotal;
             this.postageTotal = postageTotal;
             this.presentTotal = presentTotal;

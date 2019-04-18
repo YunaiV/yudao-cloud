@@ -24,8 +24,8 @@ public class CalcSkuPriceBO {
      */
     private Integer originalPrice;
     /**
-     * 最终价格，单位：分。
+     * 购买价格，单位：分。
      */
-    private Integer presentPrice;
+    private Integer buyPrice;
 
 }

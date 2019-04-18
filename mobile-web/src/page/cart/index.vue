@@ -133,13 +133,14 @@ export default {
       }
       return text;
     },
+
     formatItemGroupDiscountPriceText() {
-      let price = 0;
-      for (let i in this.itemGroups) {
-        let itemGroup = this.itemGroups[i];
-        price += itemGroup.fee.discountTotal;
-      }
-      return price > 0 ? '立减 ' + price / 100.0 + ' 元' : '';
+      // let price = 0;
+      // for (let i in this.itemGroups) {
+      //   let itemGroup = this.itemGroups[i];
+      //   price += itemGroup.activityDiscountTotal || 0;
+      // }
+      return this.fee.discountTotal > 0 ? '立减 ' + this.fee.discountTotal / 100.0 + ' 元' : '';
     },
 
     calCheckedItemIds() {
@@ -226,7 +227,7 @@ export default {
       return {
         ...item.spu,
         quantity: item.buyQuantity,
-        price: item.discountPrice || item.price,
+        price: item.buyPrice || item.price,
         sku: {
           ...item,
           spu: undefined,

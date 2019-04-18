@@ -33,6 +33,20 @@
         WHERE id = #{id}
     </select>
 
+    <select id="selectListByUserIdAndStatus" resultType="CouponCardDO">
+        SELECT
+            <include refid="FIELDS" />
+        FROM coupon_card
+        <where>
+            <if test="userId != null">
+                AND user_id = #{userId}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+
     <select id="selectListByPage" resultType="CouponCardDO">
         SELECT
           <include refid="FIELDS" />

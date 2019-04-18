@@ -9,8 +9,8 @@
       <!-- TODO 这里需要优化下，芋艿 -->
       <van-cell-group>
           <van-cell>
-            <div v-if="calSkuPriceResult.originalPrice && calSkuPriceResult.originalPrice !== calSkuPriceResult.presentPrice">
-                <span class="goods-price">{{ formatPrice(calSkuPriceResult.presentPrice) }}</span>
+            <div v-if="calSkuPriceResult.originalPrice && calSkuPriceResult.originalPrice !== calSkuPriceResult.buyPrice">
+                <span class="goods-price">{{ formatPrice(calSkuPriceResult.buyPrice) }}</span>
                 <span class="goods-market-price">{{ formatPrice(calSkuPriceResult.originalPrice) }}</span>
             </div>
             <div v-else>
@@ -283,7 +283,7 @@
           for (let i in this.vanSku.list) {
             let sku = this.vanSku.list[i];
             if (sku.id === skuId) {
-              sku.price = data.presentPrice;
+              sku.price = data.buyPrice;
               break;
             }
           }

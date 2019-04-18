@@ -4,12 +4,15 @@ import cn.iocoder.mall.promotion.biz.dataobject.CouponTemplateDO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 @Repository
 public interface CouponTemplateMapper {
 
     CouponTemplateDO selectById(@Param("id") Integer id);
+
+    List<CouponTemplateDO> selectListByIds(@Param("ids") Collection<Integer> ids);
 
     List<CouponTemplateDO> selectListByPage(@Param("type") Integer type,
                                             @Param("title") String title,

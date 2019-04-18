@@ -20,6 +20,8 @@ public class CalcOrderPriceBO {
     private List<ItemGroup> itemGroups;
     /**
      * 邮费信息
+     *
+     * TODO 芋艿，暂时未弄
      */
     private Postage postage;
     /**
@@ -42,25 +44,22 @@ public class CalcOrderPriceBO {
         // TODO 芋艿，目前只会有【满减送】的情况，未来有新的促销方式，可能需要改成数组
         private PromotionActivityBO activity;
         /**
-         * 优惠活动是否生效
+         * 促销减少的金额
          *
-         * 多个商品，参与某个活动，因为并发达到条件，所以会存在未生效的情况。所以一共有三种情况
-         *
-         * 1. activity 非空，activityEffectEffective 为 true，参与活动，且生效
-         * 2. activity 非空，activityEffectEffective 为 false ，参与活动，并未生效
-         * 3. activity 为空，activityEffectEffective 为空，并未参与活动。
+         * 1. 若未参与促销活动，或不满足促销条件，返回 null
+         * 2. 该金额，已经分摊到每个 Item 的 discountTotal ，需要注意。
          */
-        private Boolean activityEffectEffective;
+        private Integer activityDiscountTotal;
         /**
          * 商品数组
          */
         private List<Item> items;
-        /**
-         * 费用
-         *
-         * TODO 芋艿，这里先偷懒，postageTotal 字段用不到。
-         */
-        private Fee fee;
+//        /**
+//         * 费用
+//         *
+//         * TODO 芋艿，这里先偷懒，postageTotal 字段用不到。
+//         */
+//        private Fee fee; // 注释原因，不用这里了
 
     }
 
@@ -81,15 +80,36 @@ public class CalcOrderPriceBO {
          */
         private PromotionActivityBO activity;
         /**
-         * 费用
-         *
-         * TODO 芋艿，这里先偷懒，postageTotal 字段用不到。
+         * 原始单价，单位：分。
          */
-        private Fee fee;
+        private Integer originPrice;
         /**
-         * 折扣价
+         * 购买单价，单位：分
          */
-        private Integer discountPrice;
+        private Integer buyPrice;
+        /**
+         * 最终价格，单位：分。
+         */
+        private Integer presentPrice;
+        /**
+         * 购买总金额，单位：分
+         *
+         * 用途类似 {@link #presentTotal}
+         */
+        private Integer buyTotal;
+        /**
+         * 优惠总金额，单位：分。
+         */
+        private Integer discountTotal;
+        /**
+         * 最终总金额，单位：分。
+         *
+         * 注意，presentPrice * quantity 不一定等于 presentTotal 。
+         * 因为，存在无法整除的情况。
+         * 举个例子，presentPrice = 8.33 ，quantity = 3 的情况，presentTotal 有可能是 24.99 ，也可能是 25 。
+         * 所以，需要存储一个该字段。
+         */
+        private Integer presentTotal;
 
     }
 
@@ -101,9 +121,9 @@ public class CalcOrderPriceBO {
     public static class Fee {
 
         /**
-         * 总价
+         * 购买总价
          */
-        private Integer originalTotal;
+        private Integer buyTotal;
         /**
          * 优惠总价
          *
@@ -124,8 +144,8 @@ public class CalcOrderPriceBO {
         public Fee() {
         }
 
-        public Fee(Integer originalTotal, Integer discountTotal, Integer postageTotal, Integer presentTotal) {
-            this.originalTotal = originalTotal;
+        public Fee(Integer buyTotal, Integer discountTotal, Integer postageTotal, Integer presentTotal) {
+            this.buyTotal = buyTotal;
             this.discountTotal = discountTotal;
             this.postageTotal = postageTotal;
             this.presentTotal = presentTotal;

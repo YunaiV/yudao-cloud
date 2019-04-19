@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.PermitAll;
 import java.util.List;
 
 @RestController
@@ -27,6 +28,7 @@ public class UsersProductCategoryController {
     @GetMapping("/list")
     @ApiOperation("获得指定编号下的子分类的数组")
     @ApiImplicitParam(name = "pid", value = "指定分类编号", required = true, example = "0")
+    @PermitAll
     public CommonResult<List<UsersProductCategoryVO>> list(@RequestParam("pid") Integer pid) {
         List<ProductCategoryBO> result = productCategoryService.getListByPid(pid);
         return CommonResult.success(ProductCategoryConvert.Users.INSTANCE.convertToVO(result));

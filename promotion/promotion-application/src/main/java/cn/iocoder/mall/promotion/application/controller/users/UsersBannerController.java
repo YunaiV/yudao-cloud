@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.PermitAll;
 import java.util.Comparator;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class UsersBannerController {
 
     @GetMapping("/list")
     @ApiOperation("获得所有 Banner 列表")
+    @PermitAll
     public CommonResult<List<UsersBannerVO>> list() {
         // 查询 Banner 列表
         List<BannerBO> result = bannerService.getBannerListByStatus(CommonStatusEnum.ENABLE.getValue()).getData();
@@ -36,4 +38,3 @@ public class UsersBannerController {
     }
 
 }
-

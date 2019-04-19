@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.PermitAll;
+
 @RestController
 @RequestMapping("users/spu")
 @Api("商品 SPU + SKU")
@@ -28,6 +30,7 @@ public class UsersProductSpuController {
     @GetMapping("/info")
     @ApiOperation("商品 SPU 明细")
     @ApiImplicitParam(name = "id", value = "SPU 编号", required = true, example = "100")
+    @PermitAll
     public CommonResult<UsersProductSpuDetailVO> info(@RequestParam("id") Integer id) {
         return ProductSpuConvert.INSTANCE.convert4(productSpuService.getProductSpuDetail(id));
     }
@@ -39,6 +42,7 @@ public class UsersProductSpuController {
             @ApiImplicitParam(name = "pageNo", value = "页码，从 1 开始", example = "1"),
             @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, example = "10"),
     })
+    @PermitAll
     public CommonResult<UsersProductSpuPageVO> page(@RequestParam(value = "cid", required = false) Integer cid,
                                                     @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
                                                     @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {

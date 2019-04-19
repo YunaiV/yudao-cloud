@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.PermitAll;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -35,6 +36,7 @@ public class UsersProductRecommendController {
 
     @GetMapping("/list")
     @ApiOperation("获得所有 Banner 列表")
+    @PermitAll
     public CommonResult<Map<Integer, Collection<UsersProductRecommendVO>>> list() {
         // 查询商品推荐列表
         List<ProductRecommendBO> productRecommends = productRecommendService.getProductRecommendList(

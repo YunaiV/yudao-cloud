@@ -20,13 +20,14 @@
             payment_time, delivery_time, receiver_time, closing_time,
             has_return_exchange, delivery_type, status,
             create_time, update_time, deleted
-        ) VALUES (
-            #{orderId}, #{orderNo}, #{skuId}, #{skuName}, #{skuImage}, #{orderLogisticsId},
-            #{quantity}, #{price}, #{payAmount},
-            #{paymentTime}, #{deliveryTime}, #{receiverTime}, #{closingTime},
-            #{hasReturnExchange}, #{deliveryType}, #{status},
-            #{createTime}, #{updateTime}, #{deleted}
-        )
+        ) VALUES
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item.orderId}, #{item.orderNo}, #{item.skuId}, #{item.skuName}, #{item.skuImage}, #{item.orderLogisticsId},
+            #{item.quantity}, #{item.price}, #{item.payAmount},
+            #{item.paymentTime}, #{item.deliveryTime}, #{item.receiverTime}, #{item.closingTime},
+            #{item.hasReturnExchange}, #{item.deliveryType}, #{item.status},
+            #{item.createTime}, #{item.updateTime}, #{item.deleted}
+        </foreach>
     </insert>
 
     <!--

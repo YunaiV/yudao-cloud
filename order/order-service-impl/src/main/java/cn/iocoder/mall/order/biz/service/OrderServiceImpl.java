@@ -295,8 +295,10 @@ public class OrderServiceImpl implements OrderService {
                     .setDeleted(DeletedStatusEnum.DELETED_NO.getValue())
                     .setCreateTime(new Date())
                     .setUpdateTime(null);
-            orderItemMapper.insert(orderItemDO); // TODO 芋艿，需要改成一次性插入
         });
+
+        // 一次性插入
+        orderItemMapper.insert(orderItemDOList);
 
         // 创建预订单
         // TODO sin 支付订单 orderSubject 暂时取第一个子订单商品信息

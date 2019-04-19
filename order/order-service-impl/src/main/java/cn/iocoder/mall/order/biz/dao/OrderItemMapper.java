@@ -20,9 +20,9 @@ public interface OrderItemMapper {
     /**
      * 插入数据
      *
-     * @param orderItemDO
+     * @param orderItemDOList
      */
-    void insert(OrderItemDO orderItemDO);
+    void insert(@Param("list") List<OrderItemDO> orderItemDOList);
 
     /**
      * 更新 - 根据Id

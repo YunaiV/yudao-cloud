@@ -25,6 +25,10 @@ public class UsersOrderConfirmCreateVO {
      */
     private List<CouponCardAvailableBO> couponCards;
     /**
+     * 优惠劵优惠金额
+     */
+    private Integer couponCardDiscountTotal;
+    /**
      * 商品分组
      *
      * 多个商品，参加同一个活动，从而形成分组。

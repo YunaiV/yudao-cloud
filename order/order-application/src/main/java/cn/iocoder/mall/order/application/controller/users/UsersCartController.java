@@ -105,7 +105,7 @@ public class UsersCartController {
     }
 
     @GetMapping("/confirm_create_order")
-    public CommonResult<UsersOrderConfirmCreateVO> getConfirmCreateOrder(@RequestParam("couponCardId") Integer couponCardId) {
+    public CommonResult<UsersOrderConfirmCreateVO> getConfirmCreateOrder(@RequestParam(value = "couponCardId", required = false) Integer couponCardId) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         // 获得购物车中选中的
         List<CartItemBO> cartItems = cartService.list(userId, true).getData();

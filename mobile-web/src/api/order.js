@@ -35,13 +35,14 @@ export function confirmReceiving(orderId) {
   });
 }
 
-export function getOrderConfirmCreateOrder(skuId, quantity) {
+export function getOrderConfirmCreateOrder(skuId, quantity, couponCardId) {
   return request({
     url: '/order-api/users/order/confirm_create_order',
     method: 'get',
     params: {
       skuId,
       quantity,
+      couponCardId,
     }
   });
 }
@@ -109,13 +110,12 @@ export function updateCartSelected(skuIds, selected) {
   });
 }
 
-export function getCartConfirmCreateOrder(skuId, quantity) {
+export function getCartConfirmCreateOrder(couponCardId) {
   return request({
     url: '/order-api/users/cart/confirm_create_order',
     method: 'get',
     params: {
-      skuId,
-      quantity,
+      couponCardId
     }
   });
 }

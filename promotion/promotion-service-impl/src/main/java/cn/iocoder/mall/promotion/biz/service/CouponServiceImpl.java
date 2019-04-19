@@ -20,10 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service // 实际上不用添加。添加的原因是，必须 Spring 报错提示
@@ -279,8 +276,10 @@ public class CouponServiceImpl implements CouponService {
     public CommonResult<List<CouponCardAvailableBO>> getCouponCardList(Integer userId, List<CouponCardSpuDTO> spus) {
         // 查询用户未使用的优惠劵列表
         List<CouponCardDO> cards = couponCardMapper.selectListByUserIdAndStatus(userId, CouponCardStatusEnum.UNUSED.getValue());
-
-        // TODO: 2019-04-19 芋艿 如果没有优惠券，处理
+        if (cards.isEmpty()) {
+            return CommonResult.success(Collections.emptyList());
+        }
+        // 查询优惠劵模板集合
         Map<Integer, CouponTemplateDO> templates = couponTemplateMapper.selectListByIds(cards.stream().map(CouponCardDO::getTemplateId).collect(Collectors.toSet()))
                 .stream().collect(Collectors.toMap(CouponTemplateDO::getId, template -> template));
         // 逐个判断是否可用

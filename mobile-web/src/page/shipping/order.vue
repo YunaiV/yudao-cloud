@@ -125,6 +125,21 @@
     },
     methods: {
       onCouponChange(index) {
+        // debugger;
+        let couponCardId = this.coupons[index].id;
+        if (this.from === 'direct_order') {
+          getOrderConfirmCreateOrder(this.skuId, this.quantity, couponCardId).then(data => {
+            // this.itemGroups = data.itemGroups;
+            this.fee = data.fee;
+            this.coupons[index].value = data.couponCardDiscountTotal; // 修改优惠劵减免的金额
+          })
+        } else if (this.from === 'cart') {
+          getCartConfirmCreateOrder(couponCardId).then(data => {
+            // this.itemGroups = data.itemGroups;
+            this.fee = data.fee;
+            this.coupons[index].value = data.couponCardDiscountTotal; // 修改优惠劵减免的金额
+          })
+        }
         this.chosenCoupon = index;
         this.showCouponPopup = false;
       },
@@ -205,7 +220,7 @@
             endAt: card.validEndTime / 1000,
             // description: '述信息，优惠券可用时展示',
             reason: card.unavailableReason,
-            value:	0, // TODO ，需要服务端算
+            value:	0,
             valueDesc: card.preferentialType === 1 ? card.priceOff / 100 : card.percentOff / 10.0,
             unitDesc: card.preferentialType === 1 ? '元' : '折'
           })
@@ -228,6 +243,12 @@
           this.itemGroups = data.itemGroups;
           this.fee = data.fee;
           // 获得优惠劵列表
+          this.coupons = this.convertCouponList(data.couponCards.filter(function (element) {
+            return element.available;
+          }));
+          this.disabledCoupons = this.convertCouponList(data.couponCards.filter(function (element) {
+            return !element.available;
+          }));
         })
       } else if (this.from === 'cart') {
         getCartConfirmCreateOrder().then(data => {

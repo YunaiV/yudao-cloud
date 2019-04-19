@@ -94,7 +94,7 @@ public class UsersOrderController {
     @ApiOperation("确认创建订单")
     public CommonResult<UsersOrderConfirmCreateVO> getConfirmCreateOrder(@RequestParam("skuId") Integer skuId,
                                                                          @RequestParam("quantity") Integer quantity,
-                                                                         @RequestParam("couponCardId") Integer couponCardId) {
+                                                                         @RequestParam(value = "couponCardId", required = false) Integer couponCardId) {
         // 创建 CalcOrderPriceDTO 对象，并执行价格计算
         CalcOrderPriceDTO calcOrderPriceDTO = new CalcOrderPriceDTO()
                 .setUserId(UserSecurityContextHolder.getContext().getUserId())

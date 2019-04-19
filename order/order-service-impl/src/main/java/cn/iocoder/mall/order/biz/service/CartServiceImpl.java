@@ -379,7 +379,8 @@ public class CartServiceImpl implements CartService {
             Assert.isTrue(presentTotal > 0, "计算后，价格为负数：" + presentTotal);
         } else if (PreferentialTypeEnum.DISCOUNT.getValue().equals(couponCard.getPreferentialType())) { // 打折
             presentTotal = originalTotal * couponCard.getPercentOff() / 100;
-            if (originalTotal - presentTotal > couponCard.getDiscountPriceLimit()) {
+            if (couponCard.getDiscountPriceLimit() != null // 空，代表不限制优惠上限
+                    && originalTotal - presentTotal > couponCard.getDiscountPriceLimit()) {
                 presentTotal = originalTotal - couponCard.getDiscountPriceLimit();
             }
         } else {
@@ -432,7 +433,7 @@ public class CartServiceImpl implements CartService {
         Assert.isTrue(PromotionActivityTypeEnum.FULL_PRIVILEGE.getValue().equals(activity.getActivityType()),
                 "传入的必须的满减送活动必须是满减送");
         // 获得优惠信息
-        List<CalcOrderPriceBO.Item> items = itemGroup.getItems().stream().filter(item -> !item.getSelected())
+        List<CalcOrderPriceBO.Item> items = itemGroup.getItems().stream().filter(CalcOrderPriceBO.Item::getSelected)
                 .collect(Collectors.toList());
         Integer itemCnt = items.stream().mapToInt(CalcOrderPriceBO.Item::getBuyQuantity).sum();
         Integer originalTotal = items.stream().mapToInt(CalcOrderPriceBO.Item::getPresentTotal).sum();

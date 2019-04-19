@@ -254,6 +254,8 @@ public class CouponServiceImpl implements CouponService {
     public CommonResult<List<CouponCardAvailableBO>> getCouponCardList(Integer userId, List<CouponCardSpuDTO> spus) {
         // 查询用户未使用的优惠劵列表
         List<CouponCardDO> cards = couponCardMapper.selectListByUserIdAndStatus(userId, CouponCardStatusEnum.UNUSED.getValue());
+
+        // TODO: 2019-04-19 芋艿 如果没有优惠券，处理
         Map<Integer, CouponTemplateDO> templates = couponTemplateMapper.selectListByIds(cards.stream().map(CouponCardDO::getTemplateId).collect(Collectors.toSet()))
                 .stream().collect(Collectors.toMap(CouponTemplateDO::getId, template -> template));
         // 逐个判断是否可用

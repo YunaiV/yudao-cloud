@@ -24,7 +24,6 @@ public class UsersOrderConfirmCreateVO {
      * 优惠劵列表 TODO 芋艿，后续改改
      */
     private List<CouponCardAvailableBO> couponCards;
-
     /**
      * 商品分组
      *

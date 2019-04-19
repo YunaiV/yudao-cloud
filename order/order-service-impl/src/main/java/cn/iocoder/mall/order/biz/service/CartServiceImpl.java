@@ -16,7 +16,9 @@ import cn.iocoder.mall.order.biz.dataobject.CartItemDO;
 import cn.iocoder.mall.product.api.ProductSpuService;
 import cn.iocoder.mall.product.api.bo.ProductSkuBO;
 import cn.iocoder.mall.product.api.bo.ProductSkuDetailBO;
+import cn.iocoder.mall.promotion.api.CouponService;
 import cn.iocoder.mall.promotion.api.PromotionActivityService;
+import cn.iocoder.mall.promotion.api.bo.CouponCardDetailBO;
 import cn.iocoder.mall.promotion.api.bo.PromotionActivityBO;
 import cn.iocoder.mall.promotion.api.constant.*;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -38,6 +40,8 @@ public class CartServiceImpl implements CartService {
     private ProductSpuService productSpuService;
     @Reference(validation = "true")
     private PromotionActivityService promotionActivityService;
+    @Reference(validation = "true")
+    private CouponService couponService;
 
     @Autowired
     private CartMapper cartMapper;
@@ -152,6 +156,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CommonResult<CalcOrderPriceBO> calcOrderPrice(CalcOrderPriceDTO calcOrderPriceDTO) {
+        // TODO 芋艿，补充一些表单校验。例如说，需要传入用户编号。
         // 校验商品都存在
         Map<Integer, CalcOrderPriceDTO.Item> calcOrderItemMap = calcOrderPriceDTO.getItems().stream()
                 .collect(Collectors.toMap(CalcOrderPriceDTO.Item::getSkuId, item -> item)); // KEY：skuId
@@ -177,7 +182,15 @@ public class CartServiceImpl implements CartService {
         // 3. 计算【满减送】促销
         List<CalcOrderPriceBO.ItemGroup> itemGroups = groupByFullPrivilege(items, activityList);
         calcOrderPriceBO.setItemGroups(itemGroups);
-        // 4. 计算最终的价格
+        // 4. 计算优惠劵
+        if (calcOrderPriceDTO.getCouponCardId() != null) {
+            CommonResult<Integer> result = modifyPriceByCouponCard(calcOrderPriceDTO.getUserId(), calcOrderPriceDTO.getCouponCardId(), itemGroups);
+            if (result.isError()) {
+                return CommonResult.error(result);
+            }
+            calcOrderPriceBO.setCouponCardDiscountTotal(result.getData());
+        }
+        // 5. 计算最终的价格
         int buyTotal = 0;
         int discountTotal = 0;
         int presentTotal = 0;
@@ -314,6 +327,72 @@ public class CartServiceImpl implements CartService {
         return itemGroups;
     }
 
+    private CommonResult<Integer> modifyPriceByCouponCard(Integer userId, Integer couponCardId, List<CalcOrderPriceBO.ItemGroup> itemGroups) {
+        Assert.isTrue(couponCardId != null, "优惠劵编号不能为空");
+        // 查询优惠劵
+        CommonResult<CouponCardDetailBO> couponCardResult = couponService.getCouponCardDetail(userId, couponCardId);
+        if (couponCardResult.isError()) {
+            return CommonResult.error(couponCardResult);
+        }
+        CouponCardDetailBO couponCard = couponCardResult.getData();
+        // 获得匹配的商品
+        List<CalcOrderPriceBO.Item> items = new ArrayList<>();
+        if (RangeTypeEnum.ALL.getValue().equals(couponCard.getRangeType())) {
+//            totalPrice = spus.stream().mapToInt(spu -> spu.getPrice() * spu.getQuantity()).sum();
+            itemGroups.forEach(itemGroup -> items.addAll(itemGroup.getItems()));
+        } else if (RangeTypeEnum.PRODUCT_INCLUDE_PART.getValue().equals(couponCard.getRangeType())) {
+            itemGroups.forEach(itemGroup -> items.forEach(item -> {
+                if (couponCard.getRangeValues().contains(item.getSpu().getId())) {
+                    items.add(item);
+                }
+            }));
+        } else if (RangeTypeEnum.PRODUCT_EXCLUDE_PART.getValue().equals(couponCard.getRangeType())) {
+            itemGroups.forEach(itemGroup -> items.forEach(item -> {
+                if (!couponCard.getRangeValues().contains(item.getSpu().getId())) {
+                    items.add(item);
+                }
+            }));
+        } else if (RangeTypeEnum.CATEGORY_INCLUDE_PART.getValue().equals(couponCard.getRangeType())) {
+            itemGroups.forEach(itemGroup -> items.forEach(item -> {
+                if (couponCard.getRangeValues().contains(item.getSpu().getCid())) {
+                    items.add(item);
+                }
+            }));
+        } else if (RangeTypeEnum.CATEGORY_EXCLUDE_PART.getValue().equals(couponCard.getRangeType())) {
+            itemGroups.forEach(itemGroup -> items.forEach(item -> {
+                if (!couponCard.getRangeValues().contains(item.getSpu().getCid())) {
+                    items.add(item);
+                }
+            }));
+        }
+        // 判断是否符合条件
+        int originalTotal = items.stream().mapToInt(CalcOrderPriceBO.Item::getPresentTotal).sum(); // 此处，指的是以优惠劵视角的原价
+        if (originalTotal == 0 || originalTotal < couponCard.getPriceAvailable()) {
+            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_NOT_MATCH.getCode()); // TODO 芋艿，这种情况，会出现错误码的提示，无法格式化出来。另外，这块的最佳实践，找人讨论下。
+        }
+        // 计算价格
+        // 获得到优惠信息，进行价格计算
+        int presentTotal;
+        if (PreferentialTypeEnum.PRICE.getValue().equals(couponCard.getPreferentialType())) { // 减价
+            // 计算循环次数。这样，后续优惠的金额就是相乘了
+            presentTotal = originalTotal - couponCard.getPriceOff();
+            Assert.isTrue(presentTotal > 0, "计算后，价格为负数：" + presentTotal);
+        } else if (PreferentialTypeEnum.DISCOUNT.getValue().equals(couponCard.getPreferentialType())) { // 打折
+            presentTotal = originalTotal * couponCard.getPercentOff() / 100;
+            if (originalTotal - presentTotal > couponCard.getDiscountPriceLimit()) {
+                presentTotal = originalTotal - couponCard.getDiscountPriceLimit();
+            }
+        } else {
+            throw new IllegalArgumentException(String.format("优惠劵(%s) 的优惠类型不正确", couponCard.toString()));
+        }
+        int discountTotal = originalTotal - presentTotal;
+        Assert.isTrue(discountTotal > 0, "计算后，不产生优惠：" + discountTotal);
+        // 按比例，拆分 presentTotal
+        splitDiscountPriceToItems(items, discountTotal, presentTotal);
+        // 返回优惠金额
+        return CommonResult.success(originalTotal - presentTotal);
+    }
+
     /**
      * 计算指定 SKU 在限时折扣下的价格
      *
@@ -393,11 +472,31 @@ public class CartServiceImpl implements CartService {
         } else {
             throw new IllegalArgumentException(String.format("满减送促销(%s) 的优惠类型不正确", activity.toString()));
         }
-        Integer discountTotal = originalTotal - presentTotal;
+        int discountTotal = originalTotal - presentTotal;
         if (discountTotal == 0) {
             return null;
         }
         // 按比例，拆分 presentTotal
+//        for (int i = 0; i < items.size(); i++) {
+//            CalcOrderPriceBO.Item item = items.get(i);
+//            Integer discountPart;
+//            if (i < items.size() - 1) { // 减一的原因，是因为拆分时，如果按照比例，可能会出现.所以最后一个，使用反减
+//                discountPart = (int) (discountTotal * (1.0D * item.getPresentTotal() / presentTotal));
+//                discountTotal -= discountPart;
+//            } else {
+//                discountPart = discountTotal;
+//            }
+//            Assert.isTrue(discountPart > 0, "优惠金额必须大于 0");
+//            item.setDiscountTotal(item.getDiscountTotal() + discountPart);
+//            item.setPresentTotal(item.getBuyTotal() - item.getDiscountTotal());
+//            item.setPresentPrice(item.getPresentTotal() / item.getBuyQuantity());
+//        }
+        splitDiscountPriceToItems(items, discountTotal, presentTotal);
+        // 返回优惠金额
+        return originalTotal - presentTotal;
+    }
+
+    private void splitDiscountPriceToItems(List<CalcOrderPriceBO.Item> items, Integer discountTotal, Integer presentTotal) {
         for (int i = 0; i < items.size(); i++) {
             CalcOrderPriceBO.Item item = items.get(i);
             Integer discountPart;
@@ -412,7 +511,6 @@ public class CartServiceImpl implements CartService {
             item.setPresentTotal(item.getBuyTotal() - item.getDiscountTotal());
             item.setPresentPrice(item.getPresentTotal() / item.getBuyQuantity());
         }
-        return originalTotal - presentTotal;
     }
 
     private PromotionActivityBO findPromotionActivityByType(List<PromotionActivityBO> activityList, PromotionActivityTypeEnum type) {

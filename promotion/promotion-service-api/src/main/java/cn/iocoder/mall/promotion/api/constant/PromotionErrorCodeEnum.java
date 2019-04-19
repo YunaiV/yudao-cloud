@@ -17,14 +17,20 @@ public enum PromotionErrorCodeEnum {
 
 
     // ========== COUPON TEMPLATE 模块 ==========
-    PRODUCT_TEMPLATE_NOT_EXISTS(1006002000, "优惠劵模板（码）不存在"),
-    PRODUCT_TEMPLATE_NOT_CARD(1006002001, "不是优惠劵模板"),
-    PRODUCT_TEMPLATE_NOT_CODE(1006002002, "不是优惠码模板"),
-    PRODUCT_TEMPLATE_TOTAL_CAN_NOT_REDUCE(1006002003, "优惠劵（码）模板的发放数量不能减小"),
-    PRODUCT_TEMPLATE_STATUS_NOT_ENABLE(1006002004, "优惠劵模板（码）未开启"),
-    PRODUCT_TEMPLATE_TOTAL_NOT_ENOUGH(1006002005, "优惠劵（码）模板的发放量不足"),
-    PRODUCT_TEMPLATE_CARD_ADD_EXCEED_QUOTA(1006002006, "优惠劵领取到达上限"),
+    COUPON_TEMPLATE_NOT_EXISTS(1006002000, "优惠劵模板（码）不存在"),
+    COUPON_TEMPLATE_NOT_CARD(1006002001, "不是优惠劵模板"),
+    COUPON_TEMPLATE_NOT_CODE(1006002002, "不是优惠码模板"),
+    COUPON_TEMPLATE_TOTAL_CAN_NOT_REDUCE(1006002003, "优惠劵（码）模板的发放数量不能减小"),
+    COUPON_TEMPLATE_STATUS_NOT_ENABLE(1006002004, "优惠劵模板（码）未开启"),
+    COUPON_TEMPLATE_TOTAL_NOT_ENOUGH(1006002005, "优惠劵（码）模板的发放量不足"),
+    COUPON_TEMPLATE_CARD_ADD_EXCEED_QUOTA(1006002006, "优惠劵领取到达上限"),
+
+    // ========== COUPON CARD 模块 ==========
+    COUPON_CARD_NOT_EXISTS(1006003000, "优惠劵不存在"),
+    COUPON_CARD_ERROR_USER(1006003001, "优惠劵不属于当前用户"),
+    COUPON_CARD_NOT_MATCH(1006003002, "优惠劵不匹配，无法使用"),
     ;
+
 
     private final int code;
     private final String message;

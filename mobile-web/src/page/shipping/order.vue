@@ -124,8 +124,9 @@
       };
     },
     methods: {
-      onCouponChange(a, b, c) {
-        debugger;
+      onCouponChange(index) {
+        this.chosenCoupon = index;
+        this.showCouponPopup = false;
       },
       onCouponExchange(a, b, c) {
         Dialog.alert({
@@ -204,7 +205,7 @@
             endAt: card.validEndTime / 1000,
             // description: '述信息，优惠券可用时展示',
             reason: card.unavailableReason,
-            value:	card.preferentialType === 1 ? card.priceOff : card.percentOff,
+            value:	0, // TODO ，需要服务端算
             valueDesc: card.preferentialType === 1 ? card.priceOff / 100 : card.percentOff / 10.0,
             unitDesc: card.preferentialType === 1 ? '元' : '折'
           })

@@ -3,6 +3,7 @@ package cn.iocoder.mall.order.api.dto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -12,9 +13,13 @@ import java.util.List;
 @Accessors(chain = true)
 public class CalcOrderPriceDTO {
 
+    @NotNull(message = "用户编号不能为空")
+    private Integer userId;
     /**
-     * 商品数组
+     * 优惠劵编号
      */
+    private Integer couponCardId;
+    @NotNull(message = "商品数组不能为空")
     private List<Item> items;
 
     @Data

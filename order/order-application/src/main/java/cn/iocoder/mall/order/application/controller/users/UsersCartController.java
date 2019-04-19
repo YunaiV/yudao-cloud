@@ -96,7 +96,7 @@ public class UsersCartController {
             return CommonResult.success(result);
         }
         // 计算商品价格
-        CommonResult<CalcOrderPriceBO> calcOrderPriceResult = list0(cartItems);
+        CommonResult<CalcOrderPriceBO> calcOrderPriceResult = list0(cartItems, null);
         if (calcOrderPriceResult.isError()) {
             return CommonResult.error(calcOrderPriceResult);
         }
@@ -105,7 +105,7 @@ public class UsersCartController {
     }
 
     @GetMapping("/confirm_create_order")
-    public CommonResult<UsersOrderConfirmCreateVO> getConfirmCreateOrder() {
+    public CommonResult<UsersOrderConfirmCreateVO> getConfirmCreateOrder(@RequestParam("couponCardId") Integer couponCardId) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         // 获得购物车中选中的
         List<CartItemBO> cartItems = cartService.list(userId, true).getData();
@@ -117,7 +117,7 @@ public class UsersCartController {
             return CommonResult.success(result);
         }
         // 计算商品价格
-        CommonResult<CalcOrderPriceBO> calcOrderPriceResult = list0(cartItems);
+        CommonResult<CalcOrderPriceBO> calcOrderPriceResult = list0(cartItems, couponCardId);
         if (calcOrderPriceResult.isError()) {
             return CommonResult.error(calcOrderPriceResult);
         }
@@ -130,10 +130,12 @@ public class UsersCartController {
                 .setCouponCards(couponCards));
     }
 
-    private CommonResult<CalcOrderPriceBO> list0(List<CartItemBO> cartItems) {
+    private CommonResult<CalcOrderPriceBO> list0(List<CartItemBO> cartItems, Integer couponCardId) {
         // 创建计算的 DTO
         CalcOrderPriceDTO calcOrderPriceDTO = new CalcOrderPriceDTO()
-                .setItems(new ArrayList<>(cartItems.size()));
+                .setUserId(UserSecurityContextHolder.getContext().getUserId())
+                .setItems(new ArrayList<>(cartItems.size()))
+                .setCouponCardId(couponCardId);
         for (CartItemBO item : cartItems) {
             calcOrderPriceDTO.getItems().add(new CalcOrderPriceDTO.Item(item.getSkuId(), item.getQuantity(), item.getSelected()));
         }

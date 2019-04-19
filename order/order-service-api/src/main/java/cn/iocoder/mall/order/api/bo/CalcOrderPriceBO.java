@@ -19,6 +19,17 @@ public class CalcOrderPriceBO {
      */
     private List<ItemGroup> itemGroups;
     /**
+     * 优惠劵编号
+     */
+    private Integer couponCardId;
+    /**
+     * 优惠劵减少的金额
+     *
+     * 1. 若未使用优惠劵，返回 null
+     * 2. 该金额，已经分摊到每个 Item 的 discountTotal ，需要注意。
+     */
+    private Integer couponCardDiscountTotal;
+    /**
      * 邮费信息
      *
      * TODO 芋艿，暂时未弄

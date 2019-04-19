@@ -93,10 +93,13 @@ public class UsersOrderController {
     @GetMapping("confirm_create_order")
     @ApiOperation("确认创建订单")
     public CommonResult<UsersOrderConfirmCreateVO> getConfirmCreateOrder(@RequestParam("skuId") Integer skuId,
-                                                                         @RequestParam("quantity") Integer quantity) {
+                                                                         @RequestParam("quantity") Integer quantity,
+                                                                         @RequestParam("couponCardId") Integer couponCardId) {
         // 创建 CalcOrderPriceDTO 对象，并执行价格计算
         CalcOrderPriceDTO calcOrderPriceDTO = new CalcOrderPriceDTO()
-                .setItems(Collections.singletonList(new CalcOrderPriceDTO.Item(skuId, quantity, true)));
+                .setUserId(UserSecurityContextHolder.getContext().getUserId())
+                .setItems(Collections.singletonList(new CalcOrderPriceDTO.Item(skuId, quantity, true)))
+                .setCouponCardId(couponCardId);
         CommonResult<CalcOrderPriceBO> calcOrderPriceResult = cartService.calcOrderPrice(calcOrderPriceDTO);
         if (calcOrderPriceResult.isError()) {
             return CommonResult.error(calcOrderPriceResult);

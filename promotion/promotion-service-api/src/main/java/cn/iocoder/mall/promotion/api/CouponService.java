@@ -93,6 +93,15 @@ public interface CouponService {
     CommonResult<Boolean> cancelUseCouponCard(Integer userId, Integer couponCardId);
 
     /**
+     * 获得指定优惠劵
+     *
+     * @param userId 用户编号
+     * @param couponCardId 优惠劵编号
+     * @return 优惠劵
+     */
+    CommonResult<CouponCardDetailBO> getCouponCardDetail(Integer userId, Integer couponCardId);
+
+    /**
      * 获得用户所有优惠劵，并标明是否可用
      *
      * 注意，spus 是作为条件，判断优惠劵是否可用
@@ -102,6 +111,7 @@ public interface CouponService {
      * @return 优惠劵列表
      */
     CommonResult<List<CouponCardAvailableBO>> getCouponCardList(Integer userId, List<CouponCardSpuDTO> spus);
+
 
     // ========== 优惠码 ==========
 

@@ -3,15 +3,14 @@ package cn.iocoder.mall.pay.application.controller.users;
 import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.pay.api.PayTransactionService;
+import cn.iocoder.mall.pay.api.bo.PayTransactionBO;
 import cn.iocoder.mall.pay.api.bo.PayTransactionSubmitBO;
 import cn.iocoder.mall.pay.api.constant.PayChannelEnum;
 import cn.iocoder.mall.pay.api.dto.PayTransactionSubmitDTO;
+import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
@@ -23,6 +22,12 @@ public class PayTransactionController {
 
     @Reference(validation = "true")
     private PayTransactionService payService;
+
+    @GetMapping("/get")
+    public CommonResult<PayTransactionBO> get(@RequestParam("appId") String appId,
+                                              @RequestParam("orderId") String orderId) {
+        return payService.getTransaction(UserSecurityContextHolder.getContext().getUserId(), appId, orderId);
+    }
 
     @PostMapping("/submit") // TODO api 注释
     // TODO result 后面改下

@@ -38,7 +38,9 @@
               <van-button v-if="[3,4,5].indexOf(item.status) != -1" size="small">查看物流</van-button>
             </router-link>
             <van-button v-if="item.status === 3 " size="small" v-on:click="clickConfirmReceiving(item)">确认收货</van-button>
-            <van-button v-if="item.status === 1 " size="small" type="danger">支付</van-button>
+            <van-button v-if="item.status === 1 " size="small" type="danger" @click="goPay(item.orderid)">
+                    支付
+            </van-button>
           </div>
         </van-panel>
       </van-cell-group>
@@ -60,6 +62,10 @@
       }
     },
     methods: {
+      goPay(itemId) {
+        this.$router.push('/pay?appId=POd4RC6a&orderId=' + itemId);
+      },
+
       onTabChange(index) {
         // status 和 tab index 对应的关系
         const statusArray = [null, 1, 3, 4, 5];

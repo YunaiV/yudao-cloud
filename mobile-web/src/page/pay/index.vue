@@ -1,50 +1,46 @@
 <template>
     <div>
+        <headerNav title="收银台"/>
         <van-cell-group>
-            <van-cell title="优惠劵编号" :value="couponTemplate.id" />
-            <van-cell title="优惠劵名" :value="couponTemplate.title"/>
+            <van-cell title="订单商品名" :value="transaction.orderSubject" />
+            <van-cell title="价格" :value="transaction.price / 100.0" />
         </van-cell-group>
-        <van-button slot="button" size="small" type="primary" @click="onFetchClick">领取优惠劵</van-button>
+        <van-button slot="button" size="small" type="primary" @click="submit(9999)">模拟支付</van-button>
     </div>
 </template>
 
 <script>
-  import { getCouponTemplate, doAddCouponCard } from '../../api/promotion';
+  import { getTransaction, submitTransaction } from '../../api/pay';
+  import pingpp from 'pingpp-js';
   import { Dialog } from 'vant';
-  import { setLoginToken } from '../../utils/cache';
 
   export default {
 
     data() {
       return {
-        couponTemplate: {
-        }
+        appId: this.$route.query.appId,
+        orderId: this.$route.query.orderId,
+        transaction: {},
       }
     },
 
     mounted() {
-      let id = this.$route.query.id;
-      let response = getCouponTemplate(id);
+      let response = getTransaction(this.appId, this.orderId);
       response.then(data => {
-        this.couponTemplate = data;
+        this.transaction = data;
       });
     },
 
     methods: {
-      onFetchClick: function () {
+      submit(payChannel) {
         let that = this;
-        let id = this.$route.query.id;
-        let response = doAddCouponCard(id);
-        response.then(data => {
-          Dialog.alert({
-            title: '系统提示',
-            message: '领取成功',
-            beforeClose: function (action, done) {
-              // 关闭弹窗
-              done();
-              // 跳转到我的优惠劵
-              that.$router.push('/user/coupon');
-            }
+        debugger;
+        submitTransaction(this.appId, this.orderId, payChannel).then(data => {
+          pingpp.createPayment(data.invokeResponse, function(result, err) {
+            debugger;
+            console.log(result);
+            console.log(err.msg);
+            console.log(err.extra);
           });
         });
       }

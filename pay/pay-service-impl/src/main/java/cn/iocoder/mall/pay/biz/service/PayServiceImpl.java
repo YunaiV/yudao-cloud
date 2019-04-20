@@ -54,6 +54,16 @@ public class PayServiceImpl implements PayTransactionService {
     private RocketMQTemplate rocketMQTemplate;
 
     @Override
+    public CommonResult<PayTransactionBO> getTransaction(Integer userId, String appId, String orderId) {
+        PayTransactionDO payTransaction = payTransactionMapper.selectByAppIdAndOrderId(appId, orderId);
+        if (payTransaction == null) {
+            return ServiceExceptionUtil.error(PayErrorCodeEnum.PAY_TRANSACTION_NOT_FOUND.getCode());
+        }
+        // TODO 芋艿 userId 的校验
+        return CommonResult.success(PayTransactionConvert.INSTANCE.convert(payTransaction));
+    }
+
+    @Override
     @SuppressWarnings("Duplicates")
     public CommonResult<PayTransactionBO> createTransaction(PayTransactionCreateDTO payTransactionCreateDTO) {
         // 校验 App

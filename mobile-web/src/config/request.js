@@ -21,11 +21,11 @@ const serviceRouter = function(requestUrl) {
       },
       '/promotion-api': {
         prefix: '/promotion-api',
-        target: 'http://127.0.0.1:18085//promotion-api',
+        target: 'http://127.0.0.1:18085/promotion-api',
       },
       '/pay-api': {
         prefix: '/pay-api',
-        target: 'http://127.0.0.1:18084//promotion-api',
+        target: 'http://127.0.0.1:18084/pay-api',
       },
     };
 
@@ -48,7 +48,7 @@ const serviceRouter = function(requestUrl) {
       },
       '/pay-api': {
         prefix: '/pay-api',
-        target: 'http://api.shop.iocoder.cn:18099/promotion-api',
+        target: 'http://api.shop.iocoder.cn:18099/pay-api',
       },
     };
 

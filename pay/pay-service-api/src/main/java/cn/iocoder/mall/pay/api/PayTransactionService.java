@@ -8,6 +8,8 @@ import cn.iocoder.mall.pay.api.dto.PayTransactionSubmitDTO;
 
 public interface PayTransactionService {
 
+    CommonResult<PayTransactionBO> getTransaction(Integer userId, String appId, String orderId);
+
     CommonResult<PayTransactionBO> createTransaction(PayTransactionCreateDTO payTransactionCreateDTO);
 
     CommonResult<PayTransactionSubmitBO> submitTransaction(PayTransactionSubmitDTO payTransactionSubmitDTO);

@@ -203,6 +203,13 @@ const routes = [
     meta: {
       title: '优惠劵领取'
     }
+  },
+  {
+    path: '/pay',
+    component: () => import('../page/pay/index'),
+    meta: {
+      title: '收银台'
+    }
   }
 ];
 

@@ -2,11 +2,11 @@ package cn.iocoder.mall.pay.api.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -36,18 +36,18 @@ public class PayTransactionCreateDTO implements Serializable {
      * 订单商品名
      */
     @NotEmpty(message = "商品名不能为空")
-    @Size(max = 32, message = "商品名不能超过32")
+    @Length(max = 32, message = "商品名不能超过32")
     private String orderSubject;
     /**
      * 订单商品描述
      */
     @NotEmpty(message = "商品描述不能为空")
-    @Size(max = 128, message = "商品描述长度不能超过128")
+    @Length(max = 128, message = "商品描述长度不能超过128")
     private String orderDescription;
     /**
      * 订单备注
      */
-    @Size(max = 256, message = "商品描述长度不能超过256")
+    @Length(max = 256, message = "商品描述长度不能超过256")
     private String orderMemo;
     /**
      * 支付金额，单位：分。

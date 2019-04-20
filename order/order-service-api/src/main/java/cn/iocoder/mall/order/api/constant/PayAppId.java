@@ -11,6 +11,6 @@ public class PayAppId {
     /**
      * 电商
      */
-    public static final String APP_ID_1024 = "1024";
+    public static final String APP_ID_SHOP_ORDER = "POd4RC6a";
 
 }

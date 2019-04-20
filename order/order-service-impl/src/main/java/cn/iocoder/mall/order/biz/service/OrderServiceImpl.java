@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.biz.service;
 
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
+import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.OrderService;
@@ -8,6 +9,7 @@ import cn.iocoder.mall.order.api.bo.*;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.constant.OrderHasReturnExchangeEnum;
 import cn.iocoder.mall.order.api.constant.OrderStatusEnum;
+import cn.iocoder.mall.order.api.constant.PayAppId;
 import cn.iocoder.mall.order.api.dto.*;
 import cn.iocoder.mall.order.biz.constants.OrderDeliveryTypeEnum;
 import cn.iocoder.mall.order.biz.constants.OrderRecipientTypeEnum;
@@ -15,6 +17,8 @@ import cn.iocoder.mall.order.biz.convert.*;
 import cn.iocoder.mall.order.biz.dao.*;
 import cn.iocoder.mall.order.biz.dataobject.*;
 import cn.iocoder.mall.pay.api.PayTransactionService;
+import cn.iocoder.mall.pay.api.bo.PayTransactionBO;
+import cn.iocoder.mall.pay.api.dto.PayTransactionCreateDTO;
 import cn.iocoder.mall.product.api.ProductSpuService;
 import cn.iocoder.mall.product.api.bo.ProductSkuDetailBO;
 import cn.iocoder.mall.user.api.UserAddressService;
@@ -41,9 +45,9 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
 
     /**
-     * 支付过期时间 15 分钟
+     * 支付过期时间 120 分钟
      */
-    public static final int PAY_EXPIRE_TIME = 15;
+    public static final int PAY_EXPIRE_TIME = 120;
 
     @Autowired
     private OrderMapper orderMapper;
@@ -64,7 +68,7 @@ public class OrderServiceImpl implements OrderService {
     private CartServiceImpl cartService;
     @Reference
     private UserAddressService userAddressService;
-    @Reference
+    @Reference(validation = "true")
     private PayTransactionService payTransactionService;
 
     @Override
@@ -187,7 +191,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
+    @Transactional // TODO 芋艿，先不考虑分布式事务的问题
     public CommonResult<OrderCreateBO> createOrder(OrderCreateDTO orderCreateDTO) {
         Integer userId = orderCreateDTO.getUserId();
         List<OrderCreateItemDTO> orderItemDTOList = orderCreateDTO.getOrderItems();
@@ -244,6 +248,9 @@ public class OrderServiceImpl implements OrderService {
                 .setDiscountTotal(priceItem.getDiscountTotal())
                 .setPresentTotal(priceItem.getPresentTotal());
         }
+
+        // TODO 芋艿，标记优惠劵使用
+        // TODO 芋艿，扣除库存
 
         // order
 
@@ -310,19 +317,10 @@ public class OrderServiceImpl implements OrderService {
         orderItemMapper.insert(orderItemDOList);
 
         // 创建预订单
-        // TODO sin 支付订单 orderSubject 暂时取第一个子订单商品信息
-//        String orderSubject = orderItemDOList.get(0).getSkuName();
-//        Date expireTime = DateUtil.addDate(Calendar.MINUTE, PAY_EXPIRE_TIME);
-//        CommonResult commonResult = payTransactionService.createTransaction(
-//                new PayTransactionCreateDTO()
-//                        .setCreateIp(orderCreateDTO.getIp())
-//                        .setAppId(PayAppId.APP_ID_1024)
-//                        .setExpireTime(expireTime)
-//                        .setPrice(orderDO.getPayAmount())
-//                        .setOrderSubject(orderSubject)
-//                        .setOrderMemo(orderDO.getRemark())
-//                        .setOrderDescription("")
-//        );
+        CommonResult<PayTransactionBO> createPayTransactionResult = createPayTransaction(orderDO, orderItemDOList, orderCreateDTO.getIp());
+        if (calcOrderPriceResult.isError()) {
+            return CommonResult.error(calcOrderPriceResult);
+        }
 
 //        if (commonResult.isError()) {
 //            //手动开启事务回滚
@@ -350,6 +348,23 @@ public class OrderServiceImpl implements OrderService {
         }
         // 执行计算
         return cartService.calcOrderPrice(calcOrderPriceDTO);
+    }
+
+    private CommonResult<PayTransactionBO> createPayTransaction(OrderDO order, List<OrderItemDO> orderItems, String ip) {
+        // TODO sin 支付订单 orderSubject 暂时取第一个子订单商品信息
+        String orderSubject = orderItems.get(0).getSkuName();
+        Date expireTime = DateUtil.addDate(Calendar.MINUTE, PAY_EXPIRE_TIME);
+        return payTransactionService.createTransaction(
+                new PayTransactionCreateDTO()
+                        .setCreateIp(ip)
+                        .setAppId(PayAppId.APP_ID_SHOP_ORDER)
+                        .setOrderId(order.getId().toString())
+                        .setExpireTime(expireTime)
+                        .setPrice(order.getPresentPrice())
+                        .setOrderSubject(orderSubject)
+                        .setOrderMemo("测试备注") // TODO 芋艿，后面补充
+                        .setOrderDescription("测试描述") // TODO 芋艿，后面补充
+        );
     }
 
     @Override

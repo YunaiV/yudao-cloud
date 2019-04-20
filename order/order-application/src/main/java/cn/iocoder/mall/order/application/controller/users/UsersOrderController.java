@@ -57,10 +57,11 @@ public class UsersOrderController {
 
     @PostMapping("create_order")
     @ApiOperation("创建订单")
-    public CommonResult<OrderCreateBO> createOrder(@RequestBody @Validated OrderCreatePO orderCreatePO) {
+    public CommonResult<OrderCreateBO> createOrder(@RequestBody @Validated OrderCreatePO orderCreatePO,
+                                                   HttpServletRequest request) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         OrderCreateDTO orderCreateDTO = OrderConvertAPP.INSTANCE.convert(orderCreatePO);
-        orderCreateDTO.setUserId(userId);
+        orderCreateDTO.setUserId(userId).setIp(HttpUtil.getIp(request));
         return orderService.createOrder(orderCreateDTO);
     }
 

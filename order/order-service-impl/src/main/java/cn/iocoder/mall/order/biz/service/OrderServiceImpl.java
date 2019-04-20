@@ -9,7 +9,6 @@ import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.constant.OrderHasReturnExchangeEnum;
 import cn.iocoder.mall.order.api.constant.OrderStatusEnum;
 import cn.iocoder.mall.order.api.dto.*;
-import cn.iocoder.mall.order.biz.OrderCommon;
 import cn.iocoder.mall.order.biz.constants.OrderDeliveryTypeEnum;
 import cn.iocoder.mall.order.biz.constants.OrderRecipientTypeEnum;
 import cn.iocoder.mall.order.biz.convert.*;
@@ -25,6 +24,7 @@ import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
@@ -57,11 +57,11 @@ public class OrderServiceImpl implements OrderService {
     private OrderRecipientMapper orderRecipientMapper;
     @Autowired
     private OrderCancelMapper orderCancelMapper;
-    @Autowired
-    private OrderCommon orderCommon;
 
     @Reference
     private ProductSpuService productSpuService;
+    @Autowired
+    private CartServiceImpl cartService;
     @Reference
     private UserAddressService userAddressService;
     @Reference
@@ -196,61 +196,70 @@ public class OrderServiceImpl implements OrderService {
         // 获取商品信息
         Set<Integer> skuIds = orderItemDOList.stream()
                 .map(orderItemDO -> orderItemDO.getSkuId()).collect(Collectors.toSet());
-
         CommonResult<List<ProductSkuDetailBO>> productResult = productSpuService.getProductSkuDetailList(skuIds);
 
         // 校验商品信息
         if (productResult.isError()) {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_SKU_FAIL.getCode());
         }
-
         if (productResult.getData() == null) {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_SKU_NOT_EXISTENT.getCode());
         }
-
         if (orderItemDTOList.size() != productResult.getData().size()) {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_GOODS_INFO_INCORRECT.getCode());
         }
 
-        //
+        // 价格计算
+        CommonResult<CalcOrderPriceBO> calcOrderPriceResult = calcOrderPrice(productResult.getData(), orderCreateDTO);
+        if (calcOrderPriceResult.isError()) {
+            return CommonResult.error(calcOrderPriceResult);
+        }
+        CalcOrderPriceBO calcOrderPrice = calcOrderPriceResult.getData();
 
         // 设置 orderItem
-
         Map<Integer, ProductSkuDetailBO> productSpuBOMap = productResult.getData()
-                .stream().collect(Collectors.toMap(o -> o.getId(), o -> o));
+                .stream().collect(Collectors.toMap(ProductSkuDetailBO::getId, o -> o)); // 商品 SKU 信息的集合
+        Map<Integer, CalcOrderPriceBO.Item> priceItemMap = new HashMap<>();
+        calcOrderPrice.getItemGroups().forEach(itemGroup ->
+                itemGroup.getItems().forEach(item -> priceItemMap.put(item.getId(), item)));
 
         for (OrderItemDO orderItemDO : orderItemDOList) {
             ProductSkuDetailBO productSkuDetailBO = productSpuBOMap.get(orderItemDO.getSkuId());
             if (productSkuDetailBO.getQuantity() <= 0) {
                 return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_INSUFFICIENT_INVENTORY.getCode());
             }
-
             if (productSkuDetailBO.getPrice() <= 0) {
                 return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GOODS_AMOUNT_INCORRECT.getCode());
             }
-
+            // 设置 SKU 信息
             orderItemDO.setSkuImage(Optional.ofNullable(productSkuDetailBO.getSpu().getPicUrls().get(0)).get());
             orderItemDO.setSkuName(productSkuDetailBO.getSpu().getName());
-            orderItemDO.setPrice(productSkuDetailBO.getPrice());
-            orderItemDO.setLogisticsPrice(0);
-
-            int payAmount = orderItemDO.getQuantity() * orderItemDO.getPrice();
-            orderItemDO.setPayAmount(payAmount);
+            // 设置价格信息
+            CalcOrderPriceBO.Item priceItem = priceItemMap.get(orderItemDO.getSkuId());
+            Assert.notNull(priceItem, "商品计算价格为空");
+            orderItemDO.setOriginPrice(priceItem.getOriginPrice())
+                .setBuyPrice(priceItem.getBuyPrice())
+                .setPresentPrice(priceItem.getPresentPrice())
+                .setBuyTotal(priceItem.getBuyTotal())
+                .setDiscountTotal(priceItem.getDiscountTotal())
+                .setPresentTotal(priceItem.getPresentTotal());
         }
 
         // order
 
         // TODO: 2019-04-11 Sin 订单号需要生成规则
         String orderNo = UUID.randomUUID().toString().replace("-", "").substring(0, 16);
-        Integer totalAmount = orderCommon.calculatedAmount(orderItemDOList);
-        Integer totalPrice = orderCommon.calculatedPrice(orderItemDOList);
-        Integer totalLogisticsPrice = orderCommon.calculatedLogisticsPrice(orderItemDOList);
+//        Integer totalAmount = orderCommon.calculatedAmount(orderItemDOList);
+//        Integer totalPrice = orderCommon.calculatedPrice(orderItemDOList);
+//        Integer totalLogisticsPrice = orderCommon.calculatedLogisticsPrice(orderItemDOList);
         OrderDO orderDO = new OrderDO()
                 .setUserId(userId)
                 .setOrderNo(orderNo)
-                .setPrice(totalPrice)
-                .setPayAmount(totalAmount)
-                .setLogisticsPrice(totalLogisticsPrice)
+                .setBuyPrice(calcOrderPrice.getFee().getBuyTotal())
+                .setDiscountPrice(calcOrderPrice.getFee().getDiscountTotal())
+                .setLogisticsPrice(calcOrderPrice.getFee().getPostageTotal())
+                .setPresentPrice(calcOrderPrice.getFee().getPresentTotal())
+                .setPayAmount(0)
                 .setClosingTime(null)
                 .setDeliveryTime(null)
                 .setPaymentTime(null)
@@ -330,6 +339,19 @@ public class OrderServiceImpl implements OrderService {
         );
     }
 
+    private CommonResult<CalcOrderPriceBO> calcOrderPrice(List<ProductSkuDetailBO> skus, OrderCreateDTO orderCreateDTO) {
+        // 创建计算的 DTO
+        CalcOrderPriceDTO calcOrderPriceDTO = new CalcOrderPriceDTO()
+                .setUserId(orderCreateDTO.getUserId())
+                .setItems(new ArrayList<>(skus.size()))
+                .setCouponCardId(orderCreateDTO.getCouponCardId());
+        for (ProductSkuDetailBO item : skus) {
+            calcOrderPriceDTO.getItems().add(new CalcOrderPriceDTO.Item(item.getId(), item.getQuantity(), true));
+        }
+        // 执行计算
+        return cartService.calcOrderPrice(calcOrderPriceDTO);
+    }
+
     @Override
     public CommonResult updateOrderItem(OrderItemUpdateDTO orderUpdateDTO) {
         OrderItemDO orderItemDO = OrderItemConvert.INSTANCE.convert(orderUpdateDTO);
@@ -352,17 +374,21 @@ public class OrderServiceImpl implements OrderService {
         }
 
         // 先更新金额
-        orderItemMapper.updateById(new OrderItemDO().setId(orderItemId).setPayAmount(payAmount));
+        orderItemMapper.updateById(new OrderItemDO().setId(orderItemId)
+//                .setPayAmount(payAmount) TODO 芋艿，这里要修改
+        );
 
         // 再重新计算订单金额
         List<OrderItemDO> orderItemDOList = orderItemMapper
                 .selectByDeletedAndOrderId(orderId, DeletedStatusEnum.DELETED_NO.getValue());
-        Integer price = orderCommon.calculatedPrice(orderItemDOList);
-        Integer amount = orderCommon.calculatedAmount(orderItemDOList);
+//        Integer price = orderCommon.calculatedPrice(orderItemDOList);
+//        Integer amount = orderCommon.calculatedAmount(orderItemDOList);
+        Integer price = -1; // TODO 芋艿，这里要修改，价格
+        Integer amount = -1;
         orderMapper.updateById(
                 new OrderDO()
                         .setId(orderId)
-                        .setPrice(price)
+//                        .setPrice(price) TODO 芋艿，这里要修改
                         .setPayAmount(amount)
         );
         return CommonResult.success(null);
@@ -495,7 +521,8 @@ public class OrderServiceImpl implements OrderService {
         );
 
         // 更新订单 amount
-        Integer totalAmount = orderCommon.calculatedAmount(effectiveOrderItems);
+//        Integer totalAmount = orderCommon.calculatedAmount(effectiveOrderItems);
+        Integer totalAmount = -1; // TODO 芋艿，需要修改下，价格相关
         orderMapper.updateById(
                 new OrderDO()
                         .setId(orderId)

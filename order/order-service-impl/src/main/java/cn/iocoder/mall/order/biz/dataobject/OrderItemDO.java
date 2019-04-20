@@ -49,22 +49,6 @@ public class OrderItemDO extends DeletableDO {
      */
     private Integer quantity;
     /**
-     * 商品成交单价(分)
-     */
-    @Deprecated
-    private Integer price;
-    /**
-     * 支付金额（实付金额）
-     */
-    @Deprecated
-    private Integer payAmount;
-    /**
-     * 物流金额 (分)
-     */
-    @Deprecated
-    private Integer logisticsPrice;
-
-    /**
      * 原始单价，单位：分。
      */
     private Integer originPrice;

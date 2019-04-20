@@ -67,6 +67,7 @@ public class UsersOrderController {
     @PostMapping("create_order_from_cart")
     @ApiOperation("创建订单购物车")
     public CommonResult<OrderCreateBO> createOrderFromCart(@RequestParam("userAddressId") Integer userAddressId,
+                                                           @RequestParam(value = "couponCardId", required = false) Integer couponCardId,
                                                            @RequestParam(value = "remark", required = false) String remark,
                                                            HttpServletRequest request) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
@@ -78,7 +79,7 @@ public class UsersOrderController {
         // 创建 OrderCreateDTO 对象
         OrderCreateDTO orderCreateDTO = OrderConvertAPP.INSTANCE.createOrderCreateDTO(userId, userAddressId,
                 remark, HttpUtil.getIp(request),
-                cartItems);
+                cartItems, couponCardId);
         // 创建订单
         CommonResult<OrderCreateBO> createResult= orderService.createOrder(orderCreateDTO);
         if (createResult.isError()) {

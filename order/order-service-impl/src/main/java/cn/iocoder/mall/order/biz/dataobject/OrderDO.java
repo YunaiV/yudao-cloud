@@ -29,15 +29,27 @@ public class OrderDO extends DeletableDO {
      */
     private String orderNo;
     /**
-     * 价格(分)
+     * 购买（商品）总金额，单位：分
      */
-    private Integer price;
+    private Integer buyPrice;
+    /**
+     * 优惠总金额，单位：分。
+     */
+    private Integer discountPrice;
     /**
      * 物流金额 (分)
      */
     private Integer logisticsPrice;
     /**
-     * 交易金额
+     * 最终金额，单位：分
+     *
+     * buyPrice + logisticsPrice -  discountPrice = presentPrice
+     */
+    private Integer presentPrice;
+    /**
+     * 实际已支付金额，单位：分
+     *
+     * 初始时，金额为 0 。等到支付成功后，会进行更新。
      */
     private Integer payAmount;
 

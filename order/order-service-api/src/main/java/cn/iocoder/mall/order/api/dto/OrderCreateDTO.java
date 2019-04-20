@@ -25,6 +25,10 @@ public class OrderCreateDTO implements Serializable {
      */
     private Integer userAddressId;
     /**
+     * 优惠劵编号
+     */
+    private Integer couponCardId;
+    /**
      * 备注
      */
     private String remark;
@@ -37,4 +41,5 @@ public class OrderCreateDTO implements Serializable {
     /// order item
 
     private List<OrderCreateItemDTO> orderItems;
+    
 }

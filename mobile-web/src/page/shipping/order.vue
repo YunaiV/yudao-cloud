@@ -161,12 +161,14 @@
         }
 
         const remark = '';
+        const couponCardId = this.chosenCoupon >= 0 ? this.coupons[this.chosenCoupon].id : undefined;
 
         if (this.from === 'direct_order') {
             const { skuId, quantity } = this.$route.query;
             const orderItems = [{
               skuId,
               quantity,
+              couponCardId,
             }];
             createOrder({
               orderItems,
@@ -184,7 +186,7 @@
               }
             });
         } else if (this.from === 'cart') {
-          createOrderFromCart(userAddressId, remark).then(result => {
+          createOrderFromCart(userAddressId, couponCardId, remark).then(result => {
             if (result) {
               // const { orderNo } = result;
               this.$router.push({  //核心语句

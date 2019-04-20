@@ -142,7 +142,7 @@ public class CalcOrderPriceBO {
          */
         private Integer discountTotal;
         /**
-         * 邮费
+         * 邮费 TODO 芋艿，将  postage 改成 logistics
          */
         private Integer postageTotal;
         /**

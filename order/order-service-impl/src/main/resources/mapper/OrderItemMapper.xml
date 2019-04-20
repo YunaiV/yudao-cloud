@@ -4,7 +4,7 @@
 
     <sql id="FIELDS">
         id, order_id, order_no, sku_id, sku_name, sku_image, order_logistics_id,
-        quantity, price, pay_amount,
+        quantity, origin_price, buy_price, present_price, buy_total, discount_total, present_total,
         payment_time, delivery_time, receiver_time, closing_time,
         has_return_exchange, delivery_type, status,
         create_time, update_time, deleted
@@ -13,20 +13,20 @@
     <!--
         插入数据
     -->
-    <insert id="insert" parameterType="OrderItemDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO `order_item` (
             order_id, order_no, sku_id, sku_name, sku_image, order_logistics_id,
-            quantity, price, pay_amount,
+            quantity, origin_price, buy_price, present_price, buy_total, discount_total, present_total,
             payment_time, delivery_time, receiver_time, closing_time,
             has_return_exchange, delivery_type, status,
             create_time, update_time, deleted
         ) VALUES
-        <foreach collection="list" item="item" separator="," open="(" close=")">
-            #{item.orderId}, #{item.orderNo}, #{item.skuId}, #{item.skuName}, #{item.skuImage}, #{item.orderLogisticsId},
-            #{item.quantity}, #{item.price}, #{item.payAmount},
+        <foreach collection="list" item="item" separator=",">
+            (#{item.orderId}, #{item.orderNo}, #{item.skuId}, #{item.skuName}, #{item.skuImage}, #{item.orderLogisticsId},
+            #{item.quantity}, #{item.originPrice}, #{item.buyPrice}, #{item.presentPrice}, #{item.buyTotal}, #{item.discountTotal}, #{item.presentTotal},
             #{item.paymentTime}, #{item.deliveryTime}, #{item.receiverTime}, #{item.closingTime},
             #{item.hasReturnExchange}, #{item.deliveryType}, #{item.status},
-            #{item.createTime}, #{item.updateTime}, #{item.deleted}
+            #{item.createTime}, #{item.updateTime}, #{item.deleted})
         </foreach>
     </insert>
 
@@ -56,12 +56,13 @@
             <if test="orderItemDO.quantity != null">
                 , quantity = #{orderItemDO.quantity}
             </if>
-            <if test="orderItemDO.price != null">
-                , price = #{orderItemDO.price}
-            </if>
-            <if test="orderItemDO.payAmount != null">
-                , pay_amount = #{orderItemDO.payAmount}
-            </if>
+            <!-- TODO 芋艿 需要改 -->
+<!--            <if test="orderItemDO.price != null">-->
+<!--                , price = #{orderItemDO.price}-->
+<!--            </if>-->
+<!--            <if test="orderItemDO.payAmount != null">-->
+<!--                , pay_amount = #{orderItemDO.payAmount}-->
+<!--            </if>-->
 
             <if test="orderItemDO.paymentTime != null">
                 , payment_time = #{orderItemDO.paymentTime}

@@ -59,13 +59,14 @@ export function getOrderInfo(orderId) {
 
 // Cart
 
-export function createOrderFromCart(userAddressId, remark) {
+export function createOrderFromCart(userAddressId, couponCardId, remark) {
   return request({
     url: '/order-api/users/order/create_order_from_cart',
     method: 'post',
     params: {
       userAddressId,
       remark,
+      couponCardId,
     }
   });
 }

@@ -25,6 +25,10 @@ public class OrderCreatePO implements Serializable {
     @NotNull(message = "用户地址id不能为空!")
     private Integer userAddressId;
     /**
+     * 优惠劵编号
+     */
+    private Integer couponCardId;
+    /**
      * 备注
      */
     private String remark;

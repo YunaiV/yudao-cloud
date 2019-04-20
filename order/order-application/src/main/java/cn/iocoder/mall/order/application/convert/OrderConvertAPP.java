@@ -40,15 +40,15 @@ public interface OrderConvertAPP {
     @Mappings({})
     List<OrderCreateItemDTO> convert(List<CartItemBO> cartItems);
 
-    default OrderCreateDTO createOrderCreateDTO(Integer userId, Integer userAddressId,
-                                                String remark, String ip,
-                                                List<CartItemBO> cartItems) {
+    default OrderCreateDTO createOrderCreateDTO(Integer userId, Integer userAddressId, String remark, String ip,
+                                                List<CartItemBO> cartItems, Integer couponCardId) {
         return new OrderCreateDTO()
                 .setUserId(userId)
                 .setUserAddressId(userAddressId)
                 .setRemark(remark)
                 .setIp(ip)
-                .setOrderItems(this.convert(cartItems));
+                .setOrderItems(this.convert(cartItems))
+                .setCouponCardId(couponCardId);
     }
 
 }

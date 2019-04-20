@@ -3,7 +3,7 @@
 <mapper namespace="cn.iocoder.mall.order.biz.dao.OrderMapper">
 
     <sql id="FIELDS">
-        id, user_id, order_no, price, pay_amount, logistics_price,
+        id, user_id, order_no, buy_price, discount_price, logistics_price, present_price, pay_amount,
         payment_time, delivery_time, receiver_time, closing_time,
         has_return_exchange,
         status, remark, create_time, update_time, `deleted`
@@ -14,12 +14,12 @@
     -->
     <insert id="insert" parameterType="OrderDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO `order` (
-            user_id, order_no, price, pay_amount, logistics_price,
+            user_id, order_no, buy_price, discount_price, logistics_price, present_price, pay_amount,
             payment_time, delivery_time, receiver_time, closing_time,
             has_return_exchange,
             status, remark, create_time, update_time, `deleted`
         ) VALUES (
-             #{userId}, #{orderNo}, #{price}, #{payAmount}, #{logisticsPrice},
+             #{userId}, #{orderNo}, #{buyPrice}, #{discountPrice}, #{logisticsPrice}, #{presentPrice}, #{payAmount},
              #{paymentTime}, #{deliveryTime}, #{receiverTime}, #{closingTime},
              #{hasReturnExchange},
              #{status}, #{remark}, #{createTime}, #{updateTime}, #{deleted}
@@ -34,15 +34,15 @@
             <if test="orderNo != null">
                 , order_no = #{orderNo}
             </if>
-            <if test="price != null">
-                , price = #{price}
-            </if>
-            <if test="payAmount != null">
-                , pay_amount = #{payAmount}
-            </if>
-            <if test="logisticsPrice != null">
-                , logistics_price = #{logisticsPrice}
-            </if>
+<!--            <if test="price != null">--> <!-- TODO 后面要改下 -->
+<!--                , price = #{price}-->
+<!--            </if>-->
+<!--            <if test="payAmount != null">-->
+<!--                , pay_amount = #{payAmount}-->
+<!--            </if>-->
+<!--            <if test="logisticsPrice != null">-->
+<!--                , logistics_price = #{logisticsPrice}-->
+<!--            </if>-->
 
             <if test="paymentTime != null">
                 , payment_time = #{paymentTime}
@@ -129,7 +129,7 @@
         SELECT
         COUNT(*)
         FROM `order`
-        WHERE 1 = 1
+        WHERE 1 = 1 <!-- TODO 芋艿 不要 1=1 ，会有问题，使用 where 标签 -->
         <include refid="selectWhere" />
     </select>
 
@@ -140,7 +140,7 @@
         SELECT
         <include refid="FIELDS" />
         FROM `order`
-        WHERE 1 = 1
+        WHERE 1 = 1 <!-- TODO 芋艿 不要 1=1 ，会有问题，使用 where 标签 -->
         <include refid="selectWhere" />
         LIMIT ${pageNo * pageSize}, ${pageSize}
     </select>

@@ -3,6 +3,7 @@ package cn.iocoder.mall.pay.api.bo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-public class PayTransactionBO {
+public class PayTransactionBO implements Serializable {
 
     /**
      * 编号，自增

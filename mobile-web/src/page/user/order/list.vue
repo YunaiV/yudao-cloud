@@ -63,7 +63,7 @@
     },
     methods: {
       goPay(itemId) {
-        this.$router.push('/pay?appId=POd4RC6a&orderId=' + itemId);
+        this.$router.push('/pay?appId=POd4RC6a&orderId=' + itemId + '&returnUrl=' + encodeURI('/user/order/info/' + itemId));
       },
 
       onTabChange(index) {

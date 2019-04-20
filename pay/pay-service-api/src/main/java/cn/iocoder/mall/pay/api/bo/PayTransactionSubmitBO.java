@@ -3,12 +3,14 @@ package cn.iocoder.mall.pay.api.bo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * 支付交易提交结果 BO
  */
 @Data
 @Accessors(chain = true)
-public class PayTransactionSubmitBO {
+public class PayTransactionSubmitBO implements Serializable {
 
     /**
      * 支付交易拓展单编号

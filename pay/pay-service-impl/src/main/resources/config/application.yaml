@@ -28,7 +28,7 @@ dubbo:
 xxl:
   job:
     admin:
-      addresses: http://127.0.0.1:8080/xxl-job-admin
+      addresses: http://127.0.0.1:18079/
     executor:
       appname: pay-job-executor
       ip:

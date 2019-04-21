@@ -9,6 +9,8 @@ import cn.iocoder.mall.pay.api.constant.PayChannelEnum;
 import cn.iocoder.mall.pay.api.dto.PayTransactionSubmitDTO;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import com.alibaba.dubbo.config.annotation.Reference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +21,8 @@ import java.io.IOException;
 @RestController
 @RequestMapping("users/transaction") // TODO 芋艿，理论来说，是用户无关的。这里先酱紫先~
 public class PayTransactionController {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Reference(validation = "true")
     private PayTransactionService payService;
@@ -58,6 +62,10 @@ public class PayTransactionController {
 //        bodyObj.put("webhookId", bodyObj.remove("id"));
 //        String body = bodyObj.toString();
         CommonResult<Boolean> result = payService.updateTransactionPaySuccess(PayChannelEnum.PINGXX.getId(), sb.toString());
+        if (result.isError()) {
+            logger.error("[pingxxSuccess][message({}) result({})]", sb, result);
+            return "failure";
+        }
         return result.isSuccess() ? "success" : "failure";
     }
 

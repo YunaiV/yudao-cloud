@@ -85,4 +85,12 @@ public class CommonResult<T> implements Serializable {
         return !isSuccess();
     }
 
+    @Override
+    public String toString() {
+        return "CommonResult{" +
+                "code=" + code +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

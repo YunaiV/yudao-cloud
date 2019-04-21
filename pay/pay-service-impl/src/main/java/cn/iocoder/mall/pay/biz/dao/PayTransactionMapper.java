@@ -15,6 +15,6 @@ public interface PayTransactionMapper {
     PayTransactionDO selectByAppIdAndOrderId(@Param("appId") String appId,
                                              @Param("orderId") String orderId);
 
-    PayTransactionDO selectById(@Param("id") Integer appId);
+    PayTransactionDO selectById(@Param("id") Integer id);
 
 }

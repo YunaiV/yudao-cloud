@@ -25,6 +25,8 @@ public enum OrderErrorCodeEnum {
     ORDER_NOT_USER_ORDER(1008000011, "不是该用户的订单!"),
     ORDER_UNABLE_CONFIRM_ORDER(1008000012, "状态不对不能确认订单!"),
     ORDER_CREATE_CART_IS_EMPTY(1008000013, "购物车无选中的商品，无法创建订单"),
+    ORDER_STATUS_NOT_WAITING_PAYMENT(1008000014, "订单不处于等待支付状态"),
+    ORDER_PAY_AMOUNT_ERROR(1008000015, "订单金额不正确"),
 
     // order item
     ORDER_ITEM_ONLY_ONE(1008000200, "订单Item只有一个!"),

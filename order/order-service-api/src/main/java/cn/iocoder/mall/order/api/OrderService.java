@@ -138,7 +138,20 @@ public interface OrderService {
      *
      *  mq 更新 payStatus
      */
+    @Deprecated
     CommonResult listenerPayment();
+
+    /**
+     * 更新订单支付成功
+     *
+     * 如果成功，则返回 success
+     * 如果失败，则返回具体原因
+     *
+     * @param orderId 订单编号
+     * @param payAmount 支付的订单金额
+     * @return 支付结果
+     */
+    String updatePaySuccess(String orderId, Integer payAmount);
 
     /**
      * 监听确认收货

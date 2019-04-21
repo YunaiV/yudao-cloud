@@ -16,7 +16,7 @@ public class DubboGenericInvokerTest {
 
         ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
         // 弱类型接口名
-        reference.setInterface("cn.iocoder.mall.pay.api.PayDemoService");
+        reference.setInterface("cn.iocoder.mall.order.api.OrderService");
         // 声明为泛化接口
         reference.setGeneric(true);
 

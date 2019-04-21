@@ -34,21 +34,29 @@
             <if test="orderNo != null">
                 , order_no = #{orderNo}
             </if>
-<!--            <if test="price != null">--> <!-- TODO 后面要改下 -->
-<!--                , price = #{price}-->
-<!--            </if>-->
-<!--            <if test="payAmount != null">-->
-<!--                , pay_amount = #{payAmount}-->
-<!--            </if>-->
-<!--            <if test="logisticsPrice != null">-->
-<!--                , logistics_price = #{logisticsPrice}-->
-<!--            </if>-->
-
-            <if test="paymentTime != null">
-                , payment_time = #{paymentTime}
+            <if test="buyPrice != null">
+                , buy_price = #{buyPrice}
+            </if>
+            <if test="discountPrice != null">
+                , discount_price = #{discountPrice}
+            </if>
+            <if test="logisticsPrice != null">
+                , logistics_price = #{logisticsPrice}
+            </if>
+            <if test="logisticsPrice != null">
+                , logistics_price = #{logisticsPrice}
+            </if>
+            <if test="presentPrice != null">
+                , present_price = #{presentPrice}
+            </if>
+            <if test="payAmount != null">
+                , pay_amount = #{payAmount}
             </if>
             <if test="deliveryTime != null">
                 , delivery_time = #{deliveryTime}
+            </if>
+            <if test="paymentTime != null">
+                , payment_time = #{paymentTime}
             </if>
             <if test="receiverTime != null">
                 , receiver_time = #{receiverTime}
@@ -85,6 +93,23 @@
         UPDATE `order`
         <include refid="updateFieldSql" />
         WHERE id = #{id}
+    </update>
+
+    <update id="updateByIdAndStatus">
+        UPDATE `order`
+        <set>
+            <if test="updateObj.payAmount != null">
+                , pay_amount = #{updateObj.payAmount}
+            </if>
+            <if test="updateObj.paymentTime != null">
+                , payment_time = #{updateObj.paymentTime}
+            </if>
+            <if test="updateObj.status != null">
+                , status = #{updateObj.status}
+            </if>
+        </set>
+        WHERE id = #{id}
+        AND status = #{status}
     </update>
 
     <!--

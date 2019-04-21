@@ -31,6 +31,10 @@ public interface OrderMapper {
      */
     int updateById(OrderDO orderDO);
 
+    int updateByIdAndStatus(@Param("id") Integer id,
+                            @Param("status") Integer status,
+                            @Param("updateObj") OrderDO updateObj);
+
     /**
      * 查询 - 根据id 查询
      *

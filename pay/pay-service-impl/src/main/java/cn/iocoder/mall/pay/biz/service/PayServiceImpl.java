@@ -154,7 +154,8 @@ public class PayServiceImpl implements PayTransactionService {
         if (updateCounts == 0) { // 校验状态，必须是待支付
             throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_EXTENSION_STATUS_IS_NOT_WAITING.getCode());
         }
-        // 2.1
+        logger.info("[updateTransactionPaySuccess][PayTransactionExtensionDO({}) 更新为已支付]", payTransactionExtension.getId());
+        // 2.1 判断 PayTransactionDO 是否处于待支付
         PayTransactionDO payTransactionDO = payTransactionMapper.selectById(payTransactionExtension.getTransactionId());
         if (payTransactionDO == null) {
             return ServiceExceptionUtil.error(PayErrorCodeEnum.PAY_TRANSACTION_NOT_FOUND.getCode());
@@ -175,6 +176,7 @@ public class PayServiceImpl implements PayTransactionService {
         if (updateCounts == 0) { // 校验状态，必须是待支付 TODO 这种类型，需要思考下。需要返回错误，但是又要保证事务回滚
             throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_STATUS_IS_NOT_WAITING.getCode());
         }
+        logger.info("[updateTransactionPaySuccess][PayTransactionDO({}) 更新为已支付]", payTransactionDO.getId());
         // 3.1 插入
         PayTransactionNotifyTaskDO payTransactionNotifyTask = new PayTransactionNotifyTaskDO()
                 .setTransactionId(payTransactionExtension.getTransactionId()).setTransactionExtensionId(payTransactionExtension.getId())
@@ -184,9 +186,11 @@ public class PayServiceImpl implements PayTransactionService {
                 .setNextNotifyTime(DateUtil.addDate(Calendar.SECOND, PayTransactionNotifyTaskDO.NOTIFY_FREQUENCY[0]))
                 .setNotifyUrl(payTransactionDO.getNotifyUrl());
         payTransactionNotifyTaskMapper.insert(payTransactionNotifyTask);
+        logger.info("[updateTransactionPaySuccess][PayTransactionNotifyTaskDO({}) 新增一个任务]", payTransactionNotifyTask.getId());
         // 3.2 发送 MQ
         rocketMQTemplate.convertAndSend(MQConstant.TOPIC_PAY_TRANSACTION_PAY_SUCCESS,
                 PayTransactionConvert.INSTANCE.convert(payTransactionNotifyTask));
+        logger.info("[updateTransactionPaySuccess][PayTransactionNotifyTaskDO({}) 发送 MQ 任务]", payTransactionNotifyTask.getId());
         // 返回结果
         return CommonResult.success(true);
     }

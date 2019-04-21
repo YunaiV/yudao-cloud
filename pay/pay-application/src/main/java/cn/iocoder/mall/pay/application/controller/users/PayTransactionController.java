@@ -49,6 +49,7 @@ public class PayTransactionController {
     @PostMapping(value = "pingxx_pay_success", consumes = MediaType.APPLICATION_JSON_VALUE)
 //    @GetMapping(value = "pingxx_pay_success")
     public String pingxxSuccess(HttpServletRequest request) throws IOException {
+        logger.info("[pingxxSuccess][被回调]");
         // 读取 webhook
         StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = request.getReader()) {

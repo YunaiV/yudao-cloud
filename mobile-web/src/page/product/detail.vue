@@ -174,6 +174,7 @@
   import {getProductSpuInfo} from '../../api/product';
   import {addCart, countCart, getCartCalcSkuPrice} from '../../api/order';
   import {Dialog} from 'vant';
+  import {checkLogin} from "../../utils/cache";
 
   export default {
     components: {},
@@ -316,6 +317,13 @@
         });
       },
       onAddCartClicked(data) {
+        if (!checkLogin()) {
+          Dialog.alert({
+            title: '系统提示',
+            message: '未登陆用户，暂时不支持使用购物车',
+          });
+          return;
+        }
         const { selectedNum } = data;
         // debugger;
         addCart(data.selectedSkuComb.id,selectedNum).then(data => {
@@ -398,9 +406,11 @@
         this.doCalcSkuPrice(this.initialSku.id);
       });
       // 获得购物车数量
-      countCart().then(data => {
-        this.cartCount = data;
-      })
+      if (checkLogin()) {
+        countCart().then(data => {
+          this.cartCount = data;
+        })
+      }
     }
   };
 </script>

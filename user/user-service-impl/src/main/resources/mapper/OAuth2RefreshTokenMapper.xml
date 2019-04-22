@@ -17,4 +17,11 @@
         AND valid = 1
     </update>
 
+    <select id="selectById" parameterType="String" resultType="OAuth2RefreshTokenDO">
+        SELECT
+          id, user_id, valid, expires_time, create_time
+        FROM oauth2_refresh_token
+        WHERE id = #{id}
+    </select>
+
 </mapper>

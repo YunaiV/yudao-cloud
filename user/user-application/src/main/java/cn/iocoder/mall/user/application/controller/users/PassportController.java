@@ -2,12 +2,13 @@ package cn.iocoder.mall.user.application.controller.users;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.user.application.convert.PassportConvert;
+import cn.iocoder.mall.user.application.vo.users.UsersAccessTokenVO;
 import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import cn.iocoder.mall.user.api.MobileCodeService;
 import cn.iocoder.mall.user.api.OAuth2Service;
 import cn.iocoder.mall.user.api.UserService;
 import cn.iocoder.mall.user.api.bo.OAuth2AccessTokenBO;
-import cn.iocoder.mall.user.application.vo.users.MobileRegisterVO;
+import cn.iocoder.mall.user.application.vo.users.UsersMobileRegisterVO;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -44,8 +45,8 @@ public class PassportController {
             @ApiImplicitParam(name = "mobile", value = "手机号", required = true, example = "15601691300"),
             @ApiImplicitParam(name = "code", value = "验证码", required = true, example = "9999")
     })
-    public CommonResult<MobileRegisterVO> mobileRegister(@RequestParam("mobile") String mobile,
-                                                         @RequestParam("code") String code) {
+    public CommonResult<UsersMobileRegisterVO> mobileRegister(@RequestParam("mobile") String mobile,
+                                                              @RequestParam("code") String code) {
         CommonResult<OAuth2AccessTokenBO> result = oauth2Service.getAccessToken(mobile, code);
         return PassportConvert.INSTANCE.convert(result);
     }
@@ -74,7 +75,12 @@ public class PassportController {
         return null;
     }
 
-    // TODO 功能：刷新 token
+    @PermitAll
+    @PostMapping("/refresh_token") // TODO 功能：刷新 token
+    public CommonResult<UsersAccessTokenVO> refreshToken(@RequestParam("refreshToken") String refreshToken) {
+        CommonResult<OAuth2AccessTokenBO> result = oauth2Service.refreshToken(refreshToken);
+        return PassportConvert.INSTANCE.convert2(result);
+    }
 
     // TODO 功能：退出，销毁 token
 }

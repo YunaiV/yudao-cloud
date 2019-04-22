@@ -6,6 +6,7 @@ import cn.iocoder.mall.promotion.api.BannerService;
 import cn.iocoder.mall.promotion.api.bo.BannerBO;
 import cn.iocoder.mall.promotion.application.convert.BannerConvert;
 import cn.iocoder.mall.promotion.application.vo.users.UsersBannerVO;
+import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.security.PermitAll;
 import java.util.Comparator;
 import java.util.List;
 

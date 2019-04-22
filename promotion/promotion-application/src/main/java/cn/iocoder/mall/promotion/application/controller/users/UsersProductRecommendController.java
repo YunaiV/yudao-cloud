@@ -8,6 +8,7 @@ import cn.iocoder.mall.promotion.api.ProductRecommendService;
 import cn.iocoder.mall.promotion.api.bo.ProductRecommendBO;
 import cn.iocoder.mall.promotion.application.convert.ProductRecommendConvert;
 import cn.iocoder.mall.promotion.application.vo.users.UsersProductRecommendVO;
+import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.security.PermitAll;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;

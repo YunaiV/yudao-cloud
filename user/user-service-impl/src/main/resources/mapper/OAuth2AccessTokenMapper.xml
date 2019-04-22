@@ -26,4 +26,11 @@
         AND valid = 1
     </update>
 
+    <update id="updateToInvalidByRefreshToken" parameterType="String">
+        UPDATE oauth2_access_token
+        SET valid = 0
+        WHERE refresh_token = #{refreshToken}
+        AND valid = 1
+    </update>
+
 </mapper>

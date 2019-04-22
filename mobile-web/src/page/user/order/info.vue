@@ -39,15 +39,16 @@
     </van-cell-group>
     <div style="height:15px;"></div>
     <van-cell-group class="total">
-      <van-cell title="商品总额" :value="orderInfo.price"/>
-      <van-cell title="运费" :value="'+' + orderInfo.logisticsPrice / 100"/>
-      <van-cell title="实付金额" :value="orderInfo.payAmount" style="font-weight: 700;"/>
+      <van-cell title="商品总额" :value="orderInfo.buyPrice / 100.0"/>
+      <van-cell title="运费" :value="'+' + orderInfo.logisticsPrice / 100.0"/>
+      <van-cell title="折扣" :value="- orderInfo.discountPrice / 100.0"/>
+      <van-cell title="实付金额" :value="orderInfo.presentPrice / 100.0" style="font-weight: 700;"/>
     </van-cell-group>
     <div class="footer">
       <div class="munu">
         <van-button v-if="orderInfo.status === 3 " size="small">退货</van-button>
         <van-button v-if="orderInfo.status === 3 " size="small" v-on:click="clickConfirmReceiving(orderId)">确认收货</van-button>
-        <van-button v-if="orderInfo.status === 1 " size="small" type="danger">支付</van-button>
+        <van-button v-if="orderInfo.status === 1 " size="small" type="danger" @click="goPay(orderInfo.id)">支付</van-button>
       </div>
     </div>
   </div>
@@ -87,6 +88,9 @@
         confirmReceiving(orderId).then(res => {
           this.queryOrderPage(this.queryParams)
         })
+      },
+      goPay(itemId) {
+        this.$router.push('/pay?appId=POd4RC6a&orderId=' + itemId + '&returnUrl=' + encodeURI('/user/order/info/' + itemId));
       },
     },
     mounted() {

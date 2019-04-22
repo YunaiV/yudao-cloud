@@ -11,4 +11,6 @@ public interface OAuth2RefreshTokenMapper {
 
     void updateToInvalidByUserId(@Param("userId") Integer userId);
 
+    OAuth2RefreshTokenDO selectById(@Param("id") String id);
+
 }

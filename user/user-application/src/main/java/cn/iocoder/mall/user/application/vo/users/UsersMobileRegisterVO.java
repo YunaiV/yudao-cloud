@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 @ApiModel("手机注册结果 VO")
 @Data
 @Accessors(chain = true)
-public class MobileRegisterVO {
+public class UsersMobileRegisterVO {
 
     @ApiModelProperty(value = "访问令牌", required = true, example = "2e3d7635c15e47e997611707a237859f")
     private String accessToken;

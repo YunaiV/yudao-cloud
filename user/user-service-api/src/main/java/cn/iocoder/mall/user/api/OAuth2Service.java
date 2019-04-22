@@ -17,7 +17,7 @@ public interface OAuth2Service {
      */
     CommonResult<OAuth2AuthenticationBO> checkToken(String accessToken);
 
-    // TODO @see 刷新 token
+    CommonResult<OAuth2AccessTokenBO> refreshToken(String refreshToken);
 
     // TODO @see 移除 token
 

@@ -26,15 +26,31 @@ public class OrderBO implements Serializable {
      */
     private Integer userId;
     /**
-     * 物流id
-     */
-    private Integer orderLogisticsId;
-    /**
      * 订单编号
      */
     private String orderNo;
     /**
-     * 交易金额
+     * 购买（商品）总金额，单位：分
+     */
+    private Integer buyPrice;
+    /**
+     * 优惠总金额，单位：分。
+     */
+    private Integer discountPrice;
+    /**
+     * 物流金额 (分)
+     */
+    private Integer logisticsPrice;
+    /**
+     * 最终金额，单位：分
+     *
+     * buyPrice + logisticsPrice -  discountPrice = presentPrice
+     */
+    private Integer presentPrice;
+    /**
+     * 实际已支付金额，单位：分
+     *
+     * 初始时，金额为 0 。等到支付成功后，会进行更新。
      */
     private Integer payAmount;
 

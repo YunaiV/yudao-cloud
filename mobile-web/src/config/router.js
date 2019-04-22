@@ -66,21 +66,24 @@ const routes = [
     path: '/user/address',
     component: () => import('../page/user/address/list'),
     meta: {
-      title: '我的地址'
+      title: '我的地址',
+      requireAuth: true,
     }
   },
   {
     path: '/user/address/edit',
     component: () => import('../page/user/address/edit'),
     meta: {
-      title: '修改地址'
+      title: '修改地址',
+      requireAuth: true,
     }
   },
   {
     path: '/user/favorite',
     component: () => import('../page/user/favorite/list'),
     meta: {
-      title: '我的收藏'
+      title: '我的收藏',
+      requireAuth: true,
     }
   },
   {
@@ -102,21 +105,24 @@ const routes = [
     path: '/user/order/:id',
     component: () => import('../page/user/order/list'),
     meta: {
-      title: '我的订单'
+      title: '我的订单',
+      requireAuth: true,
     }
   },
   {
     path: '/user/order/info/:id',
     component: () => import('../page/user/order/info'),
     meta: {
-      title: '我的订单'
+      title: '我的订单',
+      requireAuth: true,
     }
   },
   {
     path: '/user/order/logistics/:id',
     component: () => import('../page/user/order/logistics'),
     meta: {
-      title: '订单追踪'
+      title: '订单追踪',
+      requireAuth: true,
     }
   },
   {
@@ -172,7 +178,8 @@ const routes = [
     name: 'cart',
     component: () => import('../page/cart/index'),
     meta: {
-      title: '购物车'
+      title: '购物车',
+      requireAuth: true,
     }
   },
   {
@@ -187,7 +194,8 @@ const routes = [
     path: '/order/success',
     component: () => import('../page/shipping/order-success'),
     meta: {
-      title: '确认订单'
+      title: '确认订单',
+      requireAuth: true,
     }
   },
   {
@@ -208,7 +216,8 @@ const routes = [
     path: '/pay',
     component: () => import('../page/pay/index'),
     meta: {
-      title: '收银台'
+      title: '收银台',
+      requireAuth: true,
     }
   }
 ];

@@ -1,8 +1,9 @@
 import axios from 'axios'
 import {baseUrl, dataSources} from './env';
 import datas from '../data/data';
-import { getAccessToken } from '../utils/cache.js';
+import { getAccessToken, getRefreshToken } from '../utils/cache.js';
 import { Dialog } from 'vant';
+import {setLoginToken} from "../utils/cache";
 
 const serviceRouter = function(requestUrl) {
   function getConfig() {
@@ -75,8 +76,9 @@ const serviceRouter = function(requestUrl) {
   //     });
   //   }
   // }
-
   const config = getConfig();
+
+  // TODO 芋艿，临时加下。
   // const createServer = doCreateServer(config);
   const indexOf = requestUrl.indexOf("/", 1);
   const _urlPrefix = requestUrl.substring(0,  indexOf);
@@ -130,9 +132,10 @@ const servicef = function (parameter) {
   return service(parameter);
 };
 
-
 service.interceptors.request.use(
   config => {
+    // 记录下原始请求的地址
+    config.originUrl = config.url;
     // Do something before request is sent
     //   if (store.getters.token) {
     //     // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
@@ -144,7 +147,8 @@ service.interceptors.request.use(
     let url = config.url = config.url.replace(`${prefix}`, target);
     // TODO 芋艿，这些 url 不用增加认证 token 。可能这么写，有点脏，后面看看咋优化下。
     if (url.indexOf('user-api/users/passport/mobile/send_register_code') !== -1
-      || url.indexOf('user-api/users/passport/mobile/register') !== -1) {
+      || url.indexOf('user-api/users/passport/mobile/register') !== -1
+      || url.indexOf('user-api/users/passport/refresh_token') !== -1) {
       return config;
     }
 
@@ -152,7 +156,6 @@ service.interceptors.request.use(
     if (getAccessToken()) {
       config.headers['Authorization'] = `Bearer ${getAccessToken()}`;
     }
-
     return config
   },
   error => {
@@ -161,6 +164,30 @@ service.interceptors.request.use(
     Promise.reject(error)
   }
 );
+
+function refreshToken(lastResponse) {
+  // TODO 芋艿，可能会存在多个异步 callback 的情况。
+  let refreshToken = getRefreshToken();
+  return servicef({
+    url: '/user-api/users/passport/refresh_token',
+    method: 'post',
+    params: {
+      refreshToken
+    }
+  }).then(data => {
+    // 设置新的 accessToken
+    setLoginToken(data.accessToken, data.refreshToken);
+    // 重新发起请求
+    let config = lastResponse.config;
+    return servicef({
+      url: config.originUrl,
+      method: config.method,
+      params: {
+        ...config.params,
+      }
+    });
+  });
+}
 
 // response interceptor
 service.interceptors.response.use(
@@ -194,7 +221,11 @@ service.interceptors.response.use(
 
       // TODO token 过期
       // TODO 需要拿 refresh token 置换
-      if (code === 1001001012) {
+      if (code === 1001001011 // 访问令牌不存在
+          || code === 1001001013 // 访问令牌已失效
+          || code === 1001001021 // 刷新令牌不存在
+          || code === 1001001022 // 刷新令牌已过期
+          || code === 1001001023) {  // 刷新令牌已失效
         Dialog.confirm({
           title: '系统提示',
           message: res.message,
@@ -210,6 +241,8 @@ service.interceptors.response.use(
             }
           }
         });
+      } else if (code === 1001001012) { // 访问令牌已过期
+        return refreshToken(response);
       } else {
         Dialog.alert({
           title: '系统提示',

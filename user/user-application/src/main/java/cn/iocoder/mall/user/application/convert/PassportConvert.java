@@ -2,7 +2,8 @@ package cn.iocoder.mall.user.application.convert;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.user.api.bo.OAuth2AccessTokenBO;
-import cn.iocoder.mall.user.application.vo.users.MobileRegisterVO;
+import cn.iocoder.mall.user.application.vo.users.UsersAccessTokenVO;
+import cn.iocoder.mall.user.application.vo.users.UsersMobileRegisterVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -13,9 +14,12 @@ public interface PassportConvert {
     PassportConvert INSTANCE = Mappers.getMapper(PassportConvert.class);
 
     @Mappings({})
-    MobileRegisterVO convert(OAuth2AccessTokenBO oauth2AccessTokenBO);
+    UsersMobileRegisterVO convert(OAuth2AccessTokenBO oauth2AccessTokenBO);
 
     @Mappings({})
-    CommonResult<MobileRegisterVO> convert(CommonResult<OAuth2AccessTokenBO> oauth2AccessTokenBO);
+    CommonResult<UsersMobileRegisterVO> convert(CommonResult<OAuth2AccessTokenBO> oauth2AccessTokenBO);
+
+    @Mappings({})
+    CommonResult<UsersAccessTokenVO> convert2(CommonResult<OAuth2AccessTokenBO> result);
 
 }

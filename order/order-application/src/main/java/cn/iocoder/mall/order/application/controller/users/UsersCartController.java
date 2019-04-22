@@ -13,6 +13,7 @@ import cn.iocoder.mall.order.application.vo.UsersCartDetailVO;
 import cn.iocoder.mall.order.application.vo.UsersOrderConfirmCreateVO;
 import cn.iocoder.mall.promotion.api.CouponService;
 import cn.iocoder.mall.promotion.api.bo.CouponCardAvailableBO;
+import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -144,6 +145,7 @@ public class UsersCartController {
     }
 
     @GetMapping("/calc_sku_price")
+    @PermitAll
     public CommonResult<UsersCalcSkuPriceVO> calcSkuPrice(@RequestParam("skuId") Integer skuId) {
         // 计算 sku 的价格
         CommonResult<CalcSkuPriceBO> calcSkuPriceResult = cartService.calcSkuPrice(skuId);

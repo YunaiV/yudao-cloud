@@ -3,8 +3,8 @@
 // localStorage 操作
 
 const cacheKeys = {
-  accessTokenKey: 'accessToken',
-  refreshTokenKey: 'refreshToken',
+  ACCESS_TOKEN: 'accessToken',
+  REFRESH_TOKEN: 'refreshToken',
 };
 
 ///

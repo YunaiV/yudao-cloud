@@ -7,6 +7,7 @@ import cn.iocoder.mall.product.api.dto.ProductSpuPageDTO;
 import cn.iocoder.mall.product.application.convert.ProductSpuConvert;
 import cn.iocoder.mall.product.application.vo.users.UsersProductSpuDetailVO;
 import cn.iocoder.mall.product.application.vo.users.UsersProductSpuPageVO;
+import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -16,8 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.security.PermitAll;
 
 @RestController
 @RequestMapping("users/spu")

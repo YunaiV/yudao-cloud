@@ -13,4 +13,6 @@ public interface OAuth2AccessTokenMapper {
 
     void updateToInvalidByUserId(@Param("userId") Integer userId);
 
+    void updateToInvalidByRefreshToken(@Param("refreshToken") String refreshToken);
+
 }

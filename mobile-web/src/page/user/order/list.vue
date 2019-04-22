@@ -33,7 +33,7 @@
             </router-link>
           </div>
           <div slot="footer" class="footer">
-            <span class="total">总价：{{item.payAmount / 100}} 元</span>
+            <span class="total">总价：{{item.presentPrice / 100}} 元</span>
             <router-link :to="'/user/order/logistics/'+item.orderid">
               <van-button v-if="[3,4,5].indexOf(item.status) != -1" size="small">查看物流</van-button>
             </router-link>
@@ -114,7 +114,7 @@
               state: `${statusArray[order.status]}`,
               status: order.status,
               products,
-              payAmount: order.payAmount,
+              presentPrice: order.presentPrice,
             };
           });
 

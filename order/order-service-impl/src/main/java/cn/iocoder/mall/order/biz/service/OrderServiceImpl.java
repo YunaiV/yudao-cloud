@@ -343,8 +343,8 @@ public class OrderServiceImpl implements OrderService {
                 .setUserId(orderCreateDTO.getUserId())
                 .setItems(new ArrayList<>(skus.size()))
                 .setCouponCardId(orderCreateDTO.getCouponCardId());
-        for (ProductSkuDetailBO item : skus) {
-            calcOrderPriceDTO.getItems().add(new CalcOrderPriceDTO.Item(item.getId(), item.getQuantity(), true));
+        for (OrderCreateItemDTO item : orderCreateDTO.getOrderItems()) {
+            calcOrderPriceDTO.getItems().add(new CalcOrderPriceDTO.Item(item.getSkuId(), item.getQuantity(), true));
         }
         // 执行计算
         return cartService.calcOrderPrice(calcOrderPriceDTO);

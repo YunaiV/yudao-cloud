@@ -177,24 +177,26 @@
             }).then(result => {
               if (result) {
                 // const { orderNo } = result;
-                this.$router.push({  //核心语句
-                  path:`/order/success`,   //跳转的路径
-                  query:{           //路由传参时push和query搭配使用 ，作用时传递参数
-                    ...result,
-                  }
-                });
+                // this.$router.push({  //核心语句
+                //   path:`/order/success`,   //跳转的路径
+                //   query:{           //路由传参时push和query搭配使用 ，作用时传递参数
+                //     ...result,
+                //   }
+                // });
+                this.$router.push('/pay?appId=POd4RC6a&orderId=' + result.id + '&returnUrl=' + encodeURI('/user/order/info/' + result.id));
               }
             });
         } else if (this.from === 'cart') {
           createOrderFromCart(userAddressId, couponCardId, remark).then(result => {
             if (result) {
               // const { orderNo } = result;
-              this.$router.push({  //核心语句
-                path:`/order/success`,   //跳转的路径
-                query:{           //路由传参时push和query搭配使用 ，作用时传递参数
-                  ...result,
-                }
-              });
+              // this.$router.push({  //核心语句
+              //   path:`/order/success`,   //跳转的路径
+              //   query:{           //路由传参时push和query搭配使用 ，作用时传递参数
+              //     ...result,
+              //   }
+              // });
+              this.$router.push('/pay?appId=POd4RC6a&orderId=' + result.id + '&returnUrl=' + encodeURI('/user/order/info/' + result.id));
             }
           });
         }

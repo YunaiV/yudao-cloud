@@ -72,7 +72,7 @@ const OrderContent = props => {
   };
 
   const renderGoods = orderItems => {
-    return orderItems.map(({ skuName, skuImage, quantity, price }) => {
+    return orderItems.map(({ skuName, skuImage, quantity, presentPrice, presentTotal }) => {
       return (
         <div key={skuName} className={styles.orderGoods}>
           <img alt={skuName} className={`${styles.image}`} src={skuImage} />
@@ -84,7 +84,7 @@ const OrderContent = props => {
           <div className={styles.contentItem}>
             <div>{quantity}件</div>
             <div>
-              {price / 100} 元/{quantity * (price / 100)} 元
+              {presentPrice / 100.0} 元/{presentTotal / 100.0} 元
             </div>
           </div>
         </div>
@@ -114,7 +114,7 @@ const OrderContent = props => {
       </div>
       <div className={styles.contentItem}>
         <div className={styles.columnName}>(实付金额)</div>
-        <div>{payAmount / 100}元</div>
+        <div>{item.presentPrice / 100}元</div>
         <div>
           {status === 1 ? <a onClick={() => handleUpdatePayAmount(props)}>修改价格</a> : ''}
         </div>

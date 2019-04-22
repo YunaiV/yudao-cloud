@@ -19,8 +19,10 @@
             <div style="margin: 10px;">
                 <van-button size="large" type="primary" style="height: 45px;line-height:45px;" @click="submit">登录</van-button>
             </div>
-            <div>1. 新注册的手机号验证后自动创建账户</div>
-            <div>2. 默认验证码是 9999</div>
+              <van-panel title="友情提示">
+                  <van-cell>1. 新注册的手机号验证后自动创建账户</van-cell>
+                  <van-cell>2. 默认验证码是 9999</van-cell>
+              </van-panel>
           </div>
       </div>
     </div>

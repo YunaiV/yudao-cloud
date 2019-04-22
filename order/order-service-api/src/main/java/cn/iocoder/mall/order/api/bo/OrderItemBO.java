@@ -45,13 +45,36 @@ public class OrderItemBO implements Serializable {
      */
     private Integer quantity;
     /**
-     * 价格(分)
+     * 原始单价，单位：分。
      */
-    private Integer price;
+    private Integer originPrice;
     /**
-     * 支付金额（实付金额）
+     * 购买单价，单位：分
      */
-    private Integer payAmount;
+    private Integer buyPrice;
+    /**
+     * 最终价格，单位：分。
+     */
+    private Integer presentPrice;
+    /**
+     * 购买总金额，单位：分
+     *
+     * 用途类似 {@link #presentTotal}
+     */
+    private Integer buyTotal;
+    /**
+     * 优惠总金额，单位：分。
+     */
+    private Integer discountTotal;
+    /**
+     * 最终总金额，单位：分。
+     *
+     * 注意，presentPrice * quantity 不一定等于 presentTotal 。
+     * 因为，存在无法整除的情况。
+     * 举个例子，presentPrice = 8.33 ，quantity = 3 的情况，presentTotal 有可能是 24.99 ，也可能是 25 。
+     * 所以，需要存储一个该字段。
+     */
+    private Integer presentTotal;
 
     ///
     /// 时间信息

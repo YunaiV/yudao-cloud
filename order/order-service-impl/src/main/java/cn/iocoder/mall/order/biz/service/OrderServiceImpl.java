@@ -611,7 +611,7 @@ public class OrderServiceImpl implements OrderService {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_PAY_AMOUNT_ERROR.getCode()).getMessage();
         }
         OrderDO updateOrderObj = new OrderDO()
-                .setStatus(OrderStatusEnum.ALREADY_SHIPMENT.getValue())
+                .setStatus(OrderStatusEnum.WAIT_SHIPMENT.getValue())
                 .setPayAmount(payAmount)
                 .setPaymentTime(new Date());
         int updateCount = orderMapper.updateByIdAndStatus(order.getId(), order.getStatus(), updateOrderObj);

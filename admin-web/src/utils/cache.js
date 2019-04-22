@@ -11,14 +11,14 @@ const cacheKeys = {
 /// 设置 loginToken，分为 accessToken 和 refreshToken
 
 export function setLoginToken(accessToken, refreshToken) {
-  setLocalStorage(cacheKeys.accessTokenKey, accessToken);
-  setLocalStorage(cacheKeys.refreshTokenKey, refreshToken);
+  setLocalStorage(cacheKeys.ACCESS_TOKEN, accessToken);
+  setLocalStorage(cacheKeys.REFRESH_TOKEN, refreshToken);
 }
 
 export function getLoginToken() {
   const res = {};
-  res[cacheKeys.accessTokenKey] = getLocalStorage(cacheKeys.accessTokenKey);
-  res[cacheKeys.refreshTokenKey] = getLocalStorage(cacheKeys.refreshTokenKey);
+  res[cacheKeys.ACCESS_TOKEN] = getLocalStorage(cacheKeys.ACCESS_TOKEN);
+  res[cacheKeys.REFRESH_TOKEN] = getLocalStorage(cacheKeys.REFRESH_TOKEN);
   return res;
 }
 

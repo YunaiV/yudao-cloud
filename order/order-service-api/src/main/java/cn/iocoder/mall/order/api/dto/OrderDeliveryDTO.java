@@ -20,12 +20,13 @@ public class OrderDeliveryDTO implements Serializable {
      * 订单id
      */
     private Integer orderId;
+    // TODO 芋艿，物流方式。会存在无需物流的情况
     /**
-     * 物流 (字典)
+     * 物流公司 (字典)
      */
     private Integer logistics;
     /**
-     * 物流编号
+     * 物流单编号
      */
     private String logisticsNo;
 
@@ -36,4 +37,5 @@ public class OrderDeliveryDTO implements Serializable {
      * 订单 orderItemId
      */
     private List<Integer> orderItemIds;
+
 }

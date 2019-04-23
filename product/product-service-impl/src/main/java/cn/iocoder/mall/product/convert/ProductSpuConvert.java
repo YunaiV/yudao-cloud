@@ -5,6 +5,7 @@ import cn.iocoder.mall.product.api.bo.*;
 import cn.iocoder.mall.product.api.dto.ProductSkuAddOrUpdateDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuAddDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuUpdateDTO;
+import cn.iocoder.mall.product.dataobject.ProductCategoryDO;
 import cn.iocoder.mall.product.dataobject.ProductSkuDO;
 import cn.iocoder.mall.product.dataobject.ProductSpuDO;
 import org.mapstruct.Mapper;
@@ -76,7 +77,8 @@ public interface ProductSpuConvert {
     ProductSkuBO convert4(ProductSkuDO sku);
 
     @Mappings({}) // TODO 芋艿，后续细看下 mapstruct 的 API ，优化这块
-    default ProductSpuDetailBO convert2(ProductSpuDO spu, List<ProductSkuDO> skus, List<ProductAttrAndValuePairBO> productAttrDetailBOs) {
+    default ProductSpuDetailBO convert2(ProductSpuDO spu, List<ProductSkuDO> skus, List<ProductAttrAndValuePairBO> productAttrDetailBOs,
+                                        ProductCategoryDO category) {
         // 创建并转换 ProductSpuDetailBO 对象
         ProductSpuDetailBO spuDetail = this.convert2(spu).setPicUrls(StringUtil.split(spu.getPicUrls(), ","));
         // 创建 ProductAttrDetailBO 的映射。其中，KEY 为 ProductAttrDetailBO.attrValueId ，即规格值的编号
@@ -93,6 +95,8 @@ public interface ProductSpuConvert {
             List<String> attrs = StringUtil.split(sku.getAttrs(), ",");
             attrs.forEach(attr -> skuDetail.getAttrs().add(productAttrDetailBOMap.get(Integer.valueOf(attr))));
         });
+        // 设置分类名
+        spuDetail.setCategoryName(category.getName());
         // 返回
         return spuDetail;
     }

@@ -34,4 +34,5 @@ public class OrderLogisticsDetailDO extends DeletableDO {
      * 物流信息
      */
     private String logisticsInformation;
+
 }

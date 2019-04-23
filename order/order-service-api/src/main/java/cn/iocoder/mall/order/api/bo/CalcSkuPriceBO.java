@@ -16,7 +16,7 @@ public class CalcSkuPriceBO {
      */
     private PromotionActivityBO fullPrivilege;
     /**
-     * 电视和折扣促销活动
+     * 限时折扣促销活动
      */
     private PromotionActivityBO timeLimitedDiscount;
     /**

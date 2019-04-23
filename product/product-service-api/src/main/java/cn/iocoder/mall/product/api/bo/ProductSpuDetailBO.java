@@ -36,6 +36,10 @@ public class ProductSpuDetailBO implements Serializable {
      */
     private Integer cid;
     /**
+     * 分类名
+     */
+    private String categoryName;
+    /**
      * 商品主图地址
      *
      * 数组，以逗号分隔

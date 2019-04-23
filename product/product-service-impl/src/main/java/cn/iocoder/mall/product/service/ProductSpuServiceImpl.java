@@ -22,6 +22,7 @@ import cn.iocoder.mall.product.dataobject.ProductSpuDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -54,6 +55,9 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         if (spu == null) {
             return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_SPU_NOT_EXISTS.getCode());
         }
+        // 获得商品分类分类
+        ProductCategoryDO category = productCategoryService.getProductCategory(spu.getCid());
+        Assert.notNull(category, String.format("分类编号(%d) 对应", spu.getCid()));
         // 获得商品 sku 数组
         List<ProductSkuDO> skus = productSkuMapper.selectListBySpuIdAndStatus(id, ProductSpuConstants.SKU_STATUS_ENABLE);
         // 获得规格
@@ -62,7 +66,20 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         CommonResult<List<ProductAttrAndValuePairBO>> validAttrResult = productAttrService.validProductAttrAndValue(productAttrValueIds,
                 false); // 读取规格时，不考虑规格是否被禁用
         // 返回成功
-        return CommonResult.success(ProductSpuConvert.INSTANCE.convert2(spu, skus, validAttrResult.getData()));
+        return CommonResult.success(ProductSpuConvert.INSTANCE.convert2(spu, skus, validAttrResult.getData(), category));
+    }
+
+    @Override
+    public CommonResult<List<ProductSpuDetailBO>> getProductSpuDetailListForSync(Integer lastId, Integer limit) {
+        // TODO 芋艿，这里目前是一个一个进行计算，后续需要优化下
+        // 查询下一批商品编号集合
+        List<Integer> spuIds = productSpuMapper.selectIdListByIdGt(lastId, limit);
+        if (spuIds.isEmpty()) {
+            return CommonResult.success(Collections.emptyList());
+        }
+        // 查询每个商品明细
+        List<ProductSpuDetailBO> spus = spuIds.stream().map(id -> getProductSpuDetail(id).getData()).collect(Collectors.toList()); // TODO 芋艿，此处相当于是 N 个查询，后续要优化。
+        return CommonResult.success(spus);
     }
 
     @SuppressWarnings("Duplicates")
@@ -108,7 +125,8 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         }
         productSkuMapper.insertList(skus);
         // 返回成功
-        return CommonResult.success(ProductSpuConvert.INSTANCE.convert2(spu, skus, validAttrResult.getData()));
+        return CommonResult.success(ProductSpuConvert.INSTANCE.convert2(spu, skus, validAttrResult.getData(),
+                validCategoryResult.getData()));
     }
 
     @SuppressWarnings("Duplicates")

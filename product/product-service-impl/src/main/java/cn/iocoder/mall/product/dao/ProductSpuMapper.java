@@ -14,6 +14,16 @@ public interface ProductSpuMapper {
 
     List<ProductSpuDO> selectByIds(@Param("ids") Collection<Integer> ids);
 
+    /**
+     * 获得大于 id 的商品编号数组
+     *
+     * @param id 商品编号
+     * @param limit 数量
+     * @return 商品编号数组
+     */
+    List<Integer> selectIdListByIdGt(@Param("id") Integer id,
+                                     @Param("limit") Integer limit);
+
     void insert(ProductSpuDO productSpuDO);
 
     void update(ProductSpuDO productSpuDO);

@@ -123,6 +123,10 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         return CommonResult.success(true);
     }
 
+    public ProductCategoryDO getProductCategory(Integer productCategoryId) {
+        return productCategoryMapper.selectById(productCategoryId);
+    }
+
     public CommonResult<ProductCategoryDO> validProductCategory(Integer productCategoryId) {
         // 校验分类是否存在
         ProductCategoryDO productCategory = productCategoryMapper.selectById(productCategoryId);

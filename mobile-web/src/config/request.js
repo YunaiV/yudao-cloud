@@ -100,7 +100,7 @@ const serviceRouter = function(requestUrl) {
 
 const service = axios.create({
   // baseURL: baseUrl, // api 的 base_url
-  timeout: 5000, // request timeout
+  timeout: 30000, // request timeout
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
   }

@@ -27,6 +27,20 @@
         AND deleted = 0
     </select>
 
+    <select id="selectIdListByIdGt" parameterType="Integer" resultType="Integer">
+        SELECT
+            <include refid="FIELDS" />
+        FROM product_spu
+        <where>
+            <if test="id != null">
+                id >= #{id}
+            </if>
+        </where>
+        AND deleted = 0
+        ORDER BY id ASC
+        LIMIT #{limit}
+    </select>
+
     <insert id="insert" parameterType="ProductSpuDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO product_spu (
             name, sell_point, description, cid, pic_urls,

@@ -198,8 +198,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItemDO> orderItemDOList = OrderItemConvert.INSTANCE.convert(orderItemDTOList);
 
         // 获取商品信息
-        Set<Integer> skuIds = orderItemDOList.stream()
-                .map(orderItemDO -> orderItemDO.getSkuId()).collect(Collectors.toSet());
+        Set<Integer> skuIds = orderItemDOList.stream().map(OrderItemDO::getSkuId).collect(Collectors.toSet());
         CommonResult<List<ProductSkuDetailBO>> productResult = productSpuService.getProductSkuDetailList(skuIds);
 
         // 校验商品信息
@@ -273,16 +272,13 @@ public class OrderServiceImpl implements OrderService {
                 .setStatus(OrderStatusEnum.WAITING_PAYMENT.getValue())
                 .setHasReturnExchange(OrderHasReturnExchangeEnum.NO.getValue())
                 .setRemark(Optional.ofNullable(orderCreateDTO.getRemark()).orElse(""));
-
         orderDO.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
         orderDO.setCreateTime(new Date());
         orderDO.setUpdateTime(null);
         orderMapper.insert(orderDO);
 
         // 收件人信息
-        CommonResult<UserAddressBO> userAddressResult
-                = userAddressService.getAddress(userId, orderCreateDTO.getUserAddressId());
-
+        CommonResult<UserAddressBO> userAddressResult = userAddressService.getAddress(userId, orderCreateDTO.getUserAddressId());
         if (userAddressResult.isError()) {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_USER_ADDRESS_FAIL.getCode());
         }
@@ -293,7 +289,6 @@ public class OrderServiceImpl implements OrderService {
                 .setType(OrderRecipientTypeEnum.EXPRESS.getValue())
                 .setCreateTime(new Date())
                 .setUpdateTime(null);
-
         orderRecipientMapper.insert(orderRecipientDO);
 
         // order item
@@ -312,7 +307,6 @@ public class OrderServiceImpl implements OrderService {
                     .setCreateTime(new Date())
                     .setUpdateTime(null);
         });
-
         // 一次性插入
         orderItemMapper.insert(orderItemDOList);
 
@@ -367,7 +361,7 @@ public class OrderServiceImpl implements OrderService {
         );
     }
 
-    @Override
+    @Override // TODO 芋艿，需要确认下这个方法的用途。因为涉及修改价格和数量。
     public CommonResult updateOrderItem(OrderItemUpdateDTO orderUpdateDTO) {
         OrderItemDO orderItemDO = OrderItemConvert.INSTANCE.convert(orderUpdateDTO);
         orderItemMapper.updateById(orderItemDO);
@@ -410,7 +404,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
+    @Transactional // TODO 芋艿，要校验下 userId 。不然可以取消任何用户的订单列。
     public CommonResult cancelOrder(Integer orderId, Integer reason, String otherReason) {
         // 关闭订单，在用户还未付款的时候可操作
         OrderDO orderDO = orderMapper.selectById(orderId);
@@ -451,15 +445,13 @@ public class OrderServiceImpl implements OrderService {
         List<Integer> orderItemIds = orderDelivery.getOrderItemIds();
 
         // 获取所有订单 items
-        List<OrderItemDO> allOrderItems = orderItemMapper
-                .selectByDeletedAndOrderId(orderDelivery.getOrderId(), DeletedStatusEnum.DELETED_NO.getValue());
+        List<OrderItemDO> allOrderItems = orderItemMapper.selectByDeletedAndOrderId(orderDelivery.getOrderId(), DeletedStatusEnum.DELETED_NO.getValue());
 
         // 当前需要发货订单，检查 id 和 status
         List<OrderItemDO> needDeliveryOrderItems = allOrderItems.stream()
                 .filter(orderItemDO -> orderItemIds.contains(orderItemDO.getId())
                         && OrderStatusEnum.WAIT_SHIPMENT.getValue() == orderItemDO.getStatus())
                 .collect(Collectors.toList());
-
         // 发货订单，检查
         if (needDeliveryOrderItems.size() != orderItemIds.size()) {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_DELIVERY_INCORRECT_DATA.getCode());
@@ -467,14 +459,12 @@ public class OrderServiceImpl implements OrderService {
 
         OrderRecipientDO orderRecipientDO = orderRecipientMapper.selectByOrderId(orderDelivery.getOrderId());
         OrderLogisticsDO orderLogisticsDO = OrderLogisticsConvert.INSTANCE.convert(orderRecipientDO);
-
         // 保存物流信息
         orderLogisticsDO
                 .setLogisticsNo(orderDelivery.getLogisticsNo())
                 .setLogistics(orderDelivery.getLogistics())
                 .setCreateTime(new Date())
                 .setUpdateTime(null);
-
         orderLogisticsMapper.insert(orderLogisticsDO);
 
         // 关联订单item 和 物流信息
@@ -490,7 +480,6 @@ public class OrderServiceImpl implements OrderService {
                 .filter(orderItemDO -> OrderStatusEnum.WAIT_SHIPMENT.getValue() == orderItemDO.getStatus()
                         && !orderItemIds.contains(orderItemDO.getId()))
                 .collect(Collectors.toList());
-
         if (unShippedOrderItems.size() <= 0) {
             orderMapper.updateById(
                     new OrderDO()
@@ -498,7 +487,7 @@ public class OrderServiceImpl implements OrderService {
                             .setStatus(OrderStatusEnum.ALREADY_SHIPMENT.getValue())
             );
         }
-
+        // 返回成功
         return CommonResult.success(null);
     }
 
@@ -594,11 +583,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public CommonResult listenerPayment() {
-        return null;
-    }
-
-    @Override
     public String updatePaySuccess(String orderId, Integer payAmount) {
         OrderDO order = orderMapper.selectById(Integer.valueOf(orderId));
         if (order == null) { // 订单不存在
@@ -610,6 +594,7 @@ public class OrderServiceImpl implements OrderService {
         if (!order.getPresentPrice().equals(payAmount)) { // 支付金额不正确
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_PAY_AMOUNT_ERROR.getCode()).getMessage();
         }
+        // 更新 OrderDO 状态为已支付，等待发货
         OrderDO updateOrderObj = new OrderDO()
                 .setStatus(OrderStatusEnum.WAIT_SHIPMENT.getValue())
                 .setPayAmount(payAmount)
@@ -618,6 +603,7 @@ public class OrderServiceImpl implements OrderService {
         if (updateCount <= 0) {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_STATUS_NOT_WAITING_PAYMENT.getCode()).getMessage();
         }
+        // TODO 芋艿 更新 OrderItemDO
         return "success";
     }
 

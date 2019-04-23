@@ -87,7 +87,7 @@ public interface OrderService {
      * @param orderDelivery
      * @return
      */
-    CommonResult orderDelivery(OrderDeliveryDTO orderDelivery);
+    CommonResult<OrderRecipientBO> orderDelivery(OrderDeliveryDTO orderDelivery);
 
     /**
      * 更新订单 - 备注
@@ -132,14 +132,6 @@ public interface OrderService {
      * @param id
      */
     CommonResult deleteOrder(Integer id);
-
-    /**
-     * 监听支付动作
-     *
-     *  mq 更新 payStatus
-     */
-    @Deprecated
-    CommonResult listenerPayment();
 
     /**
      * 更新订单支付成功

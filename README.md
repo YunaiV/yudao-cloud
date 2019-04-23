@@ -14,13 +14,15 @@ B2C 电商。
 * Spring Boot
 * MyBatis + MySQL
 * [ ] Redis + Redisson
+* Elasticsearch 搜索引擎
 * Dubbo 服务化框架
 * RocketMQ 消息队列
 * Zookeeper 注册中心
-* SkyWalking 链路追踪
+* SkyWalking 链路追踪 & JVM 监控
 * XXL-Job 任务调度
-* [ ] 配置中心
-* [ ] 服务保障 
+* [ ] 配置中心 Nacos
+* [ ] 服务保障 Sentinel
+* [ ] 分布式事务 Seata
 
 ## 其它
 
@@ -40,7 +42,10 @@ B2C 电商。
 
 # 演示
 
-TODO 暂时木有
+* H5 商城：http://h5.shop.iocoder.cn:18099
+* 管理后台：http://admin.shop.iocoder.cn:18099
+
+TODO 暂时不提供管理后台的账号密码，等后面提供。
 
 # 结尾
 

@@ -1,21 +1,21 @@
 <template>
     <div class="product-list">
-        <searchtop/>
+        <searchtop @onSearch="onSearch"  />
         <div class="filterbar">
-            <ul :class="filtersort?'show':''">
-                <li :class="filterindex==0?'selected':''" v-on:click="onFilterBar(0)"><span>{{filterindex==11?'价格最低':(filterindex==12?'价格最高':'综合')}}</span><van-icon name="arrow" class="down" /></li>
-                <li :class="filterindex==1?'selected':''" v-on:click="onFilterBar(1)"><span>销量</span></li>
-                <li :class="filterindex==2?'selected':''" v-on:click="onFilterBar(2)"><span>上新</span></li>
-                <li :class="filterindex==3?'selected':''" v-on:click="onFilterBar(3)"><span>筛选</span></li>
+            <ul :class="filterSort?'show':''">
+                <li :class="filterIndex===0?'selected':''" v-on:click="onFilterBar(0)"><span>{{filterIndex==11?'价格最低':(filterIndex==12?'价格最高':'综合')}}</span><van-icon name="arrow" class="down" /></li>
+                <li :class="filterIndex===1?'selected':''" v-on:click="onFilterBar(1)"><span>销量</span></li>
+                <li :class="filterIndex===2?'selected':''" v-on:click="onFilterBar(2)"><span>上新</span></li>
+                <li :class="filterIndex===3?'selected':''" v-on:click="onFilterBar(3)"><span>筛选</span></li>
             </ul>
-            <div :class="'item_options '+(filtersort?'show':'')">
+            <div :class="'item_options '+(filterSort?'show':'')">
                 <ul>
-                    <li :class="filterindex==10?'selected':''" v-on:click="onFilterBar(10)">综合</li>
-                    <li :class="filterindex==11?'selected':''"  v-on:click="onFilterBar(11)">价格最低</li>
-                    <li :class="filterindex==12?'selected':''" v-on:click="onFilterBar(12)">价格最高</li>
+                    <li :class="filterIndex==10?'selected':''" v-on:click="onFilterBar(10)">综合</li>
+                    <li :class="filterIndex==11?'selected':''"  v-on:click="onFilterBar(11)">价格降序</li>
+                    <li :class="filterIndex==12?'selected':''" v-on:click="onFilterBar(12)">价格最高</li>
                 </ul>
             </div>
-            <van-popup v-model="filtershow" position="right" class="filterlayer" >
+            <van-popup v-model="filterShow" position="right" class="filterlayer" >
                 <div class="filterInner" style="overflow-y: scroll;max-height: 100%;">
                     <ul>
                         <li>
@@ -163,14 +163,23 @@
             </van-popup>
         </div>
 
-        <div v-for="(product,i) in products" :key="i">
-          <product-card :product='product' @click="showProduct(product)" />
-        </div>
+        <van-list
+                v-model="loading"
+                :finished="finished"
+                finished-text="没有更多了"
+                @load="onLoad"
+        >
+            <div v-for="(product,i) in products" :key="i">
+                <product-card :product='product' @click="showProduct(product)" />
+            </div>
+        </van-list>
+
     </div>
 </template>
 
 <script>
 import searchtop from "../../components/search/searchtop";
+import {getProductPage} from "../../api/search";
 
 export default {
   components: {
@@ -178,70 +187,120 @@ export default {
   },
   data() {
     return {
-      value: "",
-      filterindex: 0,
-      filtersort: false,
-      filtershow: false,
-      
-            products:[
-                {
-                    id:1,
-                    imageURL:'https://pop.nosdn.127.net/19e33c9b-6c22-4a4b-96da-1cb7afb32712',
-                    title:'BEYOND博洋家纺 床上套件 秋冬保暖纯棉床单被套 双人被罩 磨毛全棉印花床品四件套',
-                    price:'13.00',
-                },
-                {
-                    id:1,
-                    imageURL:'https://pop.nosdn.127.net/19e33c9b-6c22-4a4b-96da-1cb7afb32712',
-                    title:'BEYOND博洋家纺 床上套件 秋冬保暖纯棉床单被套 双人被罩 磨毛全棉印花床品四件套',
-                    price:'499.00',
-                    tags:['满199减100','2件起购'],
-                },
-                {
-                    id:1,
-                    imageURL:'https://pop.nosdn.127.net/19e33c9b-6c22-4a4b-96da-1cb7afb32712',
-                    title:'BEYOND博洋家纺 床上套件 秋冬保暖纯棉床单被套 双人被罩 磨毛全棉印花床品四件套',
-                    price:'499.00',
-                    tags:['新品'],
-                    imageTag:'仅剩1件',
-                },
-                {
-                    id:1,
-                    imageURL:'https://pop.nosdn.127.net/19e33c9b-6c22-4a4b-96da-1cb7afb32712',
-                    title:'BEYOND博洋家纺 床上套件 秋冬保暖纯棉床单被套 双人被罩 磨毛全棉印花床品四件套',
-                    price:'499.00',
-                    tags:['赠'],
-                    imageTag:'预约',
-                },
-                {
-                    id:1,
-                    imageURL:'https://pop.nosdn.127.net/19e33c9b-6c22-4a4b-96da-1cb7afb32712',
-                    title:'BEYOND博洋家纺 床上套件 秋冬保暖纯棉床单被套 双人被罩 磨毛全棉印花床品四件套',
-                    price:'15.00',
-                },
-                {
-                    id:1,
-                    imageURL:'https://pop.nosdn.127.net/19e33c9b-6c22-4a4b-96da-1cb7afb32712',
-                    title:'BEYOND博洋家纺 床上套件 秋冬保暖纯棉床单被套 双人被罩 磨毛全棉印花床品四件套',
-                    price:'125.50',
-                },
-            ]
+      page: 0,
+      pageSize: 10,
+      loading: false,
+      finished: false,
+
+      keyword: "",
+
+      filterIndex: 0,
+      filterSort: false, // 是否展示几个【排序】
+      filterShow: false, // 是否展示【筛选】
+
+      sortField: undefined,
+      sortOrder: undefined,
+
+      products:[]
     };
   },
   methods: {
     onFilterBar(value) {
-      if (value == 0) {
-        this.filtersort = !this.filtersort;
-      } else if (value == 3) {
-        this.filtershow = !this.filtershow;
+      if (value === 0) {
+        this.filterSort = !this.filterSort;
+      } else if (value === 3) {
+        this.filterShow = !this.filterShow;
       } else {
-        this.filtersort = false;
-        this.filterindex = value;
+        // 如果非合法 10、11、12
+        if (value !== 10
+            && value !== 11
+            && value !== 12) {
+          alert('暂不支持');
+          return;
+        }
+        // 设置 filterSort 和 filterIndex 属性
+        this.filterSort = false;
+        this.filterIndex = value;
+        // 标记加载中
+        this.loading = true;
+        // 根据 value 的值，设置 sortField、sortOrder
+        switch (value) {
+          case 10:
+            this.sortField = undefined;
+            this.sortOrder = undefined;
+            break;
+          case 11:
+            this.sortField = 'buyPrice';
+            this.sortOrder = 'desc';
+            break;
+          case 12:
+            this.sortField = 'buyPrice';
+            this.sortOrder = 'asc';
+            break;
+        }
+        // 根据排序，重新搜索
+        let page = 1;
+        getProductPage({
+          pageNo: page,
+          pageSize: this.pageSize,
+          keyword: this.keyword,
+          sortField: this.sortField,
+          sortOrder: this.sortOrder,
+        }).then(data => {
+          this.products = [];
+          this.handleData(page, data);
+        });
       }
     },
     showProduct(product){
         this.$router.push('/product/'+product.id);
+    },
+    onSearch(keyword) {
+      this.loading = true;
+      // 设置 keyword
+      this.keyword = keyword;
+      // 重置其它字段
+      this.filterIndex = 0;
+      this.filterSort = false;
+      this.filterShow = false;
+      this.sortField = undefined;
+      this.sortOrder = undefined;
+      // 查询
+      let page = 1;
+      getProductPage({
+        pageNo: page,
+        pageSize: this.pageSize,
+        keyword: keyword,
+      }).then(data => {
+        this.products = [];
+        this.handleData(page, data);
+      });
+    },
+    onLoad() {
+      // 进入下一页
+      let page = this.page + 1;
+      getProductPage({
+        pageNo: page,
+        pageSize: this.pageSize,
+      }).then(data => {
+        this.handleData(page, data);
+      });
+    },
+    handleData(page, data) {
+      this.loading = true;
+      // 设置下页面
+      this.page = page;
+      // 数据保存到 list 中
+      this.products.push(...data.list);
+      // 判断页数
+      if (this.products.length >= data.total) {
+        this.finished = true;
+      }
+      // 标记不在加载中
+      this.loading = false;
     }
+  },
+  mounted() {
   }
 };
 </script>

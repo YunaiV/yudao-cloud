@@ -8,13 +8,13 @@
             placeholder="请输入搜索关键词"
             background="#fff"
             show-action
-            @search="onSearch"
+            @search="onSearchClick"
             slot="title"
             >
-                <div slot="action" @click="onSearch">搜索</div>
+                <div slot="action" @click="onSearchClick">搜索</div>
             </van-search>
         </van-nav-bar>
-        
+
 
     </div>
 </template>
@@ -27,14 +27,19 @@ export default {
     components:{
         [Search.name]:Search,
     },
+    props: {
+        // keyword: String,
+        // onSearch: Function,
+    },
     data(){
         return{
             value:'',
         }
     },
     methods:{
-        onSearch() {
-            console.log(this.value);
+        onSearchClick() {
+          // this.props.onSearch(this.keyword);
+          this.$emit('onSearch', this.value);
         },
         onBack() {
             history.back();

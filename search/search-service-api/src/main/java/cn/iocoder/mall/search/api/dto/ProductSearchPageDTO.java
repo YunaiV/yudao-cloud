@@ -1,9 +1,12 @@
 package cn.iocoder.mall.search.api.dto;
 
+import cn.iocoder.common.framework.util.CollectionUtil;
+import cn.iocoder.common.framework.vo.SortingField;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 商品检索分页 DTO
@@ -11,6 +14,8 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 public class ProductSearchPageDTO {
+
+    public static final Set<String> SORT_FIELDS = CollectionUtil.asSet("buyPrice");
 
     /**
      * 分类编号
@@ -33,6 +38,6 @@ public class ProductSearchPageDTO {
     /**
      * 排序字段数组
      */
-    private List<SortFieldDTO> sorts;
+    private List<SortingField> sorts;
 
 }

@@ -9,6 +9,10 @@ import java.util.List;
 
 public class StringUtil {
 
+    public static boolean hasText(String str) {
+        return StringUtils.hasText(str);
+    }
+
     public static String join(Collection<?> coll, String delim) {
         return StringUtils.collectionToDelimitedString(coll, delim);
     }

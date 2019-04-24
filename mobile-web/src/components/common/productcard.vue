@@ -8,17 +8,20 @@
                     style="background:#fff"
             >
                 <template slot="thumb">
-                    <img :src="product.picUrls[0]"/>
+                    <img :src="product.picUrls && product.picUrls ? product.picUrls[0] : ''"/>
                     <!--  TODO 芋艿 暂时去掉 -->
 <!--                    <p v-if="product.imageTag!=null&&product.imageTag!=''" class="image_tag">{{product.imageTag}}</p>-->
                 </template>
                 <template slot="tags">
-                    <p class="price" v-if="product.price!=null && product.price !== ''">
-                        ￥<span>{{product.price / 100.00}}</span>
+                    <p class="price" v-if="product.buyPrice || product.price">
+                        ￥<span>{{product.buyPrice ? product.buyPrice / 100.00 : product.price / 100.00}}</span>
                         <!--  TODO 芋艿 暂时去掉 -->
 <!--                        <van-tag v-if="product.tags!=null" v-for="tag in product.tags" :key="tag" plain type="danger">-->
 <!--                            {{tag}}-->
 <!--                        </van-tag>-->
+                        <van-tag v-if="product.promotionActivityTitle" plain type="danger">
+                            {{ product.promotionActivityTitle }}
+                        </van-tag>
 
                     </p>
                     <!--  TODO 芋艿 暂时去掉 -->

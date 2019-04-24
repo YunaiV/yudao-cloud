@@ -154,17 +154,17 @@ const routes = [
     }
   },
   {
-    path: '/product/:id',
-    component: () => import('../page/product/detail'),
-    meta: {
-      title: '商品详情'
-    }
-  },
-  {
     path: '/product/search',
     component: () => import('../page/product/search'),
     meta: {
       title: '商品搜索'
+    }
+  },
+  {
+    path: '/product/:id',
+    component: () => import('../page/product/detail'),
+    meta: {
+      title: '商品详情'
     }
   },
   {

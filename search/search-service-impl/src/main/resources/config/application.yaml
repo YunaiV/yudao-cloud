@@ -1,4 +1,4 @@
-#
+# es
 spring:
   data:
     elasticsearch:
@@ -6,6 +6,7 @@ spring:
       cluster-nodes: 192.168.88.10:9300
       repositories:
         enable: true
+
 # dubbo
 dubbo:
   application:
@@ -16,4 +17,4 @@ dubbo:
     port: -1
     name: dubbo
   scan:
-    base-packages: cn.iocoder.mall.search.service.biz
+    base-packages: cn.iocoder.mall.search.biz.service

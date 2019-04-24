@@ -33,10 +33,10 @@
         FROM product_spu
         <where>
             <if test="id != null">
-                id >= #{id}
+                id > #{id}
             </if>
+            AND deleted = 0
         </where>
-        AND deleted = 0
         ORDER BY id ASC
         LIMIT #{limit}
     </select>

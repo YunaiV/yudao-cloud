@@ -4,12 +4,14 @@ import cn.iocoder.mall.promotion.api.bo.PromotionActivityBO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * 计算商品 SKU 价格结果 BO
  */
 @Data
 @Accessors(chain = true)
-public class CalcSkuPriceBO {
+public class CalcSkuPriceBO implements Serializable {
 
     /**
      * 满减送促销活动

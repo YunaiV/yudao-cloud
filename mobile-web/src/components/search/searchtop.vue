@@ -28,12 +28,12 @@ export default {
         [Search.name]:Search,
     },
     props: {
-        // keyword: String,
+        keyword: String,
         // onSearch: Function,
     },
     data(){
         return{
-            value:'',
+            value: this.keyword,
         }
     },
     methods:{

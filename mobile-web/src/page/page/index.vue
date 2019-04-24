@@ -1,11 +1,19 @@
 <template>
 <div :style="'background-color:'+((page.BackgroundColor==undefined||page.BackgroundColor=='')?'#fff':page.BackgroundColor)">
-    <div :style="'height:'+topheight+'px'" ></div>
+<!--    <div :style="'height:'+topheight+'px'" ></div>-->
 
     <!-- TODO 搜索框 -->
 <!--    <search v-if="item.Code=='Search'" :data="item.ParameterDictionary" v-on:settopheight="settopheight($event)" ></search>-->
 
-    <van-swipe :autoplay="3000" indicator-color="white" height="160">
+    <van-search
+            v-model="keyword"
+            placeholder="请输入搜索关键词"
+            show-action
+            @search="onSearch">
+        <div slot="action" @click="onSearch">搜索</div>
+    </van-search>
+
+    <van-swipe :autoplay="3000" indicator-color="white" :height="160">
         <van-swipe-item v-for="(banner, index) in banners" :key="index" >
             <a :href="banner.url">
                 <img :src="banner.picUrl" height="100%" width="100%" >
@@ -55,13 +63,14 @@
   import pageLine from "../../components/page/line.vue";
   import pageText from "../../components/page/text.vue";
   import notice from "../../components/page/notice.vue";
-  import search from "../../components/page/search.vue";
+  // import search from "../../components/page/search.vue";
   import pageTitle from "../../components/page/title.vue";
   import cube from "../../components/page/cube.vue";
   import imageAd from "../../components/page/imageAd.vue";
   import imageText from "../../components/page/imageText.vue";
   import product from "../../components/page/product.vue";
   import {getBannerList, getProductRecommendList} from '../../api/promotion.js';
+  import {Search} from "vant";
 
   export default {
     name:"page",
@@ -70,17 +79,21 @@
         pageLine,
         pageText,
         notice,
-        search,
+        // search,
         pageTitle,
         cube,
         [imageAd.name]:imageAd,
         imageText,
-        product
+        product,
+      [Search.name]: Search
     },
     data:function(){
         return{
-            topheight:0,
-            page:{},
+          topheight:0,
+          page:{},
+
+          keyword: '', // 搜索关键词
+
           banners: [], // Banner 列表
           productRecommends: [], // 推荐商品列表
         }
@@ -111,11 +124,17 @@
       //   debugger;
       //   console.log(event);
       // },
-      settopheight:function(value){
-        this.topheight=value;
-      },
+      // settopheight:function(value){
+      //   this.topheight=value;
+      // },
       showProduct(product){
         this.$router.push('/product/'+product.id);
+      },
+      onSearch: function () {
+        // debugger;
+        this.$router.push(
+          {name: '/product/search', params: {keyword: this.keyword}}
+        )
       }
     }
 }

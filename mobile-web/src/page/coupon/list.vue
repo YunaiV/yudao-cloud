@@ -152,8 +152,8 @@
 </template>
 
 <script>
-import { GetCoupon,ExchangeCoupon } from "../../../api/user.js";
-import { getCouponPage } from "../../../api/promotion.js";
+import { ExchangeCoupon } from "../../api/user.js";
+import { getCouponPage } from "../../api/promotion.js";
 
 export default {
   components: {

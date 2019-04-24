@@ -88,7 +88,7 @@ const routes = [
   },
   {
     path: '/user/coupon',
-    component: () => import('../page/user/coupon/list'),
+    component: () => import('../page/coupon/list'),
     meta: {
       title: '我的优惠券',
       requireAuth: true,
@@ -99,7 +99,7 @@ const routes = [
     component: () => import('../page/user/order/list'),
     meta: {
       title: '我的订单'
-    }
+    },
   },
   {
     path: '/user/order/:id',
@@ -154,6 +154,7 @@ const routes = [
     }
   },
   {
+    name: '/product/search',
     path: '/product/search',
     component: () => import('../page/product/search'),
     meta: {

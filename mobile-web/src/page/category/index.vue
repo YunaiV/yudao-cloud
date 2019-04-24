@@ -1,7 +1,7 @@
 <template>
     <div>
         <van-search
-        v-model="value"
+        v-model="keyword"
         placeholder="请输入搜索关键词"
         show-action
         @search="onSearch"
@@ -73,7 +73,7 @@
                     </li>
                     <div style="clear:both">
                     </div>
-                </ul>   
+                </ul>
             </div>
         </div>
         <navigate />
@@ -92,7 +92,7 @@ export default {
   },
   data() {
     return {
-      value: "",
+      keyword: "",
       rootCategories: [],
       childCategories: [],
       activeKey: 0,
@@ -105,7 +105,10 @@ export default {
     onSearch() {
       // debugger;
       // GetAddressById(1);
-      console.log(this.value);
+      // console.log(this.value);
+      this.$router.push(
+        {name: '/product/search', params: {keyword: this.keyword}}
+      )
     },
     onClick(key) {
       // debugger;

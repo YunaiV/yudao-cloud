@@ -1,6 +1,6 @@
 <template>
     <div class="product-list">
-        <searchtop @onSearch="onSearch"  />
+        <searchtop :keyword="keyword" @onSearch="onSearch"  />
         <div class="filterbar">
             <ul :class="filterSort?'show':''">
                 <li :class="filterIndex===0?'selected':''" v-on:click="onFilterBar(0)"><span>{{filterIndex==11?'价格最低':(filterIndex==12?'价格最高':'综合')}}</span><van-icon name="arrow" class="down" /></li>
@@ -192,7 +192,7 @@ export default {
       loading: false,
       finished: false,
 
-      keyword: "",
+      keyword: this.$route.params.keyword,
 
       filterIndex: 0,
       filterSort: false, // 是否展示几个【排序】
@@ -277,11 +277,13 @@ export default {
       });
     },
     onLoad() {
+      // debugger;
       // 进入下一页
       let page = this.page + 1;
       getProductPage({
         pageNo: page,
         pageSize: this.pageSize,
+        keyword: this.keyword,
       }).then(data => {
         this.handleData(page, data);
       });

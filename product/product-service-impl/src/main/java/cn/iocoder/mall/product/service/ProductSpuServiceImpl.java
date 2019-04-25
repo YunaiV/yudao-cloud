@@ -13,17 +13,20 @@ import cn.iocoder.mall.product.api.dto.ProductSkuAddOrUpdateDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuAddDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuPageDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuUpdateDTO;
+import cn.iocoder.mall.product.api.message.ProductUpdateMessage;
 import cn.iocoder.mall.product.convert.ProductSpuConvert;
 import cn.iocoder.mall.product.dao.ProductSkuMapper;
 import cn.iocoder.mall.product.dao.ProductSpuMapper;
 import cn.iocoder.mall.product.dataobject.ProductCategoryDO;
 import cn.iocoder.mall.product.dataobject.ProductSkuDO;
 import cn.iocoder.mall.product.dataobject.ProductSpuDO;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,6 +43,9 @@ public class ProductSpuServiceImpl implements ProductSpuService {
     private ProductCategoryServiceImpl productCategoryService;
     @Autowired
     private ProductAttrServiceImpl productAttrService;
+
+    @Resource
+    private RocketMQTemplate rocketMQTemplate;
 
 //    @Override
 //    public ProductSpuBO getProductSpuDetail(Integer id) {
@@ -82,10 +88,20 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         return CommonResult.success(spus);
     }
 
-    @SuppressWarnings("Duplicates")
     @Override
-    @Transactional
     public CommonResult<ProductSpuDetailBO> addProductSpu(Integer adminId, ProductSpuAddDTO productSpuAddDTO) {
+        CommonResult<ProductSpuDetailBO> result = addProductSpu0(adminId, productSpuAddDTO);
+        // 如果新增生成，发送创建商品 Topic 消息
+        if (result.isSuccess()) {
+            // TODO 芋艿，先不考虑事务的问题。等后面的 fescar 一起搞
+            sendProductUpdateMessage(result.getData().getId());
+        }
+        return result;
+    }
+
+    @SuppressWarnings("Duplicates")
+    @Transactional
+    public CommonResult<ProductSpuDetailBO> addProductSpu0(Integer adminId, ProductSpuAddDTO productSpuAddDTO) {
         // 校验商品分类分类存在
         CommonResult<ProductCategoryDO> validCategoryResult = productCategoryService.validProductCategory(productSpuAddDTO.getCid());
         if (validCategoryResult.isError()) {
@@ -129,10 +145,19 @@ public class ProductSpuServiceImpl implements ProductSpuService {
                 validCategoryResult.getData()));
     }
 
-    @SuppressWarnings("Duplicates")
     @Override
-    @Transactional
     public CommonResult<Boolean> updateProductSpu(Integer adminId, ProductSpuUpdateDTO productSpuUpdateDTO) {
+        CommonResult<Boolean> result = updateProductSpu0(adminId, productSpuUpdateDTO);
+        if (result.isSuccess()) {
+            // TODO 芋艿，先不考虑事务的问题。等后面的 fescar 一起搞
+            sendProductUpdateMessage(productSpuUpdateDTO.getId());
+        }
+        return result;
+    }
+
+    @SuppressWarnings("Duplicates")
+    @Transactional
+    public CommonResult<Boolean> updateProductSpu0(Integer adminId, ProductSpuUpdateDTO productSpuUpdateDTO) {
         // 校验 Spu 是否存在
         if (productSpuMapper.selectById(productSpuUpdateDTO.getId()) == null) {
             return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_SPU_NOT_EXISTS.getCode());
@@ -208,6 +233,8 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         // 更新排序
         ProductSpuDO updateSpu = new ProductSpuDO().setId(spuId).setSort(sort);
         productSpuMapper.update(updateSpu);
+        // 修改成功，发送商品 Topic 消息
+        sendProductUpdateMessage(spuId);
         // 返回成功
         return CommonResult.success(true);
     }
@@ -327,6 +354,10 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         assert skus.size() > 0; // 写个断言，避免下面警告
         spu.setPrice(skus.stream().min(Comparator.comparing(ProductSkuAddOrUpdateDTO::getPrice)).get().getPrice()); // 求最小价格
         spu.setQuantity(skus.stream().mapToInt(ProductSkuAddOrUpdateDTO::getQuantity).sum()); // 求库存之和
+    }
+
+    private void sendProductUpdateMessage(Integer id) {
+        rocketMQTemplate.convertAndSend(ProductUpdateMessage.TOPIC, new ProductUpdateMessage().setId(id));
     }
 
 }

@@ -1,11 +1,11 @@
-package cn.iocoder.mall.pay.biz.mq;
-
-import cn.iocoder.mall.pay.biz.dataobject.PayTransactionDO;
+package cn.iocoder.mall.pay.api.message;
 
 /**
- * {@link cn.iocoder.mall.pay.biz.constant.MQConstant#TOPIC_PAY_TRANSACTION_PAY_SUCCESS} 的消息对象
+ * 支付交易单支付成功的消息对象
  */
 public class PayTransactionPaySuccessMessage {
+
+    public static final String TOPIC = "PAY_TRANSACTION_PAY_SUCCESS";
 
     /**
      * 编号，自增
@@ -13,8 +13,6 @@ public class PayTransactionPaySuccessMessage {
     private Integer id;
     /**
      * 交易编号
-     *
-     * {@link PayTransactionDO#getId()}
      */
     private Integer transactionId;
     /**

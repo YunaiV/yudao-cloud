@@ -129,4 +129,5 @@ public class UsersOrderController {
         orderInfoBO.setStatusText(dictResult.getData().getDisplayName());
         return commonResult;
     }
+
 }

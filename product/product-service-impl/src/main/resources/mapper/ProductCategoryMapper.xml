@@ -32,6 +32,17 @@
         AND deleted = 0
     </select>
 
+    <select id="selectByIds" resultType="ProductCategoryDO">
+        SELECT
+            <include refid="FIELDS" />
+        FROM product_category
+        WHERE id IN
+            <foreach collection="ids" item="id" separator="," open="(" close=")">
+                #{id}
+            </foreach>
+        AND deleted = 0
+    </select>
+
     <insert id="insert" parameterType="ProductCategoryDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO product_category (
           pid, name, description, pic_url, sort,

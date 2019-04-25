@@ -77,11 +77,9 @@ public interface CouponService {
      *
      * @param userId 用户编号
      * @param couponCardId 优惠劵编号
-     * @param usedOrderId 下单的编号
-     * @param usedPrice 下单的价格
      * @return 是否成功
      */
-    CommonResult<Boolean> useCouponCard(Integer userId, Integer couponCardId, Integer usedOrderId, Integer usedPrice);
+    CommonResult<Boolean> useCouponCard(Integer userId, Integer couponCardId);
 
     /**
      * 取消优惠劵的使用

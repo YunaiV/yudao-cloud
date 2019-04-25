@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class ESProductBO implements Serializable {
+public class ProductBO implements Serializable {
 
     private Integer id;
 

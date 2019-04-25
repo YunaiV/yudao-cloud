@@ -96,18 +96,6 @@ public class CouponCardBO implements Serializable {
 
     // ========== 使用情况 BEGIN ==========
     /**
-     * 是否使用
-     */
-    private Boolean used;
-    /**
-     * 使用订单号
-     */
-    private Integer usedOrderId;
-    /**
-     * 订单中优惠面值，单位：分
-     */
-    private Integer usedPrice;
-    /**
      * 使用时间
      */
     private Date usedTime;

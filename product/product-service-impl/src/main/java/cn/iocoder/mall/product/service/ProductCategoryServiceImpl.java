@@ -16,6 +16,7 @@ import cn.iocoder.mall.product.dataobject.ProductCategoryDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +30,12 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     @Override
     public List<ProductCategoryBO> getListByPid(Integer pid) {
         List<ProductCategoryDO> categoryList = productCategoryMapper.selectListByPidAndStatusOrderBySort(pid, ProductCategoryConstants.STATUS_ENABLE);
+        return ProductCategoryConvert.INSTANCE.convertToBO(categoryList);
+    }
+
+    @Override
+    public List<ProductCategoryBO> getListByIds(Collection<Integer> ids) {
+        List<ProductCategoryDO> categoryList = productCategoryMapper.selectByIds(ids);
         return ProductCategoryConvert.INSTANCE.convertToBO(categoryList);
     }
 

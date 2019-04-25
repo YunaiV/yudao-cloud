@@ -29,4 +29,8 @@ public interface CouponCardMapper {
 
     int update(CouponCardDO couponCardDO);
 
+    int updateByIdAndStatus(@Param("id") Integer id,
+                            @Param("status") Integer status,
+                            @Param("updateObj") CouponCardDO updateObj);
+
 }

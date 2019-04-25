@@ -46,11 +46,6 @@ public class UsersCouponCardVO {
     // ========== 使用效果 END ==========
 
     // ========== 使用情况 BEGIN ==========
-    /**
-     * 是否使用
-     */
-    @ApiModelProperty(value = "是否使用", required = true)
-    private Boolean used;
 
     // TODO 芋艿，后续要加优惠劵的使用日志，因为下单后，可能会取消。
 

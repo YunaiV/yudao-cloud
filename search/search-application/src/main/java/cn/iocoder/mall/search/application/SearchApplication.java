@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SearchApplication {
 
     public static void main(String[] args) {
+        // 解决 ES  java.lang.IllegalStateException: availableProcessors is already
+        System.setProperty("es.set.netty.runtime.available.processors", "false");
         SpringApplication.run(SearchApplication.class, args);
     }
 

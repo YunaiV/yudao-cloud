@@ -1,5 +1,7 @@
 package cn.iocoder.common.framework.util;
 
+import org.springframework.util.Assert;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -114,6 +116,21 @@ public class DateUtil {
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, second);
         calendar.set(Calendar.MILLISECOND, milliSecond);
+    }
+
+    /**
+     * 判断当前时间，是否在该时间范围内
+     *
+     * @param beginTime 开始时间
+     * @param endTime 结束时间
+     * @return 是否在
+     */
+    public static boolean isBetween(Date beginTime, Date endTime) {
+        Assert.notNull(beginTime, "开始时间不能为空");
+        Assert.notNull(endTime, "结束时间不能为空");
+        Date now = new Date();
+        return beginTime.getTime() <= now.getTime()
+                && now.getTime() <= endTime.getTime();
     }
 
 }

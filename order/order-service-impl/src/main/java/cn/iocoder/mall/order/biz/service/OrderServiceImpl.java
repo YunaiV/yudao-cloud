@@ -21,6 +21,7 @@ import cn.iocoder.mall.pay.api.bo.PayTransactionBO;
 import cn.iocoder.mall.pay.api.dto.PayTransactionCreateDTO;
 import cn.iocoder.mall.product.api.ProductSpuService;
 import cn.iocoder.mall.product.api.bo.ProductSkuDetailBO;
+import cn.iocoder.mall.promotion.api.CouponService;
 import cn.iocoder.mall.user.api.UserAddressService;
 import cn.iocoder.mall.user.api.bo.UserAddressBO;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -62,14 +63,17 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderCancelMapper orderCancelMapper;
 
-    @Reference
-    private ProductSpuService productSpuService;
     @Autowired
     private CartServiceImpl cartService;
-    @Reference
+
+    @Reference(validation = "true")
+    private ProductSpuService productSpuService;
+    @Reference(validation = "true")
     private UserAddressService userAddressService;
     @Reference(validation = "true")
     private PayTransactionService payTransactionService;
+    @Reference(validation = "true")
+    private CouponService couponService;
 
     @Override
     public CommonResult<OrderPageBO> getOrderPage(OrderQueryDTO orderQueryDTO) {
@@ -248,7 +252,12 @@ public class OrderServiceImpl implements OrderService {
                 .setPresentTotal(priceItem.getPresentTotal());
         }
 
-        // TODO 芋艿，标记优惠劵使用
+        // 标记优惠劵已使用
+        CommonResult<Boolean> useCouponCardResult = couponService.useCouponCard(userId, orderCreateDTO.getCouponCardId());
+        if (useCouponCardResult.isError()) {
+            return CommonResult.error(useCouponCardResult);
+        }
+
         // TODO 芋艿，扣除库存
 
         // order

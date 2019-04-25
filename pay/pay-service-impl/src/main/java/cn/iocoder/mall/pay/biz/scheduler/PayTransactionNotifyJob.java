@@ -1,6 +1,6 @@
 package cn.iocoder.mall.pay.biz.scheduler;
 
-import cn.iocoder.mall.pay.biz.constant.MQConstant;
+import cn.iocoder.mall.pay.api.message.PayTransactionPaySuccessMessage;
 import cn.iocoder.mall.pay.biz.convert.PayTransactionConvert;
 import cn.iocoder.mall.pay.biz.dao.PayTransactionNotifyTaskMapper;
 import cn.iocoder.mall.pay.biz.dataobject.PayTransactionNotifyTaskDO;
@@ -35,7 +35,7 @@ public class PayTransactionNotifyJob extends IJobHandler {
         // 循环任务，发送通知
         for (PayTransactionNotifyTaskDO payTransactionNotifyTask : notifyTasks) {
             // 发送 MQ
-            rocketMQTemplate.convertAndSend(MQConstant.TOPIC_PAY_TRANSACTION_PAY_SUCCESS,
+            rocketMQTemplate.convertAndSend(PayTransactionPaySuccessMessage.TOPIC,
                     PayTransactionConvert.INSTANCE.convert(payTransactionNotifyTask));
             // 更新最后通知时间
             // 1. 这样操作，虽然可能会出现 MQ 消费快于下面 PayTransactionNotifyTaskDO 的更新语句。但是，因为更新字段不同，所以不会有问题。

@@ -3,7 +3,7 @@ package cn.iocoder.mall.pay.biz.mq;
 import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.util.ExceptionUtil;
 import cn.iocoder.mall.pay.api.constant.PayTransactionNotifyStatusEnum;
-import cn.iocoder.mall.pay.biz.constant.MQConstant;
+import cn.iocoder.mall.pay.api.message.PayTransactionPaySuccessMessage;
 import cn.iocoder.mall.pay.biz.dao.PayTransactionMapper;
 import cn.iocoder.mall.pay.biz.dao.PayTransactionNotifyLogMapper;
 import cn.iocoder.mall.pay.biz.dao.PayTransactionNotifyTaskMapper;
@@ -31,8 +31,8 @@ import java.util.Date;
 
 @Service
 @RocketMQMessageListener(
-        topic = MQConstant.TOPIC_PAY_TRANSACTION_PAY_SUCCESS,
-        consumerGroup = "pay-consumer-group-" + MQConstant.TOPIC_PAY_TRANSACTION_PAY_SUCCESS
+        topic = PayTransactionPaySuccessMessage.TOPIC,
+        consumerGroup = "pay-consumer-group-" + PayTransactionPaySuccessMessage.TOPIC
 )
 public class PayTransactionPaySuccessConsumer implements RocketMQListener<PayTransactionPaySuccessMessage> {
 

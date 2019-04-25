@@ -14,3 +14,13 @@ export function getProductPage({cid, keyword, pageNo, pageSize, sortField, sortO
     }
   });
 }
+
+export function getProductCondition({keyword}) {
+  return request({
+    url: '/search-api/users/product/condition',
+    method: 'get',
+    params: {
+      keyword,
+    }
+  });
+}

@@ -23,3 +23,10 @@ dubbo:
     name: dubbo
   scan:
     base-packages: cn.iocoder.mall.product.service
+
+
+# rocketmq
+rocketmq:
+  name-server: 127.0.0.1:9876
+  producer:
+    group: product-producer-group

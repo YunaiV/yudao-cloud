@@ -54,11 +54,13 @@ public interface ProductRepository extends ElasticsearchRepository<ESProductDO, 
             nativeSearchQueryBuilder.withQuery(QueryBuilders.matchAllQuery());
         }
         // 排序
-        if (CollectionUtil.isEmpty(sortFields)) {
-            nativeSearchQueryBuilder.withSort(SortBuilders.scoreSort().order(SortOrder.DESC));
-        } else {
+        if (!CollectionUtil.isEmpty(sortFields)) {
             sortFields.forEach(sortField -> nativeSearchQueryBuilder.withSort(SortBuilders.fieldSort(sortField.getField())
                     .order(SortOrder.fromString(sortField.getOrder()))));
+        } else if (StringUtil.hasText(keyword)) {
+            nativeSearchQueryBuilder.withSort(SortBuilders.scoreSort().order(SortOrder.DESC));
+        } else {
+            nativeSearchQueryBuilder.withSort(SortBuilders.fieldSort("sort").order(SortOrder.DESC));
         }
         // 执行查询
         return search(nativeSearchQueryBuilder.build());

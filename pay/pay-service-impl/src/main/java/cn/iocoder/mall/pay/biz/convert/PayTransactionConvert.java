@@ -6,7 +6,7 @@ import cn.iocoder.mall.pay.api.dto.PayTransactionSubmitDTO;
 import cn.iocoder.mall.pay.biz.dataobject.PayTransactionDO;
 import cn.iocoder.mall.pay.biz.dataobject.PayTransactionExtensionDO;
 import cn.iocoder.mall.pay.biz.dataobject.PayTransactionNotifyTaskDO;
-import cn.iocoder.mall.pay.biz.mq.PayTransactionPaySuccessMessage;
+import cn.iocoder.mall.pay.api.message.PayTransactionPaySuccessMessage;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;

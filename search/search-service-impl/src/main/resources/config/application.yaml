@@ -3,7 +3,7 @@ spring:
   data:
     elasticsearch:
       cluster-name: elasticsearch
-      cluster-nodes: 192.168.88.10:9300
+      cluster-nodes: 180.167.213.26:9300
       repositories:
         enable: true
 
@@ -18,3 +18,9 @@ dubbo:
     name: dubbo
   scan:
     base-packages: cn.iocoder.mall.search.biz.service
+
+# rocketmq
+rocketmq:
+  name-server: 127.0.0.1:9876
+  producer:
+    group: search-producer-group

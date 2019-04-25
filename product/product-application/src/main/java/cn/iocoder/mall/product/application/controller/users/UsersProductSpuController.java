@@ -42,6 +42,7 @@ public class UsersProductSpuController {
             @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, example = "10"),
     })
     @PermitAll
+    @Deprecated // 使用商品搜索接口
     public CommonResult<UsersProductSpuPageVO> page(@RequestParam(value = "cid", required = false) Integer cid,
                                                     @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
                                                     @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {

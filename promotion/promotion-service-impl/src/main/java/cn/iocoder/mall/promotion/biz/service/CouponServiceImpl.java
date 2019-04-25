@@ -241,13 +241,51 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public CommonResult<Boolean> useCouponCard(Integer userId, Integer couponCardId, Integer usedOrderId, Integer usedPrice) {
-        return null;
+    public CommonResult<Boolean> useCouponCard(Integer userId, Integer couponCardId) {
+        // 查询优惠劵
+        CouponCardDO card = couponCardMapper.selectById(couponCardId);
+        if (card == null) {
+            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_NOT_EXISTS.getCode());
+        }
+        if (!userId.equals(card.getUserId())) {
+            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_ERROR_USER.getCode());
+        }
+        if (CouponCardStatusEnum.UNUSED.getValue().equals(card.getStatus())) {
+            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
+        }
+        if (DateUtil.isBetween(card.getValidStartTime(), card.getValidEndTime())) { // 为避免定时器没跑，实际优惠劵已经过期
+            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
+        }
+        // 更新优惠劵已使用
+        int updateCount = couponCardMapper.updateByIdAndStatus(card.getId(), CouponCardStatusEnum.USED.getValue(),
+                new CouponCardDO().setStatus(CouponCardStatusEnum.USED.getValue()).setUsedTime(new Date()));
+        if (updateCount == 0) {
+            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
+        }
+        return CommonResult.success(true);
     }
 
     @Override
     public CommonResult<Boolean> cancelUseCouponCard(Integer userId, Integer couponCardId) {
-        return null;
+        // 查询优惠劵
+        CouponCardDO card = couponCardMapper.selectById(couponCardId);
+        if (card == null) {
+            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_NOT_EXISTS.getCode());
+        }
+        if (!userId.equals(card.getUserId())) {
+            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_ERROR_USER.getCode());
+        }
+        if (CouponCardStatusEnum.USED.getValue().equals(card.getStatus())) {
+            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_USED.getCode());
+        }
+        // 更新优惠劵已使用
+        int updateCount = couponCardMapper.updateByIdAndStatus(card.getId(), CouponCardStatusEnum.UNUSED.getValue(),
+                new CouponCardDO().setStatus(CouponCardStatusEnum.USED.getValue())); // TODO 芋艿，usedTime 未设置空，后面处理。
+        if (updateCount == 0) {
+            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_USED.getCode());
+        }
+        // 有一点要注意，更新会未使用时，优惠劵可能已经过期了，直接让定时器跑过期，这里不做处理。
+        return CommonResult.success(true);
     }
 
     @Override

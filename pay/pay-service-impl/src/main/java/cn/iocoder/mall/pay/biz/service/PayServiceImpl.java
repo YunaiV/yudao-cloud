@@ -12,10 +12,10 @@ import cn.iocoder.mall.pay.api.constant.PayTransactionNotifyStatusEnum;
 import cn.iocoder.mall.pay.api.constant.PayTransactionStatusEnum;
 import cn.iocoder.mall.pay.api.dto.PayTransactionCreateDTO;
 import cn.iocoder.mall.pay.api.dto.PayTransactionSubmitDTO;
+import cn.iocoder.mall.pay.api.message.PayTransactionPaySuccessMessage;
 import cn.iocoder.mall.pay.biz.client.AbstractPaySDK;
 import cn.iocoder.mall.pay.biz.client.PaySDKFactory;
 import cn.iocoder.mall.pay.biz.client.TransactionPaySuccessBO;
-import cn.iocoder.mall.pay.biz.constant.MQConstant;
 import cn.iocoder.mall.pay.biz.convert.PayTransactionConvert;
 import cn.iocoder.mall.pay.biz.dao.PayTransactionExtensionMapper;
 import cn.iocoder.mall.pay.biz.dao.PayTransactionMapper;
@@ -188,7 +188,7 @@ public class PayServiceImpl implements PayTransactionService {
         payTransactionNotifyTaskMapper.insert(payTransactionNotifyTask);
         logger.info("[updateTransactionPaySuccess][PayTransactionNotifyTaskDO({}) 新增一个任务]", payTransactionNotifyTask.getId());
         // 3.2 发送 MQ
-        rocketMQTemplate.convertAndSend(MQConstant.TOPIC_PAY_TRANSACTION_PAY_SUCCESS,
+        rocketMQTemplate.convertAndSend(PayTransactionPaySuccessMessage.TOPIC,
                 PayTransactionConvert.INSTANCE.convert(payTransactionNotifyTask));
         logger.info("[updateTransactionPaySuccess][PayTransactionNotifyTaskDO({}) 发送 MQ 任务]", payTransactionNotifyTask.getId());
         // 返回结果

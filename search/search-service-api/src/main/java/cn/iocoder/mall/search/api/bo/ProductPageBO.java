@@ -8,12 +8,12 @@ import java.util.List;
 
 @Data
 @Accessors(chain = true)
-public class ESProductPageBO implements Serializable {
+public class ProductPageBO implements Serializable {
 
     /**
      * 管理员数组
      */
-    private List<ESProductBO> list;
+    private List<ProductBO> list;
     /**
      * 总量
      */

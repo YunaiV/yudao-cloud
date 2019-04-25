@@ -4,7 +4,9 @@ import cn.iocoder.common.framework.util.StringUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.SortingField;
 import cn.iocoder.mall.search.api.ProductSearchService;
-import cn.iocoder.mall.search.api.bo.ESProductPageBO;
+import cn.iocoder.mall.search.api.bo.ProductConditionBO;
+import cn.iocoder.mall.search.api.bo.ProductPageBO;
+import cn.iocoder.mall.search.api.dto.ProductConditionDTO;
 import cn.iocoder.mall.search.api.dto.ProductSearchPageDTO;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
@@ -24,12 +26,12 @@ public class UsersProductSearchController {
     private ProductSearchService productSearchService;
 
     @GetMapping("/page") // TODO 芋艿，后面把 BO 改成 VO
-    public CommonResult<ESProductPageBO> page(@RequestParam(value = "cid", required = false) Integer cid,
-                                              @RequestParam(value = "keyword", required = false) String keyword,
-                                              @RequestParam(value = "pageNo", required = false) Integer pageNo,
-                                              @RequestParam(value = "pageSize", required = false) Integer pageSize,
-                                              @RequestParam(value = "sortField", required = false) String sortField,
-                                              @RequestParam(value = "sortOrder", required = false) String sortOrder) {
+    public CommonResult<ProductPageBO> page(@RequestParam(value = "cid", required = false) Integer cid,
+                                            @RequestParam(value = "keyword", required = false) String keyword,
+                                            @RequestParam(value = "pageNo", required = false) Integer pageNo,
+                                            @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                            @RequestParam(value = "sortField", required = false) String sortField,
+                                            @RequestParam(value = "sortOrder", required = false) String sortOrder) {
         // 创建 ProductSearchPageDTO 对象
         ProductSearchPageDTO productSearchPageDTO = new ProductSearchPageDTO().setCid(cid).setKeyword(keyword)
                 .setPageNo(pageNo).setPageSize(pageSize);
@@ -37,7 +39,16 @@ public class UsersProductSearchController {
             productSearchPageDTO.setSorts(Collections.singletonList(new SortingField(sortField, sortOrder)));
         }
         // 执行搜索
-        return productSearchService.searchPage(productSearchPageDTO);
+        return productSearchService.getSearchPage(productSearchPageDTO);
+    }
+
+    @GetMapping("/condition") // TODO 芋艿，后面把 BO 改成 VO
+    public CommonResult<ProductConditionBO> condition(@RequestParam(value = "keyword", required = false) String keyword) {
+        // 创建 ProductConditionDTO 对象
+        ProductConditionDTO productConditionDTO = new ProductConditionDTO().setKeyword(keyword)
+                .setFields(Collections.singleton(ProductConditionDTO.FIELD_CATEGORY));
+        // 执行搜索
+        return productSearchService.getSearchCondition(productConditionDTO);
     }
 
 }

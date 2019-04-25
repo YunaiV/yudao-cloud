@@ -29,6 +29,8 @@ public enum PromotionErrorCodeEnum {
     COUPON_CARD_NOT_EXISTS(1006003000, "优惠劵不存在"),
     COUPON_CARD_ERROR_USER(1006003001, "优惠劵不属于当前用户"),
     COUPON_CARD_NOT_MATCH(1006003002, "优惠劵不匹配，无法使用"),
+    COUPON_CARD_STATUS_NOT_UNUSED(1006003003, "优惠劵不处于待使用状态"),
+    COUPON_CARD_STATUS_NOT_USED(1006003004, "优惠劵不处于已使用状态"),
     ;
 
 

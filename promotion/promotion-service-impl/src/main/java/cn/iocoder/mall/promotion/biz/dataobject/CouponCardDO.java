@@ -99,14 +99,14 @@ public class CouponCardDO extends BaseDO {
     // ========== 使用效果 END ==========
 
     // ========== 使用情况 BEGIN ==========
-    /**
-     * 使用订单号
-     */
-    private Integer usedOrderId;
-    /**
-     * 订单中优惠面值，单位：分
-     */
-    private Integer usedPrice;
+//    /**
+//     * 使用订单号
+//     */
+//    private Integer usedOrderId; // TODO 芋艿，暂时不考虑这个字段
+//    /**
+//     * 订单中优惠面值，单位：分
+//     */
+//    private Integer usedPrice; // TODO 芋艿，暂时不考虑这个字段
     /**
      * 使用时间
      */

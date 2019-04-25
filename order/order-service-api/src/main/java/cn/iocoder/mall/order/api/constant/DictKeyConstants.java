@@ -16,4 +16,8 @@ public class DictKeyConstants {
      * 订单 - 物流商家
      */
     public static final String ORDER_LOGISTICS_COMPANY = "logistics_company";
+    /**
+     * 订单 - 退货原因
+     */
+    public static final String ORDER_RETURN_REASON = "order_return_reason";
 }

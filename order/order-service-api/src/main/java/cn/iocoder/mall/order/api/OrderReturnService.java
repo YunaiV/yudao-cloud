@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
 import cn.iocoder.mall.order.api.dto.OrderReturnCreateDTO;
 
 /**
@@ -11,11 +12,13 @@ import cn.iocoder.mall.order.api.dto.OrderReturnCreateDTO;
  */
 public interface OrderReturnService {
 
+
     /**
-     * 订单退货 - 创建
+     * 订单 - 退货
      *
-     * @param orderReturnCreate
+     * @param orderReturnApplyDTO
      * @return
      */
-    CommonResult createOrderReturn(OrderReturnCreateDTO orderReturnCreate);
+    CommonResult orderReturnApply(OrderReturnApplyDTO orderReturnApplyDTO);
+
 }

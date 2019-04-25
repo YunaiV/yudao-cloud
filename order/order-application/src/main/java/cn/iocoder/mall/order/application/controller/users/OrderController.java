@@ -13,9 +13,12 @@ import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.dto.CalcOrderPriceDTO;
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderQueryDTO;
+import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
 import cn.iocoder.mall.order.application.convert.CartConvert;
 import cn.iocoder.mall.order.application.convert.OrderConvertAPP;
+import cn.iocoder.mall.order.application.convert.OrderReturnConvert;
 import cn.iocoder.mall.order.application.po.user.OrderCreatePO;
+import cn.iocoder.mall.order.application.po.user.OrderReturnApplyPO;
 import cn.iocoder.mall.order.application.vo.UsersOrderConfirmCreateVO;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -38,7 +41,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("users/order")
 @Api(description = "用户订单")
-public class UsersOrderController {
+public class OrderController {
 
     @Reference(validation = "true")
     private OrderService orderService;
@@ -124,9 +127,11 @@ public class UsersOrderController {
         CommonResult<OrderInfoBO> commonResult = orderService.info(userId, orderId);
 
         OrderInfoBO orderInfoBO = commonResult.getData();
-        CommonResult<DataDictBO> dictResult = dataDictService
-                .getDataDict(DictKeyConstants.ORDER_STATUS, orderInfoBO.getStatus());
-        orderInfoBO.setStatusText(dictResult.getData().getDisplayName());
+        if(orderInfoBO != null) {
+            CommonResult<DataDictBO> dictResult = dataDictService
+                    .getDataDict(DictKeyConstants.ORDER_STATUS, orderInfoBO.getStatus());
+            orderInfoBO.setStatusText(dictResult.getData().getDisplayName());
+        }
         return commonResult;
     }
 }

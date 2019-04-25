@@ -12,6 +12,7 @@ import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,25 +50,27 @@ public class OrderLogisticsController {
 
             // 获取字典值
             Set<Integer> dictValues = logisticsList.stream().map(o -> o.getLogistics()).collect(Collectors.toSet());
-            CommonResult<List<DataDictBO>> dictResult = dataDictService
-                    .getDataDictList(DictKeyConstants.ORDER_LOGISTICS_COMPANY, dictValues);
+            if (!CollectionUtils.isEmpty(dictValues)) {
+                CommonResult<List<DataDictBO>> dictResult = dataDictService
+                        .getDataDictList(DictKeyConstants.ORDER_LOGISTICS_COMPANY, dictValues);
 
-            if (dictResult.isError()) {
-                // 错误情况
-                return ServiceExceptionUtil.error(OrderErrorCodeEnum.DICT_SERVER_INVOKING_FAIL.getCode());
-            }
-
-            // 转换结果字典值
-            Map<String, DataDictBO> dataDictBOMap = dictResult.getData()
-                    .stream().collect(Collectors.toMap(o -> o.getValue(), o -> o));
-
-            logisticsList.stream().map(o -> {
-                String dicValue = o.getLogistics().toString();
-                if (dataDictBOMap.containsKey(dicValue)) {
-                    o.setLogisticsText(dataDictBOMap.get(dicValue).getDisplayName());
+                if (dictResult.isError()) {
+                    // 错误情况
+                    return ServiceExceptionUtil.error(OrderErrorCodeEnum.DICT_SERVER_INVOKING_FAIL.getCode());
                 }
-                return o;
-            }).collect(Collectors.toList());
+
+                // 转换结果字典值
+                Map<String, DataDictBO> dataDictBOMap = dictResult.getData()
+                        .stream().collect(Collectors.toMap(o -> o.getValue(), o -> o));
+
+                logisticsList.stream().map(o -> {
+                    String dicValue = o.getLogistics().toString();
+                    if (dataDictBOMap.containsKey(dicValue)) {
+                        o.setLogisticsText(dataDictBOMap.get(dicValue).getDisplayName());
+                    }
+                    return o;
+                }).collect(Collectors.toList());
+            }
         }
 
         return commonResult;

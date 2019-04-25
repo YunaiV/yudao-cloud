@@ -1,5 +1,6 @@
 package cn.iocoder.mall.order.biz.dataobject;
 
+import cn.iocoder.common.framework.dataobject.BaseDO;
 import cn.iocoder.common.framework.dataobject.DeletableDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -14,7 +15,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-public class OrderReturnDO extends DeletableDO {
+public class OrderReturnDO extends BaseDO {
 
     /**
      * 编号自动增长
@@ -29,22 +30,6 @@ public class OrderReturnDO extends DeletableDO {
      */
     private String orderNo;
     /**
-     * 订单 item 编号
-     */
-    private Integer orderItemId;
-    /**
-     * 商品编号（保存一个冗余，如果一个订单下存在多个商品，会有很大的作用）
-     */
-    private Integer skuId;
-    /**
-     * 商品名称
-     */
-    private String skuName;
-    /**
-     * 商品图片
-     */
-    private String skuImage;
-    /**
      * 物流id
      */
     private Integer orderLogisticsId;
@@ -57,21 +42,15 @@ public class OrderReturnDO extends DeletableDO {
      *
      * {@link cn.iocoder.mall.order.biz.constants.OrderReturnReasonEnum}
      */
-    private Integer orderReason;
+    private Integer reason;
     /**
-     * 原因（如果选择其他，原因保存在这）
-     *
-     * {@link cn.iocoder.mall.order.biz.constants.OrderReturnReasonEnum#REASON_000}
+     * 问题描述
      */
-    private String otherReasons;
+    private String describe;
 
     ///
     /// 时间信息
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
     /**
      * 同意时间
      */
@@ -88,17 +67,13 @@ public class OrderReturnDO extends DeletableDO {
      * 成交时间（确认时间）
      */
     private Date closingTime;
-
-    ///
-    /// 其他
-
     /**
-     * 订单类型
+     * 退款类型
      *
-     * - 0、为 Order 订单 （对整个订单退货）
-     * - 1、为 OrderItem 订单 （对订单某一个商品退货）
+     * - 1、退货退款
+     * - 2、退款
      */
-    private Integer orderType;
+    private Integer returnType;
     /**
      * 状态
      *
@@ -109,5 +84,4 @@ public class OrderReturnDO extends DeletableDO {
      * - 5、退货成功
      */
     private Integer status;
-
 }

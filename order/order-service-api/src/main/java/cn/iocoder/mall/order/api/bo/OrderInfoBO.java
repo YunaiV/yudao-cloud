@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 订单 info
@@ -104,6 +105,64 @@ public class OrderInfoBO implements Serializable {
      * 最新物流信息
      */
     private LogisticsDetail latestLogisticsDetail;
+    /**
+     * 订单 item
+     */
+    private List<OrderItem> orderItems;
+
+    @Data
+    @Accessors(chain = true)
+    public static class OrderItem {
+
+        /**
+         * 商品编号
+         */
+        private Integer skuId;
+        /**
+         * 商品名称
+         */
+        private String skuName;
+        /**
+         * 商品图片
+         */
+        private String skuImage;
+        /**
+         * 数量
+         */
+        private Integer quantity;
+        /**
+         * 原始单价，单位：分。
+         */
+        private Integer originPrice;
+        /**
+         * 购买单价，单位：分
+         */
+        private Integer buyPrice;
+        /**
+         * 最终价格，单位：分。
+         */
+        private Integer presentPrice;
+        /**
+         * 购买总金额，单位：分
+         *
+         * 用途类似 {@link #presentTotal}
+         */
+        private Integer buyTotal;
+        /**
+         * 优惠总金额，单位：分。
+         */
+        private Integer discountTotal;
+        /**
+         * 最终总金额，单位：分。
+         *
+         * 注意，presentPrice * quantity 不一定等于 presentTotal 。
+         * 因为，存在无法整除的情况。
+         * 举个例子，presentPrice = 8.33 ，quantity = 3 的情况，presentTotal 有可能是 24.99 ，也可能是 25 。
+         * 所以，需要存储一个该字段。
+         */
+        private Integer presentTotal;
+
+    }
 
     @Data
     @Accessors(chain = true)

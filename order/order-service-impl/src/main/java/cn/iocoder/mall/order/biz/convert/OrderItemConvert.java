@@ -1,5 +1,6 @@
 package cn.iocoder.mall.order.biz.convert;
 
+import cn.iocoder.mall.order.api.bo.OrderInfoBO;
 import cn.iocoder.mall.order.api.bo.OrderItemBO;
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderItemUpdateDTO;
@@ -32,4 +33,7 @@ public interface OrderItemConvert {
 
     @Mappings({})
     List<OrderItemBO> convertOrderItemDO(List<OrderItemDO> orderItemDOList);
+
+    @Mappings({})
+    List<OrderInfoBO.OrderItem> convertOrderInfoWithOrderItem(List<OrderItemDO> orderItemDOList);
 }

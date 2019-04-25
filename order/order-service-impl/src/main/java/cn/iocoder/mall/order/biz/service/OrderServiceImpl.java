@@ -6,10 +6,7 @@ import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.OrderService;
 import cn.iocoder.mall.order.api.bo.*;
-import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
-import cn.iocoder.mall.order.api.constant.OrderHasReturnExchangeEnum;
-import cn.iocoder.mall.order.api.constant.OrderStatusEnum;
-import cn.iocoder.mall.order.api.constant.PayAppId;
+import cn.iocoder.mall.order.api.constant.*;
 import cn.iocoder.mall.order.api.dto.*;
 import cn.iocoder.mall.order.biz.constants.OrderDeliveryTypeEnum;
 import cn.iocoder.mall.order.biz.constants.OrderRecipientTypeEnum;
@@ -61,6 +58,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderRecipientMapper orderRecipientMapper;
     @Autowired
     private OrderCancelMapper orderCancelMapper;
+    @Autowired
+    private OrderReturnMapper orderReturnMapper;
 
     @Reference
     private ProductSpuService productSpuService;
@@ -165,10 +164,15 @@ public class OrderServiceImpl implements OrderService {
         List<OrderItemDO> itemDOList = orderItemMapper
                 .selectByDeletedAndOrderId(orderId, DeletedStatusEnum.DELETED_NO.getValue());
 
+        List<OrderInfoBO.OrderItem> orderItems
+                = OrderItemConvert.INSTANCE.convertOrderInfoWithOrderItem(itemDOList);
+
         Set<Integer> orderLogisticsIds = itemDOList.stream()
                 .filter(o -> o.getOrderLogisticsId() != null)
                 .map(o -> o.getOrderLogisticsId())
                 .collect(Collectors.toSet());
+
+
 
         // 收件人信息
         OrderRecipientDO orderRecipientDO = orderRecipientMapper.selectByOrderId(orderId);
@@ -186,6 +190,7 @@ public class OrderServiceImpl implements OrderService {
         OrderInfoBO.Recipient recipient = OrderRecipientConvert.INSTANCE.convertOrderInfoRecipient(orderRecipientDO);
         OrderInfoBO orderInfoBO = OrderConvert.INSTANCE.convert(orderDO);
         orderInfoBO.setRecipient(recipient);
+        orderInfoBO.setOrderItems(orderItems);
         orderInfoBO.setLatestLogisticsDetail(logisticsDetail);
         return CommonResult.success(orderInfoBO);
     }

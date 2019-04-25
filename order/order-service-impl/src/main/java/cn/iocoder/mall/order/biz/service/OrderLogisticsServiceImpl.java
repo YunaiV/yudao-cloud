@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.biz.service;
 
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
+import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
@@ -20,10 +21,9 @@ import cn.iocoder.mall.order.biz.dataobject.OrderLogisticsDetailDO;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -67,10 +67,12 @@ public class OrderLogisticsServiceImpl implements OrderLogisticsService {
                 .map(o -> o.getOrderLogisticsId())
                 .collect(Collectors.toSet());
 
-        List<OrderLogisticsDO> orderLogisticsDOList = orderLogisticsMapper.selectByIds(orderLogisticsIds);
-
-        List<OrderLogisticsDetailDO> orderLogisticsDetailDOList
-                = orderLogisticsDetailMapper.selectByOrderLogisticsIds(orderLogisticsIds);
+        List<OrderLogisticsDO> orderLogisticsDOList = Collections.emptyList();
+        List<OrderLogisticsDetailDO> orderLogisticsDetailDOList = Collections.emptyList();
+        if (!CollectionUtils.isEmpty(orderLogisticsIds)) {
+            orderLogisticsDOList = orderLogisticsMapper.selectByIds(orderLogisticsIds);
+            orderLogisticsDetailDOList = orderLogisticsDetailMapper.selectByOrderLogisticsIds(orderLogisticsIds);
+        }
 
         // 转换 return 的数据
         List<OrderLogisticsInfoBO.Logistics> logistics

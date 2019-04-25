@@ -1,6 +1,6 @@
 package cn.iocoder.mall.order.biz.convert;
 
-import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
+import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
 import cn.iocoder.mall.order.api.dto.OrderReturnCreateDTO;
 import cn.iocoder.mall.order.biz.dataobject.OrderReturnDO;
 import org.mapstruct.Mapper;
@@ -20,4 +20,7 @@ public interface OrderReturnConvert {
 
     @Mappings({})
     OrderReturnDO convert(OrderReturnCreateDTO orderReturnCreate);
+
+    @Mappings({})
+    OrderReturnDO convert(OrderReturnApplyDTO orderReturnApplyDTO);
 }

@@ -22,6 +22,9 @@ public interface DataDictMapper {
             @Param("values") Collection<String> values
     );
 
+    List<DataDictDO> selectByEnumValue(
+            @Param("enumValue") String enumValue
+    );
 
     List<DataDictDO> selectList();
 

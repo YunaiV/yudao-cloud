@@ -28,6 +28,7 @@ public interface DataDictService {
      * @return
      */
     CommonResult<DataDictBO> getDataDict(String dictKey, Object dictValue);
+    CommonResult<List<DataDictBO>> getDataDict(String dictKey);
 
     /**
      * 获取字典值 - 多个

@@ -98,6 +98,13 @@ public class DataDictServiceImpl implements DataDictService {
     }
 
     @Override
+    public CommonResult<List<DataDictBO>> getDataDict(String dictKey) {
+        List<DataDictDO> dataDictDOList = dataDictMapper.selectByEnumValue(dictKey);
+        List<DataDictBO> dataDictBOList = DataDictConvert.INSTANCE.convert(dataDictDOList);
+        return CommonResult.success(dataDictBOList);
+    }
+
+    @Override
     public CommonResult<List<DataDictBO>> getDataDictList(String dictKey, Collection<?> dictValueList) {
         Set<String> convertDictValueList = dictValueList.stream().map(o -> String.valueOf(o)).collect(Collectors.toSet());
         List<DataDictDO> dataDictDOList = dataDictMapper.selectByEnumValueAndValues(dictKey, convertDictValueList);

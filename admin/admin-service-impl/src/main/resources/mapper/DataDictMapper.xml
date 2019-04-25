@@ -44,6 +44,13 @@
         FROM data_dict
         WHERE deleted = 0
     </select>
+    <select id="selectByEnumValue" resultType="cn.iocoder.mall.admin.dataobject.DataDictDO">
+        SELECT
+        <include refid="FIELDS"/>
+        FROM data_dict
+        WHERE deleted = 0
+        AND enum_value = #{enumValue}
+    </select>
 
     <insert id="insert" parameterType="DataDictDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO data_dict (

@@ -8,14 +8,26 @@
             <van-tab v-for="category in childCategories" :title="category.name"  />
         </van-tabs>
 
-        <div v-for="(product,i) in products" :key="i">
-          <product-card :product='product' @click="showProduct(product)" />
-        </div>
+<!--        <div v-for="(product,i) in products" :key="i">-->
+<!--          <product-card :product='product' @click="showProduct(product)" />-->
+<!--        </div>-->
+
+        <van-list
+                v-model="loading"
+                :finished="finished"
+                finished-text="没有更多了"
+                @load="onLoad"
+        >
+            <div v-for="(product,i) in products" :key="i">
+                <product-card :product='product' @click="showProduct(product)" />
+            </div>
+        </van-list>
     </div>
 </template>
 
 <script>
 import { getProductCategoryList, getProductSpuPage } from '../../api/product';
+import {getProductPage} from "../../api/search";
 
 export default {
   data() {
@@ -28,8 +40,14 @@ export default {
         id: parseInt(this.$route.query.cidSecond),
       },
       childCategories: [],
-      active: 2,
+
+      active: -1,
       products: [],
+
+      page: 0,
+      pageSize: 10,
+      loading: false,
+      finished: false,
     };
   },
   methods: {
@@ -41,18 +59,40 @@ export default {
       this.active = key;
       // 加载商品
       this.products = [];
-      this.loadProductList(this.childCategories[key].id);
+      // 加载商品
+
+      this.loadProductList(this.childCategories[key].id, 1);
     },
-    loadProductList(categoryId) {
-      // 设置当前选中的分类
+    loadProductList(categoryId, page) {
       this.childCategory.id = categoryId;
-      // 读取商品
-      // alert('商品分类：' + categoryId);
-      let response = getProductSpuPage(categoryId);
-      response.then(data => {
-        this.products.push(...data.spus);
-      })
-    }
+      getProductPage({
+        pageNo: page,
+        pageSize: this.pageSize,
+        cid: this.childCategory.id,
+      }).then(data => {
+        this.handleData(page, data);
+      });
+    },
+    onLoad() {
+      // debugger;
+      // 进入下一页
+      let page = this.page + 1;
+      // 加载商品
+      this.loadProductList(this.childCategory.id, page);
+    },
+    handleData(page, data) {
+      this.loading = true;
+      // 设置下页面
+      this.page = page;
+      // 数据保存到 list 中
+      this.products.push(...data.list);
+      // 判断页数
+      if (this.products.length >= data.total) {
+        this.finished = true;
+      }
+      // 标记不在加载中
+      this.loading = false;
+    },
   },
   mounted() {
     let response = getProductCategoryList(this.rootCategory.id);
@@ -70,7 +110,7 @@ export default {
         }
       }
       // 加载商品列表
-      this.loadProductList(this.childCategory.id);
+      // this.loadProductList(this.childCategory.id);
     });
   }
 };

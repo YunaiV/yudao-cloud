@@ -46,7 +46,7 @@
     </van-cell-group>
     <div class="footer">
       <div class="munu">
-        <van-button v-if="orderInfo.status === 3 " size="small">退货</van-button>
+        <van-button size="small">申请售后</van-button>
         <van-button v-if="orderInfo.status === 3 " size="small" v-on:click="clickConfirmReceiving(orderId)">确认收货</van-button>
         <van-button v-if="orderInfo.status === 1 " size="small" type="danger" @click="goPay(orderInfo.id)">支付</van-button>
       </div>
@@ -74,12 +74,6 @@
             price: '499',
             quantity: 2
           },
-          {
-            imageURL: 'https://pop.nosdn.127.net/19e33c9b-6c22-4a4b-96da-1cb7afb32712',
-            title: 'BEYOND博洋家纺 床上套件 秋冬保暖纯棉床单被套 双人被罩 磨毛全棉印花床品四件套',
-            price: '499',
-            quantity: 2
-          },
         ]
       }
     },
@@ -97,7 +91,7 @@
       const { id } = this.$route.params;
       this.orderId = id;
       getOrderInfo(id).then(res => {
-        const { status, recipient, latestLogisticsDetail} = res;
+        const { status, recipient, latestLogisticsDetail, orderItems} = res;
         // 提交订单、配送中、交易成功
         if ([1, 2].indexOf(status) !== -1) {
           this.active = 0
@@ -126,6 +120,13 @@
           ...latestLogisticsDetail,
           logisticsTimeText: logisticsTimeText,
         }
+
+        this.products = orderItems.map(item => {
+          return {
+            ...item,
+            picUrls: [item.skuImage],
+          }
+        })
       })
     }
   }

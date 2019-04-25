@@ -142,3 +142,26 @@ export function getLogisticsInfo(params) {
     }
   });
 }
+
+
+// 退货信息
+
+export function getOrderReturnReason() {
+  return request({
+    url: '/order-api/users/order_return/reason',
+    method: 'get',
+  });
+}
+
+export function orderReturnApply(params) {
+  return request({
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    url: '/order-api/users/order_return/apply',
+    method: 'POST',
+    data: {
+      ...params,
+    },
+  });
+}

@@ -133,7 +133,7 @@ const routes = [
     }
   },
   {
-    path: '/user/aftersale/apply',
+    path: '/user/aftersale/apply/:orderId',
     component: () => import('../page/user/aftersale/apply'),
     meta: {
       title: '申请售后'

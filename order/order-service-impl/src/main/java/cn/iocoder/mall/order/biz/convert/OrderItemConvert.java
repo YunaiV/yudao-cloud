@@ -1,7 +1,7 @@
 package cn.iocoder.mall.order.biz.convert;
 
-import cn.iocoder.mall.order.api.dto.OrderCreateItemDTO;
 import cn.iocoder.mall.order.api.bo.OrderItemBO;
+import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderItemUpdateDTO;
 import cn.iocoder.mall.order.biz.dataobject.OrderItemDO;
 import org.mapstruct.Mapper;
@@ -28,7 +28,7 @@ public interface OrderItemConvert {
     List<OrderItemBO> convertOrderItemBO(List<OrderItemDO> orderItemDOList);
 
     @Mappings({})
-    List<OrderItemDO> convert(List<OrderCreateItemDTO> orderCreateItemDTOList);
+    List<OrderItemDO> convert(List<OrderCreateDTO.OrderItem> orderCreateItemDTOList);
 
     @Mappings({})
     List<OrderItemBO> convertOrderItemDO(List<OrderItemDO> orderItemDOList);

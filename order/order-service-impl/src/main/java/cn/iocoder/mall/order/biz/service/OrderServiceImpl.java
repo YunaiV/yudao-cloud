@@ -194,7 +194,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional // TODO 芋艿，先不考虑分布式事务的问题
     public CommonResult<OrderCreateBO> createOrder(OrderCreateDTO orderCreateDTO) {
         Integer userId = orderCreateDTO.getUserId();
-        List<OrderCreateItemDTO> orderItemDTOList = orderCreateDTO.getOrderItems();
+        List<OrderCreateDTO.OrderItem> orderItemDTOList = orderCreateDTO.getOrderItems();
         List<OrderItemDO> orderItemDOList = OrderItemConvert.INSTANCE.convert(orderItemDTOList);
 
         // 获取商品信息
@@ -337,7 +337,7 @@ public class OrderServiceImpl implements OrderService {
                 .setUserId(orderCreateDTO.getUserId())
                 .setItems(new ArrayList<>(skus.size()))
                 .setCouponCardId(orderCreateDTO.getCouponCardId());
-        for (OrderCreateItemDTO item : orderCreateDTO.getOrderItems()) {
+        for (OrderCreateDTO.OrderItem item : orderCreateDTO.getOrderItems()) {
             calcOrderPriceDTO.getItems().add(new CalcOrderPriceDTO.Item(item.getSkuId(), item.getQuantity(), true));
         }
         // 执行计算

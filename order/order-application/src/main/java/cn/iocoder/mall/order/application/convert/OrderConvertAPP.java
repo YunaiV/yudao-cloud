@@ -38,7 +38,7 @@ public interface OrderConvertAPP {
     OrderCreateDTO convert(OrderCreatePO orderCreatePO);
 
     @Mappings({})
-    List<OrderCreateItemDTO> convert(List<CartItemBO> cartItems);
+    List<OrderCreateDTO.OrderItem> convert(List<CartItemBO> cartItems);
 
     default OrderCreateDTO createOrderCreateDTO(Integer userId, Integer userAddressId, String remark, String ip,
                                                 List<CartItemBO> cartItems, Integer couponCardId) {

@@ -5,7 +5,6 @@ import cn.iocoder.mall.order.OrderApplicationTest;
 import cn.iocoder.mall.order.api.OrderService;
 import cn.iocoder.mall.order.api.bo.OrderCreateBO;
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
-import cn.iocoder.mall.order.api.dto.OrderCreateItemDTO;
 import cn.iocoder.mall.order.biz.dao.OrderMapper;
 import cn.iocoder.mall.order.biz.dataobject.OrderDO;
 import org.junit.Assert;

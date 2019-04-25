@@ -3,6 +3,8 @@ package cn.iocoder.mall.order.api.dto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -40,6 +42,23 @@ public class OrderCreateDTO implements Serializable {
     ///
     /// order item
 
-    private List<OrderCreateItemDTO> orderItems;
-    
+    private List<OrderItem> orderItems;
+
+
+    @Data
+    @Accessors(chain = true)
+    public static class OrderItem {
+
+        /**
+         * 商品编号
+         */
+        @NotNull
+        private Integer skuId;
+        /**
+         * 数量
+         */
+        @NotNull
+        @Max(value = 1000)
+        private Integer quantity;
+    }
 }

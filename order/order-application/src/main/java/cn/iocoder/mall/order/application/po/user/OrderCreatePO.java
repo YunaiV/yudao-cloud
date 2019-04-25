@@ -1,9 +1,9 @@
 package cn.iocoder.mall.order.application.po.user;
 
-import cn.iocoder.mall.order.api.dto.OrderCreateItemDTO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -38,6 +38,22 @@ public class OrderCreatePO implements Serializable {
 
     @NotNull()
     @Size(max = 1000, min = 1, message = "用户订单中没有商品!")
-    private List<OrderCreateItemDTO> orderItems;
+    private List<OrderItem> orderItems;
 
+    @Data
+    @Accessors(chain = true)
+    public static class OrderItem {
+
+        /**
+         * 商品编号
+         */
+        @NotNull
+        private Integer skuId;
+        /**
+         * 数量
+         */
+        @NotNull
+        @Max(value = 1000)
+        private Integer quantity;
+    }
 }

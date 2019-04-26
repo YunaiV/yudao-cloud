@@ -8,14 +8,12 @@ import cn.iocoder.mall.pay.api.PayTransactionService;
 import cn.iocoder.mall.pay.api.bo.PayTransactionBO;
 import cn.iocoder.mall.pay.api.bo.PayTransactionSubmitBO;
 import cn.iocoder.mall.pay.api.constant.PayErrorCodeEnum;
-import cn.iocoder.mall.pay.api.constant.PayTransactionNotifyStatusEnum;
 import cn.iocoder.mall.pay.api.constant.PayTransactionStatusEnum;
 import cn.iocoder.mall.pay.api.dto.PayTransactionCreateDTO;
 import cn.iocoder.mall.pay.api.dto.PayTransactionSubmitDTO;
-import cn.iocoder.mall.pay.api.message.PayTransactionPaySuccessMessage;
 import cn.iocoder.mall.pay.biz.client.AbstractPaySDK;
 import cn.iocoder.mall.pay.biz.client.PaySDKFactory;
-import cn.iocoder.mall.pay.biz.client.TransactionPaySuccessBO;
+import cn.iocoder.mall.pay.biz.client.TransactionSuccessBO;
 import cn.iocoder.mall.pay.biz.convert.PayTransactionConvert;
 import cn.iocoder.mall.pay.biz.dao.PayTransactionExtensionMapper;
 import cn.iocoder.mall.pay.biz.dao.PayTransactionMapper;
@@ -23,21 +21,17 @@ import cn.iocoder.mall.pay.biz.dao.PayTransactionNotifyTaskMapper;
 import cn.iocoder.mall.pay.biz.dataobject.PayAppDO;
 import cn.iocoder.mall.pay.biz.dataobject.PayTransactionDO;
 import cn.iocoder.mall.pay.biz.dataobject.PayTransactionExtensionDO;
-import cn.iocoder.mall.pay.biz.dataobject.PayTransactionNotifyTaskDO;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import java.util.Calendar;
 import java.util.Date;
 
 @Service
 @com.alibaba.dubbo.config.annotation.Service(validation = "true")
-public class PayServiceImpl implements PayTransactionService {
+public class PayTransactionServiceImpl implements PayTransactionService {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -47,11 +41,27 @@ public class PayServiceImpl implements PayTransactionService {
     private PayTransactionExtensionMapper payTransactionExtensionMapper;
     @Autowired
     private PayTransactionNotifyTaskMapper payTransactionNotifyTaskMapper;
+
     @Autowired
     private PayAppServiceImpl payAppService;
+    @Autowired
+    private PayNotifyServiceImpl payNotifyService;
 
-    @Resource
-    private RocketMQTemplate rocketMQTemplate;
+    public PayTransactionDO getTransaction(Integer id) {
+        return payTransactionMapper.selectById(id);
+    }
+
+    public PayTransactionDO getTransaction(String appId, String orderId) {
+        return payTransactionMapper.selectByAppIdAndOrderId(appId, orderId);
+    }
+
+    public int updateTransactionPriceTotalIncr(Integer id, Integer incr) {
+        return payTransactionMapper.updateForRefundTotal(id, incr);
+    }
+
+    public PayTransactionExtensionDO getPayTransactionExtension(Integer id) {
+        return payTransactionExtensionMapper.selectById(id);
+    }
 
     @Override
     public CommonResult<PayTransactionBO> getTransaction(Integer userId, String appId, String orderId) {
@@ -80,7 +90,7 @@ public class PayServiceImpl implements PayTransactionService {
             // TODO 芋艿 可能要考虑，更新订单。例如说，业务线订单可以修改价格
         } else {
             payTransaction = PayTransactionConvert.INSTANCE.convert(payTransactionCreateDTO);
-            payTransaction.setStatus(PayTransactionStatusEnum.WAITTING.getValue())
+            payTransaction.setStatus(PayTransactionStatusEnum.WAITING.getValue())
                     .setNotifyUrl(appResult.getData().getNotifyUrl());
             payTransaction.setCreateTime(new Date());
             payTransactionMapper.insert(payTransaction);
@@ -104,14 +114,14 @@ public class PayServiceImpl implements PayTransactionService {
         if (payTransaction == null) { // 是否存在
             return ServiceExceptionUtil.error(PayErrorCodeEnum.PAY_TRANSACTION_NOT_FOUND.getCode());
         }
-        if (!PayTransactionStatusEnum.WAITTING.getValue().equals(payTransaction.getStatus())) { // 校验状态，必须是待支付
+        if (!PayTransactionStatusEnum.WAITING.getValue().equals(payTransaction.getStatus())) { // 校验状态，必须是待支付
             return ServiceExceptionUtil.error(PayErrorCodeEnum.PAY_TRANSACTION_STATUS_IS_NOT_WAITING.getCode());
         }
         // 插入 PayTransactionExtensionDO
         PayTransactionExtensionDO payTransactionExtensionDO = PayTransactionConvert.INSTANCE.convert(payTransactionSubmitDTO)
                 .setTransactionId(payTransaction.getId())
                 .setTransactionCode(generateTransactionCode())
-                .setStatus(PayTransactionStatusEnum.WAITTING.getValue());
+                .setStatus(PayTransactionStatusEnum.WAITING.getValue());
         payTransactionExtensionMapper.insert(payTransactionExtensionDO);
         // 调用三方接口
         AbstractPaySDK paySDK = PaySDKFactory.getSDK(payTransactionSubmitDTO.getPayChannel());
@@ -130,67 +140,55 @@ public class PayServiceImpl implements PayTransactionService {
     @Transactional
     public CommonResult<Boolean> updateTransactionPaySuccess(Integer payChannel, String params) {
         // TODO 芋艿，记录回调日志
-        // 解析传入的参数，成 TransactionPaySuccessBO 对象
+        // 解析传入的参数，成 TransactionSuccessBO 对象
         AbstractPaySDK paySDK = PaySDKFactory.getSDK(payChannel);
-        CommonResult<TransactionPaySuccessBO> paySuccessResult = paySDK.parseTransactionPaySuccessParams(params);
+        CommonResult<TransactionSuccessBO> paySuccessResult = paySDK.parseTransactionSuccessParams(params);
         if (paySuccessResult.isError()) {
             return CommonResult.error(paySuccessResult);
         }
         // TODO 芋艿，先最严格的校验。即使调用方重复调用，实际哪个订单已经被重复回调的支付，也返回 false 。也没问题，因为实际已经回调成功了。
         // 1.1 查询 PayTransactionExtensionDO
-        PayTransactionExtensionDO payTransactionExtension = payTransactionExtensionMapper.selectByTransactionCode(paySuccessResult.getData().getTransactionCode());
-        if (payTransactionExtension == null) {
+        PayTransactionExtensionDO extension = payTransactionExtensionMapper.selectByTransactionCode(paySuccessResult.getData().getTransactionCode());
+        if (extension == null) {
             return ServiceExceptionUtil.error(PayErrorCodeEnum.PAY_TRANSACTION_EXTENSION_NOT_FOUND.getCode());
         }
-        if (!PayTransactionStatusEnum.WAITTING.getValue().equals(payTransactionExtension.getStatus())) { // 校验状态，必须是待支付
+        if (!PayTransactionStatusEnum.WAITING.getValue().equals(extension.getStatus())) { // 校验状态，必须是待支付
             return ServiceExceptionUtil.error(PayErrorCodeEnum.PAY_TRANSACTION_EXTENSION_STATUS_IS_NOT_WAITING.getCode());
         }
         // 1.2 更新 PayTransactionExtensionDO
         PayTransactionExtensionDO updatePayTransactionExtension = new PayTransactionExtensionDO()
-                .setId(payTransactionExtension.getId())
+                .setId(extension.getId())
                 .setStatus(PayTransactionStatusEnum.SUCCESS.getValue())
                 .setExtensionData(params);
-        int updateCounts = payTransactionExtensionMapper.update(updatePayTransactionExtension, PayTransactionStatusEnum.WAITTING.getValue());
+        int updateCounts = payTransactionExtensionMapper.update(updatePayTransactionExtension, PayTransactionStatusEnum.WAITING.getValue());
         if (updateCounts == 0) { // 校验状态，必须是待支付
             throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_EXTENSION_STATUS_IS_NOT_WAITING.getCode());
         }
-        logger.info("[updateTransactionPaySuccess][PayTransactionExtensionDO({}) 更新为已支付]", payTransactionExtension.getId());
+        logger.info("[updateTransactionPaySuccess][PayTransactionExtensionDO({}) 更新为已支付]", extension.getId());
         // 2.1 判断 PayTransactionDO 是否处于待支付
-        PayTransactionDO payTransactionDO = payTransactionMapper.selectById(payTransactionExtension.getTransactionId());
-        if (payTransactionDO == null) {
+        PayTransactionDO transaction = payTransactionMapper.selectById(extension.getTransactionId());
+        if (transaction == null) {
             return ServiceExceptionUtil.error(PayErrorCodeEnum.PAY_TRANSACTION_NOT_FOUND.getCode());
         }
-        if (!PayTransactionStatusEnum.WAITTING.getValue().equals(payTransactionDO.getStatus())) { // 校验状态，必须是待支付
+        if (!PayTransactionStatusEnum.WAITING.getValue().equals(transaction.getStatus())) { // 校验状态，必须是待支付
             throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_STATUS_IS_NOT_WAITING.getCode());
         }
         // 2.2 更新 PayTransactionDO
         PayTransactionDO updatePayTransaction = new PayTransactionDO()
-                .setId(payTransactionDO.getId())
+                .setId(transaction.getId())
                 .setStatus(PayTransactionStatusEnum.SUCCESS.getValue())
-                .setExtensionId(payTransactionExtension.getId())
+                .setExtensionId(extension.getId())
                 .setPayChannel(payChannel)
                 .setPaymentTime(paySuccessResult.getData().getPaymentTime())
                 .setNotifyTime(new Date())
                 .setTradeNo(paySuccessResult.getData().getTradeNo());
-        updateCounts = payTransactionMapper.update(updatePayTransaction, PayTransactionStatusEnum.WAITTING.getValue());
+        updateCounts = payTransactionMapper.update(updatePayTransaction, PayTransactionStatusEnum.WAITING.getValue());
         if (updateCounts == 0) { // 校验状态，必须是待支付 TODO 这种类型，需要思考下。需要返回错误，但是又要保证事务回滚
             throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_STATUS_IS_NOT_WAITING.getCode());
         }
-        logger.info("[updateTransactionPaySuccess][PayTransactionDO({}) 更新为已支付]", payTransactionDO.getId());
-        // 3.1 插入
-        PayTransactionNotifyTaskDO payTransactionNotifyTask = new PayTransactionNotifyTaskDO()
-                .setTransactionId(payTransactionExtension.getTransactionId()).setTransactionExtensionId(payTransactionExtension.getId())
-                .setAppId(payTransactionDO.getAppId()).setOrderId(payTransactionDO.getOrderId())
-                .setStatus(PayTransactionNotifyStatusEnum.WAITING.getValue())
-                .setNotifyTimes(0).setMaxNotifyTimes(PayTransactionNotifyTaskDO.NOTIFY_FREQUENCY.length + 1)
-                .setNextNotifyTime(DateUtil.addDate(Calendar.SECOND, PayTransactionNotifyTaskDO.NOTIFY_FREQUENCY[0]))
-                .setNotifyUrl(payTransactionDO.getNotifyUrl());
-        payTransactionNotifyTaskMapper.insert(payTransactionNotifyTask);
-        logger.info("[updateTransactionPaySuccess][PayTransactionNotifyTaskDO({}) 新增一个任务]", payTransactionNotifyTask.getId());
-        // 3.2 发送 MQ
-        rocketMQTemplate.convertAndSend(PayTransactionPaySuccessMessage.TOPIC,
-                PayTransactionConvert.INSTANCE.convert(payTransactionNotifyTask));
-        logger.info("[updateTransactionPaySuccess][PayTransactionNotifyTaskDO({}) 发送 MQ 任务]", payTransactionNotifyTask.getId());
+        logger.info("[updateTransactionPaySuccess][PayTransactionDO({}) 更新为已支付]", transaction.getId());
+        // 3 新增 PayNotifyTaskDO
+        payNotifyService.addTransactionNotifyTask(transaction, extension);
         // 返回结果
         return CommonResult.success(true);
     }

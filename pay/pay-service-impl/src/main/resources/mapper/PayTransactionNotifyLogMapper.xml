@@ -8,7 +8,7 @@
         <!--create_time-->
     <!--</sql>-->
 
-    <insert id="insert" parameterType="PayTransactionNotifyLogDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <insert id="insert" parameterType="PayNotifyLogDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO transaction_notify_log (
             notify_id, request, response, status
         ) VALUES (

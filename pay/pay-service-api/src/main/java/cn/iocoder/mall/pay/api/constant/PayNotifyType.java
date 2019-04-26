@@ -1,17 +1,16 @@
 package cn.iocoder.mall.pay.api.constant;
 
 /**
- * 支付交易状态枚举
+ * 支付通知类型
  */
-public enum PayTransactionStatusEnum {
+public enum PayNotifyType {
 
-    WAITING(1, "等待支付"),
-    SUCCESS(2, "支付成功"),
-    CANCEL(3, "取消支付"), // 例如说，支付单超时
+    TRANSACTION(1, "支付"),
+    REFUND(2, "退款"),
     ;
 
     /**
-     * 状态
+     * 类型
      */
     private Integer value;
     /**
@@ -19,7 +18,7 @@ public enum PayTransactionStatusEnum {
      */
     private String name;
 
-    PayTransactionStatusEnum(Integer value, String name) {
+    PayNotifyType(Integer value, String name) {
         this.value = value;
         this.name = name;
     }
@@ -28,7 +27,7 @@ public enum PayTransactionStatusEnum {
         return value;
     }
 
-    public PayTransactionStatusEnum setValue(Integer value) {
+    public PayNotifyType setValue(Integer value) {
         this.value = value;
         return this;
     }
@@ -37,7 +36,7 @@ public enum PayTransactionStatusEnum {
         return name;
     }
 
-    public PayTransactionStatusEnum setName(String name) {
+    public PayNotifyType setName(String name) {
         this.name = name;
         return this;
     }

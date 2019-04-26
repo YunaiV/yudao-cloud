@@ -1,18 +1,20 @@
 package cn.iocoder.mall.pay.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
-import cn.iocoder.mall.pay.biz.service.PayServiceImpl;
+import cn.iocoder.mall.pay.biz.service.PayTransactionServiceImpl;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
 
 /**
- * 支付交易通知 App 的任务 DO
+ * 支付通知 App 的任务 DO
+ *
+ * 目前包括支付通知、退款通知。
  */
 @Data
 @Accessors(chain = true)
-public class PayTransactionNotifyTaskDO extends DeletableDO {
+public class PayNotifyTaskDO extends DeletableDO {
 
     /**
      * 通知频率，单位为秒。
@@ -29,25 +31,15 @@ public class PayTransactionNotifyTaskDO extends DeletableDO {
      */
     private Integer id;
     /**
-     * 交易编号
-     *
-     * {@link PayTransactionDO#getId()}
-     */
-    private Integer transactionId;
-    /**
-     * 交易拓展编号
-     *
-     * {@link PayTransactionExtensionDO#getId()}
-     */
-    private Integer transactionExtensionId;
-    /**
      * 应用编号
      */
     private String appId;
     /**
-     * 应用订单编号
+     * 类型
+     *
+     * @see cn.iocoder.mall.pay.api.constant.PayNotifyType
      */
-    private String orderId;
+    private Integer type;
     /**
      * 通知状态
      *
@@ -63,7 +55,7 @@ public class PayTransactionNotifyTaskDO extends DeletableDO {
      *
      * 这个字段，需要结合 {@link #nextNotifyTime} 一起使用。
      *
-     * 1. 初始时，{@link PayServiceImpl#updateTransactionPaySuccess(Integer, String)}
+     * 1. 初始时，{@link PayTransactionServiceImpl#updateTransactionPaySuccess(Integer, String)}
      *      nextNotifyTime 为当前时间 + 15 秒
      *      lastExecuteTime 为空
      *      并发送给 MQ ，执行执行
@@ -87,5 +79,58 @@ public class PayTransactionNotifyTaskDO extends DeletableDO {
      * 通知地址
      */
     private String notifyUrl;
+    // TODO 芋艿，未来把 transaction 和 refund 优化成一个字段。现在为了方便。
+    /**
+     * 支付数据
+     */
+    private Transaction transaction;
+    /**
+     * 退款数据
+     */
+    private Refund refund;
+
+    @Data
+    @Accessors(chain = true)
+    public static class Transaction {
+
+        /**
+         * 应用订单编号
+         */
+        private String orderId;
+        /**
+         * 交易编号
+         *
+         * {@link PayTransactionDO#getId()}
+         */
+        private Integer transactionId;
+        /**
+         * 交易拓展编号
+         *
+         * {@link PayTransactionExtensionDO#getId()}
+         */
+        private Integer transactionExtensionId;
+
+    }
+
+    @Data
+    @Accessors(chain = true)
+    public static class Refund {
+
+        /**
+         * 应用订单编号
+         */
+        private String orderId;
+        /**
+         * 交易编号
+         *
+         * {@link PayTransactionDO#getId()}
+         */
+        private Integer transactionId;
+        /**
+         * 退款单编号
+         */
+        private Integer refundId;
+
+    }
 
 }

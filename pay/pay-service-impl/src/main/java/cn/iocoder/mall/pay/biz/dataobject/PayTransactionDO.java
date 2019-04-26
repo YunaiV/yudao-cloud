@@ -27,16 +27,16 @@ public class PayTransactionDO extends DeletableDO {
      */
     private String appId;
     /**
-     * 发起交易的 IP
-     */
-    private String createIp;
-    /**
      * 业务线的订单编号
      *
      * 1. 使用 String 的原因是，业务线可能使用 String 做为编号
      * 2. 每个 appId 下，orderId 唯一
      */
     private String orderId;
+    /**
+     * 发起交易的 IP
+     */
+    private String createIp;
     /**
      * 订单商品名
      */
@@ -56,7 +56,7 @@ public class PayTransactionDO extends DeletableDO {
      */
     private Integer price;
     /**
-     * 订单状态
+     * 支付状态
      *
      * @see cn.iocoder.mall.pay.api.constant.PayTransactionStatusEnum
      */
@@ -69,13 +69,11 @@ public class PayTransactionDO extends DeletableDO {
      * 回调业务线完成时间
      */
     private Date finishTime;
-
-
-    // TODO return url
     /**
      * 异步通知地址
      */
     private String notifyUrl;
+    // TODO return url
 
     /**
      * 成功支付的交易拓展编号
@@ -103,5 +101,12 @@ public class PayTransactionDO extends DeletableDO {
      * 第三方的流水号
      */
     private String tradeNo;
+
+    // ========== 退款相关 ==========
+
+    /**
+     * 退款总金额
+     */
+    private Integer refundTotal;
 
 }

@@ -5,13 +5,13 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * 支付交易通知 App 的日志 DO
+ * 支付通知 App 的日志 DO
  *
  * 通过该表，记录通知 App 时，产生的日志
  */
 @Data
 @Accessors(chain = true)
-public class PayTransactionNotifyLogDO extends DeletableDO {
+public class PayNotifyLogDO extends DeletableDO {
 
     /**
      * 日志编号，自增

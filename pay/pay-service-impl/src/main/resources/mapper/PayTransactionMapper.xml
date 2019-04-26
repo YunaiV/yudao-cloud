@@ -6,7 +6,7 @@
         id, app_id, create_ip, order_id, order_subject,
         order_description, order_memo, price, status, expire_time,
         finish_time, notify_url, extension_id, pay_channel, payment_time,
-        notify_time, trade_no, create_time
+        notify_time, trade_no, refund_total, create_time
     </sql>
 
     <insert id="insert" parameterType="PayTransactionDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
@@ -52,6 +52,12 @@
         <if test="whereStatus != null">
             AND status = #{whereStatus}
         </if>
+    </update>
+
+    <update id="updateForRefundTotal">
+        UPDATE `transaction`
+        SET refundTotal = refundTotal + ${refundTotalIncr}
+        WHERE price >= refundTotal + ${refundTotalIncr}
     </update>
 
     <select id="selectByAppIdAndOrderId" resultType="PayTransactionDO">

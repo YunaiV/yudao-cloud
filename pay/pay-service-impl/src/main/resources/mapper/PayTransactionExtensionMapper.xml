@@ -41,4 +41,11 @@
         LIMIT 1
     </select>
 
+    <select id="selectById" parameterType="Integer" resultType="PayTransactionExtensionDO">
+        SELECT
+            <include refid="FIELDS"/>
+        FROM transaction_extension
+        WHERE id = #{id}
+    </select>
+
 </mapper>

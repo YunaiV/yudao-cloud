@@ -1,6 +1,6 @@
 package cn.iocoder.mall.pay.biz.dao;
 
-import cn.iocoder.mall.pay.biz.dataobject.PayTransactionNotifyTaskDO;
+import cn.iocoder.mall.pay.biz.dataobject.PayNotifyTaskDO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -8,9 +8,9 @@ import java.util.List;
 @Repository
 public interface PayTransactionNotifyTaskMapper {
 
-    void insert(PayTransactionNotifyTaskDO entity);
+    void insert(PayNotifyTaskDO entity);
 
-    int update(PayTransactionNotifyTaskDO entity);
+    int update(PayNotifyTaskDO entity);
 
     /**
      * 获得需要通知的 PayTransactionNotifyTaskDO 记录。需要满足如下条件：
@@ -21,6 +21,6 @@ public interface PayTransactionNotifyTaskMapper {
      *
      * @return PayTransactionNotifyTaskDO 数组
      */
-    List<PayTransactionNotifyTaskDO> selectByNotify();
+    List<PayNotifyTaskDO> selectByNotify();
 
 }

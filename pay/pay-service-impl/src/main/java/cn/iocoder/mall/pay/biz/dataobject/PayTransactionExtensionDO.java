@@ -43,7 +43,7 @@ public class PayTransactionExtensionDO extends DeletableDO {
      * 状态
      *
      * @see cn.iocoder.mall.pay.api.constant.PayTransactionStatusEnum
-     * 注意，只包含上述枚举的 WAITTING 和 SUCCESS
+     * 注意，只包含上述枚举的 WAITING 和 SUCCESS
      */
     private Integer status;
 

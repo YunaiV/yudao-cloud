@@ -25,12 +25,12 @@ public class PayTransactionController {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Reference(validation = "true")
-    private PayTransactionService payService;
+    private PayTransactionService payTransactionService;
 
     @GetMapping("/get")
     public CommonResult<PayTransactionBO> get(@RequestParam("appId") String appId,
                                               @RequestParam("orderId") String orderId) {
-        return payService.getTransaction(UserSecurityContextHolder.getContext().getUserId(), appId, orderId);
+        return payTransactionService.getTransaction(UserSecurityContextHolder.getContext().getUserId(), appId, orderId);
     }
 
     @PostMapping("/submit") // TODO api 注释
@@ -43,13 +43,13 @@ public class PayTransactionController {
                 .setAppId(appId).setOrderId(orderId).setPayChannel(payChannel)
                 .setCreateIp(HttpUtil.getIp(request));
         // 提交支付提交
-        return payService.submitTransaction(payTransactionSubmitDTO);
+        return payTransactionService.submitTransaction(payTransactionSubmitDTO);
     }
 
     @PostMapping(value = "pingxx_pay_success", consumes = MediaType.APPLICATION_JSON_VALUE)
 //    @GetMapping(value = "pingxx_pay_success")
-    public String pingxxSuccess(HttpServletRequest request) throws IOException {
-        logger.info("[pingxxSuccess][被回调]");
+    public String pingxxPaySuccess(HttpServletRequest request) throws IOException {
+        logger.info("[pingxxPaySuccess][被回调]");
         // 读取 webhook
         StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = request.getReader()) {
@@ -62,12 +62,12 @@ public class PayTransactionController {
 //        JSONObject bodyObj = JSON.parseObject(sb.toString());
 //        bodyObj.put("webhookId", bodyObj.remove("id"));
 //        String body = bodyObj.toString();
-        CommonResult<Boolean> result = payService.updateTransactionPaySuccess(PayChannelEnum.PINGXX.getId(), sb.toString());
+        CommonResult<Boolean> result = payTransactionService.updateTransactionPaySuccess(PayChannelEnum.PINGXX.getId(), sb.toString());
         if (result.isError()) {
-            logger.error("[pingxxSuccess][message({}) result({})]", sb, result);
+            logger.error("[pingxxPaySuccess][message({}) result({})]", sb, result);
             return "failure";
         }
-        return result.isSuccess() ? "success" : "failure";
+        return "success";
     }
 
 }

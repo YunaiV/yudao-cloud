@@ -3,12 +3,12 @@ package cn.iocoder.mall.pay.api.message;
 /**
  * 支付交易单支付成功的消息对象
  */
-public class PayTransactionPaySuccessMessage {
+public class PayTransactionSuccessMessage {
 
-    public static final String TOPIC = "PAY_TRANSACTION_PAY_SUCCESS";
+    public static final String TOPIC = "PAY_TRANSACTION_SUCCESS";
 
     /**
-     * 编号，自增
+     * 任务编号
      */
     private Integer id;
     /**
@@ -36,7 +36,7 @@ public class PayTransactionPaySuccessMessage {
         return id;
     }
 
-    public PayTransactionPaySuccessMessage setId(Integer id) {
+    public PayTransactionSuccessMessage setId(Integer id) {
         this.id = id;
         return this;
     }
@@ -45,7 +45,7 @@ public class PayTransactionPaySuccessMessage {
         return appId;
     }
 
-    public PayTransactionPaySuccessMessage setAppId(String appId) {
+    public PayTransactionSuccessMessage setAppId(String appId) {
         this.appId = appId;
         return this;
     }
@@ -54,7 +54,7 @@ public class PayTransactionPaySuccessMessage {
         return orderId;
     }
 
-    public PayTransactionPaySuccessMessage setOrderId(String orderId) {
+    public PayTransactionSuccessMessage setOrderId(String orderId) {
         this.orderId = orderId;
         return this;
     }
@@ -63,7 +63,7 @@ public class PayTransactionPaySuccessMessage {
         return notifyTimes;
     }
 
-    public PayTransactionPaySuccessMessage setNotifyTimes(Integer notifyTimes) {
+    public PayTransactionSuccessMessage setNotifyTimes(Integer notifyTimes) {
         this.notifyTimes = notifyTimes;
         return this;
     }
@@ -72,7 +72,7 @@ public class PayTransactionPaySuccessMessage {
         return notifyUrl;
     }
 
-    public PayTransactionPaySuccessMessage setNotifyUrl(String notifyUrl) {
+    public PayTransactionSuccessMessage setNotifyUrl(String notifyUrl) {
         this.notifyUrl = notifyUrl;
         return this;
     }
@@ -81,7 +81,7 @@ public class PayTransactionPaySuccessMessage {
         return transactionId;
     }
 
-    public PayTransactionPaySuccessMessage setTransactionId(Integer transactionId) {
+    public PayTransactionSuccessMessage setTransactionId(Integer transactionId) {
         this.transactionId = transactionId;
         return this;
     }

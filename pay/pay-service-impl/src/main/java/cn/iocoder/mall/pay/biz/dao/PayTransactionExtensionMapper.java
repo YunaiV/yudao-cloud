@@ -14,4 +14,6 @@ public interface PayTransactionExtensionMapper {
 
     PayTransactionExtensionDO selectByTransactionCode(@Param("transactionCode") String transactionCode);
 
+    PayTransactionExtensionDO selectById(@Param("id") Integer id);
+
 }

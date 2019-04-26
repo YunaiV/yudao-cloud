@@ -3,13 +3,13 @@ package cn.iocoder.mall.pay.biz.mq;
 import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.util.ExceptionUtil;
 import cn.iocoder.mall.pay.api.constant.PayTransactionNotifyStatusEnum;
-import cn.iocoder.mall.pay.api.message.PayTransactionPaySuccessMessage;
+import cn.iocoder.mall.pay.api.message.PayTransactionSuccessMessage;
 import cn.iocoder.mall.pay.biz.dao.PayTransactionMapper;
 import cn.iocoder.mall.pay.biz.dao.PayTransactionNotifyLogMapper;
 import cn.iocoder.mall.pay.biz.dao.PayTransactionNotifyTaskMapper;
+import cn.iocoder.mall.pay.biz.dataobject.PayNotifyTaskDO;
 import cn.iocoder.mall.pay.biz.dataobject.PayTransactionDO;
-import cn.iocoder.mall.pay.biz.dataobject.PayTransactionNotifyLogDO;
-import cn.iocoder.mall.pay.biz.dataobject.PayTransactionNotifyTaskDO;
+import cn.iocoder.mall.pay.biz.dataobject.PayNotifyLogDO;
 import com.alibaba.dubbo.config.ApplicationConfig;
 import com.alibaba.dubbo.config.ReferenceConfig;
 import com.alibaba.dubbo.config.RegistryConfig;
@@ -31,10 +31,10 @@ import java.util.Date;
 
 @Service
 @RocketMQMessageListener(
-        topic = PayTransactionPaySuccessMessage.TOPIC,
-        consumerGroup = "pay-consumer-group-" + PayTransactionPaySuccessMessage.TOPIC
+        topic = PayTransactionSuccessMessage.TOPIC,
+        consumerGroup = "pay-consumer-group-" + PayTransactionSuccessMessage.TOPIC
 )
-public class PayTransactionPaySuccessConsumer implements RocketMQListener<PayTransactionPaySuccessMessage> {
+public class PayTransactionSuccessConsumer implements RocketMQListener<PayTransactionSuccessMessage> {
 
     @Data
     private class ReferenceMeta {
@@ -94,7 +94,7 @@ public class PayTransactionPaySuccessConsumer implements RocketMQListener<PayTra
 
     @Override
     @Transactional
-    public void onMessage(PayTransactionPaySuccessMessage message) {
+    public void onMessage(PayTransactionSuccessMessage message) {
         // 获得 ReferenceMeta 对象
         ReferenceMeta referenceMeta = referenceMetaCache.getUnchecked(message.getNotifyUrl());
         Assert.notNull(referenceMeta, String.format("notifyUrl(%s) 不存在对应的 ReferenceMeta 对象", message.getNotifyUrl()));
@@ -105,7 +105,7 @@ public class PayTransactionPaySuccessConsumer implements RocketMQListener<PayTra
         Assert.notNull(transaction, String.format("回调消息(%s) 订单交易不能为空", message.toString()));
         // 发起调用
         String response = null; // RPC / HTTP 调用的响应
-        PayTransactionNotifyTaskDO updateTask = new PayTransactionNotifyTaskDO() // 更新 PayTransactionNotifyTaskDO 对象
+        PayNotifyTaskDO updateTask = new PayNotifyTaskDO() // 更新 PayTransactionNotifyTaskDO 对象
                 .setId(message.getId())
                 .setLastExecuteTime(new Date())
                 .setNotifyTimes(message.getNotifyTimes() + 1);
@@ -134,17 +134,17 @@ public class PayTransactionPaySuccessConsumer implements RocketMQListener<PayTra
             throw e; // TODO 芋艿，此处不能抛出异常。因为，会导致 MQ + 定时任务多重试。此处的目标是，事务回滚 + 吃掉事务。另外，最后的 finally 的日志，要插入成功。
         } finally {
             // 插入 PayTransactionNotifyLogDO 日志
-            PayTransactionNotifyLogDO notifyLog = new PayTransactionNotifyLogDO().setNotifyId(message.getId())
+            PayNotifyLogDO notifyLog = new PayNotifyLogDO().setNotifyId(message.getId())
                     .setRequest(message.getOrderId()).setResponse(response).setStatus(updateTask.getStatus());
             payTransactionNotifyLogMapper.insert(notifyLog);
         }
     }
 
-    private void handleFailure(PayTransactionNotifyTaskDO updateTask, Integer defaultStatus) {
-        if (updateTask.getNotifyTimes() >= PayTransactionNotifyTaskDO.NOTIFY_FREQUENCY.length) {
+    private void handleFailure(PayNotifyTaskDO updateTask, Integer defaultStatus) {
+        if (updateTask.getNotifyTimes() >= PayNotifyTaskDO.NOTIFY_FREQUENCY.length) {
             updateTask.setStatus(PayTransactionNotifyStatusEnum.FAILURE.getValue());
         } else {
-            updateTask.setNextNotifyTime(DateUtil.addDate(Calendar.SECOND, PayTransactionNotifyTaskDO.NOTIFY_FREQUENCY[updateTask.getNotifyTimes()]));
+            updateTask.setNextNotifyTime(DateUtil.addDate(Calendar.SECOND, PayNotifyTaskDO.NOTIFY_FREQUENCY[updateTask.getNotifyTimes()]));
             updateTask.setStatus(defaultStatus);
         }
     }

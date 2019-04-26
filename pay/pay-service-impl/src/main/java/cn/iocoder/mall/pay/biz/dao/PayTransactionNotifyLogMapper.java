@@ -1,11 +1,11 @@
 package cn.iocoder.mall.pay.biz.dao;
 
-import cn.iocoder.mall.pay.biz.dataobject.PayTransactionNotifyLogDO;
+import cn.iocoder.mall.pay.biz.dataobject.PayNotifyLogDO;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PayTransactionNotifyLogMapper {
 
-    void insert(PayTransactionNotifyLogDO entity);
+    void insert(PayNotifyLogDO entity);
 
 }

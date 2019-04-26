@@ -8,7 +8,7 @@
         create_time
     </sql>
 
-    <insert id="insert" parameterType="PayTransactionNotifyTaskDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <insert id="insert" parameterType="PayNotifyTaskDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO transaction_notify_task (
             transaction_id, transaction_extension_id, app_id, order_id,
             status, next_notify_time, notify_times, max_notify_times
@@ -18,7 +18,7 @@
         )
     </insert>
 
-    <update id="update" parameterType="PayTransactionNotifyTaskDO">
+    <update id="update" parameterType="PayNotifyTaskDO">
         UPDATE transaction_notify_task
         <set>
             <if test="status != null">
@@ -37,11 +37,11 @@
         WHERE id = #{id}
     </update>
 
-    <select id="selectByNotify" resultType="PayTransactionNotifyTaskDO">
+    <select id="selectByNotify" resultType="PayNotifyTaskDO">
         SELECT
             <include refid="FIELDS"/>
         FROM transaction_notify_task
-        WHERE status IN (1, 3, 4, 5)
+        WHERE status IN (1, 4, 5)
         AND next_notify_time <![CDATA[ <= ]]> NOW()
         AND last_execute_time > next_notify_time
     </select>

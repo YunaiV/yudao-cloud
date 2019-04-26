@@ -3,7 +3,7 @@
 <mapper namespace="cn.iocoder.mall.pay.biz.dao.PayAppMapper">
 
     <sql id="FIELDS">
-        id, name, notify_url, status, create_time
+        id, name, notify_url, refund_notify_url, status, create_time
     </sql>
 
     <!--<insert id="insert" parameterType="RoleDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">-->

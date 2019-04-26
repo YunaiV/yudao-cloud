@@ -2,7 +2,6 @@ package cn.iocoder.mall.order.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
-import cn.iocoder.mall.order.api.dto.OrderReturnCreateDTO;
 
 /**
  * 订单退货
@@ -20,5 +19,17 @@ public interface OrderReturnService {
      * @return
      */
     CommonResult orderReturnApply(OrderReturnApplyDTO orderReturnApplyDTO);
+
+    /**
+     * 更新退款成功
+     *
+     * 如果成功，则返回 success
+     * 如果失败，则返回具体原因
+     *
+     * @param orderId 订单编号
+     * @param refundPrice 退款金额
+     * @return 支付结果
+     */
+    String updateRefundSuccess(String orderId, Integer refundPrice);
 
 }

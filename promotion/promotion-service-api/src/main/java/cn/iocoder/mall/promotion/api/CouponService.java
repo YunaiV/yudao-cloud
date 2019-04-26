@@ -6,6 +6,7 @@ import cn.iocoder.mall.promotion.api.bo.*;
 import cn.iocoder.mall.promotion.api.constant.CouponTemplateStatusEnum;
 import cn.iocoder.mall.promotion.api.dto.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public interface CouponService {
@@ -79,7 +80,8 @@ public interface CouponService {
      * @param couponCardId 优惠劵编号
      * @return 是否成功
      */
-    CommonResult<Boolean> useCouponCard(Integer userId, Integer couponCardId);
+    CommonResult<Boolean> useCouponCard(Integer userId,
+                                        @NotNull(message = "优惠劵编号不能为空") Integer couponCardId);
 
     /**
      * 取消优惠劵的使用

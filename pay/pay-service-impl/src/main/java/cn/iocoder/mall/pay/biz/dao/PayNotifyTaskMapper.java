@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PayTransactionNotifyTaskMapper {
+public interface PayNotifyTaskMapper {
 
     void insert(PayNotifyTaskDO entity);
 

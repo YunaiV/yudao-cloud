@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.iocoder.mall.pay.biz.dao.PayTransactionNotifyTaskMapper">
+<mapper namespace="cn.iocoder.mall.pay.biz.dao.PayNotifyTaskMapper">
 
     <sql id="FIELDS">
-        id, transaction_id, transaction_extension_id, app_id, order_id,
+        id, app_id, type,
         status, next_notify_time, last_execute_time, notify_times, max_notify_times,
         create_time
     </sql>
 
+    <resultMap id="PayNotifyTaskResultMap" type="PayNotifyTaskDO">
+        <result property="transaction" column="transaction"
+                javaType="cn.iocoder.mall.pay.biz.dataobject.PayNotifyTaskDO$Transaction"
+                typeHandler="cn.iocoder.common.framework.mybatis.JSONTypeHandler"/>
+        <result property="refund" column="refund"
+                javaType="cn.iocoder.mall.pay.biz.dataobject.PayNotifyTaskDO$Refund"
+                typeHandler="cn.iocoder.common.framework.mybatis.JSONTypeHandler"/>
+    </resultMap>
+
     <insert id="insert" parameterType="PayNotifyTaskDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO transaction_notify_task (
-            transaction_id, transaction_extension_id, app_id, order_id,
-            status, next_notify_time, notify_times, max_notify_times
+        INSERT INTO notify_task (
+            app_id, type,
+            status, next_notify_time, notify_times, max_notify_times,
+            `transaction`, refund
         ) VALUES (
-            #{transactionId}, #{transactionExtensionId}, #{appId}, #{orderId},
-            #{status}, #{nextNotifyTime}, #{notifyTimes}, #{maxNotifyTimes}
+            #{appId}, #{type},
+            #{status}, #{nextNotifyTime}, #{notifyTimes}, #{maxNotifyTimes},
+            #{transaction, typeHandler=cn.iocoder.common.framework.mybatis.JSONTypeHandler},
+            #{refund, typeHandler=cn.iocoder.common.framework.mybatis.JSONTypeHandler}
         )
     </insert>
 
     <update id="update" parameterType="PayNotifyTaskDO">
-        UPDATE transaction_notify_task
+        UPDATE notify_task
         <set>
             <if test="status != null">
                 , status = #{status}
@@ -37,10 +49,10 @@
         WHERE id = #{id}
     </update>
 
-    <select id="selectByNotify" resultType="PayNotifyTaskDO">
+    <select id="selectByNotify" resultMap="PayNotifyTaskResultMap">
         SELECT
             <include refid="FIELDS"/>
-        FROM transaction_notify_task
+        FROM notify_task
         WHERE status IN (1, 4, 5)
         AND next_notify_time <![CDATA[ <= ]]> NOW()
         AND last_execute_time > next_notify_time

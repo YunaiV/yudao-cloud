@@ -56,8 +56,8 @@
 
     <update id="updateForRefundTotal">
         UPDATE `transaction`
-        SET refundTotal = refundTotal + ${refundTotalIncr}
-        WHERE price >= refundTotal + ${refundTotalIncr}
+        SET refund_total = refund_total + ${refundTotalIncr}
+        WHERE price >= refund_total + ${refundTotalIncr}
     </update>
 
     <select id="selectByAppIdAndOrderId" resultType="PayTransactionDO">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.iocoder.mall.pay.biz.dao.PayTransactionNotifyLogMapper">
+<mapper namespace="cn.iocoder.mall.pay.biz.dao.PayNotifyLogMapper">
 
     <!--<sql id="FIELDS">-->
         <!--id, transaction_id, transaction_extension_id, app_id, order_id,-->
@@ -9,7 +9,7 @@
     <!--</sql>-->
 
     <insert id="insert" parameterType="PayNotifyLogDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO transaction_notify_log (
+        INSERT INTO notify_log (
             notify_id, request, response, status
         ) VALUES (
             #{notifyId}, #{request}, #{response}, #{status}

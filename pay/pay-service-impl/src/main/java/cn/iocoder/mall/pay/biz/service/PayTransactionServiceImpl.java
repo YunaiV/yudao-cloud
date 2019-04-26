@@ -17,7 +17,7 @@ import cn.iocoder.mall.pay.biz.client.TransactionSuccessBO;
 import cn.iocoder.mall.pay.biz.convert.PayTransactionConvert;
 import cn.iocoder.mall.pay.biz.dao.PayTransactionExtensionMapper;
 import cn.iocoder.mall.pay.biz.dao.PayTransactionMapper;
-import cn.iocoder.mall.pay.biz.dao.PayTransactionNotifyTaskMapper;
+import cn.iocoder.mall.pay.biz.dao.PayNotifyTaskMapper;
 import cn.iocoder.mall.pay.biz.dataobject.PayAppDO;
 import cn.iocoder.mall.pay.biz.dataobject.PayTransactionDO;
 import cn.iocoder.mall.pay.biz.dataobject.PayTransactionExtensionDO;
@@ -40,7 +40,7 @@ public class PayTransactionServiceImpl implements PayTransactionService {
     @Autowired
     private PayTransactionExtensionMapper payTransactionExtensionMapper;
     @Autowired
-    private PayTransactionNotifyTaskMapper payTransactionNotifyTaskMapper;
+    private PayNotifyTaskMapper payTransactionNotifyTaskMapper;
 
     @Autowired
     private PayAppServiceImpl payAppService;

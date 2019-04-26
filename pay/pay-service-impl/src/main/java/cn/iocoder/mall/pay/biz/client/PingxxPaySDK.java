@@ -84,7 +84,7 @@ public class PingxxPaySDK extends AbstractPaySDK {
         JSONObject chargeObj = paramsObj.getJSONObject("data").getJSONObject("object");
         String chargeId = chargeObj.getString("id");
         // 请求ping++
-        Map<String, Object> reqObj = createRefundRequest(chargeId, refund.getOrderDescription(), refund.getPrice());
+        Map<String, Object> reqObj = createRefundRequest(refund, chargeId, refund.getOrderDescription(), refund.getPrice());
         try {
             Refund pingxxRefund = Refund.create(chargeId, reqObj);
             System.out.println(pingxxRefund.toString());
@@ -97,16 +97,28 @@ public class PingxxPaySDK extends AbstractPaySDK {
         }
     }
 
+//    {"id":"evt_400190427005305341228202","created":1556297585,"livemode":false,"type":"refund.succeeded","data":{"object":{"id":"re_HO0m9GOGOi50KCmX104ufHe1","object":"refund","order_no":"HO0m9GOGOi50KCmX104ufHe1","amount":1,"created":1556297585,"succeed":true,"status":"succeeded","time_succeed":1556297585,"description":"测试下退款","failure_code":null,"failure_msg":null,"metadata":{},"charge":"ch_y1iXjLnDS4G4OO4uT4a5C4W1","charge_order_no":"20190427004410165545","transaction_no":"201904270053053608824","extra":{}}},"object":"event","request":"iar_Oa188KCiHC40iLibbHX5WrHC","pending_webhooks":0}
     @Override
     public CommonResult<RefundSuccessBO> parseRefundSuccessParams(String params) {
-        return null;
+        JSONObject paramsObj = JSON.parseObject(params);
+        JSONObject chargeObj = paramsObj.getJSONObject("data").getJSONObject("object");
+        RefundSuccessBO refundSuccessBO = new RefundSuccessBO()
+                .setRefundCode(chargeObj.getJSONObject("metadata").getString("refundCode"))
+                .setRefundTime(new Date(chargeObj.getLong("time_succeed") * 1000))
+                .setTradeNo(chargeObj.getString("transaction_no"))
+                // TODO 芋艿，需要测试下，退款失败
+                .setSuccess(chargeObj.containsValue("failure_code") || chargeObj.containsValue("failure_msg"));
+        return CommonResult.success(refundSuccessBO);
     }
 
-    private Map<String, Object> createRefundRequest(String chargeId, String orderDescription, Integer price) {
+    private Map<String, Object> createRefundRequest(PayRefundDO refund, String chargeId, String orderDescription, Integer price) {
         Map<String, Object> reqObj = new HashMap<>();
 //        reqObj.put("CHARGE_ID", chargeId);
         reqObj.put("description", orderDescription);
         reqObj.put("amount", price);
+        Map<String, Object> metadata = new HashMap<>();
+        metadata.put("refundCode", refund.getRefundCode());
+        reqObj.put("metadata", metadata);
         return reqObj;
     }
 

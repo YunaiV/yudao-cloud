@@ -6,14 +6,19 @@ import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.pay.api.PayRefundService;
 import cn.iocoder.mall.pay.api.bo.PayRefundSubmitBO;
-import cn.iocoder.mall.pay.api.constant.*;
+import cn.iocoder.mall.pay.api.constant.PayErrorCodeEnum;
+import cn.iocoder.mall.pay.api.constant.PayRefundStatus;
+import cn.iocoder.mall.pay.api.constant.PayTransactionStatusEnum;
 import cn.iocoder.mall.pay.api.dto.PayRefundSubmitDTO;
 import cn.iocoder.mall.pay.biz.client.AbstractPaySDK;
 import cn.iocoder.mall.pay.biz.client.PaySDKFactory;
 import cn.iocoder.mall.pay.biz.client.RefundSuccessBO;
-import cn.iocoder.mall.pay.biz.convert.PayTransactionConvert;
+import cn.iocoder.mall.pay.biz.convert.PayRefundConvert;
 import cn.iocoder.mall.pay.biz.dao.PayRefundMapper;
-import cn.iocoder.mall.pay.biz.dataobject.*;
+import cn.iocoder.mall.pay.biz.dataobject.PayAppDO;
+import cn.iocoder.mall.pay.biz.dataobject.PayRefundDO;
+import cn.iocoder.mall.pay.biz.dataobject.PayTransactionDO;
+import cn.iocoder.mall.pay.biz.dataobject.PayTransactionExtensionDO;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +76,7 @@ public class PayRefundServiceImpl implements PayRefundService {
             return ServiceExceptionUtil.error(PayErrorCodeEnum.PAY_TRANSACTION_EXTENSION_STATUS_IS_NOT_SUCCESS.getCode());
         }
         // 插入 PayTransactionExtensionDO
-        PayRefundDO payRefundDO = PayTransactionConvert.INSTANCE.convert(payRefundSubmitDTO)
+        PayRefundDO payRefundDO = PayRefundConvert.INSTANCE.convert(payRefundSubmitDTO)
                 .setTransactionId(payTransaction.getId())
                 .setRefundCode(generateTransactionCode()) // TODO 芋艿，后续调整
                 .setStatus(PayRefundStatus.WAITING.getValue())
@@ -120,7 +125,6 @@ public class PayRefundServiceImpl implements PayRefundService {
         if (updateCounts == 0) { // 校验状态，必须是待支付
             throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_REFUND_STATUS_NOT_WAITING.getCode());
         }
-        logger.info("[updateRefundSuccess][PayRefundDO({}) 更新为({})]", payRefund.getId(), status);
         // 2.1 判断 PayTransactionDO ，增加已退款金额
         PayTransactionDO payTransaction = payTransactionService.getTransaction(payRefund.getTransactionId());
         if (payTransaction == null) {
@@ -137,7 +141,6 @@ public class PayRefundServiceImpl implements PayRefundService {
         if (updateCounts == 0) { // 保证不超退 TODO 这种类型，需要思考下。需要返回错误，但是又要保证事务回滚
             throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_REFUND_PRICE_EXCEED.getCode());
         }
-        logger.info("[updateRefundSuccess][PayTransactionDO({}) 更新为已支付]", payTransaction.getId());
         // 3 新增 PayNotifyTaskDO
         payNotifyService.addRefundNotifyTask(payRefund);
         // 返回结果

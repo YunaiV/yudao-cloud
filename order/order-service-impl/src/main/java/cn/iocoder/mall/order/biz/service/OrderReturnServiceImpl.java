@@ -52,4 +52,9 @@ public class OrderReturnServiceImpl implements OrderReturnService {
         orderReturnMapper.insert(orderReturnDO);
         return CommonResult.success(null);
     }
+
+    @Override
+    public String updateRefundSuccess(String orderId, Integer refundPrice) {
+        return "success";
+    }
 }

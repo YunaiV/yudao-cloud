@@ -3,9 +3,10 @@ package cn.iocoder.mall.pay.biz.service;
 import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.mall.pay.api.constant.PayNotifyType;
 import cn.iocoder.mall.pay.api.constant.PayTransactionNotifyStatusEnum;
+import cn.iocoder.mall.pay.api.message.PayRefundSuccessMessage;
 import cn.iocoder.mall.pay.api.message.PayTransactionSuccessMessage;
-import cn.iocoder.mall.pay.biz.convert.PayTransactionConvert;
-import cn.iocoder.mall.pay.biz.dao.PayTransactionNotifyTaskMapper;
+import cn.iocoder.mall.pay.biz.convert.PayNotifyConvert;
+import cn.iocoder.mall.pay.biz.dao.PayNotifyTaskMapper;
 import cn.iocoder.mall.pay.biz.dataobject.PayNotifyTaskDO;
 import cn.iocoder.mall.pay.biz.dataobject.PayRefundDO;
 import cn.iocoder.mall.pay.biz.dataobject.PayTransactionDO;
@@ -21,7 +22,7 @@ import java.util.Calendar;
 public class PayNotifyServiceImpl {
 
     @Autowired
-    private PayTransactionNotifyTaskMapper payTransactionNotifyTaskMapper;
+    private PayNotifyTaskMapper payTransactionNotifyTaskMapper;
 
     @Resource
     private RocketMQTemplate rocketMQTemplate;
@@ -35,8 +36,7 @@ public class PayNotifyServiceImpl {
         // 保存到数据库
         payTransactionNotifyTaskMapper.insert(payTransactionNotifyTask);
         // 发送 MQ 消息
-        rocketMQTemplate.convertAndSend(PayTransactionSuccessMessage.TOPIC,
-                PayTransactionConvert.INSTANCE.convert(payTransactionNotifyTask));
+        sendNotifyMessage(payTransactionNotifyTask);
     }
 
     public void addTransactionNotifyTask(PayTransactionDO transaction, PayTransactionExtensionDO extension) {
@@ -47,8 +47,7 @@ public class PayNotifyServiceImpl {
                 .setTransactionId(extension.getTransactionId()).setTransactionExtensionId(extension.getId()));
         payTransactionNotifyTaskMapper.insert(payTransactionNotifyTask);
         // 3.2 发送 MQ
-        rocketMQTemplate.convertAndSend(PayTransactionSuccessMessage.TOPIC,
-                PayTransactionConvert.INSTANCE.convert(payTransactionNotifyTask));
+        sendNotifyMessage(payTransactionNotifyTask);
     }
 
     private PayNotifyTaskDO createBasePayNotifyTaskDO(String appId, String notifyUrl) {
@@ -58,6 +57,18 @@ public class PayNotifyServiceImpl {
                 .setNotifyTimes(0).setMaxNotifyTimes(PayNotifyTaskDO.NOTIFY_FREQUENCY.length + 1)
                 .setNextNotifyTime(DateUtil.addDate(Calendar.SECOND, PayNotifyTaskDO.NOTIFY_FREQUENCY[0]))
                 .setNotifyUrl(notifyUrl);
+    }
+
+    public void sendNotifyMessage(PayNotifyTaskDO notifyTask) {
+        if (PayNotifyType.TRANSACTION.getValue().equals(notifyTask.getType())) {
+            rocketMQTemplate.convertAndSend(PayTransactionSuccessMessage.TOPIC,
+                    PayNotifyConvert.INSTANCE.convertTransaction(notifyTask));
+        } else if (PayNotifyType.REFUND.getValue().equals(notifyTask.getType())) {
+            rocketMQTemplate.convertAndSend(PayRefundSuccessMessage.TOPIC,
+                    PayNotifyConvert.INSTANCE.convertRefund(notifyTask));
+        } else {
+            throw new IllegalArgumentException(String.format("通知任务(%s) 无法发送通知消息", notifyTask.toString()));
+        }
     }
 
 }

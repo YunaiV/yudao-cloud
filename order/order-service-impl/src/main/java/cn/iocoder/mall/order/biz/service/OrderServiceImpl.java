@@ -258,9 +258,11 @@ public class OrderServiceImpl implements OrderService {
         }
 
         // 标记优惠劵已使用
-        CommonResult<Boolean> useCouponCardResult = couponService.useCouponCard(userId, orderCreateDTO.getCouponCardId());
-        if (useCouponCardResult.isError()) {
-            return CommonResult.error(useCouponCardResult);
+        if (orderCreateDTO.getCouponCardId() != null) {
+            CommonResult<Boolean> useCouponCardResult = couponService.useCouponCard(userId, orderCreateDTO.getCouponCardId());
+            if (useCouponCardResult.isError()) {
+                return CommonResult.error(useCouponCardResult);
+            }
         }
 
         // TODO 芋艿，扣除库存

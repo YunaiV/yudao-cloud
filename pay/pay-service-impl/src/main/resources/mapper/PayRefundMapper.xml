@@ -3,7 +3,7 @@
 <mapper namespace="cn.iocoder.mall.pay.biz.dao.PayRefundMapper">
 
     <sql id="FIELDS">
-        id, transaction_id, refund_cod, app_id, create_ip, order_id,
+        id, transaction_id, refund_code, app_id, create_ip, order_id,
         order_description, price, status,
         finish_time, notify_url, extension_data, refund_channel, refund_time, notify_time,
         trade_no, create_time

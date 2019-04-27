@@ -140,7 +140,7 @@ const routes = [
     }
   },
   {
-    path: '/user/aftersale/detail',
+    path: '/user/aftersale/detail/:orderId',
     component: () => import('../page/user/aftersale/detail'),
     meta: {
       title: '服务单详情'

@@ -46,7 +46,12 @@
     </van-cell-group>
     <div class="footer">
       <div class="munu">
-        <van-button size="small">申请售后</van-button>
+        <router-link v-if="orderInfo.hasOrderReturn === -1 " :to="'/user/aftersale/apply/'+orderId">
+          <van-button size="small">申请售后</van-button>
+        </router-link>
+        <router-link v-if="orderInfo.hasOrderReturn !== -1" :to="'/user/aftersale/detail/'+orderId">
+          <van-button size="small">查看进度</van-button>
+        </router-link>
         <van-button v-if="orderInfo.status === 3 " size="small" v-on:click="clickConfirmReceiving(orderId)">确认收货</van-button>
         <van-button v-if="orderInfo.status === 1 " size="small" type="danger" @click="goPay(orderInfo.id)">支付</van-button>
       </div>

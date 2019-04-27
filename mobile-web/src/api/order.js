@@ -149,7 +149,7 @@ export function getLogisticsInfo(params) {
 export function getOrderReturnReason() {
   return request({
     url: '/order-api/users/order_return/reason',
-    method: 'get',
+    method: 'GET',
   });
 }
 
@@ -162,6 +162,16 @@ export function orderReturnApply(params) {
     method: 'POST',
     data: {
       ...params,
+    },
+  });
+}
+
+export function getOrderReturnInfo(orderId) {
+  return request({
+    url: '/order-api/users/order_return/info',
+    method: 'GET',
+    params: {
+      orderId,
     },
   });
 }

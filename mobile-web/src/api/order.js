@@ -133,13 +133,23 @@ export function getCartCalcSkuPrice(skuId) {
 
 // 物流信息
 
-export function getLogisticsInfo(params) {
+export function getOrderLogisticsInfo(params) {
   return request({
-    url: '/order-api/users/order_logistics/logistics_info',
+    url: '/order-api/users/order_logistics/info_order',
     method: 'get',
     params: {
       ...params,
     }
+  });
+}
+
+export function getLogisticsInfo(logisticsId) {
+  return request({
+    url: '/order-api/users/order_logistics/info',
+    method: 'GET',
+    params: {
+      logisticsId,
+    },
   });
 }
 

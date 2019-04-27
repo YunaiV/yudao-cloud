@@ -24,7 +24,7 @@
 </template>
 
 <script>
-  import { getLogisticsInfo } from '../../../api/order';
+  import { getOrderLogisticsInfo } from '../../../api/order';
 
   export default {
     data() {
@@ -36,7 +36,7 @@
     },
     mounted() {
       const { id } = this.$route.params;
-      getLogisticsInfo({
+      getOrderLogisticsInfo({
         orderId: id,
       }).then(res => {
         const { orderId, orderNo, logistics } = res;

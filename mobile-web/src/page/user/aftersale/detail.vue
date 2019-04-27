@@ -1,16 +1,32 @@
 <template>
   <div>
     <headerNav title="服务单详情"/>
-    <van-steps :active="active">
-      <van-step>提交申请</van-step>
-      <van-step>客服审核</van-step>
-      <van-step>客户确认</van-step>
-      <van-step>仓库收货</van-step>
-      <van-step>完成</van-step>
-    </van-steps>
 
-    <van-cell class="logistics" to="/user/aftersale/track/1" title="您的服务单435703816的商品已收到"
-              label="2018-08-31 21:04:03" is-link/>
+    <div v-if="serviceType === 1">
+      <van-steps :active="active">
+        <van-step>提交申请</van-step>
+        <van-step>客服审核</van-step>
+        <van-step>客户确认</van-step>
+        <van-step>仓库收货</van-step>
+        <van-step>完成</van-step>
+
+      </van-steps>
+
+      <van-cell class="logistics"
+                :to="`/user/aftersale/track/${lastLogisticsInfo.id}/${serviceNumber}`"
+                :title="lastLogisticsDetail.logisticsInformation"
+                :label="lastLogisticsDetail.logisticsTimeText" is-link/>
+    </div>
+
+    <div v-if="serviceType === 2">
+      <van-steps v-if="serviceType === 2" :active="active">
+        <van-step>提交申请</van-step>
+        <van-step>客服审核</van-step>
+        <van-step>客户确认</van-step>
+        <van-step>仓库收货</van-step>
+        <van-step>完成</van-step>
+      </van-steps>
+    </div>
 
     <div style="height:15px;"></div>
     <div v-for="(product,i) in products" :key="i">
@@ -21,7 +37,8 @@
     <van-cell-group>
       <van-cell title="服务单号" :value="serviceNumber"/>
       <van-cell title="申请时间" :value="applyTime"/>
-      <van-cell title="服务类型" :value="serviceType"/>
+      <van-cell title="服务类型" :value="serviceTypeText"/>
+      <van-cell title="退款金额" :value="refundPrice / 100"/>
     </van-cell-group>
     <div style="height:15px;"></div>
 
@@ -45,6 +62,10 @@
         serviceNumber: -1,
         applyTime: '-1',
         serviceType: '',
+        serviceTypeText: '',
+        refundPrice: 0,
+        lastLogisticsInfo: {},
+        lastLogisticsDetail: {},
         products: [
           {
             imageURL: 'https://pop.nosdn.127.net/19e33c9b-6c22-4a4b-96da-1cb7afb32712',
@@ -59,10 +80,20 @@
       const { orderId } = this.$route.params;
       getOrderReturnInfo(orderId).then(res => {
         console.log('getOrderReturnInfo success', res)
-        const { returnInfo, orderItems } = res;
-        this.serviceType = returnInfo.serviceTypeText
+        const { returnInfo, orderItems, lastLogisticsInfo } = res;
+        this.lastLogisticsInfo = lastLogisticsInfo
+        if (lastLogisticsInfo && lastLogisticsInfo.lastLogisticsDetail) {
+          const lastLogisticsDetail = lastLogisticsInfo.lastLogisticsDetail;
+          this.lastLogisticsDetail = {
+            ...lastLogisticsDetail,
+            logisticsTimeText: moment(lastLogisticsDetail.logisticsTime).format("YYYY-MM-DD HH:mm"),
+          }
+        }
+        this.serviceType = returnInfo.serviceType
+        this.serviceTypeText = returnInfo.serviceTypeText
         this.serviceNumber = returnInfo.serviceNumber
         this.applyTime = moment(returnInfo.createTime).format("YYYY-MM-DD HH:mm")
+        this.refundPrice = returnInfo.refundPrice
         this.products = orderItems.map(item => {
           return {
             ...item,

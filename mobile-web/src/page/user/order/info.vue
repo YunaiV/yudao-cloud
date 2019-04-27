@@ -8,7 +8,7 @@
     </van-steps>
     <van-cell v-if="orderInfo.status >= 2 "
               class="logistics"
-              to="/user/order/logistics/1"
+              :to="`/user/order/logistics/${orderInfo.id}`"
               :title="latestLogisticsDetail.logisticsInformation"
               :label="latestLogisticsDetail.logisticsTimeText"
               icon="logistics"

@@ -147,7 +147,7 @@ const routes = [
     }
   },
   {
-    path: '/user/aftersale/track/:id',
+    path: '/user/aftersale/track/:id/:serviceNumber',
     component: () => import('../page/user/aftersale/track'),
     meta: {
       title: '进度详情'

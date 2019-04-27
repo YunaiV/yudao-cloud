@@ -4,18 +4,22 @@ import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.order.api.OrderLogisticsService;
 import cn.iocoder.mall.order.api.OrderReturnService;
+import cn.iocoder.mall.order.api.bo.OrderLastLogisticsInfoBO;
 import cn.iocoder.mall.order.api.bo.OrderReturnInfoBO;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.constant.OrderReturnStatusEnum;
 import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
 import cn.iocoder.mall.order.biz.convert.OrderReturnConvert;
 import cn.iocoder.mall.order.biz.dao.OrderItemMapper;
+import cn.iocoder.mall.order.biz.dao.OrderLogisticsMapper;
 import cn.iocoder.mall.order.biz.dao.OrderMapper;
 import cn.iocoder.mall.order.biz.dao.OrderReturnMapper;
 import cn.iocoder.mall.order.biz.dataobject.OrderDO;
 import cn.iocoder.mall.order.biz.dataobject.OrderItemDO;
 import cn.iocoder.mall.order.biz.dataobject.OrderReturnDO;
+import com.alibaba.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -40,6 +44,9 @@ public class OrderReturnServiceImpl implements OrderReturnService {
     private OrderItemMapper orderItemMapper;
     @Autowired
     private OrderReturnMapper orderReturnMapper;
+
+    @Reference(validation = "true")
+    private OrderLogisticsService orderLogisticsService;
 
     @Override
     public CommonResult orderReturnApply(OrderReturnApplyDTO orderReturnDTO) {
@@ -71,7 +78,7 @@ public class OrderReturnServiceImpl implements OrderReturnService {
     }
 
     @Override
-    public CommonResult orderApplyInfo(Integer orderId) {
+    public CommonResult<OrderReturnInfoBO> orderApplyInfo(Integer orderId) {
 
         // 检查订单是否退货
         OrderReturnDO orderReturnDO = orderReturnMapper.selectByOrderId(orderId);
@@ -91,9 +98,19 @@ public class OrderReturnServiceImpl implements OrderReturnService {
         OrderReturnInfoBO.ReturnInfo returnInfo = OrderReturnConvert.INSTANCE.convert(orderReturnDO);
         List<OrderReturnInfoBO.OrderItem> itemList = OrderReturnConvert.INSTANCE.convert(orderItemDOList);
 
+        // 物流信息
+        CommonResult<OrderLastLogisticsInfoBO> lastLogisticsCommonResult = orderLogisticsService
+                .getLastLogisticsInfo(orderReturnDO.getOrderLogisticsId());
+
+        if (lastLogisticsCommonResult.isError()) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_LOGISTICS_INVOKING_FAIL.getCode());
+        }
+
+        OrderLastLogisticsInfoBO lastLogisticsInfoBO = lastLogisticsCommonResult.getData();
         OrderReturnInfoBO orderReturnInfoBO = new OrderReturnInfoBO()
                 .setOrderItems(itemList)
-                .setReturnInfo(returnInfo);
+                .setReturnInfo(returnInfo)
+                .setLastLogisticsInfo(lastLogisticsInfoBO);
 
         return CommonResult.success(orderReturnInfoBO);
     }

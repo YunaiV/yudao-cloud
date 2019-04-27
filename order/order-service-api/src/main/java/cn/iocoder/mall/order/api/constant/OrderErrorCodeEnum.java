@@ -42,6 +42,7 @@ public enum OrderErrorCodeEnum {
 
     // 工具类服务  1008004000
     DICT_SERVER_INVOKING_FAIL(1008004000, "字典服务调用失败!"),
+    ORDER_LOGISTICS_INVOKING_FAIL(1008004001, "订单物流调用失败!"),
 
 
     ;

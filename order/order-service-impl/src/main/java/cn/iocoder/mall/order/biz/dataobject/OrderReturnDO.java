@@ -42,6 +42,10 @@ public class OrderReturnDO extends BaseDO {
     /// 退货原因
 
     /**
+     * 退货金额
+     */
+    private Integer refundPrice;
+    /**
      * 退货原因(字典值)
      *
      * {@link cn.iocoder.mall.order.biz.constants.OrderReturnReasonEnum}

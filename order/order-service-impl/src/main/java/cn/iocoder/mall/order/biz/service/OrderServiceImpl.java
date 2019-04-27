@@ -184,7 +184,7 @@ public class OrderServiceImpl implements OrderService {
         // 订单物流信息
         OrderLogisticsDetailDO orderLogisticsDetailDO = null;
         if (!CollectionUtils.isEmpty(orderLogisticsIds)) {
-            orderLogisticsDetailDO = orderLogisticsDetailMapper.selectLatest(orderLogisticsIds);
+            orderLogisticsDetailDO = orderLogisticsDetailMapper.selectLast(orderLogisticsIds);
         }
 
         // 检查是否申请退货

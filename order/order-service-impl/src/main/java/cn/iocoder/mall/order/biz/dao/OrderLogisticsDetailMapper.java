@@ -50,7 +50,17 @@ public interface OrderLogisticsDetailMapper {
      * @param orderLogisticsIds
      * @return
      */
-    OrderLogisticsDetailDO selectLatest(
+    OrderLogisticsDetailDO selectLast(
             @Param("orderLogisticsIds") Collection<Integer> orderLogisticsIds
+    );
+
+    /**
+     * 查询 - 根据 last 根据物理id
+     *
+     * @param orderLogisticsId
+     * @return
+     */
+    OrderLogisticsDetailDO selectLastByLogisticsId(
+            @Param("orderLogisticsId") Integer orderLogisticsId
     );
 }

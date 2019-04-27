@@ -33,6 +33,16 @@ public interface OrderLogisticsMapper {
     /**
      * 查询 - 根据 ids
      *
+     * @param id
+     * @return
+     */
+    OrderLogisticsDO selectById(
+            @Param("id") Integer id
+    );
+
+    /**
+     * 查询 - 根据 ids
+     *
      * @param ids
      * @return
      */

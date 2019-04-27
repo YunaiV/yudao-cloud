@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.order.api.bo.OrderReturnInfoBO;
 import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
 
 /**
@@ -38,5 +39,5 @@ public interface OrderReturnService {
      * @param orderId
      * @return
      */
-    CommonResult orderApplyInfo(Integer orderId);
+    CommonResult<OrderReturnInfoBO> orderApplyInfo(Integer orderId);
 }

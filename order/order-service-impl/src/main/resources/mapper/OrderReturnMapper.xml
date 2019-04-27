@@ -8,6 +8,7 @@
         order_id,
         order_no,
         order_logistics_id,
+        refund_price,
         reason,
         `describe`,
         approval_time,
@@ -26,13 +27,13 @@
     <insert id="insert" parameterType="OrderReturnDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO `order_return` (
          service_number, order_id, order_no, order_logistics_id,
-         reason, `describe`,
+         refund_price, reason, `describe`,
          approval_time, logistics_time, receiver_time, closing_time,
          service_type, status,
          create_time, update_time)
         VALUES (
         #{serviceNumber}, #{orderId}, #{orderNo}, #{orderLogisticsId},
-        #{reason}, #{describe},
+        ${refundPrice}, #{reason}, #{describe},
         #{approvalTime}, #{logisticsTime}, #{receiverTime}, #{closingTime},
         #{serviceType}, #{status}, #{createTime}, #{updateTime})
     </insert>
@@ -44,6 +45,9 @@
         <set>
             <if test="orderLogisticsId != null">
                 , order_logistics_id = #{orderLogisticsId}
+            </if>
+            <if test="refundPrice != null">
+                , refund_price = #{refundPrice}
             </if>
             <if test="reason != null">
                 , reason = #{reason}

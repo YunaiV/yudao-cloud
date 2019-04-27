@@ -25,6 +25,10 @@ public class OrderReturnInfoBO implements Serializable {
      * 订单 item
      */
     private List<OrderItem> orderItems;
+    /**
+     * 最后一个物流信息/最新物流信息
+     */
+    private OrderLastLogisticsInfoBO lastLogisticsInfo;
 
     @Data
     @Accessors(chain = true)
@@ -80,6 +84,10 @@ public class OrderReturnInfoBO implements Serializable {
         ///
         /// 退货原因
 
+        /**
+         * 退货金额
+         */
+        private Integer refundPrice;
         /**
          * 退货原因(字典值)
          */

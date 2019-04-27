@@ -6,6 +6,7 @@ import cn.iocoder.mall.admin.api.DataDictService;
 import cn.iocoder.mall.admin.api.bo.DataDictBO;
 import cn.iocoder.mall.order.api.OrderLogisticsService;
 import cn.iocoder.mall.order.api.bo.OrderLogisticsInfoBO;
+import cn.iocoder.mall.order.api.bo.OrderLogisticsInfoWithOrderBO;
 import cn.iocoder.mall.order.api.constant.DictKeyConstants;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
@@ -39,14 +40,20 @@ public class OrderLogisticsController {
     @Reference(validation = "true")
     private DataDictService dataDictService;
 
-    @GetMapping("logistics_info")
-    @ApiOperation("物流详细 - 返回订单所关联的所有物流信息")
-    public CommonResult<OrderLogisticsInfoBO> logisticsInfo(@RequestParam("orderId") Integer orderId) {
+    @GetMapping("info")
+    @ApiOperation("物流详细 - 物流通用")
+    public CommonResult<OrderLogisticsInfoBO> logistics(@RequestParam("logisticsId") Integer logisticsId) {
+        return orderLogisticsService.getLogisticsInfo(logisticsId);
+    }
+
+    @GetMapping("info_order")
+    @ApiOperation("物流详细 - 返回订单所关联的所有物流信息(订单用的)")
+    public CommonResult<OrderLogisticsInfoWithOrderBO> logisticsInfoWithOrder(@RequestParam("orderId") Integer orderId) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
-        CommonResult<OrderLogisticsInfoBO> commonResult = orderLogisticsService.logisticsInfo(userId, orderId);
+        CommonResult<OrderLogisticsInfoWithOrderBO> commonResult = orderLogisticsService.getOrderLogisticsInfo(userId, orderId);
         if (commonResult.isSuccess()) {
-            OrderLogisticsInfoBO orderLogisticsInfoBO = commonResult.getData();
-            List<OrderLogisticsInfoBO.Logistics> logisticsList = orderLogisticsInfoBO.getLogistics();
+            OrderLogisticsInfoWithOrderBO orderLogisticsInfoBO = commonResult.getData();
+            List<OrderLogisticsInfoWithOrderBO.Logistics> logisticsList = orderLogisticsInfoBO.getLogistics();
 
             // 获取字典值
             Set<Integer> dictValues = logisticsList.stream().map(o -> o.getLogistics()).collect(Collectors.toSet());
@@ -72,7 +79,6 @@ public class OrderLogisticsController {
                 }).collect(Collectors.toList());
             }
         }
-
         return commonResult;
     }
 }

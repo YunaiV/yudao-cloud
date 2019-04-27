@@ -1,12 +1,13 @@
 package cn.iocoder.mall.order.biz.service;
 
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
-import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.OrderLogisticsService;
+import cn.iocoder.mall.order.api.bo.OrderLastLogisticsInfoBO;
 import cn.iocoder.mall.order.api.bo.OrderLogisticsInfoBO;
+import cn.iocoder.mall.order.api.bo.OrderLogisticsInfoWithOrderBO;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.biz.convert.OrderLogisticsConvert;
 import cn.iocoder.mall.order.biz.convert.OrderLogisticsDetailConvert;
@@ -46,7 +47,46 @@ public class OrderLogisticsServiceImpl implements OrderLogisticsService {
     private OrderLogisticsDetailMapper orderLogisticsDetailMapper;
 
     @Override
-    public CommonResult<OrderLogisticsInfoBO> logisticsInfo(Integer userId, Integer orderId) {
+    public CommonResult<OrderLogisticsInfoBO> getLogisticsInfo(Integer id) {
+        OrderLogisticsDO orderLogisticsDO = orderLogisticsMapper.selectById(id);
+        if (orderLogisticsDO == null) {
+            return CommonResult.success(null);
+        }
+
+        List<OrderLogisticsDetailDO> orderLogisticsDetailDOList = orderLogisticsDetailMapper
+                .selectByOrderLogisticsId(orderLogisticsDO.getId());
+
+        // 转换数据结构
+        List<OrderLogisticsInfoBO.LogisticsDetail> logisticsDetails
+                = OrderLogisticsConvert.INSTANCE.convert(orderLogisticsDetailDOList);
+
+        OrderLogisticsInfoBO orderLogisticsInfo2BO = OrderLogisticsConvert.INSTANCE.convert(orderLogisticsDO);
+        orderLogisticsInfo2BO.setDetails(logisticsDetails);
+        return CommonResult.success(orderLogisticsInfo2BO);
+    }
+
+    @Override
+    public CommonResult<OrderLastLogisticsInfoBO> getLastLogisticsInfo(Integer id) {
+        OrderLogisticsDO orderLogisticsDO = orderLogisticsMapper.selectById(id);
+        if (orderLogisticsDO == null) {
+            return CommonResult.success(null);
+        }
+
+        OrderLogisticsDetailDO orderLastLogisticsDetailDO = orderLogisticsDetailMapper.selectLastByLogisticsId(id);
+
+        // 转换数据结构
+        OrderLastLogisticsInfoBO.LogisticsDetail lastLogisticsDetail
+                = OrderLogisticsConvert.INSTANCE.convertLastLogisticsDetail(orderLastLogisticsDetailDO);
+
+        OrderLastLogisticsInfoBO lastLogisticsInfoBO = OrderLogisticsConvert
+                .INSTANCE.convertOrderLastLogisticsInfoBO(orderLogisticsDO);
+
+        lastLogisticsInfoBO.setLastLogisticsDetail(lastLogisticsDetail);
+        return CommonResult.success(lastLogisticsInfoBO);
+    }
+
+    @Override
+    public CommonResult<OrderLogisticsInfoWithOrderBO> getOrderLogisticsInfo(Integer userId, Integer orderId) {
         OrderDO orderDO  = orderMapper.selectById(orderId);
 
         if (orderDO == null) {
@@ -75,18 +115,18 @@ public class OrderLogisticsServiceImpl implements OrderLogisticsService {
         }
 
         // 转换 return 的数据
-        List<OrderLogisticsInfoBO.Logistics> logistics
+        List<OrderLogisticsInfoWithOrderBO.Logistics> logistics
                 = OrderLogisticsConvert.INSTANCE.convertLogistics(orderLogisticsDOList);
 
-        List<OrderLogisticsInfoBO.LogisticsDetail> logisticsDetails
-                = OrderLogisticsDetailConvert.INSTANCE.convertLogisticsDetail(orderLogisticsDetailDOList);
+        List<OrderLogisticsInfoWithOrderBO.LogisticsDetail> logisticsDetails
+                = OrderLogisticsConvert.INSTANCE.convertLogisticsDetail(orderLogisticsDetailDOList);
 
         logisticsDetails.stream().map(o -> {
             o.setLogisticsTimeText(DateUtil.format(o.getLogisticsTime(), "yyyy-MM-dd HH:mm"));
             return o;
         }).collect(Collectors.toList());
 
-        Map<Integer, List<OrderLogisticsInfoBO.LogisticsDetail>> logisticsDetailMultimap
+        Map<Integer, List<OrderLogisticsInfoWithOrderBO.LogisticsDetail>> logisticsDetailMultimap
                 = logisticsDetails.stream().collect(
                 Collectors.toMap(
                         o -> o.getOrderLogisticsId(),
@@ -106,7 +146,7 @@ public class OrderLogisticsServiceImpl implements OrderLogisticsService {
         }).collect(Collectors.toList());
 
         return CommonResult.success(
-                new OrderLogisticsInfoBO()
+                new OrderLogisticsInfoWithOrderBO()
                         .setOrderId(orderId)
                         .setOrderNo(orderDO.getOrderNo())
                         .setLogistics(logistics)

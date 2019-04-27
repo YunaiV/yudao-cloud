@@ -147,10 +147,10 @@
     <select id="selectByDeletedAndOrderId" resultType="cn.iocoder.mall.order.biz.dataobject.OrderItemDO">
         SELECT * FROM `order_item`
         WHERE 1=1
-        <if test="deleted">
+        <if test="deleted != null">
             AND deleted = #{deleted}
         </if>
-        <if test="orderId">
+        <if test="orderId != null">
           AND order_id = #{orderId}
         </if>
     </select>

@@ -4,6 +4,7 @@
 
     <sql id="FIELDS">
         id,
+        service_number,
         order_id,
         order_no,
         order_logistics_id,
@@ -13,7 +14,7 @@
         logistics_time,
         receiver_time,
         closing_time,
-        return_type,
+        service_type,
         status,
         create_time,
         update_time
@@ -24,16 +25,16 @@
     -->
     <insert id="insert" parameterType="OrderReturnDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO `order_return` (
-         order_id, order_no, order_logistics_id,
+         service_number, order_id, order_no, order_logistics_id,
          reason, `describe`,
          approval_time, logistics_time, receiver_time, closing_time,
-         return_type, status,
+         service_type, status,
          create_time, update_time)
         VALUES (
-        #{orderId}, #{orderNo}, #{orderLogisticsId},
+        #{serviceNumber}, #{orderId}, #{orderNo}, #{orderLogisticsId},
         #{reason}, #{describe},
         #{approvalTime}, #{logisticsTime}, #{receiverTime}, #{closingTime},
-        #{returnType}, #{status}, #{createTime}, #{updateTime})
+        #{serviceType}, #{status}, #{createTime}, #{updateTime})
     </insert>
 
     <!--
@@ -96,7 +97,8 @@
         SELECT
         <include refid="FIELDS"/>
         FROM `order_return`
-        WHERE id = #{id}
+        WHERE order_id = #{orderId}
+        LIMIT 1
     </select>
 
 </mapper>

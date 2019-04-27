@@ -1,20 +1,28 @@
 package cn.iocoder.mall.order.biz.service;
 
+import cn.iocoder.common.framework.constant.DeletedStatusEnum;
+import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.OrderReturnService;
+import cn.iocoder.mall.order.api.bo.OrderReturnInfoBO;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.constant.OrderReturnStatusEnum;
 import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
 import cn.iocoder.mall.order.biz.convert.OrderReturnConvert;
+import cn.iocoder.mall.order.biz.dao.OrderItemMapper;
 import cn.iocoder.mall.order.biz.dao.OrderMapper;
 import cn.iocoder.mall.order.biz.dao.OrderReturnMapper;
 import cn.iocoder.mall.order.biz.dataobject.OrderDO;
+import cn.iocoder.mall.order.biz.dataobject.OrderItemDO;
 import cn.iocoder.mall.order.biz.dataobject.OrderReturnDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * 订单退货 service
@@ -28,6 +36,8 @@ public class OrderReturnServiceImpl implements OrderReturnService {
 
     @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private OrderItemMapper orderItemMapper;
     @Autowired
     private OrderReturnMapper orderReturnMapper;
 
@@ -44,6 +54,8 @@ public class OrderReturnServiceImpl implements OrderReturnService {
         OrderReturnDO orderReturnDO = OrderReturnConvert.INSTANCE.convert(orderReturnDTO);
         orderReturnDO
                 .setOrderId(checkOrder.getId())
+                // TODO: 2019-04-27 Sin 服务号生成规则
+                .setServiceNumber(UUID.randomUUID().toString().replaceAll("-", "").substring(0, 16))
                 .setOrderNo(checkOrder.getOrderNo())
                 .setStatus(OrderReturnStatusEnum.RETURN_APPLICATION.getValue())
                 .setCreateTime(new Date());
@@ -56,5 +68,33 @@ public class OrderReturnServiceImpl implements OrderReturnService {
     @Override
     public String updateRefundSuccess(String orderId, Integer refundPrice) {
         return "success";
+    }
+
+    @Override
+    public CommonResult orderApplyInfo(Integer orderId) {
+
+        // 检查订单是否退货
+        OrderReturnDO orderReturnDO = orderReturnMapper.selectByOrderId(orderId);
+        if (orderReturnDO == null) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_RETURN_NO_RETURN_APPLY.getCode());
+        }
+
+        List<OrderItemDO> orderItemDOList = orderItemMapper
+                .selectByDeletedAndOrderId(DeletedStatusEnum.DELETED_NO.getValue(), orderId);
+
+        // 订单不存在
+        if (CollectionUtils.isEmpty(orderItemDOList)) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_NOT_EXISTENT.getCode());
+        }
+
+        // 转换 returnInfo
+        OrderReturnInfoBO.ReturnInfo returnInfo = OrderReturnConvert.INSTANCE.convert(orderReturnDO);
+        List<OrderReturnInfoBO.OrderItem> itemList = OrderReturnConvert.INSTANCE.convert(orderItemDOList);
+
+        OrderReturnInfoBO orderReturnInfoBO = new OrderReturnInfoBO()
+                .setOrderItems(itemList)
+                .setReturnInfo(returnInfo);
+
+        return CommonResult.success(orderReturnInfoBO);
     }
 }

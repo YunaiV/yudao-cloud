@@ -32,7 +32,8 @@ public enum OrderErrorCodeEnum {
     ORDER_ITEM_ONLY_ONE(1008000200, "订单Item只有一个!"),
     ORDER_ITEM_SOME_NOT_EXISTS(1008000201, "有不存在的商品!"),
 
-
+    // 订单退货
+    ORDER_RETURN_NO_RETURN_APPLY(1008000400, "未退货申请"),
 
     // ========== 购物车 ==========
     CARD_ITEM_NOT_FOUND(1008003000, "购物车项不存在"),
@@ -41,6 +42,8 @@ public enum OrderErrorCodeEnum {
 
     // 工具类服务  1008004000
     DICT_SERVER_INVOKING_FAIL(1008004000, "字典服务调用失败!"),
+
+
     ;
 
     private final int code;

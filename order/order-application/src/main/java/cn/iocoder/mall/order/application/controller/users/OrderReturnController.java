@@ -4,6 +4,7 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.DataDictService;
 import cn.iocoder.mall.admin.api.bo.DataDictBO;
 import cn.iocoder.mall.order.api.OrderReturnService;
+import cn.iocoder.mall.order.api.bo.OrderReturnInfoBO;
 import cn.iocoder.mall.order.api.constant.DictKeyConstants;
 import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
 import cn.iocoder.mall.order.application.convert.OrderReturnConvert;
@@ -40,5 +41,24 @@ public class OrderReturnController {
     public CommonResult orderReturnApply(@RequestBody OrderReturnApplyPO orderReturnApplyPO) {
         OrderReturnApplyDTO applyDTO = OrderReturnConvert.INSTANCE.convert(orderReturnApplyPO);
         return orderReturnService.orderReturnApply(applyDTO);
+    }
+
+    @GetMapping("info")
+    @ApiOperation("订单售后详细")
+    public CommonResult<OrderReturnInfoBO> orderApplyInfo(@RequestParam("orderId") Integer orderId) {
+        CommonResult<OrderReturnInfoBO> commonResult = orderReturnService.orderApplyInfo(orderId);
+
+        // 转换 字典值
+        if (commonResult.isSuccess()) {
+            CommonResult<DataDictBO> dataDictResult = dataDictService.getDataDict(
+                    DictKeyConstants.ORDER_RETURN_SERVICE_TYPE,
+                    commonResult.getData().getReturnInfo().getServiceType());
+
+            if (dataDictResult.isSuccess()) {
+                commonResult.getData().getReturnInfo().setServiceTypeText(dataDictResult.getData().getDisplayName());
+            }
+        }
+
+        return commonResult;
     }
 }

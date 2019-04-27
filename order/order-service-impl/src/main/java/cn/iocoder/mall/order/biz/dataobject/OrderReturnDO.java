@@ -22,6 +22,10 @@ public class OrderReturnDO extends BaseDO {
      */
     private Integer id;
     /**
+     * 服务号
+     */
+    private String serviceNumber;
+    /**
      * 订单编号
      */
     private Integer orderId;
@@ -68,12 +72,12 @@ public class OrderReturnDO extends BaseDO {
      */
     private Date closingTime;
     /**
-     * 退款类型
+     * 服务类型
      *
      * - 1、退货退款
      * - 2、退款
      */
-    private Integer returnType;
+    private Integer serviceType;
     /**
      * 状态
      *

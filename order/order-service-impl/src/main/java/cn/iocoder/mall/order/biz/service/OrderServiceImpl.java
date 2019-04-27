@@ -141,7 +141,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         List<OrderItemDO> orderItemDOList = orderItemMapper
-                .selectByDeletedAndOrderId(orderId, DeletedStatusEnum.DELETED_NO.getValue());
+                .selectByDeletedAndOrderId(DeletedStatusEnum.DELETED_NO.getValue(), orderId);
 
         List<OrderItemBO> orderItemBOList = OrderItemConvert.INSTANCE.convertOrderItemBO(orderItemDOList);
         return CommonResult.success(orderItemBOList);
@@ -166,7 +166,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         List<OrderItemDO> itemDOList = orderItemMapper
-                .selectByDeletedAndOrderId(orderId, DeletedStatusEnum.DELETED_NO.getValue());
+                .selectByDeletedAndOrderId(DeletedStatusEnum.DELETED_NO.getValue(), orderId);
 
         List<OrderInfoBO.OrderItem> orderItems
                 = OrderItemConvert.INSTANCE.convertOrderInfoWithOrderItem(itemDOList);
@@ -187,6 +187,9 @@ public class OrderServiceImpl implements OrderService {
             orderLogisticsDetailDO = orderLogisticsDetailMapper.selectLatest(orderLogisticsIds);
         }
 
+        // 检查是否申请退货
+        OrderReturnDO orderReturnDO = orderReturnMapper.selectByOrderId(orderId);
+
         // convert 信息
         OrderInfoBO.LogisticsDetail logisticsDetail
                 = OrderLogisticsDetailConvert.INSTANCE.convertLogisticsDetail(orderLogisticsDetailDO);
@@ -196,6 +199,13 @@ public class OrderServiceImpl implements OrderService {
         orderInfoBO.setRecipient(recipient);
         orderInfoBO.setOrderItems(orderItems);
         orderInfoBO.setLatestLogisticsDetail(logisticsDetail);
+
+        // 是否退货
+        if (orderReturnDO != null) {
+            orderInfoBO.setHasOrderReturn(orderReturnDO.getStatus());
+        } else {
+            orderInfoBO.setHasOrderReturn(-1);
+        }
         return CommonResult.success(orderInfoBO);
     }
 
@@ -405,7 +415,7 @@ public class OrderServiceImpl implements OrderService {
 
         // 再重新计算订单金额
         List<OrderItemDO> orderItemDOList = orderItemMapper
-                .selectByDeletedAndOrderId(orderId, DeletedStatusEnum.DELETED_NO.getValue());
+                .selectByDeletedAndOrderId(DeletedStatusEnum.DELETED_NO.getValue(), orderId);
 //        Integer price = orderCommon.calculatedPrice(orderItemDOList);
 //        Integer amount = orderCommon.calculatedAmount(orderItemDOList);
         Integer price = -1; // TODO 芋艿，这里要修改，价格
@@ -522,7 +532,7 @@ public class OrderServiceImpl implements OrderService {
 
         // 获取当前有效的订单 item
         List<OrderItemDO> orderItemDOList = orderItemMapper
-                .selectByDeletedAndOrderId(orderId, DeletedStatusEnum.DELETED_NO.getValue());
+                .selectByDeletedAndOrderId(DeletedStatusEnum.DELETED_NO.getValue(), orderId);
 
         List<OrderItemDO> effectiveOrderItems = orderItemDOList.stream()
                 .filter(orderItemDO -> !orderItemIds.contains(orderItemDO.getId()))

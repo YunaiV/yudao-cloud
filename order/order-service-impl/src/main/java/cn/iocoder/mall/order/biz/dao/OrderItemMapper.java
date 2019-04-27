@@ -4,7 +4,6 @@ import cn.iocoder.mall.order.biz.dataobject.OrderItemDO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 
@@ -79,7 +78,7 @@ public interface OrderItemMapper {
      * @return
      */
     List<OrderItemDO> selectByDeletedAndOrderId(
-            @Param("orderId") Integer orderId,
-            @Param("deleted") @NotNull Integer deleted
+            @Param("deleted") Integer deleted,
+            @Param("orderId") Integer orderId
     );
 }

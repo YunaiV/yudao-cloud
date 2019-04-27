@@ -59,7 +59,7 @@ public class OrderLogisticsServiceImpl implements OrderLogisticsService {
 
         // 获取订单所发货的订单 id
         List<OrderItemDO> orderItemDOList = orderItemMapper.selectByDeletedAndOrderId(
-                orderId, DeletedStatusEnum.DELETED_NO.getValue());
+                DeletedStatusEnum.DELETED_NO.getValue(), orderId);
 
         // 获取物流 信息
         Set<Integer> orderLogisticsIds = orderItemDOList.stream()

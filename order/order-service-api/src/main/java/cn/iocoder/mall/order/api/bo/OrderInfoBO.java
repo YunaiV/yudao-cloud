@@ -110,6 +110,15 @@ public class OrderInfoBO implements Serializable {
      */
     private List<OrderItem> orderItems;
 
+
+    ///
+    /// 其他字段
+
+    /**
+     * 是否退货
+     */
+    private Integer hasOrderReturn;
+
     @Data
     @Accessors(chain = true)
     public static class OrderItem {

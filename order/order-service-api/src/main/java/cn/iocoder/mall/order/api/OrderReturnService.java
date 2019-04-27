@@ -32,4 +32,11 @@ public interface OrderReturnService {
      */
     String updateRefundSuccess(String orderId, Integer refundPrice);
 
+    /**
+     * 订单申请信息
+     *
+     * @param orderId
+     * @return
+     */
+    CommonResult orderApplyInfo(Integer orderId);
 }

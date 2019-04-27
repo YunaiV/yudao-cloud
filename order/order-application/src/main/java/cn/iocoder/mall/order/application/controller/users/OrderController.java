@@ -85,7 +85,7 @@ public class OrderController {
                 remark, HttpUtil.getIp(request),
                 cartItems, couponCardId);
         // 创建订单
-        CommonResult<OrderCreateBO> createResult= orderService.createOrder(orderCreateDTO);
+        CommonResult<OrderCreateBO> createResult = orderService.createOrder(orderCreateDTO);
         if (createResult.isError()) {
             return CommonResult.error(createResult);
         }
@@ -127,7 +127,7 @@ public class OrderController {
         CommonResult<OrderInfoBO> commonResult = orderService.info(userId, orderId);
 
         OrderInfoBO orderInfoBO = commonResult.getData();
-        if(orderInfoBO != null) {
+        if (orderInfoBO != null) {
             CommonResult<DataDictBO> dictResult = dataDictService
                     .getDataDict(DictKeyConstants.ORDER_STATUS, orderInfoBO.getStatus());
             orderInfoBO.setStatusText(dictResult.getData().getDisplayName());

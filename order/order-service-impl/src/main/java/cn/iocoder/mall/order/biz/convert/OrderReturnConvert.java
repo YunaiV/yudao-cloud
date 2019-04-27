@@ -1,11 +1,15 @@
 package cn.iocoder.mall.order.biz.convert;
 
+import cn.iocoder.mall.order.api.bo.OrderReturnInfoBO;
 import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
 import cn.iocoder.mall.order.api.dto.OrderReturnCreateDTO;
+import cn.iocoder.mall.order.biz.dataobject.OrderItemDO;
 import cn.iocoder.mall.order.biz.dataobject.OrderReturnDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 /**
  * 订单 return
@@ -23,4 +27,10 @@ public interface OrderReturnConvert {
 
     @Mappings({})
     OrderReturnDO convert(OrderReturnApplyDTO orderReturnApplyDTO);
+
+    @Mappings({})
+    OrderReturnInfoBO.ReturnInfo convert(OrderReturnDO orderReturnDO);
+
+    @Mappings({})
+    List<OrderReturnInfoBO.OrderItem> convert(List<OrderItemDO> orderItemDOList);
 }

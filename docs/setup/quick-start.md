@@ -27,7 +27,7 @@
 
 ② 导入 SQL
 
-将 [docs/sql](TODO) 下的 SQL ，逐个导入到数据库中。
+将 [docs/sql](https://gitee.com/zhijiantianya/mall/tree/master/docs/sql) 下的 SQL ，逐个导入到数据库中。
 
 ③ 修改项目中的 MySQL 配置
 

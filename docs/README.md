@@ -1,7 +1,7 @@
 
 * setup
     > 提供安装指南
-    * [搭建调试环境](https://gitee.com/zhijiantianya/mall/docs/setup/quick-start.md)
+    * [搭建调试环境](https://gitee.com/zhijiantianya/onemall/docs/setup/quick-start.md)
 
 * sql
     > 提供 SQL 文件

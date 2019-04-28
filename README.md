@@ -39,7 +39,7 @@ TODO 此处应有一个演示的装逼 GIF 图。
 
 ## 搭建环境
 
-[搭建调试环境](https://gitee.com/zhijiantianya/mall/blob/master/docs/setup/quick-start.md)
+[搭建调试环境](https://gitee.com/zhijiantianya/onemall/blob/master/docs/setup/quick-start.md)
 
 ## 架构图
 

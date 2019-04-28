@@ -14,7 +14,7 @@
 
 # 2. 源码拉取
 
-使用 IntelliJ IDEA 从 <https://gitee.com/zhijiantianya/mall> 。拉取完成后，Maven 会下载依赖包，可能会花费一些时间，耐心等待下。
+使用 IntelliJ IDEA 从 <https://gitee.com/zhijiantianya/onemall> 。拉取完成后，Maven 会下载依赖包，可能会花费一些时间，耐心等待下。
 
 > 艿艿：也不要瞎等，咱继续顺着本文往下走。
 
@@ -27,7 +27,7 @@
 
 ② 导入 SQL
 
-将 [docs/sql](https://gitee.com/zhijiantianya/mall/tree/master/docs/sql) 下的 SQL ，逐个导入到数据库中。
+将 [docs/sql](https://gitee.com/zhijiantianya/onemall/tree/master/docs/sql) 下的 SQL ，逐个导入到数据库中。
 
 ③ 修改项目中的 MySQL 配置
 

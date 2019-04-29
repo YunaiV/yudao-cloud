@@ -20,7 +20,7 @@ public class PayRefundServiceImplTest {
         PayRefundSubmitDTO payRefundSubmitDTO = new PayRefundSubmitDTO()
                 .setAppId("POd4RC6a")
                 .setCreateIp("127.0.0.1")
-                .setOrderId("135")
+                .setOrderId("13500000")
                 .setOrderDescription("测试下退款")
                 .setPrice(1);
         payRefundService.submitRefund(payRefundSubmitDTO);

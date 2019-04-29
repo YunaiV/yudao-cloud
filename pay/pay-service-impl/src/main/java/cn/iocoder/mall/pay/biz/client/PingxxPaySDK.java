@@ -136,7 +136,7 @@ public class PingxxPaySDK extends AbstractPaySDK {
             new PingxxPaySDK().submitTransaction(transaction, extension, null);
         }
         if (true) { // 测试退款请求
-            PayRefundDO refund = new PayRefundDO().setPrice(1).setOrderDescription("测试描述");
+            PayRefundDO refund = new PayRefundDO().setPrice(9999999).setOrderDescription("测试描述");
             PayTransactionExtensionDO transactionExtension = new PayTransactionExtensionDO()
                     .setExtensionData("{\"id\":\"evt_400190423100354205607502\",\"created\":1555985033,\"livemode\":false,\"type\":\"charge.succeeded\",\"data\":{\"object\":{\"id\":\"ch_DCGyXTmDGuHKb1C0yTzjPOGC\",\"object\":\"charge\",\"created\":1555985032,\"livemode\":false,\"paid\":true,\"refunded\":false,\"reversed\":false,\"app\":\"app_aTyfXDjrvzDSbLuz\",\"channel\":\"wx_pub\",\"order_no\":\"20190423100352158401\",\"client_ip\":\"114.87.158.59\",\"amount\":10,\"amount_settle\":10,\"currency\":\"cny\",\"subject\":\"kafka 实战\",\"body\":\"测试描述\",\"extra\":{\"open_id\":\"just_for_test\",\"bank_type\":\"your bank type\"},\"time_paid\":1555985033,\"time_expire\":1555992232,\"time_settle\":null,\"transaction_no\":\"1244341374201904238178164740\",\"refunds\":{\"object\":\"list\",\"url\":\"/v1/charges/ch_DCGyXTmDGuHKb1C0yTzjPOGC/refunds\",\"has_more\":false,\"data\":[]},\"amount_refunded\":0,\"failure_code\":null,\"failure_msg\":null,\"metadata\":{},\"credential\":{},\"description\":\"测试备注\"}},\"object\":\"event\",\"request\":\"iar_4e9mPODW5ujPqLen5OOmvL8S\",\"pending_webhooks\":0}");
 

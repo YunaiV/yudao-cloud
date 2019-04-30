@@ -16,7 +16,7 @@ import cn.iocoder.mall.admin.application.vo.RolePageVO;
 import cn.iocoder.mall.admin.application.vo.RoleResourceTreeNodeVO;
 import cn.iocoder.mall.admin.application.vo.RoleVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -29,9 +29,9 @@ import java.util.stream.Collectors;
 @RequestMapping("admins/role")
 public class RoleController {
 
-    @Reference(validation = "true")
+    @Reference(validation = "true", lazy = true)
     private RoleService roleService;
-    @Reference(validation = "true")
+    @Reference(validation = "true", lazy = true)
     private ResourceService resourceService;
 
     @GetMapping("/page")

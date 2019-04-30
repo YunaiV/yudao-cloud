@@ -4,7 +4,7 @@ import cn.iocoder.mall.pay.api.message.PayTransactionSuccessMessage;
 import cn.iocoder.mall.pay.biz.component.DubboReferencePool;
 import cn.iocoder.mall.pay.biz.dao.PayTransactionMapper;
 import cn.iocoder.mall.pay.biz.dataobject.PayTransactionDO;
-import com.alibaba.dubbo.rpc.service.GenericService;
+import org.apache.dubbo.rpc.service.GenericService;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.beans.factory.annotation.Autowired;

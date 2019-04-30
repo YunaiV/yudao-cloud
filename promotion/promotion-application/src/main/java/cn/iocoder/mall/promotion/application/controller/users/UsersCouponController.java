@@ -13,7 +13,7 @@ import cn.iocoder.mall.promotion.application.vo.users.UsersCouponCardVO;
 import cn.iocoder.mall.promotion.application.vo.users.UsersCouponTemplateVO;
 import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

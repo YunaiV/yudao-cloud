@@ -10,7 +10,7 @@ import cn.iocoder.mall.admin.application.convert.ResourceConvert;
 import cn.iocoder.mall.admin.application.vo.ResourceTreeNodeVO;
 import cn.iocoder.mall.admin.application.vo.ResourceVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @Api("资源模块")
 public class ResourceController {
 
-    @Reference(validation = "true")
+    @Reference(validation = "true", lazy = true)
     private ResourceService resourceService;
 
     @SuppressWarnings("Duplicates")

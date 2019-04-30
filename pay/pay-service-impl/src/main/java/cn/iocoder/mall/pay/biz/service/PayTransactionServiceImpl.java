@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 
 @Service
-@com.alibaba.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true")
 public class PayTransactionServiceImpl implements PayTransactionService {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

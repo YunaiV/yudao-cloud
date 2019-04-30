@@ -18,11 +18,11 @@ import cn.iocoder.mall.admin.application.vo.AdminPageVO;
 import cn.iocoder.mall.admin.application.vo.AdminRoleVO;
 import cn.iocoder.mall.admin.application.vo.AdminVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
-import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -33,11 +33,11 @@ import java.util.stream.Collectors;
 @Api("管理员模块")
 public class AdminController {
 
-    @Reference(validation = "true")
+    @Reference(validation = "true", lazy = true)
     private ResourceService resourceService;
-    @Reference(validation = "true")
+    @Reference(validation = "true", lazy = true)
     private AdminService adminService;
-    @Reference(validation = "true")
+    @Reference(validation = "true", lazy = true)
     private RoleService roleService;
 
     // =========== 当前管理员相关的资源 API ===========

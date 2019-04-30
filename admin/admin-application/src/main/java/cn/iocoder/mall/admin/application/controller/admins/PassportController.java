@@ -5,11 +5,11 @@ import cn.iocoder.mall.admin.api.OAuth2Service;
 import cn.iocoder.mall.admin.api.bo.OAuth2AccessTokenBO;
 import cn.iocoder.mall.admin.application.convert.PassportConvert;
 import cn.iocoder.mall.admin.application.vo.PassportLoginVO;
-import com.alibaba.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api("Admin Passport 模块")
 public class PassportController {
 
-    @Reference
+    @Reference(validation = "true", lazy = true)
     private OAuth2Service oauth2Service;
 
     @PostMapping("/login")

@@ -6,7 +6,7 @@ import cn.iocoder.mall.product.api.bo.ProductCategoryBO;
 import cn.iocoder.mall.product.application.convert.ProductCategoryConvert;
 import cn.iocoder.mall.product.application.vo.users.UsersProductCategoryVO;
 import cn.iocoder.mall.user.sdk.annotation.PermitAll;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

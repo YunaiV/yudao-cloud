@@ -21,6 +21,7 @@ public class ExceptionUtil {
     // 原因是：
     //   1. Dubbo 动态代理 Wrapper 会将抛出的异常，包装成 InvocationTargetException 异常
     //   2. Spring AOP 发现是 InvocationTargetException 异常是非方法定义的异常，则会包装成 UndeclaredThrowableException 异常。
+    @Deprecated // https://github.com/apache/incubator-dubbo/issues/3386 Dubbo 2.6.5 会触发该问题，在 2.7.1 版本已经解决。
     public static ServiceException getServiceException(UndeclaredThrowableException e) {
         Throwable undeclaredThrowable = e.getUndeclaredThrowable();
         if (undeclaredThrowable instanceof InvocationTargetException) {
@@ -33,12 +34,13 @@ public class ExceptionUtil {
         return null;
     }
 
+    @Deprecated // https://github.com/apache/incubator-dubbo/issues/3386 Dubbo 2.6.5 会触发该问题，在 2.7.1 版本已经解决。
     public static ConstraintViolationException getConstraintViolationException(UndeclaredThrowableException e) {
         Throwable undeclaredThrowable = e.getUndeclaredThrowable();
         if (undeclaredThrowable instanceof InvocationTargetException) {
             InvocationTargetException invocationTargetException = (InvocationTargetException) undeclaredThrowable;
             Throwable targetException = invocationTargetException.getTargetException();
-            if (targetException != null && targetException instanceof ConstraintViolationException) {
+            if (targetException instanceof ConstraintViolationException) {
                 return (ConstraintViolationException) targetException;
             }
         }

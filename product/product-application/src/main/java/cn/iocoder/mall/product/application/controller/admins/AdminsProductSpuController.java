@@ -12,7 +12,7 @@ import cn.iocoder.mall.product.api.dto.ProductSpuUpdateDTO;
 import cn.iocoder.mall.product.application.convert.ProductSpuConvert;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductSpuDetailVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductSpuPageVO;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;

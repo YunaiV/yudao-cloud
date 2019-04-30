@@ -9,7 +9,7 @@ import cn.iocoder.mall.promotion.api.bo.ProductRecommendBO;
 import cn.iocoder.mall.promotion.application.convert.ProductRecommendConvert;
 import cn.iocoder.mall.promotion.application.vo.users.UsersProductRecommendVO;
 import cn.iocoder.mall.user.sdk.annotation.PermitAll;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import io.swagger.annotations.Api;

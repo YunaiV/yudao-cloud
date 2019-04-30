@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
  * @time 2019-04-12 21:32
  */
 @Service
-@com.alibaba.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true")
 public class OrderLogisticsServiceImpl implements OrderLogisticsService {
 
     @Autowired

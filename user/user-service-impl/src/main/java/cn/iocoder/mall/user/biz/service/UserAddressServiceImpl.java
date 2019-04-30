@@ -26,7 +26,7 @@ import java.util.List;
  * @time 2019-04-06 13:26
  */
 @Service
-@com.alibaba.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true")
 public class UserAddressServiceImpl implements UserAddressService {
 
     @Autowired

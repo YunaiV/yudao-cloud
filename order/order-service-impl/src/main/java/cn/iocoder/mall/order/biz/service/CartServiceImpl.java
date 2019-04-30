@@ -21,7 +21,7 @@ import cn.iocoder.mall.promotion.api.PromotionActivityService;
 import cn.iocoder.mall.promotion.api.bo.CouponCardDetailBO;
 import cn.iocoder.mall.promotion.api.bo.PromotionActivityBO;
 import cn.iocoder.mall.promotion.api.constant.*;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
  * 购物车服务 Service 实现类
  */
 @Service
-@com.alibaba.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true")
 public class CartServiceImpl implements CartService {
 
     @Reference(validation = "true")

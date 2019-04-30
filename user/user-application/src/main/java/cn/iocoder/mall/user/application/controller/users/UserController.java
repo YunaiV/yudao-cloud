@@ -7,9 +7,10 @@ import cn.iocoder.mall.user.api.dto.UserUpdateDTO;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import cn.iocoder.mall.user.application.vo.users.UsersUserVO;
 import cn.iocoder.mall.user.api.UserService;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Reference(validation = "true")
+    @Autowired // TODO dubbo 2.7.2 删除，用于解决 bug
     private UserService userService;
 
     @GetMapping("/info")

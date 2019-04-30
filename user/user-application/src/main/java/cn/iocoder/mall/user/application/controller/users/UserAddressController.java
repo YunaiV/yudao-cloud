@@ -1,16 +1,17 @@
 package cn.iocoder.mall.user.application.controller.users;
 
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.user.api.UserAddressService;
 import cn.iocoder.mall.user.api.bo.UserAddressBO;
+import cn.iocoder.mall.user.api.dto.UserAddressAddDTO;
+import cn.iocoder.mall.user.api.dto.UserAddressUpdateDTO;
 import cn.iocoder.mall.user.application.convert.UserAddressConvert;
 import cn.iocoder.mall.user.application.po.UserAddressAddPO;
 import cn.iocoder.mall.user.application.po.UserAddressUpdatePO;
-import cn.iocoder.mall.user.api.dto.UserAddressAddDTO;
-import cn.iocoder.mall.user.api.dto.UserAddressUpdateDTO;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
-import cn.iocoder.mall.user.api.UserAddressService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,10 +26,11 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("users/address")
-@Api(description = "用户地址API")
+@Api(value = "用户地址API")
 public class UserAddressController {
 
-    @Autowired
+    @Reference(validation = "true")
+    @Autowired // TODO dubbo 2.7.2 删除，用于解决 bug
     private UserAddressService userAddressService;
 
     @PostMapping("add")

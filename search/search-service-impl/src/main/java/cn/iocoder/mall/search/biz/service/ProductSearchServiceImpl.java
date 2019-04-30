@@ -18,7 +18,7 @@ import cn.iocoder.mall.search.api.dto.ProductSearchPageDTO;
 import cn.iocoder.mall.search.biz.convert.ProductSearchConvert;
 import cn.iocoder.mall.search.biz.dao.ProductRepository;
 import cn.iocoder.mall.search.biz.dataobject.ESProductDO;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
@@ -37,7 +37,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-@com.alibaba.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true")
 public class ProductSearchServiceImpl implements ProductSearchService {
 
     private static final Integer REBUILD_FETCH_PER_SIZE = 100;

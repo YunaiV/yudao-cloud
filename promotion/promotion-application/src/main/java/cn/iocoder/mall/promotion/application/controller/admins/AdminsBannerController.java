@@ -10,7 +10,7 @@ import cn.iocoder.mall.promotion.api.dto.BannerUpdateDTO;
 import cn.iocoder.mall.promotion.application.convert.BannerConvert;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsBannerPageVO;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsBannerVO;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

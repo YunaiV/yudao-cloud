@@ -8,7 +8,7 @@ import cn.iocoder.mall.product.application.convert.ProductSpuConvert;
 import cn.iocoder.mall.product.application.vo.users.UsersProductSpuDetailVO;
 import cn.iocoder.mall.product.application.vo.users.UsersProductSpuPageVO;
 import cn.iocoder.mall.user.sdk.annotation.PermitAll;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

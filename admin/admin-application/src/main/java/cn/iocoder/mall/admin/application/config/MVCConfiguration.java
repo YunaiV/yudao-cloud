@@ -1,9 +1,12 @@
 package cn.iocoder.mall.admin.application.config;
 
 import cn.iocoder.common.framework.config.GlobalExceptionHandler;
+import cn.iocoder.common.framework.servlet.CorsFilter;
 import cn.iocoder.mall.admin.sdk.interceptor.AdminAccessLogInterceptor;
 import cn.iocoder.mall.admin.sdk.interceptor.AdminSecurityInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.*;
@@ -37,13 +40,12 @@ public class MVCConfiguration implements WebMvcConfigurer {
         registry.addResourceHandler("webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
-    // TODO 芋艿，允许跨域
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedHeaders("*")
-                .allowedMethods("*")
-                .allowedOrigins("*");
+    @Bean
+    public FilterRegistrationBean<CorsFilter> corsFilter() {
+        FilterRegistrationBean<CorsFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new CorsFilter());
+        registrationBean.addUrlPatterns("/*");
+        return registrationBean;
     }
 
 }

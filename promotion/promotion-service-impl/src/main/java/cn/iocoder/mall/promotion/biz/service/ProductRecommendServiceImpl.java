@@ -16,7 +16,7 @@ import cn.iocoder.mall.promotion.api.dto.ProductRecommendUpdateDTO;
 import cn.iocoder.mall.promotion.biz.convert.ProductRecommendConvert;
 import cn.iocoder.mall.promotion.biz.dao.ProductRecommendMapper;
 import cn.iocoder.mall.promotion.biz.dataobject.ProductRecommendDO;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service // 实际上不用添加。添加的原因是，必须 Spring 报错提示
-@com.alibaba.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true")
 public class ProductRecommendServiceImpl implements ProductRecommendService {
 
     @Reference(validation = "true")

@@ -13,7 +13,7 @@ import cn.iocoder.mall.product.application.vo.admins.AdminsProductAttrPageVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductAttrSimpleVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductAttrVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductAttrValueVO;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

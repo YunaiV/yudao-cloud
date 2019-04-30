@@ -89,7 +89,7 @@ TODO 此处应有一个架构图的装逼 JPG 图。
 | [Redis](https://redis.io/) | key-value 数据库 | 暂未引入，等压测后，部分模块 |
 | [Redisson](https://github.com/redisson/redisson) | Redis 客户端 | 暂未引入，等压测后，部分模块 |
 | [Elasticsearch](https://www.elastic.co/cn/) | 分布式搜索引擎 | 6.7.1 |
-| [Dubbo](http://dubbo.apache.org/) | 分布式 RPC 服务框架 | 2.6.5 |
+| [Dubbo](http://dubbo.apache.org/) | 分布式 RPC 服务框架 | 2.7.1 |
 | [RocketMQ](http://dubbo.apache.org/) | 消息中间件 | 4.3.2 |
 | [SkyWalking](http://skywalking.apache.org/) | 分布式应用追踪系统 | 6.0.0 |
 | [Zookeeper](http://zookeeper.apache.org/) | 分布式系统协调 | 3.4.9 作为注册中心 |

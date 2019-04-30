@@ -10,7 +10,7 @@ import cn.iocoder.mall.order.api.bo.OrderLogisticsInfoWithOrderBO;
 import cn.iocoder.mall.order.api.constant.DictKeyConstants;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.util.CollectionUtils;

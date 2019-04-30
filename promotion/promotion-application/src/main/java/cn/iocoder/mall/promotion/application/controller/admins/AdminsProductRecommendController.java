@@ -10,7 +10,7 @@ import cn.iocoder.mall.promotion.api.dto.ProductRecommendUpdateDTO;
 import cn.iocoder.mall.promotion.application.convert.ProductRecommendConvert;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsProductRecommendPageVO;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsProductRecommendVO;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

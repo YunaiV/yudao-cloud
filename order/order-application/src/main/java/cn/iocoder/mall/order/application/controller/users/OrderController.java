@@ -21,7 +21,7 @@ import cn.iocoder.mall.order.application.po.user.OrderCreatePO;
 import cn.iocoder.mall.order.application.po.user.OrderReturnApplyPO;
 import cn.iocoder.mall.order.application.vo.UsersOrderConfirmCreateVO;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;

@@ -8,7 +8,7 @@ import cn.iocoder.mall.pay.api.bo.PayTransactionSubmitBO;
 import cn.iocoder.mall.pay.api.constant.PayChannelEnum;
 import cn.iocoder.mall.pay.api.dto.PayTransactionSubmitDTO;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;

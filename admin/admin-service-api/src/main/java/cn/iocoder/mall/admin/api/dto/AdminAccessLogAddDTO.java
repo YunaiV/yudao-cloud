@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-public class AdminAccessLogAddDTO {
+public class AdminAccessLogAddDTO implements Serializable {
 
     /**
      * 管理员编号 - 空

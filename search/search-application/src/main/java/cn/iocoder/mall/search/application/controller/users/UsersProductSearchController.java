@@ -8,7 +8,7 @@ import cn.iocoder.mall.search.api.bo.ProductConditionBO;
 import cn.iocoder.mall.search.api.bo.ProductPageBO;
 import cn.iocoder.mall.search.api.dto.ProductConditionDTO;
 import cn.iocoder.mall.search.api.dto.ProductSearchPageDTO;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

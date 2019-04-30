@@ -8,14 +8,14 @@ import cn.iocoder.mall.user.api.bo.OAuth2AuthenticationBO;
 import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContext;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 /**
  * 安全拦截器
@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 public class UserSecurityInterceptor extends HandlerInterceptorAdapter {
 
     @Reference
+    @Autowired(required = false)
     private OAuth2Service oauth2Service;
 
     @Override

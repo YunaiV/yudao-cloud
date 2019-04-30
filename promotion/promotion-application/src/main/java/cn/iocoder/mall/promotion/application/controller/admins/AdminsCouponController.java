@@ -12,7 +12,7 @@ import cn.iocoder.mall.promotion.api.dto.CouponTemplatePageDTO;
 import cn.iocoder.mall.promotion.application.convert.CouponTemplateConvert;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsCouponTemplatePageVO;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsCouponTemplateVO;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-@com.alibaba.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true")
 public class ResourceServiceImpl implements ResourceService {
 
     @Autowired

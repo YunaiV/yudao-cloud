@@ -3,11 +3,12 @@ package cn.iocoder.mall.user.sdk.interceptor;
 import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.mall.user.api.UserAccessLogService;
 import cn.iocoder.mall.user.api.dto.UserAccessLogAddDTO;
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -34,6 +35,7 @@ public class UserAccessLogInterceptor extends HandlerInterceptorAdapter {
     private static final ThreadLocal<Integer> USER_ID = new ThreadLocal<>();
 
     @Reference
+    @Autowired(required = false)
     private UserAccessLogService userAccessLogService;
 
     @Override

@@ -21,7 +21,7 @@ import cn.iocoder.mall.product.api.bo.ProductSkuDetailBO;
 import cn.iocoder.mall.promotion.api.CouponService;
 import cn.iocoder.mall.user.api.UserAddressService;
 import cn.iocoder.mall.user.api.bo.UserAddressBO;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
  * @time 2019-03-16 15:08
  */
 @Service
-@com.alibaba.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true")
 public class OrderServiceImpl implements OrderService {
 
     /**

@@ -3,9 +3,9 @@ package cn.iocoder.mall.admin.sdk.interceptor;
 import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.mall.admin.api.AdminAccessLogService;
 import cn.iocoder.mall.admin.api.dto.AdminAccessLogAddDTO;
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -32,7 +32,7 @@ public class AdminAccessLogInterceptor extends HandlerInterceptorAdapter {
      */
     private static final ThreadLocal<Integer> ADMIN_ID = new ThreadLocal<>();
 
-    @Reference
+    @Reference(lazy = true) // TODO 芋艿，初始化时，会存在 spring boot 启动时，服务无法引用的情况，先暂时这么解决。
     private AdminAccessLogService adminAccessLogService;
 
     @Override
@@ -44,6 +44,9 @@ public class AdminAccessLogInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+        if (adminAccessLogService == null) {
+            throw new IllegalStateException("AdminAccessLogService 服务未引入成功");
+        }
         AdminAccessLogAddDTO accessLog = new AdminAccessLogAddDTO();
         try {
             accessLog.setAdminId(ADMIN_ID.get());

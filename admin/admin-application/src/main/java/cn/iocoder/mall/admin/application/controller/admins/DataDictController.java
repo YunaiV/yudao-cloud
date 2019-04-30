@@ -9,7 +9,7 @@ import cn.iocoder.mall.admin.application.convert.DataDictConvert;
 import cn.iocoder.mall.admin.application.vo.DataDictEnumVO;
 import cn.iocoder.mall.admin.application.vo.DataDictVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Multimaps;
 import io.swagger.annotations.Api;
@@ -26,7 +26,7 @@ import java.util.List;
 @Api("数据字典模块")
 public class DataDictController {
 
-    @Reference(validation = "true")
+    @Reference(validation = "true", lazy = true)
     private DataDictService dataDictService;
 
     @GetMapping("/list")

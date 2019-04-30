@@ -9,11 +9,12 @@ import cn.iocoder.mall.user.api.OAuth2Service;
 import cn.iocoder.mall.user.api.UserService;
 import cn.iocoder.mall.user.api.bo.OAuth2AccessTokenBO;
 import cn.iocoder.mall.user.application.vo.users.UsersMobileRegisterVO;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,11 +25,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Api("Passport 模块")
 public class PassportController {
 
-    @Reference
+    @Reference(validation = "true")
+    @Autowired // TODO dubbo 2.7.2 删除，用于解决 bug
     private OAuth2Service oauth2Service;
-    @Reference
+    @Reference(validation = "true")
+    @Autowired // TODO dubbo 2.7.2 删除，用于解决 bug
     private UserService userService;
-    @Reference
+    @Reference(validation = "true")
+    @Autowired // TODO dubbo 2.7.2 删除，用于解决 bug
     private MobileCodeService mobileCodeService;
 
     // TODO 功能：手机密码登陆

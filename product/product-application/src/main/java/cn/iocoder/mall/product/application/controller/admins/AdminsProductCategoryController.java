@@ -10,7 +10,7 @@ import cn.iocoder.mall.product.api.dto.ProductCategoryUpdateDTO;
 import cn.iocoder.mall.product.application.convert.ProductCategoryConvert;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductCategoryTreeNodeVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductCategoryVO;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

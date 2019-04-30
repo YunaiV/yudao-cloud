@@ -9,7 +9,7 @@ import cn.iocoder.mall.order.api.constant.DictKeyConstants;
 import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
 import cn.iocoder.mall.order.application.convert.OrderReturnConvert;
 import cn.iocoder.mall.order.application.po.user.OrderReturnApplyPO;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 

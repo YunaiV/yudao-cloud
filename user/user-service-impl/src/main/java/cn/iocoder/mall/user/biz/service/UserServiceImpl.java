@@ -5,10 +5,6 @@ import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.ValidationUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.user.biz.dao.UserMapper;
-import cn.iocoder.mall.user.biz.dao.UserRegisterMapper;
-import cn.iocoder.mall.user.biz.dataobject.UserDO;
-import cn.iocoder.mall.user.biz.dataobject.UserRegisterDO;
 import cn.iocoder.mall.user.api.UserService;
 import cn.iocoder.mall.user.api.bo.UserBO;
 import cn.iocoder.mall.user.api.bo.UserPageBO;
@@ -17,7 +13,12 @@ import cn.iocoder.mall.user.api.constant.UserErrorCodeEnum;
 import cn.iocoder.mall.user.api.dto.UserPageDTO;
 import cn.iocoder.mall.user.api.dto.UserUpdateDTO;
 import cn.iocoder.mall.user.biz.convert.UserConvert;
+import cn.iocoder.mall.user.biz.dao.UserMapper;
+import cn.iocoder.mall.user.biz.dao.UserRegisterMapper;
+import cn.iocoder.mall.user.biz.dataobject.UserDO;
+import cn.iocoder.mall.user.biz.dataobject.UserRegisterDO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -25,8 +26,8 @@ import java.util.Date;
 /**
  * UserService ，实现和用户信息相关的逻辑
  */
-@org.springframework.stereotype.Service
-@com.alibaba.dubbo.config.annotation.Service
+@Service
+@org.apache.dubbo.config.annotation.Service(validation = "true")
 public class UserServiceImpl implements UserService {
 
     @Autowired

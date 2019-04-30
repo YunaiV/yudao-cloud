@@ -30,7 +30,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 
 @Service
-@com.alibaba.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true")
 public class PayRefundServiceImpl implements PayRefundService {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

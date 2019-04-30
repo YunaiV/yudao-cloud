@@ -1,7 +1,6 @@
 package cn.iocoder.mall.order.biz.service;
 
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
-import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.OrderLogisticsService;
@@ -13,13 +12,12 @@ import cn.iocoder.mall.order.api.constant.OrderReturnStatusEnum;
 import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
 import cn.iocoder.mall.order.biz.convert.OrderReturnConvert;
 import cn.iocoder.mall.order.biz.dao.OrderItemMapper;
-import cn.iocoder.mall.order.biz.dao.OrderLogisticsMapper;
 import cn.iocoder.mall.order.biz.dao.OrderMapper;
 import cn.iocoder.mall.order.biz.dao.OrderReturnMapper;
 import cn.iocoder.mall.order.biz.dataobject.OrderDO;
 import cn.iocoder.mall.order.biz.dataobject.OrderItemDO;
 import cn.iocoder.mall.order.biz.dataobject.OrderReturnDO;
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -35,7 +33,7 @@ import java.util.UUID;
  * @time 2019-03-30 15:35
  */
 @Service
-@com.alibaba.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true")
 public class OrderReturnServiceImpl implements OrderReturnService {
 
     @Autowired

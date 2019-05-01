@@ -9,6 +9,7 @@ import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContext;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -22,7 +23,8 @@ import java.util.Set;
 @Component
 public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
 
-    @Reference(lazy = true) // TODO 芋艿，初始化时，会存在 spring boot 启动时，服务无法引用的情况，先暂时这么解决。
+    @Reference(validation = "true")
+    @Autowired(required = false) // TODO 芋艿，初始化时，会存在 spring boot 启动时，服务无法引用的情况，先暂时这么解决。
     private OAuth2Service oauth2Service;
 
     @Override

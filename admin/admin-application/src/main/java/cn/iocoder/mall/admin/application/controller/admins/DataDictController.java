@@ -16,6 +16,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,7 +27,8 @@ import java.util.List;
 @Api("数据字典模块")
 public class DataDictController {
 
-    @Reference(validation = "true", lazy = true)
+    @Reference(validation = "true")
+    @Autowired // TODO Dubbo 2.7.2 移除 bug
     private DataDictService dataDictService;
 
     @GetMapping("/list")

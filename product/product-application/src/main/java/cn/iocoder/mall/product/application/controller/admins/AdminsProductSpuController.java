@@ -31,6 +31,7 @@ import java.util.List;
 public class AdminsProductSpuController {
 
     @Reference(validation = "true")
+    @Autowired
     private ProductSpuService productSpuService;
 
     @Autowired

@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -33,11 +34,14 @@ import java.util.stream.Collectors;
 @Api("管理员模块")
 public class AdminController {
 
-    @Reference(validation = "true", lazy = true)
+    @Reference(validation = "true")
+    @Autowired // TODO Dubbo 2.7.2 移除 bug
     private ResourceService resourceService;
-    @Reference(validation = "true", lazy = true)
+    @Reference(validation = "true")
+    @Autowired // TODO Dubbo 2.7.2 移除 bug
     private AdminService adminService;
-    @Reference(validation = "true", lazy = true)
+    @Reference(validation = "true")
+    @Autowired // TODO Dubbo 2.7.2 移除 bug
     private RoleService roleService;
 
     // =========== 当前管理员相关的资源 API ===========

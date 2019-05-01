@@ -18,6 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.List;
 public class AdminsProductAttrController {
 
     @Reference(validation = "true")
+    @Autowired
     private ProductAttrService productAttrService;
 
     @GetMapping("/attr/page")

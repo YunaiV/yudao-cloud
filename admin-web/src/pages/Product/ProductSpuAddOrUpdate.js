@@ -1,135 +1,25 @@
 /* eslint-disable */
 
 import React, {PureComponent, Fragment, Component} from 'react';
+// import crypto from 'crypto';
+// import fs from 'fs';
 import { connect } from 'dva';
 import moment from 'moment';
 import {Card, Form, Input, Radio, Button, Modal, Select, Upload, Icon} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
-import * as qiniu from 'qiniu-js'
+// import * as qiniu from 'qiniu-js'
+// import uuid from 'js-uuid';
 
 import styles from './ProductSpuAddOrUpdate.less';
 import ProductAttrSelectFormItem from "../../components/Product/ProductAttrSelectFormItem";
 import ProductSkuAddOrUpdateTable from "../../components/Product/ProductSkuAddOrUpdateTable";
-import {fileGetQiniuToken, fileUploadQiniu} from "../../services/admin";
+import {fileGetQiniuToken} from "../../services/admin";
+import PicturesWall from "../../components/Image/PicturesWall";
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const Option = Select.Option;
-
-class PicturesWall extends React.Component {
-  state = {
-    token: undefined, // 七牛 token
-
-
-    previewVisible: false,
-    previewImage: '',
-
-    fileList: [{ // 目前图片
-      uid: -1,
-      name: 'xxx.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    }],
-  };
-
-  handleCancel = () => this.setState({ previewVisible: false })
-
-  handlePreview = (file) => {
-    this.setState({
-      previewImage: file.url || file.thumbUrl,
-      previewVisible: true,
-    });
-  }
-
-  beforeUpload = async () => {
-    const tokenResult = await fileGetQiniuToken();
-    if (tokenResult.code !== 0) {
-      alert('获得七牛上传 Token 失败');
-      return false;
-    }
-    this.setState({
-      token: tokenResult.data,
-    });
-    return true;
-  };
-
-  customRequest = ({action,
-                     file,
-                     headers,
-                     onError,
-                     onProgress,
-                     onSuccess,
-                     withCredentials,}) => {
-    // 使用 FileReader 将上传的文件转换成二进制流，满足 'application/octet-stream' 格式的要求
-    const reader = new FileReader();
-    reader.readAsArrayBuffer(file);
-    let fileData = null;
-    reader.onload = (e) => {
-      // 在文件读取结束后执行的操作
-      fileData = e.target.result;
-      // 上传文件
-      // fileUploadQiniu(fileData);
-      // debugger;
-      // 使用 axios 进行文件上传的请求
-      // axios.put(action, fileData, {
-      //   withCredentials,
-      //   headers,
-      //   onUploadProgress: ({ total, loaded }) => {
-      //     // 进行上传进度输出，更加直观
-      //     onProgress({ percent: Math.round(loaded / total * 100).toFixed(2) }, file);
-      //   },
-      // }).then(response => {
-      //   onSuccess(response, file);
-      // })
-      //   .catch(onError);
-      let observable = qiniu.upload(file, '123', this.state.token);
-      observable.subscribe(function () {
-        // next
-      }, function () {
-        // error
-      }, function () {
-        // complete
-      });
-    };
-    return {
-      abort() {
-        console.log('upload progress is aborted.');
-      },
-    };
-  };
-
-  handleChange = ({ fileList }) => this.setState({ fileList })
-
-  render() {
-    const { previewVisible, previewImage, fileList } = this.state;
-    const uploadButton = (
-      <div>
-        <Icon type="plus" />
-        <div className="ant-upload-text">Upload</div>
-      </div>
-    );
-    return (
-      <div className="clearfix">
-        <Upload
-          // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          action="https://up-z2.qiniu.com"
-          listType="picture-card"
-          fileList={fileList}
-          onPreview={this.handlePreview}
-          onChange={this.handleChange}
-          beforeUpload={this.beforeUpload}
-          customRequest={this.customRequest}
-        >
-          {fileList.length >= 3 ? null : uploadButton}
-        </Upload>
-        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-          <img alt="example" style={{ width: '100%' }} src={previewImage} />
-        </Modal>
-      </div>
-    );
-  }
-};
 
 // roleList
 @connect(({ productSpuList, productAttrList, productSpuAddOrUpdate, loading }) => ({
@@ -175,9 +65,14 @@ class ProductSpuAddOrUpdate extends Component {
   }
 
   handleSubmit = e => {
-    debugger;
     e.preventDefault();
     const { skus, dispatch } = this.props;
+    // 获得图片
+    let picUrls = this.refs.picturesWall.getUrls();
+    if (picUrls.length === 0) {
+      alert('请必须上传一张图片！');
+      return;
+    }
     // 生成 skuStr 格式
     let skuStr = []; // 因为提交是字符串格式
     for (let i in skus) {
@@ -199,6 +94,7 @@ class ProductSpuAddOrUpdate extends Component {
       alert('请设置商品规格！');
       return;
     }
+    // debugger;
     this.props.form.validateFields((err, values) => {
       if (!err) {
         dispatch({
@@ -206,6 +102,7 @@ class ProductSpuAddOrUpdate extends Component {
           payload: {
             body: {
               ...values,
+              picUrls: picUrls.join(','),
               skuStr: JSON.stringify(skuStr)
             }
           },
@@ -362,11 +259,12 @@ class ProductSpuAddOrUpdate extends Component {
                 initialValue: '', // TODO 修改 // TODO 芋艿，和面做成下拉框
               })(<Input placeholder="请输入" />)}
             </FormItem>
-            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品主图">
+            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品主图"
+                      extra="建议尺寸：800*800PX，单张大小不超过 2M，最多可上传 10 张">
               {/*{form.getFieldDecorator('picUrls', {*/}
               {/*  initialValue: '', // TODO 修改 // TODO 芋艿，做成上传组件*/}
               {/*})(<Input placeholder="请输入" />)}*/}
-              <PicturesWall />
+              <PicturesWall ref="picturesWall" maxLength={10} />
             </FormItem>
             <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="是否上架">
               {form.getFieldDecorator('visible', {

@@ -156,3 +156,17 @@ export async function dictionaryDelete(params) {
     method: 'POST',
   });
 }
+
+// file
+
+export async function fileGetQiniuToken() {
+  return request(`/admin-api/admins/file/get_qiniu_token`, {
+    method: 'GET',
+  });
+}
+
+// export async function fileUploadQiniu(fileData) {
+//   return request(`/qiniu/upload`, {
+//     method: 'POST',
+//   });
+// }

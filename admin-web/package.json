@@ -52,6 +52,7 @@
     "omit.js": "^1.0.0",
     "path-to-regexp": "^3.0.0",
     "prop-types": "^15.6.2",
+    "qiniu-js": "^2.5.4",
     "qs": "^6.6.0",
     "rc-animate": "^2.6.0",
     "react": "^16.7.0",

@@ -38,7 +38,8 @@ public class MVCConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(securityInterceptor).addPathPatterns("/user/**", "/admin/**"); // 只拦截我们定义的接口
         registry.addInterceptor(adminAccessLogInterceptor).addPathPatterns("/admins/**");
-        registry.addInterceptor(adminSecurityInterceptor.setIgnoreUrls(ignoreUrls)).addPathPatterns("/admins/**");
+        registry.addInterceptor(adminSecurityInterceptor.setIgnoreUrls(ignoreUrls)).addPathPatterns("/admins/**")
+                .excludePathPatterns("/admins/passport/login"); // 排除登陆接口
     }
 
     @Override

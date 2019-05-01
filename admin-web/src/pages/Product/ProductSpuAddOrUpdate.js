@@ -239,12 +239,6 @@ class ProductSpuAddOrUpdate extends Component {
                 initialValue: '', // TODO 修改
               })(<Input placeholder="请输入" />)}
             </FormItem>
-            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品描述">
-              {form.getFieldDecorator('description', {
-                rules: [{ required: true, message: '请输入商品描述！' }],
-                initialValue: '', // TODO 修改
-              })(<Input.TextArea placeholder="请输入" />)}
-            </FormItem>
             <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="分类编号">
               {form.getFieldDecorator('cid', {
                 rules: [{ required: true, message: '请输入分类编号！' }],
@@ -279,7 +273,12 @@ class ProductSpuAddOrUpdate extends Component {
             <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="规格明细">
               {/*<Table defaultExpandAllRows={true} columns={columns} rowKey="id" />*/}
               <ProductSkuAddOrUpdateTable {...productSkuProps} />
-
+            </FormItem>
+            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品描述">
+              {form.getFieldDecorator('description', {
+                rules: [{ required: true, message: '请输入商品描述！' }],
+                initialValue: '', // TODO 修改
+              })(<Input.TextArea placeholder="请输入" />)}
               <Button type="primary" htmlType="submit" style={{ marginLeft: 8 }} onSubmit={this.handleSubmit}>保存</Button>
             </FormItem>
           </Form>

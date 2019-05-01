@@ -78,7 +78,7 @@ export default class ProductSkuAddOrUpdateTable extends PureComponent {
         return <SkuInputNumber {...props} />;
       }
     });
-    return <Table columns={columns} dataSource={skus} rowKey="index" />;
+    return <Table columns={columns} dataSource={skus} rowKey="index" pagination={false} />;
     // return <div />;
   }
 

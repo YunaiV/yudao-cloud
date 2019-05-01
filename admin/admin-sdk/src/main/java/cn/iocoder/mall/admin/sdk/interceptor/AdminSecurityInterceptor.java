@@ -26,6 +26,15 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
     @Reference(validation = "true")
     @Autowired(required = false) // TODO 芋艿，初始化时，会存在 spring boot 启动时，服务无法引用的情况，先暂时这么解决。
     private OAuth2Service oauth2Service;
+    /**
+     * 忽略的 URL 集合，即无需经过认证
+     */
+    private Set<String> ignoreUrls;
+
+    public AdminSecurityInterceptor setIgnoreUrls(Set<String> ignoreUrls) {
+        this.ignoreUrls = ignoreUrls;
+        return this;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -50,7 +59,7 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
             }
         } else {
             String url = request.getRequestURI();
-            if (!url.equals("/admin/passport/login")) { // TODO 临时写死。非登陆接口，必须已经认证身份，不允许匿名访问
+            if (ignoreUrls != null && !ignoreUrls.contains(url)) { // TODO 临时写死。非登陆接口，必须已经认证身份，不允许匿名访问
                 throw new ServiceException(AdminErrorCodeEnum.OAUTH_NOT_LOGIN.getCode(), AdminErrorCodeEnum.OAUTH_NOT_LOGIN.getMessage());
             }
         }

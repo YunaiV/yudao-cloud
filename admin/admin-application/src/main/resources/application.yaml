@@ -7,3 +7,13 @@ server:
   port: 18083
   servlet:
     context-path: /admin-api/
+
+# auth
+auth:
+  ignore-urls: /admin-api/admins/admin/passport/login, /admin-api/admins/file/get_qiniu_token
+
+# qiniu
+qiniu:
+  access-key: YldfyUC7OewoWM63TPYTairqnq8GMJvNek9EGoID
+  secret-key: zZ7Q8wwZRyaklVvkyLmVydA4WygOBqtc_gTYzalS
+  bucket: onemall

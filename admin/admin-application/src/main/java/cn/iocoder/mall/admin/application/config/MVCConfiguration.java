@@ -5,11 +5,17 @@ import cn.iocoder.common.framework.servlet.CorsFilter;
 import cn.iocoder.mall.admin.sdk.interceptor.AdminAccessLogInterceptor;
 import cn.iocoder.mall.admin.sdk.interceptor.AdminSecurityInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.Set;
 
 @EnableWebMvc
 @Configuration
@@ -24,13 +30,15 @@ public class MVCConfiguration implements WebMvcConfigurer {
     private AdminSecurityInterceptor adminSecurityInterceptor;
     @Autowired
     private AdminAccessLogInterceptor adminAccessLogInterceptor;
-//
+
+    @Value("${auth.ignore-urls}")
+    private Set<String> ignoreUrls;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 //        registry.addInterceptor(securityInterceptor).addPathPatterns("/user/**", "/admin/**"); // 只拦截我们定义的接口
         registry.addInterceptor(adminAccessLogInterceptor).addPathPatterns("/admins/**");
-        registry.addInterceptor(adminSecurityInterceptor).addPathPatterns("/admins/**")
-                .excludePathPatterns("/admins/passport/login"); // 排除登陆接口
+        registry.addInterceptor(adminSecurityInterceptor.setIgnoreUrls(ignoreUrls)).addPathPatterns("/admins/**");
     }
 
     @Override

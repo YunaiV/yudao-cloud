@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { productAttrTree } from '../../services/product';
+import { productAttrTree, productAttrValueAdd } from '../../services/product';
 
 export default {
   namespace: 'productAttrList',
@@ -62,6 +62,29 @@ export default {
         },
       });
     },
+    *addValue({ payload, callback }, { call, put }) {
+      // debugger;
+      // const {queryParams} = payload;
+      const response = yield call(productAttrValueAdd, payload);
+      // message.info('查询成功!');
+      // yield put({
+      //   type: 'treeSuccess',
+      //   payload: {
+      //     tree: response.data,
+      //   },
+      // });
+      if (response.code === 0) {
+        // 刷新规格列表
+        yield put({
+          type: 'tree',
+          payload: {},
+        });
+        // 回调方法
+        if (callback) {
+          callback(response.data);
+        }
+      }
+    }
   },
 
   reducers: {

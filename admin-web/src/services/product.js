@@ -71,3 +71,10 @@ export async function productAttrTree(params) {
     method: 'GET',
   });
 }
+
+export async function productAttrValueAdd(params) {
+  return request(`/product-api/admins//attr_value/add?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
+}

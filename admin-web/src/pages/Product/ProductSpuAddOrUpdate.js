@@ -119,7 +119,7 @@ class ProductSpuAddOrUpdate extends Component {
     }
     // debugger;
     this.props.form.validateFields((err, values) => {
-      debugger;
+      // debugger;
       if (!err) {
         if (modalType === 'add') {
           dispatch({
@@ -228,14 +228,10 @@ class ProductSpuAddOrUpdate extends Component {
                 )}
               </FormItem>
               <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品规格">
-                {form.getFieldDecorator('visible', {
-                  initialValue: 1, // TODO 修改
-                })(
-                  <div>
-                    {attrTreeHTML}
-                    <Button onClick={this.handleAddAttr}>添加规格项目</Button>
-                  </div>
-                )}
+                <div>
+                  {attrTreeHTML}
+                  <Button onClick={this.handleAddAttr}>添加规格项目</Button>
+                </div>
               </FormItem>
               {
                 attrTree.length > 0 ? <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="规格明细">

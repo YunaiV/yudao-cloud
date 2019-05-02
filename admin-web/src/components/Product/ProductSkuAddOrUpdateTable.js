@@ -42,9 +42,17 @@ export default class ProductSkuAddOrUpdateTable extends PureComponent {
     // debugger;
     // console.log('ProductSkuAddOrUpdateTable');
     const {attrTree, skus, dispatch} = this.props;
-    let columns = [];
+    // 排除空选项的规格
+    let newAttrTree = [];
     for (let i in attrTree) {
       let attr = attrTree[i];
+      if (attr && attr.values && attr.values.length > 0) {
+        newAttrTree.push(attr);
+      }
+    }
+    let columns = [];
+    for (let i in newAttrTree) {
+      let attr = newAttrTree[i];
       columns.push({
         title: attr.name,
         dataIndex: 'attrs[i]',

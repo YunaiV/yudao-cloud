@@ -235,12 +235,21 @@ export default {
     selectAttrValueSuccess(state, {payload}) {
       // debugger;
       // console.log(state);
+      // 设置值。
       state.attrTree[payload.attrIndex].values = payload.attrValues;
+      // 筛选有效的规格选项
+      let attrTree = [];
+      for (let i in state.attrTree) {
+        let attr = state.attrTree[i];
+        if (attr && attr.values && attr.values.length > 0) {
+          attrTree.push(attr);
+        }
+      }
       // 生成 skus 值
       let skus = [];
       let skuSize = 1;
-      for (let i in state.attrTree) { // 先计算 sku 数量
-        let attr = state.attrTree[i];
+      for (let i in attrTree) { // 先计算 sku 数量
+        let attr = attrTree[i];
         skuSize = skuSize * attr.values.length;
       }
       // console.log('skuSize: ' + skuSize);
@@ -252,14 +261,14 @@ export default {
         });
       }
       // let interval = skuSize; // 该间隔，用于下面规格组合
-      for (let i = 0; i < state.attrTree.length; i++) { // 初始化 sku 格子里的 attrs
+      for (let i = 0; i < attrTree.length; i++) { // 初始化 sku 格子里的 attrs
         if (i === 1) {
           // debugger;
         }
-        let values = state.attrTree[i].values;
+        let values = attrTree[i].values;
         let interval = skuSize / values.length;
         for (let j = 0; j < skuSize; j++) {
-          // let values = state.attrTree[i].values;
+          // let values = attrTree[i].values;
           // let attr = values[j % values.length];
           // skus[i].attrs.push({
           //   id: attr.id,

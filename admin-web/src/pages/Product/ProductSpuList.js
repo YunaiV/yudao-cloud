@@ -47,6 +47,14 @@ class ProductSpuList extends PureComponent {
     });
   };
 
+  redirectToUpdate = (spuId) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'productSpuList/redirectToUpdate',
+      payload: spuId,
+    });
+  };
+
   render() {
     // debugger;
     const { list, data } = this.props;
@@ -103,7 +111,8 @@ class ProductSpuList extends PureComponent {
         width: 200,
         render: (text, record) => (
           <Fragment>
-            <a onClick={() => this.handleModalVisible(true, 'update', record)}>更新</a>
+            {/*<a onClick={() => this.handleModalVisible(true, 'update', record)}>更新</a>*/}
+            <a onClick={() => this.redirectToUpdate(record.id)}>更新</a>
           </Fragment>
         ),
       },

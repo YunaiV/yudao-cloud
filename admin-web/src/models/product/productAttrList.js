@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { productSpuPage, productAttrTree, productCategoryUpdate, productCategoryUpdateStatus, productCategoryDelete } from '../../services/product';
+import { productAttrTree } from '../../services/product';
 
 export default {
   namespace: 'productAttrList',
@@ -54,7 +54,7 @@ export default {
     *tree({ payload }, { call, put }) {
       const { queryParams } = payload;
       const response = yield call(productAttrTree, queryParams);
-      message.info('查询成功!');
+      // message.info('查询成功!');
       yield put({
         type: 'treeSuccess',
         payload: {

@@ -48,6 +48,7 @@ export default {
   'menu.product': '商品管理',
   'menu.product.product-spu-list': '商品管理',
   'menu.product.product-spu-add': '商品添加',
+  'menu.product.product-spu-update': '商品编辑',
   'menu.product.product-category-list': '商品分类',
   // 订单
   'menu.order': '订单管理',

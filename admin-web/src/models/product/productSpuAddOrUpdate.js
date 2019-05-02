@@ -1,12 +1,24 @@
 import { message } from 'antd';
-import { productCategoryTree, productSpuAdd, productCategoryUpdate, productCategoryUpdateStatus, productCategoryDelete } from '../../services/product';
+import {
+  productCategoryTree,
+  productSpuAdd,
+  productCategoryUpdate,
+  productCategoryUpdateStatus,
+  productCategoryDelete,
+  productSpuInfo
+} from '../../services/product';
 
 export default {
   namespace: 'productSpuAddOrUpdate',
 
   state: {
-    list: [],
-    attrTree: [
+    // list: [],
+    loading: false,
+    spu: { // 商品 SPU
+
+    },
+
+    attrTree: [ // 商品规格
       // {
       //   id: //
       //   name: //
@@ -16,7 +28,7 @@ export default {
       //   }]
       // }
     ],
-    skus: [
+    skus: [ // 商品 SKU
       // {
       //   attrs: [{
       //     id: // 规格值编号
@@ -29,17 +41,6 @@ export default {
   },
 
   effects: {
-    // *add({ payload }, { call, put }) {
-    //   const { callback, body } = payload;
-    //   const response = yield call(productCategoryAdd, body);
-    //   if (callback) {
-    //     callback(response);
-    //   }
-    //   yield put({
-    //     type: 'tree',
-    //     payload: {},
-    //   });
-    // },
     // *update({ payload }, { call, put }) {
     //   const { callback, body } = payload;
     //   const response = yield call(productCategoryUpdate, body);
@@ -51,25 +52,87 @@ export default {
     //     payload: {},
     //   });
     // },
-    // *updateStatus({ payload }, { call, put }) {
-    //   const { callback, body } = payload;
-    //   const response = yield call(productCategoryUpdateStatus, body);
-    //   if (callback) {
-    //     callback(response);
-    //   }
-    //   yield put({
-    //     type: 'tree',
-    //     payload: {},
-    //   });
-    // },
-    // *delete({ payload }, { call, put }) {
-    //   const response = yield call(productCategoryDelete, payload);
-    //   message.info('删除成功!');
-    //   yield put({
-    //     type: 'tree',
-    //     payload: {},
-    //   });
-    // },
+    *info({ payload }, { call, put }) {
+      // 显示加载中
+      yield put({
+        type: 'changeLoading',
+        payload: true,
+      });
+
+      // 请求
+      const response = yield call(productSpuInfo, {
+        id: payload,
+      });
+      // 响应
+      let skus = [];
+      let attrTree = [];
+      // SKU
+      for (let i in response.data.skus) {
+        let sku = response.data.skus[i];
+        // 处理 sku
+        {
+          let attrs = [];
+          for (let j in sku.attrs) {
+            let attr = sku.attrs[j];
+            attrs.push({
+              id: attr.attrValueId,
+              name: attr.attrValueName,
+            });
+          }
+          let newSku = {
+            ...sku,
+            attrs,
+          };
+          skus.push(newSku);
+        }
+        // 处理 attrTree
+        {
+          for (let j in sku.attrs) {
+            // debugger;
+            let attr = sku.attrs[j];
+            let attrTreeNode = undefined;
+            for (let k in attrTree) {
+              let item = attrTree[k];
+              if (item.id === attr.attrId) {
+                attrTreeNode = item;
+                break;
+              }
+            }
+            if (!attrTreeNode) {
+              attrTreeNode = {
+                id: attr.attrId,
+                name: attr.attrName,
+                values: [{
+                  id: attr.attrValueId,
+                  name: attr.attrValueName,
+                }]
+              };
+              attrTree.push(attrTreeNode);
+            } else {
+              // let values = attrTreeNode.values;
+              // for (let k in ) {
+              //
+              // }
+            }
+          }
+        }
+      }
+      // debugger;
+      yield put({
+        type: 'setAll',
+        payload: {
+          spu: response.data,
+          skus: skus,
+          attrTree: attrTree,
+        },
+      });
+
+      // 隐藏加载中
+      yield put({
+        type: 'changeLoading',
+        payload: false,
+      });
+    },
     *addAttr({ payload }, { call, put }) {
       // const { queryParams } = payload;
       // const response = yield call(productCategoryTree, queryParams);
@@ -212,11 +275,31 @@ export default {
         ...state
       }
     },
-    treeSuccess(state, { payload }) {
+    clear(state, {payload}) {
+      return {
+        ...state,
+        skus: [],
+        attrTree: [],
+      }
+    },
+    changeLoading(state, { payload }) {
+      return {
+        ...state,
+        listLoading: payload,
+      };
+    },
+    // 设置所有属性
+    setAll(state, { payload }) {
       return {
         ...state,
         ...payload,
       };
-    },
+    }
+    // treeSuccess(state, { payload }) {
+    //   return {
+    //     ...state,
+    //     ...payload,
+    //   };
+    // },
   },
 };

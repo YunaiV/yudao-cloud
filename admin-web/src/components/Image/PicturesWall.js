@@ -6,6 +6,9 @@ import {Icon, Modal, Upload} from "antd";
 
 import styles from './PicturesWall.less';
 
+/**
+ * 照片墙，带有上传图片到七牛。
+ */
 class PicturesWall extends React.Component {
   state = {
     token: undefined, // 七牛 token

@@ -93,6 +93,11 @@ export default [
             component: './Product/ProductSpuAddOrUpdate',
           },
           {
+            path: '/product/product-spu-update',
+            name: 'product-spu-update',
+            component: './Product/ProductSpuAddOrUpdate',
+          },
+          {
             path: '/product/product-category-list',
             name: 'product-category-list',
             component: './Product/ProductCategoryList',

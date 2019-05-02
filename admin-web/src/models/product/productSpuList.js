@@ -55,6 +55,11 @@ export default {
       // const { callback, body } = payload;
       yield put(routerRedux.replace('/product/product-spu-add'));
     },
+    *redirectToUpdate({ payload }, { call, put }) {
+      // const { callback, body } = payload;
+      debugger;
+      yield put(routerRedux.replace('/product/product-spu-update?id=' + payload));
+    },
     *page({ payload }, { call, put }) {
       // const { queryParams } = payload;
       const response = yield call(productSpuPage, payload);

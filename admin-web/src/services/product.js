@@ -52,6 +52,12 @@ export async function productSpuAdd(params) {
   });
 }
 
+export async function productSpuInfo(params) {
+  return request(`/product-api/admins/spu/info?${stringify(params)}`, {
+    method: 'GET',
+  });
+}
+
 // product attr + attr value
 
 export async function productAttrTree(params) {

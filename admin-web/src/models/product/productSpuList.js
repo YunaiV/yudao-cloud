@@ -10,28 +10,6 @@ export default {
   },
 
   effects: {
-    // *add({ payload }, { call, put }) {
-    //   const { callback, body } = payload;
-    //   const response = yield call(productCategoryAdd, body);
-    //   if (callback) {
-    //     callback(response);
-    //   }
-    //   yield put({
-    //     type: 'tree',
-    //     payload: {},
-    //   });
-    // },
-    // *update({ payload }, { call, put }) {
-    //   const { callback, body } = payload;
-    //   const response = yield call(productCategoryUpdate, body);
-    //   if (callback) {
-    //     callback(response);
-    //   }
-    //   yield put({
-    //     type: 'tree',
-    //     payload: {},
-    //   });
-    // },
     // *updateStatus({ payload }, { call, put }) {
     //   const { callback, body } = payload;
     //   const response = yield call(productCategoryUpdateStatus, body);

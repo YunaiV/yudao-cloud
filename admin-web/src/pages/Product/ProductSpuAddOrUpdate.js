@@ -44,16 +44,21 @@ class ProductSpuAddOrUpdate extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
+    const that = this;
     // 判断是否是更新
     const params = new URLSearchParams(this.props.location.search);
     if (params.get("id")) {
       let id = params.get("id");
       this.setState({
         modalType: 'update',
+        id: id,
       })
       dispatch({
         type: 'productSpuAddOrUpdate/info',
         payload: parseInt(id),
+        callback: function (data) {
+          that.refs.picturesWall.setUrls(data.picUrls); // TODO 后续找找，有没更合适的做法
+        }
       })
     }
     // 获得规格列表
@@ -84,8 +89,9 @@ class ProductSpuAddOrUpdate extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { skus, dispatch } = this.props;
+    const { modalType, id } = this.state;
     // 获得图片
-    let picUrls = this.refs.picturesWall.getUrls();
+    let picUrls = this.refs.picturesWall.getUrls(); // TODO 芋艿，后续找找其他做法
     if (picUrls.length === 0) {
       alert('请必须上传一张图片！');
       return;
@@ -113,17 +119,32 @@ class ProductSpuAddOrUpdate extends Component {
     }
     // debugger;
     this.props.form.validateFields((err, values) => {
+      debugger;
       if (!err) {
-        dispatch({
-          type: 'productSpuAddOrUpdate/add',
-          payload: {
-            body: {
-              ...values,
-              picUrls: picUrls.join(','),
-              skuStr: JSON.stringify(skuStr)
-            }
-          },
-        });
+        if (modalType === 'add') {
+          dispatch({
+            type: 'productSpuAddOrUpdate/add',
+            payload: {
+              body: {
+                ...values,
+                picUrls: picUrls.join(','),
+                skuStr: JSON.stringify(skuStr)
+              }
+            },
+          });
+        } else if (modalType === 'update') {
+          dispatch({
+            type: 'productSpuAddOrUpdate/update',
+            payload: {
+              body: {
+                ...values,
+                id,
+                picUrls: picUrls.join(','),
+                skuStr: JSON.stringify(skuStr)
+              }
+            },
+          });
+        }
       }
     });
     // console.log(fields);

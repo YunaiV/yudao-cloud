@@ -1,12 +1,10 @@
 import { message } from 'antd';
 import {
-  productCategoryTree,
   productSpuAdd,
-  productCategoryUpdate,
-  productCategoryUpdateStatus,
-  productCategoryDelete,
+  productSpuUpdate,
   productSpuInfo
 } from '../../services/product';
+import {bool} from "prop-types";
 
 export default {
   namespace: 'productSpuAddOrUpdate',
@@ -52,7 +50,7 @@ export default {
     //     payload: {},
     //   });
     // },
-    *info({ payload }, { call, put }) {
+    *info({ payload, callback }, { call, put }) {
       // 显示加载中
       yield put({
         type: 'changeLoading',
@@ -109,10 +107,20 @@ export default {
               };
               attrTree.push(attrTreeNode);
             } else {
-              // let values = attrTreeNode.values;
-              // for (let k in ) {
-              //
-              // }
+              let attrValueExists = false;
+              let values = attrTreeNode.values;
+              for (let k in values) {
+                if (values[k].id === attr.attrValueId) {
+                  attrValueExists = true;
+                  break;
+                }
+              }
+              if (!attrValueExists) {
+                values.push({
+                  id: attr.attrValueId,
+                  name: attr.attrValueName,
+                });
+              }
             }
           }
         }
@@ -126,6 +134,11 @@ export default {
           attrTree: attrTree,
         },
       });
+
+      // 如果有回调，则执行回调方法
+      if (callback) {
+        callback(response.data);
+      }
 
       // 隐藏加载中
       yield put({
@@ -190,7 +203,7 @@ export default {
     },
     *update({ payload }, { call, put }) {
       const { callback, body } = payload;
-      const response = yield call(productSpuAdd, body);
+      const response = yield call(productSpuUpdate, body);
       if (callback) {
         callback(response);
       }
@@ -238,7 +251,13 @@ export default {
           quantity: undefined,
         });
       }
+      // let interval = skuSize; // 该间隔，用于下面规格组合
       for (let i = 0; i < state.attrTree.length; i++) { // 初始化 sku 格子里的 attrs
+        if (i === 1) {
+          // debugger;
+        }
+        let values = state.attrTree[i].values;
+        let interval = skuSize / values.length;
         for (let j = 0; j < skuSize; j++) {
           // let values = state.attrTree[i].values;
           // let attr = values[j % values.length];
@@ -246,8 +265,8 @@ export default {
           //   id: attr.id,
           //   name: attr.name,
           // });
-          let values = state.attrTree[i].values;
-          let attr = values[j % values.length];
+          // let attr = values[j % values.length];
+          let attr = values[parseInt(j / interval)];
           skus[j].attrs.push({
             id: attr.id,
             name: attr.name,

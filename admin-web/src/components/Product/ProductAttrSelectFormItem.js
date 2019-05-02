@@ -24,7 +24,7 @@ export default class ProductAttrSelectFormItem extends PureComponent {
         }
       },
     });
-  }
+  };
 
   handleSelectAttrValue = (values, options) => {
     let attrValues = [];
@@ -87,11 +87,16 @@ export default class ProductAttrSelectFormItem extends PureComponent {
       }
     }
     // 3. 拼装最终，添加到 attrTreeHTML 中
+    // debugger;
+    let attrValues = []; // 选中的规格值集合
+    for (let i in attr.values) {
+      attrValues.push(attr.values[i].id + ''); // Select 传入数组时，如果不 + '' ，选不中。
+    }
     return <div key={`div-attr-${index}`}>
-      <Select key={`select-attr-${index}`} style={{width: 120}} placeholder='请选择规格' onChange={this.handleSelectAttr}>
+      <Select key={`select-attr-${index}`} style={{width: 120}} placeholder='请选择规格' value={attr.id} onChange={this.handleSelectAttr}>
         {attrOptions}
       </Select>
-      <Select key={`select-attr-value-${index}`} mode={"tags"} style={{width: 260}} placeholder='请选择规格值'
+      <Select key={`select-attr-value-${index}`} mode={"tags"} style={{width: 260}} value={attrValues} placeholder='请选择规格值'
               onChange={this.handleSelectAttrValue}>
         {attrValueOptions}
       </Select>

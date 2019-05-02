@@ -29,7 +29,8 @@ class SkuInputNumber extends PureComponent {
   }
 
   render() {
-    return <InputNumber placeholder="请输入" onChange={this.handleChange} />
+    const { value } = this.props;
+    return <InputNumber placeholder="请输入" value={value} onChange={this.handleChange} />
   }
 
 }
@@ -60,7 +61,8 @@ export default class ProductSkuAddOrUpdateTable extends PureComponent {
           record: record,
           index: index,
           dispatch: dispatch,
-          dataIndex: 'price'
+          dataIndex: 'price',
+          value: record.price,
         };
         return <SkuInputNumber {...props} />;
       }
@@ -73,7 +75,8 @@ export default class ProductSkuAddOrUpdateTable extends PureComponent {
           record: record,
           index: index,
           dispatch: dispatch,
-          dataIndex: 'quantity'
+          dataIndex: 'quantity',
+          value: record.quantity,
         };
         return <SkuInputNumber {...props} />;
       }

@@ -39,7 +39,6 @@ export async function productCategoryDelete(params) {
 // product spu + sku
 
 export async function productSpuPage(params) {
-  debugger;
   return request(`/product-api/admins/spu/page?${stringify(params)}`, {
     method: 'GET',
   });
@@ -47,6 +46,13 @@ export async function productSpuPage(params) {
 
 export async function productSpuAdd(params) {
   return request(`/product-api/admins/spu/add?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
+}
+
+export async function productSpuUpdate(params) {
+  return request(`/product-api/admins/spu/update?${stringify(params)}`, {
     method: 'POST',
     body: {},
   });

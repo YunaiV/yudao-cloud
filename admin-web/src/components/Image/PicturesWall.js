@@ -137,6 +137,25 @@ class PicturesWall extends React.Component {
     return urls;
   };
 
+  setUrls = (urls) => {
+    // let urls = this.props.urls;
+    if (urls) {
+      let fileList = [];
+      for (let i in urls) {
+        let url = urls[i];
+        fileList.push({
+          uid: -i,
+          name: url,
+          status: 'done',
+          url,
+        });
+      }
+      this.setState({
+        fileList: fileList,
+      })
+    }
+  };
+
   render() {
     const { previewVisible, previewImage, fileList } = this.state;
     const uploadButton = (
@@ -168,7 +187,8 @@ class PicturesWall extends React.Component {
 };
 
 PicturesWall.propTypes = {
-  maxLength: Number,
+  maxLength: Number, // 最大照片墙图片数量
+  // urls: String[],  // 初始图片列表
 };
 
 export default PicturesWall;

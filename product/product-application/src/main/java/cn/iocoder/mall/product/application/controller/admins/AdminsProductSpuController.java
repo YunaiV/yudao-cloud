@@ -84,7 +84,7 @@ public class AdminsProductSpuController {
                                         @RequestParam("sellPoint") String sellPoint,
                                         @RequestParam("description") String description,
                                         @RequestParam("cid") Integer cid,
-                                        @RequestParam("picURLs") List<String> picUrls,
+                                        @RequestParam("picUrls") List<String> picUrls,
                                         @RequestParam("visible") Boolean visible,
                                         @RequestParam("skuStr") String skuStr) { // TODO 芋艿，因为考虑不使用 json 接受参数，所以这里手动转。
         // 创建 ProductSpuUpdateDTO 对象

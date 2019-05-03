@@ -12,12 +12,12 @@
     <artifactId>system</artifactId>
     <name>system</name>
     <packaging>pom</packaging>
+
     <modules>
         <module>system-application</module>
         <module>system-sdk</module>
         <module>system-service-api</module>
         <module>system-service-impl</module>
     </modules>
-
 
 </project>

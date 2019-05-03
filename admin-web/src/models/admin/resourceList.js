@@ -1,11 +1,27 @@
 import { message } from 'antd';
 import { addResource, updateResource, deleteResource, resourceTree } from '../../services/admin';
 
+const buildSelectTree = list => {
+  return list.map(item => {
+    let children = [];
+    if (item.children) {
+      children = buildSelectTree(item.children);
+    }
+    return {
+      title: item.displayName,
+      value: item.displayName,
+      key: item.id,
+      children,
+    };
+  });
+};
+
 export default {
   namespace: 'resourceList',
 
   state: {
     list: [],
+    selectTree: [],
   },
 
   effects: {
@@ -47,18 +63,19 @@ export default {
       message.info('查询成功!');
       yield put({
         type: 'treeSuccess',
-        payload: {
-          list: response.data,
-        },
+        payload: response.data,
       });
     },
   },
 
   reducers: {
     treeSuccess(state, { payload }) {
+      const resultData = payload;
+      const selectTree = buildSelectTree(resultData);
       return {
         ...state,
-        ...payload,
+        list: resultData,
+        selectTree,
       };
     },
   },

@@ -3,18 +3,39 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Card, Form, Input, Select, Button, Modal, message, Table, Divider } from 'antd';
+import {
+  Card,
+  Form,
+  Input,
+  Select,
+  Button,
+  Modal,
+  message,
+  Table,
+  TreeSelect,
+  Radio,
+  Divider,
+} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './ResourceList.less';
 
+const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 const { Option } = Select;
 const types = ['未知', '菜单', '链接'];
 
 // 添加 form 表单
 const CreateForm = Form.create()(props => {
-  const { modalVisible, form, handleAdd, handleModalVisible, modalType, initValues } = props;
+  const {
+    modalVisible,
+    form,
+    handleAdd,
+    handleModalVisible,
+    modalType,
+    initValues,
+    selectTree,
+  } = props;
 
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
@@ -43,46 +64,53 @@ const CreateForm = Form.create()(props => {
       okText={okText}
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="菜单展示名">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="类型">
         {form.getFieldDecorator('displayName', {
+          rules: [{ required: true, message: '选择类型！', min: 2 }],
+          initialValue: initValues.type || 1,
+        })(
+          <RadioGroup>
+            <Radio value={1}>菜单</Radio>
+            <Radio value={2}>按钮</Radio>
+          </RadioGroup>
+        )}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
+        {form.getFieldDecorator('type', {
           rules: [{ required: true, message: '请输入菜单展示名字！', min: 2 }],
           initialValue: initValues.displayName,
-        })(<Input placeholder="请输入" />)}
+        })(<Input placeholder="显示名称" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="操作">
-        {form.getFieldDecorator('handler', {
-          initialValue: initValues.handler,
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="资源名字">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="菜单KEY">
         {form.getFieldDecorator('name', {
           rules: [{ required: true, message: '请输入资源名字！' }],
           initialValue: initValues.name,
-        })(<Input placeholder="请输入" />)}
+        })(<Input placeholder="菜单KEY 如：用户 USER" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="父级资源编号">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="操作/路由">
+        {form.getFieldDecorator('handler', {
+          initialValue: initValues.handler,
+        })(<Input placeholder="操作/路由" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="父级菜单">
         {form.getFieldDecorator('pid', {
           rules: [{ required: true, message: '请输入父级编号！' }],
           initialValue: initValues.pid,
-        })(<Input placeholder="请输入" />)}
-        <span>根节点为 0</span>
+        })(
+          <TreeSelect
+            showSearch
+            style={{ width: 300 }}
+            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+            treeData={selectTree}
+            placeholder="选择父级菜单"
+          />
+        )}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="排序">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="菜单排序">
         {form.getFieldDecorator('sort', {
           rules: [{ required: true, message: '请输入菜单排序！' }],
           initialValue: initValues.sort,
         })(<Input placeholder="请输入" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="资源类型">
-        {form.getFieldDecorator('type', {
-          rules: [{ required: true, message: '请选择资源类型！' }],
-          initialValue: 1,
-        })(
-          <Select showSearch style={selectStyle} placeholder="请选择">
-            <Option value={1}>菜单</Option>
-            <Option value={2}>Url</Option>
-          </Select>
-        )}
       </FormItem>
     </Modal>
   );
@@ -167,7 +195,8 @@ class ResourceList extends PureComponent {
   }
 
   render() {
-    const { list } = this.props;
+    const { list, resourceList } = this.props;
+    const { selectTree } = resourceList;
     const { modalVisible, modalType, initValues } = this.state;
     const parentMethods = {
       handleAdd: this.handleAdd,
@@ -247,7 +276,7 @@ class ResourceList extends PureComponent {
           </div>
           <Table defaultExpandAllRows={true} columns={columns} dataSource={list} rowKey="id" />
         </Card>
-        <CreateForm {...parentMethods} modalVisible={modalVisible} />
+        <CreateForm {...parentMethods} selectTree={selectTree} modalVisible={modalVisible} />
       </PageHeaderWrapper>
     );
   }

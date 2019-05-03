@@ -9,13 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>admin</artifactId>
+    <artifactId>system</artifactId>
+    <name>system</name>
     <packaging>pom</packaging>
     <modules>
-        <module>admin-application</module>
-        <module>admin-sdk</module>
-        <module>admin-service-api</module>
-        <module>admin-service-impl</module>
+        <module>system-application</module>
+        <module>system-sdk</module>
+        <module>system-service-api</module>
+        <module>system-service-impl</module>
     </modules>
 
 

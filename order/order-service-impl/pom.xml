@@ -19,7 +19,7 @@
         </dependency>
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
-            <artifactId>admin-service-api</artifactId>
+            <artifactId>system-service-api</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

@@ -24,7 +24,7 @@
         </dependency>
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
-            <artifactId>admin-sdk</artifactId>
+            <artifactId>system-sdk</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>

@@ -29,7 +29,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.alibaba</groupId>
+            <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
         </dependency>
 
@@ -54,10 +54,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba.boot</groupId> <!-- 引入该包，为了写单元测试用 -->
-            <artifactId>dubbo-spring-boot-starter</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.alibaba.boot</groupId> &lt;!&ndash; 引入该包，为了写单元测试用 &ndash;&gt;-->
+            <!--<artifactId>dubbo-spring-boot-starter</artifactId>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.apache.curator</groupId> <!-- 引入该包，为了写单元测试用 -->
             <artifactId>curator-framework</artifactId>

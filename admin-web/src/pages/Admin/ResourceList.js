@@ -40,6 +40,11 @@ const CreateForm = Form.create()(props => {
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
+      let pid = fieldsValue.pid;
+      if (fieldsValue.pid) {
+        pid = pid.split('-')[1];
+        fieldsValue.pid = pid;
+      }
       form.resetFields();
       handleAdd({
         fields: fieldsValue,
@@ -65,8 +70,7 @@ const CreateForm = Form.create()(props => {
       onCancel={() => handleModalVisible()}
     >
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="类型">
-        {form.getFieldDecorator('displayName', {
-          rules: [{ required: true, message: '选择类型！', min: 2 }],
+        {form.getFieldDecorator('type', {
           initialValue: initValues.type || 1,
         })(
           <RadioGroup>
@@ -76,7 +80,7 @@ const CreateForm = Form.create()(props => {
         )}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
-        {form.getFieldDecorator('type', {
+        {form.getFieldDecorator('displayName', {
           rules: [{ required: true, message: '请输入菜单展示名字！', min: 2 }],
           initialValue: initValues.displayName,
         })(<Input placeholder="显示名称" />)}
@@ -207,21 +211,21 @@ class ResourceList extends PureComponent {
 
     const columns = [
       {
-        title: 'id',
+        title: '编号',
         dataIndex: 'id',
         render: text => <strong>{text}</strong>,
       },
       {
-        title: '显示名称',
+        title: '显示名字',
         dataIndex: 'displayName',
         render: text => <a>{text}</a>,
       },
       {
-        title: '名称',
+        title: '菜单KEY',
         dataIndex: 'name',
       },
       {
-        title: 'pid',
+        title: '父级编号',
         dataIndex: 'pid',
         sorter: true,
         render: val => `${val}`,
@@ -234,7 +238,7 @@ class ResourceList extends PureComponent {
         },
       },
       {
-        title: '资源地址',
+        title: '菜单/操作',
         dataIndex: 'handler',
         sorter: true,
         width: 300,

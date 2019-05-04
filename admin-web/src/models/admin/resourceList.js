@@ -9,7 +9,7 @@ const buildSelectTree = list => {
     }
     return {
       title: item.displayName,
-      value: item.displayName,
+      value: `${item.displayName}-${item.id}`,
       key: item.id,
       children,
     };
@@ -48,13 +48,11 @@ export default {
       });
     },
     *delete({ payload }, { call, put }) {
-      const response = yield call(deleteResource, payload);
+      yield call(deleteResource, payload);
       message.info('删除成功!');
       yield put({
-        type: 'treeSuccess',
-        payload: {
-          list: response.data,
-        },
+        type: 'tree',
+        payload: {},
       });
     },
     *tree({ payload }, { call, put }) {
@@ -71,7 +69,18 @@ export default {
   reducers: {
     treeSuccess(state, { payload }) {
       const resultData = payload;
-      const selectTree = buildSelectTree(resultData);
+      const treeData = buildSelectTree(resultData);
+
+      const rootNode = [
+        {
+          title: '根节点',
+          value: `根节点-0`,
+          key: 0,
+          children: [],
+        },
+      ];
+
+      const selectTree = rootNode.concat(treeData);
       return {
         ...state,
         list: resultData,

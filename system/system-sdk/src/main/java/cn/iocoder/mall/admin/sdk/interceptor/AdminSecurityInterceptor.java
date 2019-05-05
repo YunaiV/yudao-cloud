@@ -8,6 +8,7 @@ import cn.iocoder.mall.admin.api.bo.OAuth2AuthenticationBO;
 import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContext;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
+import com.google.common.collect.Sets;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -42,7 +44,13 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
         String accessToken = HttpUtil.obtainAccess(request);
         OAuth2AuthenticationBO authentication = null;
         if (accessToken != null) {
-            CommonResult<OAuth2AuthenticationBO> result = oauth2Service.checkToken(accessToken);
+//            CommonResult<OAuth2AuthenticationBO> result = oauth2Service.checkToken(accessToken);
+
+            // TODO sin 先临时跳过 认证
+            CommonResult<OAuth2AuthenticationBO> result = CommonResult.success(new OAuth2AuthenticationBO()
+                    .setAdminId(1)
+                    .setRoleIds(Sets.newHashSet(1, 2, 3, 4)));
+
             if (result.isError()) { // TODO 芋艿，如果访问的地址无需登录，这里也不用抛异常
                 throw new ServiceException(result.getCode(), result.getMessage());
             }
@@ -64,7 +72,8 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
             }
         }
         // 校验是否需要已授权
-        checkPermission(request, authentication);
+        // TODO sin 暂时不校验
+        // checkPermission(request, authentication);
         // 返回成功
         return super.preHandle(request, response, handler);
     }

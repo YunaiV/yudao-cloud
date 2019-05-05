@@ -12,6 +12,7 @@
     <artifactId>order-service-api</artifactId>
 
     <dependencies>
+        <!--  api module、sdk  -->
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
             <artifactId>common-framework</artifactId>
@@ -28,6 +29,7 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <!--  tools category  -->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
@@ -44,6 +46,5 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-
     </dependencies>
 </project>

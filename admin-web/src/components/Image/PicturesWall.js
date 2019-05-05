@@ -77,6 +77,7 @@ class PicturesWall extends React.Component {
     // });
 
     // 使用 FileReader 将上传的文件转换成二进制流，满足 'application/octet-stream' 格式的要求
+    debugger;
     const reader = new FileReader();
     reader.readAsArrayBuffer(file);
     let fileData = null;
@@ -101,7 +102,7 @@ class PicturesWall extends React.Component {
       // })
       //   .catch(onError);
       let key = uuid.v4(); // TODO 芋艿，可能后面要优化。MD5？
-      let observable = qiniu.upload(file, key, this.state.token); // TODO 芋艿，最后后面去掉 qiniu 的库依赖，直接 http 请求，这样更轻量
+      let observable = qiniu.upload(e, key, this.state.token); // TODO 芋艿，最后后面去掉 qiniu 的库依赖，直接 http 请求，这样更轻量
       observable.subscribe(function () {
         // next
       }, function () {

@@ -7,6 +7,10 @@ import { connect } from 'dva';
 import moment from 'moment';
 import {Card, Form, Input, Radio, Button, Modal, Select, Upload, Icon, Spin} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import 'braft-editor/dist/index.css'
+import BraftEditor from 'braft-editor'
+import { ContentUtils } from 'braft-utils'
+import { ImageUtils } from 'braft-finder'
 
 // import * as qiniu from 'qiniu-js'
 // import uuid from 'js-uuid';
@@ -16,6 +20,9 @@ import ProductAttrSelectFormItem from "../../components/Product/ProductAttrSelec
 import ProductSkuAddOrUpdateTable from "../../components/Product/ProductSkuAddOrUpdateTable";
 // import {fileGetQiniuToken} from "../../services/admin";
 import PicturesWall from "../../components/Image/PicturesWall";
+import {fileGetQiniuToken} from "../../services/admin";
+import uuid from "js-uuid";
+import * as qiniu from "qiniu-js";
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -40,6 +47,7 @@ class ProductSpuAddOrUpdate extends Component {
     // modalVisible: false,
     modalType: 'add', //add update
     // initValues: {},
+    editorState: BraftEditor.createEditorState(null),
   };
 
   componentDidMount() {
@@ -75,6 +83,47 @@ class ProductSpuAddOrUpdate extends Component {
       type: 'productSpuAddOrUpdate/clear',
     })
   }
+
+  handleChange = (editorState) => {
+    this.setState({ editorState })
+  };
+
+  uploadHandler = async (param) => {
+    if (!param.file) {
+      return false
+    }
+    debugger;
+    const tokenResult = await fileGetQiniuToken();
+    if (tokenResult.code !== 0) {
+      alert('获得七牛上传 Token 失败');
+      return false;
+    }
+    let token = tokenResult.data;
+    let that = this;
+    const reader = new FileReader();
+    const file = param.file;
+    reader.readAsArrayBuffer(file);
+    let fileData = null;
+    reader.onload = (e) => {
+      let key = uuid.v4(); // TODO 芋艿，可能后面要优化。MD5？
+      let observable = qiniu.upload(file, key, token); // TODO 芋艿，最后后面去掉 qiniu 的库依赖，直接 http 请求，这样更轻量
+      observable.subscribe(function () {
+        // next
+      }, function (e) {
+        // error
+        // TODO 芋艿，后续补充
+        // debugger;
+      }, function (response) {
+        // complete
+        that.setState({
+          editorState: ContentUtils.insertMedias(that.state.editorState, [{
+            type: 'IMAGE',
+            url: 'http://static.shop.iocoder.cn/' + response.key,
+          }])
+        })
+      });
+    }
+  };
 
   handleAddAttr = e => {
     // alert('你猜');
@@ -154,6 +203,25 @@ class ProductSpuAddOrUpdate extends Component {
     // debugger;
     const { form, skus, attrTree, allAttrTree, loading, spu, dispatch } = this.props;
     // const that = this;
+    const controls = ['bold', 'italic', 'underline', 'text-color', 'separator', 'link', 'separator'];
+    const extendControls = [
+      {
+        key: 'antd-uploader',
+        type: 'component',
+        component: (
+          <Upload
+            accept="image/*"
+            showUploadList={false}
+            customRequest={this.uploadHandler}
+          >
+            {/* 这里的按钮最好加上type="button"，以避免在表单容器中触发表单提交，用Antd的Button组件则无需如此 */}
+            <button type="button" className="control-item button upload-button" data-title="插入图片">
+              <Icon type="picture" theme="filled" />
+            </button>
+          </Upload>
+        )
+      }
+    ];
 
     // 添加规格
     // debugger;
@@ -243,7 +311,17 @@ class ProductSpuAddOrUpdate extends Component {
                 {form.getFieldDecorator('description', {
                   rules: [{ required: true, message: '请输入商品描述！' }],
                   initialValue: spu.description, // TODO 修改
-                })(<Input.TextArea placeholder="请输入" />)}
+                })(
+                  <div style={{border: '1px solid #d1d1d1', 'border-radius': '5px'}}>
+                    <BraftEditor
+                      value={this.state.editorState}
+                      onChange={this.handleChange}
+                      controls={controls}
+                      extendControls={extendControls}
+                      contentStyle={{height: 200}}
+                    />
+                  </div>
+                )}
                 <Button type="primary" htmlType="submit" style={{ marginLeft: 8 }} onSubmit={this.handleSubmit}>保存</Button>
               </FormItem>
             </Form>

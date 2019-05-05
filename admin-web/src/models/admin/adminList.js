@@ -69,7 +69,6 @@ export default {
       });
     },
     * add({ payload }, { call, put }) {
-      const { callback, body } = payload;
       // 显示加载中
       yield put({
         type: 'changeModalLoading',
@@ -77,6 +76,7 @@ export default {
       });
 
       // 请求
+      const { callback, body } = payload;
       const response = yield call(addAdmin, body);
       // 响应
       if (response.code === 0) {

@@ -27,6 +27,12 @@ class PicturesWall extends React.Component {
     ],
   };
 
+  componentDidMount() {
+    if (this.props.urls) {
+      this.setUrls(this.props.urls);
+    }
+  }
+
   handleCancel = () => this.setState({ previewVisible: false })
 
   handlePreview = (file) => {
@@ -137,6 +143,14 @@ class PicturesWall extends React.Component {
     return urls;
   };
 
+  getUrl = () => {
+    let urls = this.getUrls();
+    if (urls && urls.length > 0) {
+      return urls[0];
+    }
+    return undefined;
+  };
+
   setUrls = (urls) => {
     // let urls = this.props.urls;
     if (urls) {
@@ -188,7 +202,7 @@ class PicturesWall extends React.Component {
 
 PicturesWall.propTypes = {
   maxLength: Number, // 最大照片墙图片数量
-  // urls: String[],  // 初始图片列表
+  urls: Array,  // 初始图片列表
 };
 
 export default PicturesWall;

@@ -35,7 +35,8 @@ export default {
       //   price: // 价格
       //   quantity: // 数量
       // }
-    ]
+    ],
+
   },
 
   effects: {
@@ -308,6 +309,7 @@ export default {
         ...state,
         skus: [],
         attrTree: [],
+        spu: {},
       }
     },
     changeLoading(state, { payload }) {

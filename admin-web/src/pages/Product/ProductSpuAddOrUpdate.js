@@ -5,12 +5,8 @@ import React, {PureComponent, Fragment, Component} from 'react';
 // import fs from 'fs';
 import { connect } from 'dva';
 import moment from 'moment';
-import {Card, Form, Input, Radio, Button, Modal, Select, Upload, Icon, Spin} from 'antd';
+import {Card, Form, Input, Radio, Button, Modal, Select, Upload, Icon, Spin, TreeSelect} from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import 'braft-editor/dist/index.css'
-import BraftEditor from 'braft-editor'
-import { ContentUtils } from 'braft-utils'
-import { ImageUtils } from 'braft-finder'
 
 // import * as qiniu from 'qiniu-js'
 // import uuid from 'js-uuid';
@@ -23,13 +19,14 @@ import PicturesWall from "../../components/Image/PicturesWall";
 import {fileGetQiniuToken} from "../../services/admin";
 import uuid from "js-uuid";
 import * as qiniu from "qiniu-js";
+import HtmlEditor from "../../components/Editor/HtmlEditor";
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const Option = Select.Option;
 
 // roleList
-@connect(({ productAttrList, productSpuAddOrUpdate, }) => ({
+@connect(({ productAttrList, productSpuAddOrUpdate, productCategoryList }) => ({
   // list: productSpuList.list.spus,
   // loading: loading.models.productSpuList,
   productAttrList,
@@ -39,6 +36,7 @@ const Option = Select.Option;
   spu: productSpuAddOrUpdate.spu,
   attrTree: productSpuAddOrUpdate.attrTree,
   skus: productSpuAddOrUpdate.skus,
+  categoryTree: productCategoryList.list,
 }))
 
 @Form.create()
@@ -47,12 +45,16 @@ class ProductSpuAddOrUpdate extends Component {
     // modalVisible: false,
     modalType: 'add', //add update
     // initValues: {},
-    editorState: BraftEditor.createEditorState(null),
+    htmlEditor: undefined,
   };
 
   componentDidMount() {
     const { dispatch } = this.props;
     const that = this;
+    // 重置表单
+    dispatch({
+      type: 'productSpuAddOrUpdate/clear',
+    });
     // 判断是否是更新
     const params = new URLSearchParams(this.props.location.search);
     if (params.get("id")) {
@@ -66,6 +68,8 @@ class ProductSpuAddOrUpdate extends Component {
         payload: parseInt(id),
         callback: function (data) {
           that.refs.picturesWall.setUrls(data.picUrls); // TODO 后续找找，有没更合适的做法
+          // debugger;
+          that.state.htmlEditor.setHtml(data.description);
         }
       })
     }
@@ -78,52 +82,12 @@ class ProductSpuAddOrUpdate extends Component {
         pageSize: 10,
       },
     });
-    // 重置表单
+    // 获得商品分类
     dispatch({
-      type: 'productSpuAddOrUpdate/clear',
-    })
+      type: 'productCategoryList/tree',
+      payload: {},
+    });
   }
-
-  handleChange = (editorState) => {
-    this.setState({ editorState })
-  };
-
-  uploadHandler = async (param) => {
-    if (!param.file) {
-      return false
-    }
-    debugger;
-    const tokenResult = await fileGetQiniuToken();
-    if (tokenResult.code !== 0) {
-      alert('获得七牛上传 Token 失败');
-      return false;
-    }
-    let token = tokenResult.data;
-    let that = this;
-    const reader = new FileReader();
-    const file = param.file;
-    reader.readAsArrayBuffer(file);
-    let fileData = null;
-    reader.onload = (e) => {
-      let key = uuid.v4(); // TODO 芋艿，可能后面要优化。MD5？
-      let observable = qiniu.upload(file, key, token); // TODO 芋艿，最后后面去掉 qiniu 的库依赖，直接 http 请求，这样更轻量
-      observable.subscribe(function () {
-        // next
-      }, function (e) {
-        // error
-        // TODO 芋艿，后续补充
-        // debugger;
-      }, function (response) {
-        // complete
-        that.setState({
-          editorState: ContentUtils.insertMedias(that.state.editorState, [{
-            type: 'IMAGE',
-            url: 'http://static.shop.iocoder.cn/' + response.key,
-          }])
-        })
-      });
-    }
-  };
 
   handleAddAttr = e => {
     // alert('你猜');
@@ -139,6 +103,11 @@ class ProductSpuAddOrUpdate extends Component {
     e.preventDefault();
     const { skus, dispatch } = this.props;
     const { modalType, id } = this.state;
+    if (this.state.htmlEditor.isEmpty()) {
+      alert('请设置商品描述！');
+      return;
+    }
+    const description = this.state.htmlEditor.getHtml();
     // 获得图片
     let picUrls = this.refs.picturesWall.getUrls(); // TODO 芋艿，后续找找其他做法
     if (picUrls.length === 0) {
@@ -166,9 +135,11 @@ class ProductSpuAddOrUpdate extends Component {
       alert('请设置商品规格！');
       return;
     }
+
     // debugger;
     this.props.form.validateFields((err, values) => {
       // debugger;
+      // 获得富文本编辑的描述
       if (!err) {
         if (modalType === 'add') {
           dispatch({
@@ -177,7 +148,8 @@ class ProductSpuAddOrUpdate extends Component {
               body: {
                 ...values,
                 picUrls: picUrls.join(','),
-                skuStr: JSON.stringify(skuStr)
+                skuStr: JSON.stringify(skuStr),
+                description,
               }
             },
           });
@@ -189,7 +161,8 @@ class ProductSpuAddOrUpdate extends Component {
                 ...values,
                 id,
                 picUrls: picUrls.join(','),
-                skuStr: JSON.stringify(skuStr)
+                skuStr: JSON.stringify(skuStr),
+                description,
               }
             },
           });
@@ -201,27 +174,26 @@ class ProductSpuAddOrUpdate extends Component {
 
   render() {
     // debugger;
-    const { form, skus, attrTree, allAttrTree, loading, spu, dispatch } = this.props;
+    const { form, skus, attrTree, allAttrTree, loading, spu, categoryTree, dispatch } = this.props;
     // const that = this;
-    const controls = ['bold', 'italic', 'underline', 'text-color', 'separator', 'link', 'separator'];
-    const extendControls = [
-      {
-        key: 'antd-uploader',
-        type: 'component',
-        component: (
-          <Upload
-            accept="image/*"
-            showUploadList={false}
-            customRequest={this.uploadHandler}
-          >
-            {/* 这里的按钮最好加上type="button"，以避免在表单容器中触发表单提交，用Antd的Button组件则无需如此 */}
-            <button type="button" className="control-item button upload-button" data-title="插入图片">
-              <Icon type="picture" theme="filled" />
-            </button>
-          </Upload>
-        )
-      }
-    ];
+
+    // 处理分类筛选
+    const buildSelectTree = (list) => {
+      return list.map(item => {
+        let children = [];
+        if (item.children) {
+          children = buildSelectTree(item.children);
+        }
+        return {
+          title: item.name,
+          value: item.id,
+          key: item.id,
+          children,
+          selectable: item.pid > 0
+        };
+      });
+    };
+    let categoryTreeSelect = buildSelectTree(categoryTree);
 
     // 添加规格
     // debugger;
@@ -254,6 +226,7 @@ class ProductSpuAddOrUpdate extends Component {
       dispatch: dispatch,
     };
     // console.log(productSkuProps);
+    // let htmlEditor = undefined;
 
     return (
       <PageHeaderWrapper title="">
@@ -275,8 +248,16 @@ class ProductSpuAddOrUpdate extends Component {
               <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="分类编号">
                 {form.getFieldDecorator('cid', {
                   rules: [{ required: true, message: '请输入分类编号！' }],
-                  initialValue: spu.cid, // TODO 芋艿，和面做成下拉框
-                })(<Input placeholder="请输入" />)}
+                  initialValue: spu.cid,
+                })(
+                  <TreeSelect
+                    showSearch
+                    style={{ width: 300 }}
+                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                    treeData={categoryTreeSelect}
+                    placeholder="选择父分类"
+                  />
+                )}
               </FormItem>
               <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品主图"
                         extra="建议尺寸：800*800PX，单张大小不超过 2M，最多可上传 10 张">
@@ -307,21 +288,8 @@ class ProductSpuAddOrUpdate extends Component {
                   <ProductSkuAddOrUpdateTable {...productSkuProps} />
                 </FormItem> : ''
               }
-              <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品描述">
-                {form.getFieldDecorator('description', {
-                  rules: [{ required: true, message: '请输入商品描述！' }],
-                  initialValue: spu.description, // TODO 修改
-                })(
-                  <div style={{border: '1px solid #d1d1d1', 'border-radius': '5px'}}>
-                    <BraftEditor
-                      value={this.state.editorState}
-                      onChange={this.handleChange}
-                      controls={controls}
-                      extendControls={extendControls}
-                      contentStyle={{height: 200}}
-                    />
-                  </div>
-                )}
+              <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="商品描述" required={false}>
+                <HtmlEditor ref={(node) => this.state.htmlEditor = node} />
                 <Button type="primary" htmlType="submit" style={{ marginLeft: 8 }} onSubmit={this.handleSubmit}>保存</Button>
               </FormItem>
             </Form>

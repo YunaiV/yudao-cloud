@@ -7,6 +7,7 @@ import cn.iocoder.common.framework.util.StringUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.ProductSpuService;
 import cn.iocoder.mall.product.api.bo.*;
+import cn.iocoder.mall.product.api.constant.ProductCategoryConstants;
 import cn.iocoder.mall.product.api.constant.ProductErrorCodeEnum;
 import cn.iocoder.mall.product.api.constant.ProductSpuConstants;
 import cn.iocoder.mall.product.api.dto.ProductSkuAddOrUpdateDTO;
@@ -107,6 +108,9 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         if (validCategoryResult.isError()) {
             return CommonResult.error(validCategoryResult);
         }
+        if (ProductCategoryConstants.PID_ROOT.equals(validCategoryResult.getData().getPid())) { // 商品只能添加到二级分类下
+            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_SPU_CATEGORY_MUST_BE_LEVEL2.getCode());
+        }
         // 校验规格是否存在
         Set<Integer> productAttrValueIds = new HashSet<>();
         productSpuAddDTO.getSkus().forEach(productSkuAddDTO -> productAttrValueIds.addAll(productSkuAddDTO.getAttrs()));
@@ -166,6 +170,9 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         CommonResult<ProductCategoryDO> validCategoryResult = productCategoryService.validProductCategory(productSpuUpdateDTO.getCid());
         if (validCategoryResult.isError()) {
             return CommonResult.error(validCategoryResult);
+        }
+        if (ProductCategoryConstants.PID_ROOT.equals(validCategoryResult.getData().getPid())) { // 商品只能添加到二级分类下
+            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_SPU_CATEGORY_MUST_BE_LEVEL2.getCode());
         }
         // 校验规格是否存在
         Set<Integer> productAttrValueIds = new HashSet<>();

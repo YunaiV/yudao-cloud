@@ -68,7 +68,7 @@ class AttrValueSelect extends Select {
 export default class ProductAttrSelectFormItem extends PureComponent {
 
   handleSelectAttr = (value, option) => {
-    debugger;
+    // debugger;
     // console.log(value);
     // console.log(option);
     // debugger;

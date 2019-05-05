@@ -77,7 +77,6 @@ class PicturesWall extends React.Component {
     // });
 
     // 使用 FileReader 将上传的文件转换成二进制流，满足 'application/octet-stream' 格式的要求
-    debugger;
     const reader = new FileReader();
     reader.readAsArrayBuffer(file);
     let fileData = null;

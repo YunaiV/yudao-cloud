@@ -21,6 +21,7 @@ public enum ProductErrorCodeEnum {
     PRODUCT_SPU_ATTR_NUMBERS_MUST_BE_EQUALS(1003002001, "一个 Spu 下的每个 Sku ，其规格数必须一致"),
     PRODUCT_SPU_SKU__NOT_DUPLICATE(1003002002, "一个 Spu 下的每个 Sku ，必须不重复"),
     PRODUCT_SPU_NOT_EXISTS(1003002003, "Spu 不存在"),
+    PRODUCT_SPU_CATEGORY_MUST_BE_LEVEL2(1003002003, "Spu 只能添加在二级分类下"),
 
     // ========== PRODUCT ATTR + ATTR_VALUE 模块 ==========
     PRODUCT_ATTR_VALUE_NOT_EXIST(1003003000, "商品属性值不存在"),

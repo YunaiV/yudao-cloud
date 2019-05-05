@@ -72,7 +72,7 @@ export default [
           {
             path: '/order/order-refunds',
             name: 'order-refunds',
-            component: './Order/OrderRefunds',
+            component: './OrderRefunds/OrderRefundsList',
           },
         ],
       },
@@ -129,7 +129,7 @@ export default [
             path: '/promotion/coupon-card-template-list',
             name: 'coupon-card-template-list',
             component: './Promotion/CouponCardTemplateList',
-          }
+          },
         ],
       },
       {

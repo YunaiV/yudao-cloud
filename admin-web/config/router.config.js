@@ -69,11 +69,11 @@ export default [
             name: 'order-list',
             component: './Order/OrderList',
           },
-          // {
-          //   path: '/order/order-refunds',
-          //   name: 'order-refunds',
-          //   component: './OrderRefunds/OrderRefundsList',
-          // },
+          {
+            path: '/order/order-refunds',
+            name: 'order-refunds',
+            component: './OrderRefunds/OrderRefundsList',
+          },
         ],
       },
       // product

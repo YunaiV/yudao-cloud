@@ -14,6 +14,7 @@ public enum ProductErrorCodeEnum {
     PRODUCT_CATEGORY_STATUS_EQUALS(1002001003, "商品分类已经是该状态"),
     PRODUCT_CATEGORY_DELETE_ONLY_DISABLE(1002001004, "只有关闭的商品分类才可以删除"),
     PRODUCT_CATEGORY_MUST_ENABLE(1002001005, "只有开启的商品分类，才可以使用"),
+    PRODUCT_CATEGORY_PARENT_CAN_NOT_BE_LEVEL2(1002001005, "父分类必须是一级分类"),
 
     // ========== PRODUCT SPU + SKU 模块 ==========
     PRODUCT_SKU_ATTR_CANT_NOT_DUPLICATE(1003002000, "一个 Sku 下，不能有重复的规格"),

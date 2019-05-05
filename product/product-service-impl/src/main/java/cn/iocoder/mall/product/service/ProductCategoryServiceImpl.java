@@ -47,11 +47,8 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 
     @Override
     public CommonResult<ProductCategoryBO> addProductCategory(Integer adminId, ProductCategoryAddDTO productCategoryAddDTO) {
-        // 校验父分类是否存在
-        if (!ProductCategoryConstants.PID_ROOT.equals(productCategoryAddDTO.getPid())
-            && productCategoryMapper.selectById(productCategoryAddDTO.getPid()) == null) {
-            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_CATEGORY_PARENT_NOT_EXISTS.getCode());
-        }
+        // 校验父分类
+        validParent(productCategoryAddDTO.getPid());
         // 保存到数据库
         ProductCategoryDO productCategory = ProductCategoryConvert.INSTANCE.convert(productCategoryAddDTO)
                 .setStatus(ProductCategoryConstants.STATUS_ENABLE);
@@ -65,10 +62,8 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
 
     @Override
     public CommonResult<Boolean> updateProductCategory(Integer adminId, ProductCategoryUpdateDTO productCategoryUpdateDTO) {
-        // 校验分类是否存在
-        if (productCategoryMapper.selectById(productCategoryUpdateDTO.getId()) == null) {
-            return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_CATEGORY_NOT_EXISTS.getCode());
-        }
+        // 校验父分类
+        validParent(productCategoryUpdateDTO.getPid());
         // 校验不能设置自己为父分类
         if (productCategoryUpdateDTO.getId().equals(productCategoryUpdateDTO.getPid())) {
             return ServiceExceptionUtil.error(ProductErrorCodeEnum.PRODUCT_CATEGORY_PARENT_NOT_SELF.getCode());
@@ -151,6 +146,20 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     private boolean isValidStatus(Integer status) {
         return ProductCategoryConstants.STATUS_ENABLE.equals(status)
                 || ProductCategoryConstants.STATUS_DISABLE.equals(status);
+    }
+
+    private void validParent(Integer pid) {
+        if (!ProductCategoryConstants.PID_ROOT.equals(pid)) {
+            ProductCategoryDO parentCategory = productCategoryMapper.selectById(pid);
+            // 校验父分类是否存在
+            if (parentCategory == null) {
+                throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_CATEGORY_PARENT_NOT_EXISTS.getCode());
+            }
+            // 父分类必须是一级分类
+            if (!ProductCategoryConstants.PID_ROOT.equals(parentCategory.getPid())) {
+                throw ServiceExceptionUtil.exception((ProductErrorCodeEnum.PRODUCT_CATEGORY_PARENT_CAN_NOT_BE_LEVEL2.getCode()));
+            }
+        }
     }
 
 }

@@ -213,7 +213,7 @@ const AddOrUpdateForm = Form.create()(props => {
               // 清空表单
               form.resetFields();
               // 提示
-              message.success('添加成功');
+              message.success('新建成功');
               // 关闭弹窗
               handleModalVisible();
             },
@@ -232,7 +232,7 @@ const AddOrUpdateForm = Form.create()(props => {
               // 清空表单
               form.resetFields();
               // 提示
-              message.success('更新成功');
+              message.success('编辑成功');
               // 关闭弹窗
               handleModalVisible();
             },
@@ -242,7 +242,7 @@ const AddOrUpdateForm = Form.create()(props => {
     });
   };
 
-  const title = modalType === 'add' ? '新建管理员' : '更新管理员';
+  const title = modalType === 'add' ? '新建员工' : '更新员工';
   return (
     <Modal
       destroyOnClose
@@ -389,11 +389,6 @@ const RoleAssignModal = Form.create()(props => {
 // 主界面
 @Form.create()
 class AdminList extends PureComponent {
-  state = {
-    // 分配角色弹窗
-    modalRoleVisible: false,
-    modalRoleRow: {},
-  };
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -461,6 +456,7 @@ class AdminList extends PureComponent {
       dispatch,
       handleModalVisible: this.handleModalVisible, // Function
     };
+
     // 分配角色 Modal 属性
     const roleAssignModal = {
       loading: roleAssignLoading,
@@ -485,7 +481,7 @@ class AdminList extends PureComponent {
                 type="primary"
                 onClick={() => this.handleModalVisible(true, 'add', {})}
               >
-                新建管理员
+                新建员工
               </Button>
             </div>
           </div>

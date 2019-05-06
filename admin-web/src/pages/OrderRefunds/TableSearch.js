@@ -10,7 +10,6 @@ const FormItem = Form.Item;
  */
 const TableSearch = Form.create()(props => {
   const { getFieldDecorator } = props.form;
-  console.log('props.form', props.form);
 
   function onSubmit() {}
 
@@ -20,8 +19,8 @@ const TableSearch = Form.create()(props => {
     <Form onSubmit={onSubmit} layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={8} sm={24}>
-          <FormItem label="订单id">
-            {getFieldDecorator('id')(<Input placeholder="请输入订单id" />)}
+          <FormItem label="订单ID">
+            {getFieldDecorator('id')(<Input placeholder="请输入订单ID" />)}
           </FormItem>
         </Col>
         <Col md={8} sm={24}>

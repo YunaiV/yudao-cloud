@@ -31,7 +31,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service // 实际上不用添加。添加的原因是，必须 Spring 报错提示
-@org.apache.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "1.0.0")
 public class ProductSpuServiceImpl implements ProductSpuService {
 
     @Autowired

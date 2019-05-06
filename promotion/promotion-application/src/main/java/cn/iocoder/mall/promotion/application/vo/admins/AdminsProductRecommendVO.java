@@ -27,4 +27,8 @@ public class AdminsProductRecommendVO {
     @ApiModelProperty(value = "创建时间", required = true, example = "时间戳格式")
     private Date createTime;
 
+    // ========== 基本信息 =========
+    @ApiModelProperty(value = "SPU 名字", required = true, example = "厮大牛逼")
+    private String productSpuName;
+
 }

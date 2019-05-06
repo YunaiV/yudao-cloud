@@ -1,5 +1,7 @@
 package cn.iocoder.mall.promotion.api.dto;
 
+import cn.iocoder.common.framework.validator.InEnum;
+import cn.iocoder.mall.promotion.api.constant.ProductRecommendTypeEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
@@ -16,6 +18,7 @@ public class ProductRecommendUpdateDTO {
     @NotNull(message = "编号不能为空")
     private Integer id;
     @NotNull(message = "类型不能为空")
+    @InEnum(value = ProductRecommendTypeEnum.class, message = "修改推荐类型必须是 {value}")
     private Integer type;
     @NotNull(message = "商品编号不能为空")
     private Integer productSpuId;

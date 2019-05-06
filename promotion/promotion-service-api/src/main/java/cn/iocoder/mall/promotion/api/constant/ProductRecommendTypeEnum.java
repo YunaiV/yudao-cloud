@@ -1,14 +1,19 @@
 package cn.iocoder.mall.promotion.api.constant;
 
+import cn.iocoder.common.framework.core.IntArrayValuable;
+
+import java.util.Arrays;
+
 /**
  * 商品推荐类型
  */
-public enum ProductRecommendTypeEnum {
+public enum ProductRecommendTypeEnum implements IntArrayValuable {
 
     HOT(1, "热卖推荐"),
     NEW(2, "新品推荐"),
-
     ;
+
+    public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(ProductRecommendTypeEnum::getValue).toArray();
 
     /**
      * 状态值
@@ -38,6 +43,11 @@ public enum ProductRecommendTypeEnum {
         }
         return HOT.value.equals(status)
                 || NEW.value.equals(status);
+    }
+
+    @Override
+    public int[] array() {
+        return ARRAYS;
     }
 
 }

@@ -14,6 +14,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,8 +31,10 @@ import java.util.stream.Collectors;
 public class UsersProductRecommendController {
 
     @Reference(validation = "true")
+    @Autowired
     private ProductRecommendService productRecommendService;
-    @Reference(validation = "true")
+
+    @Reference(validation = "true", version = "1.0.0")
     private ProductSpuService productSpuService;
 
     @GetMapping("/list")
@@ -40,7 +43,7 @@ public class UsersProductRecommendController {
     public CommonResult<Map<Integer, Collection<UsersProductRecommendVO>>> list() {
         // 查询商品推荐列表
         List<ProductRecommendBO> productRecommends = productRecommendService.getProductRecommendList(
-                null, CommonStatusEnum.ENABLE.getValue()).getData();
+                null, CommonStatusEnum.ENABLE.getValue());
         // 获得商品集合
         List<ProductSpuBO> spus = productSpuService.getProductSpuList(
                 productRecommends.stream().map(ProductRecommendBO::getProductSpuId).collect(Collectors.toSet()));

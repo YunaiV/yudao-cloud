@@ -79,7 +79,7 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
     },
     {
       title: '商品',
-      dataIndex: 'productSpuId',
+      dataIndex: 'productSpuName',
     },
     {
       title: '排序值',
@@ -103,7 +103,7 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
     },
     {
       title: '操作',
-      width: 360,
+      width: 200,
       render: (text, record) => {
         const statusText = record.status === 1 ? '禁用' : '开启'; // TODO 芋艿，此处要改
         return (

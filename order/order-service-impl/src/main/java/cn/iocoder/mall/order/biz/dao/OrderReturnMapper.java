@@ -1,8 +1,11 @@
 package cn.iocoder.mall.order.biz.dao;
 
+import cn.iocoder.mall.order.api.dto.OrderReturnQueryDTO;
 import cn.iocoder.mall.order.biz.dataobject.OrderReturnDO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * 订单退货 mapper
@@ -38,4 +41,20 @@ public interface OrderReturnMapper {
     OrderReturnDO selectByOrderId(
             @Param("orderId") Integer orderId
     );
+
+    /**
+     * 列表查询 - queryDTO
+     *
+     * @param queryDTO
+     * @return
+     */
+    int selectListCount(OrderReturnQueryDTO queryDTO);
+
+    /**
+     * 列表查询 - queryDTO
+     *
+     * @param queryDTO
+     * @return
+     */
+    List<OrderReturnDO> selectList(OrderReturnQueryDTO queryDTO);
 }

@@ -2,7 +2,9 @@ package cn.iocoder.mall.order.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.bo.OrderReturnInfoBO;
+import cn.iocoder.mall.order.api.bo.OrderReturnListBO;
 import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
+import cn.iocoder.mall.order.api.dto.OrderReturnQueryDTO;
 
 /**
  * 订单退货
@@ -40,4 +42,12 @@ public interface OrderReturnService {
      * @return
      */
     CommonResult<OrderReturnInfoBO> orderApplyInfo(Integer orderId);
+
+    /**
+     * 订单退货 - 列表
+     *
+     * @param queryDTO
+     * @return
+     */
+    CommonResult<OrderReturnListBO> orderReturnList(OrderReturnQueryDTO queryDTO);
 }

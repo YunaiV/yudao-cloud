@@ -105,4 +105,44 @@
         LIMIT 1
     </select>
 
+    <!--
+        列表查询 - where
+    -->
+    <sql id="selectListWhere">
+        <if test="orderId != null">
+            AND order_id = #{orderId}
+        </if>
+        <if test="orderId != null">
+            AND order_no = #{orderNo}
+        </if>
+        <if test="startCreateTime != null and endCreateTime != null">
+            AND create_time &gt;= #{startCreateTime}
+            AND create_time &lt;= #{endCreateTime}
+        </if>
+    </sql>
+
+    <!--
+        列表查询 - count
+    -->
+    <select id="selectListCount" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*)
+        FROM `order_return`
+        WHERE 1 = 1
+        <include refid="selectListWhere" />
+    </select>
+
+
+    <!--
+        列表查询 - queryDTO
+    -->
+    <select id="selectList" resultType="cn.iocoder.mall.order.biz.dataobject.OrderReturnDO">
+        SELECT
+        <include refid="FIELDS"/>
+        FROM `order_return`
+        WHERE 1 = 1
+        <include refid="selectListWhere" />
+        <bind name="limitIndex" value="pageSize * (index - 1)"/>
+        LIMIT #{limitIndex}, #{pageSize}
+    </select>
 </mapper>

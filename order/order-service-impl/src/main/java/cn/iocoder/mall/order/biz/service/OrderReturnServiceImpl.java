@@ -7,9 +7,11 @@ import cn.iocoder.mall.order.api.OrderLogisticsService;
 import cn.iocoder.mall.order.api.OrderReturnService;
 import cn.iocoder.mall.order.api.bo.OrderLastLogisticsInfoBO;
 import cn.iocoder.mall.order.api.bo.OrderReturnInfoBO;
+import cn.iocoder.mall.order.api.bo.OrderReturnListBO;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.constant.OrderReturnStatusEnum;
 import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
+import cn.iocoder.mall.order.api.dto.OrderReturnQueryDTO;
 import cn.iocoder.mall.order.biz.convert.OrderReturnConvert;
 import cn.iocoder.mall.order.biz.dao.OrderItemMapper;
 import cn.iocoder.mall.order.biz.dao.OrderMapper;
@@ -22,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -111,5 +114,30 @@ public class OrderReturnServiceImpl implements OrderReturnService {
                 .setLastLogisticsInfo(lastLogisticsInfoBO);
 
         return CommonResult.success(orderReturnInfoBO);
+    }
+
+    @Override
+    public CommonResult<OrderReturnListBO> orderReturnList(OrderReturnQueryDTO queryDTO) {
+        int totalCount = orderReturnMapper.selectListCount(queryDTO);
+        if (totalCount <= 0) {
+            return CommonResult.success(
+                    new OrderReturnListBO()
+                            .setData(Collections.EMPTY_LIST)
+                            .setIndex(queryDTO.getIndex())
+                            .setPageSize(queryDTO.getPageSize())
+                            .setTotalCount(0)
+            );
+        }
+        List<OrderReturnDO> orderReturnDOList = orderReturnMapper.selectList(queryDTO);
+        List<OrderReturnListBO.OrderReturn> orderReturnListBOList
+                = OrderReturnConvert.INSTANCE.convertListBO(orderReturnDOList);
+
+        return CommonResult.success(
+                new OrderReturnListBO()
+                        .setData(orderReturnListBOList)
+                        .setIndex(queryDTO.getIndex())
+                        .setPageSize(queryDTO.getPageSize())
+                        .setTotalCount(totalCount)
+        );
     }
 }

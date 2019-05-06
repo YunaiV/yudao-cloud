@@ -14,6 +14,7 @@ import cn.iocoder.mall.order.application.po.admin.OrderLogisticsPO;
 import cn.iocoder.mall.order.application.po.admin.OrderPageQueryPO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,10 +29,10 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("admins/order")
-@Api(description = "订单API(admins)")
+@Api(value = "订单API(admins)")
 public class AdminsOrderController {
 
-    @Autowired
+    @Reference(validation = "true")
     private OrderService orderService;
 
     @GetMapping("page")

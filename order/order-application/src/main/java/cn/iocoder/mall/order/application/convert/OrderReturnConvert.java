@@ -1,6 +1,8 @@
 package cn.iocoder.mall.order.application.convert;
 
 import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
+import cn.iocoder.mall.order.api.dto.OrderReturnQueryDTO;
+import cn.iocoder.mall.order.application.po.admin.OrderReturnQueryPO;
 import cn.iocoder.mall.order.application.po.user.OrderReturnApplyPO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
@@ -19,4 +21,7 @@ public interface OrderReturnConvert {
 
     @Mappings({})
     OrderReturnApplyDTO convert(OrderReturnApplyPO orderReturnApplyPO);
+
+    @Mappings({})
+    OrderReturnQueryDTO convert(OrderReturnQueryPO orderReturnQueryPO);
 }

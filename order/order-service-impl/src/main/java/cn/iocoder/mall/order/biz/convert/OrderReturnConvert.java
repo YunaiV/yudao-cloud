@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.biz.convert;
 
 import cn.iocoder.mall.order.api.bo.OrderReturnInfoBO;
+import cn.iocoder.mall.order.api.bo.OrderReturnListBO;
 import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
 import cn.iocoder.mall.order.api.dto.OrderReturnCreateDTO;
 import cn.iocoder.mall.order.biz.dataobject.OrderItemDO;
@@ -33,4 +34,7 @@ public interface OrderReturnConvert {
 
     @Mappings({})
     List<OrderReturnInfoBO.OrderItem> convert(List<OrderItemDO> orderItemDOList);
+
+    @Mappings({})
+    List<OrderReturnListBO.OrderReturn> convertListBO(List<OrderReturnDO> orderReturnDOList);
 }

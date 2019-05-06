@@ -15,7 +15,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import static cn.iocoder.common.framework.vo.CommonResult.success;
 
 @RestController
 @RequestMapping("admins/banner")
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminsBannerController {
 
     @Reference(validation = "true")
+    @Autowired
     private BannerService bannerService;
 
     @GetMapping("/page")
@@ -35,8 +39,8 @@ public class AdminsBannerController {
     public CommonResult<AdminsBannerPageVO> page(@RequestParam(value = "title", required = false) String title,
                                                  @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
                                                  @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        CommonResult<BannerPageBO> result = bannerService.getBannerPage(new BannerPageDTO().setTitle(title).setPageNo(pageNo).setPageSize(pageSize));
-        return BannerConvert.INSTANCE.convert(result);
+        BannerPageBO result = bannerService.getBannerPage(new BannerPageDTO().setTitle(title).setPageNo(pageNo).setPageSize(pageSize));
+        return success(BannerConvert.ADMINS.convert3(result));
     }
 
     @PostMapping("/add")
@@ -55,7 +59,7 @@ public class AdminsBannerController {
                                             @RequestParam(value = "memo", required = false) String memo) {
         BannerAddDTO bannerAddDTO = new BannerAddDTO().setTitle(title).setUrl(url).setPicUrl(picUrl)
                 .setSort(sort).setMemo(memo);
-        return BannerConvert.INSTANCE.convert2(bannerService.addBanner(AdminSecurityContextHolder.getContext().getAdminId(), bannerAddDTO));
+        return success(BannerConvert.ADMINS.convert(bannerService.addBanner(AdminSecurityContextHolder.getContext().getAdminId(), bannerAddDTO)));
     }
 
     @PostMapping("/update")
@@ -75,7 +79,7 @@ public class AdminsBannerController {
                                         @RequestParam(value = "memo", required = false) String memo) {
         BannerUpdateDTO bannerUpdateDTO = new BannerUpdateDTO().setId(id).setTitle(title).setUrl(url).setPicUrl(picUrl)
                 .setSort(sort).setMemo(memo);
-        return bannerService.updateBanner(AdminSecurityContextHolder.getContext().getAdminId(), bannerUpdateDTO);
+        return success(bannerService.updateBanner(AdminSecurityContextHolder.getContext().getAdminId(), bannerUpdateDTO));
     }
 
     @PostMapping("/update_status")
@@ -86,14 +90,14 @@ public class AdminsBannerController {
     })
     public CommonResult<Boolean> updateStatus(@RequestParam("id") Integer id,
                                               @RequestParam("status") Integer status) {
-        return bannerService.updateBannerStatus(AdminSecurityContextHolder.getContext().getAdminId(), id, status);
+        return success(bannerService.updateBannerStatus(AdminSecurityContextHolder.getContext().getAdminId(), id, status));
     }
 
     @PostMapping("/delete")
     @ApiOperation(value = "删除 Banner")
     @ApiImplicitParam(name = "id", value = "Banner 编号", required = true, example = "1")
     public CommonResult<Boolean> delete(@RequestParam("id") Integer id) {
-        return bannerService.deleteBanner(AdminSecurityContextHolder.getContext().getAdminId(), id);
+        return success(bannerService.deleteBanner(AdminSecurityContextHolder.getContext().getAdminId(), id));
     }
 
 }

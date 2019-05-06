@@ -101,7 +101,7 @@ class PicturesWall extends React.Component {
       // })
       //   .catch(onError);
       let key = uuid.v4(); // TODO 芋艿，可能后面要优化。MD5？
-      let observable = qiniu.upload(e, key, this.state.token); // TODO 芋艿，最后后面去掉 qiniu 的库依赖，直接 http 请求，这样更轻量
+      let observable = qiniu.upload(file, key, this.state.token); // TODO 芋艿，最后后面去掉 qiniu 的库依赖，直接 http 请求，这样更轻量
       observable.subscribe(function () {
         // next
       }, function () {
@@ -109,6 +109,7 @@ class PicturesWall extends React.Component {
         // TODO 芋艿，后续补充
         debugger;
       }, function (response) {
+        debugger;
         // complete
         // debugger;
         response.url = 'http://static.shop.iocoder.cn/' + response.key; // 需要设置，用于后续 onSuccess ，合并到 file 中，从而设置到 fileList

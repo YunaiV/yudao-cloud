@@ -1,6 +1,7 @@
 package cn.iocoder.mall.promotion.api;
 
-import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.common.framework.constant.CommonStatusEnum;
+import cn.iocoder.common.framework.validator.InEnum;
 import cn.iocoder.mall.promotion.api.bo.BannerBO;
 import cn.iocoder.mall.promotion.api.bo.BannerPageBO;
 import cn.iocoder.mall.promotion.api.dto.BannerAddDTO;
@@ -11,16 +12,17 @@ import java.util.List;
 
 public interface BannerService {
 
-    CommonResult<List<BannerBO>> getBannerListByStatus(Integer status);
+    List<BannerBO> getBannerListByStatus(Integer status);
 
-    CommonResult<BannerPageBO> getBannerPage(BannerPageDTO bannerPageDTO);
+    BannerPageBO getBannerPage(BannerPageDTO bannerPageDTO);
 
-    CommonResult<BannerBO> addBanner(Integer adminId, BannerAddDTO bannerAddDTO);
+    BannerBO addBanner(Integer adminId, BannerAddDTO bannerAddDTO);
 
-    CommonResult<Boolean> updateBanner(Integer adminId, BannerUpdateDTO bannerUpdateDTO);
+    Boolean updateBanner(Integer adminId, BannerUpdateDTO bannerUpdateDTO);
 
-    CommonResult<Boolean> updateBannerStatus(Integer adminId, Integer bannerId, Integer status);
+    Boolean updateBannerStatus(Integer adminId, Integer bannerId,
+                               @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}") Integer status);
 
-    CommonResult<Boolean> deleteBanner(Integer adminId, Integer bannerId);
+    Boolean deleteBanner(Integer adminId, Integer bannerId);
 
 }

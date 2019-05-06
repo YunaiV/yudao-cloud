@@ -25,9 +25,9 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import styles from './BannerList.less';
 import moment from "moment";
 import PaginationHelper from "../../../helpers/PaginationHelper";
+import PicturesWall from "../../components/Image/PicturesWall";
 
 const FormItem = Form.Item;
-const { TreeNode } = Tree;
 const status = ['未知', '正常', '禁用'];
 
 // 列表
@@ -70,11 +70,13 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
   const columns = [
     {
       title: '标题',
-      dataIndex: 'title'
+      dataIndex: 'title',
+      width: 120,
     },
     {
       title: '跳转链接',
       dataIndex: 'url',
+      width: 120,
     },
     {
       title: '图片',
@@ -97,15 +99,17 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
     {
       title: '备注',
       dataIndex: 'memo',
+      width: 150,
     },
     {
       title: '创建时间',
       dataIndex: 'createTime',
-      render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm')}</span>,
+      width: 120,
+      render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
     },
     {
       title: '操作',
-      width: 360,
+      width: 150,
       render: (text, record) => {
         const statusText = record.status === 1 ? '禁用' : '开启'; // TODO 芋艿，此处要改
         return (
@@ -214,6 +218,7 @@ const SearchForm = Form.create()(props => {
 // 添加 or 修改 Form 表单
 const AddOrUpdateForm = Form.create()(props => {
   const { dispatch, modalVisible, form, handleModalVisible, modalType, formVals } = props;
+  let picturesWall = null;
 
   const okHandle = () => {
     form.validateFields((err, fields) => {
@@ -225,6 +230,7 @@ const AddOrUpdateForm = Form.create()(props => {
           payload: {
             body: {
               ...fields,
+              picUrl: picturesWall ? picturesWall.getUrl() : undefined,
             },
             callback: () => {
               // 清空表单
@@ -244,12 +250,13 @@ const AddOrUpdateForm = Form.create()(props => {
             body: {
               id: formVals.id,
               ...fields,
+              picUrl: picturesWall ? picturesWall.getUrl() : undefined,
             },
             callback: () => {
               // 清空表单
               form.resetFields();
               // 提示
-              message.success('更新成功');
+              message.success('编辑成功');
               // 关闭弹窗
               handleModalVisible();
             },
@@ -259,7 +266,7 @@ const AddOrUpdateForm = Form.create()(props => {
     });
   };
 
-  const title = modalType === 'add' ? '新建 Banner' : '更新 Banner';
+  const title = modalType === 'add' ? '新建广告' : '编辑广告';
   return (
     <Modal
       destroyOnClose
@@ -286,11 +293,9 @@ const AddOrUpdateForm = Form.create()(props => {
           initialValue: formVals.picUrl,
         })(<Input placeholder="请输入" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图片">
-        {form.getFieldDecorator('picUrl', {
-          rules: [{ required: true, message: '请输入跳转链接！'},],
-            initialValue: formVals.picUrl,
-        })(<Input placeholder="请输入" />)}
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="分类图片"
+                extra="建议尺寸：640*340px，大小不超过 2M" required={true}>
+        <PicturesWall urls={formVals.picUrl ? [formVals.picUrl] : undefined} ref={(node) => picturesWall = node} maxLength={1} />
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="排序值">
         {form.getFieldDecorator('sort', {
@@ -365,7 +370,7 @@ class BannerList extends PureComponent {
       dispatch,
     };
 
-    // 添加 or 更新表单属性
+    // 添加 or 编辑表单属性
     const addOrUpdateFormProps = {
       modalVisible,
       modalType,
@@ -387,7 +392,7 @@ class BannerList extends PureComponent {
                 type="primary"
                 onClick={() => this.handleModalVisible(true, 'add', {})}
               >
-                新建 Banner
+                新建广告
               </Button>
             </div>
           </div>

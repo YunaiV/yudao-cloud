@@ -2,9 +2,7 @@ package cn.iocoder.mall.promotion.biz.service;
 
 import cn.iocoder.common.framework.constant.CommonStatusEnum;
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
-import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
-import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.promotion.api.BannerService;
 import cn.iocoder.mall.promotion.api.bo.BannerBO;
 import cn.iocoder.mall.promotion.api.bo.BannerPageBO;
@@ -29,13 +27,13 @@ public class BannerServiceImpl implements BannerService {
     private BannerMapper bannerMapper;
 
     @Override
-    public CommonResult<List<BannerBO>> getBannerListByStatus(Integer status) {
+    public List<BannerBO> getBannerListByStatus(Integer status) {
         List<BannerDO> banners = bannerMapper.selectListByStatus(status);
-        return CommonResult.success(BannerConvert.INSTANCE.convertToBO(banners));
+        return BannerConvert.INSTANCE.convertToBO(banners);
     }
 
     @Override
-    public CommonResult<BannerPageBO> getBannerPage(BannerPageDTO bannerPageDTO) {
+    public BannerPageBO getBannerPage(BannerPageDTO bannerPageDTO) {
         BannerPageBO bannerPageBO = new BannerPageBO();
         // 查询分页数据
         int offset = (bannerPageDTO.getPageNo() - 1) * bannerPageDTO.getPageSize();
@@ -43,61 +41,57 @@ public class BannerServiceImpl implements BannerService {
                 offset, bannerPageDTO.getPageSize())));
         // 查询分页总数
         bannerPageBO.setTotal(bannerMapper.selectCountByTitleLike(bannerPageDTO.getTitle()));
-        return CommonResult.success(bannerPageBO);
+        return bannerPageBO;
     }
 
     @Override
-    public CommonResult<BannerBO> addBanner(Integer adminId, BannerAddDTO bannerAddDTO) {
+    public BannerBO addBanner(Integer adminId, BannerAddDTO bannerAddDTO) {
         // 保存到数据库
         BannerDO banner = BannerConvert.INSTANCE.convert(bannerAddDTO).setStatus(CommonStatusEnum.ENABLE.getValue());
         banner.setDeleted(DeletedStatusEnum.DELETED_NO.getValue()).setCreateTime(new Date());
         bannerMapper.insert(banner);
         // 返回成功
-        return CommonResult.success(BannerConvert.INSTANCE.convertToBO(banner));
+        return BannerConvert.INSTANCE.convertToBO(banner);
     }
 
     @Override
-    public CommonResult<Boolean> updateBanner(Integer adminId, BannerUpdateDTO bannerUpdateDTO) {
+    public Boolean updateBanner(Integer adminId, BannerUpdateDTO bannerUpdateDTO) {
         // 校验 Banner 存在
         if (bannerMapper.selectById(bannerUpdateDTO.getId()) == null) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.BANNER_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.BANNER_NOT_EXISTS.getCode());
         }
         // 更新到数据库
         BannerDO updateBanner = BannerConvert.INSTANCE.convert(bannerUpdateDTO);
         bannerMapper.update(updateBanner);
         // 返回成功
-        return CommonResult.success(true);
+        return true;
     }
 
     @Override
-    public CommonResult<Boolean> updateBannerStatus(Integer adminId, Integer bannerId, Integer status) {
-        // 校验参数
-        if (!CommonStatusEnum.isValid(status)) {
-            return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "变更状态必须是开启（1）或关闭（2）"); // TODO 有点搓
-        }
+    public Boolean updateBannerStatus(Integer adminId, Integer bannerId, Integer status) {
         // 校验 Banner 存在
         if (bannerMapper.selectById(bannerId) == null) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.BANNER_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.BANNER_NOT_EXISTS.getCode());
         }
         // 更新到数据库
         BannerDO updateBanner = new BannerDO().setId(bannerId).setStatus(status);
         bannerMapper.update(updateBanner);
         // 返回成功
-        return CommonResult.success(true);
+        return true;
     }
 
     @Override
-    public CommonResult<Boolean> deleteBanner(Integer adminId, Integer bannerId) {
+    public Boolean deleteBanner(Integer adminId, Integer bannerId) {
         // 校验 Banner 存在
         if (bannerMapper.selectById(bannerId) == null) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.BANNER_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.BANNER_NOT_EXISTS.getCode());
         }
         // 更新到数据库
         BannerDO updateBanner = new BannerDO().setId(bannerId);
         updateBanner.setDeleted(DeletedStatusEnum.DELETED_YES.getValue());
         bannerMapper.update(updateBanner);
         // 返回成功
-        return CommonResult.success(true);
+        return true;
     }
 
 }

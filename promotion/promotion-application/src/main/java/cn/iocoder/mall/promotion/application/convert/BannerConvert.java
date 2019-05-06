@@ -1,6 +1,5 @@
 package cn.iocoder.mall.promotion.application.convert;
 
-import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.promotion.api.bo.BannerBO;
 import cn.iocoder.mall.promotion.api.bo.BannerPageBO;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsBannerPageVO;
@@ -12,21 +11,29 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper
 public interface BannerConvert {
 
-    BannerConvert INSTANCE = Mappers.getMapper(BannerConvert.class);
+    Users USERS = Mappers.getMapper(Users.class);
 
-    @Mappings({})
-    AdminsBannerVO convert(BannerBO bannerBO);
+    Admins ADMINS = Mappers.getMapper(Admins.class);
 
-    @Mappings({})
-    CommonResult<AdminsBannerVO> convert2(CommonResult<BannerBO> result);
+    @Mapper
+    interface Admins {
 
-    @Mappings({})
-    CommonResult<AdminsBannerPageVO> convert(CommonResult<BannerPageBO> result);
+        @Mappings({})
+        AdminsBannerVO convert(BannerBO bannerBO);
 
-    @Mappings({})
-    List<UsersBannerVO> convertList(List<BannerBO> banners);
+        @Mappings({})
+        AdminsBannerPageVO convert3(BannerPageBO bannerPageBO);
+
+    }
+
+    @Mapper
+    interface Users {
+
+        @Mappings({})
+        List<UsersBannerVO> convertList(List<BannerBO> banners);
+
+    }
 
 }

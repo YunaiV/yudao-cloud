@@ -39,11 +39,11 @@ public class MVCConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 用户
-        registry.addInterceptor(userAccessLogInterceptor).addPathPatterns("/users/**");
-        registry.addInterceptor(userSecurityInterceptor).addPathPatterns("/users/**"); // 只拦截我们定义的接口
+//        registry.addInterceptor(userAccessLogInterceptor).addPathPatterns("/users/**");
+//        registry.addInterceptor(userSecurityInterceptor).addPathPatterns("/users/**"); // 只拦截我们定义的接口
         // 管理员
-        registry.addInterceptor(adminAccessLogInterceptor).addPathPatterns("/admins/**");
-        registry.addInterceptor(adminSecurityInterceptor).addPathPatterns("/admins/**");
+//        registry.addInterceptor(adminAccessLogInterceptor).addPathPatterns("/admins/**");
+//        registry.addInterceptor(adminSecurityInterceptor).addPathPatterns("/admins/**");
     }
 
     @Override

@@ -18,7 +18,7 @@ public class ProductSearchServiceImplTest {
 
     @Test
     public void testRebuild() {
-        int counts = productSearchService.rebuild().getData();
+        int counts = productSearchService.rebuild();
         System.out.println("重建数量：" + counts);
 
         System.out.println(productRepository.count());

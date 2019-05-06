@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import static cn.iocoder.common.framework.vo.CommonResult.success;
+
 @RestController
 @RequestMapping("users/spu")
 @Api("商品 SPU + SKU")
@@ -33,7 +35,7 @@ public class UsersProductSpuController {
     @ApiImplicitParam(name = "id", value = "SPU 编号", required = true, example = "100")
     @PermitAll
     public CommonResult<UsersProductSpuDetailVO> info(@RequestParam("id") Integer id) {
-        return ProductSpuConvert.INSTANCE.convert4(productSpuService.getProductSpuDetail(id));
+        return success(ProductSpuConvert.INSTANCE.convert4(productSpuService.getProductSpuDetail(id)));
     }
 
     @GetMapping("/page")
@@ -52,9 +54,9 @@ public class UsersProductSpuController {
         ProductSpuPageDTO productSpuPageDTO = new ProductSpuPageDTO().setCid(cid).setVisible(true)
                 .setPageNo(pageNo).setPageSize(pageSize);
         // 查询分页
-        CommonResult<ProductSpuPageBO> result = productSpuService.getProductSpuPage(productSpuPageDTO);
+        ProductSpuPageBO result = productSpuService.getProductSpuPage(productSpuPageDTO);
         // 返回结果
-        return ProductSpuConvert.INSTANCE.convert3(result);
+        return success(ProductSpuConvert.INSTANCE.convert3(result));
     }
 
 }

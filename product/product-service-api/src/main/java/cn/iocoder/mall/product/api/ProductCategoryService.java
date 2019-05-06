@@ -1,6 +1,7 @@
 package cn.iocoder.mall.product.api;
 
-import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.common.framework.constant.CommonStatusEnum;
+import cn.iocoder.common.framework.validator.InEnum;
 import cn.iocoder.mall.product.api.bo.ProductCategoryBO;
 import cn.iocoder.mall.product.api.dto.ProductCategoryAddDTO;
 import cn.iocoder.mall.product.api.dto.ProductCategoryUpdateDTO;
@@ -27,14 +28,15 @@ public interface ProductCategoryService {
     /**
      * @return 返回所有产品分类们
      */
-    CommonResult<List<ProductCategoryBO>> getAll();
+    List<ProductCategoryBO> getAll();
 
-    CommonResult<ProductCategoryBO> addProductCategory(Integer adminId, ProductCategoryAddDTO productCategoryAddDTO);
+    ProductCategoryBO addProductCategory(Integer adminId, ProductCategoryAddDTO productCategoryAddDTO);
 
-    CommonResult<Boolean> updateProductCategory(Integer adminId, ProductCategoryUpdateDTO productCategoryUpdateDTO);
+    Boolean updateProductCategory(Integer adminId, ProductCategoryUpdateDTO productCategoryUpdateDTO);
 
-    CommonResult<Boolean> updateProductCategoryStatus(Integer adminId, Integer productCategoryId, Integer status);
+    Boolean updateProductCategoryStatus(Integer adminId, Integer productCategoryId,
+                                        @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}") Integer status);
 
-    CommonResult<Boolean> deleteProductCategory(Integer admin, Integer productCategoryId);
+    Boolean deleteProductCategory(Integer admin, Integer productCategoryId);
 
 }

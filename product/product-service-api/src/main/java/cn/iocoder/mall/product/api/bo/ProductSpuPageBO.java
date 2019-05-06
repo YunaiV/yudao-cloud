@@ -16,10 +16,10 @@ public class ProductSpuPageBO implements Serializable {
     /**
      * Spu 数组
      */
-    private List<ProductSpuBO> spus;
+    private List<ProductSpuBO> list;
     /**
      * 总量
      */
-    private Integer count;
+    private Integer total;
 
 }

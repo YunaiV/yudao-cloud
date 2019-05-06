@@ -55,14 +55,12 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     private CartService cartService;
 
     @Override
-    public CommonResult<Integer> rebuild() {
+    public Integer rebuild() {
         // TODO 芋艿，因为目前商品比较少，所以写的很粗暴。等未来重构
         Integer lastId = null;
         int rebuildCounts = 0;
         while (true) {
-            CommonResult<List<ProductSpuDetailBO>> result = productSpuService.getProductSpuDetailListForSync(lastId, REBUILD_FETCH_PER_SIZE);
-            Assert.isTrue(result.isSuccess(), "获得商品列表必然成功");
-            List<ProductSpuDetailBO> spus = result.getData();
+            List<ProductSpuDetailBO> spus = productSpuService.getProductSpuDetailListForSync(lastId, REBUILD_FETCH_PER_SIZE);
             rebuildCounts += spus.size();
             // 存储到 ES 中
             List<ESProductDO> products = spus.stream().map(this::convert).collect(Collectors.toList());
@@ -75,19 +73,18 @@ public class ProductSearchServiceImpl implements ProductSearchService {
             }
         }
         // 返回成功
-        return CommonResult.success(rebuildCounts);
+        return rebuildCounts;
     }
 
     @Override
-    public CommonResult<Boolean> save(Integer id) {
+    public Boolean save(Integer id) {
         // 获得商品性情
-        CommonResult<ProductSpuDetailBO> result = productSpuService.getProductSpuDetail(id);
-        Assert.isTrue(result.isSuccess(), "获得商品详情必然成功");
+        ProductSpuDetailBO result = productSpuService.getProductSpuDetail(id);
         // 存储到 ES 中
-        ESProductDO product = convert(result.getData());
+        ESProductDO product = convert(result);
         productRepository.save(product);
         // 返回成功
-        return CommonResult.success(Boolean.TRUE);
+        return true;
     }
 
     @SuppressWarnings("OptionalGetWithoutIsPresent")
@@ -102,16 +99,15 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     }
 
     @Override
-    public CommonResult<ProductPageBO> getSearchPage(ProductSearchPageDTO searchPageDTO) {
+    public ProductPageBO getSearchPage(ProductSearchPageDTO searchPageDTO) {
         checkSortFieldInvalid(searchPageDTO.getSorts());
         // 执行查询
         Page<ESProductDO> searchPage = productRepository.search(searchPageDTO.getCid(), searchPageDTO.getKeyword(),
                 searchPageDTO.getPageNo(), searchPageDTO.getPageSize(), searchPageDTO.getSorts());
         // 转换结果
-        ProductPageBO resultPage = new ProductPageBO()
+        return new ProductPageBO()
                 .setList(ProductSearchConvert.INSTANCE.convert(searchPage.getContent()))
                 .setTotal((int) searchPage.getTotalElements());
-        return CommonResult.success(resultPage);
     }
 
     private void checkSortFieldInvalid(List<SortingField> sorts) {
@@ -123,7 +119,7 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     }
 
     @Override
-    public CommonResult<ProductConditionBO> getSearchCondition(ProductConditionDTO conditionDTO) {
+    public ProductConditionBO getSearchCondition(ProductConditionDTO conditionDTO) {
         // 创建 ES 搜索条件
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
         // 筛选
@@ -161,7 +157,7 @@ public class ProductSearchServiceImpl implements ProductSearchService {
             condition.getCategories().forEach(category -> category.setName(categoryMap.get(category.getId()).getName()));
         }
         // 返回结果
-        return CommonResult.success(condition);
+        return condition;
     }
 
 }

@@ -137,7 +137,6 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
 }
 
 // 搜索表单
-// TODO 芋艿，有没办法换成上面那种写法
 const SearchForm = Form.create()(props => {
   const {
     form,

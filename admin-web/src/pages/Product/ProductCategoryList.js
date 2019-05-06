@@ -123,6 +123,7 @@ function List({ dataSource, loading, dispatch,
       columns={columns}
       loading={loading}
       rowKey="id"
+      pagination={false}
       dataSource={dataSource}  />
   )
 }

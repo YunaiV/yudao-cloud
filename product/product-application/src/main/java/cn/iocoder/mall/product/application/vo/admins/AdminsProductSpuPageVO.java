@@ -13,8 +13,8 @@ import java.util.List;
 public class AdminsProductSpuPageVO {
 
     @ApiModelProperty(value = "spu 数组", required = true)
-    private List<AdminsProductSpuVO> spus;
+    private List<AdminsProductSpuVO> list;
     @ApiModelProperty(value = "总数", required = true)
-    private Integer count;
+    private Integer total;
 
 }

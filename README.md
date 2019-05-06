@@ -9,6 +9,8 @@
 
 * 整体的功能如下图：![功能图](http://static.iocoder.cn/mall%20%E5%8A%9F%E8%83%BD%E5%9B%BE-min.png)
     > 功能图，和实际后端模块拆分，并不是绝对对应。
+    * [功能列表 - H5 商城](https://gitee.com/zhijiantianya/onemall/blob/master/docs/guides/%E5%8A%9F%E8%83%BD%E5%88%97%E8%A1%A8/%E5%8A%9F%E8%83%BD%E5%88%97%E8%A1%A8-H5%20%E5%95%86%E5%9F%8E.md)
+    * [功能列表 - 管理后台](https://gitee.com/zhijiantianya/onemall/blob/master/docs/guides/%E5%8A%9F%E8%83%BD%E5%88%97%E8%A1%A8/%E5%8A%9F%E8%83%BD%E5%88%97%E8%A1%A8-%E7%AE%A1%E7%90%86%E5%90%8E%E5%8F%B0.md)
 
 * 交流群：[传送门](http://www.iocoder.cn/mall-user-group/?vip&gitee)
     > 一起交流，Get 知识。

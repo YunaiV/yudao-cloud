@@ -1,6 +1,5 @@
 package cn.iocoder.mall.product.application.convert;
 
-import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuPageBO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductSpuDetailVO;
@@ -19,16 +18,16 @@ public interface ProductSpuConvert {
     @Mappings({})
     AdminsProductSpuDetailVO convert(ProductSpuDetailBO productSpuDetailBO);
 
-    @Mappings({})
-    CommonResult<AdminsProductSpuDetailVO> convert(CommonResult<ProductSpuDetailBO> result);
+//    @Mappings({})
+//    CommonResult<AdminsProductSpuDetailVO> convert(CommonResult<ProductSpuDetailBO> result);
 
     @Mappings({})
-    CommonResult<AdminsProductSpuPageVO> convert2(CommonResult<ProductSpuPageBO> result);
+    AdminsProductSpuPageVO convert2(ProductSpuPageBO result);
 
     @Mappings({})
-    CommonResult<UsersProductSpuPageVO> convert3(CommonResult<ProductSpuPageBO> result);
+    UsersProductSpuPageVO convert3(ProductSpuPageBO result);
 
     @Mappings({})
-    CommonResult<UsersProductSpuDetailVO> convert4(CommonResult<ProductSpuDetailBO> result);
+    UsersProductSpuDetailVO convert4(ProductSpuDetailBO result);
 
 }

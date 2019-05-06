@@ -218,28 +218,20 @@ public class OrderServiceImpl implements OrderService {
 
         // 获取商品信息
         Set<Integer> skuIds = orderItemDOList.stream().map(OrderItemDO::getSkuId).collect(Collectors.toSet());
-        CommonResult<List<ProductSkuDetailBO>> productResult = productSpuService.getProductSkuDetailList(skuIds);
-
-        // 校验商品信息
-        if (productResult.isError()) {
-            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_SKU_FAIL.getCode());
-        }
-        if (productResult.getData() == null) {
-            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_SKU_NOT_EXISTENT.getCode());
-        }
-        if (orderItemDTOList.size() != productResult.getData().size()) {
+        List<ProductSkuDetailBO> productList = productSpuService.getProductSkuDetailList(skuIds);
+        if (orderItemDTOList.size() != productList.size()) { // 校验获得的数量，是否匹配
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_GOODS_INFO_INCORRECT.getCode());
         }
 
         // 价格计算
-        CommonResult<CalcOrderPriceBO> calcOrderPriceResult = calcOrderPrice(productResult.getData(), orderCreateDTO);
+        CommonResult<CalcOrderPriceBO> calcOrderPriceResult = calcOrderPrice(productList, orderCreateDTO);
         if (calcOrderPriceResult.isError()) {
             return CommonResult.error(calcOrderPriceResult);
         }
         CalcOrderPriceBO calcOrderPrice = calcOrderPriceResult.getData();
 
         // 设置 orderItem
-        Map<Integer, ProductSkuDetailBO> productSpuBOMap = productResult.getData()
+        Map<Integer, ProductSkuDetailBO> productSpuBOMap = productList
                 .stream().collect(Collectors.toMap(ProductSkuDetailBO::getId, o -> o)); // 商品 SKU 信息的集合
         Map<Integer, CalcOrderPriceBO.Item> priceItemMap = new HashMap<>();
         calcOrderPrice.getItemGroups().forEach(itemGroup ->

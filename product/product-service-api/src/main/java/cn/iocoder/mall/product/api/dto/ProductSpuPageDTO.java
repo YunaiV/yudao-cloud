@@ -26,6 +26,12 @@ public class ProductSpuPageDTO {
      * 是否可见
      */
     private Boolean visible;
+    /**
+     * 是否有库存
+     *
+     * 允许为空。空时，不进行筛选
+     */
+    private Boolean hasQuantity;
 
     @NotNull(message = "页码不能为空")
     private Integer pageNo;

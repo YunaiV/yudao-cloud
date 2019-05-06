@@ -1,6 +1,5 @@
 package cn.iocoder.mall.product.api;
 
-import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.bo.*;
 import cn.iocoder.mall.product.api.dto.ProductSpuAddDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuPageDTO;
@@ -11,7 +10,7 @@ import java.util.List;
 
 public interface ProductSpuService {
 
-    CommonResult<ProductSpuDetailBO> getProductSpuDetail(Integer id);
+    ProductSpuDetailBO getProductSpuDetail(Integer id);
 
     /**
      * 增量获得商品列表，按照 lastId 递增获得
@@ -20,20 +19,20 @@ public interface ProductSpuService {
      * @param limit 大小
      * @return 商品列表
      */
-    CommonResult<List<ProductSpuDetailBO>> getProductSpuDetailListForSync(Integer lastId, Integer limit);
+    List<ProductSpuDetailBO> getProductSpuDetailListForSync(Integer lastId, Integer limit);
 
-    CommonResult<ProductSpuPageBO> getProductSpuPage(ProductSpuPageDTO productSpuPageDTO);
+    ProductSpuPageBO getProductSpuPage(ProductSpuPageDTO productSpuPageDTO);
 
-    CommonResult<List<ProductSpuBO>> getProductSpuList(Collection<Integer> ids);
+    List<ProductSpuBO> getProductSpuList(Collection<Integer> ids);
 
-    CommonResult<ProductSkuBO> getProductSku(Integer id);
+    ProductSkuBO getProductSku(Integer id);
 
-    CommonResult<List<ProductSkuDetailBO>> getProductSkuDetailList(Collection<Integer> ids);
+    List<ProductSkuDetailBO> getProductSkuDetailList(Collection<Integer> ids);
 
-    CommonResult<ProductSpuDetailBO> addProductSpu(Integer adminId, ProductSpuAddDTO productSpuAddDTO);
+    ProductSpuDetailBO addProductSpu(Integer adminId, ProductSpuAddDTO productSpuAddDTO);
 
-    CommonResult<Boolean> updateProductSpu(Integer adminId, ProductSpuUpdateDTO productSpuUpdateDTO);
+    void updateProductSpu(Integer adminId, ProductSpuUpdateDTO productSpuUpdateDTO);
 
-    CommonResult<Boolean> updateProductSpuSort(Integer adminId, Integer spuId, Integer sort);
+    Boolean updateProductSpuSort(Integer adminId, Integer spuId, Integer sort);
 
 }

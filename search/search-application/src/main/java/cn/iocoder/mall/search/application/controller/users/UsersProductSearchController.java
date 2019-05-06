@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
 
+import static cn.iocoder.common.framework.vo.CommonResult.success;
+
 @RestController
 @RequestMapping("users/product")
 @Api("商品搜索")
@@ -39,7 +41,7 @@ public class UsersProductSearchController {
             productSearchPageDTO.setSorts(Collections.singletonList(new SortingField(sortField, sortOrder)));
         }
         // 执行搜索
-        return productSearchService.getSearchPage(productSearchPageDTO);
+        return success(productSearchService.getSearchPage(productSearchPageDTO));
     }
 
     @GetMapping("/condition") // TODO 芋艿，后面把 BO 改成 VO
@@ -48,7 +50,7 @@ public class UsersProductSearchController {
         ProductConditionDTO productConditionDTO = new ProductConditionDTO().setKeyword(keyword)
                 .setFields(Collections.singleton(ProductConditionDTO.FIELD_CATEGORY));
         // 执行搜索
-        return productSearchService.getSearchCondition(productConditionDTO);
+        return success(productSearchService.getSearchCondition(productConditionDTO));
     }
 
 }

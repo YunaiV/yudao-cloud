@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import static cn.iocoder.common.framework.vo.CommonResult.*;
 
 @RestController
 @RequestMapping("admins")
@@ -40,18 +41,18 @@ public class AdminsProductAttrController {
         // 创建 ProductAttrPageDTO 对象
         ProductAttrPageDTO productAttrPageDTO = new ProductAttrPageDTO().setName(name).setPageNo(pageNo).setPageSize(pageSize);
         // 查询分页
-        CommonResult<ProductAttrPageBO> result = productAttrService.getProductAttrPage(productAttrPageDTO);
+        ProductAttrPageBO result = productAttrService.getProductAttrPage(productAttrPageDTO);
         // 返回结果
-        return ProductAttrConvert.INSTANCE.convert2(result);
+        return success(ProductAttrConvert.INSTANCE.convert2(result));
     }
 
     @GetMapping("/attr/tree")
     @ApiOperation(value = "获得规格树结构", notes = "该接口返回的信息更为精简。一般用于前端缓存数据字典到本地。")
     public CommonResult<List<AdminsProductAttrSimpleVO>> tree() {
         // 查询全列表
-        CommonResult<List<ProductAttrSimpleBO>> result = productAttrService.getProductAttrList();
+        List<ProductAttrSimpleBO> result = productAttrService.getProductAttrList();
         // 返回结果
-        return ProductAttrConvert.INSTANCE.convert(result);
+        return success(ProductAttrConvert.INSTANCE.convert(result));
     }
 
     @PostMapping("/attr/add")
@@ -63,9 +64,9 @@ public class AdminsProductAttrController {
         // 创建 ProductAttrAddDTO 对象
         ProductAttrAddDTO productAttrAddDTO = new ProductAttrAddDTO().setName(name);
         // 添加
-        CommonResult<ProductAttrBO> result = productAttrService.addProductAttr(AdminSecurityContextHolder.getContext().getAdminId(), productAttrAddDTO);
+        ProductAttrBO result = productAttrService.addProductAttr(AdminSecurityContextHolder.getContext().getAdminId(), productAttrAddDTO);
         // 返回结果
-        return ProductAttrConvert.INSTANCE.convert3(result);
+        return success(ProductAttrConvert.INSTANCE.convert3(result));
     }
 
     @PostMapping("/attr/update")
@@ -79,7 +80,7 @@ public class AdminsProductAttrController {
         // 创建 ProductAttrUpdateDTO 对象
         ProductAttrUpdateDTO productAttrUpdateDTO = new ProductAttrUpdateDTO().setId(id).setName(name);
         // 更新
-        return productAttrService.updateProductAttr(AdminSecurityContextHolder.getContext().getAdminId(), productAttrUpdateDTO);
+        return success(productAttrService.updateProductAttr(AdminSecurityContextHolder.getContext().getAdminId(), productAttrUpdateDTO));
     }
 
     @PostMapping("/attr/update_status")
@@ -90,7 +91,7 @@ public class AdminsProductAttrController {
     })
     public CommonResult<Boolean> updateAttrStatus(@RequestParam("id") Integer id,
                                                   @RequestParam("status") Integer status) {
-        return productAttrService.updateProductAttrStatus(AdminSecurityContextHolder.getContext().getAdminId(), id, status);
+        return success(productAttrService.updateProductAttrStatus(AdminSecurityContextHolder.getContext().getAdminId(), id, status));
     }
 
     // TODO 芋艿 暂时不考虑 delete Attr 。因为关联逻辑比较多
@@ -106,9 +107,9 @@ public class AdminsProductAttrController {
         // 创建 ProductAttrValueAddDTO 对象
         ProductAttrValueAddDTO productAttrValueAddDTO = new ProductAttrValueAddDTO().setAttrId(attrId).setName(name);
         // 添加
-        CommonResult<ProductAttrValueBO> result = productAttrService.addProductAttrValue(AdminSecurityContextHolder.getContext().getAdminId(), productAttrValueAddDTO);
+        ProductAttrValueBO result = productAttrService.addProductAttrValue(AdminSecurityContextHolder.getContext().getAdminId(), productAttrValueAddDTO);
         // 返回结果
-        return ProductAttrConvert.INSTANCE.convert4(result);
+        return success(ProductAttrConvert.INSTANCE.convert4(result));
     }
 
     @PostMapping("/attr_value/update")
@@ -122,7 +123,7 @@ public class AdminsProductAttrController {
         // 创建 ProductAttrValueUpdateDTO 对象
         ProductAttrValueUpdateDTO productAttrValueUpdateDTO = new ProductAttrValueUpdateDTO().setId(id).setName(name);
         // 更新
-        return productAttrService.updateProductAttrValue(AdminSecurityContextHolder.getContext().getAdminId(), productAttrValueUpdateDTO);
+        return success(productAttrService.updateProductAttrValue(AdminSecurityContextHolder.getContext().getAdminId(), productAttrValueUpdateDTO));
     }
 
     @PostMapping("/attr_value/update_status")
@@ -132,7 +133,7 @@ public class AdminsProductAttrController {
     })
     public CommonResult<Boolean> updateAttrValueStatus(@RequestParam("id") Integer id,
                                                        @RequestParam("status") Integer status) {
-        return productAttrService.updateProductAttrValueStatus(AdminSecurityContextHolder.getContext().getAdminId(), id, status);
+        return success(productAttrService.updateProductAttrValueStatus(AdminSecurityContextHolder.getContext().getAdminId(), id, status));
     }
 
     // TODO 芋艿 暂时不考虑 delete Attr Value 。因为关联逻辑比较多

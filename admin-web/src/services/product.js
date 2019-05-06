@@ -58,6 +58,13 @@ export async function productSpuUpdate(params) {
   });
 }
 
+export async function productSpuUpdateSort(params) {
+  return request(`/product-api/admins/spu/update_sort?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
+}
+
 export async function productSpuInfo(params) {
   return request(`/product-api/admins/spu/info?${stringify(params)}`, {
     method: 'GET',

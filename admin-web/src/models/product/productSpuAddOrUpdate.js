@@ -62,6 +62,9 @@ export default {
       const response = yield call(productSpuInfo, {
         id: payload,
       });
+      if (response.code !== 0) {
+        return;
+      }
       // 响应
       let skus = [];
       let attrTree = [];
@@ -193,6 +196,9 @@ export default {
     *add({ payload }, { call, put }) {
       const { callback, body } = payload;
       const response = yield call(productSpuAdd, body);
+      if (response.code !== 0) {
+        return;
+      }
       if (callback) {
         callback(response);
       }
@@ -205,6 +211,9 @@ export default {
     *update({ payload }, { call, put }) {
       const { callback, body } = payload;
       const response = yield call(productSpuUpdate, body);
+      if (response.code !== 0) {
+        return;
+      }
       if (callback) {
         callback(response);
       }

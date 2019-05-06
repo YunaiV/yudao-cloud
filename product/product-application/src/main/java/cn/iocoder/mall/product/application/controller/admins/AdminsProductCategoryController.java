@@ -10,11 +10,11 @@ import cn.iocoder.mall.product.api.dto.ProductCategoryUpdateDTO;
 import cn.iocoder.mall.product.application.convert.ProductCategoryConvert;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductCategoryTreeNodeVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductCategoryVO;
-import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +23,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static cn.iocoder.common.framework.vo.CommonResult.success;
 
 @RestController
 @RequestMapping("admins/category")
@@ -36,7 +38,7 @@ public class AdminsProductCategoryController {
     @GetMapping("/tree")
     @ApiOperation("获得分类树结构")
     public CommonResult<List<AdminsProductCategoryTreeNodeVO>> tree() {
-        List<ProductCategoryBO> productCategories = productCategoryService.getAll().getData();
+        List<ProductCategoryBO> productCategories = productCategoryService.getAll();
         // 创建 ProductCategoryTreeNodeVO Map
         Map<Integer, AdminsProductCategoryTreeNodeVO> treeNodeMap = productCategories.stream().collect(Collectors.toMap(ProductCategoryBO::getId, ProductCategoryConvert.Admins.INSTANCE::convert));
         // 处理父子关系
@@ -56,7 +58,7 @@ public class AdminsProductCategoryController {
                 .filter(node -> node.getPid().equals(ProductCategoryConstants.PID_ROOT))
                 .sorted(Comparator.comparing(AdminsProductCategoryTreeNodeVO::getSort))
                 .collect(Collectors.toList());
-        return CommonResult.success(rootNodes);
+        return success(rootNodes);
     }
 
     @PostMapping("/add")
@@ -77,9 +79,9 @@ public class AdminsProductCategoryController {
         ProductCategoryAddDTO productCategoryAddDTO = new ProductCategoryAddDTO().setPid(pid).setName(name)
                 .setDescription(description).setPicUrl(picUrl).setSort(sort);
         // 创建商品分类
-        CommonResult<ProductCategoryBO> result = productCategoryService.addProductCategory(AdminSecurityContextHolder.getContext().getAdminId(), productCategoryAddDTO);
+        ProductCategoryBO result = productCategoryService.addProductCategory(AdminSecurityContextHolder.getContext().getAdminId(), productCategoryAddDTO);
         // 返回结果
-        return ProductCategoryConvert.Admins.INSTANCE.convert2(result);
+        return success(ProductCategoryConvert.Admins.INSTANCE.convert2(result));
     }
 
     @PostMapping("/update")
@@ -102,7 +104,7 @@ public class AdminsProductCategoryController {
         ProductCategoryUpdateDTO productCategoryAddDTO = new ProductCategoryUpdateDTO().setId(id).setPid(pid).setName(name)
                 .setDescription(description).setPicUrl(picUrl).setSort(sort);
         // 更新商品分类
-        return productCategoryService.updateProductCategory(AdminSecurityContextHolder.getContext().getAdminId(), productCategoryAddDTO);
+        return success(productCategoryService.updateProductCategory(AdminSecurityContextHolder.getContext().getAdminId(), productCategoryAddDTO));
     }
 
     @PostMapping("/update_status")
@@ -113,14 +115,14 @@ public class AdminsProductCategoryController {
     })
     public CommonResult<Boolean> updateStatus(@RequestParam("id") Integer id,
                                               @RequestParam("status") Integer status) {
-        return productCategoryService.updateProductCategoryStatus(AdminSecurityContextHolder.getContext().getAdminId(), id, status);
+        return success(productCategoryService.updateProductCategoryStatus(AdminSecurityContextHolder.getContext().getAdminId(), id, status));
     }
 
     @PostMapping("/delete")
     @ApiOperation(value = "删除商品分类")
     @ApiImplicitParam(name = "id", value = "商品分类编号", required = true, example = "1")
     public CommonResult<Boolean> delete(@RequestParam("id") Integer id) {
-        return productCategoryService.deleteProductCategory(AdminSecurityContextHolder.getContext().getAdminId(), id);
+        return success(productCategoryService.deleteProductCategory(AdminSecurityContextHolder.getContext().getAdminId(), id));
     }
 
 }

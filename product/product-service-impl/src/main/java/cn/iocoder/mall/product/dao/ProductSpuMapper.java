@@ -32,11 +32,13 @@ public interface ProductSpuMapper {
     List<ProductSpuDO> selectListByNameLikeOrderBySortAsc(@Param("name") String name,
                                                           @Param("cid") Integer cid,
                                                           @Param("visible") Boolean visible,
+                                                          @Param("hasQuantity") Boolean hasQuantity,
                                                           @Param("offset") Integer offset,
                                                           @Param("limit") Integer limit);
 
     Integer selectCountByNameLike(@Param("name") String name,
                                   @Param("cid") Integer cid,
+                                  @Param("hasQuantity") Boolean hasQuantity,
                                   @Param("visible") Boolean visible);
 
 }

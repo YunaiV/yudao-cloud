@@ -33,7 +33,7 @@ public class AdminAccessLogInterceptor extends HandlerInterceptorAdapter {
      */
     private static final ThreadLocal<Integer> ADMIN_ID = new ThreadLocal<>();
 
-    @Reference(lazy = true)
+    @Reference(validation = "true")
     @Autowired(required = false) // TODO 芋艿，初始化时，会存在 spring boot 启动时，服务无法引用的情况，先暂时这么解决。
     private AdminAccessLogService adminAccessLogService;
 

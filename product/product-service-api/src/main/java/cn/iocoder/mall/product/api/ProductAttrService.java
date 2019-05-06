@@ -1,6 +1,7 @@
 package cn.iocoder.mall.product.api;
 
-import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.common.framework.constant.CommonStatusEnum;
+import cn.iocoder.common.framework.validator.InEnum;
 import cn.iocoder.mall.product.api.bo.ProductAttrBO;
 import cn.iocoder.mall.product.api.bo.ProductAttrPageBO;
 import cn.iocoder.mall.product.api.bo.ProductAttrSimpleBO;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public interface ProductAttrService {
 
-    CommonResult<ProductAttrPageBO> getProductAttrPage(ProductAttrPageDTO productAttrPageDTO);
+    ProductAttrPageBO getProductAttrPage(ProductAttrPageDTO productAttrPageDTO);
 
     /**
      * 获得规格属性数组
@@ -20,19 +21,20 @@ public interface ProductAttrService {
      *
      * @return 规格属性数组
      */
-    CommonResult<List<ProductAttrSimpleBO>> getProductAttrList();
+    List<ProductAttrSimpleBO> getProductAttrList();
 
-    CommonResult<ProductAttrBO> addProductAttr(Integer adminId, ProductAttrAddDTO productAttrAddDTO);
+    ProductAttrBO addProductAttr(Integer adminId, ProductAttrAddDTO productAttrAddDTO);
 
-    CommonResult<Boolean> updateProductAttr(Integer adminId, ProductAttrUpdateDTO productAttrUpdateDTO);
+    Boolean updateProductAttr(Integer adminId, ProductAttrUpdateDTO productAttrUpdateDTO);
 
-    CommonResult<Boolean> updateProductAttrStatus(Integer adminId, Integer productAttrId, Integer status);
+    Boolean updateProductAttrStatus(Integer adminId, Integer productAttrId,
+                                    @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}") Integer status);
 
+    ProductAttrValueBO addProductAttrValue(Integer adminId, ProductAttrValueAddDTO productAttrValueAddDTO);
 
-    CommonResult<ProductAttrValueBO> addProductAttrValue(Integer adminId, ProductAttrValueAddDTO productAttrValueAddDTO);
+    Boolean updateProductAttrValue(Integer adminId, ProductAttrValueUpdateDTO productAttrValueUpdateDTO);
 
-    CommonResult<Boolean> updateProductAttrValue(Integer adminId, ProductAttrValueUpdateDTO productAttrValueUpdateDTO);
-
-    CommonResult<Boolean> updateProductAttrValueStatus(Integer adminId, Integer productAttrValueId, Integer status);
+    Boolean updateProductAttrValueStatus(Integer adminId, Integer productAttrValueId,
+                                         @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}") Integer status);
 
 }

@@ -104,6 +104,12 @@
             <if test="visible != null">
                 AND visible = #{visible}
             </if>
+            <if test="hasQuantity == true">
+                AND quantity > 0
+            </if>
+            <if test="hasQuantity == false">
+                AND quantity = 0
+            </if>
             AND deleted = 0
         </where>
         ORDER BY sort ASC
@@ -123,6 +129,12 @@
             </if>
             <if test="visible != null">
                 AND visible = #{visible}
+            </if>
+            <if test="hasQuantity == true">
+                AND quantity > 0
+            </if>
+            <if test="hasQuantity == false">
+                AND quantity = 0
             </if>
             AND deleted = 0
         </where>

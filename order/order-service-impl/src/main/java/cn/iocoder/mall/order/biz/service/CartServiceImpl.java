@@ -50,11 +50,7 @@ public class CartServiceImpl implements CartService {
     @SuppressWarnings("Duplicates")
     public CommonResult<Boolean> add(Integer userId, Integer skuId, Integer quantity) {
         // 查询 SKU 是否合法
-        CommonResult<ProductSkuBO> skuResult = productSpuService.getProductSku(skuId);
-        if (skuResult.isError()) {
-            return CommonResult.error(skuResult);
-        }
-        ProductSkuBO sku = skuResult.getData();
+        ProductSkuBO sku = productSpuService.getProductSku(skuId);
         if (sku == null
                 || CommonStatusEnum.DISABLE.getValue().equals(sku.getStatus())) { // sku 被禁用
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());
@@ -93,11 +89,7 @@ public class CartServiceImpl implements CartService {
     @SuppressWarnings("Duplicates")
     public CommonResult<Boolean> updateQuantity(Integer userId, Integer skuId, Integer quantity) {
         // 查询 SKU 是否合法
-        CommonResult<ProductSkuBO> skuResult = productSpuService.getProductSku(skuId);
-        if (skuResult.isError()) {
-            return CommonResult.error(skuResult);
-        }
-        ProductSkuBO sku = skuResult.getData();
+        ProductSkuBO sku = productSpuService.getProductSku(skuId);
         if (sku == null
                 || CommonStatusEnum.DISABLE.getValue().equals(sku.getStatus())) { // sku 被禁用
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());
@@ -160,7 +152,7 @@ public class CartServiceImpl implements CartService {
         // 校验商品都存在
         Map<Integer, CalcOrderPriceDTO.Item> calcOrderItemMap = calcOrderPriceDTO.getItems().stream()
                 .collect(Collectors.toMap(CalcOrderPriceDTO.Item::getSkuId, item -> item)); // KEY：skuId
-        List<ProductSkuDetailBO> skus = productSpuService.getProductSkuDetailList(calcOrderItemMap.keySet()).getData();
+        List<ProductSkuDetailBO> skus = productSpuService.getProductSkuDetailList(calcOrderItemMap.keySet());
         if (skus.size() != calcOrderPriceDTO.getItems().size()) {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_ITEM_SOME_NOT_EXISTS.getCode());
         }
@@ -210,11 +202,7 @@ public class CartServiceImpl implements CartService {
     @SuppressWarnings("Duplicates")
     public CommonResult<CalcSkuPriceBO> calcSkuPrice(Integer skuId) {
         // 查询 SKU 是否合法
-        CommonResult<ProductSkuBO> skuResult = productSpuService.getProductSku(skuId);
-        if (skuResult.isError()) {
-            return CommonResult.error(skuResult);
-        }
-        ProductSkuBO sku = skuResult.getData();
+        ProductSkuBO sku = productSpuService.getProductSku(skuId);
         if (sku == null
                 || CommonStatusEnum.DISABLE.getValue().equals(sku.getStatus())) { // sku 被禁用
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());

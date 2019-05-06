@@ -43,7 +43,7 @@ public class UsersProductRecommendController {
                 null, CommonStatusEnum.ENABLE.getValue()).getData();
         // 获得商品集合
         List<ProductSpuBO> spus = productSpuService.getProductSpuList(
-                productRecommends.stream().map(ProductRecommendBO::getProductSpuId).collect(Collectors.toSet())).getData();
+                productRecommends.stream().map(ProductRecommendBO::getProductSpuId).collect(Collectors.toSet()));
         Map<Integer, ProductSpuBO> spuMap = spus.stream().collect(Collectors.toMap(ProductSpuBO::getId, account -> account));
         // 组合结果，返回
         Multimap<Integer, UsersProductRecommendVO> result = HashMultimap.create();

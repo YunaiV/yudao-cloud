@@ -1,6 +1,5 @@
 package cn.iocoder.mall.search.biz.mq;
 
-import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.message.ProductUpdateMessage;
 import cn.iocoder.mall.search.api.ProductSearchService;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
@@ -21,8 +20,8 @@ public class PayTransactionPaySuccessConsumer implements RocketMQListener<Produc
 
     @Override
     public void onMessage(ProductUpdateMessage message) {
-        CommonResult<Boolean> result = productSearchService.save(message.getId());
-        Assert.isTrue(result.isSuccess(), String.format("重构商品 ES 索引，必然成功。实际结果是 %s", result));
+        Boolean result = productSearchService.save(message.getId());
+        Assert.isTrue(result, String.format("重构商品 ES 索引，必然成功。实际结果是 %s", result));
     }
 
 }

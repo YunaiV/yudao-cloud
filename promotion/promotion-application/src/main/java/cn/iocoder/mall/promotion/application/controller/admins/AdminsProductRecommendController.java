@@ -44,8 +44,8 @@ public class AdminsProductRecommendController {
             @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, example = "10"),
     })
     public CommonResult<AdminsProductRecommendPageVO> page(@RequestParam(value = "type", required = false) Integer type,
-                                                 @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
-                                                 @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
+                                                           @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+                                                           @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         ProductRecommendPageBO result = productRecommendService.getProductRecommendPage(new ProductRecommendPageDTO().setType(type).setPageNo(pageNo).setPageSize(pageSize));
         // 获得商品集合
         List<ProductSpuBO> spus = productSpuService.getProductSpuList(

@@ -59,30 +59,34 @@
 <!--        </where>-->
 <!--    </select>-->
 
-<!--    <select id="selectListByTitleLike" resultType="PromotionActivityDO">-->
-<!--        SELECT-->
-<!--          <include refid="FIELDS" />-->
-<!--        FROM banner-->
-<!--        <where>-->
-<!--            <if test="title != null">-->
-<!--                title LIKE "%"#{title}"%"-->
-<!--            </if>-->
-<!--            AND deleted = 0-->
-<!--        </where>-->
-<!--        LIMIT #{offset}, #{limit}-->
-<!--    </select>-->
+    <select id="selectListByPage" resultMap="PromotionActivityResultMap">
+        SELECT
+            <include refid="FIELDS" />
+        FROM promotion_activity
+        WHERE activity_type = #{activityType}
+        <if test="title != null">
+            AND title LIKE "%"#{title}"%"
+        </if>
+        AND status IN
+        <foreach item="status" collection="statuses" separator="," open="(" close=")" index="">
+            #{status}
+        </foreach>
+        LIMIT #{offset}, #{limit}
+    </select>
 
-<!--    <select id="selectCountByTitleLike" resultType="Integer">-->
-<!--        SELECT-->
-<!--          COUNT(1)-->
-<!--        FROM banner-->
-<!--        <where>-->
-<!--            <if test="title != null">-->
-<!--                title LIKE "%"#{title}"%"-->
-<!--            </if>-->
-<!--            AND deleted = 0-->
-<!--        </where>-->
-<!--    </select>-->
+    <select id="selectCountByPage" resultType="Integer">
+        SELECT
+          COUNT(1)
+        FROM promotion_activity
+        WHERE activity_type = #{activityType}
+        <if test="title != null">
+            AND title LIKE "%"#{title}"%"
+        </if>
+        AND status IN
+        <foreach item="status" collection="statuses" separator="," open="(" close=")" index="">
+            #{status}
+        </foreach>
+    </select>
 
     <insert id="insert" parameterType="PromotionActivityDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO promotion_activity (

@@ -1,10 +1,11 @@
 package cn.iocoder.mall.promotion.biz.service;
 
-import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.promotion.api.PromotionActivityService;
 import cn.iocoder.mall.promotion.api.bo.PromotionActivityBO;
+import cn.iocoder.mall.promotion.api.bo.PromotionActivityPageBO;
 import cn.iocoder.mall.promotion.api.constant.PromotionActivityTypeEnum;
 import cn.iocoder.mall.promotion.api.constant.RangeTypeEnum;
+import cn.iocoder.mall.promotion.api.dto.PromotionActivityPageDTO;
 import cn.iocoder.mall.promotion.biz.convert.PromotionActivityConvert;
 import cn.iocoder.mall.promotion.biz.dao.PromotionActivityMapper;
 import cn.iocoder.mall.promotion.biz.dataobject.PromotionActivityDO;
@@ -25,19 +26,19 @@ public class PromotionActivityServiceImpl implements PromotionActivityService {
     private PromotionActivityMapper promotionActivityMapper;
 
     @Override
-    public CommonResult<List<PromotionActivityBO>> getPromotionActivityListBySpuId(Integer spuId, Collection<Integer> activityStatuses) {
+    public List<PromotionActivityBO> getPromotionActivityListBySpuId(Integer spuId, Collection<Integer> activityStatuses) {
         return this.getPromotionActivityListBySpuIds(Collections.singleton(spuId), activityStatuses);
     }
 
     @Override
-    public CommonResult<List<PromotionActivityBO>> getPromotionActivityListBySpuIds(Collection<Integer> spuIds, Collection<Integer> activityStatuses) {
+    public List<PromotionActivityBO> getPromotionActivityListBySpuIds(Collection<Integer> spuIds, Collection<Integer> activityStatuses) {
         if (spuIds.isEmpty() || activityStatuses.isEmpty()) {
-            return CommonResult.success(Collections.emptyList());
+            return Collections.emptyList();
         }
         // 查询指定状态的促销活动
         List<PromotionActivityDO> activityList = promotionActivityMapper.selectListByStatus(activityStatuses);
         if (activityList.isEmpty()) {
-            return CommonResult.success(Collections.emptyList());
+            return Collections.emptyList();
         }
         // 匹配商品
         for (Iterator<PromotionActivityDO> iterator = activityList.iterator(); iterator.hasNext();) {
@@ -64,7 +65,23 @@ public class PromotionActivityServiceImpl implements PromotionActivityService {
             }
         }
         // 返回最终结果
-        return CommonResult.success(PromotionActivityConvert.INSTANCE.convertToBO(activityList));
+        return PromotionActivityConvert.INSTANCE.convertToBO(activityList);
+    }
+
+    @Override
+    public PromotionActivityPageBO getPromotionActivityPage(PromotionActivityPageDTO promotionActivityPageDTO) {
+        PromotionActivityPageBO promotionActivityPageBO = new PromotionActivityPageBO();
+        // 查询分页数据
+        int offset = (promotionActivityPageDTO.getPageNo() - 1) * promotionActivityPageDTO.getPageSize();
+        promotionActivityPageBO.setList(PromotionActivityConvert.INSTANCE.convertToBO(promotionActivityMapper.selectListByPage(
+                promotionActivityPageDTO.getTitle(), promotionActivityPageDTO.getActivityType(),
+                promotionActivityPageDTO.getStatuses(),
+                offset, promotionActivityPageDTO.getPageSize())));
+        // 查询分页总数
+        promotionActivityPageBO.setTotal(promotionActivityMapper.selectCountByPage(
+                promotionActivityPageDTO.getTitle(), promotionActivityPageDTO.getActivityType(),
+                promotionActivityPageDTO.getStatuses()));
+        return promotionActivityPageBO;
     }
 
     private boolean isSpuMatchTimeLimitDiscount(Integer spuId, PromotionActivityDO activity) {

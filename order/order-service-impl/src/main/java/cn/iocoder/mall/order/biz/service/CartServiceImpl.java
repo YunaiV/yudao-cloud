@@ -158,13 +158,9 @@ public class CartServiceImpl implements CartService {
         }
         // TODO 库存相关
         // 查询促销活动
-        CommonResult<List<PromotionActivityBO>> activityListResult = promotionActivityService.getPromotionActivityListBySpuIds(
+        List<PromotionActivityBO> activityList = promotionActivityService.getPromotionActivityListBySpuIds(
                 skus.stream().map(sku -> sku.getSpu().getId()).collect(Collectors.toSet()),
                 Collections.singletonList(PromotionActivityStatusEnum.RUN.getValue()));
-        if (activityListResult.isError()) {
-            return CommonResult.error(activityListResult);
-        }
-        List<PromotionActivityBO> activityList = activityListResult.getData();
         // 拼装结果（主要是计算价格）
         CalcOrderPriceBO calcOrderPriceBO = new CalcOrderPriceBO();
         // 1. 创建初始的每一项的数组
@@ -208,14 +204,9 @@ public class CartServiceImpl implements CartService {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());
         }
         // 查询促销活动
-        CommonResult<List<PromotionActivityBO>> activityListResult = promotionActivityService.getPromotionActivityListBySpuId(sku.getSpuId(),
+        List<PromotionActivityBO> activityList = promotionActivityService.getPromotionActivityListBySpuId(sku.getSpuId(),
                 Arrays.asList(PromotionActivityStatusEnum.WAIT.getValue(), PromotionActivityStatusEnum.RUN.getValue()));
-        if (activityListResult.isError()) {
-            return CommonResult.error(activityListResult);
-        }
-        // 如果无促销活动，则直接返回默认结果即可
-        List<PromotionActivityBO> activityList = activityListResult.getData();
-        if (activityList.isEmpty()) {
+        if (activityList.isEmpty()) { // 如果无促销活动，则直接返回默认结果即可
             return CommonResult.success(new CalcSkuPriceBO().setOriginalPrice(sku.getPrice()).setBuyPrice(sku.getPrice()));
         }
         // 如果有促销活动，则开始做计算 TODO 芋艿，因为现在暂时只有限时折扣 + 满减送。所以写的比较简单先

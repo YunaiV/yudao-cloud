@@ -23,7 +23,7 @@ import java.util.List;
 @Api("商品分类")
 public class UsersProductCategoryController {
 
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.provider.ProductCategoryService.version}")
     @Autowired
     private ProductCategoryService productCategoryService;
 

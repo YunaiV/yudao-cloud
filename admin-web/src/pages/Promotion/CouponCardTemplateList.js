@@ -18,7 +18,7 @@ import {
   Select,
   Icon,
   InputNumber,
-  DatePicker
+  DatePicker, TreeSelect
 } from 'antd';
 import { checkTypeWithEnglishAndNumbers } from '../../../helpers/validator'
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -145,10 +145,10 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
       dataIndex: 'status',
       render: val => <span>{status[val]}</span>,
     },
-    {
-      title: '使用说明',
-      dataIndex: 'description',
-    },
+    // {
+    //   title: '使用说明',
+    //   dataIndex: 'description',
+    // },
     {
       title: '创建时间',
       dataIndex: 'createTime',
@@ -264,18 +264,20 @@ const SearchForm = Form.create()(props => {
 
 // 添加 or 修改 Form 表单
 const AddOrUpdateForm = Form.create()(props => {
-  const { dispatch, modalVisible, form, handleModalVisible, modalType, formVals } = props;
+  const { dispatch, modalVisible, form, handleModalVisible, modalType, formVals,
+    searchProductSpuList, formSpuValues, categoryTree} = props;
 
   const okHandle = () => {
     form.validateFields((err, fields) => {
       if (err) return;
-      let newFileds = {
+      let newFields = {
         ...fields,
         priceAvailable: fields.priceAvailable ? parseInt(fields.priceAvailable * 100) : undefined,
         priceOff: fields.priceOff ? parseInt(fields.priceOff * 100) : undefined,
         discountPriceLimit: fields.discountPriceLimit ? parseInt(fields.discountPriceLimit * 100) : undefined,
         validStartTime: fields.validStartTime ? fields.validStartTime.format('YYYY-MM-DD') : undefined,
-        validEndTime: fields.validEndTime ? fields.validEndTime.format('YYYY-MM-DD') : undefined
+        validEndTime: fields.validEndTime ? fields.validEndTime.format('YYYY-MM-DD') : undefined,
+        rangeValues: fields.rangeValues && fields.rangeValues.length > 0 ?  fields.rangeValues.join(',') : undefined,
       };
       // 添加表单
       if (modalType === 'add') {
@@ -283,7 +285,7 @@ const AddOrUpdateForm = Form.create()(props => {
           type: 'couponCardTemplateList/add',
           payload: {
             body: {
-              ...newFileds,
+              ...newFields,
             },
             callback: () => {
               // 清空表单
@@ -302,7 +304,7 @@ const AddOrUpdateForm = Form.create()(props => {
           payload: {
             body: {
               id: formVals.id,
-              ...newFileds,
+              ...newFields,
               priceAvailable: undefined,
               dateType: undefined,
               validStartTime: undefined,
@@ -339,6 +341,42 @@ const AddOrUpdateForm = Form.create()(props => {
   function onPreferentialTypeChange(value) {
     formVals.preferentialType = parseInt(value);
   }
+
+  const searchProductSpu = (value) => {
+    if (!value) {
+      dispatch({
+        type: 'couponCardTemplateList/setAll',
+        payload: {
+          searchProductSpuList: [],
+        },
+      });
+      return;
+    }
+    dispatch({
+      type: 'couponCardTemplateList/searchProductSpu',
+      payload: {
+        name: value,
+      },
+    });
+  };
+
+  // 处理分类筛选
+  const buildSelectTree = (list) => {
+    return list.map(item => {
+      let children = [];
+      if (item.children) {
+        children = buildSelectTree(item.children);
+      }
+      return {
+        title: item.name,
+        value: item.id,
+        key: item.id,
+        children,
+        selectable: item.pid > 0
+      };
+    });
+  };
+  let categoryTreeSelect = buildSelectTree(categoryTree);
 
   const title = modalType === 'add' ? '新建优惠劵' : '更新优惠劵';
   return (
@@ -392,14 +430,14 @@ const AddOrUpdateForm = Form.create()(props => {
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="使用金额门槛">
         {form.getFieldDecorator('priceAvailable', {
           rules: [{ required: true, message: '请输入使用金额门槛！' },],
-          initialValue: formVals.priceAvailable / 100.0,
+          initialValue: formVals.priceAvailable ? formVals.priceAvailable / 100.0 : undefined,
         })(<InputNumber disabled={modalType != 'add'} placeholder="请输入" />)} 元
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="可用范围">
         {form.getFieldDecorator('rangeType', {
           rules: [{ required: true, message: '请选择可用范围！'}, // TODO 芋艿，需要修改
           ],
-          initialValue: formVals.rangeType + '',
+          initialValue: formVals.rangeType ? formVals.rangeType + '' : undefined,
         })(
           <Select placeholder="请选择" style={{ maxWidth: 200, width: '100%' }} onChange={onRangeTypeChange} >
             <SelectOption value="10">所有可用</SelectOption>
@@ -410,24 +448,70 @@ const AddOrUpdateForm = Form.create()(props => {
           </Select>
         )}
       </FormItem>
+      {/*{*/}
+      {/*  formVals.rangeType == 20 || formVals.rangeType == 21*/}
+      {/*  || formVals.rangeType == 30 || formVals.rangeType == 31 ?*/}
+      {/*  <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="具体范围">*/}
+      {/*      {form.getFieldDecorator('rangeValues', {*/}
+      {/*        rules: [{ required: true, message: '请输入具体范围！' }, // TODO 芋艿，做成搜索*/}
+      {/*          {maxlength: 255, message: '最大长度为 255 位'},*/}
+      {/*        ],*/}
+      {/*        initialValue: formVals.rangeValues,*/}
+      {/*      })(<Input.TextArea placeholder="请输入" />)}*/}
+      {/*    </FormItem>*/}
+      {/*  : ''*/}
+      {/*}*/}
       {
-        formVals.rangeType == 20 || formVals.rangeType == 21
-        || formVals.rangeType == 30 || formVals.rangeType == 31 ?
-        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="具体范围">
+        formVals.rangeType == 20 || formVals.rangeType == 21?
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="选择商品">
             {form.getFieldDecorator('rangeValues', {
-              rules: [{ required: true, message: '请输入具体范围！' }, // TODO 芋艿，做成搜索
-                {maxlength: 255, message: '最大长度为 255 位'},
+              rules: [{ required: true, message: '请选择商品！' },
               ],
-              initialValue: formVals.rangeValues,
-            })(<Input.TextArea placeholder="请输入" />)}
+              initialValue: formVals.rangeValues ? formVals.rangeValues.split(',') : undefined,
+            })(
+              <Select
+                // labelInValue
+                // value={formVals.productSpuId}
+                mode={"multiple"}
+                placeholder="请搜索商品"
+                onSearch={searchProductSpu}
+                showSearch={true}
+                filterOption={false}
+                style={{ width: '100%' }}
+              >
+                {searchProductSpuList.map(d => <Option key={d.id} value={d.id + ''}>{d.name}</Option>)}
+                {searchProductSpuList.length === 0 && formSpuValues.length > 0 ?
+                  formSpuValues.map(d => <Option key={d.id} value={d.id + ''}>{d.name}</Option>) : ''}
+              </Select>
+            )}
           </FormItem>
-        : ''
+          : ''
+      }
+      {
+        formVals.rangeType == 30 || formVals.rangeType == 31 ?
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="选择分类">
+            {form.getFieldDecorator('rangeValues', {
+              rules: [{ required: true, message: '请选择分类！' },
+              ],
+              initialValue: formVals.rangeValues ? formVals.rangeValues.split(',') : undefined,
+            })(
+              <TreeSelect
+                showSearch
+                multiple
+                style={{ width: 200 }}
+                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                treeData={categoryTreeSelect}
+                placeholder="请选择分类"
+              />
+            )}
+          </FormItem>
+          : ''
       }
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="生效日期类型">
         {form.getFieldDecorator('dateType', {
           rules: [{ required: true, message: '请选择可用范围！'}, // TODO 芋艿，需要修改
           ],
-          initialValue: formVals.dateType + '',
+          initialValue: formVals.dateType ? formVals.dateType + '' : undefined,
         })(
           <Select disabled={modalType != 'add'} placeholder="请选择" style={{ maxWidth: 200, width: '100%' }} onChange={onDateTypeChange}>
             <SelectOption value="1">固定日期</SelectOption>
@@ -470,7 +554,7 @@ const AddOrUpdateForm = Form.create()(props => {
         {form.getFieldDecorator('preferentialType', {
           rules: [{ required: true, message: '请选择优惠类型！'}, // TODO 芋艿，需要修改
           ],
-          initialValue: formVals.preferentialType + '',
+          initialValue: formVals.preferentialType ? formVals.preferentialType + '' : undefined,
         })(
           <Select disabled={modalType != 'add'} placeholder="请选择" style={{ maxWidth: 200, width: '100%' }} onChange={onPreferentialTypeChange}>
             <SelectOption value="1">代金卷</SelectOption>
@@ -513,10 +597,11 @@ const AddOrUpdateForm = Form.create()(props => {
   );
 });
 
-@connect(({ couponCardTemplateList }) => ({
+@connect(({ couponCardTemplateList, productCategoryList }) => ({
   // list: productRecommend.list,
   // pagination: productRecommend.pagination,
   ...couponCardTemplateList,
+  categoryTree: productCategoryList.list,
 }))
 
 // 主界面
@@ -525,6 +610,7 @@ class CouponCardTemplateLists extends PureComponent {
 
   componentDidMount() {
     const { dispatch } = this.props;
+    // 获得优惠劵列表
     dispatch({
       type: 'couponCardTemplateList/query',
       payload: {
@@ -535,13 +621,32 @@ class CouponCardTemplateLists extends PureComponent {
 
   handleModalVisible = (modalVisible, modalType, record) => {
     const { dispatch } = this.props;
+    // 弹窗，并清空一些缓存
     dispatch({
       type: 'couponCardTemplateList/setAll',
       payload: {
         modalVisible,
         modalType,
-        formVals: record || {}
+        formVals: record || {},
+        searchProductSpuList: [],
+        formSpuValues: [],
       },
+    });
+    // 如果是指定商品，则获得商品列表
+    if (record && record.rangeType &&
+      (record.rangeType === 20 || record.rangeType === 21)) {
+      dispatch({
+        type: 'couponCardTemplateList/getProductSpuList',
+        payload: {
+          ids: record.rangeValues,
+        },
+      });
+    }
+    // 获得商品分类，因为后续可能使用到
+    // 获得商品分类
+    dispatch({
+      type: 'productCategoryList/tree',
+      payload: {},
     });
   };
 
@@ -549,7 +654,7 @@ class CouponCardTemplateLists extends PureComponent {
     // let that = this;
     const { dispatch,
       list, listLoading, searchParams, pagination,
-      modalVisible, modalType, formVals,
+      modalVisible, modalType, formVals, searchProductSpuList, formSpuValues, categoryTree,
       confirmLoading,  } = this.props;
 
     // 列表属性
@@ -574,6 +679,9 @@ class CouponCardTemplateLists extends PureComponent {
       modalType,
       formVals,
       dispatch,
+      searchProductSpuList,
+      formSpuValues,
+      categoryTree,
       handleModalVisible: this.handleModalVisible, // Function
     };
 

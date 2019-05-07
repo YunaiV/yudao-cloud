@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-@org.apache.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.ResourceService.version}")
 public class ResourceServiceImpl implements ResourceService {
 
     @Autowired

@@ -12,6 +12,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -19,7 +20,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-public class CouponCardTemplateAddDTO {
+public class CouponCardTemplateAddDTO implements Serializable {
 
     // ========== 基本信息 BEGIN ==========
     /**

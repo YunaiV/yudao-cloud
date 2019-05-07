@@ -13,12 +13,11 @@ import cn.iocoder.mall.promotion.application.vo.users.UsersCouponCardVO;
 import cn.iocoder.mall.promotion.application.vo.users.UsersCouponTemplateVO;
 import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
-import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,8 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @Api("优惠劵（码）模块")
 public class UsersCouponController {
 
-    @Reference(validation = "true")
-    @Autowired
+    @Reference(validation = "true", version = "${dubbo.provider.CouponService.version}")
     private CouponService couponService;
 
     // ========== 优惠劵（码）模板 ==========

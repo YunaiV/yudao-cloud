@@ -23,6 +23,19 @@ dubbo:
     name: dubbo
   scan:
     base-packages: cn.iocoder.mall.promotion.biz.service
+  consumer:
+    ProductSpuService:
+      version: 1.0.0
+  provider:
+    BannerService:
+      version: 1.0.0
+    CouponService:
+      version: 1.0.0
+    ProductRecommendService:
+      version: 1.0.0
+    PromotionActivityService:
+      version: 1.0.0
+
 
 # logging
 logging:

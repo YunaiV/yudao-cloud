@@ -7,13 +7,14 @@ import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * 商品推荐更新 DTO
  */
 @Data
 @Accessors(chain = true)
-public class ProductRecommendUpdateDTO {
+public class ProductRecommendUpdateDTO implements Serializable {
 
     @NotNull(message = "编号不能为空")
     private Integer id;

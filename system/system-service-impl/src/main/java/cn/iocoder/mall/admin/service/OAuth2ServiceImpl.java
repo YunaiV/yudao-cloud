@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-@org.apache.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.OAuth2Service.version:1.0.0}")
 public class OAuth2ServiceImpl implements OAuth2Service {
 
     /**

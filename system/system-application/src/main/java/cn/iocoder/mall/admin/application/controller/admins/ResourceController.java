@@ -10,12 +10,11 @@ import cn.iocoder.mall.admin.application.convert.ResourceConvert;
 import cn.iocoder.mall.admin.application.vo.ResourceTreeNodeVO;
 import cn.iocoder.mall.admin.application.vo.ResourceVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
-import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,8 +28,7 @@ import java.util.stream.Collectors;
 @Api("资源模块")
 public class ResourceController {
 
-    @Reference(validation = "true")
-    @Autowired // TODO Dubbo 2.7.2 移除 bug
+    @Reference(validation = "true", version = "${dubbo.provider.ResourceService.version}")
     private ResourceService resourceService;
 
     @SuppressWarnings("Duplicates")

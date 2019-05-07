@@ -38,9 +38,7 @@ public class CouponTemplateDO extends BaseDO {
     /**
      * 优惠码状态
      *
-     * 1-开启中
-     * 2-禁用中
-     * 3-已过期
+     * {@link cn.iocoder.mall.promotion.api.constant.CouponTemplateStatusEnum}
      *
      * 当优惠劵（码）开启中，可以手动操作，设置禁用中。
      */

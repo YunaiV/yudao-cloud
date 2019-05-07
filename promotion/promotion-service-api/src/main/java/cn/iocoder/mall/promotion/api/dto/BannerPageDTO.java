@@ -4,13 +4,14 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * Banner 分页 DTO
  */
 @Data
 @Accessors(chain = true)
-public class BannerPageDTO {
+public class BannerPageDTO implements Serializable {
 
     /**
      * 标题，模糊匹配

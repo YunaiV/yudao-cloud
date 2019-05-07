@@ -22,10 +22,10 @@ import java.util.Date;
 import java.util.List;
 
 @Service // 实际上不用添加。添加的原因是，必须 Spring 报错提示
-@org.apache.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.ProductRecommendService.version}")
 public class ProductRecommendServiceImpl implements ProductRecommendService {
 
-    @Reference(validation = "true", version = "1.0.0")
+    @Reference(validation = "true", version = "${dubbo.consumer.ProductSpuService.version}")
     private ProductSpuService productSpuService;
 
     @Autowired

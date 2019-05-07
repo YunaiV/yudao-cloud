@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * 数据字典 Service
  */
 @Service
-@org.apache.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.DataDictService.version}")
 public class DataDictServiceImpl implements DataDictService {
 
     @Autowired

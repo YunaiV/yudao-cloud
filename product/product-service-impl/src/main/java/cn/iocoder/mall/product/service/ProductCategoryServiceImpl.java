@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service // 实际上不用添加。添加的原因是，必须 Spring 报错提示
-@org.apache.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.ProductCategoryService.version}")
 public class ProductCategoryServiceImpl implements ProductCategoryService {
 
     @Autowired

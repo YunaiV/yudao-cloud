@@ -8,12 +8,11 @@ import cn.iocoder.mall.product.application.convert.ProductSpuConvert;
 import cn.iocoder.mall.product.application.vo.users.UsersProductSpuDetailVO;
 import cn.iocoder.mall.product.application.vo.users.UsersProductSpuPageVO;
 import cn.iocoder.mall.user.sdk.annotation.PermitAll;
-import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,8 +25,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 @Api("商品 SPU + SKU")
 public class UsersProductSpuController {
 
-    @Reference(validation = "true")
-    @Autowired
+    @Reference(validation = "true", version = "${dubbo.provider.ProductSpuService.version}")
     private ProductSpuService productSpuService;
 
     @GetMapping("/info")

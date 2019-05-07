@@ -1,6 +1,7 @@
 package cn.iocoder.mall.promotion.api;
 
 import cn.iocoder.common.framework.constant.CommonStatusEnum;
+import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.common.framework.validator.InEnum;
 import cn.iocoder.mall.promotion.api.bo.ProductRecommendBO;
 import cn.iocoder.mall.promotion.api.bo.ProductRecommendPageBO;
@@ -16,12 +17,12 @@ public interface ProductRecommendService {
 
     ProductRecommendPageBO getProductRecommendPage(ProductRecommendPageDTO productRecommendPageDTO);
 
-    ProductRecommendBO addProductRecommend(Integer adminId, ProductRecommendAddDTO productRecommendAddDTO);
+    ProductRecommendBO addProductRecommend(Integer adminId, ProductRecommendAddDTO productRecommendAddDTO) throws ServiceException;
 
-    Boolean updateProductRecommend(Integer adminId, ProductRecommendUpdateDTO productRecommendUpdateDTO);
+    Boolean updateProductRecommend(Integer adminId, ProductRecommendUpdateDTO productRecommendUpdateDTO) throws ServiceException;
 
     Boolean updateProductRecommendStatus(Integer adminId, Integer productRecommendId,
-                                         @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}") Integer status);
+                                         @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}") Integer status) throws ServiceException;
 
     Boolean deleteProductRecommend(Integer adminId, Integer productRecommendId);
 

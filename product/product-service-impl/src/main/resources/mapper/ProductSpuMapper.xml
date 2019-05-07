@@ -113,7 +113,9 @@
             AND deleted = 0
         </where>
         ORDER BY sort ASC
-        LIMIT #{offset}, #{limit}
+        <if test="offset != null and limit != null">
+            LIMIT #{offset}, #{limit}
+        </if>
     </select>
 
     <select id="selectCountByNameLike" resultType="Integer">

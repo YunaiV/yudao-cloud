@@ -217,7 +217,7 @@ const SearchForm = Form.create()(props => {
           </FormItem>
         </Col>
         <Col md={8} sm={24}>
-          <FormItem label="商品名称">
+          <FormItem label="商品分类">
             {getFieldDecorator('cid')(
               <TreeSelect
                 showSearch

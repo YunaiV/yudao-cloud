@@ -6,6 +6,7 @@ import {
   getCouponCardTemplatePage,
 } from '../../services/promotion';
 import PaginationHelper from '../../../helpers/PaginationHelper';
+import {productSpuList, productSpuSearchList} from "../../services/product";
 
 const SEARCH_PARAMS_DEFAULT = {
   title: '',
@@ -26,6 +27,7 @@ export default {
     modalType: undefined, // 'add' or 'update' 表单
     formVals: {}, // 当前表单值
     modalLoading: false,
+    searchProductSpuList: [],
   },
 
   effects: {
@@ -153,6 +155,33 @@ export default {
     //   }
     // },
 
+    * searchProductSpu({ payload }, { call, put }) {
+      // 请求
+      const response = yield call(productSpuSearchList, payload);
+      // 响应
+      if (response.code === 0) {
+        yield put({
+          type: 'setAll',
+          payload: {
+            searchProductSpuList: response.data,
+          },
+        });
+      }
+    },
+
+    * getProductSpuList({ payload }, { call, put }) {
+      // 请求
+      const response = yield call(productSpuList, payload);
+      // 响应
+      if (response.code === 0) {
+        yield put({
+          type: 'setAll',
+          payload: {
+            formSpuValues: response.data,
+          },
+        });
+      }
+    }
   },
 
   reducers: {

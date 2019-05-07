@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * @see cn.iocoder.mall.product.dataobject.ProductAttrValueDO
  */
 @Service
-@org.apache.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.ProductAttrService.version}")
 public class ProductAttrServiceImpl implements ProductAttrService {
 
     @Autowired

@@ -13,30 +13,29 @@ import cn.iocoder.mall.product.application.vo.admins.AdminsProductAttrPageVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductAttrSimpleVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductAttrVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductAttrValueVO;
-import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import static cn.iocoder.common.framework.vo.CommonResult.*;
+
+import static cn.iocoder.common.framework.vo.CommonResult.success;
 
 @RestController
 @RequestMapping("admins")
 @Api("商品规格")
 public class AdminsProductAttrController {
 
-    @Reference(validation = "true")
-    @Autowired
+    @Reference(validation = "true", version = "${dubbo.provider.ProductAttrService.version}")
     private ProductAttrService productAttrService;
 
     @GetMapping("/attr/page")
     @ApiOperation("获得规格分页")
     public CommonResult<AdminsProductAttrPageVO> attrPage(@RequestParam(value = "name", required = false) String name,
-                                                          @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+                                                          @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
                                                           @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
         // 创建 ProductAttrPageDTO 对象
         ProductAttrPageDTO productAttrPageDTO = new ProductAttrPageDTO().setName(name).setPageNo(pageNo).setPageSize(pageSize);

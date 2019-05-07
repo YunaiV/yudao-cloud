@@ -20,12 +20,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         AdminSecurityInterceptor.class, AdminAccessLogInterceptor.class})
 public class MVCConfiguration implements WebMvcConfigurer {
 
-//    @Autowired
-//    private SecurityInterceptor securityInterceptor;
-
-//    @Reference
-//    private OAuth2Service oauth2Service;
-
     @Autowired
     private AdminSecurityInterceptor adminSecurityInterceptor;
     @Autowired

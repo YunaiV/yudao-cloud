@@ -9,10 +9,7 @@ import cn.iocoder.mall.product.api.bo.*;
 import cn.iocoder.mall.product.api.constant.ProductCategoryConstants;
 import cn.iocoder.mall.product.api.constant.ProductErrorCodeEnum;
 import cn.iocoder.mall.product.api.constant.ProductSpuConstants;
-import cn.iocoder.mall.product.api.dto.ProductSkuAddOrUpdateDTO;
-import cn.iocoder.mall.product.api.dto.ProductSpuAddDTO;
-import cn.iocoder.mall.product.api.dto.ProductSpuPageDTO;
-import cn.iocoder.mall.product.api.dto.ProductSpuUpdateDTO;
+import cn.iocoder.mall.product.api.dto.*;
 import cn.iocoder.mall.product.api.message.ProductUpdateMessage;
 import cn.iocoder.mall.product.convert.ProductSpuConvert;
 import cn.iocoder.mall.product.dao.ProductSkuMapper;
@@ -31,7 +28,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service // 实际上不用添加。添加的原因是，必须 Spring 报错提示
-@org.apache.dubbo.config.annotation.Service(validation = "true", version = "1.0.0")
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.ProductSpuService.version}")
 public class ProductSpuServiceImpl implements ProductSpuService {
 
     @Autowired
@@ -235,6 +232,14 @@ public class ProductSpuServiceImpl implements ProductSpuService {
                 productSpuPageDTO.getVisible()));
         // 返回结果
         return productSpuPage;
+    }
+
+    @Override
+    public List<ProductSpuBO> getProductSpuSearchList(ProductSpuSearchListDTO productSpuSearchListDTO) {
+        return ProductSpuConvert.INSTANCE.convert(
+                productSpuMapper.selectListByNameLikeOrderBySortAsc(productSpuSearchListDTO.getName(), null, null,
+                        null, null, null)
+        );
     }
 
     @Override

@@ -7,6 +7,7 @@ import {
   updateProductRecommendStatus,
 } from '../../services/promotion';
 import PaginationHelper from '../../../helpers/PaginationHelper';
+import {productSpuList, productSpuSearchList} from "../../services/product";
 
 const SEARCH_PARAMS_DEFAULT = {
   type: undefined,
@@ -27,6 +28,8 @@ export default {
     modalType: undefined, // 'add' or 'update' 表单
     formVals: {}, // 当前表单值
     modalLoading: false,
+    searchProductSpuList: [], // 搜索商品
+    formSpuValues: [], // 编辑时，如果优惠劵选择的是商品，则需要获取该值。
   },
 
   effects: {
@@ -151,6 +154,19 @@ export default {
       }
     },
 
+    * searchProductSpu({ payload }, { call, put }) {
+      // 请求
+      const response = yield call(productSpuSearchList, payload);
+      // 响应
+      if (response.code === 0) {
+        yield put({
+          type: 'setAll',
+          payload: {
+            searchProductSpuList: response.data,
+          },
+        });
+      }
+    },
   },
 
   reducers: {

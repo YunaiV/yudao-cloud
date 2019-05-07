@@ -7,10 +7,9 @@ import cn.iocoder.mall.promotion.api.bo.BannerBO;
 import cn.iocoder.mall.promotion.application.convert.BannerConvert;
 import cn.iocoder.mall.promotion.application.vo.users.UsersBannerVO;
 import cn.iocoder.mall.user.sdk.annotation.PermitAll;
-import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,8 +22,7 @@ import java.util.List;
 @Api("Banner 模块")
 public class UsersBannerController {
 
-    @Reference(validation = "true")
-    @Autowired
+    @Reference(validation = "true", version = "${dubbo.provider.BannerService.version}")
     private BannerService bannerService;
 
     @GetMapping("/list")

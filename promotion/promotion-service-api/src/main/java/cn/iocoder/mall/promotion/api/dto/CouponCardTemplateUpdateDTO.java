@@ -9,13 +9,14 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * 优惠劵模板更新 DTO
  */
 @Data
 @Accessors(chain = true)
-public class CouponCardTemplateUpdateDTO {
+public class CouponCardTemplateUpdateDTO implements Serializable {
 
     @NotNull(message = "编号不能为空")
     private Integer id;

@@ -3,6 +3,7 @@ package cn.iocoder.mall.product.api;
 import cn.iocoder.mall.product.api.bo.*;
 import cn.iocoder.mall.product.api.dto.ProductSpuAddDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuPageDTO;
+import cn.iocoder.mall.product.api.dto.ProductSpuSearchListDTO;
 import cn.iocoder.mall.product.api.dto.ProductSpuUpdateDTO;
 
 import java.util.Collection;
@@ -22,6 +23,8 @@ public interface ProductSpuService {
     List<ProductSpuDetailBO> getProductSpuDetailListForSync(Integer lastId, Integer limit);
 
     ProductSpuPageBO getProductSpuPage(ProductSpuPageDTO productSpuPageDTO);
+
+    List<ProductSpuBO> getProductSpuSearchList(ProductSpuSearchListDTO productSpuSearchListDTO);
 
     List<ProductSpuBO> getProductSpuList(Collection<Integer> ids);
 

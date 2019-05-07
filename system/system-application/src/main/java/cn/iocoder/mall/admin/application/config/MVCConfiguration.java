@@ -20,7 +20,9 @@ import java.util.Set;
 @EnableWebMvc
 @Configuration
 @Import(value = {GlobalExceptionHandler.class,  // 统一全局返回
-        AdminSecurityInterceptor.class})
+        AdminAccessLogInterceptor.class,
+        AdminSecurityInterceptor.class
+})
 public class MVCConfiguration implements WebMvcConfigurer {
 
 //    @Autowired
@@ -36,7 +38,6 @@ public class MVCConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(securityInterceptor).addPathPatterns("/user/**", "/admin/**"); // 只拦截我们定义的接口
         registry.addInterceptor(adminAccessLogInterceptor).addPathPatterns("/admins/**");
         registry.addInterceptor(adminSecurityInterceptor.setIgnoreUrls(ignoreUrls)).addPathPatterns("/admins/**")
                 .excludePathPatterns("/admins/passport/login"); // 排除登陆接口

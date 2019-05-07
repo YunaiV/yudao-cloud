@@ -4,13 +4,14 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * 优惠劵模板分页 DTO
  */
 @Data
 @Accessors(chain = true)
-public class CouponTemplatePageDTO {
+public class CouponTemplatePageDTO implements Serializable {
 
     /**
      * 类型

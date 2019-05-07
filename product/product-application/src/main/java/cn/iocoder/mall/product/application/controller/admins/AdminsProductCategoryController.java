@@ -15,7 +15,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -31,8 +30,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 @Api("商品分类")
 public class AdminsProductCategoryController {
 
-    @Reference(validation = "true")
-    @Autowired
+    @Reference(validation = "true", version = "${dubbo.provider.ProductCategoryService.version}")
     private ProductCategoryService productCategoryService;
 
     @GetMapping("/tree")

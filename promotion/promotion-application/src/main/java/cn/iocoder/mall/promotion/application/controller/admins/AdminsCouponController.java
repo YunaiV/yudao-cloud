@@ -12,12 +12,11 @@ import cn.iocoder.mall.promotion.api.dto.CouponTemplatePageDTO;
 import cn.iocoder.mall.promotion.application.convert.CouponTemplateConvert;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsCouponTemplatePageVO;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsCouponTemplateVO;
-import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +27,7 @@ import java.util.Date;
 @Api("优惠劵（码）模块")
 public class AdminsCouponController {
 
-    @Reference(validation = "true")
-    @Autowired
+    @Reference(validation = "true", version = "${dubbo.provider.CouponService.version}")
     private CouponService couponService;
 
     // ========== 优惠劵（码）模板 ==========

@@ -211,7 +211,12 @@ const SearchForm = Form.create()(props => {
 
 // 添加 or 修改 Form 表单
 const AddOrUpdateForm = Form.create()(props => {
-  const { dispatch, modalVisible, form, handleModalVisible, modalType, formVals } = props;
+  const { dispatch, modalVisible, form, handleModalVisible, modalType, formVals,
+    searchProductSpuList} = props;
+  // let selectedSearchProductSpu = formVals.productSpuId ? {
+  //   key: formVals.productSpuId,
+  //   label: formVals.productSpuName,
+  // } : {};
 
   const okHandle = () => {
     form.validateFields((err, fields) => {
@@ -257,6 +262,24 @@ const AddOrUpdateForm = Form.create()(props => {
     });
   };
 
+  const searchProductSpu = (value) => {
+    if (!value) {
+      dispatch({
+        type: 'productRecommendList/setAll',
+        payload: {
+          searchProductSpuList: [],
+        },
+      });
+      return;
+    }
+    dispatch({
+      type: 'productRecommendList/searchProductSpu',
+      payload: {
+        name: value,
+      },
+    });
+  };
+
   const title = modalType === 'add' ? '新建商品推荐' : '更新商品推荐';
   return (
     <Modal
@@ -284,7 +307,20 @@ const AddOrUpdateForm = Form.create()(props => {
           rules: [{ required: true, message: '请输入商品！'}, // TODO 芋艿，临时先输入商品编号，后面做成搜索。
           ],
           initialValue: formVals.productSpuId,
-        })(<Input placeholder="请输入" />)}
+        })(
+          <Select
+            // labelInValue
+            // value={formVals.productSpuId}
+            placeholder="请搜索商品"
+            onSearch={searchProductSpu}
+            showSearch={true}
+            filterOption={false}
+            style={{ width: '100%' }}
+          >
+            {searchProductSpuList.map(d => <Option key={d.id} value={d.id}>{d.name}</Option>)}
+            {searchProductSpuList.length === 0 && formVals.productSpuId ? <Option key={formVals.productSpuId} value={formVals.productSpuId}>{formVals.productSpuName}</Option> : ''}
+          </Select>
+        )}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="排序值">
         {form.getFieldDecorator('sort', {
@@ -331,7 +367,8 @@ class BannerList extends PureComponent {
       payload: {
         modalVisible,
         modalType,
-        formVals: record || {}
+        formVals: record || {},
+        searchProductSpuList: [],
       },
     });
   };
@@ -340,7 +377,7 @@ class BannerList extends PureComponent {
     // let that = this;
     const { dispatch,
       list, listLoading, searchParams, pagination,
-      modalVisible, modalType, formVals,
+      modalVisible, modalType, formVals, searchProductSpuList,
       confirmLoading,  } = this.props;
 
     // 列表属性
@@ -365,6 +402,7 @@ class BannerList extends PureComponent {
       modalType,
       formVals,
       dispatch,
+      searchProductSpuList,
       handleModalVisible: this.handleModalVisible, // Function
     };
 

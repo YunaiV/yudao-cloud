@@ -10,7 +10,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,8 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api("Admin Passport 模块")
 public class PassportController {
 
-    @Reference(validation = "true")
-    @Autowired // TODO Dubbo 2.7.2 移除 bug
+    @Reference(validation = "true", version = "${dubbo.provider.OAuth2Service.version}")
     private OAuth2Service oauth2Service;
 
     @PostMapping("/login")

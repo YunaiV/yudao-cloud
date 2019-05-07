@@ -7,13 +7,14 @@ import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * 商品推荐添加 DTO
  */
 @Data
 @Accessors(chain = true)
-public class ProductRecommendAddDTO {
+public class ProductRecommendAddDTO implements Serializable {
 
     @InEnum(value = ProductRecommendTypeEnum.class, message = "修改推荐类型必须是 {value}")
     @NotNull(message = "推荐类型不能为空")

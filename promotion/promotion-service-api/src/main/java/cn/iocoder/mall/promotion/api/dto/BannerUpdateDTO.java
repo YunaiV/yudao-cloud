@@ -7,13 +7,14 @@ import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * Banner 更新 DTO
  */
 @Data
 @Accessors(chain = true)
-public class BannerUpdateDTO {
+public class BannerUpdateDTO implements Serializable {
 
     @NotNull(message = "编号不能为空")
     private Integer id;

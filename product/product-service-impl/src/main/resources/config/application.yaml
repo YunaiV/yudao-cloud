@@ -23,7 +23,13 @@ dubbo:
     name: dubbo
   scan:
     base-packages: cn.iocoder.mall.product.service
-
+  provider:
+    ProductAttrService:
+      version: 1.0.0
+    ProductCategoryService:
+      version: 1.0.0
+    ProductSpuService:
+      version: 1.0.0
 
 # rocketmq
 rocketmq:

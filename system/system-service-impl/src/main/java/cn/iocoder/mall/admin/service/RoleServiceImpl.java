@@ -30,7 +30,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@org.apache.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.RoleService.version}")
 public class RoleServiceImpl implements RoleService {
 
     @Autowired

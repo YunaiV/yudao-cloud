@@ -4,13 +4,14 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * 商品推荐分页 DTO
  */
 @Data
 @Accessors(chain = true)
-public class ProductRecommendPageDTO {
+public class ProductRecommendPageDTO implements Serializable {
 
     /**
      * 推荐类型

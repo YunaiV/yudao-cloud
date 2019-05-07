@@ -10,12 +10,11 @@ import cn.iocoder.mall.promotion.api.dto.BannerUpdateDTO;
 import cn.iocoder.mall.promotion.application.convert.BannerConvert;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsBannerPageVO;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsBannerVO;
-import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
@@ -25,8 +24,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 @Api("Banner 模块")
 public class AdminsBannerController {
 
-    @Reference(validation = "true")
-    @Autowired
+    @Reference(validation = "true", version = "${dubbo.provider.BannerService.version}")
     private BannerService bannerService;
 
     @GetMapping("/page")

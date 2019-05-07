@@ -8,15 +8,12 @@ import cn.iocoder.mall.admin.api.bo.OAuth2AuthenticationBO;
 import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContext;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
-import com.google.common.collect.Sets;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -25,8 +22,7 @@ import java.util.Set;
 @Component
 public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
 
-    @Reference(validation = "true")
-    @Autowired(required = false) // TODO 芋艿，初始化时，会存在 spring boot 启动时，服务无法引用的情况，先暂时这么解决。
+    @Reference(validation = "true", version = "${dubbo.consumer.OAuth2Service.version:1.0.0}")
     private OAuth2Service oauth2Service;
     /**
      * 忽略的 URL 集合，即无需经过认证
@@ -44,13 +40,11 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
         String accessToken = HttpUtil.obtainAccess(request);
         OAuth2AuthenticationBO authentication = null;
         if (accessToken != null) {
-//            CommonResult<OAuth2AuthenticationBO> result = oauth2Service.checkToken(accessToken);
-
+            CommonResult<OAuth2AuthenticationBO> result = oauth2Service.checkToken(accessToken);
             // TODO sin 先临时跳过 认证
-            CommonResult<OAuth2AuthenticationBO> result = CommonResult.success(new OAuth2AuthenticationBO()
-                    .setAdminId(1)
-                    .setRoleIds(Sets.newHashSet(1, 2, 3, 4)));
-
+//            CommonResult<OAuth2AuthenticationBO> result = CommonResult.success(new OAuth2AuthenticationBO()
+//                    .setAdminId(1)
+//                    .setRoleIds(Sets.newHashSet(1, 2, 3, 4)));
             if (result.isError()) { // TODO 芋艿，如果访问的地址无需登录，这里也不用抛异常
                 throw new ServiceException(result.getCode(), result.getMessage());
             }

@@ -14,17 +14,18 @@
     <dependencies>
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
+            <artifactId>common-framework</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
             <artifactId>system-service-impl</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
             <artifactId>system-sdk</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.iocoder.mall</groupId>
-            <artifactId>common-framework</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
@@ -48,11 +49,11 @@
             <artifactId>springfox-swagger-ui</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-devtools</artifactId>-->
+<!--            <optional>true</optional>-->
+<!--        </dependency>-->
 
         <!--<dependency>-->
             <!--<groupId>de.codecentric</groupId>-->

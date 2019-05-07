@@ -7,13 +7,14 @@ import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * Banner 添加 DTO
  */
 @Data
 @Accessors(chain = true)
-public class BannerAddDTO {
+public class BannerAddDTO implements Serializable {
 
     @NotEmpty(message = "标题不能为空")
     @Length(min = 2, max = 32, message = "标题长度为 2-32 位")

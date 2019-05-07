@@ -9,12 +9,11 @@ import cn.iocoder.mall.promotion.api.bo.ProductRecommendBO;
 import cn.iocoder.mall.promotion.application.convert.ProductRecommendConvert;
 import cn.iocoder.mall.promotion.application.vo.users.UsersProductRecommendVO;
 import cn.iocoder.mall.user.sdk.annotation.PermitAll;
-import org.apache.dubbo.config.annotation.Reference;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,11 +29,9 @@ import java.util.stream.Collectors;
 @Api("商品推荐模块")
 public class UsersProductRecommendController {
 
-    @Reference(validation = "true")
-    @Autowired
+    @Reference(validation = "true", version = "${dubbo.provider.ProductRecommendService.version}")
     private ProductRecommendService productRecommendService;
-
-    @Reference(validation = "true", version = "1.0.0")
+    @Reference(validation = "true", version = "${dubbo.consumer.ProductSpuService.version}")
     private ProductSpuService productSpuService;
 
     @GetMapping("/list")

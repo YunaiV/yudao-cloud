@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -31,6 +32,14 @@ public class PromotionActivityBO implements Serializable {
      */
     private Integer status;
     /**
+     * 开始时间
+     */
+    private Date startTime;
+    /**
+     * 结束时间
+     */
+    private Date endTime;
+    /**
      * 限制折扣
      */
     private TimeLimitedDiscount timeLimitedDiscount;
@@ -40,7 +49,7 @@ public class PromotionActivityBO implements Serializable {
     private FullPrivilege fullPrivilege;
 
     /**
-     * 限制折扣
+     * 限时折扣
      */
     @Data
     @Accessors(chain = true)

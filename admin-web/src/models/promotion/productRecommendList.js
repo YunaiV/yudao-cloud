@@ -7,7 +7,7 @@ import {
   updateProductRecommendStatus,
 } from '../../services/promotion';
 import PaginationHelper from '../../../helpers/PaginationHelper';
-import {productSpuList, productSpuSearchList} from "../../services/product";
+import {productSpuSearchList} from "../../services/product";
 
 const SEARCH_PARAMS_DEFAULT = {
   type: undefined,

@@ -58,4 +58,6 @@ export default {
   'menu.promotion.promotion-banner-list': '首页广告',
   'menu.promotion.product-recommend-list': '商品推荐',
   'menu.promotion.coupon-card-template-list': '优惠劵管理',
+  'menu.promotion.time-limit-discount-list': '限时折扣',
+  'menu.promotion.full-privilege-list': '满减送',
 };

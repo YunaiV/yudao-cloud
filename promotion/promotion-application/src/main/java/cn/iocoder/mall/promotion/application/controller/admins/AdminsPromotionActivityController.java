@@ -26,8 +26,8 @@ public class AdminsPromotionActivityController {
     private PromotionActivityService promotionActivityService;
 
     @GetMapping("/page") // TODO 芋艿，BO => VO
-    public CommonResult<PromotionActivityPageBO> page(@RequestParam("title") String title,
-                                                      @RequestParam("activityType") Integer activityType,
+    public CommonResult<PromotionActivityPageBO> page(@RequestParam(value = "title", required = false) String title,
+                                                      @RequestParam(value = "activityType") Integer activityType,
                                                       @RequestParam(value = "status") String status,
                                                       @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
                                                       @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {

@@ -90,3 +90,12 @@ export async function updateCouponCardTemplateStatus(params) {
     method: 'POST',
   });
 }
+
+// Promotion Activity
+
+export async function getPromotionActivityPage(params) {
+  return request(`/promotion-api/admins/promotion_activity/page?${stringify(params)}`, {
+    method: 'GET',
+  });
+}
+

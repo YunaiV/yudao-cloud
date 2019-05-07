@@ -130,6 +130,16 @@ export default [
             name: 'coupon-card-template-list',
             component: './Promotion/CouponCardTemplateList',
           },
+          {
+            path: '/promotion/time-limit-discount-list',
+            name: 'time-limit-discount-list',
+            component: './Promotion/TimeLimitedDiscountList',
+          },
+          {
+            path: '/promotion/full-privilege-list',
+            name: 'full-privilege-list',
+            component: './Promotion/FullPrivilegeList',
+          }
         ],
       },
       {

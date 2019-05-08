@@ -89,7 +89,9 @@ public class OrderReturnDO extends BaseDO {
      * - 2、申请成功
      * - 3、申请失败
      * - 4、退货中
-     * - 5、退货成功
+     * - 5、已收货
+     * - 6、拒绝退款
+     * - 7、退货成功
      */
     private Integer status;
 }

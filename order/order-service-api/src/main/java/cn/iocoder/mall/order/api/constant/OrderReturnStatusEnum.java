@@ -15,13 +15,17 @@ public enum OrderReturnStatusEnum {
      * - 2、申请成功
      * - 3、申请失败
      * - 4、退货中
-     * - 5、退货成功
+     * - 5、已收货
+     * - 6、拒绝退款
+     * - 7、退货成功
      */
     RETURN_APPLICATION(1, "退货申请"),
     APPLICATION_SUCCESSFUL(2, "申请成功"),
     APPLICATION_FAIL(3, "申请失败"),
-    RETURN(4, "退货中"),
-    RETURN_SUCCESS(5, "退货成功"),
+    RETURN_IN(4, "退货中"),
+    ORDER_RECEIPT(5, "确认收货"),
+    REFUSE_REFUND(6, "拒绝退款"),
+    RETURN_SUCCESS(7, "退货成功"),
     ;
     private final int value;
 

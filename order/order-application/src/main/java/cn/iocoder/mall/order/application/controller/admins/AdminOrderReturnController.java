@@ -42,4 +42,14 @@ public class AdminOrderReturnController {
     public CommonResult refuse(@RequestParam("id") Integer id) {
         return orderReturnService.orderReturnRefuse(id);
     }
+
+    @PostMapping("confirm_commodity")
+    public CommonResult confirmCommodity(@RequestParam("id") Integer id) {
+        return orderReturnService.confirmReceipt(id);
+    }
+
+    @PostMapping("confirm_order")
+    public CommonResult confirmOrder(@RequestParam("id") Integer id) {
+        return orderReturnService.refund(id);
+    }
 }

@@ -66,4 +66,20 @@ public interface OrderReturnService {
      * @return
      */
     CommonResult orderReturnRefuse(Integer id);
+
+    /**
+     * 订单退货 - 确认收货
+     *
+     * @param id
+     * @return
+     */
+    CommonResult confirmReceipt(Integer id);
+
+    /**
+     * 订单退货 - 确认订单
+     *
+     * @param id
+     * @return
+     */
+    CommonResult refund(Integer id);
 }

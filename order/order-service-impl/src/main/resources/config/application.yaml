@@ -23,6 +23,16 @@ dubbo:
     name: dubbo
   scan:
     base-packages: cn.iocoder.mall.order.biz.service
+  provider:
+    CartService:
+      version: 1.0.0
+  consumer:
+    ProductSpuService:
+      version: 1.0.0
+    PromotionActivityService:
+      version: 1.0.0
+    CouponService:
+      version: 1.0.0
 
 # logging
 logging:

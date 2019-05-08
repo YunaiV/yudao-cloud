@@ -29,11 +29,11 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 @RequestMapping("users/cart")
 public class UsersCartController {
 
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.provider.CartService.version}")
     private CartService cartService;
     @Reference(validation = "true")
     private OrderService orderService;
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.consumer.CouponService.version}")
     private CouponService couponService;
 
     @PostMapping("add")

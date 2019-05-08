@@ -32,14 +32,14 @@ import java.util.stream.Collectors;
  * 购物车服务 Service 实现类
  */
 @Service
-@org.apache.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.CartService.version}")
 public class CartServiceImpl implements CartService {
 
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.consumer.PromotionActivityService.version}")
     private ProductSpuService productSpuService;
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.consumer.PromotionActivityService.version}")
     private PromotionActivityService promotionActivityService;
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.consumer.CouponService.version}")
     private CouponService couponService;
 
     @Autowired

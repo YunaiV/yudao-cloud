@@ -20,14 +20,15 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("users/transaction") // TODO 芋艿，理论来说，是用户无关的。这里先酱紫先~
-public class PayTransactionController {
+public class UsersPayTransactionController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.provider.PayTransactionService.version}")
     private PayTransactionService payTransactionService;
 
     @GetMapping("/get")
+    // TODO result 后面改下
     public CommonResult<PayTransactionBO> get(@RequestParam("appId") String appId,
                                               @RequestParam("orderId") String orderId) {
         return payTransactionService.getTransaction(UserSecurityContextHolder.getContext().getUserId(), appId, orderId);

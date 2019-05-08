@@ -27,7 +27,7 @@ import java.util.Date;
  * UserService ，实现和用户信息相关的逻辑
  */
 @Service
-@org.apache.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.UserService.version}")
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -71,11 +71,12 @@ public class UserServiceImpl implements UserService {
     public CommonResult<UserPageBO> getUserPage(UserPageDTO userPageDTO) {
         UserPageBO userPageBO = new UserPageBO();
         // 查询分页数据
-        int offset = userPageDTO.getPageNo() * userPageDTO.getPageSize();
-        userPageBO.setUsers(UserConvert.INSTANCE.convert(userMapper.selectListByNicknameLike(userPageDTO.getNickname(),
+        int offset = (userPageDTO.getPageNo() - 1) * userPageDTO.getPageSize();
+        userPageBO.setList(UserConvert.INSTANCE.convert(userMapper.selectListByNicknameLike(
+                userPageDTO.getNickname(), userPageDTO.getStatus(),
                 offset, userPageDTO.getPageSize())));
         // 查询分页总数
-        userPageBO.setCount(userMapper.selectCountByNicknameLike(userPageDTO.getNickname()));
+        userPageBO.setTotal(userMapper.selectCountByNicknameLike(userPageDTO.getNickname(), userPageDTO.getStatus()));
         return CommonResult.success(userPageBO);
     }
 

@@ -9,7 +9,6 @@ import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContext;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -23,8 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class UserSecurityInterceptor extends HandlerInterceptorAdapter {
 
-    @Reference
-    @Autowired(required = false)
+    @Reference(validation = "true", version = "${dubbo.provider.OAuth2Service.version:1.0.0}")
     private OAuth2Service oauth2Service;
 
     @Override

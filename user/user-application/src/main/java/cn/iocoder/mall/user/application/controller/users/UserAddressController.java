@@ -12,7 +12,6 @@ import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +28,7 @@ import java.util.List;
 @Api(value = "用户地址API")
 public class UserAddressController {
 
-    @Reference(validation = "true")
-    @Autowired // TODO dubbo 2.7.2 删除，用于解决 bug
+    @Reference(validation = "true", version = "${dubbo.provider.UserAddressService.version}")
     private UserAddressService userAddressService;
 
     @PostMapping("add")

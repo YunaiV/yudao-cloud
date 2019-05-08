@@ -8,7 +8,6 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -34,8 +33,7 @@ public class UserAccessLogInterceptor extends HandlerInterceptorAdapter {
      */
     private static final ThreadLocal<Integer> USER_ID = new ThreadLocal<>();
 
-    @Reference
-    @Autowired(required = false)
+    @Reference(validation = "true", version = "${dubbo.provider.UserAccessLogService.version:1.0.0}")
     private UserAccessLogService userAccessLogService;
 
     @Override

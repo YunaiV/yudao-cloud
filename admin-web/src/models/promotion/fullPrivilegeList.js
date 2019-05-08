@@ -5,9 +5,14 @@ import PaginationHelper from '../../../helpers/PaginationHelper';
 import {getPromotionActivityPage} from "../../services/promotion";
 
 const SEARCH_PARAMS_DEFAULT = {
-  title: '',
-  activityType: 2,
-  status: 'ALL',
+  createBeginTime: undefined,
+  createEndTime: undefined,
+  paymentBeginTime: undefined,
+  paymentEndTime: undefined,
+  status: undefined,
+  hasRefund: undefined,
+  payChannel: undefined,
+  orderSubject: '',
 };
 
 export default {
@@ -63,36 +68,6 @@ export default {
         payload: false,
       });
     },
-    *updateSort({ payload }, { call, put }) {
-      // 显示加载中
-      yield put({
-        type: 'changeSortModalLoading',
-        payload: true,
-      });
-
-      // 请求
-      const { callback, body } = payload;
-      // 响应
-      const response = yield call(productSpuUpdateSort, body);
-      if(response.code === 0) {
-        if (callback) {
-          callback(response);
-        }
-        yield put({
-          type: 'page',
-          payload: {
-            ...this.state.pagination,
-            ...this.state.searchParams,
-          },
-        });
-      }
-
-      // 隐藏加载中
-      yield put({
-        type: 'changeSortModalLoading',
-        payload: false,
-      });
-    },
   },
 
   reducers: {
@@ -103,12 +78,6 @@ export default {
       };
     },
     // 修改加载中的状态
-    changeSortModalLoading(state, { payload }) {
-      return {
-        ...state,
-        sortModalLoading: payload,
-      };
-    },
     changeListLoading(state, { payload }) {
       return {
         ...state,

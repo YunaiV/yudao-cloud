@@ -20,6 +20,8 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 
+import static cn.iocoder.common.framework.vo.CommonResult.success;
+
 @RestController
 @RequestMapping("users/coupon")
 @Api("优惠劵（码）模块")
@@ -35,8 +37,8 @@ public class UsersCouponController {
     @ApiImplicitParam(name = "id", value = "优惠劵（码）模板编号", required = true, example = "10")
     @PermitAll
     public CommonResult<UsersCouponTemplateVO> templateGet(@RequestParam("id") Integer id) {
-        CouponTemplateBO template = couponService.getCouponTemplate(id).getData();
-        return CommonResult.success(CouponTemplateConvert.INSTANCE.convert2(template));
+        CouponTemplateBO template = couponService.getCouponTemplate(id);
+        return success(CouponTemplateConvert.USERS.convert2(template));
     }
 
     // ========== 优惠劵 ==========
@@ -51,18 +53,18 @@ public class UsersCouponController {
     public CommonResult<UsersCouponCardPageVO> cardPage(@RequestParam(value = "status", required = false) Integer status,
                                                         @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
                                                         @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        CommonResult<CouponCardPageBO> result = couponService.getCouponCardPage(new CouponCardPageDTO()
+        CouponCardPageBO result = couponService.getCouponCardPage(new CouponCardPageDTO()
                 .setStatus(status).setUserId(UserSecurityContextHolder.getContext().getUserId())
                 .setPageNo(pageNo).setPageSize(pageSize));
-        return CouponCardConvert.INSTANCE.convert2(result);
+        return success(CouponCardConvert.INSTANCE.convert2(result));
     }
 
     @PostMapping("/card/add")
     @ApiOperation(value = "领取优惠劵")
     @ApiImplicitParam(name = "templateId", value = "优惠劵（码）模板编号", required = true, example = "10")
     public CommonResult<UsersCouponCardVO> cardAdd(@RequestParam("templateId") Integer templateId) {
-        CommonResult<CouponCardBO> result = couponService.addCouponCard(UserSecurityContextHolder.getContext().getUserId(), templateId);
-        return CouponCardConvert.INSTANCE.convert(result);
+        CouponCardBO result = couponService.addCouponCard(UserSecurityContextHolder.getContext().getUserId(), templateId);
+        return success(CouponCardConvert.INSTANCE.convert(result));
     }
 
     // ========== 优惠码 ==========

@@ -2,9 +2,14 @@ package cn.iocoder.mall.pay.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.pay.api.bo.PayTransactionBO;
+import cn.iocoder.mall.pay.api.bo.PayTransactionPageBO;
 import cn.iocoder.mall.pay.api.bo.PayTransactionSubmitBO;
 import cn.iocoder.mall.pay.api.dto.PayTransactionCreateDTO;
+import cn.iocoder.mall.pay.api.dto.PayTransactionPageDTO;
 import cn.iocoder.mall.pay.api.dto.PayTransactionSubmitDTO;
+
+import java.util.Collection;
+import java.util.List;
 
 public interface PayTransactionService {
 
@@ -25,6 +30,10 @@ public interface PayTransactionService {
      * @return 是否支付成功
      */
     CommonResult<Boolean> updateTransactionPaySuccess(Integer payChannel, String params);
+
+    List<PayTransactionBO> getTransactionList(Collection<Integer> ids);
+
+    PayTransactionPageBO getTransactionPage(PayTransactionPageDTO payTransactionPageDTO);
 
     CommonResult cancelTransaction(); // TODO 1. params 2. result
 

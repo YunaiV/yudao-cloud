@@ -71,6 +71,11 @@ public class ServiceExceptionUtil {
         return new ServiceException(code, message);
     }
 
+    public static ServiceException exception(Integer code, String messagePattern, Object... params) {
+        String message = doFormat(code, messagePattern, params);
+        return new ServiceException(code, message);
+    }
+
     /**
      * 将错误编号对应的消息使用 params 进行格式化。
      *

@@ -23,6 +23,14 @@ dubbo:
     name: dubbo
   scan:
     base-packages: cn.iocoder.mall.user.biz.service
-demo:
-  service:
-    version: 1.0.0
+  provider:
+    MobileCodeService:
+      version: 1.0.0
+    OAuth2Service:
+      version: 1.0.0
+    UserAccessLogService:
+      version: 1.0.0
+    UserAddressService:
+      version: 1.0.0
+    UserService:
+      version: 1.0.0

@@ -1,16 +1,15 @@
 package cn.iocoder.mall.user.application.controller.users;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.user.application.convert.UserConvert;
+import cn.iocoder.mall.user.api.UserService;
 import cn.iocoder.mall.user.api.bo.UserBO;
 import cn.iocoder.mall.user.api.dto.UserUpdateDTO;
-import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
+import cn.iocoder.mall.user.application.convert.UserConvert;
 import cn.iocoder.mall.user.application.vo.users.UsersUserVO;
-import cn.iocoder.mall.user.api.UserService;
-import org.apache.dubbo.config.annotation.Reference;
+import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,8 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @Api("用户模块")
 public class UserController {
 
-    @Reference(validation = "true")
-    @Autowired // TODO dubbo 2.7.2 删除，用于解决 bug
+    @Reference(validation = "true", version = "${dubbo.provider.UserService.version}")
     private UserService userService;
 
     @GetMapping("/info")

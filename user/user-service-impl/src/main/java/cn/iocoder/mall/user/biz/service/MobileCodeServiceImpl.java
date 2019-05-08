@@ -18,7 +18,7 @@ import java.util.Date;
  * MobileCodeService ，实现用户登陆时需要的验证码
  */
 @Service
-@org.apache.dubbo.config.annotation.Service
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.MobileCodeService.version}")
 public class MobileCodeServiceImpl implements MobileCodeService {
 
     /**

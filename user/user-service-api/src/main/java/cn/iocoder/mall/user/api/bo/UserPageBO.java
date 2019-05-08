@@ -13,10 +13,10 @@ public class UserPageBO implements Serializable {
     /**
      * 用户数组
      */
-    private List<UserBO> users;
+    private List<UserBO> list;
     /**
      * 总量
      */
-    private Integer count;
+    private Integer total;
 
 }

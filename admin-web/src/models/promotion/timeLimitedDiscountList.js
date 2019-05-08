@@ -63,36 +63,6 @@ export default {
         payload: false,
       });
     },
-    *updateSort({ payload }, { call, put }) {
-      // 显示加载中
-      yield put({
-        type: 'changeSortModalLoading',
-        payload: true,
-      });
-
-      // 请求
-      const { callback, body } = payload;
-      // 响应
-      const response = yield call(productSpuUpdateSort, body);
-      if(response.code === 0) {
-        if (callback) {
-          callback(response);
-        }
-        yield put({
-          type: 'page',
-          payload: {
-            ...this.state.pagination,
-            ...this.state.searchParams,
-          },
-        });
-      }
-
-      // 隐藏加载中
-      yield put({
-        type: 'changeSortModalLoading',
-        payload: false,
-      });
-    },
   },
 
   reducers: {
@@ -103,12 +73,6 @@ export default {
       };
     },
     // 修改加载中的状态
-    changeSortModalLoading(state, { payload }) {
-      return {
-        ...state,
-        sortModalLoading: payload,
-      };
-    },
     changeListLoading(state, { payload }) {
       return {
         ...state,

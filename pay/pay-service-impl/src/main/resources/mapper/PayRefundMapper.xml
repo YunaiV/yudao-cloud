@@ -66,4 +66,57 @@
         WHERE id = #{id}
     </select>
 
+    <select id="selectListByPage" resultType="PayRefundDO">
+        SELECT
+            <include refid="FIELDS"/>
+        FROM refund
+        <where>
+            <if test="createBeginTime != null">
+                AND create_time >= #{createBeginTime}
+            </if>
+            <if test="createEndTime != null">
+                AND #{createEndTime} >= create_time
+            </if>
+            <if test="finishBeginTime != null">
+                AND finish_time >= #{finishBeginTime}
+            </if>
+            <if test="finishEndTime != null">
+                AND #{finishEndTime} >= finish_time
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="payChannel != null">
+                AND pay_channel = #{payChannel}
+            </if>
+        </where>
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="selectCountByPage" resultType="Integer">
+        SELECT
+            COUNT(1)
+        FROM refund
+        <where>
+            <if test="createBeginTime != null">
+                AND create_time >= #{createBeginTime}
+            </if>
+            <if test="createEndTime != null">
+                AND #{createEndTime} >= create_time
+            </if>
+            <if test="finishBeginTime != null">
+                AND finish_time >= #{finishBeginTime}
+            </if>
+            <if test="finishEndTime != null">
+                AND #{finishEndTime} >= finish_time
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="payChannel != null">
+                AND pay_channel = #{payChannel}
+            </if>
+        </where>
+    </select>
+
 </mapper>

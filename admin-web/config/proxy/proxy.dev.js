@@ -25,4 +25,16 @@ export default {
     changeOrigin: true,
     pathRewrite: {},
   },
+  '/user-api/': {
+    // target: 'http://180.167.213.26:18085/',
+    target: 'http://127.0.0.1:18082/',
+    changeOrigin: true,
+    pathRewrite: {},
+  },
+  '/pay-api/': {
+    // target: 'http://180.167.213.26:18085/',
+    target: 'http://127.0.0.1:18084/',
+    changeOrigin: true,
+    pathRewrite: {},
+  },
 };

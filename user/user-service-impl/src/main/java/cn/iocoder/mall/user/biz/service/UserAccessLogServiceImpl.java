@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
-@org.apache.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.UserAccessLogService.version}")
 public class UserAccessLogServiceImpl implements UserAccessLogService {
 
     /**

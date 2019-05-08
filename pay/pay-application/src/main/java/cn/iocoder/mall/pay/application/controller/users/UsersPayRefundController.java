@@ -3,9 +3,9 @@ package cn.iocoder.mall.pay.application.controller.users;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.pay.api.PayRefundService;
 import cn.iocoder.mall.pay.api.constant.PayChannelEnum;
+import org.apache.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,11 +17,11 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("users/refund") // TODO 芋艿，理论来说，是用户无关的。这里先酱紫先~
-public class PayRefundController {
+public class UsersPayRefundController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    @Reference(validation = "true", version = "${dubbo.provider.PayRefundService.version}")
     private PayRefundService payRefundService;
 
     @PostMapping(value = "pingxx_refund_success", consumes = MediaType.APPLICATION_JSON_VALUE)

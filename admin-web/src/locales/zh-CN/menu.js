@@ -60,4 +60,9 @@ export default {
   'menu.promotion.coupon-card-template-list': '优惠劵管理',
   'menu.promotion.time-limit-discount-list': '限时折扣',
   'menu.promotion.full-privilege-list': '满减送',
+  // 会员相关
+  'menu.user.user-list': '会员资料',
+  // 支付相关
+  'menu.pay.pay-transaction-list': '支付单',
+  'menu.pay.pay-refund-list': '退款单',
 };

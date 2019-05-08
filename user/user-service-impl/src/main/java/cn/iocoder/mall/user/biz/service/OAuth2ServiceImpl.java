@@ -27,7 +27,7 @@ import java.util.UUID;
  * OAuth2Service ，实现用户授权相关的逻辑
  */
 @Service
-@org.apache.dubbo.config.annotation.Service
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.OAuth2Service.version}")
 public class OAuth2ServiceImpl implements OAuth2Service {
 
     /**

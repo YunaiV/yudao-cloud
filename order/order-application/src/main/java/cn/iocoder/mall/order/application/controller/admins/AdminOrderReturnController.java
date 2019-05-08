@@ -10,10 +10,7 @@ import io.swagger.annotations.Api;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 订单退货
@@ -34,5 +31,11 @@ public class AdminOrderReturnController {
     public CommonResult<OrderReturnListBO> list(@Validated OrderReturnQueryPO queryPO) {
         OrderReturnQueryDTO queryDTO = OrderReturnConvert.INSTANCE.convert(queryPO);
         return orderReturnService.orderReturnList(queryDTO);
+    }
+
+    @PostMapping("agree")
+    public CommonResult agree(@RequestParam("id") Integer id) {
+        CommonResult commonResult = orderReturnService.agree(id);
+        return commonResult;
     }
 }

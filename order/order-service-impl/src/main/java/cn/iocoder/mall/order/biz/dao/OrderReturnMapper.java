@@ -57,4 +57,12 @@ public interface OrderReturnMapper {
      * @return
      */
     List<OrderReturnDO> selectList(OrderReturnQueryDTO queryDTO);
+
+    /**
+     * 查询 - 根据 id 查询
+     *
+     * @param id
+     * @return
+     */
+    OrderReturnDO selectById(Integer id);
 }

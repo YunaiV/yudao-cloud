@@ -2,7 +2,6 @@ package cn.iocoder.mall.search.biz.service;
 
 import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.util.StringUtil;
-import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.SortingField;
 import cn.iocoder.mall.order.api.CartService;
 import cn.iocoder.mall.order.api.bo.CalcSkuPriceBO;
@@ -37,7 +36,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-@org.apache.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.ProductSearchService.version}")
 public class ProductSearchServiceImpl implements ProductSearchService {
 
     private static final Integer REBUILD_FETCH_PER_SIZE = 100;
@@ -47,11 +46,11 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     @Autowired
     private ElasticsearchTemplate elasticsearchTemplate; // 因为需要使用到聚合操作，只好引入 ElasticsearchTemplate 。
 
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.consumer.ProductSpuService.version}")
     private ProductSpuService productSpuService;
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.consumer.ProductCategoryService.version}")
     private ProductCategoryService productCategoryService;
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.consumer.CartService.version}")
     private CartService cartService;
 
     @Override
@@ -92,10 +91,9 @@ public class ProductSearchServiceImpl implements ProductSearchService {
         // 获得最小价格的 SKU ，用于下面的价格计算
         ProductSpuDetailBO.Sku sku = spu.getSkus().stream().min(Comparator.comparing(ProductSpuDetailBO.Sku::getPrice)).get();
         // 价格计算
-        CommonResult<CalcSkuPriceBO> calSkuPriceResult  = cartService.calcSkuPrice(sku.getId());
-        Assert.isTrue(calSkuPriceResult.isSuccess(), String.format("SKU(%d) 价格计算不会出错", sku.getId()));
+        CalcSkuPriceBO calSkuPriceResult  = cartService.calcSkuPrice(sku.getId());
         // 拼装结果
-        return ProductSearchConvert.INSTANCE.convert(spu, calSkuPriceResult.getData());
+        return ProductSearchConvert.INSTANCE.convert(spu, calSkuPriceResult);
     }
 
     @Override

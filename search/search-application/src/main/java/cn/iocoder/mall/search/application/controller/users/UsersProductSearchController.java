@@ -24,7 +24,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 @Api("商品搜索")
 public class UsersProductSearchController {
 
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.provider.ProductSearchService.version}")
     private ProductSearchService productSearchService;
 
     @GetMapping("/page") // TODO 芋艿，后面把 BO 改成 VO

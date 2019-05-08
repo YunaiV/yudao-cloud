@@ -53,7 +53,7 @@ public class OrderReturnServiceImpl implements OrderReturnService {
 
     @Reference(validation = "true")
     private OrderLogisticsService orderLogisticsService;
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.consumer.PayRefundService.version}")
     private PayRefundService payRefundService;
 
     @Override

@@ -27,7 +27,7 @@ public class OrderReturnController {
 
     @Reference(validation = "true")
     private OrderReturnService orderReturnService;
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.consumer.DataDictService.version}")
     private DataDictService dataDictService;
 
     @GetMapping("reason")

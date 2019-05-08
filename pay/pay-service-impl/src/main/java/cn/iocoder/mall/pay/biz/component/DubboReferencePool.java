@@ -58,7 +58,7 @@ public class DubboReferencePool {
         reference.setInterface(notifyUrlParts[0]); // 弱类型接口名
         reference.setGeneric(true); // 声明为泛化接口
         reference.setApplication(application);
-        reference.setVersion("1.0.0"); // TODO 芋艿，后面要优化下。
+//        reference.setVersion("*"); // TODO 芋艿，后面要优化下。
         // 获得 GenericService 对象
         GenericService genericService = reference.get();
         // 构建最终的 ReferenceMeta 对象

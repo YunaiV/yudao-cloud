@@ -65,13 +65,13 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private CartServiceImpl cartService;
 
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.consumer.PromotionActivityService.version}")
     private ProductSpuService productSpuService;
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.consumer.UserAddressService.version}")
     private UserAddressService userAddressService;
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.consumer.PayTransactionService.version}")
     private PayTransactionService payTransactionService;
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.consumer.CouponService.version}")
     private CouponService couponService;
 
     @Override

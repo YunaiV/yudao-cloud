@@ -42,9 +42,9 @@ public class OrderController {
 
     @Reference(validation = "true")
     private OrderService orderService;
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.provider.CartService.version}")
     private CartService cartService;
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.consumer.DataDictService.version}")
     private DataDictService dataDictService;
 
     @GetMapping("order_page")

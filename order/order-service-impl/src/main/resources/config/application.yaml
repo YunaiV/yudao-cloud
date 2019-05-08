@@ -33,6 +33,14 @@ dubbo:
       version: 1.0.0
     CouponService:
       version: 1.0.0
+    PayRefundService:
+      version: 1.0.0
+    UserAddressService:
+      version: 1.0.0
+    PayTransactionService:
+      version: 1.0.0
+    DataDictService:
+      version: 1.0.0
 
 # logging
 logging:

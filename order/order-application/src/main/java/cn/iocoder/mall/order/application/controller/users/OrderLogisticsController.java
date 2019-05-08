@@ -37,7 +37,7 @@ public class OrderLogisticsController {
 
     @Reference(validation = "true")
     private OrderLogisticsService orderLogisticsService;
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.consumer.DataDictService.version}")
     private DataDictService dataDictService;
 
     @GetMapping("info")

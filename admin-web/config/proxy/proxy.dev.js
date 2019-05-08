@@ -1,6 +1,6 @@
 // 开发环境，的代理配置
 
-export default {
+module.exports = {
   '/admin-api/': {
     target: 'http://127.0.0.1:18083/',
     // target: 'http://180.167.213.26:18083/',

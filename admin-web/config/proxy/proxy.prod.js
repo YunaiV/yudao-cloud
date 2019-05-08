@@ -1,6 +1,6 @@
 // production 配置文件
 
-export default {
+module.exports = {
   '/admin-api/': {
     target: 'http://api.shop.iocoder.cn:18099/admin-api',
     changeOrigin: true,

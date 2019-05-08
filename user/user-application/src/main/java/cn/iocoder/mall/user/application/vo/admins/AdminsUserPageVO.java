@@ -13,8 +13,8 @@ import java.util.List;
 public class AdminsUserPageVO {
 
     @ApiModelProperty(value = "用户数组")
-    private List<AdminsUserVO> users;
+    private List<AdminsUserVO> list;
     @ApiModelProperty(value = "用户总数")
-    private Integer count;
+    private Integer total;
 
 }

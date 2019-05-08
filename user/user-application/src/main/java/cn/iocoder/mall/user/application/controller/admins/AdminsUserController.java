@@ -12,16 +12,16 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import static cn.iocoder.common.framework.vo.CommonResult.success;
 
 @RestController
 @RequestMapping("/admins/user")
 @Api("用户模块")
 public class AdminsUserController {
 
-    @Reference(validation = "true")
-    @Autowired // TODO dubbo 2.7.2 删除，用于解决 bug
+    @Reference(validation = "true", version = "${dubbo.provider.UserService.version}")
     private UserService userService;
 
     // 分页
@@ -33,13 +33,15 @@ public class AdminsUserController {
             @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, example = "10"),
     })
     public CommonResult<AdminsUserPageVO> page(@RequestParam(value = "nickname", required = false) String nickname,
-                                               @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
+                                               @RequestParam(value = "status", required = false) Integer status,
+                                               @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
                                                @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        UserPageDTO userPageDTO = new UserPageDTO().setNickname(nickname).setPageNo(pageNo).setPageSize(pageSize);
+        UserPageDTO userPageDTO = new UserPageDTO().setNickname(nickname).setStatus(status)
+                .setPageNo(pageNo).setPageSize(pageSize);
         // 查询分页
-        CommonResult<UserPageBO> result = userService.getUserPage(userPageDTO);
+        UserPageBO result = userService.getUserPage(userPageDTO);
         // 转换结果
-        return UserConvert.INSTANCE.convert(result);
+        return success(UserConvert.INSTANCE.convert(result));
     }
 
     @PostMapping("/update")
@@ -54,7 +56,7 @@ public class AdminsUserController {
                                         @RequestParam("avatar") String avatar) {
         UserUpdateDTO userUpdateDTO = new UserUpdateDTO().setId(id).setNickname(nickname).setNickname(nickname).setAvatar(avatar);
         // 更新
-        return userService.updateUser(userUpdateDTO);
+        return success(userService.updateUser(userUpdateDTO));
     }
 
     @PostMapping("/update_status")
@@ -65,7 +67,7 @@ public class AdminsUserController {
     })
     public CommonResult<Boolean> updateStatus(@RequestParam("id") Integer id,
                                               @RequestParam("status") Integer status) {
-        return userService.updateUserStatus(id, status);
+        return success(userService.updateUserStatus(id, status));
     }
 
 }

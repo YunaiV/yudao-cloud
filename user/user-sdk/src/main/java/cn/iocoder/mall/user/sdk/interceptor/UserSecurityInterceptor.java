@@ -2,14 +2,12 @@ package cn.iocoder.mall.user.sdk.interceptor;
 
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.common.framework.util.HttpUtil;
-import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.user.api.OAuth2Service;
 import cn.iocoder.mall.user.api.bo.OAuth2AuthenticationBO;
 import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContext;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -23,8 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class UserSecurityInterceptor extends HandlerInterceptorAdapter {
 
-    @Reference
-    @Autowired(required = false)
+    @Reference(validation = "true", version = "${dubbo.provider.OAuth2Service.version:1.0.0}")
     private OAuth2Service oauth2Service;
 
     @Override
@@ -33,11 +30,7 @@ public class UserSecurityInterceptor extends HandlerInterceptorAdapter {
         String accessToken = HttpUtil.obtainAccess(request);
         OAuth2AuthenticationBO authentication = null;
         if (accessToken != null) {
-            CommonResult<OAuth2AuthenticationBO> result = oauth2Service.checkToken(accessToken);
-            if (result.isError()) { // TODO 芋艿，如果访问的地址无需登录，这里也不用抛异常
-                throw new ServiceException(result.getCode(), result.getMessage());
-            }
-            authentication = result.getData();
+            authentication = oauth2Service.checkToken(accessToken); // TODO 芋艿，如果访问的地址无需登录，这里也不用抛异常
             // 添加到 SecurityContext
             UserSecurityContext context = new UserSecurityContext(authentication.getUserId());
             UserSecurityContextHolder.setContext(context);

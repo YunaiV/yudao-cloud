@@ -75,4 +75,85 @@
         WHERE id = #{id}
     </select>
 
+    <select id="selectListByIds" resultType="PayTransactionDO">
+        SELECT
+        <include refid="FIELDS" />
+        FROM transaction
+        WHERE id IN
+        <foreach item="id" collection="ids" separator="," open="(" close=")" index="">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="selectListByPage" resultType="PayTransactionDO">
+        SELECT
+            <include refid="FIELDS"/>
+        FROM transaction
+        <where>
+            <if test="createBeginTime != null">
+                AND create_time >= #{createBeginTime}
+            </if>
+            <if test="createEndTime != null">
+                AND #{createEndTime} >= create_time
+            </if>
+            <if test="paymentBeginTime != null">
+                AND payment_time >= #{paymentBeginTime}
+            </if>
+            <if test="paymentEndTime != null">
+                AND #{paymentEndTime} >= payment_time
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="hasRefund == true">
+                AND refund_total > 0
+            </if>
+            <if test="hasRefund == false">
+                AND refund_total = 0
+            </if>
+            <if test="payChannel != null">
+                AND pay_channel = #{payChannel}
+            </if>
+            <if test="orderSubject != null">
+                order_subject LIKE "%"#{orderSubject}"%"
+            </if>
+        </where>
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="selectCountByPage" resultType="Integer">
+        SELECT
+            COUNT(1)
+        FROM transaction
+        <where>
+            <if test="createBeginTime != null">
+                AND create_time >= #{createBeginTime}
+            </if>
+            <if test="createEndTime != null">
+                AND #{createEndTime} >= create_time
+            </if>
+            <if test="paymentBeginTime != null">
+                AND payment_time >= #{paymentBeginTime}
+            </if>
+            <if test="paymentEndTime != null">
+                AND #{paymentEndTime} >= payment_time
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="hasRefund == true">
+                AND refund_total > 0
+            </if>
+            <if test="hasRefund == false">
+                AND refund_total = 0
+            </if>
+            <if test="payChannel != null">
+                AND pay_channel = #{payChannel}
+            </if>
+            <if test="orderSubject != null">
+                order_subject LIKE "%"#{orderSubject}"%"
+            </if>
+        </where>
+    </select>
+
 </mapper>

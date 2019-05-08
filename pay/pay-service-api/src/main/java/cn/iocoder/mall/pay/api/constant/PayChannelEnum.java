@@ -6,9 +6,9 @@ package cn.iocoder.mall.pay.api.constant;
 public enum PayChannelEnum {
 
     WEIXIN_APP(100, "wx", "微信 App 支付"),
-    WEIXIN_PUB(100, "wx", "微信 JS API 支付"),
+    WEIXIN_PUB(101, "wxjs", "微信 JS API 支付"),
 
-    ALIPAY(200, "alipay", "微信支付"),
+    ALIPAY(200, "alipay", "支付宝 App 支付"),
 
     PINGXX(9999, "ping++", "ping++ 支付"),
     ;

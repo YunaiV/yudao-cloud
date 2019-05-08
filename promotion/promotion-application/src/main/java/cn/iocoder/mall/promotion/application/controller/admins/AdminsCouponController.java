@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
+import static cn.iocoder.common.framework.vo.CommonResult.success;
+
 @RestController
 @RequestMapping("admins/coupon")
 @Api("优惠劵（码）模块")
@@ -48,10 +50,10 @@ public class AdminsCouponController {
                                                                  @RequestParam(value = "preferentialType", required = false) Integer preferentialType,
                                                                  @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
                                                                  @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        CommonResult<CouponTemplatePageBO> result = couponService.getCouponTemplatePage(new CouponTemplatePageDTO()
+        CouponTemplatePageBO result = couponService.getCouponTemplatePage(new CouponTemplatePageDTO()
                 .setType(type).setTitle(title).setStatus(status).setPreferentialType(preferentialType)
                 .setPageNo(pageNo).setPageSize(pageSize));
-        return CouponTemplateConvert.INSTANCE.convert(result);
+        return success(CouponTemplateConvert.ADMINS.convertPage(result));
     }
 
     @PostMapping("/template/add_card")
@@ -103,9 +105,9 @@ public class AdminsCouponController {
                 .setFixedBeginTerm(fixedBeginTerm).setFixedEndTerm(fixedEndTerm)
                 .setPreferentialType(preferentialType).setPriceOff(priceOff).setPercentOff(percentOff).setDiscountPriceLimit(discountPriceLimit);
         // 提交请求
-        CommonResult<CouponTemplateBO> result = couponService.addCouponCardTemplate(couponCardTemplateAddDTO);
+        CouponTemplateBO result = couponService.addCouponCardTemplate(couponCardTemplateAddDTO);
         // 返回结果
-        return CouponTemplateConvert.INSTANCE.convert2(result);
+        return success(CouponTemplateConvert.ADMINS.convert(result));
     }
 
     @PostMapping("/template/update_card")
@@ -132,7 +134,7 @@ public class AdminsCouponController {
                 .setTitle(title).setDescription(description)
                 .setQuota(quota).setTotal(total)
                 .setRangeType(rangeType).setRangeValues(rangeValues);
-        return couponService.updateCouponCardTemplate(couponCardTemplateUpdateDTO);
+        return success(couponService.updateCouponCardTemplate(couponCardTemplateUpdateDTO));
     }
 
     @PostMapping("/template/update_status")
@@ -143,7 +145,7 @@ public class AdminsCouponController {
     })
     public CommonResult<Boolean> templateUpdateStatus(@RequestParam("id") Integer id,
                                                       @RequestParam("status") Integer status) {
-        return couponService.updateCouponTemplateStatus(AdminSecurityContextHolder.getContext().getAdminId(), id, status);
+        return success(couponService.updateCouponTemplateStatus(AdminSecurityContextHolder.getContext().getAdminId(), id, status));
     }
 
     // ========== 优惠劵 ==========

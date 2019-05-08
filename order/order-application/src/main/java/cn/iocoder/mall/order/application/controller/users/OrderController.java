@@ -13,17 +13,14 @@ import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.dto.CalcOrderPriceDTO;
 import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderQueryDTO;
-import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
 import cn.iocoder.mall.order.application.convert.CartConvert;
 import cn.iocoder.mall.order.application.convert.OrderConvertAPP;
-import cn.iocoder.mall.order.application.convert.OrderReturnConvert;
 import cn.iocoder.mall.order.application.po.user.OrderCreatePO;
-import cn.iocoder.mall.order.application.po.user.OrderReturnApplyPO;
 import cn.iocoder.mall.order.application.vo.UsersOrderConfirmCreateVO;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
-import org.apache.dubbo.config.annotation.Reference;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -76,7 +73,7 @@ public class OrderController {
                                                            HttpServletRequest request) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         // 获得购物车中选中的商品
-        List<CartItemBO> cartItems = cartService.list(userId, true).getData();
+        List<CartItemBO> cartItems = cartService.list(userId, true);
         if (cartItems.isEmpty()) {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_CREATE_CART_IS_EMPTY.getCode());
         }
@@ -105,12 +102,9 @@ public class OrderController {
                 .setUserId(UserSecurityContextHolder.getContext().getUserId())
                 .setItems(Collections.singletonList(new CalcOrderPriceDTO.Item(skuId, quantity, true)))
                 .setCouponCardId(couponCardId);
-        CommonResult<CalcOrderPriceBO> calcOrderPriceResult = cartService.calcOrderPrice(calcOrderPriceDTO);
-        if (calcOrderPriceResult.isError()) {
-            return CommonResult.error(calcOrderPriceResult);
-        }
+        CalcOrderPriceBO calcOrderPrice = cartService.calcOrderPrice(calcOrderPriceDTO);
         // 执行数据拼装
-        return CommonResult.success(CartConvert.INSTANCE.convert(calcOrderPriceResult.getData()));
+        return CommonResult.success(CartConvert.INSTANCE.convert(calcOrderPrice));
     }
 
     @PostMapping("confirm_receiving")

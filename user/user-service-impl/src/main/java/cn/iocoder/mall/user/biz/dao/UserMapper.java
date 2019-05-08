@@ -18,9 +18,11 @@ public interface UserMapper {
     UserDO selectById(@Param("id") Integer id);
 
     List<UserDO> selectListByNicknameLike(@Param("nickname") String nickname,
+                                          @Param("status") Integer status,
                                           @Param("offset") Integer offset,
                                           @Param("limit") Integer limit);
 
-    Integer selectCountByNicknameLike(@Param("nickname") String nickname);
+    Integer selectCountByNicknameLike(@Param("nickname") String nickname,
+                                      @Param("status") Integer status);
 
 }

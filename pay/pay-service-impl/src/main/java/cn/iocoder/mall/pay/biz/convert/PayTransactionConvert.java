@@ -9,6 +9,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper
 public interface PayTransactionConvert {
 
@@ -19,6 +21,9 @@ public interface PayTransactionConvert {
 
     @Mappings({})
     PayTransactionBO convert(PayTransactionDO payTransactionDO);
+
+    @Mappings({})
+    List<PayTransactionBO> convertList(List<PayTransactionDO> list);
 
     @Mappings({})
     PayTransactionExtensionDO convert(PayTransactionSubmitDTO payTransactionSubmitDTO);

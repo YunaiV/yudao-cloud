@@ -6,8 +6,18 @@ export default {
     changeOrigin: true,
     pathRewrite: {},
   },
+  '/product-api/': {
+    target: 'http://api.shop.iocoder.cn:18099/product-api',
+    changeOrigin: true,
+    pathRewrite: {},
+  },
   '/order-api/': {
     target: 'http://api.shop.iocoder.cn:18099/order-api',
+    changeOrigin: true,
+    pathRewrite: {},
+  },
+  '/promotion-api/': {
+    target: 'http://api.shop.iocoder.cn:18099/promotion-api',
     changeOrigin: true,
     pathRewrite: {},
   },

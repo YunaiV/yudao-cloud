@@ -1,6 +1,5 @@
 package cn.iocoder.mall.promotion.application.convert;
 
-import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.promotion.api.bo.CouponTemplateBO;
 import cn.iocoder.mall.promotion.api.bo.CouponTemplatePageBO;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsCouponTemplatePageVO;
@@ -15,25 +14,30 @@ import java.util.List;
 @Mapper
 public interface CouponTemplateConvert {
 
-    CouponTemplateConvert INSTANCE = Mappers.getMapper(CouponTemplateConvert.class);
+    Users USERS = Mappers.getMapper(Users.class);
 
-    @Mappings({})
-    AdminsCouponTemplateVO convert(CouponTemplateBO template);
+    Admins ADMINS = Mappers.getMapper(Admins.class);
 
-    @Mappings({})
-    CommonResult<AdminsCouponTemplateVO> convert2(CommonResult<CouponTemplateBO> result);
+    @Mapper
+    interface Admins {
 
-    @Mappings({})
-    CommonResult<AdminsCouponTemplatePageVO> convert(CommonResult<CouponTemplatePageBO> result);
+        @Mappings({})
+        AdminsCouponTemplateVO convert(CouponTemplateBO template);
 
-    @Mappings({})
-    List<AdminsCouponTemplateVO> convertList(List<CouponTemplateBO> templates);
+        @Mappings({})
+        AdminsCouponTemplatePageVO convertPage(CouponTemplatePageBO result);
 
-    @Mappings({})
-    UsersCouponTemplateVO convert2(CouponTemplateBO template);
+        @Mappings({})
+        List<AdminsCouponTemplateVO> convertList(List<CouponTemplateBO> templates);
 
-//
-//    @Mappings({})
-//    List<UsersCouponTemplateVO> convertList2(List<CouponTemplateBO> banners);
+    }
+
+    @Mapper
+    interface Users {
+
+        @Mappings({})
+        UsersCouponTemplateVO convert2(CouponTemplateBO template);
+
+    }
 
 }

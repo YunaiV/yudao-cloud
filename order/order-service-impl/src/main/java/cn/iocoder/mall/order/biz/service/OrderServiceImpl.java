@@ -224,11 +224,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         // 价格计算
-        CommonResult<CalcOrderPriceBO> calcOrderPriceResult = calcOrderPrice(productList, orderCreateDTO);
-        if (calcOrderPriceResult.isError()) {
-            return CommonResult.error(calcOrderPriceResult);
-        }
-        CalcOrderPriceBO calcOrderPrice = calcOrderPriceResult.getData();
+        CalcOrderPriceBO calcOrderPrice = calcOrderPrice(productList, orderCreateDTO);
 
         // 设置 orderItem
         Map<Integer, ProductSkuDetailBO> productSpuBOMap = productList
@@ -261,10 +257,7 @@ public class OrderServiceImpl implements OrderService {
 
         // 标记优惠劵已使用
         if (orderCreateDTO.getCouponCardId() != null) {
-            CommonResult<Boolean> useCouponCardResult = couponService.useCouponCard(userId, orderCreateDTO.getCouponCardId());
-            if (useCouponCardResult.isError()) {
-                return CommonResult.error(useCouponCardResult);
-            }
+            couponService.useCouponCard(userId, orderCreateDTO.getCouponCardId());
         }
 
         // TODO 芋艿，扣除库存
@@ -329,10 +322,7 @@ public class OrderServiceImpl implements OrderService {
         orderItemMapper.insert(orderItemDOList);
 
         // 创建预订单
-        CommonResult<PayTransactionBO> createPayTransactionResult = createPayTransaction(orderDO, orderItemDOList, orderCreateDTO.getIp());
-        if (calcOrderPriceResult.isError()) {
-            return CommonResult.error(calcOrderPriceResult);
-        }
+        createPayTransaction(orderDO, orderItemDOList, orderCreateDTO.getIp());
 
 //        if (commonResult.isError()) {
 //            //手动开启事务回滚
@@ -349,7 +339,7 @@ public class OrderServiceImpl implements OrderService {
         );
     }
 
-    private CommonResult<CalcOrderPriceBO> calcOrderPrice(List<ProductSkuDetailBO> skus, OrderCreateDTO orderCreateDTO) {
+    private CalcOrderPriceBO calcOrderPrice(List<ProductSkuDetailBO> skus, OrderCreateDTO orderCreateDTO) {
         // 创建计算的 DTO
         CalcOrderPriceDTO calcOrderPriceDTO = new CalcOrderPriceDTO()
                 .setUserId(orderCreateDTO.getUserId())

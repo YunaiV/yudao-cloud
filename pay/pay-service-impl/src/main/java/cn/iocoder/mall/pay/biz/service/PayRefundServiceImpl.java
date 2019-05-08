@@ -5,10 +5,12 @@ import cn.iocoder.common.framework.util.MathUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.pay.api.PayRefundService;
+import cn.iocoder.mall.pay.api.bo.PayRefundPageBO;
 import cn.iocoder.mall.pay.api.bo.PayRefundSubmitBO;
 import cn.iocoder.mall.pay.api.constant.PayErrorCodeEnum;
 import cn.iocoder.mall.pay.api.constant.PayRefundStatus;
 import cn.iocoder.mall.pay.api.constant.PayTransactionStatusEnum;
+import cn.iocoder.mall.pay.api.dto.PayRefundPageDTO;
 import cn.iocoder.mall.pay.api.dto.PayRefundSubmitDTO;
 import cn.iocoder.mall.pay.biz.client.AbstractPaySDK;
 import cn.iocoder.mall.pay.biz.client.PaySDKFactory;
@@ -30,7 +32,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 
 @Service
-@org.apache.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.PayRefundService.version}")
 public class PayRefundServiceImpl implements PayRefundService {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -120,6 +122,7 @@ public class PayRefundServiceImpl implements PayRefundService {
         PayRefundDO updatePayRefundDO = new PayRefundDO()
                 .setId(payRefund.getId())
                 .setStatus(status)
+                .setTradeNo(paySuccessResult.getData().getTradeNo())
                 .setExtensionData(params);
         int updateCounts = payRefundMapper.update(updatePayRefundDO, PayRefundStatus.WAITING.getValue());
         if (updateCounts == 0) { // 校验状态，必须是待支付
@@ -145,6 +148,24 @@ public class PayRefundServiceImpl implements PayRefundService {
         payNotifyService.addRefundNotifyTask(payRefund);
         // 返回结果
         return CommonResult.success(true);
+    }
+
+    @Override
+    public PayRefundPageBO getRefundPage(PayRefundPageDTO payRefundPageDTO) {
+        PayRefundPageBO payRefundPageBO = new PayRefundPageBO();
+        // 查询分页数据
+        int offset = (payRefundPageDTO.getPageNo() - 1) * payRefundPageDTO.getPageSize();
+        payRefundPageBO.setList(PayRefundConvert.INSTANCE.convertList(payRefundMapper.selectListByPage(
+                payRefundPageDTO.getCreateBeginTime(), payRefundPageDTO.getCreateEndTime(),
+                payRefundPageDTO.getFinishBeginTime(), payRefundPageDTO.getFinishEndTime(),
+                payRefundPageDTO.getStatus(), payRefundPageDTO.getPayChannel(),
+                offset, payRefundPageDTO.getPageSize())));
+        // 查询分页总数
+        payRefundPageBO.setTotal(payRefundMapper.selectCountByPage(
+                payRefundPageDTO.getCreateBeginTime(), payRefundPageDTO.getCreateEndTime(),
+                payRefundPageDTO.getFinishBeginTime(), payRefundPageDTO.getFinishEndTime(),
+                payRefundPageDTO.getStatus(), payRefundPageDTO.getPayChannel()));
+        return payRefundPageBO;
     }
 
     private String generateTransactionCode() {

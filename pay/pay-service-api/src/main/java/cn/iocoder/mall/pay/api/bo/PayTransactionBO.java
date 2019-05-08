@@ -92,4 +92,11 @@ public class PayTransactionBO implements Serializable {
      */
     private Date createTime;
 
+    // ========== 退款相关 ==========
+
+    /**
+     * 退款总金额
+     */
+    private Integer refundTotal;
+
 }

@@ -52,7 +52,7 @@
 
     <select id="selectById" parameterType="Integer" resultType="AdminDO">
         SELECT
-        <include refid="FIELDS" />
+            <include refid="FIELDS" />
         FROM admin
         WHERE id = #{id}
         AND deleted = 0

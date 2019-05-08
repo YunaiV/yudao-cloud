@@ -1,7 +1,9 @@
 package cn.iocoder.mall.pay.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.pay.api.bo.PayRefundPageBO;
 import cn.iocoder.mall.pay.api.bo.PayRefundSubmitBO;
+import cn.iocoder.mall.pay.api.dto.PayRefundPageDTO;
 import cn.iocoder.mall.pay.api.dto.PayRefundSubmitDTO;
 
 public interface PayRefundService {
@@ -19,5 +21,7 @@ public interface PayRefundService {
      * @return 是否支付成功
      */
     CommonResult<Boolean> updateRefundSuccess(Integer payChannel, String params);
+
+    PayRefundPageBO getRefundPage(PayRefundPageDTO payRefundPageDTO);
 
 }

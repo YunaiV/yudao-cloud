@@ -15,6 +15,10 @@ public class UserPageDTO {
      * 模糊查询
      */
     private String nickname;
+    /**
+     * 状态
+     */
+    private Integer status;
 
     @NotNull(message = "页码不能为空")
     private Integer pageNo;

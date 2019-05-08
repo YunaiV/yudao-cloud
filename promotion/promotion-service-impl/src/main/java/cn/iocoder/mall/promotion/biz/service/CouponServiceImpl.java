@@ -4,7 +4,6 @@ import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
 import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.StringUtil;
-import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.promotion.api.CouponService;
 import cn.iocoder.mall.promotion.api.bo.*;
 import cn.iocoder.mall.promotion.api.constant.*;
@@ -35,13 +34,13 @@ public class CouponServiceImpl implements CouponService {
     // ========== 优惠劵（码）模板 ==========
 
     @Override
-    public CommonResult<CouponTemplateBO> getCouponTemplate(Integer couponTemplateId) {
+    public CouponTemplateBO getCouponTemplate(Integer couponTemplateId) {
         CouponTemplateDO template = couponTemplateMapper.selectById(couponTemplateId);
-        return CommonResult.success(CouponTemplateConvertImpl.INSTANCE.convert(template));
+        return CouponTemplateConvertImpl.INSTANCE.convert(template);
     }
 
     @Override
-    public CommonResult<CouponTemplatePageBO> getCouponTemplatePage(CouponTemplatePageDTO couponTemplatePageDTO) {
+    public CouponTemplatePageBO getCouponTemplatePage(CouponTemplatePageDTO couponTemplatePageDTO) {
         CouponTemplatePageBO couponTemplatePageBO = new CouponTemplatePageBO();
         // 查询分页数据
         int offset = (couponTemplatePageDTO.getPageNo() - 1) * couponTemplatePageDTO.getPageSize();
@@ -53,31 +52,24 @@ public class CouponServiceImpl implements CouponService {
         couponTemplatePageBO.setTotal(couponTemplateMapper.selectCountByPage(
                 couponTemplatePageDTO.getType(), couponTemplatePageDTO.getTitle(),
                 couponTemplatePageDTO.getStatus(), couponTemplatePageDTO.getPreferentialType()));
-        return CommonResult.success(couponTemplatePageBO);
+        return couponTemplatePageBO;
     }
 
     @Override
-    public CommonResult<CouponTemplateBO> addCouponCodeTemplate(CouponCodeTemplateAddDTO couponCodeTemplateAddDTO) {
+    public CouponTemplateBO addCouponCodeTemplate(CouponCodeTemplateAddDTO couponCodeTemplateAddDTO) {
         return null;
     }
 
     @Override
-    public CommonResult<CouponTemplateBO> addCouponCardTemplate(CouponCardTemplateAddDTO couponCardTemplateAddDTO) {
+    public CouponTemplateBO addCouponCardTemplate(CouponCardTemplateAddDTO couponCardTemplateAddDTO) {
         // 校验生效日期相关
-        CommonResult<Boolean> checkCouponCodeTemplateDateTypeResult = this.checkCouponTemplateDateType(
-                couponCardTemplateAddDTO.getDateType(),
+        checkCouponTemplateDateType(couponCardTemplateAddDTO.getDateType(),
                 couponCardTemplateAddDTO.getValidStartTime(), couponCardTemplateAddDTO.getValidEndTime(),
                 couponCardTemplateAddDTO.getFixedBeginTerm(), couponCardTemplateAddDTO.getFixedEndTerm());
-        if (checkCouponCodeTemplateDateTypeResult.isError()) {
-            return CommonResult.error(checkCouponCodeTemplateDateTypeResult);
-        }
         // 校验优惠类型
-        CommonResult<Boolean> checkCouponTemplateDateTypeResult = this.checkCouponTemplatePreferentialType(
+        Boolean checkCouponTemplateDateTypeResult = checkCouponTemplatePreferentialType(
                 couponCardTemplateAddDTO.getPreferentialType(), couponCardTemplateAddDTO.getPercentOff(),
                 couponCardTemplateAddDTO.getPriceOff(), couponCardTemplateAddDTO.getPriceAvailable());
-        if (checkCouponTemplateDateTypeResult.isError()) {
-            return CommonResult.error(checkCouponTemplateDateTypeResult);
-        }
         // 保存优惠劵模板到数据库
         CouponTemplateDO template = CouponTemplateConvert.INSTANCE.convert(couponCardTemplateAddDTO)
                 .setType(CouponTemplateTypeEnum.CARD.getValue())
@@ -86,97 +78,97 @@ public class CouponServiceImpl implements CouponService {
         template.setCreateTime(new Date());
         couponTemplateMapper.insert(template);
         // 返回成功
-        return CommonResult.success(CouponTemplateConvert.INSTANCE.convert(template));
+        return CouponTemplateConvert.INSTANCE.convert(template);
     }
 
     @Override
-    public CommonResult<Boolean> updateCouponCodeTemplate(CouponCodeTemplateUpdateDTO couponCodeTemplateUpdateDTO) {
+    public Boolean updateCouponCodeTemplate(CouponCodeTemplateUpdateDTO couponCodeTemplateUpdateDTO) {
         return null;
     }
 
     @Override
-    public CommonResult<Boolean> updateCouponCardTemplate(CouponCardTemplateUpdateDTO couponCardTemplateUpdateDTO) {
+    public Boolean updateCouponCardTemplate(CouponCardTemplateUpdateDTO couponCardTemplateUpdateDTO) {
         // 校验 CouponCardTemplate 存在
         CouponTemplateDO template = couponTemplateMapper.selectById(couponCardTemplateUpdateDTO.getId());
         if (template == null) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_TEMPLATE_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_NOT_EXISTS.getCode());
         }
         // 校验 CouponCardTemplate 是 CARD
         if (!CouponTemplateTypeEnum.CARD.getValue().equals(template.getType())) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_TEMPLATE_NOT_CARD.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_NOT_CARD.getCode());
         }
         // 校验发放数量不能减少
         if (couponCardTemplateUpdateDTO.getTotal() < template.getTotal()) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_TEMPLATE_TOTAL_CAN_NOT_REDUCE.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_TOTAL_CAN_NOT_REDUCE.getCode());
         }
         // 更新优惠劵模板到数据库
         CouponTemplateDO updateTemplateDO = CouponTemplateConvert.INSTANCE.convert(couponCardTemplateUpdateDTO);
         couponTemplateMapper.update(updateTemplateDO);
         // 返回成功
-        return CommonResult.success(true);
+        return true;
     }
 
     @Override
-    public CommonResult<Boolean> updateCouponTemplateStatus(Integer adminId, Integer couponTemplateId, Integer status) {
+    public Boolean updateCouponTemplateStatus(Integer adminId, Integer couponTemplateId, Integer status) {
         // 校验 CouponCardTemplate 存在
         CouponTemplateDO template = couponTemplateMapper.selectById(couponTemplateId);
         if (template == null) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_TEMPLATE_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_NOT_EXISTS.getCode());
         }
         // 更新到数据库
         CouponTemplateDO updateTemplateDO = new CouponTemplateDO().setId(couponTemplateId).setStatus(status);
         couponTemplateMapper.update(updateTemplateDO);
         // 返回成功
-        return CommonResult.success(true);
+        return true;
     }
 
-    private CommonResult<Boolean> checkCouponTemplateDateType(Integer dateType, Date validStartTime, Date validEndTime, Integer fixedBeginTerm, Integer fixedEndTerm) {
+    private Boolean checkCouponTemplateDateType(Integer dateType, Date validStartTime, Date validEndTime, Integer fixedBeginTerm, Integer fixedEndTerm) {
         if (CouponTemplateDateTypeEnum.FIXED_DATE.getValue().equals(dateType)) { // 固定日期
             if (validStartTime == null) {
-                return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "生效开始时间不能为空");
+                throw ServiceExceptionUtil.exception(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "生效开始时间不能为空");
             }
             if (validEndTime == null) {
-                return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "生效结束时间不能为空");
+                throw ServiceExceptionUtil.exception(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "生效结束时间不能为空");
             }
             if (validStartTime.after(validEndTime)) {
-                return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "生效开始时间不能大于生效结束时间");
+                throw ServiceExceptionUtil.exception(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "生效开始时间不能大于生效结束时间");
             }
         } else if (CouponTemplateDateTypeEnum.FIXED_TERM.getValue().equals(dateType)) { // 领取日期
             if (fixedBeginTerm == null) {
-                return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "领取日期开始时间不能为空");
+                throw ServiceExceptionUtil.exception(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "领取日期开始时间不能为空");
             }
             if (fixedEndTerm == null) {
-                return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "领取日期结束时间不能为空");
+                throw ServiceExceptionUtil.exception(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "领取日期结束时间不能为空");
             }
         } else {
             throw new IllegalArgumentException("未知的生效日期类型：" + dateType);
         }
-        return CommonResult.success(true);
+        return true;
     }
 
-    private CommonResult<Boolean> checkCouponTemplatePreferentialType(Integer preferentialType, Integer percentOff,
+    private Boolean checkCouponTemplatePreferentialType(Integer preferentialType, Integer percentOff,
                                                                       Integer priceOff, Integer priceAvailable) {
         if (PreferentialTypeEnum.PRICE.getValue().equals(preferentialType)) {
             if (priceOff == null) {
-                return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "优惠金额不能为空");
+                throw ServiceExceptionUtil.exception(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "优惠金额不能为空");
             }
             if (priceOff >= priceAvailable) {
-                return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "优惠金额不能d大于等于使用金额门槛");
+                throw ServiceExceptionUtil.exception(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "优惠金额不能d大于等于使用金额门槛");
             }
         } else if (PreferentialTypeEnum.DISCOUNT.getValue().equals(preferentialType)) {
             if (percentOff == null) {
-                return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "折扣百分比不能为空");
+                throw ServiceExceptionUtil.exception(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "折扣百分比不能为空");
             }
         } else {
             throw new IllegalArgumentException("未知的优惠类型：" + preferentialType);
         }
-        return CommonResult.success(true);
+        return true;
     }
 
     // ========== 优惠劵 ==========
 
     @Override
-    public CommonResult<CouponCardPageBO> getCouponCardPage(CouponCardPageDTO couponCardPageDTO) {
+    public CouponCardPageBO getCouponCardPage(CouponCardPageDTO couponCardPageDTO) {
         CouponCardPageBO pageBO = new CouponCardPageBO();
         // 查询分页数据
         int offset = (couponCardPageDTO.getPageNo() - 1) * couponCardPageDTO.getPageSize();
@@ -186,37 +178,37 @@ public class CouponServiceImpl implements CouponService {
         // 查询分页总数
         pageBO.setTotal(couponCardMapper.selectCountByPage(
                 couponCardPageDTO.getUserId(), couponCardPageDTO.getStatus()));
-        return CommonResult.success(pageBO);
+        return pageBO;
     }
 
     @Override
     @Transactional
-    public CommonResult<CouponCardBO> addCouponCard(Integer userId, Integer couponTemplateId) {
+    public CouponCardBO addCouponCard(Integer userId, Integer couponTemplateId) {
         // 校验 CouponCardTemplate 存在
         CouponTemplateDO template = couponTemplateMapper.selectById(couponTemplateId);
         if (template == null) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_TEMPLATE_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_NOT_EXISTS.getCode());
         }
         // 校验 CouponCardTemplate 是 CARD
         if (!CouponTemplateTypeEnum.CARD.getValue().equals(template.getType())) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_TEMPLATE_NOT_CARD.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_NOT_CARD.getCode());
         }
         // 校验 CouponCardTemplate 状态是否开启
         if (!CouponTemplateStatusEnum.ENABLE.getValue().equals(template.getStatus())) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_TEMPLATE_STATUS_NOT_ENABLE.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_STATUS_NOT_ENABLE.getCode());
         }
         // 校验 CouponCardTemplate 是否到达可领取的上限
         if (template.getStatFetchNum() > template.getTotal()) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_TEMPLATE_TOTAL_NOT_ENOUGH.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_TOTAL_NOT_ENOUGH.getCode());
         }
         //  校验单人可领取优惠劵是否到达上限
         if (couponCardMapper.selectCountByUserIdAndTemplateId(userId, couponTemplateId) > template.getQuota()) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_TEMPLATE_CARD_ADD_EXCEED_QUOTA.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_CARD_ADD_EXCEED_QUOTA.getCode());
         }
         // 增加优惠劵已领取量
         int updateTemplateCount = couponTemplateMapper.updateStatFetchNumIncr(couponTemplateId);
         if (updateTemplateCount == 0) { // 超过 CouponCardTemplate 发放量
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_TEMPLATE_CARD_ADD_EXCEED_QUOTA.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_CARD_ADD_EXCEED_QUOTA.getCode());
         }
         // 创建优惠劵
         // 1. 基本信息 + 领取情况
@@ -237,85 +229,85 @@ public class CouponServiceImpl implements CouponService {
         card.setCreateTime(new Date());
         couponCardMapper.insert(card);
         // 返回成功
-        return CommonResult.success(CouponCardConvert.INSTANCE.convert(card));
+        return CouponCardConvert.INSTANCE.convert(card);
     }
 
     @Override
-    public CommonResult<Boolean> useCouponCard(Integer userId, Integer couponCardId) {
+    public Boolean useCouponCard(Integer userId, Integer couponCardId) {
         // 查询优惠劵
         CouponCardDO card = couponCardMapper.selectById(couponCardId);
         if (card == null) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_NOT_EXISTS.getCode());
         }
         if (!userId.equals(card.getUserId())) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_ERROR_USER.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_ERROR_USER.getCode());
         }
         if (CouponCardStatusEnum.UNUSED.getValue().equals(card.getStatus())) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
         }
         if (DateUtil.isBetween(card.getValidStartTime(), card.getValidEndTime())) { // 为避免定时器没跑，实际优惠劵已经过期
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
         }
         // 更新优惠劵已使用
         int updateCount = couponCardMapper.updateByIdAndStatus(card.getId(), CouponCardStatusEnum.USED.getValue(),
                 new CouponCardDO().setStatus(CouponCardStatusEnum.USED.getValue()).setUsedTime(new Date()));
         if (updateCount == 0) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
         }
-        return CommonResult.success(true);
+        return true;
     }
 
     @Override
-    public CommonResult<Boolean> cancelUseCouponCard(Integer userId, Integer couponCardId) {
+    public Boolean cancelUseCouponCard(Integer userId, Integer couponCardId) {
         // 查询优惠劵
         CouponCardDO card = couponCardMapper.selectById(couponCardId);
         if (card == null) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_NOT_EXISTS.getCode());
         }
         if (!userId.equals(card.getUserId())) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_ERROR_USER.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_ERROR_USER.getCode());
         }
         if (CouponCardStatusEnum.USED.getValue().equals(card.getStatus())) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_USED.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_USED.getCode());
         }
         // 更新优惠劵已使用
         int updateCount = couponCardMapper.updateByIdAndStatus(card.getId(), CouponCardStatusEnum.UNUSED.getValue(),
                 new CouponCardDO().setStatus(CouponCardStatusEnum.USED.getValue())); // TODO 芋艿，usedTime 未设置空，后面处理。
         if (updateCount == 0) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_USED.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_USED.getCode());
         }
         // 有一点要注意，更新会未使用时，优惠劵可能已经过期了，直接让定时器跑过期，这里不做处理。
-        return CommonResult.success(true);
+        return true;
     }
 
     @Override
-    public CommonResult<CouponCardDetailBO> getCouponCardDetail(Integer userId, Integer couponCardId) {
+    public CouponCardDetailBO getCouponCardDetail(Integer userId, Integer couponCardId) {
         // 查询优惠劵
         CouponCardDO card = couponCardMapper.selectById(couponCardId);
         if (card == null) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_NOT_EXISTS.getCode());
         }
         if (!userId.equals(card.getUserId())) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_ERROR_USER.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_ERROR_USER.getCode());
         }
         // 查询优惠劵模板
         CouponTemplateDO template = couponTemplateMapper.selectById(card.getTemplateId());
         if (template == null) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_TEMPLATE_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_NOT_EXISTS.getCode());
         }
         // 拼接结果
         CouponCardDetailBO detail = CouponCardConvert.INSTANCE.convert2(card);
         detail.setRangeType(template.getRangeType());
         detail.setRangeValues(StringUtil.splitToInt(template.getRangeValues(), ","));
-        return CommonResult.success(detail);
+        return detail;
     }
 
     @Override
-    public CommonResult<List<CouponCardAvailableBO>> getCouponCardList(Integer userId, List<CouponCardSpuDTO> spus) {
+    public List<CouponCardAvailableBO> getCouponCardList(Integer userId, List<CouponCardSpuDTO> spus) {
         // 查询用户未使用的优惠劵列表
         List<CouponCardDO> cards = couponCardMapper.selectListByUserIdAndStatus(userId, CouponCardStatusEnum.UNUSED.getValue());
         if (cards.isEmpty()) {
-            return CommonResult.success(Collections.emptyList());
+            return Collections.emptyList();
         }
         // 查询优惠劵模板集合
         Map<Integer, CouponTemplateDO> templates = couponTemplateMapper.selectListByIds(cards.stream().map(CouponCardDO::getTemplateId).collect(Collectors.toSet()))
@@ -328,7 +320,7 @@ public class CouponServiceImpl implements CouponService {
             return availableCard;
         }).collect(Collectors.toList());
         // 返回结果
-        return CommonResult.success(availableCards);
+        return availableCards;
     }
 
     private void setCouponCardValidTime(CouponCardDO card, CouponTemplateDO template) {
@@ -374,7 +366,7 @@ public class CouponServiceImpl implements CouponService {
     // ========== 优惠码 ==========
 
     @Override
-    public CommonResult<CouponCardBO> useCouponCode(Integer userId, String code) {
+    public CouponCardBO useCouponCode(Integer userId, String code) {
         return null;
     }
 

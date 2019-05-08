@@ -3,11 +3,10 @@ package cn.iocoder.mall.user.biz.service;
 import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.ValidationUtil;
-import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.user.biz.dao.MobileCodeMapper;
-import cn.iocoder.mall.user.biz.dataobject.MobileCodeDO;
 import cn.iocoder.mall.user.api.MobileCodeService;
 import cn.iocoder.mall.user.api.constant.UserErrorCodeEnum;
+import cn.iocoder.mall.user.biz.dao.MobileCodeMapper;
+import cn.iocoder.mall.user.biz.dataobject.MobileCodeDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,7 @@ import java.util.Date;
  * MobileCodeService ，实现用户登陆时需要的验证码
  */
 @Service
-@org.apache.dubbo.config.annotation.Service
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.MobileCodeService.version}")
 public class MobileCodeServiceImpl implements MobileCodeService {
 
     /**
@@ -49,24 +48,23 @@ public class MobileCodeServiceImpl implements MobileCodeService {
      * @param code 验证码
      * @return 手机验证码信息
      */
-    public CommonResult<MobileCodeDO> validLastMobileCode(String mobile, String code) {
-
+    public MobileCodeDO validLastMobileCode(String mobile, String code) {
         // TODO: 2019-04-09 Sin 暂时先忽略掉验证码校验
-        return CommonResult.success(new MobileCodeDO().setCode(code).setCreateTime(new Date()).setId(1));
-//        MobileCodeDO mobileCodePO = mobileCodeMapper.selectLast1ByMobile(mobile);
-//        if (mobileCodePO == null) { // 若验证码不存在，抛出异常
-//            return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_NOT_FOUND.getCode());
-//        }
-//        if (System.currentTimeMillis() - mobileCodePO.getCreateTime().getTime() >= codeExpireTimes) { // 验证码已过期
-//            return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_EXPIRED.getCode());
-//        }
-//        if (mobileCodePO.getUsed()) { // 验证码已使用
-//            return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_USED.getCode());
-//        }
-//        if (!mobileCodePO.getCode().equals(code)) {
-//            return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_NOT_CORRECT.getCode());
-//        }
-//        return CommonResult.success(mobileCodePO);
+//        return new MobileCodeDO().setCode(code).setCreateTime(new Date()).setId(1);
+        MobileCodeDO mobileCodePO = mobileCodeMapper.selectLast1ByMobile(mobile);
+        if (mobileCodePO == null) { // 若验证码不存在，抛出异常
+            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_NOT_FOUND.getCode());
+        }
+        if (System.currentTimeMillis() - mobileCodePO.getCreateTime().getTime() >= codeExpireTimes) { // 验证码已过期
+            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_EXPIRED.getCode());
+        }
+        if (mobileCodePO.getUsed()) { // 验证码已使用
+            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_USED.getCode());
+        }
+        if (!mobileCodePO.getCode().equals(code)) {
+            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_NOT_CORRECT.getCode());
+        }
+        return mobileCodePO;
     }
 
     /**
@@ -81,18 +79,18 @@ public class MobileCodeServiceImpl implements MobileCodeService {
     }
 
     // TODO 芋艿，后面要返回有效时间
-    public CommonResult<Void> send(String mobile) {
+    public void send(String mobile) {
         if (!ValidationUtil.isMobile(mobile)) {
-            return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "手机格式不正确"); // TODO 有点搓
+            throw ServiceExceptionUtil.exception(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "手机格式不正确"); // TODO 有点搓
         }
         // 校验是否可以发送验证码
         MobileCodeDO lastMobileCodePO = mobileCodeMapper.selectLast1ByMobile(mobile);
         if (lastMobileCodePO != null) {
             if (lastMobileCodePO.getTodayIndex() >= sendMaximumQuantityPerDay) { // 超过当天发送的上限。
-                return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_EXCEED_SEND_MAXIMUM_QUANTITY_PER_DAY.getCode());
+                throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_EXCEED_SEND_MAXIMUM_QUANTITY_PER_DAY.getCode());
             }
             if (System.currentTimeMillis() - lastMobileCodePO.getCreateTime().getTime() < sendFrequency) { // 发送过于频繁
-                return ServiceExceptionUtil.error(UserErrorCodeEnum.MOBILE_CODE_SEND_TOO_FAST.getCode());
+                throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_SEND_TOO_FAST.getCode());
             }
             // TODO 提升，每个 IP 每天可发送数量
             // TODO 提升，每个 IP 每小时可发送数量
@@ -104,7 +102,6 @@ public class MobileCodeServiceImpl implements MobileCodeService {
                 .setUsed(false).setCreateTime(new Date());
         mobileCodeMapper.insert(newMobileCodePO);
         // TODO 发送验证码短信
-        return CommonResult.success(null);
     }
 
 }

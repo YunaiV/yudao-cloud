@@ -58,6 +58,19 @@ export default [
           },
         ],
       },
+      // user
+      {
+        path: '/member', // TODO 芋艿，后面调整
+        name: 'user',
+        icon: 'user',
+        routes: [
+          {
+            path: '/member/user-list',
+            name: 'user-list',
+            component: './User/UserList',
+          },
+        ],
+      },
       // order
       {
         path: 'order',
@@ -140,6 +153,24 @@ export default [
             name: 'full-privilege-list',
             component: './Promotion/FullPrivilegeList',
           }
+        ],
+      },
+      // pay
+      {
+        path: '/pay',
+        name: 'pay',
+        icon: 'user',
+        routes: [
+          {
+            path: '/pay/transaction-list',
+            name: 'pay-transaction-list',
+            component: './Pay/PayTransactionList',
+          },
+          {
+            path: '/pay/refund-list',
+            name: 'pay-refund-list',
+            component: './Pay/PayRefundList',
+          },
         ],
       },
       {

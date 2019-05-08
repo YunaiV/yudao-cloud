@@ -2,18 +2,17 @@ package cn.iocoder.mall.user.biz.service;
 
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
-import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.user.api.OAuth2Service;
+import cn.iocoder.mall.user.api.bo.OAuth2AccessTokenBO;
+import cn.iocoder.mall.user.api.bo.OAuth2AuthenticationBO;
+import cn.iocoder.mall.user.api.constant.UserErrorCodeEnum;
+import cn.iocoder.mall.user.biz.convert.OAuth2Convert;
 import cn.iocoder.mall.user.biz.dao.OAuth2AccessTokenMapper;
 import cn.iocoder.mall.user.biz.dao.OAuth2RefreshTokenMapper;
 import cn.iocoder.mall.user.biz.dataobject.MobileCodeDO;
 import cn.iocoder.mall.user.biz.dataobject.OAuth2AccessTokenDO;
 import cn.iocoder.mall.user.biz.dataobject.OAuth2RefreshTokenDO;
 import cn.iocoder.mall.user.biz.dataobject.UserDO;
-import cn.iocoder.mall.user.api.OAuth2Service;
-import cn.iocoder.mall.user.api.bo.OAuth2AccessTokenBO;
-import cn.iocoder.mall.user.api.bo.OAuth2AuthenticationBO;
-import cn.iocoder.mall.user.api.constant.UserErrorCodeEnum;
-import cn.iocoder.mall.user.biz.convert.OAuth2Convert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,7 +26,7 @@ import java.util.UUID;
  * OAuth2Service ，实现用户授权相关的逻辑
  */
 @Service
-@org.apache.dubbo.config.annotation.Service
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.OAuth2Service.version}")
 public class OAuth2ServiceImpl implements OAuth2Service {
 
     /**
@@ -52,20 +51,13 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 
     @Override
     @Transactional
-    public CommonResult<OAuth2AccessTokenBO> getAccessToken(String mobile, String code) {
+    public OAuth2AccessTokenBO getAccessToken(String mobile, String code) {
         // 校验传入的 mobile 和 code 是否合法
-        CommonResult<MobileCodeDO> result = mobileCodeService.validLastMobileCode(mobile, code);
-        if (result.isError()) {
-            return CommonResult.error(result);
-        }
+        MobileCodeDO mobileCodeDO = mobileCodeService.validLastMobileCode(mobile, code);
         // 获取用户
         UserDO userDO = userService.getUser(mobile);
         if (userDO == null) { // 用户不存在，则进行创建用户
-            CommonResult<UserDO> createResult = userService.createUser(mobile);
-            if (createResult.isError()) {
-                return CommonResult.error(createResult);
-            }
-            userDO = createResult.getData();
+            userDO = userService.createUser(mobile);
             Assert.notNull(userDO, "创建用户必然成功");
         }
         // 创建刷新令牌
@@ -73,46 +65,46 @@ public class OAuth2ServiceImpl implements OAuth2Service {
         // 创建访问令牌
         OAuth2AccessTokenDO oauth2AccessTokenDO = createOAuth2AccessToken(userDO.getId(), oauth2RefreshTokenDO.getId());
         // 标记已使用
-        mobileCodeService.useMobileCode(result.getData().getId(), userDO.getId());
+        mobileCodeService.useMobileCode(mobileCodeDO.getId(), userDO.getId());
         // 转换返回
-        return CommonResult.success(OAuth2Convert.INSTANCE.convertToAccessTokenWithExpiresIn(oauth2AccessTokenDO));
+        return OAuth2Convert.INSTANCE.convertToAccessTokenWithExpiresIn(oauth2AccessTokenDO);
     }
 
     @Override
-    public CommonResult<OAuth2AuthenticationBO> checkToken(String accessToken) throws ServiceException {
+    public OAuth2AuthenticationBO checkToken(String accessToken) throws ServiceException {
         OAuth2AccessTokenDO accessTokenDO = oauth2AccessTokenMapper.selectByTokenId(accessToken);
         if (accessTokenDO == null) { // 不存在
-            return ServiceExceptionUtil.error(UserErrorCodeEnum.OAUTH_INVALID_ACCESS_TOKEN_NOT_FOUND.getCode());
+            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.OAUTH_INVALID_ACCESS_TOKEN_NOT_FOUND.getCode());
         }
         if (accessTokenDO.getExpiresTime().getTime() < System.currentTimeMillis()) { // 已过期
-            return ServiceExceptionUtil.error(UserErrorCodeEnum.OAUTH_INVALID_ACCESS_TOKEN_EXPIRED.getCode());
+            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.OAUTH_INVALID_ACCESS_TOKEN_EXPIRED.getCode());
         }
         if (!accessTokenDO.getValid()) { // 无效
-            return ServiceExceptionUtil.error(UserErrorCodeEnum.OAUTH_INVALID_ACCESS_TOKEN_INVALID.getCode());
+            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.OAUTH_INVALID_ACCESS_TOKEN_INVALID.getCode());
         }
         // 转换返回
-        return CommonResult.success(OAuth2Convert.INSTANCE.convertToAuthentication(accessTokenDO));
+        return OAuth2Convert.INSTANCE.convertToAuthentication(accessTokenDO);
     }
 
     @Override
-    public CommonResult<OAuth2AccessTokenBO> refreshToken(String refreshToken) {
+    public OAuth2AccessTokenBO refreshToken(String refreshToken) {
         OAuth2RefreshTokenDO refreshTokenDO = oauth2RefreshTokenMapper.selectById(refreshToken);
         // 校验刷新令牌是否合法
         if (refreshTokenDO == null) { // 不存在
-            return ServiceExceptionUtil.error(UserErrorCodeEnum.OAUTH_INVALID_REFRESH_TOKEN_NOT_FOUND.getCode());
+            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.OAUTH_INVALID_REFRESH_TOKEN_NOT_FOUND.getCode());
         }
         if (refreshTokenDO.getExpiresTime().getTime() < System.currentTimeMillis()) { // 已过期
-            return ServiceExceptionUtil.error(UserErrorCodeEnum.OAUTH_INVALID_REFRESH_TOKEN_EXPIRED.getCode());
+            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.OAUTH_INVALID_REFRESH_TOKEN_EXPIRED.getCode());
         }
         if (!refreshTokenDO.getValid()) { // 无效
-            return ServiceExceptionUtil.error(UserErrorCodeEnum.OAUTH_INVALID_REFRESH_TOKEN_INVALID.getCode());
+            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.OAUTH_INVALID_REFRESH_TOKEN_INVALID.getCode());
         }
         // 标记 refreshToken 对应的 accessToken 都不合法
         oauth2AccessTokenMapper.updateToInvalidByRefreshToken(refreshToken);
         // 创建访问令牌
         OAuth2AccessTokenDO oauth2AccessTokenDO = createOAuth2AccessToken(refreshTokenDO.getUserId(), refreshTokenDO.getId());
         // 转换返回
-        return CommonResult.success(OAuth2Convert.INSTANCE.convertToAccessTokenWithExpiresIn(oauth2AccessTokenDO));
+        return OAuth2Convert.INSTANCE.convertToAccessTokenWithExpiresIn(oauth2AccessTokenDO);
     }
 
     /**

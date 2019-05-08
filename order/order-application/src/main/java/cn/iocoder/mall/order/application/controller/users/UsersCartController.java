@@ -23,6 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import static cn.iocoder.common.framework.vo.CommonResult.success;
+
 @RestController
 @RequestMapping("users/cart")
 public class UsersCartController {
@@ -38,26 +40,17 @@ public class UsersCartController {
     public CommonResult<Integer> add(@RequestParam("skuId") Integer skuId,
                                      @RequestParam("quantity") Integer quantity) {
         // 添加到购物车
-        CommonResult<Boolean> addResult = cartService.add(UserSecurityContextHolder.getContext().getUserId(),
-                skuId, quantity);
-        // 添加失败，则直接返回错误
-        if (addResult.isError()) {
-            return CommonResult.error(addResult);
-        }
+        cartService.add(UserSecurityContextHolder.getContext().getUserId(), skuId, quantity);
         // 获得目前购物车商品总数量
-        return cartService.count(UserSecurityContextHolder.getContext().getUserId());
+        return success(cartService.count(UserSecurityContextHolder.getContext().getUserId()));
     }
 
     @PostMapping("update_quantity")
     public CommonResult<UsersCartDetailVO> updateQuantity(@RequestParam("skuId") Integer skuId, // TODO 芋艿，先暂用这个 VO 。等促销活动出来后，做调整
                                                           @RequestParam("quantity") Integer quantity) {
         // 添加到购物车
-        CommonResult<Boolean> updateQuantityResult = cartService.updateQuantity(UserSecurityContextHolder.getContext().getUserId(),
+        cartService.updateQuantity(UserSecurityContextHolder.getContext().getUserId(),
                 skuId, quantity);
-        // 添加失败，则直接返回错误
-        if (updateQuantityResult.isError()) {
-            return CommonResult.error(updateQuantityResult);
-        }
         // 获得目前购物车明细
         return getCartDetail();
     }
@@ -66,19 +59,14 @@ public class UsersCartController {
     public CommonResult<UsersCartDetailVO> updateSelected(@RequestParam("skuIds") Set<Integer> skuIds, // TODO 芋艿，先暂用这个 VO 。等促销活动出来后，做调整
                                                           @RequestParam("selected") Boolean selected) {
         // 添加到购物车
-        CommonResult<Boolean> updateSelectedResult = cartService.updateSelected(UserSecurityContextHolder.getContext().getUserId(),
-                skuIds, selected);
-        // 添加失败，则直接返回错误
-        if (updateSelectedResult.isError()) {
-            return CommonResult.error(updateSelectedResult);
-        }
+        cartService.updateSelected(UserSecurityContextHolder.getContext().getUserId(), skuIds, selected);
         // 获得目前购物车明细
         return getCartDetail();
     }
 
     @GetMapping("count")
     public CommonResult<Integer> count() {
-        return cartService.count(UserSecurityContextHolder.getContext().getUserId());
+        return success(cartService.count(UserSecurityContextHolder.getContext().getUserId()));
     }
 
     @GetMapping("/list")
@@ -88,50 +76,42 @@ public class UsersCartController {
 
     private CommonResult<UsersCartDetailVO> getCartDetail() {
         // 获得购物车中选中的
-        List<CartItemBO> cartItems = cartService.list(UserSecurityContextHolder.getContext().getUserId(), null).getData();
+        List<CartItemBO> cartItems = cartService.list(UserSecurityContextHolder.getContext().getUserId(), null);
         // 购物车为空时，构造空的 UsersOrderConfirmCreateVO 返回
         if (cartItems.isEmpty()) {
             UsersCartDetailVO result = new UsersCartDetailVO();
             result.setItemGroups(Collections.emptyList());
             result.setFee(new UsersCartDetailVO.Fee(0, 0, 0, 0));
-            return CommonResult.success(result);
+            return success(result);
         }
         // 计算商品价格
-        CommonResult<CalcOrderPriceBO> calcOrderPriceResult = list0(cartItems, null);
-        if (calcOrderPriceResult.isError()) {
-            return CommonResult.error(calcOrderPriceResult);
-        }
+        CalcOrderPriceBO calcOrder = list0(cartItems, null);
         // 执行数据拼装
-        return CommonResult.success(CartConvert.INSTANCE.convert2(calcOrderPriceResult.getData()));
+        return success(CartConvert.INSTANCE.convert2(calcOrder));
     }
 
     @GetMapping("/confirm_create_order")
     public CommonResult<UsersOrderConfirmCreateVO> getConfirmCreateOrder(@RequestParam(value = "couponCardId", required = false) Integer couponCardId) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         // 获得购物车中选中的
-        List<CartItemBO> cartItems = cartService.list(userId, true).getData();
+        List<CartItemBO> cartItems = cartService.list(userId, true);
         // 购物车为空时，构造空的 UsersOrderConfirmCreateVO 返回
         if (cartItems.isEmpty()) {
             UsersOrderConfirmCreateVO result = new UsersOrderConfirmCreateVO();
             result.setItemGroups(Collections.emptyList());
             result.setFee(new UsersOrderConfirmCreateVO.Fee(0, 0, 0, 0));
-            return CommonResult.success(result);
+            return success(result);
         }
         // 计算商品价格
-        CommonResult<CalcOrderPriceBO> calcOrderPriceResult = list0(cartItems, couponCardId);
-        if (calcOrderPriceResult.isError()) {
-            return CommonResult.error(calcOrderPriceResult);
-        }
+        CalcOrderPriceBO calcOrderPrice = list0(cartItems, couponCardId);
         // 获得优惠劵
-        CalcOrderPriceBO calcOrderPrice = calcOrderPriceResult.getData();
         List<CouponCardAvailableBO> couponCards = couponService.getCouponCardList(userId,
-                CartConvert.INSTANCE.convertList(calcOrderPrice.getItemGroups())).getData();
+                CartConvert.INSTANCE.convertList(calcOrderPrice.getItemGroups()));
         // 执行数据拼装
-        return CommonResult.success(CartConvert.INSTANCE.convert(calcOrderPrice)
-                .setCouponCards(couponCards));
+        return success(CartConvert.INSTANCE.convert(calcOrderPrice).setCouponCards(couponCards));
     }
 
-    private CommonResult<CalcOrderPriceBO> list0(List<CartItemBO> cartItems, Integer couponCardId) {
+    private CalcOrderPriceBO list0(List<CartItemBO> cartItems, Integer couponCardId) {
         // 创建计算的 DTO
         CalcOrderPriceDTO calcOrderPriceDTO = new CalcOrderPriceDTO()
                 .setUserId(UserSecurityContextHolder.getContext().getUserId())
@@ -148,12 +128,8 @@ public class UsersCartController {
     @PermitAll
     public CommonResult<UsersCalcSkuPriceVO> calcSkuPrice(@RequestParam("skuId") Integer skuId) {
         // 计算 sku 的价格
-        CommonResult<CalcSkuPriceBO> calcSkuPriceResult = cartService.calcSkuPrice(skuId);
-        // 返回结果
-        if (calcSkuPriceResult.isError()) {
-            return CommonResult.error(calcSkuPriceResult);
-        }
-        return CommonResult.success(CartConvert.INSTANCE.convert2(calcSkuPriceResult.getData()));
+        CalcSkuPriceBO calcSkuPrice = cartService.calcSkuPrice(skuId);
+        return success(CartConvert.INSTANCE.convert2(calcSkuPrice));
     }
 
     public CommonResult<Object> confirmOrder() {

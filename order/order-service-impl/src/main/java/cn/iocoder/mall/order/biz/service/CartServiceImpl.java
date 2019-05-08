@@ -2,7 +2,6 @@ package cn.iocoder.mall.order.biz.service;
 
 import cn.iocoder.common.framework.constant.CommonStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
-import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.CartService;
 import cn.iocoder.mall.order.api.bo.CalcOrderPriceBO;
 import cn.iocoder.mall.order.api.bo.CalcSkuPriceBO;
@@ -48,12 +47,12 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @SuppressWarnings("Duplicates")
-    public CommonResult<Boolean> add(Integer userId, Integer skuId, Integer quantity) {
+    public Boolean add(Integer userId, Integer skuId, Integer quantity) {
         // 查询 SKU 是否合法
         ProductSkuBO sku = productSpuService.getProductSku(skuId);
         if (sku == null
                 || CommonStatusEnum.DISABLE.getValue().equals(sku.getStatus())) { // sku 被禁用
-            return ServiceExceptionUtil.error(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());
+            throw ServiceExceptionUtil.exception(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());
         }
         // TODO 芋艿，后续基于商品是否上下架进一步完善。
         // 查询 CartItemDO
@@ -66,10 +65,10 @@ public class CartServiceImpl implements CartService {
         return add0(userId, sku, quantity);
     }
 
-    private CommonResult<Boolean> add0(Integer userId, ProductSkuBO sku, Integer quantity) {
+    private Boolean add0(Integer userId, ProductSkuBO sku, Integer quantity) {
         // 校验库存
         if (quantity > sku.getQuantity()) {
-            return ServiceExceptionUtil.error(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());
+            throw ServiceExceptionUtil.exception(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());
         }
         // 创建 CartItemDO 对象，并进行保存。
         CartItemDO item = new CartItemDO()
@@ -82,79 +81,79 @@ public class CartServiceImpl implements CartService {
         item.setCreateTime(new Date());
         cartMapper.insert(item);
         // 返回成功
-        return CommonResult.success(true);
+        return true;
     }
 
     @Override
     @SuppressWarnings("Duplicates")
-    public CommonResult<Boolean> updateQuantity(Integer userId, Integer skuId, Integer quantity) {
+    public Boolean updateQuantity(Integer userId, Integer skuId, Integer quantity) {
         // 查询 SKU 是否合法
         ProductSkuBO sku = productSpuService.getProductSku(skuId);
         if (sku == null
                 || CommonStatusEnum.DISABLE.getValue().equals(sku.getStatus())) { // sku 被禁用
-            return ServiceExceptionUtil.error(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());
+            throw ServiceExceptionUtil.exception(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());
         }
         // 查询 CartItemDO
         CartItemDO item = cartMapper.selectByUserIdAndSkuIdAndStatus(userId, skuId, CartItemStatusEnum.ENABLE.getValue());
         if (item == null) {
-            return ServiceExceptionUtil.error(OrderErrorCodeEnum.CARD_ITEM_NOT_FOUND.getCode());
+            throw ServiceExceptionUtil.exception(OrderErrorCodeEnum.CARD_ITEM_NOT_FOUND.getCode());
         }
         // TODO 芋艿，后续基于商品是否上下架进一步完善。
         return updateQuantity0(item, sku, quantity);
     }
 
-    private CommonResult<Boolean> updateQuantity0(CartItemDO item, ProductSkuBO sku, Integer quantity) {
+    private Boolean updateQuantity0(CartItemDO item, ProductSkuBO sku, Integer quantity) {
         // 校验库存
         if (item.getQuantity() + quantity > sku.getQuantity()) {
-            return ServiceExceptionUtil.error(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());
+            throw ServiceExceptionUtil.exception(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());
         }
         // 更新 CartItemDO
         cartMapper.updateQuantity(item.getId(), quantity);
         // 返回成功
-        return CommonResult.success(true);
+        return true;
     }
 
     @Override
-    public CommonResult<Boolean> updateSelected(Integer userId, Collection<Integer> skuIds, Boolean selected) {
+    public Boolean updateSelected(Integer userId, Collection<Integer> skuIds, Boolean selected) {
         // 更新 CartItemDO 们
         cartMapper.updateListByUserIdAndSkuId(userId, skuIds, selected, null);
         // 返回成功
-        return CommonResult.success(true);
+        return true;
     }
 
     @Override
-    public CommonResult<Boolean> deleteList(Integer userId, List<Integer> skuIds) {
+    public Boolean deleteList(Integer userId, List<Integer> skuIds) {
         // 更新 CartItemDO 们
         cartMapper.updateListByUserIdAndSkuId(userId, skuIds, null, CartItemStatusEnum.DELETE_BY_MANUAL.getValue());
         // 返回成功
-        return CommonResult.success(true);
+        return true;
     }
 
     @Override
-    public CommonResult<Boolean> deleteAll(Integer userId) {
+    public Boolean deleteAll(Integer userId) {
         return null;
     }
 
     @Override
-    public CommonResult<Integer> count(Integer userId) {
-        return CommonResult.success(cartMapper.selectQuantitySumByUserIdAndStatus(userId, CartItemStatusEnum.ENABLE.getValue()));
+    public Integer count(Integer userId) {
+        return cartMapper.selectQuantitySumByUserIdAndStatus(userId, CartItemStatusEnum.ENABLE.getValue());
     }
 
     @Override
-    public CommonResult<List<CartItemBO>> list(Integer userId, Boolean selected) {
+    public List<CartItemBO> list(Integer userId, Boolean selected) {
         List<CartItemDO> items = cartMapper.selectByUserIdAndStatusAndSelected(userId, CartItemStatusEnum.ENABLE.getValue(), selected);
-        return CommonResult.success(CartConvert.INSTANCE.convert(items));
+        return CartConvert.INSTANCE.convert(items);
     }
 
     @Override
-    public CommonResult<CalcOrderPriceBO> calcOrderPrice(CalcOrderPriceDTO calcOrderPriceDTO) {
+    public CalcOrderPriceBO calcOrderPrice(CalcOrderPriceDTO calcOrderPriceDTO) {
         // TODO 芋艿，补充一些表单校验。例如说，需要传入用户编号。
         // 校验商品都存在
         Map<Integer, CalcOrderPriceDTO.Item> calcOrderItemMap = calcOrderPriceDTO.getItems().stream()
                 .collect(Collectors.toMap(CalcOrderPriceDTO.Item::getSkuId, item -> item)); // KEY：skuId
         List<ProductSkuDetailBO> skus = productSpuService.getProductSkuDetailList(calcOrderItemMap.keySet());
         if (skus.size() != calcOrderPriceDTO.getItems().size()) {
-            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_ITEM_SOME_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(OrderErrorCodeEnum.ORDER_ITEM_SOME_NOT_EXISTS.getCode());
         }
         // TODO 库存相关
         // 查询促销活动
@@ -172,11 +171,8 @@ public class CartServiceImpl implements CartService {
         calcOrderPriceBO.setItemGroups(itemGroups);
         // 4. 计算优惠劵
         if (calcOrderPriceDTO.getCouponCardId() != null) {
-            CommonResult<Integer> result = modifyPriceByCouponCard(calcOrderPriceDTO.getUserId(), calcOrderPriceDTO.getCouponCardId(), itemGroups);
-            if (result.isError()) {
-                return CommonResult.error(result);
-            }
-            calcOrderPriceBO.setCouponCardDiscountTotal(result.getData());
+            Integer result = modifyPriceByCouponCard(calcOrderPriceDTO.getUserId(), calcOrderPriceDTO.getCouponCardId(), itemGroups);
+            calcOrderPriceBO.setCouponCardDiscountTotal(result);
         }
         // 5. 计算最终的价格
         int buyTotal = 0;
@@ -191,31 +187,31 @@ public class CartServiceImpl implements CartService {
                 String.format("价格合计( %d - %d == %d )不正确", buyTotal, discountTotal, presentTotal));
         calcOrderPriceBO.setFee(new CalcOrderPriceBO.Fee(buyTotal, discountTotal, 0, presentTotal));
         // 返回
-        return CommonResult.success(calcOrderPriceBO);
+        return calcOrderPriceBO;
     }
 
     @Override
     @SuppressWarnings("Duplicates")
-    public CommonResult<CalcSkuPriceBO> calcSkuPrice(Integer skuId) {
+    public CalcSkuPriceBO calcSkuPrice(Integer skuId) {
         // 查询 SKU 是否合法
         ProductSkuBO sku = productSpuService.getProductSku(skuId);
         if (sku == null
                 || CommonStatusEnum.DISABLE.getValue().equals(sku.getStatus())) { // sku 被禁用
-            return ServiceExceptionUtil.error(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());
+            throw ServiceExceptionUtil.exception(OrderErrorCodeEnum.CARD_ITEM_SKU_NOT_FOUND.getCode());
         }
         // 查询促销活动
         List<PromotionActivityBO> activityList = promotionActivityService.getPromotionActivityListBySpuId(sku.getSpuId(),
                 Arrays.asList(PromotionActivityStatusEnum.WAIT.getValue(), PromotionActivityStatusEnum.RUN.getValue()));
         if (activityList.isEmpty()) { // 如果无促销活动，则直接返回默认结果即可
-            return CommonResult.success(new CalcSkuPriceBO().setOriginalPrice(sku.getPrice()).setBuyPrice(sku.getPrice()));
+            return new CalcSkuPriceBO().setOriginalPrice(sku.getPrice()).setBuyPrice(sku.getPrice());
         }
         // 如果有促销活动，则开始做计算 TODO 芋艿，因为现在暂时只有限时折扣 + 满减送。所以写的比较简单先
         PromotionActivityBO fullPrivilege = findPromotionActivityByType(activityList, PromotionActivityTypeEnum.FULL_PRIVILEGE);
         PromotionActivityBO timeLimitedDiscount = findPromotionActivityByType(activityList, PromotionActivityTypeEnum.TIME_LIMITED_DISCOUNT);
         Integer presentPrice = calcSkuPriceByTimeLimitDiscount(sku, timeLimitedDiscount);
         // 返回结果
-        return CommonResult.success(new CalcSkuPriceBO().setFullPrivilege(fullPrivilege).setTimeLimitedDiscount(timeLimitedDiscount)
-                .setOriginalPrice(sku.getPrice()).setBuyPrice(presentPrice));
+        return new CalcSkuPriceBO().setFullPrivilege(fullPrivilege).setTimeLimitedDiscount(timeLimitedDiscount)
+                .setOriginalPrice(sku.getPrice()).setBuyPrice(presentPrice);
     }
 
     private List<CalcOrderPriceBO.Item> initCalcOrderPriceItems(List<ProductSkuDetailBO> skus,
@@ -306,14 +302,10 @@ public class CartServiceImpl implements CartService {
         return itemGroups;
     }
 
-    private CommonResult<Integer> modifyPriceByCouponCard(Integer userId, Integer couponCardId, List<CalcOrderPriceBO.ItemGroup> itemGroups) {
+    private Integer modifyPriceByCouponCard(Integer userId, Integer couponCardId, List<CalcOrderPriceBO.ItemGroup> itemGroups) {
         Assert.isTrue(couponCardId != null, "优惠劵编号不能为空");
         // 查询优惠劵
-        CommonResult<CouponCardDetailBO> couponCardResult = couponService.getCouponCardDetail(userId, couponCardId);
-        if (couponCardResult.isError()) {
-            return CommonResult.error(couponCardResult);
-        }
-        CouponCardDetailBO couponCard = couponCardResult.getData();
+        CouponCardDetailBO couponCard = couponService.getCouponCardDetail(userId, couponCardId);
         // 获得匹配的商品
         List<CalcOrderPriceBO.Item> items = new ArrayList<>();
         if (RangeTypeEnum.ALL.getValue().equals(couponCard.getRangeType())) {
@@ -347,7 +339,7 @@ public class CartServiceImpl implements CartService {
         // 判断是否符合条件
         int originalTotal = items.stream().mapToInt(CalcOrderPriceBO.Item::getPresentTotal).sum(); // 此处，指的是以优惠劵视角的原价
         if (originalTotal == 0 || originalTotal < couponCard.getPriceAvailable()) {
-            return ServiceExceptionUtil.error(PromotionErrorCodeEnum.COUPON_CARD_NOT_MATCH.getCode()); // TODO 芋艿，这种情况，会出现错误码的提示，无法格式化出来。另外，这块的最佳实践，找人讨论下。
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_NOT_MATCH.getCode()); // TODO 芋艿，这种情况，会出现错误码的提示，无法格式化出来。另外，这块的最佳实践，找人讨论下。
         }
         // 计算价格
         // 获得到优惠信息，进行价格计算
@@ -370,7 +362,7 @@ public class CartServiceImpl implements CartService {
         // 按比例，拆分 presentTotal
         splitDiscountPriceToItems(items, discountTotal, presentTotal);
         // 返回优惠金额
-        return CommonResult.success(originalTotal - presentTotal);
+        return originalTotal - presentTotal;
     }
 
     /**

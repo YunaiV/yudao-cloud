@@ -61,6 +61,9 @@
             <if test="nickname != null">
                 nickname LIKE "%"#{nickname}"%"
             </if>
+            <if test="status != null">
+                status = #{status}
+            </if>
             AND deleted = 0
         </where>
         LIMIT #{offset}, #{limit}
@@ -73,6 +76,9 @@
         <where>
             <if test="nickname != null">
                 nickname LIKE "%"#{nickname}"%"
+            </if>
+            <if test="status != null">
+                status = #{status}
             </if>
             AND deleted = 0
         </where>

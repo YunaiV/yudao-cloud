@@ -15,7 +15,8 @@ import org.springframework.web.servlet.config.annotation.*;
 @EnableWebMvc
 @Configuration
 @Import(value = {GlobalExceptionHandler.class,  // 统一全局返回
-        UserSecurityInterceptor.class, AdminSecurityInterceptor.class}) // 安全拦截器，实现认证和授权功能。
+        UserSecurityInterceptor.class, UserAccessLogInterceptor.class,
+        AdminSecurityInterceptor.class}) // 安全拦截器，实现认证和授权功能。
 public class MVCConfiguration implements WebMvcConfigurer {
 
     @Autowired

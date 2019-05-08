@@ -1,7 +1,8 @@
 package cn.iocoder.mall.order.api;
 
-import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.order.api.bo.*;
+import cn.iocoder.mall.order.api.bo.CalcOrderPriceBO;
+import cn.iocoder.mall.order.api.bo.CalcSkuPriceBO;
+import cn.iocoder.mall.order.api.bo.CartItemBO;
 import cn.iocoder.mall.order.api.dto.CalcOrderPriceDTO;
 import org.springframework.lang.Nullable;
 
@@ -20,7 +21,7 @@ public interface CartService {
      * @param quantity 数量
      * @return 是否成功
      */
-    CommonResult<Boolean> add(Integer userId, Integer skuId, Integer quantity);
+    Boolean add(Integer userId, Integer skuId, Integer quantity);
 
     /**
      * 购物车更新商品数量
@@ -30,7 +31,7 @@ public interface CartService {
      * @param quantity 数量
      * @return 是否成功
      */
-    CommonResult<Boolean> updateQuantity(Integer userId, Integer skuId, Integer quantity);
+    Boolean updateQuantity(Integer userId, Integer skuId, Integer quantity);
 
     /**
      * 购物车更新商品是否选中
@@ -40,7 +41,7 @@ public interface CartService {
      * @param selected 是否选中
      * @return 是否成功
      */
-    CommonResult<Boolean> updateSelected(Integer userId, Collection<Integer> skuIds, Boolean selected);
+    Boolean updateSelected(Integer userId, Collection<Integer> skuIds, Boolean selected);
 
     /**
      * 购物车删除商品
@@ -50,7 +51,7 @@ public interface CartService {
      *
      * @return 是否成功
      */
-    CommonResult<Boolean> deleteList(Integer userId, List<Integer> skuIds);
+    Boolean deleteList(Integer userId, List<Integer> skuIds);
 
     /**
      * 清空购物车
@@ -58,7 +59,7 @@ public interface CartService {
      * @param userId 用户编号
      * @return 是否成功
      */
-    CommonResult<Boolean> deleteAll(Integer userId);
+    Boolean deleteAll(Integer userId);
 
     /**
      * 查询用户在购物车中的商品数量
@@ -66,7 +67,7 @@ public interface CartService {
      * @param userId 用户编号
      * @return 商品数量
      */
-    CommonResult<Integer> count(Integer userId);
+    Integer count(Integer userId);
 
     /**
      * 显示买家购物车中的商品列表，并根据 selected 进行过滤。
@@ -75,7 +76,7 @@ public interface CartService {
      * @param selected 是否选中。若为空，则不进行筛选
      * @return 购物车中商品列表信息
      */
-    CommonResult<List<CartItemBO>> list(Integer userId, @Nullable  Boolean selected);
+    List<CartItemBO> list(Integer userId, @Nullable  Boolean selected);
 
     // ========== 购物车与订单相关的逻辑 ==========
 
@@ -85,7 +86,7 @@ public interface CartService {
      * @param calcOrderPriceDTO 计算订单金额 DTO
      * @return 计算订单金额结果
      */
-    CommonResult<CalcOrderPriceBO> calcOrderPrice(CalcOrderPriceDTO calcOrderPriceDTO);
+    CalcOrderPriceBO calcOrderPrice(CalcOrderPriceDTO calcOrderPriceDTO);
 
     /**
      * 计算指定商品 SKU 的金额，并返回计算结果
@@ -95,6 +96,6 @@ public interface CartService {
      * @param skuId 商品 SKU 编号
      * @return 计算订单金额结果
      */
-    CommonResult<CalcSkuPriceBO> calcSkuPrice(Integer skuId);
+    CalcSkuPriceBO calcSkuPrice(Integer skuId);
 
 }

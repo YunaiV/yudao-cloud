@@ -6,7 +6,7 @@ package cn.iocoder.mall.order.api.constant;
  * @author Sin
  * @time 2019-04-27 11:53
  */
-public enum OrderReturnReturnTypeEnum {
+public enum OrderReturnServiceTypeEnum {
 
     /**
      * 状态
@@ -21,7 +21,7 @@ public enum OrderReturnReturnTypeEnum {
 
     private final String name;
 
-    OrderReturnReturnTypeEnum(int value, String name) {
+    OrderReturnServiceTypeEnum(int value, String name) {
         this.value = value;
         this.name = name;
     }

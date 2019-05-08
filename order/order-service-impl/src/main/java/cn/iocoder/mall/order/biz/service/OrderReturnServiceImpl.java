@@ -9,6 +9,7 @@ import cn.iocoder.mall.order.api.bo.OrderLastLogisticsInfoBO;
 import cn.iocoder.mall.order.api.bo.OrderReturnInfoBO;
 import cn.iocoder.mall.order.api.bo.OrderReturnListBO;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
+import cn.iocoder.mall.order.api.constant.OrderReturnServiceTypeEnum;
 import cn.iocoder.mall.order.api.constant.OrderReturnStatusEnum;
 import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
 import cn.iocoder.mall.order.api.dto.OrderReturnQueryDTO;
@@ -142,11 +143,37 @@ public class OrderReturnServiceImpl implements OrderReturnService {
     }
 
     @Override
-    public CommonResult agree(Integer id) {
+    public CommonResult orderReturnAgree(Integer id) {
         OrderReturnDO orderReturnDO = orderReturnMapper.selectById(id);
         if (orderReturnDO == null) {
-
+            return ServiceExceptionUtil
+                    .error(OrderErrorCodeEnum.ORDER_RETURN_NOT_EXISTENT.getCode());
         }
-        return null;
+
+        // TODO: 2019/5/8 sin, 发送 MQ 消息，申请退货成功!
+        // TODO: 2019/5/8 sin 退款：支付系统退款
+        // TODO: 2019/5/8 sin 退货+退款：退回商品签收后，支付系统退款
+
+        orderReturnMapper.updateByOrderId(
+                new OrderReturnDO()
+                        .setId(id)
+                        .setStatus(OrderReturnStatusEnum.APPLICATION_SUCCESSFUL.getValue())
+        );
+        return CommonResult.success(null);
+    }
+
+    @Override
+    public CommonResult orderReturnRefuse(Integer id) {
+        OrderReturnDO orderReturnDO = orderReturnMapper.selectById(id);
+        if (orderReturnDO == null) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_RETURN_NOT_EXISTENT.getCode());
+        }
+
+        orderReturnMapper.updateByOrderId(
+                new OrderReturnDO()
+                        .setId(id)
+                        .setStatus(OrderReturnStatusEnum.APPLICATION_FAIL.getValue())
+        );
+        return CommonResult.success(null);
     }
 }

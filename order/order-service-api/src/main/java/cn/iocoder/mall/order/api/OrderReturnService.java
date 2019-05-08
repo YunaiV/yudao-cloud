@@ -50,4 +50,20 @@ public interface OrderReturnService {
      * @return
      */
     CommonResult<OrderReturnListBO> orderReturnList(OrderReturnQueryDTO queryDTO);
+
+    /**
+     * 订单退货 - 接受
+     *
+     * @param id
+     * @return
+     */
+    CommonResult orderReturnAgree(Integer id);
+
+    /**
+     * 订单退货 - 拒绝
+     *
+     * @param id
+     * @return
+     */
+    CommonResult orderReturnRefuse(Integer id);
 }

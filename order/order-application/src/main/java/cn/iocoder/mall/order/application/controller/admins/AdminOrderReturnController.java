@@ -35,7 +35,11 @@ public class AdminOrderReturnController {
 
     @PostMapping("agree")
     public CommonResult agree(@RequestParam("id") Integer id) {
-        CommonResult commonResult = orderReturnService.agree(id);
-        return commonResult;
+        return orderReturnService.orderReturnAgree(id);
+    }
+
+    @PostMapping("refuse")
+    public CommonResult refuse(@RequestParam("id") Integer id) {
+        return orderReturnService.orderReturnRefuse(id);
     }
 }

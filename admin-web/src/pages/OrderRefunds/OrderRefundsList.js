@@ -19,8 +19,14 @@ import dictionary from '../../utils/dictionary';
 class OrderRefundsList extends PureComponent {
   componentDidMount() {
     // 查询 list
-    this.queryList({ index: 1 });
+    this.queryList({ index: 1 }, {});
   }
+
+  handleSearch = searchParams => {
+    const { orderRefunds } = this.props;
+    const { index, pageSize } = orderRefunds;
+    this.queryList({ index, pageSize }, searchParams);
+  };
 
   queryList = ({ index = 0, pageSize = 10 }, searchParams) => {
     const { dispatch } = this.props;
@@ -40,7 +46,7 @@ class OrderRefundsList extends PureComponent {
 
   handleTableChange = pagination => {
     const { pageSize, current } = pagination;
-    this.queryList({ pageSize, index: current });
+    this.queryList({ pageSize, index: current }, {});
   };
 
   render() {
@@ -125,7 +131,7 @@ class OrderRefundsList extends PureComponent {
       <PageHeaderWrapper>
         <Card>
           <div className={styles.tableListForm}>
-            <TableSearch />
+            <TableSearch handleSearch={this.handleSearch} />
           </div>
 
           <Tabs defaultActiveKey={null} onChange={this.handleTabsChange}>

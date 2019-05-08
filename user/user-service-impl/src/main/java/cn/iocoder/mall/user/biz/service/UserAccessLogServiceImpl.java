@@ -33,7 +33,7 @@ public class UserAccessLogServiceImpl implements UserAccessLogService {
     private UserAccessLogMapper userAccessLogMapper;
 
     @Override
-    public CommonResult<Boolean> addUserAccessLog(UserAccessLogAddDTO userAccessLogAddDTO) {
+    public void addUserAccessLog(UserAccessLogAddDTO userAccessLogAddDTO) {
         // 创建 UserAccessLogDO
         UserAccessLogDO accessLog = UserAccessLogConvert.INSTANCE.convert(userAccessLogAddDTO);
         accessLog.setCreateTime(new Date());
@@ -49,8 +49,6 @@ public class UserAccessLogServiceImpl implements UserAccessLogService {
         }
         // 插入
         userAccessLogMapper.insert(accessLog);
-        // 返回成功
-        return CommonResult.success(true);
     }
 
 }

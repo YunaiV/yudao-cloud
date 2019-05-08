@@ -14,6 +14,8 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 
+import static cn.iocoder.common.framework.vo.CommonResult.success;
+
 @RestController
 @RequestMapping("/admins/user")
 @Api("用户模块")
@@ -37,9 +39,9 @@ public class AdminsUserController {
         UserPageDTO userPageDTO = new UserPageDTO().setNickname(nickname).setStatus(status)
                 .setPageNo(pageNo).setPageSize(pageSize);
         // 查询分页
-        CommonResult<UserPageBO> result = userService.getUserPage(userPageDTO);
+        UserPageBO result = userService.getUserPage(userPageDTO);
         // 转换结果
-        return UserConvert.INSTANCE.convert(result);
+        return success(UserConvert.INSTANCE.convert(result));
     }
 
     @PostMapping("/update")
@@ -54,7 +56,7 @@ public class AdminsUserController {
                                         @RequestParam("avatar") String avatar) {
         UserUpdateDTO userUpdateDTO = new UserUpdateDTO().setId(id).setNickname(nickname).setNickname(nickname).setAvatar(avatar);
         // 更新
-        return userService.updateUser(userUpdateDTO);
+        return success(userService.updateUser(userUpdateDTO));
     }
 
     @PostMapping("/update_status")
@@ -65,7 +67,7 @@ public class AdminsUserController {
     })
     public CommonResult<Boolean> updateStatus(@RequestParam("id") Integer id,
                                               @RequestParam("status") Integer status) {
-        return userService.updateUserStatus(id, status);
+        return success(userService.updateUserStatus(id, status));
     }
 
 }

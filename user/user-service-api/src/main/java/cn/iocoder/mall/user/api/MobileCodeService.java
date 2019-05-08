@@ -1,7 +1,6 @@
 package cn.iocoder.mall.user.api;
 
 import cn.iocoder.common.framework.exception.ServiceException;
-import cn.iocoder.common.framework.vo.CommonResult;
 
 public interface MobileCodeService {
 
@@ -10,6 +9,6 @@ public interface MobileCodeService {
      *
      * @param mobile 手机号
      */
-    CommonResult<Void> send(String mobile) throws ServiceException;
+    void send(String mobile) throws ServiceException;
 
 }

@@ -1,10 +1,10 @@
 package cn.iocoder.mall.user.biz.service;
 
+import cn.iocoder.common.framework.constant.CommonStatusEnum;
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.ValidationUtil;
-import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.user.api.UserService;
 import cn.iocoder.mall.user.api.bo.UserBO;
 import cn.iocoder.mall.user.api.bo.UserPageBO;
@@ -42,13 +42,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public CommonResult<UserDO> createUser(String mobile) {
+    public UserDO createUser(String mobile) {
         if (!ValidationUtil.isMobile(mobile)) {
-            return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "手机格式不正确"); // TODO 有点搓
+            throw ServiceExceptionUtil.exception(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "手机格式不正确"); // TODO 有点搓
         }
         // 校验用户是否已经存在
         if (getUser(mobile) != null) {
-            return ServiceExceptionUtil.error(UserErrorCodeEnum.USER_MOBILE_ALREADY_REGISTERED.getCode());
+            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.USER_MOBILE_ALREADY_REGISTERED.getCode());
         }
         // 创建用户
         UserDO userDO = new UserDO().setMobile(mobile).setStatus(UserConstants.STATUS_ENABLE);
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
         // 插入注册信息
         createUserRegister(userDO);
         // 转换返回
-        return CommonResult.success(userDO);
+        return userDO;
     }
 
     private void createUserRegister(UserDO userDO) {
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public CommonResult<UserPageBO> getUserPage(UserPageDTO userPageDTO) {
+    public UserPageBO getUserPage(UserPageDTO userPageDTO) {
         UserPageBO userPageBO = new UserPageBO();
         // 查询分页数据
         int offset = (userPageDTO.getPageNo() - 1) * userPageDTO.getPageSize();
@@ -77,77 +77,68 @@ public class UserServiceImpl implements UserService {
                 offset, userPageDTO.getPageSize())));
         // 查询分页总数
         userPageBO.setTotal(userMapper.selectCountByNicknameLike(userPageDTO.getNickname(), userPageDTO.getStatus()));
-        return CommonResult.success(userPageBO);
+        return userPageBO;
     }
 
     @Override
-    public CommonResult<UserBO> getUser(Integer userId) {
-        return CommonResult.success(UserConvert.INSTANCE.convert(userMapper.selectById(userId)));
+    public UserBO getUser(Integer userId) {
+        return UserConvert.INSTANCE.convert(userMapper.selectById(userId));
     }
 
     @Override
-    public CommonResult<Boolean> updateUser(UserUpdateDTO userUpdateDTO) {
+    public Boolean updateUser(UserUpdateDTO userUpdateDTO) {
         // 校验用户存在
         if (userMapper.selectById(userUpdateDTO.getId()) == null) {
-            return ServiceExceptionUtil.error(UserErrorCodeEnum.USER_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.USER_NOT_EXISTS.getCode());
         }
         // 更新用户
         UserDO updateUser = UserConvert.INSTANCE.convert(userUpdateDTO);
         userMapper.update(updateUser);
         // 返回成功
-        return CommonResult.success(true);
+        return true;
     }
 
     @Override
-    public CommonResult<Boolean> updateUserStatus(Integer userId, Integer status) {
-        // 校验参数
-        if (!isValidStatus(status)) {
-            return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "变更状态必须是开启（1）或关闭（2）"); // TODO 有点搓
-        }
+    public Boolean updateUserStatus(Integer userId, Integer status) {
         // 校验用户存在
         UserDO user = userMapper.selectById(userId);
         if (user == null) {
-            return ServiceExceptionUtil.error(UserErrorCodeEnum.USER_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.USER_NOT_EXISTS.getCode());
         }
         // 如果状态相同，则返回错误
         if (status.equals(user.getStatus())) {
-            return ServiceExceptionUtil.error(UserErrorCodeEnum.USER_STATUS_EQUALS.getCode());
+            throw ServiceExceptionUtil.exception((UserErrorCodeEnum.USER_STATUS_EQUALS.getCode()));
         }
         // 更新管理员状态
         UserDO updateUser = new UserDO().setId(userId).setStatus(status);
         userMapper.update(updateUser);
         // 如果是关闭管理员，则标记 token 失效。否则，管理员还可以继续蹦跶
-        if (UserConstants.STATUS_DISABLE.equals(status)) {
+        if (CommonStatusEnum.DISABLE.getValue().equals(status)) {
             oAuth2Service.removeToken(userId);
         }
         // 返回成功
-        return CommonResult.success(true);
+        return true;
     }
 
     @Override
-    public CommonResult<Boolean> updateUserMobile(Integer userId, String mobile) {
+    public Boolean updateUserMobile(Integer userId, String mobile) {
         if (!ValidationUtil.isMobile(mobile)) {
-            return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "手机格式不正确"); // TODO 有点搓
+            throw ServiceExceptionUtil.exception(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "手机格式不正确"); // TODO 有点搓
         }
         // 校验用户存在
         UserDO user = userMapper.selectById(userId);
         if (user == null) {
-            return ServiceExceptionUtil.error(UserErrorCodeEnum.USER_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.USER_NOT_EXISTS.getCode());
         }
         // 如果状态相同，则返回错误
         if (mobile.equals(user.getMobile())) {
-            return ServiceExceptionUtil.error(UserErrorCodeEnum.USER_MOBILE_EQUALS.getCode());
+            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.USER_MOBILE_EQUALS.getCode());
         }
         // 更新管理员状态
         UserDO updateUser = new UserDO().setId(userId).setMobile(mobile);
         userMapper.update(updateUser);
         // 返回成功
-        return CommonResult.success(true);
-    }
-
-    private boolean isValidStatus(Integer status) {
-        return UserConstants.STATUS_ENABLE.equals(status)
-                || UserConstants.STATUS_DISABLE.equals(status);
+        return true;
     }
 
 }

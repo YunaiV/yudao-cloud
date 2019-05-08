@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import static cn.iocoder.common.framework.vo.CommonResult.success;
+
 @RestController
 @RequestMapping("users/passport")
 @Api("Passport 模块")
@@ -47,16 +49,17 @@ public class PassportController {
     })
     public CommonResult<UsersMobileRegisterVO> mobileRegister(@RequestParam("mobile") String mobile,
                                                               @RequestParam("code") String code) {
-        CommonResult<OAuth2AccessTokenBO> result = oauth2Service.getAccessToken(mobile, code);
-        return PassportConvert.INSTANCE.convert(result);
+        OAuth2AccessTokenBO result = oauth2Service.getAccessToken(mobile, code);
+        return success(PassportConvert.INSTANCE.convert(result));
     }
 
     @PermitAll
     @PostMapping("mobile/send_register_code")
     @ApiOperation(value = "发送手机验证码")
     @ApiImplicitParam(name = "mobile", value = "手机号", required = true, example = "15601691300")
-    public CommonResult<Void> mobileSend(@RequestParam("mobile") String mobile) {
-        return mobileCodeService.send(mobile);
+    public CommonResult<Boolean> mobileSend(@RequestParam("mobile") String mobile) {
+        mobileCodeService.send(mobile);
+        return success(true);
     }
 
     // TODO 芋艿，改绑手机号
@@ -78,8 +81,8 @@ public class PassportController {
     @PermitAll
     @PostMapping("/refresh_token") // TODO 功能：刷新 token
     public CommonResult<UsersAccessTokenVO> refreshToken(@RequestParam("refreshToken") String refreshToken) {
-        CommonResult<OAuth2AccessTokenBO> result = oauth2Service.refreshToken(refreshToken);
-        return PassportConvert.INSTANCE.convert2(result);
+        OAuth2AccessTokenBO result = oauth2Service.refreshToken(refreshToken);
+        return success(PassportConvert.INSTANCE.convert2(result));
     }
 
     // TODO 功能：退出，销毁 token

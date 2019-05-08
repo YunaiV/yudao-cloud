@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 
+import static cn.iocoder.common.framework.vo.CommonResult.success;
+
 @RestController
 @RequestMapping("/users/user")
 @Api("用户模块")
@@ -23,8 +25,8 @@ public class UserController {
     @GetMapping("/info")
     @ApiOperation(value = "用户信息")
     public CommonResult<UsersUserVO> info() {
-        CommonResult<UserBO> userResult = userService.getUser(UserSecurityContextHolder.getContext().getUserId());
-        return UserConvert.INSTANCE.convert2(userResult);
+        UserBO userResult = userService.getUser(UserSecurityContextHolder.getContext().getUserId());
+        return success(UserConvert.INSTANCE.convert2(userResult));
     }
 
     @PostMapping("/update_avatar")
@@ -34,7 +36,7 @@ public class UserController {
         UserUpdateDTO userUpdateDTO = new UserUpdateDTO().setId(UserSecurityContextHolder.getContext().getUserId())
                 .setAvatar(avatar);
         // 更新头像
-        return userService.updateUser(userUpdateDTO);
+        return success(userService.updateUser(userUpdateDTO));
     }
 
     @PostMapping("/update_nickname")
@@ -44,7 +46,7 @@ public class UserController {
         UserUpdateDTO userUpdateDTO = new UserUpdateDTO().setId(UserSecurityContextHolder.getContext().getUserId())
                 .setNickname(nickname);
         // 更新头像
-        return userService.updateUser(userUpdateDTO);
+        return success(userService.updateUser(userUpdateDTO));
     }
 
 }

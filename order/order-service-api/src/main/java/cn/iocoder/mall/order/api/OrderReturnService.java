@@ -81,5 +81,5 @@ public interface OrderReturnService {
      * @param id
      * @return
      */
-    CommonResult refund(Integer id);
+    CommonResult refund(Integer id, String ip);
 }

@@ -1,5 +1,6 @@
 package cn.iocoder.mall.order.application.controller.admins;
 
+import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.order.api.OrderReturnService;
 import cn.iocoder.mall.order.api.bo.OrderReturnListBO;
@@ -11,6 +12,8 @@ import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 订单退货
@@ -49,7 +52,8 @@ public class AdminOrderReturnController {
     }
 
     @PostMapping("confirm_order")
-    public CommonResult confirmOrder(@RequestParam("id") Integer id) {
-        return orderReturnService.refund(id);
+    public CommonResult confirmOrder(HttpServletRequest request, @RequestParam("id") Integer id) {
+        String ip = HttpUtil.getIp(request);
+        return orderReturnService.refund(id, ip);
     }
 }

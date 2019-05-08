@@ -35,6 +35,7 @@ public enum OrderErrorCodeEnum {
     // 订单退货
     ORDER_RETURN_NO_RETURN_APPLY(1008000400, "未退货申请"),
     ORDER_RETURN_NOT_EXISTENT(1008000401, "退货订单不存在"),
+    ORDER_RETURN_REFUND_FAILED(1008000402, "退款失败"),
 
     // ========== 购物车 ==========
     CARD_ITEM_NOT_FOUND(1008003000, "购物车项不存在"),

@@ -10,6 +10,8 @@ import cn.iocoder.mall.order.api.bo.OrderReturnInfoBO;
 import cn.iocoder.mall.order.api.bo.OrderReturnListBO;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.api.constant.OrderReturnStatusEnum;
+import cn.iocoder.mall.order.api.constant.OrderStatusEnum;
+import cn.iocoder.mall.order.api.constant.PayAppId;
 import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
 import cn.iocoder.mall.order.api.dto.OrderReturnQueryDTO;
 import cn.iocoder.mall.order.biz.convert.OrderReturnConvert;
@@ -19,9 +21,12 @@ import cn.iocoder.mall.order.biz.dao.OrderReturnMapper;
 import cn.iocoder.mall.order.biz.dataobject.OrderDO;
 import cn.iocoder.mall.order.biz.dataobject.OrderItemDO;
 import cn.iocoder.mall.order.biz.dataobject.OrderReturnDO;
+import cn.iocoder.mall.pay.api.PayRefundService;
+import cn.iocoder.mall.pay.api.dto.PayRefundSubmitDTO;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
@@ -48,6 +53,8 @@ public class OrderReturnServiceImpl implements OrderReturnService {
 
     @Reference(validation = "true")
     private OrderLogisticsService orderLogisticsService;
+    @Reference(validation = "true")
+    private PayRefundService payRefundService;
 
     @Override
     public CommonResult orderReturnApply(OrderReturnApplyDTO orderReturnDTO) {
@@ -188,12 +195,51 @@ public class OrderReturnServiceImpl implements OrderReturnService {
     }
 
     @Override
-    public CommonResult refund(Integer id) {
+    @Transactional
+    public CommonResult refund(Integer id, String ip) {
+        OrderReturnDO orderReturnDO = orderReturnMapper.selectById(id);
+        if (orderReturnDO == null) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_RETURN_NOT_EXISTENT.getCode());
+        }
 
         // TODO: 2019/5/8 sin, 发送 MQ 消息，申请退货成功!
         // TODO: 2019/5/8 sin 退款：支付系统退款
         // TODO: 2019/5/8 sin 退货+退款：退回商品签收后，支付系统退款
+        // TODO: 2019/5/8 sin 事务一致性 [重要]
 
-        return null;
+        // 支付退款
+        CommonResult payResult = payRefundService.submitRefund(
+                new PayRefundSubmitDTO()
+                        .setAppId(PayAppId.APP_ID_SHOP_ORDER)
+                        .setOrderId(String.valueOf(orderReturnDO.getOrderId()))
+                        .setPrice(orderReturnDO.getRefundPrice())
+                        .setOrderDescription("")
+                        .setCreateIp(ip)
+        );
+
+        if (!payResult.isSuccess()) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_RETURN_REFUND_FAILED.getCode());
+        }
+
+        // 更新 订单退货 信息
+        orderReturnMapper.updateByOrderId(
+                new OrderReturnDO()
+                        .setId(id)
+                        .setStatus(OrderReturnStatusEnum.RETURN_SUCCESS.getValue())
+        );
+
+        // 更新订单
+        orderMapper.updateById(
+                new OrderDO()
+                        .setId(orderReturnDO.getOrderId())
+                        .setStatus(OrderStatusEnum.COMPLETED.getValue())
+        );
+
+        // 更新订单
+        orderItemMapper.updateByOrderId(
+                orderReturnDO.getOrderId(),
+                new OrderItemDO().setStatus(OrderStatusEnum.COMPLETED.getValue())
+        );
+        return CommonResult.success(null);
     }
 }

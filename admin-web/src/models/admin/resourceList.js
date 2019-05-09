@@ -71,6 +71,7 @@ export default {
       const resultData = payload;
       const treeData = buildSelectTree(resultData);
 
+      // value 要保护 displayName 不然，搜索会失效
       const rootNode = [
         {
           title: '根节点',

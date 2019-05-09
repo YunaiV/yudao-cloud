@@ -46,13 +46,13 @@ public class AdminOrderReturnController {
         return orderReturnService.orderReturnRefuse(id);
     }
 
-    @PostMapping("confirm_commodity")
-    public CommonResult confirmCommodity(@RequestParam("id") Integer id) {
+    @PostMapping("confirm_receipt")
+    public CommonResult confirmReceipt(@RequestParam("id") Integer id) {
         return orderReturnService.confirmReceipt(id);
     }
 
-    @PostMapping("confirm_order")
-    public CommonResult confirmOrder(HttpServletRequest request, @RequestParam("id") Integer id) {
+    @PostMapping("confirm_refund")
+    public CommonResult confirmRefund(HttpServletRequest request, @RequestParam("id") Integer id) {
         String ip = HttpUtil.getIp(request);
         return orderReturnService.refund(id, ip);
     }

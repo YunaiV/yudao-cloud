@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Card, Tabs, Table } from 'antd';
+import { Card, Tabs, Modal, Table, Divider } from 'antd';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import DictionaryText from '../../components/Dictionary/DictionaryText';
 import TableSearch from './TableSearch';
@@ -19,29 +19,46 @@ import dictionary from '../../utils/dictionary';
 class OrderRefundsList extends PureComponent {
   componentDidMount() {
     // 查询 list
-    this.queryList({ index: 1 }, {});
+    this.queryList({ index: 1, pageSize: 10 }, {});
   }
 
   handleSearch = searchParams => {
     const { orderRefunds } = this.props;
     const { index, pageSize } = orderRefunds;
-    this.queryList({ index, pageSize }, searchParams);
+    this.queryList(
+      { index, pageSize },
+      {
+        ...searchParams,
+        ...this.tabsValue,
+      }
+    );
   };
 
-  queryList = ({ index = 0, pageSize = 10 }, searchParams) => {
+  queryList = (pageParams, searchParams) => {
     const { dispatch } = this.props;
+
+    this.pageParams = pageParams;
+    this.searchParams = searchParams;
     dispatch({
       type: 'orderRefunds/list',
       payload: {
-        index,
-        pageSize,
+        ...pageParams,
         ...searchParams,
       },
     });
   };
 
   handleTabsChange = value => {
-    console.log(value);
+    this.tabsValue = {
+      status: value,
+    };
+    this.queryList(
+      { index: 1, pageSize: 10 },
+      {
+        ...this.searchParams,
+        status: value,
+      }
+    );
   };
 
   handleTableChange = pagination => {
@@ -49,11 +66,116 @@ class OrderRefundsList extends PureComponent {
     this.queryList({ pageSize, index: current }, {});
   };
 
+  handleAgreeClick = ({ id }) => {
+    const { dispatch } = this.props;
+    const self = this;
+    Modal.confirm({
+      title: '提示消息',
+      content: '确认同意!',
+      onOk() {
+        dispatch({
+          type: 'orderRefunds/agree',
+          payload: {
+            params: {
+              id,
+            },
+            callback: () => {
+              self.queryList(self.pageParams, self.searchParams);
+            },
+          },
+        });
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
+
+  handleRefuse = ({ id }) => {
+    const { dispatch } = this.props;
+    const self = this;
+    Modal.confirm({
+      title: '提示消息',
+      content: '确认拒绝!',
+      onOk() {
+        dispatch({
+          type: 'orderRefunds/refuse',
+          payload: {
+            params: {
+              id,
+            },
+            callback: () => {
+              self.queryList(self.pageParams, self.searchParams);
+            },
+          },
+        });
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
+
+  handleConfirmReceipt = ({ id }) => {
+    const { dispatch } = this.props;
+    const self = this;
+    Modal.confirm({
+      title: '提示消息',
+      content: '确认收货!',
+      onOk() {
+        dispatch({
+          type: 'orderRefunds/confirmReceipt',
+          payload: {
+            params: {
+              id,
+            },
+            callback: () => {
+              self.queryList(self.pageParams, self.searchParams);
+            },
+          },
+        });
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
+
+  handleConfirmRefund = ({ id }) => {
+    const { dispatch } = this.props;
+    const self = this;
+    Modal.confirm({
+      title: '提示消息',
+      content: '确认退款!',
+      onOk() {
+        dispatch({
+          type: 'orderRefunds/confirmRefund',
+          payload: {
+            params: {
+              id,
+            },
+            callback: () => {
+              self.queryList(self.pageParams, self.searchParams);
+            },
+          },
+        });
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
+
   render() {
-    const { orderRefunds } = this.props;
+    const { orderRefunds, loading } = this.props;
     const { list, totalCount, index, pageSize } = orderRefunds;
 
     const columns = [
+      {
+        title: '订单号',
+        dataIndex: 'orderId',
+        key: 'orderId',
+      },
       {
         title: '服务编号',
         dataIndex: 'serviceNumber',
@@ -111,12 +233,31 @@ class OrderRefundsList extends PureComponent {
       },
       {
         title: '操作',
-        render() {
-          return (
-            <div>
-              <a>同意</a>
-            </div>
-          );
+        render: row => {
+          const { status } = row;
+          let buttons;
+          if (status === 1) {
+            buttons = (
+              <div>
+                <a onClick={this.handleAgreeClick.bind(this, row)}>同意</a>
+                <Divider type="vertical" />
+                <a onClick={this.handleRefuse.bind(this, row)}>拒绝</a>
+              </div>
+            );
+          } else if (status === 2) {
+            buttons = (
+              <div>
+                <a onClick={this.handleConfirmReceipt.bind(this, row)}>确认收货</a>
+              </div>
+            );
+          } else if (status === 5) {
+            buttons = (
+              <div>
+                <a onClick={this.handleConfirmRefund.bind(this, row)}>退款</a>
+              </div>
+            );
+          }
+          return buttons;
         },
       },
     ];
@@ -137,11 +278,14 @@ class OrderRefundsList extends PureComponent {
           <Tabs defaultActiveKey={null} onChange={this.handleTabsChange}>
             <Tabs.TabPane tab="全部" key={null} />
             <Tabs.TabPane tab="待处理" key={1} />
-            <Tabs.TabPane tab="已处理" key={2} />
-            <Tabs.TabPane tab="已完成" key={4} />
+            <Tabs.TabPane tab="待收货" key={2} />
+            <Tabs.TabPane tab="已收货" key={5} />
+            <Tabs.TabPane tab="已完成" key={6} />
+            <Tabs.TabPane tab="已拒绝" key={3} />
           </Tabs>
 
           <Table
+            loading={loading}
             rowKey="id"
             dataSource={list}
             columns={columns}

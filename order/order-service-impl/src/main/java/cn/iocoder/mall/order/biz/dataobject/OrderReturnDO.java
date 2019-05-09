@@ -64,6 +64,10 @@ public class OrderReturnDO extends BaseDO {
      */
     private Date approvalTime;
     /**
+     * 拒绝时间
+     */
+    private Date refuseTime;
+    /**
      * 物流时间（填写物流单号时间）
      */
     private Date logisticsTime;
@@ -90,8 +94,7 @@ public class OrderReturnDO extends BaseDO {
      * - 3、申请失败
      * - 4、退货中
      * - 5、已收货
-     * - 6、拒绝退款
-     * - 7、退货成功
+     * - 6、退货成功
      */
     private Integer status;
 }

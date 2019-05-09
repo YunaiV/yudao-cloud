@@ -14,18 +14,26 @@ body {
   border-right: 1px solid #ccc2bf;
 }
 
-#app, .van-goods-action, .van-overflow-hidden {
-  max-width: 600px!important;
-  margin: 0 auto;
+@media screen and (min-width: 769px) {
+  #app, .van-goods-action, .van-overflow-hidden {
+    max-width: 600px!important;
+    margin: 0 auto;
+  }
+
+  .van-tabbar, .van-submit-bar {
+    max-width: 600px!important;
+    position:fixed;
+    margin:auto;
+    left:0;
+    right:0;
+  }
+}
+.wap-wrap {
+  font-size: 0.32rem;
+  width: 100%;
 }
 
-.van-tabbar, .van-submit-bar {
-  max-width: 600px!important;
-  position:fixed;
-  margin:auto;
-  left:0;
-  right:0;
-}
+
 
 
 #maxWidth {

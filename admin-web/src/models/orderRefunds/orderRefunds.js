@@ -1,4 +1,5 @@
-import { list } from '../../services/orderRefunds';
+import { message } from 'antd';
+import { list, agree, refuse, confirmReceipt, confirmRefund } from '../../services/orderRefunds';
 
 export default {
   namespace: 'orderRefunds',
@@ -17,6 +18,54 @@ export default {
         type: 'listSuccess',
         payload: response.data,
       });
+    },
+    *agree({ payload }, { call }) {
+      const { callback, params } = payload;
+      const response = yield call(agree, params);
+      if (response.code !== 0) {
+        message.error('操作失败!');
+      } else {
+        message.success('操作成功!');
+        if (callback) {
+          callback(response);
+        }
+      }
+    },
+    *refuse({ payload }, { call }) {
+      const { callback, params } = payload;
+      const response = yield call(refuse, params);
+      if (response.code !== 0) {
+        message.error('操作失败!');
+      } else {
+        message.success('操作成功!');
+        if (callback) {
+          callback(response);
+        }
+      }
+    },
+    *confirmReceipt({ payload }, { call }) {
+      const { callback, params } = payload;
+      const response = yield call(confirmReceipt, params);
+      if (response.code !== 0) {
+        message.error('操作失败!');
+      } else {
+        message.success('操作成功!');
+        if (callback) {
+          callback(response);
+        }
+      }
+    },
+    *confirmRefund({ payload }, { call }) {
+      const { callback, params } = payload;
+      const response = yield call(confirmRefund, params);
+      if (response.code !== 0) {
+        message.error('操作失败!');
+      } else {
+        message.success('操作成功!');
+        if (callback) {
+          callback(response);
+        }
+      }
     },
   },
 

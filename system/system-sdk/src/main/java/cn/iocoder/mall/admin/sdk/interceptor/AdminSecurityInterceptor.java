@@ -67,7 +67,7 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
         }
         // 校验是否需要已授权
         // TODO sin 暂时不校验
-        // checkPermission(request, authentication);
+         checkPermission(request, authentication);
         // 返回成功
         return super.preHandle(request, response, handler);
     }

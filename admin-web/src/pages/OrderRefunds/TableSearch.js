@@ -9,12 +9,13 @@ const FormItem = Form.Item;
  * @type {React.ComponentClass<RcBaseFormProps & Omit<FormComponentProps, keyof FormComponentProps>>}
  */
 const TableSearch = Form.create()(props => {
-  const { getFieldDecorator, form, handleSearch } = props.form;
+  const { handleSearch } = props;
+  const { getFieldDecorator, validateFields, form } = props.form;
 
   function onSubmit(e) {
     e.preventDefault();
 
-    form.validateFields((err, fields) => {
+    validateFields((err, fields) => {
       const buildTime = (fieldValue, key) => {
         const res = {};
         if (fieldValue && fieldValue.length >= 2) {
@@ -66,6 +67,11 @@ const TableSearch = Form.create()(props => {
         <Col md={8} sm={24}>
           <FormItem label="订单号">
             {getFieldDecorator('orderNo')(<Input placeholder="请输入订单号" />)}
+          </FormItem>
+        </Col>
+        <Col md={8} sm={24}>
+          <FormItem label="服务号">
+            {getFieldDecorator('serviceNumber')(<Input placeholder="请输入服务号" />)}
           </FormItem>
         </Col>
       </Row>

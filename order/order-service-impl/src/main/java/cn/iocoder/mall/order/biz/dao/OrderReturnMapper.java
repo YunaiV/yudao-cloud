@@ -30,7 +30,7 @@ public interface OrderReturnMapper {
      * @param orderReturnDO
      * @return
      */
-    int updateByOrderId(OrderReturnDO orderReturnDO);
+    int updateById(OrderReturnDO orderReturnDO);
 
     /**
      * 查询 - 根据 orderId

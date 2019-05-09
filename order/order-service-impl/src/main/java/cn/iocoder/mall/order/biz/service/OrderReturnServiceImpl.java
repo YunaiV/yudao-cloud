@@ -3,15 +3,14 @@ package cn.iocoder.mall.order.biz.service;
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.admin.api.DataDictService;
+import cn.iocoder.mall.admin.api.bo.DataDictBO;
 import cn.iocoder.mall.order.api.OrderLogisticsService;
 import cn.iocoder.mall.order.api.OrderReturnService;
 import cn.iocoder.mall.order.api.bo.OrderLastLogisticsInfoBO;
 import cn.iocoder.mall.order.api.bo.OrderReturnInfoBO;
 import cn.iocoder.mall.order.api.bo.OrderReturnListBO;
-import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
-import cn.iocoder.mall.order.api.constant.OrderReturnStatusEnum;
-import cn.iocoder.mall.order.api.constant.OrderStatusEnum;
-import cn.iocoder.mall.order.api.constant.PayAppId;
+import cn.iocoder.mall.order.api.constant.*;
 import cn.iocoder.mall.order.api.dto.OrderReturnApplyDTO;
 import cn.iocoder.mall.order.api.dto.OrderReturnQueryDTO;
 import cn.iocoder.mall.order.biz.convert.OrderReturnConvert;
@@ -55,6 +54,9 @@ public class OrderReturnServiceImpl implements OrderReturnService {
     private OrderLogisticsService orderLogisticsService;
     @Reference(validation = "true", version = "${dubbo.consumer.PayRefundService.version}")
     private PayRefundService payRefundService;
+    @Reference(validation = "true", version = "${dubbo.consumer.DataDictService.version}")
+    private DataDictService dataDictService;
+
 
     @Override
     public CommonResult orderReturnApply(OrderReturnApplyDTO orderReturnDTO) {
@@ -156,9 +158,10 @@ public class OrderReturnServiceImpl implements OrderReturnService {
                     .error(OrderErrorCodeEnum.ORDER_RETURN_NOT_EXISTENT.getCode());
         }
 
-        orderReturnMapper.updateByOrderId(
+        orderReturnMapper.updateById(
                 new OrderReturnDO()
                         .setId(id)
+                        .setApprovalTime(new Date())
                         .setStatus(OrderReturnStatusEnum.APPLICATION_SUCCESSFUL.getValue())
         );
         return CommonResult.success(null);
@@ -171,9 +174,10 @@ public class OrderReturnServiceImpl implements OrderReturnService {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_RETURN_NOT_EXISTENT.getCode());
         }
 
-        orderReturnMapper.updateByOrderId(
+        orderReturnMapper.updateById(
                 new OrderReturnDO()
                         .setId(id)
+                        .setRefuseTime(new Date())
                         .setStatus(OrderReturnStatusEnum.APPLICATION_FAIL.getValue())
         );
         return CommonResult.success(null);
@@ -186,9 +190,10 @@ public class OrderReturnServiceImpl implements OrderReturnService {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_RETURN_NOT_EXISTENT.getCode());
         }
 
-        orderReturnMapper.updateByOrderId(
+        orderReturnMapper.updateById(
                 new OrderReturnDO()
                         .setId(id)
+                        .setReceiverTime(new Date())
                         .setStatus(OrderReturnStatusEnum.ORDER_RECEIPT.getValue())
         );
         return CommonResult.success(null);
@@ -207,13 +212,24 @@ public class OrderReturnServiceImpl implements OrderReturnService {
         // TODO: 2019/5/8 sin 退货+退款：退回商品签收后，支付系统退款
         // TODO: 2019/5/8 sin 事务一致性 [重要]
 
+
+        CommonResult<DataDictBO> dataDictResult = dataDictService
+                .getDataDict(DictKeyConstants.ORDER_RETURN_REASON, orderReturnDO.getReason());
+
+        if (dataDictResult.isError()) {
+            return ServiceExceptionUtil.error(OrderErrorCodeEnum.DICT_SERVER_INVOKING_FAIL.getCode());
+        }
+
         // 支付退款
+        String orderDescription = dataDictResult.getData()
+                .getDisplayName() + "(" + orderReturnDO.getDescribe() + ")";
+
         CommonResult payResult = payRefundService.submitRefund(
                 new PayRefundSubmitDTO()
                         .setAppId(PayAppId.APP_ID_SHOP_ORDER)
                         .setOrderId(String.valueOf(orderReturnDO.getOrderId()))
                         .setPrice(orderReturnDO.getRefundPrice())
-                        .setOrderDescription("")
+                        .setOrderDescription(orderDescription)
                         .setCreateIp(ip)
         );
 
@@ -222,9 +238,10 @@ public class OrderReturnServiceImpl implements OrderReturnService {
         }
 
         // 更新 订单退货 信息
-        orderReturnMapper.updateByOrderId(
+        orderReturnMapper.updateById(
                 new OrderReturnDO()
                         .setId(id)
+                        .setClosingTime(new Date())
                         .setStatus(OrderReturnStatusEnum.RETURN_SUCCESS.getValue())
         );
 
@@ -232,13 +249,16 @@ public class OrderReturnServiceImpl implements OrderReturnService {
         orderMapper.updateById(
                 new OrderDO()
                         .setId(orderReturnDO.getOrderId())
+                        .setClosingTime(new Date())
                         .setStatus(OrderStatusEnum.COMPLETED.getValue())
         );
 
         // 更新订单
         orderItemMapper.updateByOrderId(
                 orderReturnDO.getOrderId(),
-                new OrderItemDO().setStatus(OrderStatusEnum.COMPLETED.getValue())
+                new OrderItemDO()
+                        .setClosingTime(new Date())
+                        .setStatus(OrderStatusEnum.COMPLETED.getValue())
         );
         return CommonResult.success(null);
     }

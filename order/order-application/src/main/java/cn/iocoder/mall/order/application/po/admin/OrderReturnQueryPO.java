@@ -2,6 +2,7 @@ package cn.iocoder.mall.order.application.po.admin;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -27,13 +28,23 @@ public class OrderReturnQueryPO implements Serializable {
      */
     private Integer orderNo;
     /**
+     * 服务号
+     */
+    private String serviceNumber;
+    /**
      * 创建时间 - 开始
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startCreateTime;
     /**
      * 创建时间 - 结束
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endCreateTime;
+    /**
+     * 状态
+     */
+    private Integer status;
 
     ///
     /// 分页信息

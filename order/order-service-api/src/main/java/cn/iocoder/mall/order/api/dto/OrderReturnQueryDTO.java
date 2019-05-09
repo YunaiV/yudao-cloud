@@ -26,6 +26,10 @@ public class OrderReturnQueryDTO implements Serializable {
      */
     private Integer orderNo;
     /**
+     * 服务号
+     */
+    private String serviceNumber;
+    /**
      * 创建时间 - 开始
      */
     private Date startCreateTime;
@@ -33,6 +37,10 @@ public class OrderReturnQueryDTO implements Serializable {
      * 创建时间 - 结束
      */
     private Date endCreateTime;
+    /**
+     * 状态
+     */
+    private Integer status;
 
     ///
     /// 分页信息

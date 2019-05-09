@@ -6,6 +6,8 @@ import lombok.experimental.Accessors;
 
 /**
  * 商品 SPU
+ *
+ * TODO 芋艿，后面增加商品普通参数。例如说，正面材料，背面材料，屏幕尺寸。
  */
 @Data
 @Accessors(chain = true)

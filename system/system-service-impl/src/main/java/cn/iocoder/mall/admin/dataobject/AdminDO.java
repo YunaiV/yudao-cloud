@@ -34,4 +34,7 @@ public class AdminDO extends DeletableDO {
      */
     private Integer status;
 
+    // TODO 芋艿，最后登陆时间、最后登陆 IP
+    // TODO 芋艿，登陆日志
+
 }

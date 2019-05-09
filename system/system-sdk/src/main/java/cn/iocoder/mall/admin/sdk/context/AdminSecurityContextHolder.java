@@ -7,24 +7,24 @@ package cn.iocoder.mall.admin.sdk.context;
  */
 public class AdminSecurityContextHolder {
 
-    private static final ThreadLocal<AdminSecurityContext> securityContext = new ThreadLocal<AdminSecurityContext>();
+    private static final ThreadLocal<AdminSecurityContext> SECURITY_CONTEXT = new ThreadLocal<>();
 
     public static void setContext(AdminSecurityContext context) {
-        securityContext.set(context);
+        SECURITY_CONTEXT.set(context);
     }
 
     public static AdminSecurityContext getContext() {
-        AdminSecurityContext ctx = securityContext.get();
+        AdminSecurityContext ctx = SECURITY_CONTEXT.get();
         // 为空时，设置一个空的进去
         if (ctx == null) {
             ctx = new AdminSecurityContext(null, null);
-            securityContext.set(ctx);
+            SECURITY_CONTEXT.set(ctx);
         }
         return ctx;
     }
 
     public static void clear() {
-        securityContext.remove();
+        SECURITY_CONTEXT.remove();
     }
 
 }

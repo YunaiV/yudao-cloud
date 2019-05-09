@@ -54,4 +54,6 @@ public class GlobalExceptionHandler {
         return CommonResult.error(SysErrorCodeEnum.SYS_ERROR.getCode(), SysErrorCodeEnum.SYS_ERROR.getMessage());
     }
 
+    // TODO 芋艿，应该还有其它的异常，需要进行翻译
+
 }

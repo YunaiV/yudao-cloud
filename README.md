@@ -33,9 +33,35 @@ TODO 暂时不提供管理后台的账号密码，等后面提供。
 
 TODO 此处应有一个演示的装逼 GIF 图。
 
-## TODO
+## 其它演示
 
-提供其他演示环境。例如说 skywalking、sentinel 等等。
+下面，我们会提供目前用到的中间件的管理平台。
+
+> 艿艿：考虑到大家可以看到更全的功能，所以一般提供 admin 账号。所以，大家素质使用哟。
+
+** SkyWalking UI **
+
+* 地址：http://skywalking-ui.shop.iocoder.cn:18099
+* 管理员账号：admin / admin
+
+** Dubbo Admin **
+
+* 地址：http://dubbo-admin.shop.iocoder.cn:18099
+* 管理员账号：无需登陆
+
+** RocketMQ Console **
+
+* 地址：http://rocketmq-console.shop.iocoder.cn:18099
+* 管理员账号：admin / RPsa2GHjTNs8pxEU
+
+** Sentinel Console **
+
+TODO
+
+** XXL-Job Console **
+
+* 地址：http://job-console.shop.iocoder.cn:18099
+* 管理员账号：admin / 233666
 
 # 技术
 

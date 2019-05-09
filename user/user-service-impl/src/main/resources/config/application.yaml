@@ -24,6 +24,7 @@ dubbo:
   scan:
     base-packages: cn.iocoder.mall.user.biz.service
   provider:
+    filter: -exception
     MobileCodeService:
       version: 1.0.0
     OAuth2Service:

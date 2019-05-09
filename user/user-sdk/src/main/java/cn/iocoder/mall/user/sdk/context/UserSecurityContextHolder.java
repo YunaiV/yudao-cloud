@@ -7,24 +7,24 @@ package cn.iocoder.mall.user.sdk.context;
  */
 public class UserSecurityContextHolder {
 
-    private static final ThreadLocal<UserSecurityContext> securityContext = new ThreadLocal<UserSecurityContext>();
+    private static final ThreadLocal<UserSecurityContext> SECURITY_CONTEXT = new ThreadLocal<UserSecurityContext>();
 
     public static void setContext(UserSecurityContext context) {
-        securityContext.set(context);
+        SECURITY_CONTEXT.set(context);
     }
 
     public static UserSecurityContext getContext() {
-        UserSecurityContext ctx = securityContext.get();
+        UserSecurityContext ctx = SECURITY_CONTEXT.get();
         // 为空时，设置一个空的进去
         if (ctx == null) {
             ctx = new UserSecurityContext(null);
-            securityContext.set(ctx);
+            SECURITY_CONTEXT.set(ctx);
         }
         return ctx;
     }
 
     public static void clear() {
-        securityContext.remove();
+        SECURITY_CONTEXT.remove();
     }
 
 }

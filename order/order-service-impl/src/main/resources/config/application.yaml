@@ -24,6 +24,7 @@ dubbo:
   scan:
     base-packages: cn.iocoder.mall.order.biz.service
   provider:
+    filter: -exception
     CartService:
       version: 1.0.0
   consumer:

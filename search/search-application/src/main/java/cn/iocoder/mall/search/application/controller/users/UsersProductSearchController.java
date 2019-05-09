@@ -19,6 +19,9 @@ import java.util.Collections;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
 
+// TODO 芋艿，搜索关键字的配置
+// TODO 芋艿，搜索日志
+
 @RestController
 @RequestMapping("users/product")
 @Api("商品搜索")

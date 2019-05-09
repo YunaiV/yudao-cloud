@@ -27,7 +27,7 @@ package cn.iocoder.common.framework.exception;
  *       不限制规则。
  *       一般建议，每个模块自增。
  */
-public class ServiceException extends RuntimeException {
+public final class ServiceException extends RuntimeException {
 
     /**
      * 错误码

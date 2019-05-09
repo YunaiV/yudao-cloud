@@ -2,7 +2,7 @@ spring:
   boot:
     admin:
       client:
-        enabled: true
+        enabled: false # 暂时不用了
         url: http://127.0.0.1:18097
 
 

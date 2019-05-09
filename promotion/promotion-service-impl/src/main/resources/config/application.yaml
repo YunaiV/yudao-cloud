@@ -27,6 +27,7 @@ dubbo:
     ProductSpuService:
       version: 1.0.0
   provider:
+    filter: -exception
     BannerService:
       version: 1.0.0
     CouponService:

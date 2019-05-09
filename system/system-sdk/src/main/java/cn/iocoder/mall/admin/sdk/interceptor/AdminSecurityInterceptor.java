@@ -9,6 +9,7 @@ import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContext;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -24,9 +25,11 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
 
     @Reference(validation = "true", version = "${dubbo.consumer.OAuth2Service.version:1.0.0}")
     private OAuth2Service oauth2Service;
+
     /**
      * 忽略的 URL 集合，即无需经过认证
      */
+    @Value("${admins.security.ignore_url:#{null}}")
     private Set<String> ignoreUrls;
 
     public AdminSecurityInterceptor setIgnoreUrls(Set<String> ignoreUrls) {
@@ -67,7 +70,7 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
         }
         // 校验是否需要已授权
         // TODO sin 暂时不校验
-         checkPermission(request, authentication);
+        // checkPermission(request, authentication);
         // 返回成功
         return super.preHandle(request, response, handler);
     }

@@ -49,21 +49,6 @@ public class MVCConfiguration implements WebMvcConfigurer {
         return registrationBean;
     }
 
-//    @Override
-//    public void addViewControllers(ViewControllerRegistry registry) {
-//        registry.addRedirectViewController("/api/v2/api-docs", "/v2/api-docs");
-//        registry.addRedirectViewController("/api/swagger-resources/configuration/ui", "/swagger-resources/configuration/ui");
-//        registry.addRedirectViewController("/api/swagger-resources/configuration/security", "/swagger-resources/configuration/security");
-//        registry.addRedirectViewController("/api/swagger-resources", "/swagger-resources");
-//    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // 解决 swagger-ui.html 的访问，参考自 https://stackoverflow.com/questions/43545540/swagger-ui-no-mapping-found-for-http-request 解决
-        registry.addResourceHandler("swagger-ui.html**").addResourceLocations("classpath:/META-INF/resources/swagger-ui.html");
-        registry.addResourceHandler("webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-    }
-
     // TODO 芋艿，允许跨域
     @Override
     public void addCorsMappings(CorsRegistry registry) {

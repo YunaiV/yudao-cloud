@@ -8,9 +8,9 @@ server:
   servlet:
     context-path: /admin-api/
 
-# auth
-auth:
-  ignore-urls: /admin-api/admins/admin/passport/login, /admin-api/admins/file/get_qiniu_token
+admins:
+  security:
+    ignore_urls: /admin-api/admins/passport/login, /admin-api/admins/file/get_qiniu_token
 
 # qiniu
 qiniu:

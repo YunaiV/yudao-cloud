@@ -26,8 +26,17 @@ module.exports = function(config) {
   for (const key in config) {
     if (/->/.test(key)) {
       const keys = key.toString().split('->');
-      const source = keys[0].trim();
-      const target = keys[1].trim();
+
+      let source;
+      let target;
+      if (keys.length <= 1) {
+        // 没有 ->
+        source = key;
+        target = config.target;
+      } else {
+        source = keys[0].trim();
+        target = keys[1].trim();
+      }
 
       if (typeof config !== 'object') {
         console.log(

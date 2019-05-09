@@ -18,37 +18,32 @@ module.exports = function(config) {
   console.info(chalkSuccess('build proxy.%s.config 配置!'), process.env.NODE_ENV);
 
   const proxys = [];
-
   if (!config) {
     console.log(chalkError('proxy.%s.config 没有配置!'), process.env.NODE_ENV);
   }
 
   for (const key in config) {
+    let source;
+    let target;
     if (/->/.test(key)) {
       const keys = key.toString().split('->');
-
-      let source;
-      let target;
-      if (keys.length <= 1) {
-        // 没有 ->
-        source = key;
-        target = config.target;
-      } else {
-        source = keys[0].trim();
-        target = keys[1].trim();
-      }
-
-      if (typeof config !== 'object') {
-        console.log(
-          chalkError('%s: proxy.%s.config 初始化失败 config 类型为 object!'),
-          key,
-          process.env.NODE_ENV
-        );
-        break;
-      }
-
-      proxys.push(proxy(source, ObjectAssign({ target }, config[key])));
+      source = keys[0].trim();
+      target = keys[1].trim();
+    } else {
+      source = key;
+      target = config[key].target;
     }
+
+    if (typeof config !== 'object') {
+      console.log(
+        chalkError('%s: proxy.%s.config 初始化失败 config 类型为 object!'),
+        key,
+        process.env.NODE_ENV
+      );
+      break;
+    }
+
+    proxys.push(proxy(source, ObjectAssign({ target }, config[key])));
   }
 
   return proxys;

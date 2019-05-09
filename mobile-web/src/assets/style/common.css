@@ -14,13 +14,13 @@ body {
   border-right: 1px solid #ccc2bf;
 }
 
-#app,.van-goods-action, .van-overflow-hidden {
-  max-width: 1000px!important;
+#app, .van-goods-action, .van-overflow-hidden {
+  max-width: 600px!important;
   margin: 0 auto;
 }
 
-.van-tabbar {
-  max-width: 1000px!important;
+.van-tabbar, .van-submit-bar {
+  max-width: 600px!important;
   position:fixed;
   margin:auto;
   left:0;

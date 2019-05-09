@@ -99,7 +99,10 @@ const CreateForm = Form.create()(props => {
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="父级菜单">
         {form.getFieldDecorator('pid', {
           rules: [{ required: true, message: '请输入父级编号！' }],
-          initialValue: initValues.pid,
+          initialValue:
+            initValues.pid === 0
+              ? `根节点-${initValues.pid}`
+              : `${initValues.displayName}-${initValues.pid}`,
         })(
           <TreeSelect
             showSearch

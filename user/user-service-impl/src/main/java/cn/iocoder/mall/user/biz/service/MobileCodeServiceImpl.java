@@ -50,21 +50,21 @@ public class MobileCodeServiceImpl implements MobileCodeService {
      */
     public MobileCodeDO validLastMobileCode(String mobile, String code) {
         // TODO: 2019-04-09 Sin 暂时先忽略掉验证码校验
-//        return new MobileCodeDO().setCode(code).setCreateTime(new Date()).setId(1);
-        MobileCodeDO mobileCodePO = mobileCodeMapper.selectLast1ByMobile(mobile);
-        if (mobileCodePO == null) { // 若验证码不存在，抛出异常
-            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_NOT_FOUND.getCode());
-        }
-        if (System.currentTimeMillis() - mobileCodePO.getCreateTime().getTime() >= codeExpireTimes) { // 验证码已过期
-            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_EXPIRED.getCode());
-        }
-        if (mobileCodePO.getUsed()) { // 验证码已使用
-            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_USED.getCode());
-        }
-        if (!mobileCodePO.getCode().equals(code)) {
-            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_NOT_CORRECT.getCode());
-        }
-        return mobileCodePO;
+        return new MobileCodeDO().setCode(code).setCreateTime(new Date()).setId(1);
+//        MobileCodeDO mobileCodePO = mobileCodeMapper.selectLast1ByMobile(mobile);
+//        if (mobileCodePO == null) { // 若验证码不存在，抛出异常
+//            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_NOT_FOUND.getCode());
+//        }
+//        if (System.currentTimeMillis() - mobileCodePO.getCreateTime().getTime() >= codeExpireTimes) { // 验证码已过期
+//            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_EXPIRED.getCode());
+//        }
+//        if (mobileCodePO.getUsed()) { // 验证码已使用
+//            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_USED.getCode());
+//        }
+//        if (!mobileCodePO.getCode().equals(code)) {
+//            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_NOT_CORRECT.getCode());
+//        }
+//        return mobileCodePO;
     }
 
     /**

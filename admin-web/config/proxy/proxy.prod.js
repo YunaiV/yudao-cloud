@@ -2,32 +2,32 @@
 
 module.exports = {
   '/admin-api/': {
-    target: 'http://api.shop.iocoder.cn:18099/admin-api',
+    target: 'http://api.shop.iocoder.cn:18099',
     changeOrigin: true,
     pathRewrite: {},
   },
   '/product-api/': {
-    target: 'http://api.shop.iocoder.cn:18099/product-api',
+    target: 'http://api.shop.iocoder.cn:18099',
     changeOrigin: true,
     pathRewrite: {},
   },
   '/order-api/': {
-    target: 'http://api.shop.iocoder.cn:18099/order-api',
+    target: 'http://api.shop.iocoder.cn:18099',
     changeOrigin: true,
     pathRewrite: {},
   },
   '/promotion-api/': {
-    target: 'http://api.shop.iocoder.cn:18099/promotion-api',
+    target: 'http://api.shop.iocoder.cn:18099',
     changeOrigin: true,
     pathRewrite: {},
   },
   '/pay-api/': {
-    target: 'http://api.shop.iocoder.cn:18099/pay-api',
+    target: 'http://api.shop.iocoder.cn:18099',
     changeOrigin: true,
     pathRewrite: {},
   },
   '/user-api/': {
-    target: 'http://api.shop.iocoder.cn:18099/user-api',
+    target: 'http://api.shop.iocoder.cn:18099',
     changeOrigin: true,
     pathRewrite: {},
   },

@@ -5,6 +5,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Cors 过滤器
+ *
+ * 未来使用 {@link org.springframework.web.filter.CorsFilter} 替换
+ */
 public class CorsFilter implements Filter {
 
     @Override

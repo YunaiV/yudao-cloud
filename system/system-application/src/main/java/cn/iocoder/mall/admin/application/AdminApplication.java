@@ -3,9 +3,10 @@ package cn.iocoder.mall.admin.application;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication(scanBasePackages = {"cn.iocoder.mall.admin"})
-//@EnableAdminServer
+@EnableAsync(proxyTargetClass = true)
 public class AdminApplication {
 
     public static void main(String[] args) {

@@ -1,12 +1,11 @@
 package cn.iocoder.mall.admin.service;
 
 import cn.iocoder.common.framework.util.StringUtil;
-import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.admin.api.AdminAccessLogService;
-import cn.iocoder.mall.admin.api.dto.AdminAccessLogAddDTO;
-import cn.iocoder.mall.admin.convert.AdminAccessLogConvert;
-import cn.iocoder.mall.admin.dao.AdminAccessLogMapper;
-import cn.iocoder.mall.admin.dataobject.AdminAccessLogDO;
+import cn.iocoder.mall.admin.api.SystemLogService;
+import cn.iocoder.mall.admin.api.dto.AccessLogAddDTO;
+import cn.iocoder.mall.admin.convert.AccessLogConvert;
+import cn.iocoder.mall.admin.dao.AccessLogMapper;
+import cn.iocoder.mall.admin.dataobject.AccessLogDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,7 @@ import java.util.Date;
 
 @Service
 @org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.AdminAccessLogService.version}")
-public class AdminAccessLogServiceImpl implements AdminAccessLogService {
+public class SystemLogServiceImpl implements SystemLogService {
 
     /**
      * 请求参数最大长度。
@@ -30,12 +29,12 @@ public class AdminAccessLogServiceImpl implements AdminAccessLogService {
     private static final Integer USER_AGENT_MAX_LENGTH = 1024;
 
     @Autowired
-    private AdminAccessLogMapper adminAccessLogMapper;
+    private AccessLogMapper accessLogMapper;
 
     @Override
-    public CommonResult<Boolean> addAdminAccessLog(AdminAccessLogAddDTO adminAccessLogAddDTO) {
+    public void addAccessLog(AccessLogAddDTO adminAccessLogAddDTO) {
         // 创建 AdminAccessLogDO
-        AdminAccessLogDO accessLog = AdminAccessLogConvert.INSTANCE.convert(adminAccessLogAddDTO);
+        AccessLogDO accessLog = AccessLogConvert.INSTANCE.convert(adminAccessLogAddDTO);
         accessLog.setCreateTime(new Date());
         // 截取最大长度
         if (accessLog.getUri().length() > URI_MAX_LENGTH) {
@@ -48,9 +47,7 @@ public class AdminAccessLogServiceImpl implements AdminAccessLogService {
             accessLog.setUserAgent(StringUtil.substring(accessLog.getUserAgent(), USER_AGENT_MAX_LENGTH));
         }
         // 插入
-        adminAccessLogMapper.insert(accessLog);
-        // 返回成功
-        return CommonResult.success(true);
+        accessLogMapper.insert(accessLog);
     }
 
 }

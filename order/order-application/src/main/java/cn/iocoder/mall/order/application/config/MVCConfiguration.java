@@ -1,6 +1,6 @@
 package cn.iocoder.mall.order.application.config;
 
-import cn.iocoder.common.framework.config.GlobalExceptionHandler;
+import cn.iocoder.common.framework.exception.GlobalExceptionHandler;
 import cn.iocoder.common.framework.servlet.CorsFilter;
 import cn.iocoder.mall.admin.sdk.interceptor.AdminSecurityInterceptor;
 import cn.iocoder.mall.user.sdk.interceptor.UserAccessLogInterceptor;
@@ -49,12 +49,4 @@ public class MVCConfiguration implements WebMvcConfigurer {
         return registrationBean;
     }
 
-    // TODO 芋艿，允许跨域
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedHeaders("*")
-                .allowedMethods("*")
-                .allowedOrigins("*");
-    }
 }

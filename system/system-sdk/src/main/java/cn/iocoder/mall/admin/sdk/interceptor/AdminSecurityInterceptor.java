@@ -1,7 +1,9 @@
 package cn.iocoder.mall.admin.sdk.interceptor;
 
+import cn.iocoder.common.framework.constant.MallConstants;
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.common.framework.util.HttpUtil;
+import cn.iocoder.common.framework.util.MallUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.OAuth2Service;
 import cn.iocoder.mall.admin.api.bo.OAuth2AuthenticationBO;
@@ -39,8 +41,10 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        // 设置当前访问的用户类型。注意，即使未登陆，我们也认为是管理员
+        MallUtil.setUserType(request, MallConstants.USER_TYPE_ADMIN);
         // 校验访问令牌是否正确。若正确，返回授权信息
-        String accessToken = HttpUtil.obtainAccess(request);
+        String accessToken = HttpUtil.obtainAuthorization(request);
         OAuth2AuthenticationBO authentication = null;
         if (accessToken != null) {
             CommonResult<OAuth2AuthenticationBO> result = oauth2Service.checkToken(accessToken);
@@ -60,7 +64,7 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
             // AdminSecurityInterceptor 执行后，会移除 AdminSecurityContext 信息，这就导致 AdminAccessLogInterceptor 无法获得管理员编号
             // 因此，这里需要进行记录
             if (authentication.getAdminId() != null) {
-                AdminAccessLogInterceptor.setAdminId(authentication.getAdminId());
+                MallUtil.setUserId(request, authentication.getAdminId());
             }
         } else {
             String url = request.getRequestURI();

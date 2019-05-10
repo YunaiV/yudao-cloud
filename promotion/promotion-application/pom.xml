@@ -20,6 +20,11 @@
 
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
+            <artifactId>product-service-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
             <artifactId>promotion-service-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
@@ -59,14 +64,8 @@
             <artifactId>springfox-swagger2</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.iocoder.mall</groupId>
-            <artifactId>product-service-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>swagger-bootstrap-ui</artifactId>
         </dependency>
 
     </dependencies>

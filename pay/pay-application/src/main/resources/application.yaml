@@ -7,3 +7,9 @@ server:
   port: 18084
   servlet:
     context-path: /pay-api/
+
+swagger:
+  title: 支付子系统
+  description: 支付子系统
+  version: 1.0.0
+  base-package: cn.iocoder.mall.pay.application.controller

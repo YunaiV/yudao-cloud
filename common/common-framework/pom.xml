@@ -90,6 +90,12 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.skywalking</groupId>
+            <artifactId>apm-toolkit-trace</artifactId>
+            <version>6.1.0</version>
+        </dependency>
+
     </dependencies>
 
 </project>

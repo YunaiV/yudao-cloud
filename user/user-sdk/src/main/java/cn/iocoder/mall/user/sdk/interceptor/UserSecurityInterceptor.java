@@ -1,7 +1,9 @@
 package cn.iocoder.mall.user.sdk.interceptor;
 
+import cn.iocoder.common.framework.constant.MallConstants;
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.common.framework.util.HttpUtil;
+import cn.iocoder.common.framework.util.MallUtil;
 import cn.iocoder.mall.user.api.OAuth2Service;
 import cn.iocoder.mall.user.api.bo.OAuth2AuthenticationBO;
 import cn.iocoder.mall.user.sdk.annotation.PermitAll;
@@ -26,8 +28,10 @@ public class UserSecurityInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        // 设置当前访问的用户类型。注意，即使未登陆，我们也认为是用户
+        MallUtil.setUserType(request, MallConstants.USER_TYPE_USER);
         // 校验访问令牌是否正确。若正确，返回授权信息
-        String accessToken = HttpUtil.obtainAccess(request);
+        String accessToken = HttpUtil.obtainAuthorization(request);
         OAuth2AuthenticationBO authentication = null;
         if (accessToken != null) {
             authentication = oauth2Service.checkToken(accessToken); // TODO 芋艿，如果访问的地址无需登录，这里也不用抛异常
@@ -39,7 +43,7 @@ public class UserSecurityInterceptor extends HandlerInterceptorAdapter {
             // AdminSecurityInterceptor 执行后，会移除 AdminSecurityContext 信息，这就导致 AdminAccessLogInterceptor 无法获得管理员编号
             // 因此，这里需要进行记录
             if (authentication.getUserId() != null) {
-                UserAccessLogInterceptor.setUserId(authentication.getUserId());
+                MallUtil.setUserId(request, authentication.getUserId());
             }
         }
         // 校验是否需要已授权

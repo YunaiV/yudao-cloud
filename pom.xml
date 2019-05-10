@@ -37,6 +37,7 @@
 <!--        <curator.version>4.0.1</curator.version>-->
 <!--        <zookeeper.version>3.4.14</zookeeper.version>-->
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
+        <swagger-bootstrap-ui.version>1.9.3</swagger-bootstrap-ui.version>
         <mybatis-spring-boot-starter.version>2.0.0</mybatis-spring-boot-starter.version>
         <xxl-job.version>2.0.1</xxl-job.version>
         <guava.version>27.0.1-jre</guava.version>
@@ -129,6 +130,11 @@
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>${springfox-swagger.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>swagger-bootstrap-ui</artifactId>
+                <version>${swagger-bootstrap-ui.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
@@ -182,6 +188,14 @@
                 <groupId>com.qiniu</groupId>
                 <artifactId>qiniu-java-sdk</artifactId>
                 <version>${qiniu.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <!--            <scope>provided</scope>-->
+                <version>2.5</version>
+                <optional>true</optional>
             </dependency>
 
         </dependencies>

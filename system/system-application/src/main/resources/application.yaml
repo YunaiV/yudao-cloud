@@ -17,3 +17,9 @@ qiniu:
   access-key: YldfyUC7OewoWM63TPYTairqnq8GMJvNek9EGoID
   secret-key: zZ7Q8wwZRyaklVvkyLmVydA4WygOBqtc_gTYzalS
   bucket: onemall
+
+swagger:
+  title: 管理员子系统
+  description: 管理员子系统
+  version: 1.0.0
+  base-package: cn.iocoder.mall.admin.application.controller

@@ -44,7 +44,7 @@ public class HttpUtil {
      */
     public static final String DEFAULT_CHARACTER_ENCODING = "ISO-8859-1";
 
-    public static String obtainAccess(HttpServletRequest request) {
+    public static String obtainAuthorization(HttpServletRequest request) {
         String authorization = request.getHeader("Authorization");
         if (!StringUtils.hasText(authorization)) {
             return null;

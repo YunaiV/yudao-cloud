@@ -1,10 +1,11 @@
-package cn.iocoder.common.framework.config;
+package cn.iocoder.mall.spring.boot.web.handler;
 
 import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.common.framework.vo.CommonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -51,9 +52,19 @@ public class GlobalExceptionHandler {
     public CommonResult resultExceptionHandler(HttpServletRequest req, Exception e) {
         logger.error("[resultExceptionHandler]", e);
         // 返回
+        try {
+            addExceptionLog();
+        } catch (Throwable th) {
+            // TODO
+        }
         return CommonResult.error(SysErrorCodeEnum.SYS_ERROR.getCode(), SysErrorCodeEnum.SYS_ERROR.getMessage());
     }
 
     // TODO 芋艿，应该还有其它的异常，需要进行翻译
+
+    @Async
+    public void addExceptionLog() {
+
+    }
 
 }

@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cn.iocoder.mall.spring.boot.web.AdminMVCConfiguration, \
-  cn.iocoder.mall.spring.boot.web.UserMVCConfiguration
+  cn.iocoder.mall.spring.boot.web.AdminMVCAutoConfiguration, \
+  cn.iocoder.mall.spring.boot.web.UserMVCAutoConfiguration, \
+  cn.iocoder.mall.spring.boot.swagger.SwaggerAutoConfiguration

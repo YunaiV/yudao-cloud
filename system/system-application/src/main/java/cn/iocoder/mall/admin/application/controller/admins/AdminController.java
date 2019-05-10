@@ -18,7 +18,7 @@ import cn.iocoder.mall.admin.application.vo.AdminPageVO;
 import cn.iocoder.mall.admin.application.vo.AdminRoleVO;
 import cn.iocoder.mall.admin.application.vo.AdminVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
-import cn.iocoder.mall.spring.boot.constant.RootRequestPath;
+import cn.iocoder.common.framework.constant.MallConstants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -30,7 +30,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(RootRequestPath.ADMIN + "/admin")
+@RequestMapping(MallConstants.ROOT_PATH_ADMIN + "/admin")
 @Api("管理员模块")
 public class AdminController {
 

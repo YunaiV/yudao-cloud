@@ -5,7 +5,7 @@ import org.springframework.util.Assert;
 
 import java.io.Serializable;
 
-public class CommonResult<T> implements Serializable {
+public final class CommonResult<T> implements Serializable {
 
     public static Integer CODE_SUCCESS = 0;
 

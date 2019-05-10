@@ -47,8 +47,16 @@ public class ExceptionUtil {
         return null;
     }
 
+    public static String getMessage(Throwable th) {
+        return ExceptionUtils.getMessage(th);
+    }
+
     public static String getRootCauseMessage(Throwable th) {
         return ExceptionUtils.getRootCauseMessage(th);
+    }
+
+    public static String getStackTrace(Throwable th) {
+        return ExceptionUtils.getStackTrace(th);
     }
 
 }

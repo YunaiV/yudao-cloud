@@ -1,6 +1,7 @@
 package cn.iocoder.mall.admin.api;
 
 import cn.iocoder.mall.admin.api.dto.AccessLogAddDTO;
+import cn.iocoder.mall.admin.api.dto.ExceptionLogAddDTO;
 
 /**
  * 系统日志 Service 接口
@@ -10,5 +11,7 @@ import cn.iocoder.mall.admin.api.dto.AccessLogAddDTO;
 public interface SystemLogService {
 
     void addAccessLog(AccessLogAddDTO accessLogAddDTO);
+
+    void addExceptionLog(ExceptionLogAddDTO exceptionLogAddDTO);
 
 }

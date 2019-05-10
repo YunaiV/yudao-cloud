@@ -32,6 +32,9 @@ public class DataDictServiceImpl implements DataDictService {
 
     @Override
     public CommonResult<List<DataDictBO>> selectDataDictList() {
+        if (true) {
+            throw new NullPointerException("阿拉啦啦啦");
+        }
         List<DataDictDO> dataDicts = dataDictMapper.selectList();
         return CommonResult.success(DataDictConvert.INSTANCE.convert(dataDicts));
     }

@@ -50,28 +50,9 @@ public class AccessLogInterceptor extends HandlerInterceptorAdapter {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         AccessLogAddDTO accessLog = new AccessLogAddDTO();
         try {
-            // 设置用户编号
-            accessLog.setUserId(MallUtil.getUserId(request));
-            if (accessLog.getUserId() == null) {
-                accessLog.setUserId(AccessLogAddDTO.USER_ID_NULL);
-            }
-            accessLog.setUserType(MallUtil.getUserType(request));
-            // 设置访问结果
-            CommonResult result = MallUtil.getCommonResult(request);
-            Assert.isTrue(result != null, "result 必须非空");
-            accessLog.setErrorCode(result.getCode())
-                    .setErrorMessage(result.getMessage());
-            // 设置其它字段
-            accessLog.setTraceId(MallUtil.getTraceId())
-                    .setApplicationName(applicationName)
-                    .setUri(request.getRequestURI()) // TODO 提升：如果想要优化，可以使用 Swagger 的 @ApiOperation 注解。
-                    .setQueryString(HttpUtil.buildQueryString(request))
-                    .setMethod(request.getMethod())
-                    .setUserAgent(HttpUtil.getUserAgent(request))
-                    .setIp(HttpUtil.getIp(request))
-                    .setStartTime(START_TIME.get())
-                    .setResponseTime((int) (System.currentTimeMillis() - accessLog.getStartTime().getTime())); // 默认响应时间设为 0
-            // 执行插入
+            // 初始化 accessLog
+            initAccessLog(accessLog, request);
+            // 执行插入 accessLog
             addAccessLog(accessLog);
             // TODO 提升：暂时不考虑 ELK 的方案。而是基于 MySQL 存储。如果访问日志比较多，需要定期归档。
         } catch (Throwable th) {
@@ -79,6 +60,30 @@ public class AccessLogInterceptor extends HandlerInterceptorAdapter {
         } finally {
             clear();
         }
+    }
+
+    private void initAccessLog(AccessLogAddDTO accessLog, HttpServletRequest request) {
+        // 设置用户编号
+        accessLog.setUserId(MallUtil.getUserId(request));
+        if (accessLog.getUserId() == null) {
+            accessLog.setUserId(AccessLogAddDTO.USER_ID_NULL);
+        }
+        accessLog.setUserType(MallUtil.getUserType(request));
+        // 设置访问结果
+        CommonResult result = MallUtil.getCommonResult(request);
+        Assert.isTrue(result != null, "result 必须非空");
+        accessLog.setErrorCode(result.getCode())
+                .setErrorMessage(result.getMessage());
+        // 设置其它字段
+        accessLog.setTraceId(MallUtil.getTraceId())
+                .setApplicationName(applicationName)
+                .setUri(request.getRequestURI()) // TODO 提升：如果想要优化，可以使用 Swagger 的 @ApiOperation 注解。
+                .setQueryString(HttpUtil.buildQueryString(request))
+                .setMethod(request.getMethod())
+                .setUserAgent(HttpUtil.getUserAgent(request))
+                .setIp(HttpUtil.getIp(request))
+                .setStartTime(START_TIME.get())
+                .setResponseTime((int) (System.currentTimeMillis() - accessLog.getStartTime().getTime())); // 默认响应时间设为 0
     }
 
     @Async // 异步入库

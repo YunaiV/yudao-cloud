@@ -1,18 +1,20 @@
 package cn.iocoder.mall.admin.dataobject;
 
-import cn.iocoder.common.framework.dataobject.DeletableDO;
+import cn.iocoder.common.framework.dataobject.BaseDO;
 import cn.iocoder.common.framework.vo.CommonResult;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
 
 /**
- * 管理员访问日志 DO
+ * 访问日志 DO
  */
 @Data
 @Accessors(chain = true)
-public class AccessLogDO extends DeletableDO {
+@TableName("access_log")
+public class AccessLogDO extends BaseDO {
 
     /**
      * 编号

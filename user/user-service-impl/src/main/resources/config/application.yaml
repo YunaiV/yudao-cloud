@@ -7,9 +7,18 @@ spring:
     password: ${MALL_MYSQL_PASSWORD}
 
 # mybatis
-mybatis:
-  config-location: classpath:mybatis-config.xml
-  mapper-locations: classpath:mapper/*.xml
+#mybatis:
+#  config-location: classpath:mybatis-config.xml
+#  mapper-locations: classpath:mapper/*.xml
+#  type-aliases-package: cn.iocoder.mall.user.biz.dataobject
+
+# mybatis-plus
+mybatis-plus:
+  configuration:
+    mapUnderscoreToCamelCase: true # 虽然默认为 true ，但是还是显示去指定下。
+  mapperLocations: classpath*:mapper/*.xml
+  typeAliasesPackage: cn.iocoder.mall.user.biz.dataobject
+  mapper-locations: classpath*:mapper/*.xml
   type-aliases-package: cn.iocoder.mall.user.biz.dataobject
 
 # dubbo

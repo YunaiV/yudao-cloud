@@ -8,8 +8,18 @@ spring:
 
 # mybatis
 mybatis:
-  config-location: classpath:mybatis-config.xml
-  mapper-locations: classpath:mapper/*.xml
+#  config-location: classpath:mybatis-config.xml
+#  mapper-locations: classpath:mapper/*.xml
+#  type-aliases-package: cn.iocoder.mall.order.biz.dataobject
+#
+# mybatis-plus
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true # 虽然默认为 true ，但是还是显示去指定下。
+  global-config:
+    db-config:
+      id-type: auto
+  mapper-locations: classpath*:mapper/*.xml
   type-aliases-package: cn.iocoder.mall.order.biz.dataobject
 
 # dubbo

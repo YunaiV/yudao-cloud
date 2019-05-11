@@ -7,10 +7,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication(scanBasePackages = {"cn.iocoder.mall.admin"})
 @EnableAsync(proxyTargetClass = true)
-public class AdminApplication {
+public class SystemApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext ctx = SpringApplication.run(AdminApplication.class, args);
+        ConfigurableApplicationContext ctx = SpringApplication.run(SystemApplication.class, args);
 //        Object bean = ctx.getBean("test");
 //        System.out.println(AopUtils.getTargetClass(bean));
 

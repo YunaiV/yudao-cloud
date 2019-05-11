@@ -7,3 +7,9 @@ server:
   port: 18088
   servlet:
     context-path: /order-api/
+
+swagger:
+  title: 订单子系统
+  description: 订单子系统
+  version: 1.0.0
+  base-package: cn.iocoder.mall.pay.application.controller

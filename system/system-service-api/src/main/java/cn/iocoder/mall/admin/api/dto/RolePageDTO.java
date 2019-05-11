@@ -3,12 +3,14 @@ package cn.iocoder.mall.admin.api.dto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * 角色分页 DTO
  */
 @Data
 @Accessors(chain = true)
-public class RolePageDTO {
+public class RolePageDTO implements Serializable {
 
     private Integer pageNo;
     private Integer pageSize;

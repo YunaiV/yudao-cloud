@@ -5,13 +5,14 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * 角色添加 DTO
  */
 @Data
 @Accessors(chain = true)
-public class RoleUpdateDTO {
+public class RoleUpdateDTO implements Serializable {
 
     /**
      * 角色编号

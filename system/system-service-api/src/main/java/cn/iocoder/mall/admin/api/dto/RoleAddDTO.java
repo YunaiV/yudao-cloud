@@ -4,13 +4,14 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 /**
  * 角色添加 DTO
  */
 @Data
 @Accessors(chain = true)
-public class RoleAddDTO {
+public class RoleAddDTO implements Serializable {
 
     /**
      * 角色名字（标识）

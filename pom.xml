@@ -39,6 +39,7 @@
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
         <swagger-bootstrap-ui.version>1.9.3</swagger-bootstrap-ui.version>
         <mybatis-spring-boot-starter.version>2.0.0</mybatis-spring-boot-starter.version>
+        <mybatis.version>3.5.1</mybatis.version>
         <mybatis-plus.version>3.1.1</mybatis-plus.version>
         <xxl-job.version>2.0.1</xxl-job.version>
         <guava.version>27.0.1-jre</guava.version>
@@ -48,6 +49,8 @@
         <org.projectlombok.version>1.16.14</org.projectlombok.version>
 
         <qiniu.version>7.2.18</qiniu.version>
+
+        <seata.version>0.5.1</seata.version>
 
         <java.version>1.8</java.version>
     </properties>
@@ -138,6 +141,11 @@
             </dependency>
 
             <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${mybatis-spring-boot-starter.version}</version>
@@ -202,6 +210,24 @@
                 <!--            <scope>provided</scope>-->
                 <version>2.5</version>
                 <optional>true</optional>
+            </dependency>
+
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-spring</artifactId>
+                <version>${seata.version}</version>
+            </dependency>
+            <!--dependency for Apache Dubbo-->
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-dubbo</artifactId>
+                <version>${seata.version}</version>
+            </dependency>
+            <!--dependency for Alibaba Dubbo-->
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-dubbo-alibaba</artifactId>
+                <version>${seata.version}</version>
             </dependency>
 
         </dependencies>

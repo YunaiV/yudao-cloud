@@ -4,13 +4,14 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * 管理员分页 DTO
  */
 @Data
 @Accessors(chain = true)
-public class AdminPageDTO {
+public class AdminPageDTO implements Serializable {
 
     /**
      * 昵称，模糊匹配

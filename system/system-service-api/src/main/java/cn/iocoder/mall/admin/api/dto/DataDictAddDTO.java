@@ -5,13 +5,14 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * 数据字典添加 DTO
  */
 @Data
 @Accessors(chain = true)
-public class DataDictAddDTO {
+public class DataDictAddDTO implements Serializable {
 
     /**
      * 大类枚举值

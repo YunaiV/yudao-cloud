@@ -5,13 +5,14 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * 资源更新 DTO
  */
 @Data
 @Accessors(chain = true)
-public class ResourceUpdateDTO {
+public class ResourceUpdateDTO implements Serializable {
 
     /**
      * 资源编号

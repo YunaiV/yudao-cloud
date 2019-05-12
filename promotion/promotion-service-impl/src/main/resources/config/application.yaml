@@ -1,10 +1,16 @@
 spring:
   # datasource
   datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://180.167.213.26:13306/mall_promotion?useSSL=false&useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: ${MALL_MYSQL_PASSWORD}
+    # TODO 芋艿, 后续优化下 druid 参数
+    druid:
+      initial-size: 5
+      max-active: 5
+      max-wait: 10000
 
 # mybatis
 #mybatis:

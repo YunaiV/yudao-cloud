@@ -4,10 +4,10 @@
     <van-radio-group v-model="servicetype">
       <van-cell-group>
         <van-cell title="服务类型"/>
-        <van-cell title="退款" clickable @click="servicetype = '1'">
+        <van-cell title="退货/退款" clickable @click="servicetype = '1'">
           <van-radio name="1"/>
         </van-cell>
-        <van-cell title="退货" clickable @click="servicetype = '2'">
+        <van-cell title="退款" clickable @click="servicetype = '2'">
           <van-radio name="2"/>
         </van-cell>
       </van-cell-group>

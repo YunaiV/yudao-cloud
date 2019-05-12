@@ -41,6 +41,12 @@
             <van-button v-if="item.status === 1 " size="small" type="danger" @click="goPay(item.orderid)">
                     支付
             </van-button>
+
+            <router-link :to="'/user/aftersale/apply/'+item.orderid">
+              <van-button v-if="item.status !== 1 && item.status !== 5" size="small" type="danger">
+                申请售后
+              </van-button>
+            </router-link>
           </div>
         </van-panel>
       </van-cell-group>

@@ -38,6 +38,7 @@ dubbo:
     CartService:
       version: 1.0.0
   consumer:
+    timeout: 120000 # 设置长一点，方便调试代码
     ProductSpuService:
       version: 1.0.0
     PromotionActivityService:

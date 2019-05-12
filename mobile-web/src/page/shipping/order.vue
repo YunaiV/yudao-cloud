@@ -173,6 +173,7 @@
             createOrder({
               orderItems,
               userAddressId,
+              couponCardId,
               remark,
             }).then(result => {
               if (result) {

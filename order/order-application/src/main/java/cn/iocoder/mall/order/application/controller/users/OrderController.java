@@ -17,6 +17,8 @@ import cn.iocoder.mall.order.application.convert.CartConvert;
 import cn.iocoder.mall.order.application.convert.OrderConvertAPP;
 import cn.iocoder.mall.order.application.po.user.OrderCreatePO;
 import cn.iocoder.mall.order.application.vo.UsersOrderConfirmCreateVO;
+import cn.iocoder.mall.promotion.api.CouponService;
+import cn.iocoder.mall.promotion.api.bo.CouponCardAvailableBO;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +30,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static cn.iocoder.common.framework.vo.CommonResult.success;
 
 /**
  * 订单API(users)
@@ -46,6 +50,8 @@ public class OrderController {
     private CartService cartService;
     @Reference(validation = "true", version = "${dubbo.consumer.DataDictService.version}")
     private DataDictService dataDictService;
+    @Reference(validation = "true", version = "${dubbo.consumer.CouponService.version}")
+    private CouponService couponService;
 
     @GetMapping("order_page")
     @ApiOperation("订单分页")
@@ -97,14 +103,18 @@ public class OrderController {
     public CommonResult<UsersOrderConfirmCreateVO> getConfirmCreateOrder(@RequestParam("skuId") Integer skuId,
                                                                          @RequestParam("quantity") Integer quantity,
                                                                          @RequestParam(value = "couponCardId", required = false) Integer couponCardId) {
+        Integer userId = UserSecurityContextHolder.getContext().getUserId();
         // 创建 CalcOrderPriceDTO 对象，并执行价格计算
         CalcOrderPriceDTO calcOrderPriceDTO = new CalcOrderPriceDTO()
-                .setUserId(UserSecurityContextHolder.getContext().getUserId())
+                .setUserId(userId)
                 .setItems(Collections.singletonList(new CalcOrderPriceDTO.Item(skuId, quantity, true)))
                 .setCouponCardId(couponCardId);
         CalcOrderPriceBO calcOrderPrice = cartService.calcOrderPrice(calcOrderPriceDTO);
+        // 获得优惠劵
+        List<CouponCardAvailableBO> couponCards = couponService.getCouponCardList(userId,
+                CartConvert.INSTANCE.convertList(calcOrderPrice.getItemGroups()));
         // 执行数据拼装
-        return CommonResult.success(CartConvert.INSTANCE.convert(calcOrderPrice));
+        return success(CartConvert.INSTANCE.convert(calcOrderPrice).setCouponCards(couponCards));
     }
 
     @PostMapping("confirm_receiving")

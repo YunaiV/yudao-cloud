@@ -16,7 +16,7 @@
             `type`, create_time, update_time
         ) VALUES (
             #{orderId}, #{areaNo}, #{name}, #{mobile}, #{address},
-            #{type}, #{createTime}, #{updateTime}
+            #{type}, #{createTime,jdbcType=TIMESTAMP} , #{updateTime}
         )
     </insert>
 

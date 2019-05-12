@@ -80,7 +80,7 @@ public interface CouponService {
      * @return 是否成功
      */
     Boolean useCouponCard(Integer userId,
-                                        @NotNull(message = "优惠劵编号不能为空") Integer couponCardId);
+                        @NotNull(message = "优惠劵编号不能为空") Integer couponCardId);
 
     /**
      * 取消优惠劵的使用

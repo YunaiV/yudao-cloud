@@ -21,6 +21,7 @@ import cn.iocoder.mall.product.api.bo.ProductSkuDetailBO;
 import cn.iocoder.mall.promotion.api.CouponService;
 import cn.iocoder.mall.user.api.UserAddressService;
 import cn.iocoder.mall.user.api.bo.UserAddressBO;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.apache.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -210,6 +211,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @GlobalTransactional
     @Transactional // TODO 芋艿，先不考虑分布式事务的问题
     public CommonResult<OrderCreateBO> createOrder(OrderCreateDTO orderCreateDTO) {
         Integer userId = orderCreateDTO.getUserId();
@@ -284,8 +286,8 @@ public class OrderServiceImpl implements OrderService {
                 .setHasReturnExchange(OrderHasReturnExchangeEnum.NO.getValue())
                 .setRemark(Optional.ofNullable(orderCreateDTO.getRemark()).orElse(""));
         orderDO.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
-        orderDO.setCreateTime(new Date());
-        orderDO.setUpdateTime(null);
+//        orderDO.setCreateTime(new Date());
+//        orderDO.setUpdateTime(null);
         orderMapper.insert(orderDO);
 
         // 收件人信息
@@ -320,6 +322,10 @@ public class OrderServiceImpl implements OrderService {
         });
         // 一次性插入
         orderItemMapper.insert(orderItemDOList);
+
+        if (true) {
+            throw new RuntimeException("测试 seata 事务回滚");
+        }
 
         // 创建预订单
         createPayTransaction(orderDO, orderItemDOList, orderCreateDTO.getIp());

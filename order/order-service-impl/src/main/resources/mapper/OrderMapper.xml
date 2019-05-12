@@ -9,26 +9,6 @@
         status, remark, create_time, update_time, `deleted`
     </sql>
 
-    <!--
-        插入数据
-    -->
-    <insert id="insert" parameterType="OrderDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO `order` (
-            user_id, order_no, buy_price, discount_price, logistics_price, present_price, pay_amount,
-            payment_time, delivery_time, receiver_time, closing_time,
-            has_return_exchange,
-            status, remark, create_time, update_time, `deleted`
-        ) VALUES (
-             #{userId}, #{orderNo}, #{buyPrice}, #{discountPrice}, #{logisticsPrice}, #{presentPrice}, #{payAmount},
-             #{paymentTime}, #{deliveryTime}, #{receiverTime}, #{closingTime},
-             #{hasReturnExchange},
-             #{status}, #{remark}, #{createTime}, #{updateTime}, #{deleted}
-        )
-    </insert>
-
-    <!--
-        更新 - 可更新的字段
-    -->
     <sql id="updateFieldSql" >
         <set>
             <if test="orderNo != null">
@@ -86,9 +66,6 @@
         </set>
     </sql>
 
-    <!--
-        更新 - 根据 id 更新
-    -->
     <update id="updateById" parameterType="OrderDO">
         UPDATE `order`
         <include refid="updateFieldSql" />
@@ -112,9 +89,6 @@
         AND status = #{status}
     </update>
 
-    <!--
-        查询 - 根据id 查询
-    -->
     <select id="selectById" resultType="cn.iocoder.mall.order.biz.dataobject.OrderDO">
         SELECT
         <include refid="FIELDS" />
@@ -122,9 +96,6 @@
         WHERE id = #{id}
     </select>
 
-    <!--
-        查询条件 注意：条件顺序，避免不能使用索引
-    -->
     <sql id="selectWhere">
         <if test="status != null">
             AND `status` = #{status}
@@ -147,26 +118,22 @@
         </if>
     </sql>
 
-    <!--
-        查询 - 后台分页page Count
-    -->
     <select id="selectPageCount" resultType="java.lang.Integer">
         SELECT
         COUNT(*)
         FROM `order`
-        WHERE 1 = 1 <!-- TODO 芋艿 不要 1=1 ，会有问题，使用 where 标签 -->
-        <include refid="selectWhere" />
+        <where>
+            <include refid="selectWhere" />
+        </where>
     </select>
 
-    <!--
-        查询 - 后台分页page
-    -->
     <select id="selectPage" resultType="cn.iocoder.mall.order.biz.dataobject.OrderDO">
         SELECT
         <include refid="FIELDS" />
         FROM `order`
-        WHERE 1 = 1 <!-- TODO 芋艿 不要 1=1 ，会有问题，使用 where 标签 -->
-        <include refid="selectWhere" />
+        <where>
+            <include refid="selectWhere" />
+        </where>
         LIMIT ${pageNo * pageSize}, ${pageSize}
     </select>
 

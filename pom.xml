@@ -30,7 +30,7 @@
         <springboot.version>2.1.3.RELEASE</springboot.version>
 <!--        <com.alibab.dubbo.version>2.6.5</com.alibab.dubbo.version>-->
         <dubbo.version>2.7.1</dubbo.version>
-        <mysql-connector-java.version>5.1.47</mysql-connector-java.version>
+        <mysql-connector-java.version>5.1.46</mysql-connector-java.version>
 <!--        <dubbo-spring-boot-starter.version>0.2.1.RELEASE</dubbo-spring-boot-starter.version>-->
         <org.mapstruct.version>1.3.0.Final</org.mapstruct.version>
         <curator.version>2.13.0</curator.version>

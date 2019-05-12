@@ -2,6 +2,7 @@ package cn.iocoder.mall.order.biz.dao;
 
 import cn.iocoder.mall.order.api.dto.OrderQueryDTO;
 import cn.iocoder.mall.order.biz.dataobject.OrderDO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -14,14 +15,7 @@ import java.util.List;
  * @time 2019-03-16 15:09
  */
 @Repository
-public interface OrderMapper {
-
-    /**
-     * 插入数据
-     *
-     * @param orderDO
-     */
-    void insert(OrderDO orderDO);
+public interface OrderMapper extends BaseMapper<OrderDO> {
 
     /**
      * 更新 - 根据 id 更新

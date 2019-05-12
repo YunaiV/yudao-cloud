@@ -242,14 +242,14 @@ public class CouponServiceImpl implements CouponService {
         if (!userId.equals(card.getUserId())) {
             throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_ERROR_USER.getCode());
         }
-        if (CouponCardStatusEnum.UNUSED.getValue().equals(card.getStatus())) {
+        if (!CouponCardStatusEnum.UNUSED.getValue().equals(card.getStatus())) {
             throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
         }
         if (DateUtil.isBetween(card.getValidStartTime(), card.getValidEndTime())) { // 为避免定时器没跑，实际优惠劵已经过期
             throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
         }
         // 更新优惠劵已使用
-        int updateCount = couponCardMapper.updateByIdAndStatus(card.getId(), CouponCardStatusEnum.USED.getValue(),
+        int updateCount = couponCardMapper.updateByIdAndStatus(card.getId(), CouponCardStatusEnum.UNUSED.getValue(),
                 new CouponCardDO().setStatus(CouponCardStatusEnum.USED.getValue()).setUsedTime(new Date()));
         if (updateCount == 0) {
             throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
@@ -267,12 +267,12 @@ public class CouponServiceImpl implements CouponService {
         if (!userId.equals(card.getUserId())) {
             throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_ERROR_USER.getCode());
         }
-        if (CouponCardStatusEnum.USED.getValue().equals(card.getStatus())) {
+        if (!CouponCardStatusEnum.USED.getValue().equals(card.getStatus())) {
             throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_USED.getCode());
         }
         // 更新优惠劵已使用
-        int updateCount = couponCardMapper.updateByIdAndStatus(card.getId(), CouponCardStatusEnum.UNUSED.getValue(),
-                new CouponCardDO().setStatus(CouponCardStatusEnum.USED.getValue())); // TODO 芋艿，usedTime 未设置空，后面处理。
+        int updateCount = couponCardMapper.updateByIdAndStatus(card.getId(), CouponCardStatusEnum.USED.getValue(),
+                new CouponCardDO().setStatus(CouponCardStatusEnum.UNUSED.getValue())); // TODO 芋艿，usedTime 未设置空，后面处理。
         if (updateCount == 0) {
             throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_USED.getCode());
         }

@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -14,6 +15,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
+@TableName(value = "orders")
 public class OrderDO extends DeletableDO {
 
     /**

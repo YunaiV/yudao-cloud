@@ -10,8 +10,8 @@ body {
 
 /* 处理 pc 最大尺寸 */
 #app {
-  border-left: 1px solid #ccc2bf;
-  border-right: 1px solid #ccc2bf;
+  /*border-left: 1px solid #ccc2bf;*/
+  /*border-right: 1px solid #ccc2bf;*/
 }
 
 @media screen and (min-width: 769px) {

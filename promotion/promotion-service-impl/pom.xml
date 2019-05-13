@@ -103,6 +103,10 @@
             <groupId>io.seata</groupId>
             <artifactId>seata-dubbo</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.seata</groupId>
+            <artifactId>seata-discovery-zk</artifactId>
+        </dependency>
 
         <!--  test  -->
         <dependency>

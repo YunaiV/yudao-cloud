@@ -35,3 +35,7 @@ rocketmq:
   name-server: 127.0.0.1:9876
   producer:
     group: pay-producer-group
+
+# seata
+seata:
+  tx-service-group: my_test_tx_group

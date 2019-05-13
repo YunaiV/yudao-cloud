@@ -12,6 +12,7 @@
     <artifactId>system-application</artifactId>
 
     <dependencies>
+        <!-- Mall 相关 -->
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
             <artifactId>common-framework</artifactId>
@@ -22,7 +23,6 @@
             <artifactId>mall-spring-boot</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
             <artifactId>system-service-impl</artifactId>
@@ -34,15 +34,10 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <!-- Web 相关 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -52,40 +47,36 @@
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>swagger-bootstrap-ui</artifactId>
-            <optional>true</optional>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-devtools</artifactId>-->
-<!--            <optional>true</optional>-->
-<!--        </dependency>-->
+        <!-- 云服务相关 -->
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+        </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>de.codecentric</groupId>-->
-            <!--<artifactId>spring-boot-admin-starter-server</artifactId>-->
-            <!--<version>2.1.3</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>de.codecentric</groupId>-->
-            <!--<artifactId>spring-boot-admin-server-ui</artifactId>-->
-            <!--<version>2.1.3</version>-->
-        <!--</dependency>-->
-
+        <!-- 监控相关 -->
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
-            <version>2.1.3</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!-- 测试相关 -->
         <dependency>
-            <groupId>com.qiniu</groupId>
-            <artifactId>qiniu-java-sdk</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
+
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-devtools</artifactId>-->
+        <!--            <optional>true</optional>-->
+        <!--        </dependency>-->
 
     </dependencies>
 

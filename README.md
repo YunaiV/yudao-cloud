@@ -80,7 +80,7 @@ TODO 此处应有一个架构图的装逼 JPG 图。
 | `admin-web` | 【前端】管理后台 | HTTP 8080 | |
 | `mobile-web` | 【前端】商城 H5 | HTTP 8000 | |
 | `admin-application` | 管理员 HTTP 服务 | HTTP 18083 | [接口文档](http://api.shop.iocoder.cn:18099/admin-api/doc.html) |
-| `user-application` | 用户 HTTP 服务 | HTTP 18082 | |
+| `user-application` | 用户 HTTP 服务 | HTTP 18082 |[接口文档](http://api.shop.iocoder.cn:18099/user-api/doc.html) |
 | `product-application` | 商品 HTTP 服务 | HTTP 18081 | |
 | `pay-application` | 支付 HTTP 服务 | HTTP 18084 | |
 | `promotion-application` | 促销 HTTP 服务 | HTTP 18085 | |

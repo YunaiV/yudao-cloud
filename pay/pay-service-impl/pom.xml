@@ -12,10 +12,12 @@
     <artifactId>pay-service-impl</artifactId>
 
     <dependencies>
-
-        <!--
-           api
-        -->
+        <!-- Mall 相关 -->
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>common-framework</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
             <artifactId>system-service-api</artifactId>
@@ -26,68 +28,69 @@
             <artifactId>pay-service-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <!-- 在 dubbo 之前引入 -->
-        <dependency>
-            <groupId>cn.iocoder.mall</groupId>
-            <artifactId>common-framework</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
 
-        <!--
-            jdbc、orm
-        -->
+        <!-- DB 相关 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
         </dependency>
 
-        <!--
-            other
-        -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+
+        <!-- RPC 相关 -->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- MQ 相关 -->
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- Job 相关 -->
+        <dependency>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-job-core</artifactId>
+        </dependency>
+
+        <!-- 工具类相关 -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
+
+        <!-- 云服务相关 -->
         <dependency>
             <groupId>Pingplusplus</groupId>
             <artifactId>pingpp-java</artifactId>
             <version>2.2.4</version>
             <type>jar</type>
         </dependency>
-        <dependency>
-            <groupId>com.xuxueli</groupId>
-            <artifactId>xxl-job-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.rocketmq</groupId>
-            <artifactId>rocketmq-spring-boot-starter</artifactId>
-        </dependency>
 
-
-        <!--<dependency>-->
-        <!--<groupId>com.alibaba.boot</groupId> &lt;!&ndash; 引入该包，为了写单元测试用 &ndash;&gt;-->
-        <!--<artifactId>dubbo-spring-boot-starter</artifactId>-->
-        <!--</dependency>-->
-        <!--
-            spring cloud、dubbo
-        -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>  <!-- 引入该包，为了写单元测试用 -->
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo</artifactId>
-        </dependency>
+        <!-- Registry 和 Config 相关 -->
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-framework</artifactId>
@@ -96,17 +99,19 @@
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-recipes</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-spring-boot-starter</artifactId>
-        </dependency>
 
-        <!--  test  -->
+        <!-- 测试相关  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>  <!-- 引入该包，为了写单元测试用 -->
+            <artifactId>spring-boot-starter-web</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

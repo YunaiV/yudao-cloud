@@ -7,7 +7,7 @@ spring:
     password: ${MALL_MYSQL_PASSWORD}
 
 # mybatis
-mybatis:
+mybatis-plus:
   config-location: classpath:mybatis-config.xml
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: cn.iocoder.mall.pay.biz.dataobject

@@ -12,7 +12,7 @@
     <artifactId>order-service-api</artifactId>
 
     <dependencies>
-        <!--  api module、sdk  -->
+        <!-- Mall 相关 -->
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
             <artifactId>common-framework</artifactId>
@@ -29,11 +29,7 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-        <!--  tools category  -->
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-        </dependency>
+        <!-- 工具类相关 -->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId> <!-- use mapstruct-jdk8 for Java 8 or higher -->
@@ -42,6 +38,7 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-jdk8</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

@@ -212,7 +212,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @GlobalTransactional
-    @Transactional // TODO 芋艿，先不考虑分布式事务的问题
+//    @Transactional // 使用 Seata 分布事务后，无需在使用 @Transactional 注解。
     public CommonResult<OrderCreateBO> createOrder(OrderCreateDTO orderCreateDTO) {
         Integer userId = orderCreateDTO.getUserId();
         List<OrderCreateDTO.OrderItem> orderItemDTOList = orderCreateDTO.getOrderItems();

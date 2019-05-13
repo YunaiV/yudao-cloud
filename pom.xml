@@ -51,6 +51,7 @@
         <org.projectlombok.version>1.16.14</org.projectlombok.version>
 
         <qiniu.version>7.2.18</qiniu.version>
+        <skywalking.version>6.1.0</skywalking.version>
 
         <servlet.version>2.5</servlet.version>
 
@@ -58,11 +59,13 @@
 <!--        <seata.version>0.6.0-SNAPSHOT</seata.version>-->
 
         <java.version>1.8</java.version>
+        <hibernate-validator.version>6.0.16.Final</hibernate-validator.version>
+        <fastjson.version>1.2.56</fastjson.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- 脚手架 -->
+            <!-- Spring 核心 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
@@ -203,12 +206,20 @@
 
             <!-- 监控相关 -->
             <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-trace</artifactId>
+                <version>${skywalking.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-starter-client</artifactId>
                 <version>${spring-boot-admin-starter-client.version}</version>
             </dependency>
 
             <!-- Test 相关 -->
+
+            <!--- 日志相关 -->
 
             <!-- 工具类相关 -->
             <dependency>
@@ -232,6 +243,29 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-validator.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
             </dependency>
 
         </dependencies>

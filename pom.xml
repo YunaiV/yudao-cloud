@@ -52,23 +52,36 @@
         <qiniu.version>7.2.18</qiniu.version>
 
         <seata.version>0.5.1</seata.version>
+<!--        <seata.version>0.6.0-SNAPSHOT</seata.version>-->
 
         <java.version>1.8</java.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-<!--            <dependency>-->
-<!--                <groupId>com.alibaba</groupId>-->
-<!--                <artifactId>dubbo</artifactId>-->
-<!--                <version>${com.alibab.dubbo.version}</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>com.alibaba.boot</groupId>-->
-<!--                <artifactId>dubbo-spring-boot-starter</artifactId>-->
-<!--                <version>${dubbo-spring-boot-starter.version}</version>-->
-<!--            </dependency>-->
+            <!-- 脚手架 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
 
+            <!-- Web 相关 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${springboot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <!--            <scope>provided</scope>-->
+                <version>2.5</version>
+                <optional>true</optional>
+            </dependency>
+
+            <!-- RPC 相关 -->
             <dependency>
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo</artifactId>
@@ -80,70 +93,17 @@
                 <version>${dubbo.version}</version>
             </dependency>
 
+            <!-- DB 相关 -->
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql-connector-java.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct</artifactId> <!-- use mapstruct-jdk8 for Java 8 or higher -->
-                <version>${org.mapstruct.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mapstruct</groupId>
-                <artifactId>mapstruct-jdk8</artifactId>
-                <version>${org.mapstruct.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${org.projectlombok.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.curator</groupId>
-                <artifactId>curator-framework</artifactId>
-                <version>${curator.version}</version>
-<!--                <exclusions>-->
-<!--                    <exclusion>-->
-<!--                        <groupId>org.apache.zookeeper</groupId>-->
-<!--                        <artifactId>zookeeper</artifactId>-->
-<!--                    </exclusion>-->
-<!--                </exclusions>-->
-            </dependency>
-            <dependency>
-                <groupId>org.apache.curator</groupId>
-                <artifactId>curator-recipes</artifactId>
-                <version>${curator.version}</version>
-            </dependency>
-<!--            <dependency>-->
-<!--                <groupId>org.apache.zookeeper</groupId>-->
-<!--                <artifactId>zookeeper</artifactId>-->
-<!--                <version>${zookeeper.version}</version>-->
-<!--            </dependency>-->
-
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${springfox-swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${springfox-swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>swagger-bootstrap-ui</artifactId>
-                <version>${swagger-bootstrap-ui.version}</version>
             </dependency>
 
             <dependency>
@@ -163,10 +123,27 @@
             </dependency>
 
             <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-spring</artifactId>
+                <version>${seata.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-dubbo</artifactId>
+                <version>${seata.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-dubbo-alibaba</artifactId>
+                <version>${seata.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-discovery-zk</artifactId>
+                <version>${seata.version}</version>
+            </dependency>
+
+            <!-- Job 相关 -->
 
             <dependency>
                 <groupId>com.xuxueli</groupId>
@@ -174,72 +151,74 @@
                 <version>${xxl-job.version}</version>
             </dependency>
 
+            <!-- Registry 和 Config 相关 -->
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-framework</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
+
+            <!-- MQ 相关 -->
             <dependency>
                 <groupId>org.apache.rocketmq</groupId>
                 <artifactId>rocketmq-spring-boot-starter</artifactId>
                 <version>${rocketmq-spring-boot-starter.version}</version>
-<!--                <exclusions>-->
-<!--                    <exclusion>-->
-<!--                        <artifactId>hibernate-validator</artifactId>-->
-<!--                        <groupId>org.hibernate.validator</groupId>-->
-<!--                    </exclusion>-->
-<!--                </exclusions>-->
             </dependency>
 
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter</artifactId>
-                <version>${springboot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-                <version>${springboot.version}</version>
-<!--                <exclusions>-->
-<!--                    <exclusion>-->
-<!--                        <artifactId>hibernate-validator</artifactId>-->
-<!--                        <groupId>org.hibernate.validator</groupId>-->
-<!--                    </exclusion>-->
-<!--                </exclusions>-->
-            </dependency>
-
+            <!-- 云服务相关 -->
             <dependency>
                 <groupId>com.qiniu</groupId>
                 <artifactId>qiniu-java-sdk</artifactId>
                 <version>${qiniu.version}</version>
             </dependency>
 
+            <!-- 工具类相关 -->
             <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>servlet-api</artifactId>
-                <!--            <scope>provided</scope>-->
-                <version>2.5</version>
-                <optional>true</optional>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId> <!-- use mapstruct-jdk8 for Java 8 or higher -->
+                <version>${org.mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-jdk8</artifactId>
+                <version>${org.mapstruct.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-spring</artifactId>
-                <version>${seata.version}</version>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${org.projectlombok.version}</version>
             </dependency>
-            <!--dependency for Apache Dubbo-->
+
             <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-dubbo</artifactId>
-                <version>${seata.version}</version>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox-swagger.version}</version>
             </dependency>
-            <!--dependency for Alibaba Dubbo-->
             <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-dubbo-alibaba</artifactId>
-                <version>${seata.version}</version>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox-swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>swagger-bootstrap-ui</artifactId>
+                <version>${swagger-bootstrap-ui.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
 
         </dependencies>
     </dependencyManagement>
-
-
 
     <!--<distributionManagement>-->
         <!--<snapshotRepository>-->

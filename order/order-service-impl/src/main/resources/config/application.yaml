@@ -59,3 +59,7 @@ logging:
   level:
     # dao 开启 debug 模式 mybatis 输入 sql
     cn.iocoder.mall.order.biz.dao: debug
+
+# seata
+seata:
+  tx-service-group: my_test_tx_group

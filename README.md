@@ -113,22 +113,25 @@ TODO 此处应有一个架构图的装逼 JPG 图。
 | --- | --- | --- |
 | [Spring Boot](https://spring.io/projects/spring-boot) | 应用开发框架 |   2.1.4 |
 | [MySQL](https://www.mysql.com/cn/) | 数据库服务器 | 5.6 |
-| [MyBatis](http://www.mybatis.org/mybatis-3/zh/index.html) | 数据持久层框架 | 3.5.0 |
+| [Druid](https://github.com/alibaba/druid) | JDBC 连接池、监控组件 | 1.1.16 |
+| [MyBatis](http://www.mybatis.org/mybatis-3/zh/index.html) | 数据持久层框架 | 3.5.1 |
+| [MyBatis-Plus](https://mp.baomidou.com/) | Mybatis 增强工具包 | 3.1.1 |
 | [Redis](https://redis.io/) | key-value 数据库 | 暂未引入，等压测后，部分模块 |
 | [Redisson](https://github.com/redisson/redisson) | Redis 客户端 | 暂未引入，等压测后，部分模块 |
 | [Elasticsearch](https://www.elastic.co/cn/) | 分布式搜索引擎 | 6.7.1 |
 | [Dubbo](http://dubbo.apache.org/) | 分布式 RPC 服务框架 | 2.7.1 |
 | [RocketMQ](http://dubbo.apache.org/) | 消息中间件 | 4.3.2 |
 | [SkyWalking](http://skywalking.apache.org/) | 分布式应用追踪系统 | 6.0.0 |
+| [Seata](https://github.com/seata/seata) | 分布式事务中间件 | 0.5.1 |
 | [Zookeeper](http://zookeeper.apache.org/) | 分布式系统协调 | 3.4.9 作为注册中心 |
 | [XXL-Job](http://www.xuxueli.com/xxl-job/) | 分布式任务调度平台 | 2.0.1 |
+| [springfox-swagger2](https://github.com/springfox/springfox/tree/master/springfox-swagger2) | API 文档 | 2.9.2 |
+| [swagger-bootstrap-ui](https://gitee.com/xiaoym/swagger-bootstrap-ui) | API 文档 | 1.9.3 |
 
 未来考虑引入
 
 * [ ] 配置中心 Nacos
 * [ ] 服务保障 Sentinel
-* [ ] 分布式事务 Seata
-* [ ] 数据库连接池 Druid
 * [ ] 网关 Soul
 
 ### 前端

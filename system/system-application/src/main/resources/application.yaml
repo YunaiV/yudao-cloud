@@ -19,4 +19,8 @@ qiniu:
   bucket: onemall
 
 swagger:
-  enable: false # 暂时不去掉
+  enable: true # 暂时不去掉
+  title: 管理员子系统
+  description: 管理员子系统
+  version: 1.0.0
+  base-package: cn.iocoder.mall.admin.application.controller

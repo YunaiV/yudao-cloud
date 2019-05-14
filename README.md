@@ -16,6 +16,17 @@
     > 一起交流，Get 知识。
 
 * 我们迫切希望更多的参与进来，可以加入「交流群」，一起骚聊。
+    * [《Onemall 电商开源项目 —— 应用分层》](http://www.iocoder.cn/Onemall/Application-layer/?vip&onemall)
+
+# 近期计划
+
+近期准备开发如下功能：
+
+1. 微信 H5 网页登陆
+2. 订单评价
+3. 商品品牌
+4. 短信接入
+5. 访问日志、错误日志接入
 
 # 演示
 
@@ -126,7 +137,7 @@ TODO 此处应有一个架构图的装逼 JPG 图。
 | [Zookeeper](http://zookeeper.apache.org/) | 分布式系统协调 | 3.4.9 作为注册中心 |
 | [XXL-Job](http://www.xuxueli.com/xxl-job/) | 分布式任务调度平台 | 2.0.1 |
 | [springfox-swagger2](https://github.com/springfox/springfox/tree/master/springfox-swagger2) | API 文档 | 2.9.2 |
-| [swagger-bootstrap-ui](https://gitee.com/xiaoym/swagger-bootstrap-ui) | API 文档 | 1.9.3 |
+| [swagger-bootstrap-ui](https://gitee.com/xiaoym/swagger-bootstrap-ui) | Swagger 增强 UI 实现 | 1.9.3 |
 
 未来考虑引入
 

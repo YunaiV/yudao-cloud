@@ -1,5 +1,7 @@
 package cn.iocoder.common.framework.dataobject;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
+
 /**
  * extends BaseDO 扩展 delete 操作
  *
@@ -11,6 +13,7 @@ public class DeletableDO extends BaseDO {
     /**
      * 是否删除
      */
+    @TableLogic
     private Integer deleted;
 
     @Override

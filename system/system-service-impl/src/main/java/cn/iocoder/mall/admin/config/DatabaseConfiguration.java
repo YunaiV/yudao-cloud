@@ -1,6 +1,9 @@
 package cn.iocoder.mall.admin.config;
 
+import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
+import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -10,5 +13,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class DatabaseConfiguration {
 
     // 数据库连接池 Druid
+
+    @Bean
+    public ISqlInjector sqlInjector() {
+        return new DefaultSqlInjector(); // MyBatis Plus 逻辑删除
+    }
 
 }

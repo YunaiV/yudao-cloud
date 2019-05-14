@@ -19,6 +19,12 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <!-- Web 相关 -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+        </dependency>
+
         <!-- 工具类相关 -->
         <dependency>
             <groupId>org.mapstruct</groupId>

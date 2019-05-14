@@ -1,8 +1,8 @@
 package cn.iocoder.mall.admin.convert;
 
-import cn.iocoder.mall.admin.api.bo.AdminBO;
-import cn.iocoder.mall.admin.api.dto.AdminAddDTO;
-import cn.iocoder.mall.admin.api.dto.AdminUpdateDTO;
+import cn.iocoder.mall.admin.api.bo.admin.AdminBO;
+import cn.iocoder.mall.admin.api.dto.admin.AdminAddDTO;
+import cn.iocoder.mall.admin.api.dto.admin.AdminUpdateDTO;
 import cn.iocoder.mall.admin.dataobject.AdminDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;

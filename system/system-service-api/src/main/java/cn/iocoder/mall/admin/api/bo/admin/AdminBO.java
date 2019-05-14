@@ -1,16 +1,17 @@
-package cn.iocoder.mall.admin.application.vo;
+package cn.iocoder.mall.admin.api.bo.admin;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
-@ApiModel("管理员 VO")
+@ApiModel("管理员 BO")
 @Data
 @Accessors(chain = true)
-public class AdminVO {
+public class AdminBO implements Serializable {
 
     @ApiModelProperty(value = "管理员编号", required = true, example = "1")
     private Integer id;
@@ -21,7 +22,7 @@ public class AdminVO {
     @ApiModelProperty(value = "昵称", required = true, example = "小王")
     private String nickname;
 
-    @ApiModelProperty(value = "账号状态", required = true, example = "1")
+    @ApiModelProperty(value = "账号状态", required = true, example = "1", dataType= "CommonStatusEnum")
     private Integer status;
 
     @ApiModelProperty(value = "创建时间", required = true, example = "时间戳格式")

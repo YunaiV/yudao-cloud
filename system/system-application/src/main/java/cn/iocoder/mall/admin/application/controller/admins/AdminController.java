@@ -1,24 +1,24 @@
 package cn.iocoder.mall.admin.application.controller.admins;
 
+import cn.iocoder.common.framework.constant.MallConstants;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.AdminService;
 import cn.iocoder.mall.admin.api.ResourceService;
 import cn.iocoder.mall.admin.api.RoleService;
-import cn.iocoder.mall.admin.api.bo.AdminPageBO;
 import cn.iocoder.mall.admin.api.bo.ResourceBO;
 import cn.iocoder.mall.admin.api.bo.RoleBO;
+import cn.iocoder.mall.admin.api.bo.admin.AdminBO;
+import cn.iocoder.mall.admin.api.bo.admin.AdminPageBO;
 import cn.iocoder.mall.admin.api.constant.ResourceConstants;
-import cn.iocoder.mall.admin.api.dto.AdminAddDTO;
-import cn.iocoder.mall.admin.api.dto.AdminPageDTO;
-import cn.iocoder.mall.admin.api.dto.AdminUpdateDTO;
+import cn.iocoder.mall.admin.api.dto.admin.AdminAddDTO;
+import cn.iocoder.mall.admin.api.dto.admin.AdminPageDTO;
+import cn.iocoder.mall.admin.api.dto.admin.AdminUpdateDTO;
 import cn.iocoder.mall.admin.application.convert.AdminConvert;
 import cn.iocoder.mall.admin.application.convert.ResourceConvert;
 import cn.iocoder.mall.admin.application.vo.AdminMenuTreeNodeVO;
 import cn.iocoder.mall.admin.application.vo.AdminPageVO;
 import cn.iocoder.mall.admin.application.vo.AdminRoleVO;
-import cn.iocoder.mall.admin.application.vo.AdminVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
-import cn.iocoder.common.framework.constant.MallConstants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static cn.iocoder.common.framework.vo.CommonResult.success;
 
 @RestController
 @RequestMapping(MallConstants.ROOT_PATH_ADMIN + "/admin")
@@ -70,7 +72,7 @@ public class AdminController {
                 .filter(node -> node.getPid().equals(ResourceConstants.PID_ROOT))
 //                .sorted(Comparator.comparing(AdminMenuTreeNodeVO::getSort))
                 .collect(Collectors.toList());
-        return CommonResult.success(rootNodes);
+        return success(rootNodes);
     }
 
     @GetMapping("/url_resource_list")
@@ -78,7 +80,7 @@ public class AdminController {
 //    @ApiModelProperty(value = "data", example = "['/admin/role/add', '/admin/role/update']") 没效果
     public CommonResult<Set<String>> urlResourceList() {
         List<ResourceBO> resources = resourceService.getResourcesByTypeAndRoleIds(ResourceConstants.TYPE_URL, AdminSecurityContextHolder.getContext().getRoleIds());
-        return CommonResult.success(resources.stream().map(ResourceBO::getHandler).collect(Collectors.toSet()));
+        return success(resources.stream().map(ResourceBO::getHandler).collect(Collectors.toSet()));
     }
 
     // =========== 管理员管理 API ===========
@@ -90,25 +92,16 @@ public class AdminController {
             @ApiImplicitParam(name = "pageNo", value = "页码，从 1 开始", example = "1"),
             @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, example = "10"),
     })
-    public CommonResult<AdminPageVO> page(@RequestParam(value = "nickname", required = false) String nickname,
-                                          @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
-                                          @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
-        CommonResult<AdminPageBO> result = adminService.getAdminPage(new AdminPageDTO().setNickname(nickname).setPageNo(pageNo).setPageSize(pageSize));
+    public CommonResult<AdminPageVO> page(AdminPageDTO adminPageDTO) {
+//        CommonResult<AdminPageBO> result = adminService.getAdminPage(new AdminPageDTO().setNickname(nickname).setPageNo(pageNo).setPageSize(pageSize));
+        CommonResult<AdminPageBO> result = adminService.getAdminPage(adminPageDTO);
         return AdminConvert.INSTANCE.convert(result);
     }
 
     @PostMapping("/add")
     @ApiOperation(value = "创建管理员")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "账号", required = true, example = "15601691300"),
-            @ApiImplicitParam(name = "nickname", value = "昵称", required = true, example = "小王"),
-            @ApiImplicitParam(name = "password", value = "密码", required = true, example = "buzhidao"),
-    })
-    public CommonResult<AdminVO> add(@RequestParam("username") String username,
-                                     @RequestParam("nickname") String nickname,
-                                     @RequestParam("password") String password) {
-        AdminAddDTO adminAddDTO = new AdminAddDTO().setUsername(username).setNickname(nickname).setPassword(password);
-        return AdminConvert.INSTANCE.convert2(adminService.addAdmin(AdminSecurityContextHolder.getContext().getAdminId(), adminAddDTO));
+    public CommonResult<AdminBO> add(AdminAddDTO adminAddDTO) {
+        return success(adminService.addAdmin(AdminSecurityContextHolder.getContext().getAdminId(), adminAddDTO));
     }
 
     @PostMapping("/update")
@@ -157,7 +150,7 @@ public class AdminController {
         List<AdminRoleVO> result = AdminConvert.INSTANCE.convert(allRoleList);
         // 设置每个角色是否赋予给改管理员
         result.forEach(adminRoleVO -> adminRoleVO.setAssigned(adminRoleIdSet.contains(adminRoleVO.getId())));
-        return CommonResult.success(result);
+        return success(result);
     }
 
     @PostMapping("/assign_role")

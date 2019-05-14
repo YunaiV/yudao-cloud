@@ -1,21 +1,14 @@
 package cn.iocoder.mall.order.biz.service;
 
-import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.order.OrderApplicationTest;
+import cn.iocoder.mall.order.biz.OrderApplicationTest;
 import cn.iocoder.mall.order.api.OrderService;
-import cn.iocoder.mall.order.api.bo.OrderCreateBO;
-import cn.iocoder.mall.order.api.dto.OrderCreateDTO;
 import cn.iocoder.mall.order.biz.dao.OrderMapper;
-import cn.iocoder.mall.order.biz.dataobject.OrderDO;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Arrays;
 
 /**
  * 订单 service test

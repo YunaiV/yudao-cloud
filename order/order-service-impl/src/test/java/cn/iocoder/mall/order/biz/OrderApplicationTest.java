@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order;
+package cn.iocoder.mall.order.biz;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

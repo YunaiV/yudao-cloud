@@ -3,11 +3,11 @@ package cn.iocoder.mall.admin.api;
 import cn.iocoder.common.framework.constant.CommonStatusEnum;
 import cn.iocoder.common.framework.validator.InEnum;
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.admin.api.bo.AdminBO;
-import cn.iocoder.mall.admin.api.bo.AdminPageBO;
-import cn.iocoder.mall.admin.api.dto.AdminAddDTO;
-import cn.iocoder.mall.admin.api.dto.AdminPageDTO;
-import cn.iocoder.mall.admin.api.dto.AdminUpdateDTO;
+import cn.iocoder.mall.admin.api.bo.admin.AdminBO;
+import cn.iocoder.mall.admin.api.bo.admin.AdminPageBO;
+import cn.iocoder.mall.admin.api.dto.admin.AdminAddDTO;
+import cn.iocoder.mall.admin.api.dto.admin.AdminPageDTO;
+import cn.iocoder.mall.admin.api.dto.admin.AdminUpdateDTO;
 
 import java.util.Set;
 
@@ -18,7 +18,7 @@ public interface AdminService {
 
     CommonResult<AdminPageBO> getAdminPage(AdminPageDTO adminPageDTO);
 
-    CommonResult<AdminBO> addAdmin(Integer adminId, AdminAddDTO adminAddDTO);
+    AdminBO addAdmin(Integer adminId, AdminAddDTO adminAddDTO);
 
     CommonResult<Boolean> updateAdmin(Integer adminId, AdminUpdateDTO adminUpdateDTO);
 

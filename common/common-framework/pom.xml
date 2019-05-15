@@ -32,6 +32,11 @@
             <artifactId>mybatis</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-annotation</artifactId>
+        </dependency>
+
         <!-- RPC 相关  -->
         <dependency>
             <groupId>org.apache.dubbo</groupId>

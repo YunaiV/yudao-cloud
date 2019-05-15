@@ -1,8 +1,8 @@
 package cn.iocoder.mall.admin.application.convert;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.admin.api.bo.AdminBO;
-import cn.iocoder.mall.admin.api.bo.AdminPageBO;
+import cn.iocoder.mall.admin.api.bo.admin.AdminBO;
+import cn.iocoder.mall.admin.api.bo.admin.AdminPageBO;
 import cn.iocoder.mall.admin.api.bo.RoleBO;
 import cn.iocoder.mall.admin.application.vo.AdminInfoVO;
 import cn.iocoder.mall.admin.application.vo.AdminPageVO;

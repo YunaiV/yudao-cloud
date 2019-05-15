@@ -7,14 +7,6 @@
       create_time
     </sql>
 
-    <select id="selectByUsername" parameterType="String" resultType="AdminDO">
-        SELECT
-            <include refid="FIELDS" />
-        FROM admin
-        WHERE username = #{username}
-        AND deleted = 0
-    </select>
-
     <select id="selectListByNicknameLike" resultType="AdminDO">
         SELECT
             <include refid="FIELDS" />
@@ -39,16 +31,6 @@
             AND deleted = 0
         </where>
     </select>
-
-    <insert id="insert" parameterType="AdminDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO admin (
-          username, nickname, password, status,
-          create_time, deleted
-        ) VALUES (
-          #{username}, #{nickname}, #{password}, #{status},
-          #{createTime}, #{deleted}
-        )
-    </insert>
 
     <select id="selectById" parameterType="Integer" resultType="AdminDO">
         SELECT

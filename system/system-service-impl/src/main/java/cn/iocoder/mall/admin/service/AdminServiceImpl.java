@@ -5,13 +5,13 @@ import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.AdminService;
-import cn.iocoder.mall.admin.api.bo.AdminBO;
-import cn.iocoder.mall.admin.api.bo.AdminPageBO;
+import cn.iocoder.mall.admin.api.bo.admin.AdminBO;
+import cn.iocoder.mall.admin.api.bo.admin.AdminPageBO;
 import cn.iocoder.mall.admin.api.constant.AdminConstants;
 import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
-import cn.iocoder.mall.admin.api.dto.AdminAddDTO;
-import cn.iocoder.mall.admin.api.dto.AdminPageDTO;
-import cn.iocoder.mall.admin.api.dto.AdminUpdateDTO;
+import cn.iocoder.mall.admin.api.dto.admin.AdminAddDTO;
+import cn.iocoder.mall.admin.api.dto.admin.AdminPageDTO;
+import cn.iocoder.mall.admin.api.dto.admin.AdminUpdateDTO;
 import cn.iocoder.mall.admin.convert.AdminConvert;
 import cn.iocoder.mall.admin.dao.AdminMapper;
 import cn.iocoder.mall.admin.dao.AdminRoleMapper;
@@ -79,10 +79,10 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public CommonResult<AdminBO> addAdmin(Integer adminId, AdminAddDTO adminAddDTO) {
+    public AdminBO addAdmin(Integer adminId, AdminAddDTO adminAddDTO) {
         // 校验账号唯一
         if (adminMapper.selectByUsername(adminAddDTO.getUsername()) != null) {
-            return ServiceExceptionUtil.error(AdminErrorCodeEnum.ADMIN_USERNAME_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.ADMIN_USERNAME_EXISTS.getCode());
         }
         // 保存到数据库
         AdminDO admin = AdminConvert.INSTANCE.convert(adminAddDTO)
@@ -93,7 +93,7 @@ public class AdminServiceImpl implements AdminService {
         adminMapper.insert(admin);
         // TODO 插入操作日志
         // 返回成功
-        return CommonResult.success(AdminConvert.INSTANCE.convert(admin));
+        return AdminConvert.INSTANCE.convert(admin);
     }
 
     @Override

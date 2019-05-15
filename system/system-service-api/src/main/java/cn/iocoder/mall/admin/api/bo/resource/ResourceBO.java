@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @ApiModel("资源 BO")
 @Data
@@ -33,6 +34,9 @@ public class ResourceBO implements Serializable {
 
     @ApiModelProperty(value = "图标", example = "add")
     private String icon;
+
+    @ApiModelProperty(value = "权限标识数组", example = "system.order.add,system.order.update")
+    private List<String> permissions;
 
     @ApiModelProperty(value = "创建时间", required = true, example = "时间戳格式")
     private Date createTime;

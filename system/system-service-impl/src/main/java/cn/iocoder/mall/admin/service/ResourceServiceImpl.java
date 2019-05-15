@@ -80,7 +80,7 @@ public class ResourceServiceImpl implements ResourceService {
         // 更新到数据库
         ResourceDO resource = ResourceConvert.INSTANCE.convert(resourceUpdateDTO);
         initResourceProperty(resource);
-        resourceMapper.update(resource);
+        resourceMapper.updateById(resource);
         // TODO 操作日志
         // 返回成功
         return true;
@@ -98,9 +98,7 @@ public class ResourceServiceImpl implements ResourceService {
             throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.RESOURCE_EXISTS_CHILDREN.getCode());
         }
         // 更新到数据库
-        ResourceDO resource = new ResourceDO().setId(resourceId);
-        resource.setDeleted(DeletedStatusEnum.DELETED_YES.getValue());
-        resourceMapper.update(resource);
+        resourceMapper.deleteById(resourceId);
         // 删除资源关联表
         roleResourceMapper.updateToDeletedByResourceId(resourceId);
         // 返回成功

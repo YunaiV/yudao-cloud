@@ -26,15 +26,24 @@ public interface ResourceConvert {
     @Mappings({})
     List<ResourceBO> convert(List<ResourceDO> resourceDOs);
 
-    @Mappings({})
+    @Mappings({
+            @Mapping(source = "permissions", target = "permissions", qualifiedByName = "translateStringFromList")
+    })
     ResourceDO convert(ResourceAddDTO resourceAddDTO);
 
-    @Mappings({})
+    @Mappings({
+            @Mapping(source = "permissions", target = "permissions", qualifiedByName = "translateStringFromList")
+    })
     ResourceDO convert(ResourceUpdateDTO resourceUpdateDTO);
 
     @Named("translateListFromString")
-    default List<String> translateListFromString(String picUrls) {
-        return StringUtil.split(picUrls, ",");
+    default List<String> translateListFromString(String str) {
+        return StringUtil.split(str, ",");
+    }
+
+    @Named("translateStringFromList")
+    default String translateStringFromList(List<String> list) {
+        return StringUtil.join(list, ",");
     }
 
 }

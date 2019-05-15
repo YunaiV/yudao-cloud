@@ -15,6 +15,7 @@ import {
   TreeSelect,
   Radio,
   Divider,
+  Icon, InputNumber,
 } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
@@ -23,7 +24,8 @@ import styles from './ResourceList.less';
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 const { Option } = Select;
-const types = ['未知', '菜单', '链接'];
+const TextArea = Input.TextArea;
+const types = ['未知', '菜单', '按钮'];
 
 // 添加 form 表单
 const CreateForm = Form.create()(props => {
@@ -58,8 +60,15 @@ const CreateForm = Form.create()(props => {
     width: 200,
   };
 
-  const title = modalType === 'add' ? '添加一个 Resource' : '更新一个 Resource';
-  const okText = modalType === 'add' ? '添加' : '更新';
+  function onTypeChange(event) {
+    initValues.type = parseInt(event.target.value);
+  }
+
+  // 给 type 赋予初始值
+  initValues.type = initValues.type || 1;
+
+  const title = modalType === 'add' ? '添加一个权限' : '编辑一个权限';
+  const okText = modalType === 'add' ? '添加' : '编辑';
   return (
     <Modal
       destroyOnClose
@@ -71,9 +80,9 @@ const CreateForm = Form.create()(props => {
     >
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="类型">
         {form.getFieldDecorator('type', {
-          initialValue: initValues.type || 1,
+          initialValue: initValues.type,
         })(
-          <RadioGroup>
+          <RadioGroup onChange={onTypeChange}>
             <Radio value={1}>菜单</Radio>
             <Radio value={2}>按钮</Radio>
           </RadioGroup>
@@ -81,28 +90,17 @@ const CreateForm = Form.create()(props => {
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
         {form.getFieldDecorator('displayName', {
-          rules: [{ required: true, message: '请输入菜单展示名字！', min: 2 }],
+          rules: [{ required: true, message: '请输入名称！', min: 2 }],
           initialValue: initValues.displayName,
-        })(<Input placeholder="显示名称" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="菜单KEY">
-        {form.getFieldDecorator('name', {
-          rules: [{ required: true, message: '请输入资源名字！' }],
-          initialValue: initValues.name,
-        })(<Input placeholder="菜单KEY 如：用户 USER" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="操作/路由">
-        {form.getFieldDecorator('handler', {
-          initialValue: initValues.handler,
-        })(<Input placeholder="操作/路由" />)}
+        })(<Input placeholder="名称" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="父级菜单">
         {form.getFieldDecorator('pid', {
-          rules: [{ required: true, message: '请输入父级编号！' }],
+          rules: [{ required: true, message: '请选择父级编号！' }],
           initialValue:
             initValues.pid === 0
               ? `根节点-${initValues.pid}`
-              : `${initValues.displayName}-${initValues.pid}`,
+              : initValues.pid ? `${initValues.displayName}-${initValues.pid}` : undefined,
         })(
           <TreeSelect
             showSearch
@@ -113,11 +111,35 @@ const CreateForm = Form.create()(props => {
           />
         )}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="菜单排序">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="排序">
         {form.getFieldDecorator('sort', {
-          rules: [{ required: true, message: '请输入菜单排序！' }],
+          rules: [{ required: true, message: '请输入排序！' }],
           initialValue: initValues.sort,
-        })(<Input placeholder="请输入" />)}
+        })(<InputNumber placeholder="请输入" />)}
+      </FormItem>
+      {
+        initValues.type === 1 ? (
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="图标">
+            {form.getFieldDecorator('icon', {
+              rules: [{ required: true, message: '请输入图标！' }],
+              initialValue: initValues.icon,
+            })(<Input placeholder="图标" />)}
+          </FormItem>
+        ) : ''
+      }
+      {
+        initValues.type === 1 ? (
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="操作">
+            {form.getFieldDecorator('handler', {
+              initialValue: initValues.handler,
+            })(<Input placeholder="操作" />)}
+          </FormItem>
+        ) : ''
+      }
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="权限标识">
+        {form.getFieldDecorator('permissions', {
+          initialValue: initValues.permissions,
+        })(<TextArea placeholder="多个用逗号进行分割，例如：system.admin.add,system.admin.update" />)}
       </FormItem>
     </Modal>
   );
@@ -176,7 +198,7 @@ class ResourceList extends PureComponent {
             ...fields,
           },
           callback: () => {
-            message.success('更新成功');
+            message.success('编辑成功');
             this.handleModalVisible();
           },
         },
@@ -214,24 +236,13 @@ class ResourceList extends PureComponent {
 
     const columns = [
       {
-        title: '编号',
-        dataIndex: 'id',
-        render: text => <strong>{text}</strong>,
-      },
-      {
-        title: '显示名字',
+        title: '名称',
         dataIndex: 'displayName',
-        render: text => <a>{text}</a>,
       },
       {
-        title: '菜单KEY',
-        dataIndex: 'name',
-      },
-      {
-        title: '父级编号',
-        dataIndex: 'pid',
-        sorter: true,
-        render: val => `${val}`,
+        title: '图标',
+        dataIndex: 'icon',
+        render: text => text ? <Icon type={text} /> : '',
       },
       {
         title: '类型',
@@ -241,11 +252,31 @@ class ResourceList extends PureComponent {
         },
       },
       {
-        title: '菜单/操作',
+        title: '排序',
+        dataIndex: 'sort',
+      },
+      {
+        title: '操作',
         dataIndex: 'handler',
-        sorter: true,
-        width: 300,
+        width: 200,
         render: val => <span>{val}</span>,
+      },
+      {
+        title: '权限标识',
+        dataIndex: 'permissions',
+        width: 300,
+        render(permissions) {
+          let text = '';
+          if (permissions) {
+            for (let i in permissions) {
+              if (i > 0) {
+                text += '  ';
+              }
+              text += permissions[i];
+            }
+          }
+          return (<span>{text}</span>);
+        }
       },
       {
         title: '创建时间',
@@ -257,7 +288,7 @@ class ResourceList extends PureComponent {
         title: '操作',
         render: (text, record) => (
           <Fragment>
-            <a onClick={() => this.handleModalVisible(true, 'update', record)}>更新</a>
+            <a onClick={() => this.handleModalVisible(true, 'update', record)}>编辑</a>
             <Divider type="vertical" />
             <a className={styles.tableDelete} onClick={() => this.handleDelete(record)}>
               删除
@@ -268,7 +299,7 @@ class ResourceList extends PureComponent {
     ];
 
     return (
-      <PageHeaderWrapper title="查询表格">
+      <PageHeaderWrapper>
         <Card bordered={false}>
           <div className={styles.tableList}>
             <div className={styles.tableListOperator}>
@@ -277,7 +308,7 @@ class ResourceList extends PureComponent {
                 type="primary"
                 onClick={() => this.handleModalVisible(true, 'add', {})}
               >
-                新建
+                新建权限
               </Button>
             </div>
           </div>

@@ -1,6 +1,7 @@
 package cn.iocoder.mall.admin.dao;
 
 import cn.iocoder.mall.admin.dataobject.ResourceDO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface ResourceMapper {
+public interface ResourceMapper extends BaseMapper<ResourceDO> {
 
     ResourceDO selectByTypeAndHandler(@Param("type") Integer type,
                                       @Param("handler") String handler);
@@ -18,15 +19,7 @@ public interface ResourceMapper {
 
     List<ResourceDO> selectListByType(@Param("type") Integer type);
 
-    ResourceDO selectByName(@Param("name") String name);
-
-    ResourceDO selectById(@Param("id") Integer id);
-
     List<ResourceDO> selectListByIds(@Param("ids") Set<Integer> ids);
-
-    void insert(ResourceDO resource);
-
-    int update(ResourceDO resource);
 
     int selectCountByPid(@Param("pid") Integer pid);
 

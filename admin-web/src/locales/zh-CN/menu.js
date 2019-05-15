@@ -41,7 +41,7 @@ export default {
   // admin
   'menu.admin': '系统设置',
   'menu.admin.admin-list': '管理员列表',
-  'menu.admin.resource-list': '资源列表',
+  'menu.admin.resource-list': '权限列表',
   'menu.admin.role-list': '角色列表',
   'menu.admin.dictionary-list': '数据字典',
   // 商品相关

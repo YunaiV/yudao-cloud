@@ -1,12 +1,14 @@
 package cn.iocoder.mall.admin.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
  * 资源实体
  */
+@TableName(value = "resource")
 @Data
 @Accessors(chain = true)
 public class ResourceDO extends DeletableDO {

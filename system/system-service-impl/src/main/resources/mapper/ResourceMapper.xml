@@ -3,7 +3,7 @@
 <mapper namespace="cn.iocoder.mall.admin.dao.ResourceMapper">
 
     <sql id="FIELDS">
-        id, name, type, sort, display_name,
+        id, type, sort, display_name, icon, permissions,
         create_time, pid, handler
     </sql>
 
@@ -46,23 +46,6 @@
         AND r.id = rr.resource_id
     </select>
 
-    <select id="selectByName" parameterType="String" resultType="ResourceDO">
-        SELECT
-          <include refid="FIELDS"/>
-        FROM resource
-        WHERE name = #{name}
-        AND deleted = 0
-        LIMIT 1
-    </select>
-
-    <select id="selectById" resultType="ResourceDO">
-        SELECT
-          <include refid="FIELDS"/>
-        FROM resource
-        WHERE id = #{id}
-        AND deleted = 0
-    </select>
-
     <select id="selectListByIds" resultType="ResourceDO">
         SELECT
           <include refid="FIELDS"/>
@@ -81,30 +64,5 @@
         WHERE pid = #{pid}
         AND deleted = 0
     </select>
-
-    <update id="update" parameterType="ResourceDO">
-        UPDATE resource
-        <set>
-            <if test="name != null">
-                name = #{name},
-            </if>
-            <if test="sort != null">
-                sort = #{sort},
-            </if>
-            <if test="displayName != null">
-                display_name = #{displayName},
-            </if>
-            <if test="pid != null">
-                pid = #{pid},
-            </if>
-            <if test="handler != null">
-                handler = #{handler},
-            </if>
-            <if test="deleted != null">
-                deleted = #{deleted}
-            </if>
-        </set>
-        WHERE id = #{id}
-    </update>
 
 </mapper>

@@ -6,6 +6,7 @@ import cn.iocoder.mall.admin.api.OAuth2Service;
 import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AccessTokenBO;
 import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AuthenticationBO;
 import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
+import cn.iocoder.mall.admin.api.constant.ResourceConstants;
 import cn.iocoder.mall.admin.convert.OAuth2Convert;
 import cn.iocoder.mall.admin.dao.OAuth2AccessTokenMapper;
 import cn.iocoder.mall.admin.dao.OAuth2RefreshTokenMapper;
@@ -96,7 +97,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
     @Override
     public CommonResult<Boolean> checkPermission(Integer adminId, Set<Integer> roleIds, String url) {
         // 如果未配置该资源，说明无需权限控制。
-        ResourceDO resource = resourceService.getResourceByTypeAndHandler(ResourceDO.TYPE_OPERATION, url);
+        ResourceDO resource = resourceService.getResourceByTypeAndHandler(ResourceConstants.TYPE_BUTTON, url);
         if (resource == null) {
             return CommonResult.success(true);
         }

@@ -33,6 +33,16 @@ public class OrderCommentDO extends BaseDO {
     private String orderNo;
 
     /**
+     * 商品id
+     */
+    private Integer productSpuId;
+
+    /**
+     * 商品名称
+     */
+    private String productSpuName;
+
+    /**
      * 商品SKUid
      */
     private Integer productSkuId;
@@ -41,6 +51,16 @@ public class OrderCommentDO extends BaseDO {
      * 商品SKU属性
      */
     private String productSkuAttrs;
+
+    /**
+     * 商品SKU价格
+     */
+    private Integer productSkuPrice;
+
+    /**
+     * 商品SKU URL
+     */
+    private String productSkuPicUrl;
 
     /**
      * 用户id

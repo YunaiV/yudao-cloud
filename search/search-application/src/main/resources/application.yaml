@@ -1,6 +1,14 @@
 spring:
   application:
     name: search-application
+  cloud:
+    sentinel:
+      transport:
+        port: 8719
+        dashboard: localhost:12088
+      metric:
+        charset: UTF-8
+      eager: false
 
 # server
 server:

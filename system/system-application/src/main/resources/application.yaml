@@ -5,7 +5,7 @@ spring:
     sentinel:
       transport:
         port: 8719
-        dashboard: localhost:18001
+        dashboard: localhost:12088
       metric:
         charset: UTF-8
       eager: false

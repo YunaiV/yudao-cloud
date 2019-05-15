@@ -1,29 +1,31 @@
 package cn.iocoder.mall.admin.dao;
 
+import cn.iocoder.common.framework.mybatis.QueryWrapperX;
+import cn.iocoder.mall.admin.api.dto.role.RolePageDTO;
 import cn.iocoder.mall.admin.dataobject.RoleDO;
-import org.apache.ibatis.annotations.Param;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Repository
-public interface RoleMapper {
+public interface RoleMapper extends BaseMapper<RoleDO> {
 
-    void insert(RoleDO roleDO);
+    default List<RoleDO> selectListByIds(Collection<Integer> ids) {
+        return selectList(new QueryWrapper<RoleDO>().in("id", ids));
+    }
 
-    int update(RoleDO roleDO);
+    default List<RoleDO> selectList() {
+        return selectList(new QueryWrapper<>());
+    }
 
-    RoleDO selectById(@Param("id") Integer id);
-
-    List<RoleDO> selectListByNameLike(@Param("name") String name,
-                                      @Param("offset") Integer offset,
-                                      @Param("limit") Integer limit);
-
-    Integer selectCountByNameLike(@Param("name") String name);
-
-    List<RoleDO> selectListByIds(@Param("ids") Set<Integer> ids);
-
-    List<RoleDO> selectList();
+    default IPage<RoleDO> selectPage(RolePageDTO rolePageDTO) {
+        return selectPage(new Page<>(rolePageDTO.getPageNo(), rolePageDTO.getPageSize()),
+                new QueryWrapperX<RoleDO>().likeIfPresent("name", rolePageDTO.getName()));
+    }
 
 }

@@ -26,7 +26,7 @@ mybatis-plus:
       id-type: auto
   mapper-locations: classpath*:mapper/*.xml
   type-aliases-package: cn.iocoder.mall.promotion.biz.dataobject
-
+  config-location: classpath:mybatis-config.xml
 # dubbo
 dubbo:
   application:

@@ -49,3 +49,9 @@ dubbo:
       version: 1.0.0
     RoleService:
       version: 1.0.0
+
+# logging
+logging:
+  level:
+    # dao 开启 debug 模式 mybatis 输入 sql
+    cn.iocoder.mall.admin.dao: debug

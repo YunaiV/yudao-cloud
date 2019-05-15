@@ -65,12 +65,12 @@ export default {
     *query({ payload }, { call, put }) {
       const response = yield call(queryRole, payload);
       message.info('查询成功!');
-      const { count, roles } = response.data;
+      const { total, list } = response.data;
       yield put({
         type: 'querySuccess',
         payload: {
-          list: roles,
-          count,
+          list: list,
+          count: total,
         },
       });
     },

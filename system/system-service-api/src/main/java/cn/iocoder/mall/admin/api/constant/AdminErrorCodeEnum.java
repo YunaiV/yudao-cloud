@@ -28,6 +28,7 @@ public enum AdminErrorCodeEnum {
     ADMIN_STATUS_EQUALS(1002002003, "账号已经是该状态"),
     ADMIN_DELETE_ONLY_DISABLE(1002002004, "只有关闭的账号才可以删除"),
     ADMIN_ADMIN_STATUS_CAN_NOT_UPDATE(1002002005, "管理员的账号状态不允许变更"),
+    ADMIN_ASSIGN_ROLE_NOT_EXISTS(1002002006, "分配员工角色时，有角色不存在"),
 
     // ========== 资源模块 1002003000 ==========
     RESOURCE_NAME_DUPLICATE(1002003000, "已经存在该名字的资源"),
@@ -35,6 +36,7 @@ public enum AdminErrorCodeEnum {
     RESOURCE_PARENT_ERROR(1002003002, "不能设置自己为父资源"),
     RESOURCE_NOT_EXISTS(1002003003, "资源不存在"),
     RESOURCE_EXISTS_CHILDREN(1002003004, "存在子资源，无法删除"),
+    RESOURCE_PARENT_NOT_MENU(1002003005, "父资源的类型必须是菜单"),
 
     // ========== 角色模块 1002004000 ==========
     ROLE_NOT_EXISTS(1002004000, "角色不存在"),

@@ -2,7 +2,7 @@ package cn.iocoder.mall.admin.application.controller.admins;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.OAuth2Service;
-import cn.iocoder.mall.admin.api.bo.OAuth2AccessTokenBO;
+import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AccessTokenBO;
 import cn.iocoder.mall.admin.application.convert.PassportConvert;
 import cn.iocoder.mall.admin.application.vo.PassportLoginVO;
 import io.swagger.annotations.Api;

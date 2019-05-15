@@ -4,7 +4,7 @@ import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.util.MallUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.SystemLogService;
-import cn.iocoder.mall.admin.api.dto.AccessLogAddDTO;
+import cn.iocoder.mall.admin.api.dto.systemlog.AccessLogAddDTO;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.dubbo.config.annotation.Reference;

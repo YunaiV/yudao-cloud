@@ -38,6 +38,7 @@
         <curator.version>2.13.0</curator.version>
 <!--        <curator.version>4.0.1</curator.version>-->
 <!--        <zookeeper.version>3.4.14</zookeeper.version>-->
+        <swagger.version>1.5.21</swagger.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
         <swagger-bootstrap-ui.version>1.9.3</swagger-bootstrap-ui.version>
         <mybatis-spring-boot-starter.version>2.0.0</mybatis-spring-boot-starter.version>
@@ -46,6 +47,7 @@
         <xxl-job.version>2.0.1</xxl-job.version>
         <guava.version>27.0.1-jre</guava.version>
         <rocketmq-spring-boot-starter.version>2.0.1</rocketmq-spring-boot-starter.version>
+        <sentinel.version>0.9.0.RELEASE</sentinel.version>
 
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <org.projectlombok.version>1.16.14</org.projectlombok.version>
@@ -87,6 +89,11 @@
                 <version>${springboot.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>
@@ -141,6 +148,11 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-annotation</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-core</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
             <dependency>
@@ -221,6 +233,12 @@
                 <artifactId>spring-boot-admin-starter-client</artifactId>
                 <version>${spring-boot-admin-starter-client.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+
 
             <!-- Test 相关 -->
 

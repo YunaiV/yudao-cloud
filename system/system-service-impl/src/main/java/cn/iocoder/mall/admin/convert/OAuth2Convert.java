@@ -1,7 +1,7 @@
 package cn.iocoder.mall.admin.convert;
 
-import cn.iocoder.mall.admin.api.bo.OAuth2AccessTokenBO;
-import cn.iocoder.mall.admin.api.bo.OAuth2AuthenticationBO;
+import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AccessTokenBO;
+import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AuthenticationBO;
 import cn.iocoder.mall.admin.dataobject.AdminRoleDO;
 import cn.iocoder.mall.admin.dataobject.OAuth2AccessTokenDO;
 import org.mapstruct.Mapper;

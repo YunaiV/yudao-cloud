@@ -70,6 +70,12 @@
             <artifactId>swagger-bootstrap-ui</artifactId>
         </dependency>
 
+        <!--  监控  -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+
         <!-- 测试相关 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

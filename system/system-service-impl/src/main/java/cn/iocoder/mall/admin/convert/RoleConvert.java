@@ -1,10 +1,13 @@
 package cn.iocoder.mall.admin.convert;
 
-import cn.iocoder.mall.admin.api.bo.RoleBO;
-import cn.iocoder.mall.admin.api.dto.RoleAddDTO;
-import cn.iocoder.mall.admin.api.dto.RoleUpdateDTO;
+import cn.iocoder.common.framework.vo.PageResult;
+import cn.iocoder.mall.admin.api.bo.role.RoleBO;
+import cn.iocoder.mall.admin.api.dto.role.RoleAddDTO;
+import cn.iocoder.mall.admin.api.dto.role.RoleUpdateDTO;
 import cn.iocoder.mall.admin.dataobject.RoleDO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
@@ -26,5 +29,10 @@ public interface RoleConvert {
 
     @Mappings({})
     List<RoleBO> convert(List<RoleDO> roleDOs);
+
+    @Mappings({
+            @Mapping(source = "records", target = "list"),
+    })
+    PageResult<RoleBO> convert(IPage<RoleDO> page);
 
 }

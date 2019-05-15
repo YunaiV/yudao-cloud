@@ -2,6 +2,7 @@ package cn.iocoder.mall.admin.config;
 
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,11 @@ public class DatabaseConfiguration {
     @Bean
     public ISqlInjector sqlInjector() {
         return new DefaultSqlInjector(); // MyBatis Plus 逻辑删除
+    }
+
+    @Bean
+    public PaginationInterceptor paginationInterceptor() {
+        return new PaginationInterceptor(); // MyBatis Plus 分页插件
     }
 
 }

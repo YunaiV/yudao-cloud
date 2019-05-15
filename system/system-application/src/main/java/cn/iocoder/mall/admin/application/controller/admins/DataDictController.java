@@ -2,12 +2,12 @@ package cn.iocoder.mall.admin.application.controller.admins;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.DataDictService;
-import cn.iocoder.mall.admin.api.bo.DataDictBO;
-import cn.iocoder.mall.admin.api.dto.DataDictAddDTO;
-import cn.iocoder.mall.admin.api.dto.DataDictUpdateDTO;
+import cn.iocoder.mall.admin.api.bo.datadict.DataDictBO;
+import cn.iocoder.mall.admin.api.dto.datadict.DataDictAddDTO;
+import cn.iocoder.mall.admin.api.dto.datadict.DataDictUpdateDTO;
 import cn.iocoder.mall.admin.application.convert.DataDictConvert;
-import cn.iocoder.mall.admin.application.vo.DataDictEnumVO;
-import cn.iocoder.mall.admin.application.vo.DataDictVO;
+import cn.iocoder.mall.admin.application.vo.datadict.DataDictEnumVO;
+import cn.iocoder.mall.admin.application.vo.datadict.DataDictVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Multimaps;

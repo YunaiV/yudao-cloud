@@ -1,7 +1,7 @@
 package cn.iocoder.mall.admin.convert;
 
-import cn.iocoder.mall.admin.api.dto.AccessLogAddDTO;
-import cn.iocoder.mall.admin.api.dto.ExceptionLogAddDTO;
+import cn.iocoder.mall.admin.api.dto.systemlog.AccessLogAddDTO;
+import cn.iocoder.mall.admin.api.dto.systemlog.ExceptionLogAddDTO;
 import cn.iocoder.mall.admin.dataobject.AccessLogDO;
 import cn.iocoder.mall.admin.dataobject.ExceptionLogDO;
 import org.mapstruct.Mapper;

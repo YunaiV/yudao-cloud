@@ -6,7 +6,7 @@ import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.util.MallUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.OAuth2Service;
-import cn.iocoder.mall.admin.api.bo.OAuth2AuthenticationBO;
+import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AuthenticationBO;
 import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContext;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;

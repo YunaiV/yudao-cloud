@@ -65,12 +65,28 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
 
   const columns = [
     {
-      title: '用户名',
+      title: '账号',
       dataIndex: 'username'
     },
     {
-      title: '昵称',
+      title: '员工姓名',
       dataIndex: 'nickname',
+    },
+    {
+      title: '角色',
+      dataIndex: 'roles',
+      render(roles) {
+        let text = '';
+        if (roles) {
+          for (let i in roles) {
+            if (i > 0) {
+              text += '  ';
+            }
+            text += roles[i].name;
+          }
+        }
+        return (<span>{text}</span>);
+      }
     },
     {
       title: '状态',
@@ -174,7 +190,7 @@ const SearchForm = Form.create()(props => {
     <Form onSubmit={handleSubmit} layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={8} sm={24}>
-          <FormItem label="昵称">
+          <FormItem label="员工姓名">
             {getFieldDecorator('nickname')(<Input placeholder="请输入" />)}
           </FormItem>
         </Col>
@@ -251,18 +267,18 @@ const AddOrUpdateForm = Form.create()(props => {
       okText='保存'
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="用户名">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="账号">
         {form.getFieldDecorator('username', {
-          rules: [{ required: true, message: '请输入用户名！'},
+          rules: [{ required: true, message: '请输入账号！'},
             {max: 16, min:6, message: '长度为 6-16 位'},
             { validator: (rule, value, callback) => checkTypeWithEnglishAndNumbers(rule, value, callback, '数字以及字母')}
           ],
           initialValue: formVals.username,
         })(<Input placeholder="请输入" />)}
       </FormItem>
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="昵称">
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="员工姓名">
         {form.getFieldDecorator('nickname', {
-          rules: [{ required: true, message: '请输入昵称！'},
+          rules: [{ required: true, message: '请输入员工姓名！'},
             {max: 10, message: '姓名最大长度为 10'}],
           initialValue: formVals.nickname,
         })(<Input placeholder="请输入" />)}

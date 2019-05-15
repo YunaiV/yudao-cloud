@@ -1,11 +1,11 @@
 package cn.iocoder.mall.admin.application.convert;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.admin.api.bo.ResourceBO;
-import cn.iocoder.mall.admin.application.vo.AdminMenuTreeNodeVO;
-import cn.iocoder.mall.admin.application.vo.ResourceTreeNodeVO;
-import cn.iocoder.mall.admin.application.vo.ResourceVO;
-import cn.iocoder.mall.admin.application.vo.RoleResourceTreeNodeVO;
+import cn.iocoder.mall.admin.api.bo.resource.ResourceBO;
+import cn.iocoder.mall.admin.application.vo.admin.AdminMenuTreeNodeVO;
+import cn.iocoder.mall.admin.application.vo.resource.ResourceTreeNodeVO;
+import cn.iocoder.mall.admin.application.vo.resource.ResourceVO;
+import cn.iocoder.mall.admin.application.vo.role.RoleResourceTreeNodeVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;

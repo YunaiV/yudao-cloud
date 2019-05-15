@@ -10,9 +10,9 @@ public interface ResourceConstants {
      */
     Integer TYPE_MENU = 1;
     /**
-     * 类型 - URL
+     * 类型 - 按钮
      */
-    Integer TYPE_URL = 2;
+    Integer TYPE_BUTTON = 2;
 
     /**
      * 父资源编号 - 根节点

@@ -2,8 +2,8 @@ package cn.iocoder.mall.admin.service;
 
 import cn.iocoder.common.framework.util.StringUtil;
 import cn.iocoder.mall.admin.api.SystemLogService;
-import cn.iocoder.mall.admin.api.dto.AccessLogAddDTO;
-import cn.iocoder.mall.admin.api.dto.ExceptionLogAddDTO;
+import cn.iocoder.mall.admin.api.dto.systemlog.AccessLogAddDTO;
+import cn.iocoder.mall.admin.api.dto.systemlog.ExceptionLogAddDTO;
 import cn.iocoder.mall.admin.convert.AccessLogConvert;
 import cn.iocoder.mall.admin.dao.AccessLogMapper;
 import cn.iocoder.mall.admin.dao.ExceptionLogMapper;

@@ -1,10 +1,13 @@
 package cn.iocoder.mall.admin.convert;
 
+import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.admin.api.bo.admin.AdminBO;
 import cn.iocoder.mall.admin.api.dto.admin.AdminAddDTO;
 import cn.iocoder.mall.admin.api.dto.admin.AdminUpdateDTO;
 import cn.iocoder.mall.admin.dataobject.AdminDO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
@@ -26,5 +29,10 @@ public interface AdminConvert {
 
     @Mappings({})
     List<AdminBO> convert(List<AdminDO> adminBOs);
+
+    @Mappings({
+            @Mapping(source = "records", target = "list"),
+    })
+    PageResult<AdminBO> convert(IPage<AdminDO> page);
 
 }

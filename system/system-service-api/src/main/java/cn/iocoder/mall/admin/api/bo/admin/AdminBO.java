@@ -22,7 +22,7 @@ public class AdminBO implements Serializable {
     @ApiModelProperty(value = "昵称", required = true, example = "小王")
     private String nickname;
 
-    @ApiModelProperty(value = "账号状态", required = true, example = "1", dataType= "CommonStatusEnum")
+    @ApiModelProperty(value = "账号状态", required = true, example = "1", notes = "见 CommonStatusEnum 枚举")
     private Integer status;
 
     @ApiModelProperty(value = "创建时间", required = true, example = "时间戳格式")

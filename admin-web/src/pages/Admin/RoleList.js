@@ -143,7 +143,7 @@ class RoleList extends PureComponent {
       type: 'roleList/query',
       payload: {
         name: '',
-        pageNo: 0,
+        pageNo: 1,
         pageSize: 10,
       },
     });
@@ -277,11 +277,11 @@ class RoleList extends PureComponent {
     };
 
     const columns = [
-      {
-        title: 'id',
-        dataIndex: 'id',
-        render: text => <strong>{text}</strong>,
-      },
+      // {
+      //   title: 'id',
+      //   dataIndex: 'id',
+      //   render: text => <strong>{text}</strong>,
+      // },
       {
         title: '名称',
         dataIndex: 'name',
@@ -289,7 +289,7 @@ class RoleList extends PureComponent {
       {
         title: '创建时间',
         dataIndex: 'createTime',
-        sorter: true,
+        // sorter: true,
         render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
       },
       {
@@ -325,7 +325,7 @@ class RoleList extends PureComponent {
                 type="primary"
                 onClick={() => this.handleModalVisible(true, 'add', {})}
               >
-                新建
+                新建角色
               </Button>
             </div>
           </div>

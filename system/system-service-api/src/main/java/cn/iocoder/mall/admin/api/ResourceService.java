@@ -1,9 +1,8 @@
 package cn.iocoder.mall.admin.api;
 
-import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.admin.api.bo.ResourceBO;
-import cn.iocoder.mall.admin.api.dto.ResourceAddDTO;
-import cn.iocoder.mall.admin.api.dto.ResourceUpdateDTO;
+import cn.iocoder.mall.admin.api.bo.resource.ResourceBO;
+import cn.iocoder.mall.admin.api.dto.resource.ResourceAddDTO;
+import cn.iocoder.mall.admin.api.dto.resource.ResourceUpdateDTO;
 import org.springframework.lang.Nullable;
 
 import java.util.List;
@@ -28,10 +27,10 @@ public interface ResourceService {
      */
     List<ResourceBO> getResourcesByType(@Nullable Integer type);
 
-    CommonResult<ResourceBO> addResource(Integer adminId, ResourceAddDTO resourceAddDTO);
+    ResourceBO addResource(Integer adminId, ResourceAddDTO resourceAddDTO);
 
-    CommonResult<Boolean> updateResource(Integer adminId, ResourceUpdateDTO resourceUpdateDTO);
+    Boolean updateResource(Integer adminId, ResourceUpdateDTO resourceUpdateDTO);
 
-    CommonResult<Boolean> deleteResource(Integer adminId, Integer resourceId);
+    Boolean deleteResource(Integer adminId, Integer resourceId);
 
 }

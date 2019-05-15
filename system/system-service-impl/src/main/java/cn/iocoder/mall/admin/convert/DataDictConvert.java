@@ -1,8 +1,8 @@
 package cn.iocoder.mall.admin.convert;
 
-import cn.iocoder.mall.admin.api.bo.DataDictBO;
-import cn.iocoder.mall.admin.api.dto.DataDictAddDTO;
-import cn.iocoder.mall.admin.api.dto.DataDictUpdateDTO;
+import cn.iocoder.mall.admin.api.bo.datadict.DataDictBO;
+import cn.iocoder.mall.admin.api.dto.datadict.DataDictAddDTO;
+import cn.iocoder.mall.admin.api.dto.datadict.DataDictUpdateDTO;
 import cn.iocoder.mall.admin.dataobject.DataDictDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

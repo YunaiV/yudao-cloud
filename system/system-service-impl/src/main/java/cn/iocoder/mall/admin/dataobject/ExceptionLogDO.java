@@ -1,6 +1,7 @@
 package cn.iocoder.mall.admin.dataobject;
 
 import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.mall.admin.api.dto.systemlog.AccessLogAddDTO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -28,7 +29,7 @@ public class ExceptionLogDO extends BaseDO {
     /**
      * 用户编号.
      *
-     * 当管理员为空时，该值为 {@link cn.iocoder.mall.admin.api.dto.AccessLogAddDTO#USER_ID_NULL}
+     * 当管理员为空时，该值为 {@link AccessLogAddDTO#USER_ID_NULL}
      */
     private Integer userId;
     /**

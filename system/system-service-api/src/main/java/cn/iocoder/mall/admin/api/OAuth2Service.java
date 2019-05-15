@@ -1,8 +1,8 @@
 package cn.iocoder.mall.admin.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.admin.api.bo.OAuth2AccessTokenBO;
-import cn.iocoder.mall.admin.api.bo.OAuth2AuthenticationBO;
+import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AccessTokenBO;
+import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AuthenticationBO;
 
 import java.util.Set;
 

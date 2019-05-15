@@ -1,12 +1,14 @@
 package cn.iocoder.mall.admin.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
  * {@link AdminDO} 和 {@link RoleDO} 的关联表
  */
+@TableName("admin_role")
 @Data
 @Accessors(chain = true)
 public class AdminRoleDO extends DeletableDO {

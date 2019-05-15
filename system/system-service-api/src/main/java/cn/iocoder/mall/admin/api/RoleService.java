@@ -1,38 +1,32 @@
 package cn.iocoder.mall.admin.api;
 
-import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.admin.api.bo.RoleBO;
-import cn.iocoder.mall.admin.api.bo.RolePageBO;
-import cn.iocoder.mall.admin.api.dto.RoleAddDTO;
-import cn.iocoder.mall.admin.api.dto.RolePageDTO;
-import cn.iocoder.mall.admin.api.dto.RoleUpdateDTO;
+import cn.iocoder.common.framework.vo.PageResult;
+import cn.iocoder.mall.admin.api.bo.role.RoleBO;
+import cn.iocoder.mall.admin.api.dto.role.RoleAddDTO;
+import cn.iocoder.mall.admin.api.dto.role.RoleAssignResourceDTO;
+import cn.iocoder.mall.admin.api.dto.role.RolePageDTO;
+import cn.iocoder.mall.admin.api.dto.role.RoleUpdateDTO;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 public interface RoleService {
 
-    CommonResult<RolePageBO> getRolePage(RolePageDTO rolePageDTO);
-
-    /**
-     * 获得指定管理员拥有的角色编号数组
-     *
-     * @param adminId 指定管理员
-     * @return 角色编号数组
-     */
-    CommonResult<Set<Integer>> getRoleList(Integer adminId);
+    PageResult<RoleBO> getRolePage(RolePageDTO rolePageDTO);
 
     /**
      * @return 返回角色列表
      */
-    CommonResult<List<RoleBO>> getRoleList();
+    List<RoleBO> getRoleList();
 
-    CommonResult<RoleBO> addRole(Integer adminId, RoleAddDTO roleAddDTO);
+    List<RoleBO> getRoleList(Collection<Integer> ids);
 
-    CommonResult<Boolean> updateRole(Integer adminId, RoleUpdateDTO roleUpdateDTO);
+    RoleBO addRole(Integer adminId, RoleAddDTO roleAddDTO);
 
-    CommonResult<Boolean> deleteRole(Integer adminId, Integer roleId);
+    Boolean updateRole(Integer adminId, RoleUpdateDTO roleUpdateDTO);
 
-    CommonResult<Boolean> assignResource(Integer adminId, Integer roleId, Set<Integer> resourceIds);
+    Boolean deleteRole(Integer adminId, Integer roleId);
+
+    Boolean assignRoleResource(Integer adminId, RoleAssignResourceDTO roleAssignResourceDTO);
 
 }

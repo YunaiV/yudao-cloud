@@ -67,7 +67,17 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.yunpian.sdk</groupId>
+            <artifactId>yunpian-java-sdk</artifactId>
+            <version>1.2.7</version>
+        </dependency>
 
+        <!--  test  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

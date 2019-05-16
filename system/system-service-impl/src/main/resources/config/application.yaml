@@ -24,6 +24,10 @@ mybatis-plus:
   mapper-locations: classpath*:mapper/*.xml
   type-aliases-package: cn.iocoder.mall.admin.dataobject
 
+# sms
+sms:
+  apiKey: d4705399e71e822fe3a90f801ed95bd9
+
 # dubbo
 dubbo:
   application:
@@ -48,6 +52,8 @@ dubbo:
     ResourceService:
       version: 1.0.0
     RoleService:
+      version: 1.0.0
+    SmsService:
       version: 1.0.0
 
 # logging

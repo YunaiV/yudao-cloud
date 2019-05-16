@@ -46,6 +46,15 @@ public enum AdminErrorCodeEnum {
     DATA_DICT_EXISTS(1002005000, "该数据字典已经存在"),
     DATA_DICT_NOT_EXISTS(1002005001, "该数据字典不存在"),
 
+    // ========== 短信模板 1002006000 ==========
+    SMS_SIGN_ADD_FAIL(1002006000, "短信签名添加失败"),
+    SMS_SIGN_NOT_EXISTENT(1002006001, "短信签名不存在"),
+    SMS_SIGN_IS_EXISTENT(1002006002, "短信签名已存在"),
+    SMS_SIGN_UPDATE_FAIL(1002006003, "短信更新失败"),
+
+    SMS_TEMPLATE_ADD_FAIL(1002006020, "短信签名不存在"),
+    SMS_TEMPLATE_NOT_EXISTENT(1002006021, "短信签名不存在"),
+    SMS_TEMPLATE_IS_EXISTENT(1002006022, "短信签名不存在"),
     ;
 
     private final int code;

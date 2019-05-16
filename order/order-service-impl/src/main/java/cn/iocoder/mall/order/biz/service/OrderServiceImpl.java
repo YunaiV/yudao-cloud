@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
  * @time 2019-03-16 15:08
  */
 @Service
-@org.apache.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.OrderService.version}")
 public class OrderServiceImpl implements OrderService {
 
     /**

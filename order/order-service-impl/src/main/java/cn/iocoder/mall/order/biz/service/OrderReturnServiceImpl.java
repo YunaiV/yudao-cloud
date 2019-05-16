@@ -40,7 +40,7 @@ import java.util.UUID;
  * @time 2019-03-30 15:35
  */
 @Service
-@org.apache.dubbo.config.annotation.Service(validation = "true")
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.OrderReturnService.version}")
 public class OrderReturnServiceImpl implements OrderReturnService {
 
     @Autowired

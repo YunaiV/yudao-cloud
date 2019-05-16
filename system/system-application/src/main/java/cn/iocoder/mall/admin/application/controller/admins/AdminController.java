@@ -17,6 +17,7 @@ import cn.iocoder.mall.admin.application.convert.ResourceConvert;
 import cn.iocoder.mall.admin.application.vo.admin.AdminMenuTreeNodeVO;
 import cn.iocoder.mall.admin.application.vo.admin.AdminRoleVO;
 import cn.iocoder.mall.admin.application.vo.admin.AdminVO;
+import cn.iocoder.mall.admin.sdk.annotation.RequiresPermissions;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -86,6 +87,7 @@ public class AdminController {
     // =========== 管理员管理 API ===========
 
     @GetMapping("/page")
+    @RequiresPermissions("system.admin.page")
     @ApiOperation(value = "管理员分页")
     public CommonResult<PageResult<AdminVO>> page(AdminPageDTO adminPageDTO) {
         PageResult<AdminBO> page = adminService.getAdminPage(adminPageDTO);
@@ -128,9 +130,10 @@ public class AdminController {
     @ApiOperation(value = "指定管理员拥有的角色列表")
     @ApiImplicitParam(name = "id", value = "管理员编号", required = true, example = "1")
     public CommonResult<List<AdminRoleVO>> roleList(@RequestParam("id") Integer id) {
-        // 获得所有角色数组
-        List<RoleBO> allRoleList = adminService.getRoleList(id);
-        Set<Integer> adminRoleIdSet = CollectionUtil.convertSet(allRoleList, RoleBO::getId);
+        // 获得所有角色列表
+        List<RoleBO> allRoleList = roleService.getRoleList();
+        // 获得管理员的角色数组
+        Set<Integer> adminRoleIdSet = CollectionUtil.convertSet(adminService.getRoleList(id), RoleBO::getId);
         // 转换出返回结果
         List<AdminRoleVO> result = AdminConvert.INSTANCE.convert(allRoleList);
         // 设置每个角色是否赋予给改管理员

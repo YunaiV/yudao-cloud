@@ -10,13 +10,13 @@ import java.util.List;
 
 public interface DataDictService {
 
-    CommonResult<List<DataDictBO>> selectDataDictList();
+    List<DataDictBO> selectDataDictList();
 
-    CommonResult<DataDictBO> addDataDict(Integer adminId, DataDictAddDTO dataDictAddDTO);
+    DataDictBO addDataDict(Integer adminId, DataDictAddDTO dataDictAddDTO);
 
-    CommonResult<Boolean> updateDataDict(Integer adminId, DataDictUpdateDTO dataDictUpdateDTO);
+    Boolean updateDataDict(Integer adminId, DataDictUpdateDTO dataDictUpdateDTO);
 
-    CommonResult<Boolean> deleteDataDict(Integer adminId, Integer dataDictId);
+    Boolean deleteDataDict(Integer adminId, Integer dataDictId);
 
     /**
      * 获取字典值 - 单个
@@ -28,6 +28,7 @@ public interface DataDictService {
      * @return
      */
     CommonResult<DataDictBO> getDataDict(String dictKey, Object dictValue);
+
     CommonResult<List<DataDictBO>> getDataDict(String dictKey);
 
     /**

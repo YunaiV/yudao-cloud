@@ -12,16 +12,27 @@ import java.util.List;
 @Repository
 public interface AdminRoleMapper extends BaseMapper<AdminRoleDO> {
 
-    List<AdminRoleDO> selectByAdminId(@Param("adminId") Integer adminId);
+    default List<AdminRoleDO> selectByAdminId( Integer adminId) {
+        return selectList(new QueryWrapper<AdminRoleDO>().eq("admin_id", adminId));
+    }
 
     default List<AdminRoleDO> selectListByAdminIds(Collection<Integer> adminIds) {
         return selectList(new QueryWrapper<AdminRoleDO>().in("admin_id", adminIds));
     }
 
-    int updateToDeletedByAdminId(@Param("adminId") Integer adminId);
+    default int deleteByAdminId(Integer adminId) {
+        return delete(new QueryWrapper<AdminRoleDO>().eq("admin_id", adminId));
+    }
 
-    int updateToDeletedByRoleId(@Param("roleId") Integer roleId);
+    default int deleteByRoleId(Integer roleId) {
+        return delete(new QueryWrapper<AdminRoleDO>().eq("role_id", roleId));
+    }
 
-    void insertList(@Param("adminRoleDOs") List<AdminRoleDO> adminRoleDOs);
+    /**
+     * 批量插入。因为 MyBaits Plus 的批量插入是基于 Service 实现，所以只好写 XML
+     *
+     * @param adminRoleDOs 数组
+     */
+    int insertList(@Param("adminRoleDOs") List<AdminRoleDO> adminRoleDOs);
 
 }

@@ -46,6 +46,7 @@ public enum CommonStatusEnum implements IntArrayValuable {
         return this;
     }
 
+    @Deprecated
     public static boolean isValid(Integer status) {
         if (status == null) {
             return false;

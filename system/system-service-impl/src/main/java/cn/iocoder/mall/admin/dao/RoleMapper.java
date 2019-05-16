@@ -9,15 +9,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.List;
 
 @Repository
 public interface RoleMapper extends BaseMapper<RoleDO> {
-
-    default List<RoleDO> selectListByIds(Collection<Integer> ids) {
-        return selectList(new QueryWrapper<RoleDO>().in("id", ids));
-    }
 
     default List<RoleDO> selectList() {
         return selectList(new QueryWrapper<>());

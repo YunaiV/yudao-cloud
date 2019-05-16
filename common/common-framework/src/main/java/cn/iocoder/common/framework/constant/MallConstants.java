@@ -19,10 +19,12 @@ public interface MallConstants {
     /**
      * 用户类型 - 用户
      */
+    @Deprecated
     Integer USER_TYPE_USER = 1;
     /**
      * 用户类型 - 管理员
      */
+    @Deprecated
     Integer USER_TYPE_ADMIN = 2;
 
     // HTTP Request Attr

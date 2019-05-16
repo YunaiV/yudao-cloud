@@ -19,6 +19,7 @@ import cn.iocoder.mall.admin.dataobject.ResourceDO;
 import cn.iocoder.mall.admin.dataobject.RoleDO;
 import cn.iocoder.mall.admin.dataobject.RoleResourceDO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,12 +41,8 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private ResourceServiceImpl resourceService;
 
-    public List<RoleResourceDO> getRoleByResourceHandler(String resourceHandler) {
-        return roleResourceMapper.selectByResourceHandler(resourceHandler);
-    }
-
     public List<RoleResourceDO> getRoleByResourceId(Integer resourceId) {
-        return roleResourceMapper.selectByResourceId(resourceId);
+        return roleResourceMapper.selectListByResourceId(resourceId);
     }
 
     @Override
@@ -62,7 +59,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<RoleBO> getRoleList(Collection<Integer> ids) {
-        List<RoleDO> roles = roleMapper.selectListByIds(ids);
+        List<RoleDO> roles = roleMapper.selectBatchIds(ids);
         return RoleConvert.INSTANCE.convert(roles);
     }
 
@@ -104,9 +101,9 @@ public class RoleServiceImpl implements RoleService {
         // 更新到数据库，标记删除
         roleMapper.deleteById(roleId);
         // 标记删除 RoleResource
-        roleResourceMapper.updateToDeletedByRoleId(roleId);
+        roleResourceMapper.deleteByRoleId(roleId);
         // 标记删除 AdminRole
-        adminRoleMapper.updateToDeletedByRoleId(roleId);
+        adminRoleMapper.deleteByRoleId(roleId);
         // TODO 插入操作日志
         // 返回成功
         return true;
@@ -130,7 +127,7 @@ public class RoleServiceImpl implements RoleService {
         }
         // TODO 芋艿，这里先简单实现。即方式是，删除老的分配的资源关系，然后添加新的分配的资源关系
         // 标记角色原资源关系都为删除
-        roleResourceMapper.updateToDeletedByRoleId(roleId);
+        roleResourceMapper.deleteByRoleId(roleId);
         // 创建 RoleResourceDO 数组，并插入到数据库
         if (!CollectionUtil.isEmpty(resourceIds)) {
             List<RoleResourceDO> roleResources = resourceIds.stream().map(resourceId -> {
@@ -150,7 +147,37 @@ public class RoleServiceImpl implements RoleService {
         if (CollectionUtil.isEmpty(roleIds)) {
             return Collections.emptyList();
         }
-        return roleMapper.selectListByIds(roleIds);
+        return roleMapper.selectBatchIds(roleIds);
+    }
+
+    /**
+     * 获得权限与角色的映射关系。
+     *
+     * TODO 芋艿，等以后有 redis ，优化成从缓存读取。每个 permission ，哪些角色可以访问
+     *
+     * @param permissions 权限标识数组
+     * @return 映射关系。KEY：权限标识；VALUE：角色编号数组
+     */
+    public Map<String, List<Integer>> getPermissionRoleMap(List<String> permissions) {
+        if (CollectionUtil.isEmpty(permissions)) {
+            return Collections.emptyMap();
+        }
+        Map<String, List<Integer>> result = Maps.newHashMapWithExpectedSize(permissions.size());
+        for (String permission : permissions) {
+            List<ResourceDO> resources = resourceService.getResourceListByPermission(permission);
+            if (resources.isEmpty()) { // 无需授权
+                result.put(permission, Collections.emptyList());
+            } else {
+                List<RoleResourceDO> roleResources = roleResourceMapper.selectListByResourceId(
+                        CollectionUtil.convertSet(resources, ResourceDO::getId));
+                if (roleResources.isEmpty()) {
+                    result.put(permission, Collections.emptyList());
+                } else {
+                    result.put(permission, CollectionUtil.convertList(roleResources, RoleResourceDO::getRoleId));
+                }
+            }
+        }
+        return result;
     }
 
 }

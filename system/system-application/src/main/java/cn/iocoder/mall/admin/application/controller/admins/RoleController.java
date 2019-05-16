@@ -17,7 +17,6 @@ import cn.iocoder.mall.admin.application.vo.role.RoleResourceTreeNodeVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -101,10 +100,6 @@ public class RoleController {
 
     @PostMapping("/assign_resource")
     @ApiOperation(value = "分配角色资源")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "角色编号", required = true, example = "1"),
-            @ApiImplicitParam(name = "resourceIds", value = "资源数组", required = true, example = "1,2,3"),
-    })
     public CommonResult<Boolean> assignResource(RoleAssignResourceDTO roleAssignResourceDTO) {
         return success(roleService.assignRoleResource(AdminSecurityContextHolder.getContext().getAdminId(), roleAssignResourceDTO));
     }

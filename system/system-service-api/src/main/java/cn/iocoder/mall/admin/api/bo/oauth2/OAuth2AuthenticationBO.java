@@ -1,25 +1,19 @@
 package cn.iocoder.mall.admin.api.bo.oauth2;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
-import java.util.Set;
-
-/**
- * OAUTH2 认证 BO
- */
+@ApiModel("OAUTH2 认证 BO")
 @Data
 @Accessors(chain = true)
-public class OAuth2AuthenticationBO implements Serializable {
+public class OAuth2AuthenticationBO {
 
-    /**
-     * 管理员编号
-     */
-    private Integer adminId;
-    /**
-     * 角色编号数组
-     */
-    private Set<Integer> roleIds;
+    @ApiModelProperty(value = "用户编号", required = true, example = "1")
+    private Integer userId;
+
+    @ApiModelProperty(value = "用户类型", required = true, example = "1", notes = "参考 UserTypeEnum 枚举")
+    private Integer userType;
 
 }

@@ -1,6 +1,7 @@
 package cn.iocoder.mall.admin.convert;
 
 import cn.iocoder.common.framework.vo.PageResult;
+import cn.iocoder.mall.admin.api.bo.admin.AdminAuthenticationBO;
 import cn.iocoder.mall.admin.api.bo.admin.AdminBO;
 import cn.iocoder.mall.admin.api.dto.admin.AdminAddDTO;
 import cn.iocoder.mall.admin.api.dto.admin.AdminUpdateDTO;
@@ -20,6 +21,9 @@ public interface AdminConvert {
 
     @Mappings({})
     AdminBO convert(AdminDO adminDO);
+
+    @Mappings({})
+    AdminAuthenticationBO convert2(AdminDO admin);
 
     @Mappings({})
     AdminDO convert(AdminAddDTO adminAddDTO);

@@ -1,5 +1,7 @@
 package cn.iocoder.mall.admin.api.dto.resource;
 
+import cn.iocoder.common.framework.validator.InEnum;
+import cn.iocoder.mall.admin.api.constant.ResourceTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -17,6 +19,7 @@ public class ResourceAddDTO implements Serializable {
 
     @ApiModelProperty(value = "资源类型。1 代表【菜单】；2 代表【按钮】", required = true, example = "1")
     @NotNull(message = "类型不能为空")
+    @InEnum(value = ResourceTypeEnum.class, message = "资源类型必须是 {value}")
     private Integer type;
 
     @ApiModelProperty(value = "排序", required = true, example = "1")

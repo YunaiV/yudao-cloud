@@ -1,5 +1,9 @@
 package cn.iocoder.mall.admin.dataobject;
 
+import cn.iocoder.common.framework.dataobject.BaseDO;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -8,22 +12,28 @@ import java.util.Date;
 /**
  * OAUTH2 AccessToken
  */
+@TableName("oauth2_access_token")
 @Data
 @Accessors(chain = true)
-public class OAuth2AccessTokenDO {
+public class OAuth2AccessTokenDO extends BaseDO {
 
     /**
      * 访问令牌
      */
+    @TableId(type = IdType.INPUT)
     private String id;
     /**
      * 刷新令牌
      */
     private String refreshToken;
     /**
-     * 管理员比那好
+     * 用户编号
      */
-    private Integer adminId;
+    private Integer userId;
+    /**
+     * 用户类型
+     */
+    private Integer userType;
     /**
      * 过期时间
      */
@@ -32,63 +42,5 @@ public class OAuth2AccessTokenDO {
      * 是否有效
      */
     private Boolean valid;
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    public String getId() {
-        return id;
-    }
-
-    public OAuth2AccessTokenDO setId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public OAuth2AccessTokenDO setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-        return this;
-    }
-
-    public Integer getAdminId() {
-        return adminId;
-    }
-
-    public OAuth2AccessTokenDO setAdminId(Integer adminId) {
-        this.adminId = adminId;
-        return this;
-    }
-
-    public Date getExpiresTime() {
-        return expiresTime;
-    }
-
-    public OAuth2AccessTokenDO setExpiresTime(Date expiresTime) {
-        this.expiresTime = expiresTime;
-        return this;
-    }
-
-    public Boolean getValid() {
-        return valid;
-    }
-
-    public OAuth2AccessTokenDO setValid(Boolean valid) {
-        this.valid = valid;
-        return this;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public OAuth2AccessTokenDO setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        return this;
-    }
 
 }

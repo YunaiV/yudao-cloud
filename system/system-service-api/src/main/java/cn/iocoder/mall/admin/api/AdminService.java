@@ -1,8 +1,10 @@
 package cn.iocoder.mall.admin.api;
 
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.admin.api.bo.role.RoleBO;
+import cn.iocoder.mall.admin.api.bo.admin.AdminAuthenticationBO;
+import cn.iocoder.mall.admin.api.bo.admin.AdminAuthorizationBO;
 import cn.iocoder.mall.admin.api.bo.admin.AdminBO;
+import cn.iocoder.mall.admin.api.bo.role.RoleBO;
 import cn.iocoder.mall.admin.api.dto.admin.*;
 
 import java.util.Collection;
@@ -13,6 +15,16 @@ import java.util.Map;
  * 管理员 Service 接口
  */
 public interface AdminService {
+
+    /**
+     * 用户认证。认证成功后，返回认证信息
+     *
+     * 实际上，就是用户名 + 密码登陆
+     *
+     * @param adminAuthenticationDTO 用户认证信息
+     * @return 认证信息
+     */
+    AdminAuthenticationBO authentication(AdminAuthenticationDTO adminAuthenticationDTO);
 
     PageResult<AdminBO> getAdminPage(AdminPageDTO adminPageDTO);
 
@@ -48,5 +60,14 @@ public interface AdminService {
      * @return 是否成功。目前，默认返回 true
      */
     Boolean assignAdminRole(Integer adminId, AdminAssignRoleDTO adminAssignRoleDTO);
+
+    /**
+     * 判断管理员是否有指定权限
+     *
+     * @param adminId 管理员
+     * @param permissions 权限数组
+     * @return 管理员授权信息
+     */
+    AdminAuthorizationBO checkPermissions(Integer adminId, List<String> permissions);
 
 }

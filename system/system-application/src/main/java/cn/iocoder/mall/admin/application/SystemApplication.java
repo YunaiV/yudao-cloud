@@ -1,4 +1,4 @@
-package cn.iocoder.mall.admin.application.vo.oauth2;
+package cn.iocoder.mall.admin.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

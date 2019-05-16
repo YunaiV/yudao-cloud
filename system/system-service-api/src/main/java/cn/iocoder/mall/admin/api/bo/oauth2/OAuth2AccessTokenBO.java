@@ -1,28 +1,24 @@
 package cn.iocoder.mall.admin.api.bo.oauth2;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
-/**
- * OAUTH2 AccessToken BO
- */
+@ApiModel("OAuth2 Token 信息 BO")
 @Data
 @Accessors(chain = true)
 public class OAuth2AccessTokenBO implements Serializable {
 
-    /**
-     * 访问令牌
-     */
+    @ApiModelProperty(value = "accessToken", required = true, example = "001e8f49b20e47f7b3a2de774497cd50")
     private String accessToken;
-    /**
-     * 刷新令牌
-     */
+
+    @ApiModelProperty(value = "refreshToken", required = true, example = "001e8f49b20e47f7b3a2de774497cd50")
     private String refreshToken;
-    /**
-     * 过期时间，单位：秒。
-     */
+
+    @ApiModelProperty(value = "过期时间，单位：秒", required = true, example = "1024")
     private Integer expiresIn;
 
 }

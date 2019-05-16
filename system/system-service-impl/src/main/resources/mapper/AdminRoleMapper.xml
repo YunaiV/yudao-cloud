@@ -2,37 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.iocoder.mall.admin.dao.AdminRoleMapper">
 
-    <!--<insert id="insert" parameterType="UserDO" useGeneratedKeys="true" keyProperty="id">-->
-        <!--INSERT INTO users (-->
-          <!--id, mobile, create_time-->
-        <!--) VALUES (-->
-          <!--#{id}, #{mobile}, #{createTime}-->
-        <!--)-->
-    <!--</insert>-->
-
-    <select id="selectByAdminId" parameterType="Integer" resultType="AdminRoleDO">
-      SELECT
-        ar.id, ar.admin_id, ar.role_id
-      FROM admin a, admin_role ar
-      WHERE a.id = #{adminId}
-      AND a.id = ar.admin_id
-      AND ar.deleted = 0
-    </select>
-
-    <update id="updateToDeletedByAdminId" parameterType="Integer">
-      UPDATE admin_role
-      SET deleted = 1
-      WHERE admin_id = #{adminId}
-      AND deleted = 0
-    </update>
-
-    <update id="updateToDeletedByRoleId" parameterType="Integer">
-      UPDATE admin_role
-      SET deleted = 1
-      WHERE role_id = #{roleId}
-      AND deleted = 0
-    </update>
-
     <insert id="insertList">
         INSERT INTO admin_role (
           admin_id, role_id, create_time, deleted

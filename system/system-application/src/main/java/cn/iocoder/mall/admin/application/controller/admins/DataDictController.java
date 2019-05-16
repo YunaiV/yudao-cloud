@@ -8,6 +8,7 @@ import cn.iocoder.mall.admin.api.dto.datadict.DataDictUpdateDTO;
 import cn.iocoder.mall.admin.application.convert.DataDictConvert;
 import cn.iocoder.mall.admin.application.vo.datadict.DataDictEnumVO;
 import cn.iocoder.mall.admin.application.vo.datadict.DataDictVO;
+import cn.iocoder.mall.admin.sdk.annotation.RequiresPermissions;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Multimaps;
@@ -31,12 +32,14 @@ public class DataDictController {
 
     @GetMapping("/list")
     @ApiOperation(value = "数据字典全列表")
+    @RequiresPermissions("system.dataDict.list")
     public CommonResult<List<DataDictVO>> list() {
         CommonResult<List<DataDictBO>> result = dataDictService.selectDataDictList();
         return DataDictConvert.INSTANCE.convert(result);
     }
 
     @GetMapping("/tree")
+    @RequiresPermissions({}) // 因为是通用的接口，所以无需权限标识
     @ApiOperation(value = "数据字典树结构", notes = "该接口返回的信息更为精简。一般用于前端缓存数据字典到本地。")
     public CommonResult<List<DataDictEnumVO>> tree() {
         // 查询数据字典全列表
@@ -57,6 +60,7 @@ public class DataDictController {
     }
 
     @PostMapping("/add")
+    @RequiresPermissions("system.dataDict.add")
     @ApiOperation(value = "创建数据字典")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "enumValue", value = "大类枚举值", required = true, example = "gender"),
@@ -80,6 +84,7 @@ public class DataDictController {
     }
 
     @PostMapping("/update")
+    @RequiresPermissions("system.dataDict.update")
     @ApiOperation(value = "更新数据字典")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "编号", required = true, example = "100"),
@@ -101,6 +106,7 @@ public class DataDictController {
     }
 
     @PostMapping("/delete")
+    @RequiresPermissions("system.dataDict.delete")
     @ApiOperation(value = "删除数据字典")
     @ApiImplicitParam(name = "id", value = "编号", required = true, example = "100")
     public CommonResult<Boolean> delete(@RequestParam("id") Integer id) {

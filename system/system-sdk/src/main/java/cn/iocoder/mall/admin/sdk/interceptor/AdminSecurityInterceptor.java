@@ -1,37 +1,48 @@
 package cn.iocoder.mall.admin.sdk.interceptor;
 
-import cn.iocoder.common.framework.constant.MallConstants;
+import cn.iocoder.common.framework.constant.UserTypeEnum;
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.util.MallUtil;
-import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.common.framework.util.StringUtil;
+import cn.iocoder.mall.admin.api.AdminService;
 import cn.iocoder.mall.admin.api.OAuth2Service;
+import cn.iocoder.mall.admin.api.bo.admin.AdminAuthorizationBO;
 import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AuthenticationBO;
 import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
+import cn.iocoder.mall.admin.api.dto.oauth2.OAuth2GetTokenDTO;
+import cn.iocoder.mall.admin.sdk.annotation.RequiresPermissions;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContext;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.Set;
 
 /**
- * 安全拦截器
+ * Admin 安全拦截器
  */
 @Component
 public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
 
     @Reference(validation = "true", version = "${dubbo.consumer.OAuth2Service.version:1.0.0}")
     private OAuth2Service oauth2Service;
+    @Reference(validation = "true", version = "${dubbo.consumer.AdminService.version:1.0.0}")
+    private AdminService adminService;
 
     /**
      * 忽略的 URL 集合，即无需经过认证
+     *
+     * 对于 Admin 的系统，默认所有接口都需要进行认证
      */
-    @Value("${admins.security.ignore_url:#{null}}")
+    @Value("${admins.security.ignore_urls:#{null}}")
     private Set<String> ignoreUrls;
 
     public AdminSecurityInterceptor setIgnoreUrls(Set<String> ignoreUrls) {
@@ -42,39 +53,46 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 设置当前访问的用户类型。注意，即使未登陆，我们也认为是管理员
-        MallUtil.setUserType(request, MallConstants.USER_TYPE_ADMIN);
-        // 校验访问令牌是否正确。若正确，返回授权信息
+        MallUtil.setUserType(request, UserTypeEnum.ADMIN.getValue());
+
+        // 根据 accessToken 获得认证信息，判断是谁
         String accessToken = HttpUtil.obtainAuthorization(request);
         OAuth2AuthenticationBO authentication = null;
-        if (accessToken != null) {
-            CommonResult<OAuth2AuthenticationBO> result = oauth2Service.checkToken(accessToken);
-            // TODO sin 先临时跳过 认证
-//            CommonResult<OAuth2AuthenticationBO> result = CommonResult.success(new OAuth2AuthenticationBO()
-//                    .setAdminId(1)
-//                    .setRoleIds(Sets.newHashSet(1, 2, 3, 4)));
-            if (result.isError()) { // TODO 芋艿，如果访问的地址无需登录，这里也不用抛异常
-                throw new ServiceException(result.getCode(), result.getMessage());
-            }
-            authentication = result.getData();
-            // 添加到 AdminSecurityContext
-            AdminSecurityContext context = new AdminSecurityContext(authentication.getAdminId(), authentication.getRoleIds());
-            AdminSecurityContextHolder.setContext(context);
-            // 同时也记录管理员编号到 AdminAccessLogInterceptor 中。因为：
-            // AdminAccessLogInterceptor 需要在 AdminSecurityInterceptor 之前执行，这样记录的访问日志才健全
-            // AdminSecurityInterceptor 执行后，会移除 AdminSecurityContext 信息，这就导致 AdminAccessLogInterceptor 无法获得管理员编号
-            // 因此，这里需要进行记录
-            if (authentication.getAdminId() != null) {
-                MallUtil.setUserId(request, authentication.getAdminId());
-            }
-        } else {
-            String url = request.getRequestURI();
-            if (ignoreUrls != null && !ignoreUrls.contains(url)) { // TODO 临时写死。非登陆接口，必须已经认证身份，不允许匿名访问
-                throw new ServiceException(AdminErrorCodeEnum.OAUTH_NOT_LOGIN.getCode(), AdminErrorCodeEnum.OAUTH_NOT_LOGIN.getMessage());
+        ServiceException serviceException = null;
+        if (StringUtil.hasText(accessToken)) {
+            try {
+                authentication = oauth2Service.getAuthentication(new OAuth2GetTokenDTO().setAccessToken(accessToken)
+                        .setUserType(UserTypeEnum.ADMIN.getValue()));
+            } catch (ServiceException e) {
+                serviceException = e;
             }
         }
-        // 校验是否需要已授权
-        // TODO sin 暂时不校验
-        // checkPermission(request, authentication);
+
+        // 进行鉴权
+        String url = request.getRequestURI();
+        boolean needAuthentication = ignoreUrls == null || !ignoreUrls.contains(url);
+        AdminAuthorizationBO authorization = null;
+        if (needAuthentication) {
+            if (serviceException != null) { // 认证失败，抛出上面认证失败的 ServiceException 异常
+                throw serviceException;
+            }
+            if (authentication == null) { // 无认证信息，抛出未登陆 ServiceException 异常
+                throw new ServiceException(AdminErrorCodeEnum.OAUTH2_NOT_LOGIN.getCode(), AdminErrorCodeEnum.OAUTH2_NOT_LOGIN.getMessage());
+            }
+            authorization = checkPermission(handler, authentication);
+        }
+
+        // 鉴权完成，初始化 AdminSecurityContext 上下文
+        AdminSecurityContext context = new AdminSecurityContext();
+        AdminSecurityContextHolder.setContext(context);
+        if (authentication != null) {
+            context.setAdminId(authentication.getUserId());
+            MallUtil.setUserId(request, authentication.getUserId()); // 记录到 request 中，避免 AdminSecurityContext 后续清理掉后，其它地方需要用到 userId
+            if (authorization != null) {
+                context.setRoleIds(authorization.getRoleIds());
+            }
+        }
+
         // 返回成功
         return super.preHandle(request, response, handler);
     }
@@ -85,14 +103,18 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
         AdminSecurityContextHolder.clear();
     }
 
-    private void checkPermission(HttpServletRequest request, OAuth2AuthenticationBO authentication) {
-        Integer adminId = authentication != null ? authentication.getAdminId() : null;
-        Set<Integer> roleIds = authentication != null ? authentication.getRoleIds() : null;
-        String url = request.getRequestURI();
-        CommonResult<Boolean> result = oauth2Service.checkPermission(adminId, roleIds, url);
-        if (result.isError()) {
-            throw new ServiceException(result.getCode(), result.getMessage());
-        }
+    private AdminAuthorizationBO checkPermission(Object handler, OAuth2AuthenticationBO authentication) {
+        // 获得 @RequiresPermissions 注解
+        Assert.isTrue(handler instanceof HandlerMethod, "handler 必须是 HandlerMethod 类型");
+        HandlerMethod handlerMethod = (HandlerMethod) handler;
+        RequiresPermissions requiresPermissions = handlerMethod.getMethodAnnotation(RequiresPermissions.class);
+        // 执行校验
+        return adminService.checkPermissions(authentication.getUserId(),
+                requiresPermissions != null ? Arrays.asList(requiresPermissions.value()) : null);
+    }
+
+    private void checkPermission() {
+
     }
 
 }

@@ -26,6 +26,7 @@ public class RoleResourceTreeNodeVO {
     private String displayName;
     @ApiModelProperty(value = "子节点数组")
     private List<RoleResourceTreeNodeVO> children;
+
     @ApiModelProperty(value = "是否授权", required = true, example = "true")
     private Boolean assigned;
 

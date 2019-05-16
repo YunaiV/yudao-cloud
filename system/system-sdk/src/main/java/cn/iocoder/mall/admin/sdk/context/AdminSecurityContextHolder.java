@@ -17,7 +17,7 @@ public class AdminSecurityContextHolder {
         AdminSecurityContext ctx = SECURITY_CONTEXT.get();
         // 为空时，设置一个空的进去
         if (ctx == null) {
-            ctx = new AdminSecurityContext(null, null);
+            ctx = new AdminSecurityContext();
             SECURITY_CONTEXT.set(ctx);
         }
         return ctx;

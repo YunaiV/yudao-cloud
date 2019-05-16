@@ -1,5 +1,7 @@
 package cn.iocoder.common.framework.util;
 
+import org.springframework.util.CollectionUtils;
+
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -28,6 +30,10 @@ public class CollectionUtil {
 
     public static <T, K> Map<K, T> convertMap(List<T> from, Function<T, K> keyFunc) {
         return from.stream().collect(Collectors.toMap(keyFunc, item -> item));
+    }
+
+    public static boolean containsAny(Collection<?> source, Collection<?> candidates) {
+        return CollectionUtils.containsAny(source, candidates);
     }
 
 }

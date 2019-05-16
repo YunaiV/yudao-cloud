@@ -20,12 +20,14 @@ export default {
         type: 'changeLoginStatus',
         payload: response,
       });
+
       yield put(routerRedux.replace('/'));
 
       // Login successfully
       if (response.code === 0) {
+
         // 保存 token 到 localStorage，发送请求的时候，会自动取 token 放到 header
-        setLoginToken(response.data.accessToken, response.data.refreshToken);
+        setLoginToken(response.data.token.accessToken, response.data.token.refreshToken);
         // 此处直接设置为 admin、和 user 角色，因为暂时不做服务控制前段 角色
         setAuthority(['admin', 'user']);
 

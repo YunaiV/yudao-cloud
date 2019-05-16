@@ -1,8 +1,8 @@
 package cn.iocoder.mall.admin.service;
 
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
-import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.util.StringUtil;
 import cn.iocoder.mall.admin.api.ResourceService;
 import cn.iocoder.mall.admin.api.bo.resource.ResourceBO;
 import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
@@ -31,8 +31,14 @@ public class ResourceServiceImpl implements ResourceService {
     @Autowired
     private RoleResourceMapper roleResourceMapper;
 
-    public ResourceDO getResourceByTypeAndHandler(Integer type, String handler) {
-        return resourceMapper.selectByTypeAndHandler(type, handler);
+    public List<ResourceDO> getResourceListByPermission(String permission) {
+        List<ResourceDO> resources = resourceMapper.selectListByPermission(permission);
+        if (resources.isEmpty()) {
+            return Collections.emptyList();
+        }
+        // 因为 ResourceDO 存储的 permissions 是字符串，使用逗号分隔，需要进一步判断
+        resources.removeIf(resourceDO -> !StringUtil.split(resourceDO.getPermissions(), ",").contains(permission));
+        return resources;
     }
 
     @Override
@@ -49,12 +55,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    @SuppressWarnings("Duplicates")
     public ResourceBO addResource(Integer adminId, ResourceAddDTO resourceAddDTO) {
-        // 补充未在 Validation 中校验的参数校验
-        if (!isValidResourceType(resourceAddDTO.getType())) {
-            throw ServiceExceptionUtil.exception(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "资源类型必须是菜单或 Url"); // TODO 有点搓
-        }
         // 校验父资源存在
         checkParentResource(resourceAddDTO.getPid(), null);
         // 存储到数据库
@@ -69,7 +70,6 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    @SuppressWarnings("Duplicates")
     public Boolean updateResource(Integer adminId, ResourceUpdateDTO resourceUpdateDTO) {
         // 校验更新的资源是否存在
         if (resourceMapper.selectById(resourceUpdateDTO.getId()) == null) {
@@ -100,7 +100,7 @@ public class ResourceServiceImpl implements ResourceService {
         // 更新到数据库
         resourceMapper.deleteById(resourceId);
         // 删除资源关联表
-        roleResourceMapper.updateToDeletedByResourceId(resourceId);
+        roleResourceMapper.deleteByResourceId(resourceId);
         // 返回成功
         return true;
     }
@@ -110,18 +110,6 @@ public class ResourceServiceImpl implements ResourceService {
             return Collections.emptyList();
         }
         return resourceMapper.selectListByIds(resourceIds);
-    }
-
-    private boolean isValidResourceType(Integer type) {
-        return ResourceConstants.TYPE_MENU.equals(type)
-                || ResourceConstants.TYPE_BUTTON.equals(type);
-    }
-
-    private boolean checkParentExists(Integer pid) {
-        if (!ResourceConstants.PID_ROOT.equals(pid)) {
-            return resourceMapper.selectById(pid) == null;
-        }
-        return false;
     }
 
     private void checkParentResource(Integer pid, Integer childId) {

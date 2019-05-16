@@ -7,31 +7,9 @@
         create_time, pid, handler
     </sql>
 
-    <select id="selectByTypeAndHandler" resultType="ResourceDO">
-        SELECT
-          <include refid="FIELDS"/>
-        FROM resource
-        WHERE type = #{type}
-        AND handler = #{handler}
-        AND deleted = 0
-        LIMIT 1
-    </select>
-
-    <select id="selectListByType" parameterType="Integer" resultType="ResourceDO">
-        SELECT
-          <include refid="FIELDS"/>
-        FROM resource
-        <where>
-            <if test="type != null">
-               type = #{type}
-            </if>
-            AND deleted = 0
-        </where>
-    </select>
-
     <select id="selectListByTypeAndRoleIds" resultType="ResourceDO">
         SELECT
-            r.id, r.name, r.type, r.sort, r.display_name,
+            r.id, r.type, r.sort, r.display_name,
             r.create_time, r.pid, r.handler
         FROM resource r, role_resource rr
         WHERE r.deleted = 0
@@ -44,25 +22,6 @@
                 #{roleId}
             </foreach>
         AND r.id = rr.resource_id
-    </select>
-
-    <select id="selectListByIds" resultType="ResourceDO">
-        SELECT
-          <include refid="FIELDS"/>
-        FROM resource
-        WHERE id IN
-            <foreach item="id" collection="ids" separator="," open="(" close=")" index="">
-                #{id}
-            </foreach>
-        AND deleted = 0
-    </select>
-
-    <select id="selectCountByPid" resultType="int">
-        SELECT
-          COUNT(1)
-        FROM resource
-        WHERE pid = #{pid}
-        AND deleted = 0
     </select>
 
 </mapper>

@@ -2,16 +2,20 @@ package cn.iocoder.mall.admin.service;
 
 import cn.iocoder.common.framework.constant.CommonStatusEnum;
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
+import cn.iocoder.common.framework.constant.UserTypeEnum;
 import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
-import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.admin.api.AdminService;
-import cn.iocoder.mall.admin.api.bo.role.RoleBO;
+import cn.iocoder.mall.admin.api.bo.admin.AdminAuthenticationBO;
+import cn.iocoder.mall.admin.api.bo.admin.AdminAuthorizationBO;
 import cn.iocoder.mall.admin.api.bo.admin.AdminBO;
+import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AccessTokenBO;
+import cn.iocoder.mall.admin.api.bo.role.RoleBO;
 import cn.iocoder.mall.admin.api.constant.AdminConstants;
 import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
 import cn.iocoder.mall.admin.api.dto.admin.*;
+import cn.iocoder.mall.admin.api.dto.oauth2.OAuth2CreateTokenDTO;
 import cn.iocoder.mall.admin.convert.AdminConvert;
 import cn.iocoder.mall.admin.dao.AdminMapper;
 import cn.iocoder.mall.admin.dao.AdminRoleMapper;
@@ -39,32 +43,30 @@ public class AdminServiceImpl implements AdminService {
     private AdminRoleMapper adminRoleMapper;
 
     @Autowired
-    private OAuth2ServiceImpl oAuth2Service;
+    private OAuth2ServiceImpl oauth2Service;
     @Autowired
     private RoleServiceImpl roleService;
 
-    public CommonResult<AdminDO> validAdmin(String username, String password) {
-        AdminDO admin = adminMapper.selectByUsername(username);
+    @Override
+    public AdminAuthenticationBO authentication(AdminAuthenticationDTO adminAuthenticationDTO) {
+        AdminDO admin = adminMapper.selectByUsername(adminAuthenticationDTO.getUsername());
         // 账号不存在
         if (admin == null) {
-            return ServiceExceptionUtil.error(AdminErrorCodeEnum.ADMIN_USERNAME_NOT_REGISTERED.getCode());
+            throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.ADMIN_USERNAME_NOT_REGISTERED.getCode());
         }
         // 密码不正确
-        if (encodePassword(password).equals(admin.getPassword())) {
-            return ServiceExceptionUtil.error(AdminErrorCodeEnum.ADMIN_PASSWORD_ERROR.getCode());
+        if (encodePassword(adminAuthenticationDTO.getPassword()).equals(admin.getPassword())) {
+            throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.ADMIN_PASSWORD_ERROR.getCode());
         }
         // 账号被禁用
         if (CommonStatusEnum.DISABLE.getValue().equals(admin.getStatus())) {
-            return ServiceExceptionUtil.error(AdminErrorCodeEnum.ADMIN_IS_DISABLE.getCode());
+            throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.ADMIN_IS_DISABLE.getCode());
         }
-        // 校验成功，返回管理员。并且，去掉一些非关键字段，考虑安全性。
-        admin.setPassword(null);
-        admin.setStatus(null);
-        return CommonResult.success(admin);
-    }
-
-    public List<AdminRoleDO> getAdminRoles(Integer adminId) {
-        return adminRoleMapper.selectByAdminId(adminId);
+        // 创建 accessToken
+        OAuth2AccessTokenBO accessTokenBO = oauth2Service.createToken(new OAuth2CreateTokenDTO().setUserId(admin.getId())
+            .setUserType(UserTypeEnum.ADMIN.getValue()));
+        // 转换返回
+        return AdminConvert.INSTANCE.convert2(admin).setToken(accessTokenBO);
     }
 
     @Override
@@ -130,7 +132,7 @@ public class AdminServiceImpl implements AdminService {
         adminMapper.updateById(updateAdmin);
         // 如果是关闭管理员，则标记 token 失效。否则，管理员还可以继续蹦跶
         if (CommonStatusEnum.DISABLE.getValue().equals(adminUpdateStatusDTO.getStatus())) {
-            oAuth2Service.removeToken(adminUpdateStatusDTO.getId());
+            oauth2Service.removeToken(adminUpdateStatusDTO.getId());
         }
         // TODO 插入操作日志
         // 返回成功
@@ -152,7 +154,7 @@ public class AdminServiceImpl implements AdminService {
         // 标记删除 AdminDO
         adminMapper.deleteById(updateAdminId); // 标记删除
         // 标记删除 AdminRole
-        adminRoleMapper.updateToDeletedByAdminId(updateAdminId);
+        adminRoleMapper.deleteByAdminId(updateAdminId);
         // TODO 插入操作日志
         // 返回成功
         return true;
@@ -202,7 +204,7 @@ public class AdminServiceImpl implements AdminService {
         }
         // TODO 芋艿，这里先简单实现。即方式是，删除老的分配的角色关系，然后添加新的分配的角色关系
         // 标记管理员角色源关系都为删除
-        adminRoleMapper.updateToDeletedByAdminId(adminAssignRoleDTO.getId());
+        adminRoleMapper.deleteByAdminId(adminAssignRoleDTO.getId());
         // 创建 RoleResourceDO 数组，并插入到数据库
         if (!CollectionUtil.isEmpty(adminAssignRoleDTO.getRoleIds())) {
             List<AdminRoleDO> adminRoleDOs = adminAssignRoleDTO.getRoleIds().stream().map(roleId -> {
@@ -216,6 +218,24 @@ public class AdminServiceImpl implements AdminService {
         // TODO 插入操作日志
         // 返回成功
         return true;
+    }
+
+    @Override
+    public AdminAuthorizationBO checkPermissions(Integer adminId, List<String> permissions) {
+        // 查询管理员拥有的角色关联数据
+        List<AdminRoleDO> adminRoleList = adminRoleMapper.selectByAdminId(adminId);
+        Set<Integer> adminRoleIds = CollectionUtil.convertSet(adminRoleList, AdminRoleDO::getRoleId);
+        // 授权校验
+        if (!CollectionUtil.isEmpty(permissions)) {
+            Map<String, List<Integer>> permissionRoleMap = roleService.getPermissionRoleMap(permissions);
+            for (Map.Entry<String, List<Integer>> entry : permissionRoleMap.entrySet()) {
+                if (!CollectionUtil.containsAny(entry.getValue(), adminRoleIds)) { // 所以有任一不满足，就验证失败，抛出异常
+                    throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.ADMIN_INVALID_PERMISSION.getCode());
+                }
+            }
+        }
+        // 返回成功
+        return new AdminAuthorizationBO().setId(adminId).setRoleIds(adminRoleIds);
     }
 
     private String encodePassword(String password) {

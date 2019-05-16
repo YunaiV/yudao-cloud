@@ -2,6 +2,7 @@ package cn.iocoder.mall.admin.convert;
 
 import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AccessTokenBO;
 import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AuthenticationBO;
+import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AuthenticationOldBO;
 import cn.iocoder.mall.admin.dataobject.AdminRoleDO;
 import cn.iocoder.mall.admin.dataobject.OAuth2AccessTokenDO;
 import org.mapstruct.Mapper;
@@ -28,10 +29,13 @@ public interface OAuth2Convert {
     }
 
     @Mappings({})
+    OAuth2AuthenticationOldBO convertToAuthenticationOld(OAuth2AccessTokenDO oauth2AccessTokenDO);
+
+    @Mappings({})
     OAuth2AuthenticationBO convertToAuthentication(OAuth2AccessTokenDO oauth2AccessTokenDO);
 
-    default OAuth2AuthenticationBO convertToAuthentication(OAuth2AccessTokenDO oauth2AccessTokenDO, List<AdminRoleDO> adminRoleDOs) {
-        return convertToAuthentication(oauth2AccessTokenDO)
+    default OAuth2AuthenticationOldBO convertToAuthenticationOld(OAuth2AccessTokenDO oauth2AccessTokenDO, List<AdminRoleDO> adminRoleDOs) {
+        return convertToAuthenticationOld(oauth2AccessTokenDO)
                 .setRoleIds(adminRoleDOs.stream().map(AdminRoleDO::getRoleId).collect(Collectors.toSet()));
     }
 

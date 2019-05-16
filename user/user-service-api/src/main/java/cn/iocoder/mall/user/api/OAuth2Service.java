@@ -4,9 +4,8 @@ package cn.iocoder.mall.user.api;
 import cn.iocoder.mall.user.api.bo.OAuth2AccessTokenBO;
 import cn.iocoder.mall.user.api.bo.OAuth2AuthenticationBO;
 
+@Deprecated
 public interface OAuth2Service {
-
-    OAuth2AccessTokenBO getAccessToken(String mobile, String code);
 
     /**
      * 校验访问令牌，获取身份信息( 不包括 accessToken 等等 )

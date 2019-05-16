@@ -6,19 +6,17 @@ spring:
     username: root
     password: ${MALL_MYSQL_PASSWORD}
 
-# mybatis
-#mybatis:
-#  config-location: classpath:mybatis-config.xml
-#  mapper-locations: classpath:mapper/*.xml
-#  type-aliases-package: cn.iocoder.mall.user.biz.dataobject
-
 # mybatis-plus
 mybatis-plus:
   configuration:
-    mapUnderscoreToCamelCase: true # 虽然默认为 true ，但是还是显示去指定下。
+    map-underscore-to-camel-case: true # 虽然默认为 true ，但是还是显示去指定下。
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
   mapperLocations: classpath*:mapper/*.xml
   typeAliasesPackage: cn.iocoder.mall.user.biz.dataobject
-  config-location: classpath:mybatis-config.xml
 
 # dubbo
 dubbo:
@@ -42,4 +40,7 @@ dubbo:
     UserAddressService:
       version: 1.0.0
     UserService:
+      version: 1.0.0
+  consumer:
+    OAuth2Service:
       version: 1.0.0

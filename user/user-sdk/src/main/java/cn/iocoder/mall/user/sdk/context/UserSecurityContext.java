@@ -1,18 +1,18 @@
 package cn.iocoder.mall.user.sdk.context;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 /**
  * User Security 上下文
  */
+@Data
+@Accessors(chain = true)
 public class UserSecurityContext {
 
-    private final Integer userId;
-
-    public UserSecurityContext(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
+    /**
+     * 用户编号
+     */
+    private Integer userId;
 
 }

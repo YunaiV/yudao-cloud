@@ -50,27 +50,6 @@ public class OAuth2ServiceImpl implements OAuth2Service {
     private OAuth2RefreshTokenMapper oauth2RefreshTokenMapper;
 
     @Override
-    @Transactional
-    public OAuth2AccessTokenBO getAccessToken(String mobile, String code) {
-        // 校验传入的 mobile 和 code 是否合法
-        MobileCodeDO mobileCodeDO = mobileCodeService.validLastMobileCode(mobile, code);
-        // 获取用户
-        UserDO userDO = userService.getUser(mobile);
-        if (userDO == null) { // 用户不存在，则进行创建用户
-            userDO = userService.createUser(mobile);
-            Assert.notNull(userDO, "创建用户必然成功");
-        }
-        // 创建刷新令牌
-        OAuth2RefreshTokenDO oauth2RefreshTokenDO = createOAuth2RefreshToken(userDO.getId());
-        // 创建访问令牌
-        OAuth2AccessTokenDO oauth2AccessTokenDO = createOAuth2AccessToken(userDO.getId(), oauth2RefreshTokenDO.getId());
-        // 标记已使用
-        mobileCodeService.useMobileCode(mobileCodeDO.getId(), userDO.getId());
-        // 转换返回
-        return OAuth2Convert.INSTANCE.convertToAccessTokenWithExpiresIn(oauth2AccessTokenDO);
-    }
-
-    @Override
     public OAuth2AuthenticationBO checkToken(String accessToken) throws ServiceException {
         OAuth2AccessTokenDO accessTokenDO = oauth2AccessTokenMapper.selectByTokenId(accessToken);
         if (accessTokenDO == null) { // 不存在

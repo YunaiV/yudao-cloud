@@ -9,11 +9,12 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @ApiModel("OAuth2 身份验证 DTO")
 @Data
 @Accessors(chain = true)
-public class OAuth2GetTokenDTO {
+public class OAuth2GetTokenDTO implements Serializable {
 
     @ApiModelProperty(value = "accessToken", required = true, example = "001e8f49b20e47f7b3a2de774497cd50")
     @NotEmpty(message = "accessToken 不能为空")

@@ -3,20 +3,28 @@ package cn.iocoder.mall.user.biz.service;
 import cn.iocoder.common.framework.constant.CommonStatusEnum;
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
+import cn.iocoder.common.framework.constant.UserTypeEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.ValidationUtil;
+import cn.iocoder.mall.admin.api.OAuth2Service;
+import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AccessTokenBO;
+import cn.iocoder.mall.admin.api.dto.oauth2.OAuth2CreateTokenDTO;
 import cn.iocoder.mall.user.api.UserService;
+import cn.iocoder.mall.user.api.bo.user.UserAuthenticationBO;
 import cn.iocoder.mall.user.api.bo.UserBO;
 import cn.iocoder.mall.user.api.bo.UserPageBO;
 import cn.iocoder.mall.user.api.constant.UserConstants;
 import cn.iocoder.mall.user.api.constant.UserErrorCodeEnum;
 import cn.iocoder.mall.user.api.dto.UserPageDTO;
 import cn.iocoder.mall.user.api.dto.UserUpdateDTO;
+import cn.iocoder.mall.user.api.dto.user.UserAuthenticationByMobileCodeDTO;
 import cn.iocoder.mall.user.biz.convert.UserConvert;
 import cn.iocoder.mall.user.biz.dao.UserMapper;
 import cn.iocoder.mall.user.biz.dao.UserRegisterMapper;
+import cn.iocoder.mall.user.biz.dataobject.MobileCodeDO;
 import cn.iocoder.mall.user.biz.dataobject.UserDO;
 import cn.iocoder.mall.user.biz.dataobject.UserRegisterDO;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +43,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRegisterMapper userRegisterMapper;
     @Autowired
-    private OAuth2ServiceImpl oAuth2Service;
+    private MobileCodeServiceImpl mobileCodeService;
+
+    @Reference(validation = "true", version = "${dubbo.consumer.OAuth2Service.version}")
+    private OAuth2Service oAuth2Service;
 
     public UserDO getUser(String mobile) {
         return userMapper.selectByMobile(mobile);
@@ -65,6 +76,36 @@ public class UserServiceImpl implements UserService {
         UserRegisterDO userRegisterDO = new UserRegisterDO().setId(userDO.getId())
                 .setCreateTime(new Date());
         userRegisterMapper.insert(userRegisterDO);
+    }
+
+    @Override
+    @Transactional
+    public UserAuthenticationBO authenticationByMobileCode(UserAuthenticationByMobileCodeDTO userAuthenticationByMobileCodeDTO) {
+        String mobile = userAuthenticationByMobileCodeDTO.getMobile();
+        String code = userAuthenticationByMobileCodeDTO.getCode();
+        // 校验手机格式
+        if (!ValidationUtil.isMobile(mobile)) {
+            throw ServiceExceptionUtil.exception(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "手机格式不正确"); // TODO 有点搓
+        }
+        // 校验验证码是否正确
+        MobileCodeDO mobileCodeDO = mobileCodeService.validLastMobileCode(mobile, code);
+        // 获得用户
+        UserDO user = userMapper.selectByMobile(mobile);
+        if (user == null) { // 用户不存在，则进行创建
+            user = new UserDO().setMobile(mobile).setStatus(UserConstants.STATUS_ENABLE);
+            user.setCreateTime(new Date());
+            user.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
+            userMapper.insert(user);
+            // 插入注册信息 TODO 芋艿 后续完善，记录 ip、ua 等等
+            createUserRegister(user);
+        }
+        // 更新验证码已使用
+        mobileCodeService.useMobileCode(mobileCodeDO.getId(), user.getId());
+        // 创建 accessToken
+        OAuth2AccessTokenBO accessTokenBO = oAuth2Service.createToken(new OAuth2CreateTokenDTO().setUserId(user.getId())
+                .setUserType(UserTypeEnum.USER.getValue()));
+        // 转换返回
+        return UserConvert.INSTANCE.convert2(user).setToken(accessTokenBO);
     }
 
     @Override

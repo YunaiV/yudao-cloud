@@ -1,9 +1,9 @@
 package cn.iocoder.mall.admin.service;
 
+import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.mall.admin.api.SmsPlatform;
 import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
 import cn.iocoder.mall.admin.api.constant.SmsApplyStatusEnum;
-import cn.iocoder.mall.admin.api.exception.SmsFailException;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -104,7 +104,7 @@ public class SmsYunPianPlatform implements SmsPlatform {
         String result = post(URL_SIGN_ADD, params);
         JSONObject jsonObject = JSON.parseObject(result);
         if (!(jsonObject.getInteger("code") == SUCCESS_CODE)) {
-            throw new SmsFailException(AdminErrorCodeEnum.SMS_SIGN_ADD_FAIL.getCode(),
+            throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_ADD_FAIL.getCode(),
                     AdminErrorCodeEnum.SMS_SIGN_ADD_FAIL.getMessage());
         }
 
@@ -124,13 +124,13 @@ public class SmsYunPianPlatform implements SmsPlatform {
         JSONObject jsonObject = JSON.parseObject(result);
 
         if (!(jsonObject.getInteger("code") == SUCCESS_CODE)) {
-            throw new SmsFailException(AdminErrorCodeEnum.SMS_SIGN_ADD_FAIL.getCode(),
+            throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_ADD_FAIL.getCode(),
                     AdminErrorCodeEnum.SMS_SIGN_ADD_FAIL.getMessage());
         }
 
         JSONArray jsonArray = jsonObject.getJSONArray("sign");
         if (jsonArray.size() <= 0) {
-            throw new SmsFailException(AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
+            throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
                     AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
         }
 
@@ -151,7 +151,7 @@ public class SmsYunPianPlatform implements SmsPlatform {
         JSONObject jsonObject = JSON.parseObject(result);
 
         if (!(jsonObject.getInteger("code") == SUCCESS_CODE)) {
-            throw new SmsFailException(AdminErrorCodeEnum.SMS_SIGN_UPDATE_FAIL.getCode(),
+            throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_UPDATE_FAIL.getCode(),
                     AdminErrorCodeEnum.SMS_SIGN_UPDATE_FAIL.getMessage());
         }
 

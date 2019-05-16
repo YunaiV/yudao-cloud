@@ -20,6 +20,8 @@ public interface OAuth2Service {
 
     // TODO @see 刷新 token
 
+    void removeToken(Integer userId); // TODO 需要优化
+
     /**
      * 通过 accessToken 获得身份信息
      *

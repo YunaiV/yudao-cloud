@@ -5,13 +5,13 @@ import cn.iocoder.mall.user.api.MobileCodeService;
 import cn.iocoder.mall.user.api.OAuth2Service;
 import cn.iocoder.mall.user.api.UserService;
 import cn.iocoder.mall.user.api.bo.OAuth2AccessTokenBO;
+import cn.iocoder.mall.user.api.bo.user.UserAuthenticationBO;
+import cn.iocoder.mall.user.api.dto.user.UserAuthenticationByMobileCodeDTO;
 import cn.iocoder.mall.user.application.convert.PassportConvert;
 import cn.iocoder.mall.user.application.vo.users.UsersAccessTokenVO;
-import cn.iocoder.mall.user.application.vo.users.UsersMobileRegisterVO;
 import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,14 +43,8 @@ public class PassportController {
     @PermitAll
     @PostMapping("/mobile/register")
     @ApiOperation(value = "手机号 + 验证码登陆（注册）", notes = "如果手机对应的账号不存在，则会自动创建")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "mobile", value = "手机号", required = true, example = "15601691300"),
-            @ApiImplicitParam(name = "code", value = "验证码", required = true, example = "9999")
-    })
-    public CommonResult<UsersMobileRegisterVO> mobileRegister(@RequestParam("mobile") String mobile,
-                                                              @RequestParam("code") String code) {
-        OAuth2AccessTokenBO result = oauth2Service.getAccessToken(mobile, code);
-        return success(PassportConvert.INSTANCE.convert(result));
+    public CommonResult<UserAuthenticationBO> mobileRegister(UserAuthenticationByMobileCodeDTO userAuthenticationByMobileCodeDTO) {
+        return success(userService.authenticationByMobileCode(userAuthenticationByMobileCodeDTO));
     }
 
     @PermitAll

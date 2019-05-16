@@ -64,6 +64,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
      *
      * @param adminId 管理员编号
      */
+    @Override
     @Transactional
     public void removeToken(Integer adminId) {
         // 设置 access token 失效

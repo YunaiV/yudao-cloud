@@ -8,11 +8,12 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @ApiModel("OAuth2 创建 Token DTO")
 @Data
 @Accessors(chain = true)
-public class OAuth2CreateTokenDTO {
+public class OAuth2CreateTokenDTO implements Serializable {
 
     @ApiModelProperty(value = "用户编号", required = true, example = "1")
     @NotNull(message = "用户编号不能为空")

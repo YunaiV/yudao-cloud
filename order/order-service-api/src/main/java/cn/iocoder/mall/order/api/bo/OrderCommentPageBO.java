@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class OrderCommentPageBo implements Serializable {
+public class OrderCommentPageBO implements Serializable {
 
     /**
      * 总条数

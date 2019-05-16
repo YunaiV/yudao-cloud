@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  *
- * 订单回复评价
+ * 订单回复评价详情
  *
  * @author wtz
  * @time 2019-05-16 18:40

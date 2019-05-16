@@ -1,12 +1,12 @@
 package cn.iocoder.mall.admin.service;
 
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
+import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.mall.admin.api.SmsPlatform;
 import cn.iocoder.mall.admin.api.SmsService;
 import cn.iocoder.mall.admin.api.bo.sms.SmsSignBO;
 import cn.iocoder.mall.admin.api.bo.sms.SmsTemplateBO;
 import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
-import cn.iocoder.mall.admin.api.exception.SmsFailException;
 import cn.iocoder.mall.admin.convert.SmsSignConvert;
 import cn.iocoder.mall.admin.convert.SmsTemplateConvert;
 import cn.iocoder.mall.admin.dao.SmsSignMapper;
@@ -49,7 +49,7 @@ public class SmsServiceImpl implements SmsService {
                 new QueryWrapper<SmsSignDO>().eq("sign", sign));
 
         if (smsSignDO != null) {
-            throw new SmsFailException(AdminErrorCodeEnum.SMS_SIGN_IS_EXISTENT.getCode(),
+            throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_IS_EXISTENT.getCode(),
                     AdminErrorCodeEnum.SMS_SIGN_IS_EXISTENT.getMessage());
         }
 
@@ -73,7 +73,7 @@ public class SmsServiceImpl implements SmsService {
                 new QueryWrapper<SmsSignDO>().eq("sign", sign));
 
         if (smsSignDO == null) {
-            throw new SmsFailException(AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
+            throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
                     AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
         }
 
@@ -88,7 +88,7 @@ public class SmsServiceImpl implements SmsService {
                 new QueryWrapper<SmsSignDO>().eq("sign", oldSign));
 
         if (smsSignDO == null) {
-            throw new SmsFailException(AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
+            throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
                     AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
         }
 
@@ -113,7 +113,7 @@ public class SmsServiceImpl implements SmsService {
                 new QueryWrapper<SmsSignDO>().eq("id", smsSignId));
 
         if (smsSignDO == null) {
-            throw new SmsFailException(AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
+            throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
                     AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
         }
 
@@ -141,7 +141,7 @@ public class SmsServiceImpl implements SmsService {
                 new QueryWrapper<SmsTemplateDO>().eq("id", id));
 
         if (smsTemplateDO == null) {
-            throw new SmsFailException(AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
+            throw new ServiceException(AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
                     AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
         }
 
@@ -154,7 +154,7 @@ public class SmsServiceImpl implements SmsService {
                 new QueryWrapper<SmsTemplateDO>().eq("id", id));
 
         if (smsTemplateDO == null) {
-            throw new SmsFailException(AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
+            throw new ServiceException(AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
                     AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
         }
 

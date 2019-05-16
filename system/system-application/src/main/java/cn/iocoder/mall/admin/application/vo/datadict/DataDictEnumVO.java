@@ -14,7 +14,21 @@ public class DataDictEnumVO {
 
     @ApiModelProperty(value = "大类枚举值", required = true, example = "gender")
     private String enumValue;
+
     @ApiModelProperty(value = "小类数值数组", required = true)
-    private List<DataDictValueVO> values;
+    private List<Value> values;
+
+    @ApiModel("数据字典枚举值 VO")
+    @Data
+    @Accessors(chain = true)
+    public static class Value {
+
+        @ApiModelProperty(value = "小类数值", required = true, example = "1")
+        private String value;
+
+        @ApiModelProperty(value = "展示名", required = true, example = "男")
+        private String displayName;
+
+    }
 
 }

@@ -9,7 +9,7 @@ import cn.iocoder.mall.admin.api.OAuth2Service;
 import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AuthenticationBO;
 import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
 import cn.iocoder.mall.admin.api.dto.oauth2.OAuth2GetTokenDTO;
-import cn.iocoder.mall.user.sdk.annotation.PermitAll;
+import cn.iocoder.mall.user.sdk.annotation.RequiresLogin;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContext;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import org.apache.dubbo.config.annotation.Reference;
@@ -49,8 +49,8 @@ public class UserSecurityInterceptor extends HandlerInterceptorAdapter {
 
         // 进行鉴权
         HandlerMethod method = (HandlerMethod) handler;
-        boolean isPermitAll = method.hasMethodAnnotation(PermitAll.class);
-        if (!isPermitAll) { // 如果需要鉴权
+        boolean requiresLogin = method.hasMethodAnnotation(RequiresLogin.class);
+        if (requiresLogin) { // 如果需要鉴权
             if (serviceException != null) { // 认证失败，抛出上面认证失败的 ServiceException 异常
                 throw serviceException;
             }

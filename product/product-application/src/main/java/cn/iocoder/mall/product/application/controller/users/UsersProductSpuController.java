@@ -7,7 +7,6 @@ import cn.iocoder.mall.product.api.dto.ProductSpuPageDTO;
 import cn.iocoder.mall.product.application.convert.ProductSpuConvert;
 import cn.iocoder.mall.product.application.vo.users.UsersProductSpuDetailVO;
 import cn.iocoder.mall.product.application.vo.users.UsersProductSpuPageVO;
-import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -31,7 +30,6 @@ public class UsersProductSpuController {
     @GetMapping("/info")
     @ApiOperation("商品 SPU 明细")
     @ApiImplicitParam(name = "id", value = "SPU 编号", required = true, example = "100")
-    @PermitAll
     public CommonResult<UsersProductSpuDetailVO> info(@RequestParam("id") Integer id) {
         return success(ProductSpuConvert.INSTANCE.convert4(productSpuService.getProductSpuDetail(id)));
     }
@@ -43,7 +41,6 @@ public class UsersProductSpuController {
             @ApiImplicitParam(name = "pageNo", value = "页码，从 1 开始", example = "1"),
             @ApiImplicitParam(name = "pageSize", value = "每页条数", required = true, example = "10"),
     })
-    @PermitAll
     @Deprecated // 使用商品搜索接口
     public CommonResult<UsersProductSpuPageVO> page(@RequestParam(value = "cid", required = false) Integer cid,
                                                     @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,

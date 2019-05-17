@@ -21,7 +21,7 @@ import cn.iocoder.mall.order.biz.dataobject.OrderDO;
 import cn.iocoder.mall.order.biz.dataobject.OrderItemDO;
 import cn.iocoder.mall.order.biz.dataobject.OrderReturnDO;
 import cn.iocoder.mall.pay.api.PayRefundService;
-import cn.iocoder.mall.pay.api.dto.PayRefundSubmitDTO;
+import cn.iocoder.mall.pay.api.dto.refund.PayRefundSubmitDTO;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

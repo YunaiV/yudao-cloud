@@ -1,10 +1,10 @@
 package cn.iocoder.mall.pay.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.pay.api.bo.PayRefundPageBO;
-import cn.iocoder.mall.pay.api.bo.PayRefundSubmitBO;
-import cn.iocoder.mall.pay.api.dto.PayRefundPageDTO;
-import cn.iocoder.mall.pay.api.dto.PayRefundSubmitDTO;
+import cn.iocoder.mall.pay.api.bo.refund.PayRefundPageBO;
+import cn.iocoder.mall.pay.api.bo.refund.PayRefundSubmitBO;
+import cn.iocoder.mall.pay.api.dto.refund.PayRefundPageDTO;
+import cn.iocoder.mall.pay.api.dto.refund.PayRefundSubmitDTO;
 
 public interface PayRefundService {
 

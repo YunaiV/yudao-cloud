@@ -35,8 +35,9 @@ import java.util.stream.Collectors;
 @Api(description = "订单物流信息")
 public class OrderLogisticsController {
 
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.provider.OrderLogisticsService.version}")
     private OrderLogisticsService orderLogisticsService;
+
     @Reference(validation = "true", version = "${dubbo.consumer.DataDictService.version}")
     private DataDictService dataDictService;
 

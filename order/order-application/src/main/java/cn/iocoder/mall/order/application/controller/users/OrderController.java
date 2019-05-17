@@ -19,6 +19,7 @@ import cn.iocoder.mall.order.application.po.user.OrderCreatePO;
 import cn.iocoder.mall.order.application.vo.UsersOrderConfirmCreateVO;
 import cn.iocoder.mall.promotion.api.CouponService;
 import cn.iocoder.mall.promotion.api.bo.CouponCardAvailableBO;
+import cn.iocoder.mall.user.sdk.annotation.RequiresLogin;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,19 +42,23 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
  */
 @RestController
 @RequestMapping("users/order")
-@Api(description = "用户订单")
+@Api(description = "用户订单") // TODO FROM 芋艿 to 小范，description 已经废弃啦
 public class OrderController {
 
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.provider.OrderReturnService.version}")
     private OrderService orderService;
+
     @Reference(validation = "true", version = "${dubbo.provider.CartService.version}")
     private CartService cartService;
+
     @Reference(validation = "true", version = "${dubbo.consumer.DataDictService.version}")
     private DataDictService dataDictService;
+
     @Reference(validation = "true", version = "${dubbo.consumer.CouponService.version}")
     private CouponService couponService;
 
     @GetMapping("order_page")
+    @RequiresLogin
     @ApiOperation("订单分页")
     public CommonResult<OrderPageBO> getOrderPage(@Validated OrderQueryDTO orderQueryDTO) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
@@ -62,6 +67,7 @@ public class OrderController {
     }
 
     @PostMapping("create_order")
+    @RequiresLogin
     @ApiOperation("创建订单")
     public CommonResult<OrderCreateBO> createOrder(@RequestBody @Validated OrderCreatePO orderCreatePO,
                                                    HttpServletRequest request) {
@@ -72,6 +78,7 @@ public class OrderController {
     }
 
     @PostMapping("create_order_from_cart")
+    @RequiresLogin
     @ApiOperation("创建订单购物车")
     public CommonResult<OrderCreateBO> createOrderFromCart(@RequestParam("userAddressId") Integer userAddressId,
                                                            @RequestParam(value = "couponCardId", required = false) Integer couponCardId,
@@ -99,6 +106,7 @@ public class OrderController {
     }
 
     @GetMapping("confirm_create_order")
+    @RequiresLogin
     @ApiOperation("确认创建订单")
     public CommonResult<UsersOrderConfirmCreateVO> getConfirmCreateOrder(@RequestParam("skuId") Integer skuId,
                                                                          @RequestParam("quantity") Integer quantity,
@@ -118,6 +126,7 @@ public class OrderController {
     }
 
     @PostMapping("confirm_receiving")
+    @RequiresLogin
     @ApiOperation("确认收货")
     public CommonResult confirmReceiving(@RequestParam("orderId") Integer orderId) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
@@ -125,6 +134,7 @@ public class OrderController {
     }
 
     @GetMapping("info")
+    @RequiresLogin
     @ApiOperation("订单详情")
     public CommonResult<OrderInfoBO> orderInfo(@RequestParam("orderId") Integer orderId) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();

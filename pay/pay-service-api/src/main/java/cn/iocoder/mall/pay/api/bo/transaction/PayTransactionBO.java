@@ -1,63 +1,48 @@
-package cn.iocoder.mall.pay.api.bo;
+package cn.iocoder.mall.pay.api.bo.transaction;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 支付交易 BO
- */
+@ApiModel("支付交易 BO")
 @Data
 @Accessors(chain = true)
 public class PayTransactionBO implements Serializable {
 
-    /**
-     * 编号，自增
-     */
+    @ApiModelProperty(value = "交易编号", required = true, example = "POd4RC6a")
     private Integer id;
-    /**
-     * 应用编号
-     */
+
+    @ApiModelProperty(value = "应用编号", required = true, example = "POd4RC6a")
     private String appId;
-    /**
-     * 发起交易的 IP
-     */
+
+    @ApiModelProperty(value = "发起交易的 IP", required = true, example = "192.168.10.1")
     private String createIp;
-    /**
-     * 业务线的订单编号
-     *
-     * 1. 使用 String 的原因是，业务线可能使用 String 做为编号
-     * 2. 每个 appId 下，orderId 唯一
-     */
+
+    @ApiModelProperty(value = "订单号不能为空", required = true, example = "1024")
     private String orderId;
-    /**
-     * 订单商品名
-     */
+
+    @ApiModelProperty(value = "商品名", required = true, example = "芋道源码")
     private String orderSubject;
-    /**
-     * 订单商品描述
-     */
+
+    @ApiModelProperty(value = "订单商品描述", required = true, example = "绵啾啾的")
     private String orderDescription;
-    /**
-     * 订单备注
-     */
+
+    @ApiModelProperty(value = "订单商品备注", example = "绵啾啾的")
     private String orderMemo;
-    /**
-     * 支付金额，单位：分。
-     */
+
+    @ApiModelProperty(value = "支付金额，单位：分。", required = true, example = "10")
     private Integer price;
-    /**
-     * 订单状态
-     *
-     * @see cn.iocoder.mall.pay.api.constant.PayTransactionStatusEnum
-     */
+
+    @ApiModelProperty(value = "订单状态", required = true, example = "1", notes = "参见 PayTransactionStatusEnum 枚举")
     private Integer status;
-    /**
-     * 交易过期时间
-     */
+
+    @ApiModelProperty(value = "交易过期时间", required = true)
     private Date expireTime;
+
     /**
      * 回调业务线完成时间
      */

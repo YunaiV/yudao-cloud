@@ -16,6 +16,7 @@ import cn.iocoder.mall.admin.api.constant.AdminConstants;
 import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
 import cn.iocoder.mall.admin.api.dto.admin.*;
 import cn.iocoder.mall.admin.api.dto.oauth2.OAuth2CreateTokenDTO;
+import cn.iocoder.mall.admin.api.dto.oauth2.OAuth2RemoveTokenByUserDTO;
 import cn.iocoder.mall.admin.convert.AdminConvert;
 import cn.iocoder.mall.admin.dao.AdminMapper;
 import cn.iocoder.mall.admin.dao.AdminRoleMapper;
@@ -96,8 +97,13 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Boolean updateAdmin(Integer adminId, AdminUpdateDTO adminUpdateDTO) {
         // 校验账号存在
-        if (adminMapper.selectById(adminUpdateDTO.getId()) == null) {
+        AdminDO admin = adminMapper.selectById(adminUpdateDTO.getId());
+        if (admin == null) {
             throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.ADMIN_USERNAME_NOT_REGISTERED.getCode());
+        }
+        if (AdminConstants.USERNAME_ADMIN.equals(admin.getUsername())
+                || AdminConstants.USERNAME_DEMO.equals(admin.getUsername())) { // 特殊账号，不允许编辑
+            throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.ADMIN_ADMIN_CAN_NOT_UPDATE.getCode());
         }
         // 校验账号唯一
         AdminDO usernameAdmin = adminMapper.selectByUsername(adminUpdateDTO.getUsername());
@@ -120,7 +126,8 @@ public class AdminServiceImpl implements AdminService {
         if (admin == null) {
             throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.ADMIN_USERNAME_NOT_REGISTERED.getCode());
         }
-        if (AdminConstants.USERNAME_ADMIN.equals(admin.getUsername())) {
+        if (AdminConstants.USERNAME_ADMIN.equals(admin.getUsername())
+            || AdminConstants.USERNAME_DEMO.equals(admin.getUsername())) { // 特殊账号，不允许编辑
             throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.ADMIN_ADMIN_STATUS_CAN_NOT_UPDATE.getCode());
         }
         // 如果状态相同，则返回错误
@@ -132,7 +139,7 @@ public class AdminServiceImpl implements AdminService {
         adminMapper.updateById(updateAdmin);
         // 如果是关闭管理员，则标记 token 失效。否则，管理员还可以继续蹦跶
         if (CommonStatusEnum.DISABLE.getValue().equals(adminUpdateStatusDTO.getStatus())) {
-            oauth2Service.removeToken(adminUpdateStatusDTO.getId());
+            oauth2Service.removeToken(new OAuth2RemoveTokenByUserDTO().setUserId(adminId).setUserType(UserTypeEnum.ADMIN.getValue()));
         }
         // TODO 插入操作日志
         // 返回成功
@@ -234,8 +241,11 @@ public class AdminServiceImpl implements AdminService {
                 }
             }
         }
+        // 获得用户
+        AdminDO admin = adminMapper.selectById(adminId);
         // 返回成功
-        return new AdminAuthorizationBO().setId(adminId).setRoleIds(adminRoleIds);
+        return new AdminAuthorizationBO().setId(adminId).setUsername(admin.getUsername())
+                .setRoleIds(adminRoleIds);
     }
 
     private String encodePassword(String password) {

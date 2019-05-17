@@ -33,8 +33,6 @@ dubbo:
     filter: -exception
     MobileCodeService:
       version: 1.0.0
-    OAuth2Service:
-      version: 1.0.0
     UserAccessLogService:
       version: 1.0.0
     UserAddressService:

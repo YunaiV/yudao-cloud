@@ -1,7 +1,7 @@
 <template>
     <div>
         <headerNav title="个人信息"/>
-        <van-cell-group>
+        <van-cell-group title="基础资料">
             <!--<van-cell title="修改个人信息"  is-link />-->
             <!--<van-cell title="修改登录密码"  is-link />-->
             <!--<van-cell title="修改绑定手机"  is-link />-->
@@ -12,6 +12,10 @@
                 <img width="24px" :src="user.avatar" >
             </van-cell>
 
+        </van-cell-group>
+
+        <van-cell-group title="密保资料">
+            <van-cell title="手机号" :value="user.mobile" />
         </van-cell-group>
 
         <!-- 昵称修改弹出 -->

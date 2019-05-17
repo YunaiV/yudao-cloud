@@ -1,15 +1,14 @@
 package cn.iocoder.mall.user.application.controller.users;
 
+import cn.iocoder.common.framework.constant.UserTypeEnum;
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.admin.api.OAuth2Service;
+import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AccessTokenBO;
+import cn.iocoder.mall.admin.api.dto.oauth2.OAuth2RefreshTokenDTO;
 import cn.iocoder.mall.user.api.MobileCodeService;
-import cn.iocoder.mall.user.api.OAuth2Service;
 import cn.iocoder.mall.user.api.UserService;
-import cn.iocoder.mall.user.api.bo.OAuth2AccessTokenBO;
 import cn.iocoder.mall.user.api.bo.user.UserAuthenticationBO;
 import cn.iocoder.mall.user.api.dto.user.UserAuthenticationByMobileCodeDTO;
-import cn.iocoder.mall.user.application.convert.PassportConvert;
-import cn.iocoder.mall.user.application.vo.users.UsersAccessTokenVO;
-import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +25,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 @Api("Passport 模块")
 public class PassportController {
 
-    @Reference(validation = "true", version = "${dubbo.provider.OAuth2Service.version}")
+    @Reference(validation = "true", version = "${dubbo.consumer.OAuth2Service.version}")
     private OAuth2Service oauth2Service;
     @Reference(validation = "true", version = "${dubbo.provider.UserService.version}")
     private UserService userService;
@@ -40,14 +39,12 @@ public class PassportController {
 //        return oauth2Service.getAccessToken(clientId, clientSecret, mobile, password);
 //    }
 
-    @PermitAll
     @PostMapping("/mobile/register")
     @ApiOperation(value = "手机号 + 验证码登陆（注册）", notes = "如果手机对应的账号不存在，则会自动创建")
     public CommonResult<UserAuthenticationBO> mobileRegister(UserAuthenticationByMobileCodeDTO userAuthenticationByMobileCodeDTO) {
         return success(userService.authenticationByMobileCode(userAuthenticationByMobileCodeDTO));
     }
 
-    @PermitAll
     @PostMapping("mobile/send_register_code")
     @ApiOperation(value = "发送手机验证码")
     @ApiImplicitParam(name = "mobile", value = "手机号", required = true, example = "15601691300")
@@ -59,24 +56,21 @@ public class PassportController {
     // TODO 芋艿，改绑手机号
 
     // TODO 功能：qq 登陆
-    @PermitAll
     @PostMapping("/qq/login")
     public String qqLogin() {
         return null;
     }
 
     // TODO 功能：qq 绑定
-    @PermitAll
     @PostMapping("/qq/bind")
     public String qqBind() {
         return null;
     }
 
-    @PermitAll
     @PostMapping("/refresh_token") // TODO 功能：刷新 token
-    public CommonResult<UsersAccessTokenVO> refreshToken(@RequestParam("refreshToken") String refreshToken) {
-        OAuth2AccessTokenBO result = oauth2Service.refreshToken(refreshToken);
-        return success(PassportConvert.INSTANCE.convert2(result));
+    public CommonResult<OAuth2AccessTokenBO> refreshToken(@RequestParam("refreshToken") String refreshToken) {
+        return success(oauth2Service.refreshToken(new OAuth2RefreshTokenDTO().setRefreshToken(refreshToken)
+                .setUserType(UserTypeEnum.USER.getValue())));
     }
 
     // TODO 功能：退出，销毁 token

@@ -17,8 +17,9 @@ public enum AdminErrorCodeEnum {
     OAUTH2_INVALID_TOKEN_INVALID(1002001013, "访问令牌已失效"),
     OAUTH2_NOT_LOGIN(1002001015, "账号未登陆"),
     OAUTH2_INVALID_TOKEN_ERROR_USER_TYPE(1002001016, "访问令牌用户类型不正确"),
-
-    OAUTH_INVALID_TOKEN(1002001020, ""), // 预留
+    OAUTH_INVALID_REFRESH_TOKEN_NOT_FOUND(1002001017, "刷新令牌不存在"),
+    OAUTH_INVALID_REFRESH_TOKEN_EXPIRED(1002001018, "访问令牌已过期"),
+    OAUTH_INVALID_REFRESH_TOKEN_INVALID(1002001019, "刷新令牌已失效"),
 
     // ========== 管理员模块 1002002000 ==========
     ADMIN_USERNAME_NOT_REGISTERED(1002002000, "账号不存在"),
@@ -30,6 +31,8 @@ public enum AdminErrorCodeEnum {
     ADMIN_ADMIN_STATUS_CAN_NOT_UPDATE(1002002005, "管理员的账号状态不允许变更"),
     ADMIN_ASSIGN_ROLE_NOT_EXISTS(1002002006, "分配员工角色时，有角色不存在"),
     ADMIN_INVALID_PERMISSION(1002002007, "没有该操作权限"),
+    ADMIN_ADMIN_CAN_NOT_UPDATE(1002002008, "管理员的账号不允许变更"),
+    ADMIN_DEMO_CAN_NOT_WRITE(1002002009, "演示账号，暂不允许写操作。欢迎加入我们的交流群：http://t.cn/EKEr5WE"),
 
     // ========== 资源模块 1002003000 ==========
     RESOURCE_NAME_DUPLICATE(1002003000, "已经存在该名字的资源"),

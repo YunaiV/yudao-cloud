@@ -25,8 +25,9 @@ import java.util.List;
 @RequestMapping("users/order_return")
 public class OrderReturnController {
 
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.provider.OrderReturnService.version}")
     private OrderReturnService orderReturnService;
+
     @Reference(validation = "true", version = "${dubbo.consumer.DataDictService.version}")
     private DataDictService dataDictService;
 

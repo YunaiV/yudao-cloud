@@ -2,8 +2,8 @@ package cn.iocoder.mall.pay.application.controller.admins;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.pay.api.PayTransactionService;
-import cn.iocoder.mall.pay.api.bo.PayTransactionPageBO;
-import cn.iocoder.mall.pay.api.dto.PayTransactionPageDTO;
+import cn.iocoder.mall.pay.api.bo.transaction.PayTransactionPageBO;
+import cn.iocoder.mall.pay.api.dto.transaction.PayTransactionPageDTO;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;

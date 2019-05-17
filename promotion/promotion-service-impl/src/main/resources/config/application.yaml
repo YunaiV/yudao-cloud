@@ -12,11 +12,6 @@ spring:
       max-active: 5
       max-wait: 10000
 
-# mybatis
-#mybatis:
-#  config-location: classpath:mybatis-config.xml
-#  mapper-locations: classpath:mapper/*.xml
-#  type-aliases-package: cn.iocoder.mall.promotion.biz.dataobject
 # mybatis-plus
 mybatis-plus:
   configuration:
@@ -26,7 +21,7 @@ mybatis-plus:
       id-type: auto
   mapper-locations: classpath*:mapper/*.xml
   type-aliases-package: cn.iocoder.mall.promotion.biz.dataobject
-  config-location: classpath:mybatis-config.xml
+
 # dubbo
 dubbo:
   application:

@@ -15,10 +15,12 @@ public class CalcOrderPriceDTO {
 
     @NotNull(message = "用户编号不能为空")
     private Integer userId;
+
     /**
      * 优惠劵编号
      */
     private Integer couponCardId;
+
     @NotNull(message = "商品数组不能为空")
     private List<Item> items;
 

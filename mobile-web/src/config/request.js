@@ -229,11 +229,11 @@ service.interceptors.response.use(
 
       // TODO token 过期
       // TODO 需要拿 refresh token 置换
-      if (code === 1001001011 // 访问令牌不存在
-          || code === 1001001013 // 访问令牌已失效
-          || code === 1001001021 // 刷新令牌不存在
-          || code === 1001001022 // 刷新令牌已过期
-          || code === 1001001023) {  // 刷新令牌已失效
+      if (code === 1002001011 // 访问令牌不存在
+          || code === 1002001013 // 访问令牌已失效
+          || code === 1002001017 // 刷新令牌不存在
+          || code === 1002001018 // 刷新令牌已过期
+          || code === 1002001019) {  // 刷新令牌已失效
         Dialog.confirm({
           title: '系统提示',
           message: res.message,
@@ -249,7 +249,7 @@ service.interceptors.response.use(
             }
           }
         });
-      } else if (code === 1001001012) { // 访问令牌已过期
+      } else if (code === 1002001012) { // 访问令牌已过期
         return refreshToken(response);
       } else {
         Dialog.alert({

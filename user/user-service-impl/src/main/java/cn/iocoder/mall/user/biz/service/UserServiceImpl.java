@@ -9,6 +9,7 @@ import cn.iocoder.common.framework.util.ValidationUtil;
 import cn.iocoder.mall.admin.api.OAuth2Service;
 import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AccessTokenBO;
 import cn.iocoder.mall.admin.api.dto.oauth2.OAuth2CreateTokenDTO;
+import cn.iocoder.mall.admin.api.dto.oauth2.OAuth2RemoveTokenByUserDTO;
 import cn.iocoder.mall.user.api.UserService;
 import cn.iocoder.mall.user.api.bo.user.UserAuthenticationBO;
 import cn.iocoder.mall.user.api.bo.UserBO;
@@ -155,7 +156,7 @@ public class UserServiceImpl implements UserService {
         userMapper.update(updateUser);
         // 如果是关闭管理员，则标记 token 失效。否则，管理员还可以继续蹦跶
         if (CommonStatusEnum.DISABLE.getValue().equals(status)) {
-            oAuth2Service.removeToken(userId);
+            oAuth2Service.removeToken(new OAuth2RemoveTokenByUserDTO().setUserId(userId).setUserType(UserTypeEnum.USER.getValue()));
         }
         // 返回成功
         return true;

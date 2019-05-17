@@ -8,9 +8,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OAuth2RefreshTokenMapper extends BaseMapper<OAuth2RefreshTokenDO> {
 
-    default int updateToInvalidByAdminId(Integer adminId) {
+    default int updateToInvalid(Integer userId, Integer userType) {
         QueryWrapper<OAuth2RefreshTokenDO> query = new QueryWrapper<OAuth2RefreshTokenDO>()
-                .eq("admin_id", adminId).eq("valid", true);
+                .eq("user_id", userId).eq("user_type", userType)
+                .eq("valid", true);
         return update(new OAuth2RefreshTokenDO().setValid(false), query);
     }
 

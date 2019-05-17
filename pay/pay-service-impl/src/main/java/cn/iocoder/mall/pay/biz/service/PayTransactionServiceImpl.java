@@ -5,14 +5,15 @@ import cn.iocoder.common.framework.util.MathUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.pay.api.PayTransactionService;
-import cn.iocoder.mall.pay.api.bo.PayTransactionBO;
-import cn.iocoder.mall.pay.api.bo.PayTransactionPageBO;
-import cn.iocoder.mall.pay.api.bo.PayTransactionSubmitBO;
+import cn.iocoder.mall.pay.api.bo.transaction.PayTransactionBO;
+import cn.iocoder.mall.pay.api.bo.transaction.PayTransactionPageBO;
+import cn.iocoder.mall.pay.api.bo.transaction.PayTransactionSubmitBO;
 import cn.iocoder.mall.pay.api.constant.PayErrorCodeEnum;
 import cn.iocoder.mall.pay.api.constant.PayTransactionStatusEnum;
-import cn.iocoder.mall.pay.api.dto.PayTransactionCreateDTO;
-import cn.iocoder.mall.pay.api.dto.PayTransactionPageDTO;
-import cn.iocoder.mall.pay.api.dto.PayTransactionSubmitDTO;
+import cn.iocoder.mall.pay.api.dto.transaction.PayTransactionCreateDTO;
+import cn.iocoder.mall.pay.api.dto.transaction.PayTransactionGetDTO;
+import cn.iocoder.mall.pay.api.dto.transaction.PayTransactionPageDTO;
+import cn.iocoder.mall.pay.api.dto.transaction.PayTransactionSubmitDTO;
 import cn.iocoder.mall.pay.biz.client.AbstractPaySDK;
 import cn.iocoder.mall.pay.biz.client.PaySDKFactory;
 import cn.iocoder.mall.pay.biz.client.TransactionSuccessBO;
@@ -68,23 +69,21 @@ public class PayTransactionServiceImpl implements PayTransactionService {
     }
 
     @Override
-    public CommonResult<PayTransactionBO> getTransaction(Integer userId, String appId, String orderId) {
-        PayTransactionDO payTransaction = payTransactionMapper.selectByAppIdAndOrderId(appId, orderId);
+    public PayTransactionBO getTransaction(PayTransactionGetDTO payTransactionGetDTO) {
+        PayTransactionDO payTransaction = payTransactionMapper.selectByAppIdAndOrderId(payTransactionGetDTO.getAppId(),
+                payTransactionGetDTO.getOrderId());
         if (payTransaction == null) {
-            return ServiceExceptionUtil.error(PayErrorCodeEnum.PAY_TRANSACTION_NOT_FOUND.getCode());
+            throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_NOT_FOUND.getCode());
         }
         // TODO 芋艿 userId 的校验
-        return CommonResult.success(PayTransactionConvert.INSTANCE.convert(payTransaction));
+        return PayTransactionConvert.INSTANCE.convert(payTransaction);
     }
 
     @Override
     @SuppressWarnings("Duplicates")
-    public CommonResult<PayTransactionBO> createTransaction(PayTransactionCreateDTO payTransactionCreateDTO) {
+    public PayTransactionBO createTransaction(PayTransactionCreateDTO payTransactionCreateDTO) {
         // 校验 App
-        CommonResult<PayAppDO> appResult = payAppService.validPayApp(payTransactionCreateDTO.getAppId());
-        if (appResult.isError()) {
-            return CommonResult.error(appResult);
-        }
+        PayAppDO payAppDO = payAppService.validPayApp(payTransactionCreateDTO.getAppId());
         // 插入 PayTransactionDO
         PayTransactionDO payTransaction = payTransactionMapper.selectByAppIdAndOrderId(
                 payTransactionCreateDTO.getAppId(), payTransactionCreateDTO.getOrderId());
@@ -95,31 +94,28 @@ public class PayTransactionServiceImpl implements PayTransactionService {
         } else {
             payTransaction = PayTransactionConvert.INSTANCE.convert(payTransactionCreateDTO);
             payTransaction.setStatus(PayTransactionStatusEnum.WAITING.getValue())
-                    .setNotifyUrl(appResult.getData().getNotifyUrl());
+                    .setNotifyUrl(payAppDO.getNotifyUrl());
             payTransaction.setCreateTime(new Date());
             payTransactionMapper.insert(payTransaction);
         }
         // 返回成功
-        return CommonResult.success(PayTransactionConvert.INSTANCE.convert(payTransaction));
+        return PayTransactionConvert.INSTANCE.convert(payTransaction);
     }
 
     @Override
     @SuppressWarnings("Duplicates")
-    public CommonResult<PayTransactionSubmitBO> submitTransaction(PayTransactionSubmitDTO payTransactionSubmitDTO) {
+    public PayTransactionSubmitBO submitTransaction(PayTransactionSubmitDTO payTransactionSubmitDTO) {
         // TODO 校验支付渠道是否有效
         // 校验 App 是否有效
-        CommonResult<PayAppDO> appResult = payAppService.validPayApp(payTransactionSubmitDTO.getAppId());
-        if (appResult.isError()) {
-            return CommonResult.error(appResult);
-        }
+        payAppService.validPayApp(payTransactionSubmitDTO.getAppId());
         // 获得 PayTransactionDO ，并校验其是否存在
         PayTransactionDO payTransaction = payTransactionMapper.selectByAppIdAndOrderId(
                 payTransactionSubmitDTO.getAppId(), payTransactionSubmitDTO.getOrderId());
         if (payTransaction == null) { // 是否存在
-            return ServiceExceptionUtil.error(PayErrorCodeEnum.PAY_TRANSACTION_NOT_FOUND.getCode());
+            throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_NOT_FOUND.getCode());
         }
         if (!PayTransactionStatusEnum.WAITING.getValue().equals(payTransaction.getStatus())) { // 校验状态，必须是待支付
-            return ServiceExceptionUtil.error(PayErrorCodeEnum.PAY_TRANSACTION_STATUS_IS_NOT_WAITING.getCode());
+            throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_STATUS_IS_NOT_WAITING.getCode());
         }
         // 插入 PayTransactionExtensionDO
         PayTransactionExtensionDO payTransactionExtensionDO = PayTransactionConvert.INSTANCE.convert(payTransactionSubmitDTO)
@@ -131,33 +127,32 @@ public class PayTransactionServiceImpl implements PayTransactionService {
         AbstractPaySDK paySDK = PaySDKFactory.getSDK(payTransactionSubmitDTO.getPayChannel());
         CommonResult<String> invokeResult = paySDK.submitTransaction(payTransaction, payTransactionExtensionDO, null); // TODO 暂时传入 extra = null
         if (invokeResult.isError()) {
-            return CommonResult.error(invokeResult);
+            throw ServiceExceptionUtil.exception(invokeResult.getCode(), invokeResult.getMessage());
         }
         // TODO 轮询三方接口，是否已经支付的任务
         // 返回成功
-        PayTransactionSubmitBO payTransactionSubmitBO = new PayTransactionSubmitBO()
-                .setId(payTransactionExtensionDO.getId()).setInvokeResponse(invokeResult.getData());
-        return CommonResult.success(payTransactionSubmitBO);
+        return new PayTransactionSubmitBO().setId(payTransactionExtensionDO.getId())
+                .setInvokeResponse(invokeResult.getData());
     }
 
     @Override
     @Transactional
-    public CommonResult<Boolean> updateTransactionPaySuccess(Integer payChannel, String params) {
+    public Boolean updateTransactionPaySuccess(Integer payChannel, String params) {
         // TODO 芋艿，记录回调日志
         // 解析传入的参数，成 TransactionSuccessBO 对象
         AbstractPaySDK paySDK = PaySDKFactory.getSDK(payChannel);
         CommonResult<TransactionSuccessBO> paySuccessResult = paySDK.parseTransactionSuccessParams(params);
         if (paySuccessResult.isError()) {
-            return CommonResult.error(paySuccessResult);
+            throw ServiceExceptionUtil.exception(paySuccessResult.getCode(), paySuccessResult.getMessage());
         }
         // TODO 芋艿，先最严格的校验。即使调用方重复调用，实际哪个订单已经被重复回调的支付，也返回 false 。也没问题，因为实际已经回调成功了。
         // 1.1 查询 PayTransactionExtensionDO
         PayTransactionExtensionDO extension = payTransactionExtensionMapper.selectByTransactionCode(paySuccessResult.getData().getTransactionCode());
         if (extension == null) {
-            return ServiceExceptionUtil.error(PayErrorCodeEnum.PAY_TRANSACTION_EXTENSION_NOT_FOUND.getCode());
+            throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_EXTENSION_NOT_FOUND.getCode());
         }
         if (!PayTransactionStatusEnum.WAITING.getValue().equals(extension.getStatus())) { // 校验状态，必须是待支付
-            return ServiceExceptionUtil.error(PayErrorCodeEnum.PAY_TRANSACTION_EXTENSION_STATUS_IS_NOT_WAITING.getCode());
+            throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_EXTENSION_STATUS_IS_NOT_WAITING.getCode());
         }
         // 1.2 更新 PayTransactionExtensionDO
         PayTransactionExtensionDO updatePayTransactionExtension = new PayTransactionExtensionDO()
@@ -172,7 +167,7 @@ public class PayTransactionServiceImpl implements PayTransactionService {
         // 2.1 判断 PayTransactionDO 是否处于待支付
         PayTransactionDO transaction = payTransactionMapper.selectById(extension.getTransactionId());
         if (transaction == null) {
-            return ServiceExceptionUtil.error(PayErrorCodeEnum.PAY_TRANSACTION_NOT_FOUND.getCode());
+            throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_NOT_FOUND.getCode());
         }
         if (!PayTransactionStatusEnum.WAITING.getValue().equals(transaction.getStatus())) { // 校验状态，必须是待支付
             throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_STATUS_IS_NOT_WAITING.getCode());
@@ -191,10 +186,10 @@ public class PayTransactionServiceImpl implements PayTransactionService {
             throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_STATUS_IS_NOT_WAITING.getCode());
         }
         logger.info("[updateTransactionPaySuccess][PayTransactionDO({}) 更新为已支付]", transaction.getId());
-        // 3 新增 PayNotifyTaskDO
-        payNotifyService.addTransactionNotifyTask(transaction, extension);
+        // 3 新增 PayNotifyTaskDO 注释原因，参见 PayRefundSuccessConsumer 类。
+//        payNotifyService.addTransactionNotifyTask(transaction, extension);
         // 返回结果
-        return CommonResult.success(true);
+        return true;
     }
 
     @Override

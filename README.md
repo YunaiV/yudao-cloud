@@ -49,7 +49,7 @@
 * 账号：yudaoyuanma
 * 密码：yudaoyuanma
 
-![](http://ww1.sinaimg.cn/large/98a7a01cgy1g34j9b2ktqg21hc0u01lf.gif)
+![](https://cdn.sinaimg.cn.52ecy.cn/large/98a7a01cgy1g34j9b2ktqg21hc0u01lf.gif)
 
 ## 其它演示
 

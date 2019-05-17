@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 public class OrderCommentDO extends BaseDO {
 
     /**
-     * 评论id
+     * 评论id // TODO FROM 芋艿 TO wtz 中英文之间，要有空格
      */
     private Integer id;
 
@@ -103,7 +103,7 @@ public class OrderCommentDO extends BaseDO {
     private Integer replayCount;
 
     /**
-     * 点赞数
+     * 点赞数 // TODO FROM 芋艿 TO wtz collect 是收藏的意思，最好换个单词噢。
      */
     private Integer collectCount;
 

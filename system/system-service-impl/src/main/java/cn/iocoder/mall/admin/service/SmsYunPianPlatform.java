@@ -1,9 +1,9 @@
 package cn.iocoder.mall.admin.service;
 
+import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.mall.admin.api.SmsPlatform;
 import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
 import cn.iocoder.mall.admin.api.constant.SmsApplyStatusEnum;
-import cn.iocoder.mall.admin.api.exception.SmsFailException;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -87,6 +87,10 @@ public class SmsYunPianPlatform implements SmsPlatform {
      * 模板 - 更新
      */
     private static final String URL_TEMPLATE_UPDATE = "https://sms.yunpian.com/v2/tpl/update.json";
+    /**
+     * 模板 - 删除
+     */
+    private static final String URL_TEMPLATE_DELETE = "https://sms.yunpian.com/v2/tpl/del.json";
 
     //编码格式。发送编码格式统一用UTF-8
     private static String ENCODING = "UTF-8";
@@ -96,6 +100,13 @@ public class SmsYunPianPlatform implements SmsPlatform {
 
     @Override
     public Result createSign(String sign) {
+        try {
+            // 存在直接 return 相当于，创建了
+            return getSign(sign);
+        } catch (ServiceException e) {
+            // skip 不存在会进这里，不错任何操作
+        }
+
         // 调用 短信平台
         Map<String, String> params = new LinkedHashMap<>();
         params.put("apikey", apiKey);
@@ -103,9 +114,10 @@ public class SmsYunPianPlatform implements SmsPlatform {
         params.put("notify", "true");
         String result = post(URL_SIGN_ADD, params);
         JSONObject jsonObject = JSON.parseObject(result);
-        if (!(jsonObject.getInteger("code") == SUCCESS_CODE)) {
-            throw new SmsFailException(AdminErrorCodeEnum.SMS_SIGN_ADD_FAIL.getCode(),
-                    AdminErrorCodeEnum.SMS_SIGN_ADD_FAIL.getMessage());
+        if (jsonObject.containsKey("code")
+                && !(jsonObject.getInteger("code") == SUCCESS_CODE)) {
+            throw new ServiceException(AdminErrorCodeEnum.SMS_PLATFORM_FAIL.getCode(),
+                    jsonObject.getString("detail"));
         }
 
         JSONObject signJSONObject = (JSONObject) jsonObject.get("sign");
@@ -123,14 +135,15 @@ public class SmsYunPianPlatform implements SmsPlatform {
         String result = post(URL_SIGN_GET, params);
         JSONObject jsonObject = JSON.parseObject(result);
 
-        if (!(jsonObject.getInteger("code") == SUCCESS_CODE)) {
-            throw new SmsFailException(AdminErrorCodeEnum.SMS_SIGN_ADD_FAIL.getCode(),
-                    AdminErrorCodeEnum.SMS_SIGN_ADD_FAIL.getMessage());
+        if (jsonObject.containsKey("code")
+                && !(jsonObject.getInteger("code") == SUCCESS_CODE)) {
+            throw new ServiceException(AdminErrorCodeEnum.SMS_PLATFORM_FAIL.getCode(),
+                    jsonObject.getString("detail"));
         }
 
         JSONArray jsonArray = jsonObject.getJSONArray("sign");
         if (jsonArray.size() <= 0) {
-            throw new SmsFailException(AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
+            throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
                     AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
         }
 
@@ -150,9 +163,10 @@ public class SmsYunPianPlatform implements SmsPlatform {
         String result = post(URL_SIGN_UPDATE, params);
         JSONObject jsonObject = JSON.parseObject(result);
 
-        if (!(jsonObject.getInteger("code") == SUCCESS_CODE)) {
-            throw new SmsFailException(AdminErrorCodeEnum.SMS_SIGN_UPDATE_FAIL.getCode(),
-                    AdminErrorCodeEnum.SMS_SIGN_UPDATE_FAIL.getMessage());
+        if (jsonObject.containsKey("code")
+                && !(jsonObject.getInteger("code") == SUCCESS_CODE)) {
+            throw new ServiceException(AdminErrorCodeEnum.SMS_PLATFORM_FAIL.getCode(),
+                    jsonObject.getString("detail"));
         }
 
         JSONObject signJSONObject = (JSONObject) jsonObject.get("sign");
@@ -161,15 +175,22 @@ public class SmsYunPianPlatform implements SmsPlatform {
     }
 
     @Override
-    public Result createTemplate(String sign, String template, Integer tplType) {
+    public Result createTemplate(String template, Integer tplType) {
         Map<String, String> params = new LinkedHashMap<>();
         params.put("apikey", apiKey);
-        params.put("tpl_content", sign + template);
+        params.put("tpl_content", template);
         if (tplType != null) {
             params.put("tplType", String.valueOf(tplType));
         }
         String result = post(URL_TEMPLATE_ADD, params);
         JSONObject jsonObject = JSON.parseObject(result);
+
+        if (jsonObject.containsKey("code")
+                && !(jsonObject.getInteger("code") == SUCCESS_CODE)) {
+            throw new ServiceException(AdminErrorCodeEnum.SMS_PLATFORM_FAIL.getCode(),
+                    jsonObject.getString("detail"));
+        }
+
         String tipId = jsonObject.getString("tpl_id");
         String checkStatus = jsonObject.getString("check_status");
         String reason = jsonObject.getString("reason");
@@ -178,32 +199,71 @@ public class SmsYunPianPlatform implements SmsPlatform {
     }
 
     @Override
-    public Result getTemplate(String tipId) {
+    public Result getTemplate(String tplId) {
         Map<String, String> params = new LinkedHashMap<>();
         params.put("apikey", apiKey);
-        params.put("tipId", tipId);
+        params.put("tpl_id", tplId);
         String result = post(URL_TEMPLATE_GET, params);
         JSONObject jsonObject = JSON.parseObject(result);
 
+        if (jsonObject.containsKey("code")
+                && !(jsonObject.getInteger("code") == SUCCESS_CODE)) {
+            throw new ServiceException(AdminErrorCodeEnum.SMS_PLATFORM_FAIL.getCode(),
+                    jsonObject.getString("detail"));
+        }
+
         String checkStatus = jsonObject.getString("check_status");
         Integer applyStatus = smsStatusMapping(checkStatus);
         String reason = jsonObject.getString("reason");
-        return new Result().setId(tipId).setApplyStatus(applyStatus).setApplyMessage(reason);
+        return new Result().setId(tplId).setApplyStatus(applyStatus).setApplyMessage(reason);
     }
 
     @Override
-    public Result updateTemplate(String tipId, String template, Integer tplType) {
+    public Result updateTemplate(String tplId, String template, Integer tplType) {
         Map<String, String> params = new LinkedHashMap<>();
         params.put("apikey", apiKey);
-        params.put("tipId", tipId);
-        params.put("template", template);
+        params.put("tpl_id", tplId);
+        params.put("tpl_content", template);
         String result = post(URL_TEMPLATE_UPDATE, params);
         JSONObject jsonObject = JSON.parseObject(result);
 
-        String checkStatus = jsonObject.getString("check_status");
+        if (jsonObject.containsKey("code")
+                && !(jsonObject.getInteger("code") == SUCCESS_CODE)) {
+            throw new ServiceException(AdminErrorCodeEnum.SMS_PLATFORM_FAIL.getCode(),
+                    jsonObject.getString("detail"));
+        }
+
+        JSONObject templateJSONObject = (JSONObject) jsonObject.get("template");
+        String checkStatus = templateJSONObject.getString("check_status");
         Integer applyStatus = smsStatusMapping(checkStatus);
         String reason = jsonObject.getString("reason");
-        return new Result().setId(tipId).setApplyStatus(applyStatus).setApplyMessage(reason);
+        return new Result().setId(tplId).setApplyStatus(applyStatus).setApplyMessage(reason);
+    }
+
+    @Override
+    public Result deleteTemplate(String tplId) {
+
+        // 如果不存在/已删除，直接返回
+        try {
+            getTemplate(tplId);
+        } catch (ServiceException e) {
+            // skip
+            return new Result().setId(tplId).setApplyStatus(null).setApplyMessage(null);
+        }
+
+        Map<String, String> params = new LinkedHashMap<>();
+        params.put("apikey", apiKey);
+        params.put("tpl_id", tplId);
+        String result = post(URL_TEMPLATE_DELETE, params);
+        JSONObject jsonObject = JSON.parseObject(result);
+
+        if (jsonObject.containsKey("code")
+                && !(jsonObject.getInteger("code") == SUCCESS_CODE)) {
+            throw new ServiceException(AdminErrorCodeEnum.SMS_PLATFORM_FAIL.getCode(),
+                    jsonObject.getString("detail"));
+        }
+
+        return new Result().setId(tplId).setApplyStatus(null).setApplyMessage(null);
     }
 
     /**

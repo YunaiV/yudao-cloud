@@ -2,6 +2,7 @@ package cn.iocoder.mall.admin.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -15,6 +16,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
+@TableName("sms_sign")
 public class SmsSignDO extends DeletableDO {
 
     /**

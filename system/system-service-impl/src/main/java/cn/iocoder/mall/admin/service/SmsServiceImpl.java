@@ -14,6 +14,7 @@ import cn.iocoder.mall.admin.dao.SmsTemplateMapper;
 import cn.iocoder.mall.admin.dataobject.SmsSignDO;
 import cn.iocoder.mall.admin.dataobject.SmsTemplateDO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,8 @@ import java.util.Date;
 @Service
 @org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.SmsService.version}")
 public class SmsServiceImpl implements SmsService {
+
+    private static final String SMS_TEMPLATE = "【%s】%s";
 
     @Autowired
     private SmsSignMapper smsSignMapper;
@@ -64,6 +67,7 @@ public class SmsServiceImpl implements SmsService {
                         .setApplyStatus(result.getApplyStatus())
                         .setDeleted(DeletedStatusEnum.DELETED_NO.getValue())
                         .setUpdateTime(new Date())
+                        .setCreateTime(new Date())
         );
     }
 
@@ -107,6 +111,7 @@ public class SmsServiceImpl implements SmsService {
     }
 
     @Override
+    @Transactional
     public void createTemplate(Integer smsSignId, String template, Integer tplType) {
 
         SmsSignDO smsSignDO = smsSignMapper.selectOne(
@@ -119,7 +124,7 @@ public class SmsServiceImpl implements SmsService {
 
         // 调用平台
         SmsPlatform.Result result = smsPlatform
-                .createTemplate(smsSignDO.getSign(), template, tplType);
+                .createTemplate(String.format(SMS_TEMPLATE, smsSignDO.getSign(), template), tplType);
 
         // 保存数据库
         smsTemplateMapper.insert(
@@ -136,7 +141,7 @@ public class SmsServiceImpl implements SmsService {
     }
 
     @Override
-    public SmsTemplateBO getTemplate(String id) {
+    public SmsTemplateBO getTemplate(Integer id) {
         SmsTemplateDO smsTemplateDO = smsTemplateMapper.selectOne(
                 new QueryWrapper<SmsTemplateDO>().eq("id", id));
 
@@ -149,7 +154,8 @@ public class SmsServiceImpl implements SmsService {
     }
 
     @Override
-    public void updateTemplate(String id, String template, Integer tplType) {
+    @Transactional
+    public void updateTemplate(Integer id, String template, Integer tplType) {
         SmsTemplateDO smsTemplateDO = smsTemplateMapper.selectOne(
                 new QueryWrapper<SmsTemplateDO>().eq("id", id));
 
@@ -158,15 +164,43 @@ public class SmsServiceImpl implements SmsService {
                     AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
         }
 
+        SmsSignDO smsSignDO = smsSignMapper.selectOne(
+                new QueryWrapper<SmsSignDO>().eq("id", smsTemplateDO.getSmsSignId()));
+
+
         SmsPlatform.Result result = smsPlatform.updateTemplate(
-                smsTemplateDO.getPlatformId(), template, tplType);
+                smsTemplateDO.getPlatformId(),
+                String.format(SMS_TEMPLATE, smsSignDO.getSign(), template), tplType);
 
         smsTemplateMapper.update(
                 (SmsTemplateDO) new SmsTemplateDO()
+                        .setTemplate(template)
                         .setApplyStatus(result.getApplyStatus())
                         .setApplyMessage(result.getApplyMessage())
                         .setUpdateTime(new Date()),
                 new QueryWrapper<SmsTemplateDO>().eq("id", id)
         );
+    }
+
+    @Override
+    @Transactional
+    public void deleteTemplate(Integer id) {
+        SmsTemplateDO smsTemplateDO = smsTemplateMapper.selectOne(
+                new QueryWrapper<SmsTemplateDO>().eq("id", id));
+
+        if (smsTemplateDO == null
+                || smsTemplateDO.getDeleted().equals(DeletedStatusEnum.DELETED_YES.getValue())) {
+            throw new ServiceException(AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
+                    AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
+        }
+
+        // 删除 平台的模板
+        smsPlatform.deleteTemplate(smsTemplateDO.getPlatformId());
+
+        // 删除 数据库模板
+        SmsTemplateDO updateTemplate =new SmsTemplateDO();
+        updateTemplate.setDeleted(DeletedStatusEnum.DELETED_YES.getValue());
+        smsTemplateMapper.delete(new UpdateWrapper<SmsTemplateDO>()
+                .set("deleted", DeletedStatusEnum.DELETED_YES).eq("id", id));
     }
 }

@@ -1,10 +1,7 @@
 package cn.iocoder.mall.admin.api;
 
-import cn.iocoder.mall.admin.api.bo.sms.SmsSignBO;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 短信平台
@@ -56,25 +53,32 @@ public interface SmsPlatform {
     /**
      * 模板 - 创建
      *
-     * @param sign 选用的哪个签名
      * @param template 模板内容
      * @param tplType 1 为验证码类型，其他为 null
      */
-    Result createTemplate(String sign, String template, Integer tplType);
+    Result createTemplate(String template, Integer tplType);
 
     /**
-     * 获取模板信息
+     * 模板 - 获取
      *
-     * @param tipId
+     * @param tplId
      */
-    Result getTemplate(String tipId);
+    Result getTemplate(String tplId);
 
     /**
-     * 更新模板内容
+     * 模板 - 更新
      *
-     * @param tipId 选用的哪个签名
+     * @param tplId 选用的哪个签名
      * @param template 模板内容
      * @param tplType 1 为验证码类型，其他为 null
      */
-    Result updateTemplate(String tipId, String template, Integer tplType);
+    Result updateTemplate(String tplId, String template, Integer tplType);
+
+    /**
+     * 模板 - 删除
+     *
+     * @param tplId
+     * @return
+     */
+    Result deleteTemplate(String tplId);
 }

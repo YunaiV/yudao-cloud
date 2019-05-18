@@ -43,18 +43,25 @@ public interface SmsService {
     void createTemplate(Integer smsSignId, String template, Integer tplType);
 
     /**
-     * 获取模板信息
+     * 模板 - 获取
      *
      * @param id
      */
-    SmsTemplateBO getTemplate(String id);
+    SmsTemplateBO getTemplate(Integer id);
 
     /**
-     * 更新模板内容
+     * 模板 - 更新
      *
      * @param id 模板id
      * @param template 模板内容
      * @param tplType 1 为验证码类型，其他为 null
      */
-    void updateTemplate(String id, String template, Integer tplType);
+    void updateTemplate(Integer id, String template, Integer tplType);
+
+    /**
+     * 模板 - 删除
+     *
+     * @param id
+     */
+    void deleteTemplate(Integer id);
 }

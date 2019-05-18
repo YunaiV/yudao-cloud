@@ -30,7 +30,7 @@ public class SmsServiceImplTest {
     }
 
     /**
-     * 测试本地 git mail 修改后
+     * 测试本地 git mail 修改后 2
      */
     @Test
     public void getSignTest() {

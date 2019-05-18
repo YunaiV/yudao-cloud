@@ -14,8 +14,8 @@ import cn.iocoder.mall.order.biz.convert.*;
 import cn.iocoder.mall.order.biz.dao.*;
 import cn.iocoder.mall.order.biz.dataobject.*;
 import cn.iocoder.mall.pay.api.PayTransactionService;
-import cn.iocoder.mall.pay.api.bo.PayTransactionBO;
-import cn.iocoder.mall.pay.api.dto.PayTransactionCreateDTO;
+import cn.iocoder.mall.pay.api.bo.transaction.PayTransactionBO;
+import cn.iocoder.mall.pay.api.dto.transaction.PayTransactionCreateDTO;
 import cn.iocoder.mall.product.api.ProductSpuService;
 import cn.iocoder.mall.product.api.bo.ProductSkuDetailBO;
 import cn.iocoder.mall.promotion.api.CouponService;
@@ -79,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
     public CommonResult<OrderPageBO> getOrderPage(OrderQueryDTO orderQueryDTO) {
 
         int totalCount = orderMapper.selectPageCount(orderQueryDTO);
-        if (totalCount == 0) {
+        if (totalCount == 0) { // TODO FROM 芋艿 TO 小范 Collections.EMPTY_LIST 改成 Collections.emptyList()
             return CommonResult.success(new OrderPageBO().setOrders(Collections.EMPTY_LIST).setTotal(0));
         }
 
@@ -92,7 +92,7 @@ public class OrderServiceImpl implements OrderService {
 
         // 获取订单 id
         Set<Integer> orderIds = orderDOList.stream()
-                .map(orderDO -> orderDO.getId())
+                .map(orderDO -> orderDO.getId()) // TODO FROM 芋艿 to 小范，记得用 Lambda
                 .collect(Collectors.toSet());
 
         // 获取配送信息
@@ -231,10 +231,10 @@ public class OrderServiceImpl implements OrderService {
         // 设置 orderItem
         Map<Integer, ProductSkuDetailBO> productSpuBOMap = productList
                 .stream().collect(Collectors.toMap(ProductSkuDetailBO::getId, o -> o)); // 商品 SKU 信息的集合
-        Map<Integer, CalcOrderPriceBO.Item> priceItemMap = new HashMap<>();
+        Map<Integer, CalcOrderPriceBO.Item> priceItemMap = new HashMap<>(); // 商品 SKU 价格的映射
         calcOrderPrice.getItemGroups().forEach(itemGroup ->
                 itemGroup.getItems().forEach(item -> priceItemMap.put(item.getId(), item)));
-
+        // 遍历 orderItemDOList 数组，将商品信息、商品价格，设置到其中
         for (OrderItemDO orderItemDO : orderItemDOList) {
             ProductSkuDetailBO productSkuDetailBO = productSpuBOMap.get(orderItemDO.getSkuId());
             if (productSkuDetailBO.getQuantity() <= 0) {
@@ -267,6 +267,7 @@ public class OrderServiceImpl implements OrderService {
         // order
 
         // TODO: 2019-04-11 Sin 订单号需要生成规则
+        // TODO FROM 芋艿 to 小范：可以考虑抽象成一个方法，下面几个也是。
         String orderNo = UUID.randomUUID().toString().replace("-", "").substring(0, 16);
 //        Integer totalAmount = orderCommon.calculatedAmount(orderItemDOList);
 //        Integer totalPrice = orderCommon.calculatedPrice(orderItemDOList);
@@ -323,10 +324,6 @@ public class OrderServiceImpl implements OrderService {
         // 一次性插入
         orderItemMapper.insert(orderItemDOList);
 
-        if (true) {
-            throw new RuntimeException("测试 seata 事务回滚");
-        }
-
         // 创建预订单
         createPayTransaction(orderDO, orderItemDOList, orderCreateDTO.getIp());
 
@@ -358,7 +355,7 @@ public class OrderServiceImpl implements OrderService {
         return cartService.calcOrderPrice(calcOrderPriceDTO);
     }
 
-    private CommonResult<PayTransactionBO> createPayTransaction(OrderDO order, List<OrderItemDO> orderItems, String ip) {
+    private PayTransactionBO createPayTransaction(OrderDO order, List<OrderItemDO> orderItems, String ip) {
         // TODO sin 支付订单 orderSubject 暂时取第一个子订单商品信息
         String orderSubject = orderItems.get(0).getSkuName();
         Date expireTime = DateUtil.addDate(Calendar.MINUTE, PAY_EXPIRE_TIME);
@@ -441,6 +438,7 @@ public class OrderServiceImpl implements OrderService {
                 .setUpdateTime(null);
 
         // 关闭订单，修改状态 item
+        // TODO FROM 芋艿 TO 小范，更新的时候，where 里面带下 status 避免并发的问题
         orderItemMapper.updateByOrderId(
                 orderId,
                 new OrderItemDO().setStatus(OrderStatusEnum.CLOSED.getValue())
@@ -454,18 +452,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
+    @Transactional // TODO FROM 芋艿 TO 小范：泛型，一定要明确哈。
     public CommonResult orderDelivery(OrderDeliveryDTO orderDelivery) {
         List<Integer> orderItemIds = orderDelivery.getOrderItemIds();
 
-        // 获取所有订单 items
+        // 获取所有订单 items // TODO FROM 芋艿 TO 小范，deleted 是默认条件，所以 by 里面可以不带哈
         List<OrderItemDO> allOrderItems = orderItemMapper.selectByDeletedAndOrderId(orderDelivery.getOrderId(), DeletedStatusEnum.DELETED_NO.getValue());
 
         // 当前需要发货订单，检查 id 和 status
         List<OrderItemDO> needDeliveryOrderItems = allOrderItems.stream()
                 .filter(orderItemDO -> orderItemIds.contains(orderItemDO.getId())
                         && OrderStatusEnum.WAIT_SHIPMENT.getValue() == orderItemDO.getStatus())
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()); // TODO 芋艿，如果这里只是比对数字，可以用 Lambda 求和，不需要弄成一个集合的
         // 发货订单，检查
         if (needDeliveryOrderItems.size() != orderItemIds.size()) {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_DELIVERY_INCORRECT_DATA.getCode());
@@ -482,6 +480,7 @@ public class OrderServiceImpl implements OrderService {
         orderLogisticsMapper.insert(orderLogisticsDO);
 
         // 关联订单item 和 物流信息
+        // TODO FROM 芋艿 TO 小范，更新的时候，where 里面带下 status 避免并发的问题，然后判断下更新数量，不对，就抛出异常。
         orderItemMapper.updateByIds(
                 orderItemIds,
                 new OrderItemDO()
@@ -495,6 +494,7 @@ public class OrderServiceImpl implements OrderService {
                         && !orderItemIds.contains(orderItemDO.getId()))
                 .collect(Collectors.toList());
         if (unShippedOrderItems.size() <= 0) {
+            // TODO FROM 芋艿 TO 小范，更新的时候，where 里面带下 status 避免并发的问题
             orderMapper.updateById(
                     new OrderDO()
                             .setId(orderDelivery.getOrderId())
@@ -513,7 +513,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
+    @Transactional // TODO FROM 芋艿 to 小范，先不做这个功能，电商一班不存在这个功能哈。
     public CommonResult deleteOrderItem(OrderItemDeletedDTO orderItemDeletedDTO) {
         Integer orderId = orderItemDeletedDTO.getOrderId();
         List<Integer> orderItemIds = orderItemDeletedDTO.getOrderItemIds();
@@ -562,6 +562,7 @@ public class OrderServiceImpl implements OrderService {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_UNABLE_CONFIRM_ORDER.getCode());
         }
 
+        // TODO FROM 芋艿 TO 小范，更新的时候，where 里面带下 status 避免并发的问题
         orderMapper.updateById(
                 new OrderDO()
                         .setId(orderId)
@@ -617,7 +618,7 @@ public class OrderServiceImpl implements OrderService {
         if (updateCount <= 0) {
             return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_STATUS_NOT_WAITING_PAYMENT.getCode()).getMessage();
         }
-        // TODO 芋艿 更新 OrderItemDO
+        // TODO FROM 芋艿 to 小范，把更新 OrderItem 给补全。
         return "success";
     }
 

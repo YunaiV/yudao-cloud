@@ -18,6 +18,7 @@ import java.util.Date;
         topic = PayRefundSuccessMessage.TOPIC,
         consumerGroup = "pay-consumer-group-" + PayRefundSuccessMessage.TOPIC
 )
+@Deprecated // 艿艿：突然发现，业务方实际无需回调。参考了 https://help.youzan.com/displaylist/detail_4_998 的文章。业务方，只要记录下退款单号，进行关联即可。
 public class PayRefundSuccessConsumer extends AbstractPayNotifySuccessConsumer<PayRefundSuccessMessage>
         implements RocketMQListener<PayRefundSuccessMessage> {
 

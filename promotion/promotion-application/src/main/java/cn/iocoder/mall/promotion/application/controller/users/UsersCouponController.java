@@ -11,7 +11,6 @@ import cn.iocoder.mall.promotion.application.convert.CouponTemplateConvert;
 import cn.iocoder.mall.promotion.application.vo.users.UsersCouponCardPageVO;
 import cn.iocoder.mall.promotion.application.vo.users.UsersCouponCardVO;
 import cn.iocoder.mall.promotion.application.vo.users.UsersCouponTemplateVO;
-import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -35,7 +34,6 @@ public class UsersCouponController {
     @GetMapping("/template/get")
     @ApiOperation(value = "优惠劵（码）模板信息")
     @ApiImplicitParam(name = "id", value = "优惠劵（码）模板编号", required = true, example = "10")
-    @PermitAll
     public CommonResult<UsersCouponTemplateVO> templateGet(@RequestParam("id") Integer id) {
         CouponTemplateBO template = couponService.getCouponTemplate(id);
         return success(CouponTemplateConvert.USERS.convert2(template));

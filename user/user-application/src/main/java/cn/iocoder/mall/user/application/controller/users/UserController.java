@@ -6,6 +6,7 @@ import cn.iocoder.mall.user.api.bo.UserBO;
 import cn.iocoder.mall.user.api.dto.UserUpdateDTO;
 import cn.iocoder.mall.user.application.convert.UserConvert;
 import cn.iocoder.mall.user.application.vo.users.UsersUserVO;
+import cn.iocoder.mall.user.sdk.annotation.RequiresLogin;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,6 +24,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/info")
+    @RequiresLogin
     @ApiOperation(value = "用户信息")
     public CommonResult<UsersUserVO> info() {
         UserBO userResult = userService.getUser(UserSecurityContextHolder.getContext().getUserId());
@@ -30,6 +32,7 @@ public class UserController {
     }
 
     @PostMapping("/update_avatar")
+    @RequiresLogin
     @ApiOperation(value = "更新头像")
     public CommonResult<Boolean> updateAvatar(@RequestParam("avatar") String avatar) {
         // 创建
@@ -40,6 +43,7 @@ public class UserController {
     }
 
     @PostMapping("/update_nickname")
+    @RequiresLogin
     @ApiOperation(value = "更新昵称")
     public CommonResult<Boolean> updateNickname(@RequestParam("nickname") String nickname) {
         // 创建

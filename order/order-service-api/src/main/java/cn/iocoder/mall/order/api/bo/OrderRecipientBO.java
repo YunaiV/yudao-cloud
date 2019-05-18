@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class OrderRecipientBO extends BaseDO {
+public class OrderRecipientBO extends BaseDO { // TODO FROM 芋艿 TO 小范，不要继承 BaseDO
 
     /**
      * 编号

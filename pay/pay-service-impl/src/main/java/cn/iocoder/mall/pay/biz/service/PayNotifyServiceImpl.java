@@ -27,6 +27,7 @@ public class PayNotifyServiceImpl {
     @Resource
     private RocketMQTemplate rocketMQTemplate;
 
+    @Deprecated // 参见 PayRefundSuccessConsumer 类的说明
     public void addRefundNotifyTask(PayRefundDO refund) {
         PayNotifyTaskDO payTransactionNotifyTask = this.createBasePayNotifyTaskDO(refund.getAppId(), refund.getNotifyUrl())
                 .setType(PayNotifyType.REFUND.getValue());

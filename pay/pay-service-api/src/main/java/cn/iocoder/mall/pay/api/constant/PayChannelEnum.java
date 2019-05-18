@@ -1,9 +1,13 @@
 package cn.iocoder.mall.pay.api.constant;
 
+import cn.iocoder.common.framework.core.IntArrayValuable;
+
+import java.util.Arrays;
+
 /**
  * 支付通道
  */
-public enum PayChannelEnum {
+public enum PayChannelEnum implements IntArrayValuable {
 
     WEIXIN_APP(100, "wx", "微信 App 支付"),
     WEIXIN_PUB(101, "wxjs", "微信 JS API 支付"),
@@ -12,6 +16,8 @@ public enum PayChannelEnum {
 
     PINGXX(9999, "ping++", "ping++ 支付"),
     ;
+
+    public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(PayChannelEnum::getId).toArray();
 
     /**
      * 渠道编号
@@ -42,6 +48,11 @@ public enum PayChannelEnum {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public int[] array() {
+        return ARRAYS;
     }
 
 }

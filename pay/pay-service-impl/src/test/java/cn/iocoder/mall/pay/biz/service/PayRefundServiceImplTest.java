@@ -1,7 +1,7 @@
 package cn.iocoder.mall.pay.biz.service;
 
 import cn.iocoder.mall.pay.api.PayRefundService;
-import cn.iocoder.mall.pay.api.dto.PayRefundSubmitDTO;
+import cn.iocoder.mall.pay.api.dto.refund.PayRefundSubmitDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

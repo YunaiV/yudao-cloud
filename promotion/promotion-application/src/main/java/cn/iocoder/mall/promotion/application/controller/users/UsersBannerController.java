@@ -6,7 +6,6 @@ import cn.iocoder.mall.promotion.api.BannerService;
 import cn.iocoder.mall.promotion.api.bo.BannerBO;
 import cn.iocoder.mall.promotion.application.convert.BannerConvert;
 import cn.iocoder.mall.promotion.application.vo.users.UsersBannerVO;
-import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
@@ -27,7 +26,6 @@ public class UsersBannerController {
 
     @GetMapping("/list")
     @ApiOperation("获得所有 Banner 列表")
-    @PermitAll
     public CommonResult<List<UsersBannerVO>> list() {
         // 查询 Banner 列表
         List<BannerBO> result = bannerService.getBannerListByStatus(CommonStatusEnum.ENABLE.getValue());

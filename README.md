@@ -30,19 +30,26 @@
 
 # 演示
 
+> 艿艿：目前的开发者，都是后端出身。所以，一帮没有审美自觉的人，撸出来的前端界面，可能是东半球倒数第二难看。
+>
+> 迫切希望，有前端能力不错的小伙伴，加入我们，一起来完善「一个商城」。
+>
+> 啊啊啊！我好像做店铺装修功能。
+
 ## H5 商城
 
 [体验传送门](http://h5.shop.iocoder.cn:18099)
 
-TODO 此处应有一个演示的装逼 GIF 图。
+![GIF 图-耐心等待](https://raw.githubusercontent.com/YunaiV/Blog/master/Mall/onemall-h5-min.gif)
 
 ## 管理后台
 
 [体验传送门](http://admin.shop.iocoder.cn:18099)
 
-TODO 暂时不提供管理后台的账号密码，等后面提供。
+* 账号：yudaoyuanma
+* 密码：yudaoyuanma
 
-TODO 此处应有一个演示的装逼 GIF 图。
+![GIF 图-耐心等待](https://raw.githubusercontent.com/YunaiV/Blog/master/Mall/onemall-admin-min.gif)
 
 ## 其它演示
 

@@ -1,7 +1,7 @@
 package cn.iocoder.mall.pay.biz.convert;
 
-import cn.iocoder.mall.pay.api.bo.PayRefundBO;
-import cn.iocoder.mall.pay.api.dto.PayRefundSubmitDTO;
+import cn.iocoder.mall.pay.api.bo.refund.PayRefundBO;
+import cn.iocoder.mall.pay.api.dto.refund.PayRefundSubmitDTO;
 import cn.iocoder.mall.pay.biz.dataobject.PayRefundDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;

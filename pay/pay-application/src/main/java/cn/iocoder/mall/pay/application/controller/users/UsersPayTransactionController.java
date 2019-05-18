@@ -3,11 +3,14 @@ package cn.iocoder.mall.pay.application.controller.users;
 import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.pay.api.PayTransactionService;
-import cn.iocoder.mall.pay.api.bo.PayTransactionBO;
-import cn.iocoder.mall.pay.api.bo.PayTransactionSubmitBO;
+import cn.iocoder.mall.pay.api.bo.transaction.PayTransactionBO;
+import cn.iocoder.mall.pay.api.bo.transaction.PayTransactionSubmitBO;
 import cn.iocoder.mall.pay.api.constant.PayChannelEnum;
-import cn.iocoder.mall.pay.api.dto.PayTransactionSubmitDTO;
+import cn.iocoder.mall.pay.api.dto.transaction.PayTransactionGetDTO;
+import cn.iocoder.mall.pay.api.dto.transaction.PayTransactionSubmitDTO;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +21,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import static cn.iocoder.common.framework.vo.CommonResult.success;
+
 @RestController
-@RequestMapping("users/transaction") // TODO 芋艿，理论来说，是用户无关的。这里先酱紫先~
+@RequestMapping("users/transaction")
+@Api("【用户】支付交易 API")
 public class UsersPayTransactionController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -28,23 +34,19 @@ public class UsersPayTransactionController {
     private PayTransactionService payTransactionService;
 
     @GetMapping("/get")
-    // TODO result 后面改下
-    public CommonResult<PayTransactionBO> get(@RequestParam("appId") String appId,
-                                              @RequestParam("orderId") String orderId) {
-        return payTransactionService.getTransaction(UserSecurityContextHolder.getContext().getUserId(), appId, orderId);
+    @ApiOperation("获得支付交易")
+    public CommonResult<PayTransactionBO> get(PayTransactionGetDTO payTransactionGetDTO) {
+        payTransactionGetDTO.setUserId(UserSecurityContextHolder.getContext().getUserId());
+        return success(payTransactionService.getTransaction(payTransactionGetDTO));
     }
 
-    @PostMapping("/submit") // TODO api 注释
-    // TODO result 后面改下
+    @PostMapping("/submit")
+    @ApiOperation("提交支付交易")
     public CommonResult<PayTransactionSubmitBO> submit(HttpServletRequest request,
-                                                       @RequestParam("appId") String appId,
-                                                       @RequestParam("orderId") String orderId,
-                                                       @RequestParam("payChannel") Integer payChannel) {
-        PayTransactionSubmitDTO payTransactionSubmitDTO = new PayTransactionSubmitDTO()
-                .setAppId(appId).setOrderId(orderId).setPayChannel(payChannel)
-                .setCreateIp(HttpUtil.getIp(request));
+                                                       PayTransactionSubmitDTO payTransactionSubmitDTO) {
+        payTransactionSubmitDTO.setCreateIp(HttpUtil.getIp(request));
         // 提交支付提交
-        return payTransactionService.submitTransaction(payTransactionSubmitDTO);
+        return success(payTransactionService.submitTransaction(payTransactionSubmitDTO));
     }
 
     @PostMapping(value = "pingxx_pay_success", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -63,11 +65,7 @@ public class UsersPayTransactionController {
 //        JSONObject bodyObj = JSON.parseObject(sb.toString());
 //        bodyObj.put("webhookId", bodyObj.remove("id"));
 //        String body = bodyObj.toString();
-        CommonResult<Boolean> result = payTransactionService.updateTransactionPaySuccess(PayChannelEnum.PINGXX.getId(), sb.toString());
-        if (result.isError()) {
-            logger.error("[pingxxPaySuccess][message({}) result({})]", sb, result);
-            return "failure";
-        }
+        payTransactionService.updateTransactionPaySuccess(PayChannelEnum.PINGXX.getId(), sb.toString());
         return "success";
     }
 

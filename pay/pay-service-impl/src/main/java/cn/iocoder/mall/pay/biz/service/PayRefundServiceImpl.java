@@ -5,13 +5,13 @@ import cn.iocoder.common.framework.util.MathUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.pay.api.PayRefundService;
-import cn.iocoder.mall.pay.api.bo.PayRefundPageBO;
-import cn.iocoder.mall.pay.api.bo.PayRefundSubmitBO;
+import cn.iocoder.mall.pay.api.bo.refund.PayRefundPageBO;
+import cn.iocoder.mall.pay.api.bo.refund.PayRefundSubmitBO;
 import cn.iocoder.mall.pay.api.constant.PayErrorCodeEnum;
 import cn.iocoder.mall.pay.api.constant.PayRefundStatus;
 import cn.iocoder.mall.pay.api.constant.PayTransactionStatusEnum;
-import cn.iocoder.mall.pay.api.dto.PayRefundPageDTO;
-import cn.iocoder.mall.pay.api.dto.PayRefundSubmitDTO;
+import cn.iocoder.mall.pay.api.dto.refund.PayRefundPageDTO;
+import cn.iocoder.mall.pay.api.dto.refund.PayRefundSubmitDTO;
 import cn.iocoder.mall.pay.biz.client.AbstractPaySDK;
 import cn.iocoder.mall.pay.biz.client.PaySDKFactory;
 import cn.iocoder.mall.pay.biz.client.RefundSuccessBO;
@@ -51,13 +51,9 @@ public class PayRefundServiceImpl implements PayRefundService {
     private RocketMQTemplate rocketMQTemplate;
 
     @Override
-    @SuppressWarnings("Duplicates")
     public CommonResult<PayRefundSubmitBO> submitRefund(PayRefundSubmitDTO payRefundSubmitDTO) {
         // 校验 App 是否有效
-        CommonResult<PayAppDO> appResult = payAppService.validPayApp(payRefundSubmitDTO.getAppId());
-        if (appResult.isError()) {
-            return CommonResult.error(appResult);
-        }
+        PayAppDO payAppDO = payAppService.validPayApp(payRefundSubmitDTO.getAppId());
         // 获得 PayTransactionDO ，并校验其是否存在
         PayTransactionDO payTransaction = payTransactionService.getTransaction(payRefundSubmitDTO.getAppId(), payRefundSubmitDTO.getOrderId());
         if (payTransaction == null) { // 是否存在
@@ -82,7 +78,7 @@ public class PayRefundServiceImpl implements PayRefundService {
                 .setTransactionId(payTransaction.getId())
                 .setRefundCode(generateTransactionCode()) // TODO 芋艿，后续调整
                 .setStatus(PayRefundStatus.WAITING.getValue())
-                .setNotifyUrl(appResult.getData().getRefundNotifyUrl())
+                .setNotifyUrl(payAppDO.getRefundNotifyUrl())
                 .setRefundChannel(payTransaction.getPayChannel());
         payRefundDO.setCreateTime(new Date());
         payRefundMapper.insert(payRefundDO);

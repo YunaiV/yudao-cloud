@@ -89,6 +89,7 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
             context.setAdminId(authentication.getUserId());
             MallUtil.setUserId(request, authentication.getUserId()); // 记录到 request 中，避免 AdminSecurityContext 后续清理掉后，其它地方需要用到 userId
             if (authorization != null) {
+                context.setUsername(authorization.getUsername());
                 context.setRoleIds(authorization.getRoleIds());
             }
         }
@@ -111,10 +112,6 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
         // 执行校验
         return adminService.checkPermissions(authentication.getUserId(),
                 requiresPermissions != null ? Arrays.asList(requiresPermissions.value()) : null);
-    }
-
-    private void checkPermission() {
-
     }
 
 }

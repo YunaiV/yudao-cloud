@@ -1,4 +1,4 @@
-package cn.iocoder.mall.pay.api.bo;
+package cn.iocoder.mall.pay.api.bo.refund;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

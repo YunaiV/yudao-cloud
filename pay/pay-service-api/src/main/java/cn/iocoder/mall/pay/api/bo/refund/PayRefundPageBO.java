@@ -1,4 +1,4 @@
-package cn.iocoder.mall.pay.api.bo;
+package cn.iocoder.mall.pay.api.bo.refund;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -7,16 +7,16 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 支付交易 Page BO
+ * 支付退款 Page BO
  */
 @Data
 @Accessors(chain = true)
-public class PayTransactionPageBO implements Serializable {
+public class PayRefundPageBO implements Serializable {
 
     /**
-     * 支付交易数组
+     * 支付退款数组
      */
-    private List<PayTransactionBO> list;
+    private List<PayRefundBO> list;
     /**
      * 总量
      */

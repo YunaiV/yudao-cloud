@@ -1,7 +1,6 @@
 package cn.iocoder.mall.order.biz.dataobject;
 
 import cn.iocoder.common.framework.dataobject.BaseDO;
-import cn.iocoder.common.framework.dataobject.DeletableDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -17,6 +16,8 @@ import java.util.Date;
 @Accessors(chain = true)
 public class OrderReturnDO extends BaseDO {
 
+    // TODO FROM 芋艿 TO 小范，存储下支付中心的退款单号
+
     /**
      * 编号自动增长
      */
@@ -24,6 +25,7 @@ public class OrderReturnDO extends BaseDO {
     /**
      * 服务号
      */
+    // TODO FROM 芋艿 to 小范，换个名字，看着怪怪的 哈哈哈哈。
     private String serviceNumber;
     /**
      * 订单编号
@@ -54,6 +56,7 @@ public class OrderReturnDO extends BaseDO {
     /**
      * 问题描述
      */
+    // TODO FROM 芋艿 to 小范，describe 是动词，换成名词 description
     private String describe;
 
     ///

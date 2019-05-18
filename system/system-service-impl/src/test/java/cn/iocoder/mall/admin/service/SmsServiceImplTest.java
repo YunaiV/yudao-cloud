@@ -29,6 +29,9 @@ public class SmsServiceImplTest {
 //        smsService.createSign("悦跑会");
     }
 
+    /**
+     * 测试本地 git mail 修改后
+     */
     @Test
     public void getSignTest() {
         SmsSignBO smsSignBO = smsService.getSign("悦跑会");

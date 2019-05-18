@@ -58,6 +58,10 @@
         <servlet.version>2.5</servlet.version>
 
         <seata.version>0.5.1</seata.version>
+
+        <prometheus-spring-boot.version>0.6.0</prometheus-spring-boot.version>
+        <micrometer.version>1.1.4</micrometer.version>
+
 <!--        <seata.version>0.6.0-SNAPSHOT</seata.version>-->
 
         <java.version>1.8</java.version>
@@ -233,12 +237,24 @@
                 <artifactId>spring-boot-admin-starter-client</artifactId>
                 <version>${spring-boot-admin-starter-client.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-registry-prometheus</artifactId>
+                <version>${micrometer.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
                 <version>${sentinel.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.prometheus</groupId>
+                <artifactId>simpleclient_spring_boot</artifactId>
+                <version>${prometheus-spring-boot.version}</version>
+            </dependency>
 
             <!-- Test 相关 -->
 

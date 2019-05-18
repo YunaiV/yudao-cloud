@@ -18,7 +18,7 @@ public class GlobalResponseBodyHandler implements ResponseBodyAdvice {
         if (returnType.getMethod() == null) {
             return false;
         }
-        return returnType.getMethod().getReturnType().isAssignableFrom(CommonResult.class);
+        return returnType.getMethod().getReturnType() == CommonResult.class;
     }
 
     @Override

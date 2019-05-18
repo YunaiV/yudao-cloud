@@ -1,14 +1,17 @@
 package cn.iocoder.mall.user.biz.dataobject;
 
+import cn.iocoder.common.framework.dataobject.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
 
 // TODO 优化，IP
+@TableName("mobile_code")
 @Data
 @Accessors(chain = true)
-public class MobileCodeDO {
+public class MobileCodeDO extends BaseDO {
 
     /**
      * 编号
@@ -34,10 +37,6 @@ public class MobileCodeDO {
      * 注册的用户编号
      */
     private Integer usedUserId;
-    /**
-     * 创建时间
-     */
-    private Date createTime;
     /**
      * 使用时间
      */

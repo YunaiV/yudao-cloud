@@ -5,7 +5,9 @@ import cn.iocoder.mall.order.api.OrderService;
 import cn.iocoder.mall.order.api.bo.OrderItemBO;
 import cn.iocoder.mall.order.api.bo.OrderPageBO;
 import cn.iocoder.mall.order.api.bo.OrderRecipientBO;
-import cn.iocoder.mall.order.api.dto.*;
+import cn.iocoder.mall.order.api.dto.OrderItemUpdateDTO;
+import cn.iocoder.mall.order.api.dto.OrderLogisticsUpdateDTO;
+import cn.iocoder.mall.order.api.dto.OrderQueryDTO;
 import cn.iocoder.mall.order.application.convert.OrderConvertAPP;
 import cn.iocoder.mall.order.application.convert.OrderDeliveryConvert;
 import cn.iocoder.mall.order.application.po.admin.OrderDeliverPO;
@@ -15,7 +17,6 @@ import cn.iocoder.mall.order.application.po.admin.OrderPageQueryPO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,10 +30,10 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("admins/order")
-@Api(value = "订单API(admins)")
+@Api(value = "订单 API(admins)")
 public class AdminsOrderController {
 
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.provider.OrderService.version}")
     private OrderService orderService;
 
     @GetMapping("page")

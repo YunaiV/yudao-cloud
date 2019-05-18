@@ -3,8 +3,6 @@ package cn.iocoder.mall.order.biz.mapper;
 import cn.iocoder.mall.order.biz.OrderApplicationTest;
 import cn.iocoder.mall.order.biz.dao.OrderMapper;
 import cn.iocoder.mall.order.biz.dataobject.OrderDO;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

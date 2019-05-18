@@ -17,7 +17,7 @@ public class UserSecurityContextHolder {
         UserSecurityContext ctx = SECURITY_CONTEXT.get();
         // 为空时，设置一个空的进去
         if (ctx == null) {
-            ctx = new UserSecurityContext(null);
+            ctx = new UserSecurityContext();
             SECURITY_CONTEXT.set(ctx);
         }
         return ctx;

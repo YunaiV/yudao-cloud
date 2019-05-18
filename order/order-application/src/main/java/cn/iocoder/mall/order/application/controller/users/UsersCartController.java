@@ -13,7 +13,6 @@ import cn.iocoder.mall.order.application.vo.UsersCartDetailVO;
 import cn.iocoder.mall.order.application.vo.UsersOrderConfirmCreateVO;
 import cn.iocoder.mall.promotion.api.CouponService;
 import cn.iocoder.mall.promotion.api.bo.CouponCardAvailableBO;
-import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +30,10 @@ public class UsersCartController {
 
     @Reference(validation = "true", version = "${dubbo.provider.CartService.version}")
     private CartService cartService;
-    @Reference(validation = "true")
+
+    @Reference(validation = "true", version = "${dubbo.provider.OrderService.version}")
     private OrderService orderService;
+
     @Reference(validation = "true", version = "${dubbo.consumer.CouponService.version}")
     private CouponService couponService;
 
@@ -125,7 +126,6 @@ public class UsersCartController {
     }
 
     @GetMapping("/calc_sku_price")
-    @PermitAll
     public CommonResult<UsersCalcSkuPriceVO> calcSkuPrice(@RequestParam("skuId") Integer skuId) {
         // 计算 sku 的价格
         CalcSkuPriceBO calcSkuPrice = cartService.calcSkuPrice(skuId);

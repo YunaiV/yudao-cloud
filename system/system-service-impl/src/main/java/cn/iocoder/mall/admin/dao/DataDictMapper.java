@@ -1,6 +1,8 @@
 package cn.iocoder.mall.admin.dao;
 
 import cn.iocoder.mall.admin.dataobject.DataDictDO;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -8,9 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
-public interface DataDictMapper {
-
-    DataDictDO selectById(@Param("id") Integer id);
+public interface DataDictMapper extends BaseMapper<DataDictDO> {
 
     DataDictDO selectByEnumValueAndValue(
             @Param("enumValue") String enumValue,
@@ -26,10 +26,9 @@ public interface DataDictMapper {
             @Param("enumValue") String enumValue
     );
 
-    List<DataDictDO> selectList();
+    default List<DataDictDO> selectList() {
+        return selectList(new QueryWrapper<>());
+    }
 
-    void insert(DataDictDO dataDict);
-
-    int update(DataDictDO dataDict);
 
 }

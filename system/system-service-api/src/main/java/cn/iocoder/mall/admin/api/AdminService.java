@@ -17,7 +17,7 @@ import java.util.Map;
 public interface AdminService {
 
     /**
-     * 用户认证。认证成功后，返回认证信息
+     * 管理员认证。认证成功后，返回认证信息
      *
      * 实际上，就是用户名 + 密码登陆
      *

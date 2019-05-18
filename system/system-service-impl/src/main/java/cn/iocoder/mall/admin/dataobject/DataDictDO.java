@@ -1,6 +1,7 @@
 package cn.iocoder.mall.admin.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -13,6 +14,7 @@ import lombok.experimental.Accessors;
  *      value：1 男
  *      value：2 女
  */
+@TableName("data_dict")
 @Data
 @Accessors(chain = true)
 public class DataDictDO extends DeletableDO {

@@ -69,7 +69,7 @@ export default {
       let that = this;
       let response = doPassportMobileRegister(this.mobile, this.code);
       response.then(data => {
-        setLoginToken(data.accessToken, data.refreshToken);
+        setLoginToken(data.token.accessToken, data.token.refreshToken);
         Dialog.alert({
           title: '系统提示',
           message: '登陆成功',

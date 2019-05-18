@@ -1,7 +1,7 @@
 package cn.iocoder.mall.pay.application.vo.admins;
 
-import cn.iocoder.mall.pay.api.bo.PayRefundBO;
-import cn.iocoder.mall.pay.api.bo.PayTransactionBO;
+import cn.iocoder.mall.pay.api.bo.refund.PayRefundBO;
+import cn.iocoder.mall.pay.api.bo.transaction.PayTransactionBO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

@@ -13,7 +13,7 @@ import java.util.Set;
 @Repository
 public interface ResourceMapper extends BaseMapper<ResourceDO> {
 
-    @Deprecated
+    // TODO 芋艿，后续改造。
     List<ResourceDO> selectListByTypeAndRoleIds(@Param("type") Integer type,
                                                 @Param("roleIds") Set<Integer> roleIds);
 

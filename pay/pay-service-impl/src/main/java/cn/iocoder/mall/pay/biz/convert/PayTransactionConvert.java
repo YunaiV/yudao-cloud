@@ -1,8 +1,8 @@
 package cn.iocoder.mall.pay.biz.convert;
 
-import cn.iocoder.mall.pay.api.bo.PayTransactionBO;
-import cn.iocoder.mall.pay.api.dto.PayTransactionCreateDTO;
-import cn.iocoder.mall.pay.api.dto.PayTransactionSubmitDTO;
+import cn.iocoder.mall.pay.api.bo.transaction.PayTransactionBO;
+import cn.iocoder.mall.pay.api.dto.transaction.PayTransactionCreateDTO;
+import cn.iocoder.mall.pay.api.dto.transaction.PayTransactionSubmitDTO;
 import cn.iocoder.mall.pay.biz.dataobject.PayTransactionDO;
 import cn.iocoder.mall.pay.biz.dataobject.PayTransactionExtensionDO;
 import org.mapstruct.Mapper;

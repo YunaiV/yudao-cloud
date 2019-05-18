@@ -9,7 +9,6 @@ import cn.iocoder.mall.order.application.convert.OrderReturnConvert;
 import cn.iocoder.mall.order.application.po.admin.OrderReturnQueryPO;
 import io.swagger.annotations.Api;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 @Api("订单退货(admins api)")
 public class AdminOrderReturnController {
 
-    @Autowired
-    @Reference(validation = "true")
+    @Reference(validation = "true", version = "${dubbo.provider.OrderReturnService.version}")
     private OrderReturnService orderReturnService;
 
     @GetMapping("list")

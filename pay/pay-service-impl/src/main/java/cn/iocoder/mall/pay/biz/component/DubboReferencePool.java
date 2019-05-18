@@ -1,16 +1,19 @@
 package cn.iocoder.mall.pay.biz.component;
 
-import org.apache.dubbo.config.ApplicationConfig;
-import org.apache.dubbo.config.ReferenceConfig;
-import org.apache.dubbo.config.RegistryConfig;
-import org.apache.dubbo.rpc.service.GenericService;
+import cn.iocoder.common.framework.util.StringUtil;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import lombok.Data;
+import org.apache.dubbo.config.ApplicationConfig;
+import org.apache.dubbo.config.ReferenceConfig;
+import org.apache.dubbo.config.RegistryConfig;
+import org.apache.dubbo.rpc.service.GenericService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+
+import java.util.List;
 
 @Component
 public class DubboReferencePool {
@@ -44,7 +47,8 @@ public class DubboReferencePool {
     private String dubboApplicationName;
 
     private ReferenceMeta createGenericService(String notifyUrl) {
-        String[] notifyUrlParts = notifyUrl.split("#");
+        // 使用 # 号分隔，格式为 服务名#方法名#版本号
+        List<String> notifyUrlParts = StringUtil.split(notifyUrl, "#");
         // 创建 ApplicationConfig 对象
         ApplicationConfig application = new ApplicationConfig();
         application.setName(dubboApplicationName);
@@ -55,14 +59,14 @@ public class DubboReferencePool {
         application.setRegistry(registry);
         // 创建 ReferenceConfig 对象
         ReferenceConfig<GenericService> reference = new ReferenceConfig<>();
-        reference.setInterface(notifyUrlParts[0]); // 弱类型接口名
+        reference.setInterface(notifyUrlParts.get(0)); // 弱类型接口名
         reference.setGeneric(true); // 声明为泛化接口
         reference.setApplication(application);
-//        reference.setVersion("*"); // TODO 芋艿，后面要优化下。
+        reference.setVersion(notifyUrlParts.size() > 2 ? notifyUrlParts.get(2) : "1.0.0"); // 如果未配置服务的版本号，则默认使用 1.0.0
         // 获得 GenericService 对象
         GenericService genericService = reference.get();
         // 构建最终的 ReferenceMeta 对象
-        return new ReferenceMeta(reference, genericService, notifyUrlParts[1]);
+        return new ReferenceMeta(reference, genericService, notifyUrlParts.get(1));
     }
 
     public ReferenceMeta getReferenceMeta(String notifyUrl) {

@@ -4,7 +4,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -39,13 +41,15 @@ public class UserAddressAddPO implements Serializable {
     @NotNull(message = "手机号为不能为空!")
     @Size(min = 11, max = 11, message = "手机号为 11 位!")
     private String mobile;
+
     /**
      * 收件详细地址
      */
     @ApiModelProperty("收件详细地址")
-    @NotNull(message = "详细地址不能为空")
-    @Size(min = 10, max = 100, message = "地址在 10 ~ 100 字之间!")
+    @NotEmpty(message = "详细地址不能为空")
+    @Length(min = 10, max = 100, message = "地址在 10 ~ 100 字之间!")
     private String address;
+
     /**
      * 收件详细地址
      */

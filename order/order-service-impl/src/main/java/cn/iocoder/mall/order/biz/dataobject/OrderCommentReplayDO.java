@@ -8,6 +8,8 @@ import lombok.experimental.Accessors;
 /**
  * 商品评价回复表
  *
+ * // TODO FROM 芋艿 TO wtz 商品评价回复表 =》订单评论回复表
+ *
  * @author wtz
  * @time 2019-05-14 21:00
  *
@@ -28,7 +30,7 @@ public class OrderCommentReplayDO extends BaseDO {
     private Integer commentId;
 
     /**
-     * 回复的类型
+     * 回复的类型 // TODO FROM 芋艿 TO wtz 记得加下枚举类
      */
     private Integer replyType;
 
@@ -73,7 +75,7 @@ public class OrderCommentReplayDO extends BaseDO {
     private String replyUserAvatar;
 
     /**
-     * 回复用户身份
+     * 回复用户身份 // TODO FROM 芋艿 TO wtz 【提示】userType 和 UserTypeEnum 记录保持一致。
      */
     private Integer replyUserType;
 

@@ -2,6 +2,7 @@ package cn.iocoder.mall.spring.boot.web;
 
 import cn.iocoder.common.framework.constant.MallConstants;
 import cn.iocoder.common.framework.servlet.CorsFilter;
+import cn.iocoder.mall.admin.sdk.interceptor.AdminDemoInterceptor;
 import cn.iocoder.mall.spring.boot.web.interceptor.AccessLogInterceptor;
 import cn.iocoder.mall.admin.sdk.interceptor.AdminSecurityInterceptor;
 import cn.iocoder.mall.spring.boot.web.handler.GlobalExceptionHandler;
@@ -35,6 +36,12 @@ public class AdminMVCAutoConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
+    @ConditionalOnMissingBean(AdminDemoInterceptor.class)
+    public AdminDemoInterceptor adminDemoInterceptor() {
+        return new AdminDemoInterceptor();
+    }
+
+    @Bean
     @ConditionalOnMissingBean(GlobalResponseBodyHandler.class)
     public GlobalResponseBodyHandler globalReturnValueHandler() {
         return new GlobalResponseBodyHandler();
@@ -50,6 +57,7 @@ public class AdminMVCAutoConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(adminAccessLogInterceptor()).addPathPatterns(MallConstants.ROOT_PATH_ADMIN + "/**");
         registry.addInterceptor(adminSecurityInterceptor()).addPathPatterns(MallConstants.ROOT_PATH_ADMIN + "/**");
+        registry.addInterceptor(adminDemoInterceptor()).addPathPatterns(MallConstants.ROOT_PATH_ADMIN + "/**");
     }
 
     @Bean

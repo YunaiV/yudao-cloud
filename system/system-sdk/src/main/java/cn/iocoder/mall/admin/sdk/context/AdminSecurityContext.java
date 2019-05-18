@@ -12,7 +12,17 @@ import java.util.Set;
 @Accessors(chain = true)
 public class AdminSecurityContext {
 
+    /**
+     * 管理员编号
+     */
     private Integer adminId;
+    /**
+     * 管理员账号
+     */
+    private String username;
+    /**
+     * 拥有的角色编号
+     */
     private Set<Integer> roleIds;
 
 }

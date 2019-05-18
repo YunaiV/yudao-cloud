@@ -127,7 +127,7 @@ public interface OrderService {
     CommonResult updateLogistics(OrderLogisticsUpdateDTO orderLogisticsDTO);
 
     /**
-     * 删除订单
+     * 删除订单 // TODO FROM 芋艿 to 小范。删除订单，不要使用 deleted 字段，对于用户是删除，实际是隐藏。
      *
      * @param id
      */

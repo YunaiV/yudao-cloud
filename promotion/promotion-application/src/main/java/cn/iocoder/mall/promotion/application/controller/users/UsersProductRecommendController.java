@@ -8,7 +8,6 @@ import cn.iocoder.mall.promotion.api.ProductRecommendService;
 import cn.iocoder.mall.promotion.api.bo.ProductRecommendBO;
 import cn.iocoder.mall.promotion.application.convert.ProductRecommendConvert;
 import cn.iocoder.mall.promotion.application.vo.users.UsersProductRecommendVO;
-import cn.iocoder.mall.user.sdk.annotation.PermitAll;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import io.swagger.annotations.Api;
@@ -36,7 +35,6 @@ public class UsersProductRecommendController {
 
     @GetMapping("/list")
     @ApiOperation("获得所有 Banner 列表")
-    @PermitAll
     public CommonResult<Map<Integer, Collection<UsersProductRecommendVO>>> list() {
         // 查询商品推荐列表
         List<ProductRecommendBO> productRecommends = productRecommendService.getProductRecommendList(

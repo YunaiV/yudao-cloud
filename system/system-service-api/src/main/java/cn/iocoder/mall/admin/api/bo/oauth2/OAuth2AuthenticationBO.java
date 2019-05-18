@@ -5,10 +5,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 @ApiModel("OAUTH2 认证 BO")
 @Data
 @Accessors(chain = true)
-public class OAuth2AuthenticationBO {
+public class OAuth2AuthenticationBO implements Serializable {
 
     @ApiModelProperty(value = "用户编号", required = true, example = "1")
     private Integer userId;

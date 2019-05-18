@@ -1,6 +1,6 @@
 package cn.iocoder.mall.pay.application.convert;
 
-import cn.iocoder.mall.pay.api.bo.PayRefundBO;
+import cn.iocoder.mall.pay.api.bo.refund.PayRefundBO;
 import cn.iocoder.mall.pay.application.vo.admins.AdminsPayRefundDetailVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;

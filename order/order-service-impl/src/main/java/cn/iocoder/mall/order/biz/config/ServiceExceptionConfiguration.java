@@ -16,5 +16,5 @@ public class ServiceExceptionConfiguration {
 //        } catch (IOException e) {
 //            throw new RuntimeException(e);
 //        }
-    }
+    } // TODO FROM 芋艿 to 小范，这里记得配置下，不然错误提示不出去呀。
 }

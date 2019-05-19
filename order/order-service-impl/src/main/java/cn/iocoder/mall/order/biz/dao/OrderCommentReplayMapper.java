@@ -5,6 +5,7 @@ import cn.iocoder.mall.order.api.dto.OrderCommentReplyCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderCommentReplyPageDTO;
 import cn.iocoder.mall.order.biz.dataobject.OrderCommentReplyDO;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -14,14 +15,15 @@ import java.util.List;
  * @author wtz
  * @time 2019-05-16 21:33
  */
+@Repository
 public interface OrderCommentReplayMapper {
 
     /**
      * 插入订单评论回复
-     * @param orderCommentReplyCreateDTO
+     * @param orderCommentReplyDO
      * @return
      */
-    int insert(OrderCommentReplyCreateDTO orderCommentReplyCreateDTO);
+    void insert(OrderCommentReplyDO orderCommentReplyDO);
 
     /**
      * 根据评论 id 和用户类型获取商家回复

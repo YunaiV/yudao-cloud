@@ -1,5 +1,6 @@
 package cn.iocoder.mall.order.biz.dao;
 
+import cn.iocoder.mall.order.api.bo.OrderCommentReplyCreateBO;
 import cn.iocoder.mall.order.api.dto.OrderCommentCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderCommentPageDTO;
 import cn.iocoder.mall.order.biz.dataobject.OrderCommentDO;
@@ -17,15 +18,15 @@ import java.util.List;
  * @time 2019-05-16 20:52
  */
 @Repository
-public interface OrderCommentMapper extends BaseMapper<OrderCommentDO> {
+public interface OrderCommentMapper{
 
 
     /**
      * 插入订单评论
-     * @param orderCommentCreateDTO
+     * @param orderCommentDO
      * @return
      */
-    int insert(OrderCommentCreateDTO orderCommentCreateDTO);
+    void insert(OrderCommentDO orderCommentDO);
 
 
     /**

@@ -1,5 +1,6 @@
 package cn.iocoder.mall.order.api;
 
+import cn.iocoder.mall.order.api.bo.OrderCommentCreateBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentInfoAndMerchantReplyBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentPageBO;
 import cn.iocoder.mall.order.api.constant.OrderReplyUserTypeEnum;
@@ -20,7 +21,7 @@ public interface OrderCommentService {
      * @param orderCommentCreateDTO
      * @return
      */
-    Boolean createOrderComment(OrderCommentCreateDTO orderCommentCreateDTO);
+    OrderCommentCreateBO createOrderComment(OrderCommentCreateDTO orderCommentCreateDTO);
 
 
     /**

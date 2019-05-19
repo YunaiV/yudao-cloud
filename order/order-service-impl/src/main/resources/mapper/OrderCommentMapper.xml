@@ -9,7 +9,7 @@
     </sql>
 
     <!--插入-->
-    <insert id="insert"  useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <insert id="insert" parameterType="OrderCommentDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO order_comment(order_id,order_no,product_spu_id,product_spu_name,product_sku_id,
         product_sku_attrs,product_sku_price,product_sku_pic_url,user_id,user_avatar,user_nick_name,star,
         product_description_star,logistics_star,merchant_star,comment_content,comment_pics,create_time,update_time)

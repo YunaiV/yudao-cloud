@@ -1,0 +1,24 @@
+package cn.iocoder.mall.order.api;
+
+import cn.iocoder.mall.order.api.bo.OrderCommentReplyPageBO;
+import cn.iocoder.mall.order.api.dto.OrderCommentReplyPageDTO;
+
+import java.util.List;
+
+/**
+ *
+ * 订单评论回复模块
+ *
+ * @author wtz
+ * @time 2019-05-29 14:30
+ *
+ */
+public interface OrderCommentReplyService {
+
+    /**
+     * 分页获取评论回复
+     * @param orderCommentReplyPageDTO
+     * @return
+     */
+    List<OrderCommentReplyPageBO> getOrderCommentReplyPage(OrderCommentReplyPageDTO orderCommentReplyPageDTO);
+}

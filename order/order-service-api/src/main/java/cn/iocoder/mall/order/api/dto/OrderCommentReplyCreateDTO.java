@@ -1,5 +1,8 @@
 package cn.iocoder.mall.order.api.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 
 /**
@@ -10,20 +13,22 @@ import java.io.Serializable;
  * @time 2019-05-16 19:07
  *
  */
+@Data
+@Accessors(chain = true)
 public class OrderCommentReplyCreateDTO implements Serializable {
 
     /**
-     * 评论id
+     * 评论 id
      */
     private Integer commentId;
 
     /**
-     * 评论目标对象id
+     * 评论目标对象 id
      */
     private Integer parentId;
 
     /**
-     * 评论目标用户id
+     * 评论目标用户 id
      */
     private Integer parentUserId;
 
@@ -43,7 +48,7 @@ public class OrderCommentReplyCreateDTO implements Serializable {
     private String replyContent;
 
     /**
-     * 回复用户id
+     * 回复用户 id
      */
     private Integer replyUserId;
 
@@ -60,6 +65,6 @@ public class OrderCommentReplyCreateDTO implements Serializable {
     /**
      * 回复用户类型
      */
-    private Integer replyUserType;
+    private Integer userType;
 
 }

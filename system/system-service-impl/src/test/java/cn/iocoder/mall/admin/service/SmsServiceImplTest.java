@@ -66,4 +66,10 @@ public class SmsServiceImplTest {
     public void deleteTemplateTest() {
         smsService.deleteTemplate(3);
     }
+
+    @Test
+    public void singleSendTest() {
+        String mobile = "13302926050";
+        smsService.singleSend(mobile, 1);
+    }
 }

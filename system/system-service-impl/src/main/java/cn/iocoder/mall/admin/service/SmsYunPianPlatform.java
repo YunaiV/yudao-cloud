@@ -16,15 +16,13 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.assertj.core.util.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 云片 短信平台
@@ -44,8 +42,6 @@ public class SmsYunPianPlatform implements SmsPlatform {
             "https://sms.yunpian.com/v2/user/get.json";
 
     //智能匹配模板发送接口的http地址
-    private static final String URI_SEND_SMS =
-            "https://sms.yunpian.com/v2/sms/single_send.json";
 
     //模板发送接口的http地址
     private static final String URI_TPL_SEND_SMS =
@@ -91,6 +87,15 @@ public class SmsYunPianPlatform implements SmsPlatform {
      * 模板 - 删除
      */
     private static final String URL_TEMPLATE_DELETE = "https://sms.yunpian.com/v2/tpl/del.json";
+    /**
+     * 短信发送 - 单个
+     */
+    private static final String URL_SEND_SINGLE = "https://sms.yunpian.com/v2/sms/single_send.json";
+    /**
+     * 短信发送 - 批量
+     */
+    private static final String URL_SEND_BATCH = "https://sms.yunpian.com/v2/sms/batch_send.json";
+
 
     //编码格式。发送编码格式统一用UTF-8
     private static String ENCODING = "UTF-8";
@@ -264,6 +269,88 @@ public class SmsYunPianPlatform implements SmsPlatform {
         }
 
         return new Result().setId(tplId).setApplyStatus(null).setApplyMessage(null);
+    }
+
+    @Override
+    public SendResult singleSend(String mobile, String template) {
+        Map<String, String> params = new LinkedHashMap<>();
+        params.put("apikey", apiKey);
+        params.put("mobile", mobile);
+        params.put("text", template);
+        // TODO: 2019/5/19 sin 运营商发送报告 回调
+        // params.put("callback_url", template);
+        String result = post(URL_TEMPLATE_DELETE, params);
+        JSONObject jsonObject = JSON.parseObject(result);
+        if (jsonObject.containsKey("code")
+                && !(jsonObject.getInteger("code") == SUCCESS_CODE)) {
+            throw new ServiceException(AdminErrorCodeEnum.SMS_PLATFORM_FAIL.getCode(),
+                    jsonObject.getString("detail"));
+        }
+
+        return new SendResult()
+                .setHasSuccess(SUCCESS_CODE == jsonObject.getInteger("code"))
+                .setCode(jsonObject.getInteger("code"))
+                .setMessage(jsonObject.getString("detail"))
+                .setSuccess(Lists.newArrayList(mobile))
+                .setFail(Collections.EMPTY_LIST);
+    }
+
+    @Override
+    public SendResult batchSend(List<String> mobileList, String template) {
+
+        // 最大发送数为 1000，我们设置为 500 个, 分段发送
+        int maxSendSize = 500;
+        int maxSendSizeCount = mobileList.size() % maxSendSize;
+        int j = 0;
+        int j2 = maxSendSize;
+
+        List<String> successList = new ArrayList<>();
+        List<String> failList = new ArrayList<>();
+        for (int i = 0; i < maxSendSizeCount; i++) {
+            StringBuffer sendMobileStr = new StringBuffer();
+            for (int k = j; k < j2; k++) {
+                sendMobileStr.append(",");
+                sendMobileStr.append(mobileList.get(k));
+            }
+
+            String dividedMobile = sendMobileStr.toString().substring(1);
+
+            // 发送手机号
+            Map<String, String> params = new LinkedHashMap<>();
+            params.put("apikey", apiKey);
+            params.put("mobile", dividedMobile);
+            params.put("text", template);
+            // TODO: 2019/5/19 sin 运营商发送报告 回调
+            // params.put("callback_url", template);
+            String result = post(URL_SEND_BATCH, params);
+            JSONObject jsonObject = JSON.parseObject(result);
+            if (jsonObject.containsKey("code")
+                    && !(jsonObject.getInteger("code") == SUCCESS_CODE)) {
+                throw new ServiceException(AdminErrorCodeEnum.SMS_PLATFORM_FAIL.getCode(),
+                        jsonObject.getString("detail"));
+            }
+
+            JSONArray jsonArray = jsonObject.getJSONArray("data");
+            for (Object o : jsonArray) {
+                JSONObject dataJSONObject = (JSONObject) o;
+                if (SUCCESS_CODE == dataJSONObject.getInteger("code")) {
+                    successList.add(dataJSONObject.getString("mobile"));
+                } else {
+                    failList.add(dataJSONObject.getString("mobile"));
+                }
+            }
+
+            // 用于递增 maxSendSize
+            j = j2;
+            j2 = j + maxSendSize;
+        }
+
+        return new SendResult()
+                .setHasSuccess(true)
+                .setCode(SUCCESS_CODE)
+                .setMessage(null)
+                .setSuccess(successList)
+                .setFail(failList);
     }
 
     /**

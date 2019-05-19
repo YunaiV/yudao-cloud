@@ -3,6 +3,8 @@ package cn.iocoder.mall.order.api.dto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  *
  * 订单评论 query
@@ -10,7 +12,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class OrderCommentPageDTO {
+public class OrderCommentPageDTO implements Serializable {
 
     /**
      * 商品 sku id

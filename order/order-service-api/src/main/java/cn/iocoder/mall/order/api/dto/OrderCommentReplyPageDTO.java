@@ -4,6 +4,7 @@ package cn.iocoder.mall.order.api.dto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-public class OrderCommentReplyPageDTO {
+public class OrderCommentReplyPageDTO implements Serializable {
 
     /**
      * 评论 id

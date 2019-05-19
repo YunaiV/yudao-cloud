@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class OrderCommentBo implements Serializable {
+public class OrderCommentBO implements Serializable {
 
     /**
      * 总条数
@@ -39,7 +39,7 @@ public class OrderCommentBo implements Serializable {
     private Integer negativeTotal;
 
     /**
-     * 评论id
+     * 评论 id
      */
     private Integer id;
 

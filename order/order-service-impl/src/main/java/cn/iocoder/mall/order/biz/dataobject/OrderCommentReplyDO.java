@@ -17,15 +17,15 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @TableName(value = "order_comment_replay")
-public class OrderCommentReplayDO extends BaseDO {
+public class OrderCommentReplyDO extends BaseDO {
 
     /**
-     * 回复id
+     * 回复 id
      */
     private Integer id;
 
     /**
-     * 评论id
+     * 评论 id
      */
     private Integer commentId;
 
@@ -35,12 +35,12 @@ public class OrderCommentReplayDO extends BaseDO {
     private Integer replyType;
 
     /**
-     * 父id
+     * 父 id
      */
     private Integer parentId;
 
     /**
-     * 回复目标用户id
+     * 回复目标用户 id
      */
     private Integer parentUserId;
 
@@ -60,7 +60,7 @@ public class OrderCommentReplayDO extends BaseDO {
     private String replyContent;
 
     /**
-     * 回复用户id
+     * 回复用户 id
      */
     private Integer replyUserId;
 
@@ -77,11 +77,11 @@ public class OrderCommentReplayDO extends BaseDO {
     /**
      * 回复用户身份 // TODO FROM 芋艿 TO wtz 【提示】userType 和 UserTypeEnum 记录保持一致。
      */
-    private Integer replyUserType;
+    private Integer userType;
 
     /**
      * 回复点赞数
      */
-    private Integer replyCollectCount;
+    private Integer replyLikeCount;
 
 }

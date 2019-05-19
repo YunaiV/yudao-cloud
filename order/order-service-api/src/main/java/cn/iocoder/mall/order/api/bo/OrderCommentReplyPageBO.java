@@ -1,0 +1,77 @@
+package cn.iocoder.mall.order.api.bo;
+
+
+import lombok.Data;
+import lombok.experimental.Accessors;
+
+import java.util.Date;
+import java.util.List;
+
+/**
+ *
+ * 评论回复分页展示
+ *
+ * @author wtz
+ * @time 2019-05-19 14:19
+ *
+ */
+public class OrderCommentReplyPageBO {
+
+    private Integer total;
+
+    /**
+     * 用户回复
+     */
+    List<OrderCommentReplayUserItem> orderCommentReplayUserItems;
+
+
+    @Data
+    @Accessors(chain = true)
+    private static class OrderCommentReplayUserItem{
+        /**
+         * 回复 id
+         */
+        private Integer id;
+
+        /**
+         * 回复的类型
+         */
+        private Integer replyType;
+
+        /**
+         * 回复的内容
+         */
+        private String replyContent;
+
+        /**
+         * 回复的用户 id
+         */
+        private int replyUserId;
+
+        /**
+         * 回复用户的真实姓名
+         */
+        private String replyUserNickName;
+
+        /**
+         * 回复用户的头像
+         */
+        private String replyUserAvatar;
+
+        /**
+         * 回复的点赞数
+         */
+        private int replyCollectCount;
+
+        /**
+         * 回复目标用户昵称
+         */
+        private String parentUserNickName;
+
+        /**
+         * 创建时间
+         */
+        private Date createTime;
+
+    }
+}

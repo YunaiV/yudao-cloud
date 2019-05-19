@@ -49,7 +49,7 @@ public class OrderCommentPageBO implements Serializable {
     @Accessors(chain = true)
     private static class OrderCommentItem{
         /**
-         * 评论id
+         * 评论 id
          */
         private Integer id;
 

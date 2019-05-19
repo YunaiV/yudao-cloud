@@ -1,11 +1,10 @@
 package cn.iocoder.mall.order.api;
 
-import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.order.api.bo.OrderCommentCreateBO;
-import cn.iocoder.mall.order.api.bo.OrderCommentInfoBO;
+import cn.iocoder.mall.order.api.bo.OrderCommentInfoAndMerchantReplyBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentPageBO;
-import cn.iocoder.mall.order.api.bo.OrderCommentReplyCreateBO;
+import cn.iocoder.mall.order.api.constant.OrderReplyUserTypeEnum;
 import cn.iocoder.mall.order.api.dto.OrderCommentCreateDTO;
+import cn.iocoder.mall.order.api.dto.OrderCommentPageDTO;
 import cn.iocoder.mall.order.api.dto.OrderCommentReplyCreateDTO;
 
 /**
@@ -21,7 +20,7 @@ public interface OrderCommentService {
      * @param orderCommentCreateDTO
      * @return
      */
-    CommonResult<OrderCommentCreateBO> createOrderComment(OrderCommentCreateDTO orderCommentCreateDTO);
+    Boolean createOrderComment(OrderCommentCreateDTO orderCommentCreateDTO);
 
 
     /**
@@ -29,22 +28,31 @@ public interface OrderCommentService {
      * @param orderCommentReplyCreateDTO
      * @return
      */
-    CommonResult<OrderCommentReplyCreateBO> createOrderCommentReply(OrderCommentReplyCreateDTO orderCommentReplyCreateDTO);
+    Boolean createOrderCommentReply(OrderCommentReplyCreateDTO orderCommentReplyCreateDTO);
 
     /**
      * 获取评论列表的分页
-     * @param productSpuId
+     * @param orderCommentPageDTO
      * @return
      */
-    CommonResult<OrderCommentPageBO> getOrderCommentPage(Integer productSpuId);
+    OrderCommentPageBO getOrderCommentPage(OrderCommentPageDTO orderCommentPageDTO);
 
 
     /**
-     * 获取评论详情
+     * 获取评论详情和商家回复
      * @param commentId
      * @return
      */
-    CommonResult<OrderCommentInfoBO> getOrderCommentInfo(Integer commentId);
+    OrderCommentInfoAndMerchantReplyBO getOrderCommentInfo(Integer commentId, Integer userType);
+
+
+
+    /**
+     * 订单评价超时自动好评
+     * 采用任务的形式执行
+     * @return
+     */
+    Boolean OrderCommentTimeOutProductCommentTask();
 
 
 

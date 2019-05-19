@@ -17,7 +17,7 @@ import java.io.Serializable;
 public class OrderCommentCreateDTO implements Serializable {
 
     /**
-     * 订单id
+     * 订单 id
      */
     private int orderId;
 
@@ -27,37 +27,37 @@ public class OrderCommentCreateDTO implements Serializable {
     private String orderNo;
 
     /**
-     * 商品SPU id
+     * 商品 spu id
      */
     private int productSpuId;
 
     /**
-     * 商品SPU 名字 SPU 这两个属性待考量我认为加入进去以后后期一些分析可能好做一些
+     * 商品 spu 名字 spu 这两个属性待考量我认为加入进去以后后期一些分析可能好做一些
      */
     private String productSpuName;
 
     /**
-     * 商品SKU id
+     * 商品 sku id
      */
     private int productSkuId;
 
     /**
-     * 商品SKU属性
+     * 商品 sku 属性
      */
     private String productSkuAttrs;
 
     /**
-     * 商品SKU价格
+     * 商品 sku 价格
      */
     private int productSkuPrice;
 
     /**
-     * 商品SKU地址
+     * 商品 sku 地址
      */
     private String productSkuPicUrl;
 
     /**
-     * 用户id
+     * 用户 id
      */
     private Integer userId;
 
@@ -95,4 +95,9 @@ public class OrderCommentCreateDTO implements Serializable {
      * 评论内容
      */
     private String commentContent;
+
+    /**
+     * 评论图片
+     */
+    private String commentPics;
 }

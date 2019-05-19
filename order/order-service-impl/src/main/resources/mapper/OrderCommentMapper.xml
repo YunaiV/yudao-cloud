@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iocoder.mall.order.biz.dao.OrderCommentMapper">
+
+    <sql id="FIELDS">
+        id,order_id,order_no,product_spu_id,product_spu_name,product_sku_id,product_sku_attrs,product_sku_price,product_sku_pic_url,
+        user_id,user_avatar,user_nick_name,star,product_description_star,logistics_star,merchant_star,replay_count,like_count,comment_content,
+        comment_pics,create_time,update_time
+    </sql>
+
+    <!--插入-->
+    <insert id="insert" parameterType="OrderCommentCreateDTO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO order_comment(order_id,order_no,product_spu_id,product_spu_name,product_sku_id,
+        product_sku_attrs,product_sku_price,product_sku_pic_url,user_id,user_avatar,user_nick_name,star,
+        product_description_star,logistics_star,merchant_star,comment_content,comment_pics,create_time,update_time)
+        VALUES (#{orderId},#{orderNo},#{productSpuId},#{productSpuName},#{productSkuId},#{productSkuAttrs},
+        #{productSkuPrice},#{productSkuPicUrl},#{userId},#{userAvatar},#{userNickName},#{star},
+        #{productDescriptionStar},#{logisticsStar},#{merchantStar},#{commentContent},#{commentPics},#{createTime}, #{updateTime});
+    </insert>
+
+    <!--根据 sku id 获取评论总数-->
+    <select id="selectCommentTotalCountByProductSkuId" parameterType="Integer" resultType="java.lang.Integer">
+        SELECT
+        COUNT (*)
+        FROM order_comment
+        WHERE
+        product_sku_id = #{productSkuId}
+    </select>
+
+    <!--分页获取评论分页-->
+    <select id="selectCommentPage" parameterType="OrderCommentQueryDTO" resultType="cn.iocoder.mall.order.biz.dataobject.OrderCommentDO">
+        SELECT
+        <include refid="FIELDS" />
+        FROM order_comment
+        WHERE
+        product_sku_id = #{productSkuId}
+        ORDER BY create_time DESC
+        LIMIT ${pageNo * pageSize}, ${pageSize}
+    </select>
+
+    <!--根据评论 id 获取用户详情-->
+    <select id="selectCommentInfoByCommentId" parameterType="Integer" resultType="cn.iocoder.mall.order.biz.dataobject.OrderCommentDO">
+        SELECT
+        <include refid="FIELDS" />
+        FROM order_comment
+        WHERE
+        id = #{id}
+        ORDER BY create_time DESC
+        LIMIT ${pageNo * pageSize}, ${pageSize}
+    </select>
+
+</mapper>

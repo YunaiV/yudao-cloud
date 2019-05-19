@@ -3,6 +3,8 @@ package cn.iocoder.mall.admin.api;
 import cn.iocoder.mall.admin.api.bo.sms.SmsSignBO;
 import cn.iocoder.mall.admin.api.bo.sms.SmsTemplateBO;
 
+import java.util.List;
+
 /**
  * 短信服务
  *
@@ -10,6 +12,8 @@ import cn.iocoder.mall.admin.api.bo.sms.SmsTemplateBO;
  * @time 2019/5/16 9:54 AM
  */
 public interface SmsService {
+
+
 
     /**
      * 签名 - 创建
@@ -64,4 +68,19 @@ public interface SmsService {
      * @param id
      */
     void deleteTemplate(Integer id);
+
+
+    /**
+     * 短信发送 - 单个
+     *
+     * @return
+     */
+    void singleSend(String mobile, Integer smsTemplateId);
+
+    /**
+     * 短信发送 - 批量
+     *
+     * @return
+     */
+    void batchSend(List<String> mobileList, Integer smsTemplateId);
 }

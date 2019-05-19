@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 短信
@@ -202,5 +203,41 @@ public class SmsServiceImpl implements SmsService {
         updateTemplate.setDeleted(DeletedStatusEnum.DELETED_YES.getValue());
         smsTemplateMapper.delete(new UpdateWrapper<SmsTemplateDO>()
                 .set("deleted", DeletedStatusEnum.DELETED_YES).eq("id", id));
+    }
+
+    @Override
+    public void singleSend(String mobile, Integer smsTemplateId) {
+        SmsTemplateDO smsTemplateDO = smsTemplateMapper.selectOne(
+                new QueryWrapper<SmsTemplateDO>().eq("id", smsTemplateId));
+
+        if (smsTemplateDO == null
+                || smsTemplateDO.getDeleted().equals(DeletedStatusEnum.DELETED_YES.getValue())) {
+            throw new ServiceException(AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
+                    AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
+        }
+
+        SmsSignDO smsSignDO = smsSignMapper.selectOne(
+                new QueryWrapper<SmsSignDO>().eq("id", smsTemplateDO.getSmsSignId()));
+
+        smsPlatform.singleSend(mobile,
+                String.format(SMS_TEMPLATE, smsSignDO.getSign(), smsTemplateDO.getTemplate()));
+    }
+
+    @Override
+    public void batchSend(List<String> mobileList, Integer smsTemplateId) {
+        SmsTemplateDO smsTemplateDO = smsTemplateMapper.selectOne(
+                new QueryWrapper<SmsTemplateDO>().eq("id", smsTemplateId));
+
+        if (smsTemplateDO == null
+                || smsTemplateDO.getDeleted().equals(DeletedStatusEnum.DELETED_YES.getValue())) {
+            throw new ServiceException(AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
+                    AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
+        }
+
+        SmsSignDO smsSignDO = smsSignMapper.selectOne(
+                new QueryWrapper<SmsSignDO>().eq("id", smsTemplateDO.getSmsSignId()));
+
+        smsPlatform.batchSend(mobileList,
+                String.format(SMS_TEMPLATE, smsSignDO.getSign(), smsTemplateDO.getTemplate()));
     }
 }

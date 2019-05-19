@@ -3,6 +3,8 @@ package cn.iocoder.mall.admin.api;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 /**
  * 短信平台
  *
@@ -81,4 +83,34 @@ public interface SmsPlatform {
      * @return
      */
     Result deleteTemplate(String tplId);
+
+
+    @Data
+    @Accessors(chain = true)
+    class SendResult {
+
+        private Boolean hasSuccess;
+
+        private Integer code;
+
+        private String message;
+
+        private List<String> success;
+
+        private List<String> fail;
+    }
+
+    /**
+     * 短信发送 - 单个
+     *
+     * @return
+     */
+    SendResult singleSend(String mobile, String template);
+
+    /**
+     * 短信发送 - 批量
+     *
+     * @return
+     */
+    SendResult batchSend(List<String> mobileList, String template);
 }

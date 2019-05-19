@@ -1,7 +1,6 @@
 package cn.iocoder.mall.admin.dataobject;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -22,7 +21,6 @@ public class SmsSignDO extends DeletableDO {
     /**
      * 编号
      */
-    @TableId("id")
     private Integer id;
     /**
      * 签名id 这个是第三方的

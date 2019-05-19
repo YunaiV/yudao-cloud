@@ -1,10 +1,13 @@
 package cn.iocoder.mall.admin.convert;
 
+import cn.iocoder.mall.admin.api.bo.sms.PageSmsSignBO;
 import cn.iocoder.mall.admin.api.bo.sms.SmsSignBO;
 import cn.iocoder.mall.admin.dataobject.SmsSignDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 /**
  * 短信 签名
@@ -19,4 +22,7 @@ public interface SmsSignConvert {
 
     @Mappings({})
     SmsSignBO convert(SmsSignDO smsSignDO);
+
+    @Mappings({})
+    List<PageSmsSignBO.Sign> convert(List<SmsSignDO> smsSignDOList);
 }

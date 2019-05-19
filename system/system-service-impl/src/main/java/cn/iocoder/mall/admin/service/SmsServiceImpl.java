@@ -5,8 +5,12 @@ import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.mall.admin.api.SmsPlatform;
 import cn.iocoder.mall.admin.api.SmsService;
 import cn.iocoder.mall.admin.api.bo.sms.SmsSignBO;
+import cn.iocoder.mall.admin.api.bo.sms.PageSmsSignBO;
 import cn.iocoder.mall.admin.api.bo.sms.SmsTemplateBO;
+import cn.iocoder.mall.admin.api.bo.sms.PageSmsTemplateBO;
 import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
+import cn.iocoder.mall.admin.api.dto.sms.PageQuerySmsSignDTO;
+import cn.iocoder.mall.admin.api.dto.sms.PageQuerySmsTemplateDTO;
 import cn.iocoder.mall.admin.convert.SmsSignConvert;
 import cn.iocoder.mall.admin.convert.SmsTemplateConvert;
 import cn.iocoder.mall.admin.dao.SmsSignMapper;
@@ -15,10 +19,13 @@ import cn.iocoder.mall.admin.dataobject.SmsSignDO;
 import cn.iocoder.mall.admin.dataobject.SmsTemplateDO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -43,6 +50,60 @@ public class SmsServiceImpl implements SmsService {
     @Autowired
     @Qualifier("smsYunPianPlatform")
     private SmsPlatform smsPlatform;
+
+    @Override
+    public PageSmsSignBO pageSmsSign(PageQuerySmsSignDTO queryDTO) {
+        QueryWrapper<SmsSignDO> queryWrapper = new QueryWrapper<>();
+        if (queryDTO.getApplyStatus() != null) {
+            queryWrapper.eq("apply_status", queryDTO.getApplyStatus());
+        }
+        if (!StringUtils.isEmpty(queryDTO.getSign())) {
+            queryWrapper.like("sign", queryDTO.getSign());
+        }
+
+        Page<SmsSignDO> page = new Page<SmsSignDO>()
+                .setSize(queryDTO.getPageSize())
+                .setCurrent(queryDTO.getPageCurrent())
+                .setDesc("create_time");
+
+        IPage<SmsSignDO> signPage = smsSignMapper.selectPage(page, queryWrapper);
+        List<PageSmsSignBO.Sign> signList = SmsSignConvert.INSTANCE.convert(signPage.getRecords());
+
+        return new PageSmsSignBO()
+                .setData(signList)
+                .setCurrent(signPage.getCurrent())
+                .setSize(signPage.getSize())
+                .setTotal(signPage.getTotal());
+    }
+
+    @Override
+    public PageSmsTemplateBO pageSmsTemplate(PageQuerySmsTemplateDTO queryDTO) {
+        QueryWrapper<SmsTemplateDO> queryWrapper = new QueryWrapper<>();
+        if (queryDTO.getApplyStatus() != null) {
+            queryWrapper.eq("apply_status", queryDTO.getApplyStatus());
+        }
+        if (queryDTO.getSmsSignId() != null) {
+            queryWrapper.eq("sms_sign_id", queryDTO.getSmsSignId());
+        }
+        if (!StringUtils.isEmpty(queryDTO.getTemplate())) {
+            queryWrapper.like("template", queryDTO.getTemplate());
+        }
+
+        Page<SmsTemplateDO> page = new Page<SmsTemplateDO>()
+                .setSize(queryDTO.getSize())
+                .setCurrent(queryDTO.getCurrent())
+                .setDesc("create_time");
+
+        IPage<SmsTemplateDO> signPage = smsTemplateMapper.selectPage(page, queryWrapper);
+        List<PageSmsTemplateBO.Template> templateList
+                = SmsTemplateConvert.INSTANCE.convert(signPage.getRecords());
+
+        return new PageSmsTemplateBO()
+                .setData(templateList)
+                .setCurrent(signPage.getCurrent())
+                .setSize(signPage.getSize())
+                .setTotal(signPage.getTotal());
+    }
 
     @Override
     @Transactional

@@ -1,7 +1,11 @@
 package cn.iocoder.mall.admin.api;
 
 import cn.iocoder.mall.admin.api.bo.sms.SmsSignBO;
+import cn.iocoder.mall.admin.api.bo.sms.PageSmsSignBO;
 import cn.iocoder.mall.admin.api.bo.sms.SmsTemplateBO;
+import cn.iocoder.mall.admin.api.bo.sms.PageSmsTemplateBO;
+import cn.iocoder.mall.admin.api.dto.sms.PageQuerySmsSignDTO;
+import cn.iocoder.mall.admin.api.dto.sms.PageQuerySmsTemplateDTO;
 
 import java.util.List;
 
@@ -13,7 +17,21 @@ import java.util.List;
  */
 public interface SmsService {
 
+    /**
+     * 短信模板 - 分页
+     *
+     * @param queryDTO
+     * @return
+     */
+    PageSmsSignBO pageSmsSign(PageQuerySmsSignDTO queryDTO);
 
+    /**
+     * 短信模板 - 分页
+     *
+     * @param queryDTO
+     * @return
+     */
+    PageSmsTemplateBO pageSmsTemplate(PageQuerySmsTemplateDTO queryDTO);
 
     /**
      * 签名 - 创建

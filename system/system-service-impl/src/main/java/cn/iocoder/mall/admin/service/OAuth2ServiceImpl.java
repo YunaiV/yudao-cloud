@@ -114,7 +114,9 @@ public class OAuth2ServiceImpl implements OAuth2Service {
     }
 
     private OAuth2AccessTokenDO createOAuth2AccessToken(Integer userId, Integer userType, String refreshToken) {
-        OAuth2AccessTokenDO accessToken = new OAuth2AccessTokenDO().setId(generateAccessToken())
+        OAuth2AccessTokenDO accessToken
+                = new OAuth2AccessTokenDO()
+                .setId(generateAccessToken())
                 .setRefreshToken(refreshToken)
                 .setUserId(userId).setUserType(userType)
                 .setExpiresTime(new Date(System.currentTimeMillis() + accessTokenExpireTimeMillis))
@@ -124,7 +126,9 @@ public class OAuth2ServiceImpl implements OAuth2Service {
     }
 
     private OAuth2RefreshTokenDO createOAuth2RefreshToken(Integer userId, Integer userType) {
-        OAuth2RefreshTokenDO refreshToken = new OAuth2RefreshTokenDO().setId(generateRefreshToken())
+        OAuth2RefreshTokenDO refreshToken
+                = new OAuth2RefreshTokenDO()
+                .setId(generateRefreshToken())
                 .setUserId(userId).setUserType(userType)
                 .setExpiresTime(new Date(System.currentTimeMillis() + refreshTokenExpireTimeMillis))
                 .setValid(true);

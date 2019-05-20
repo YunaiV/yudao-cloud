@@ -75,11 +75,6 @@
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>io.prometheus</groupId>-->
-<!--            <artifactId>simpleclient_spring_boot</artifactId>-->
-<!--        </dependency>-->
-
         <!-- 测试相关 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

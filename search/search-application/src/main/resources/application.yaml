@@ -18,3 +18,12 @@ server:
 
 swagger:
   enable: false
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env,metrics,prometheus
+    metrics:
+      enabled: true

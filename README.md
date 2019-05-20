@@ -62,6 +62,12 @@
 * 地址：http://skywalking-ui.shop.iocoder.cn:18099
 * 管理员账号：admin / admin
 
+**Grafana UI**
+
+* 地址：http://grafana.shop.iocoder.cn:18099
+* 演示账号：yudaoyuanma / yudaoyuanma
+* 用于展示 Prometheus 收集的 Metrics 指标数据。
+
 **Dubbo Admin**
 
 * 地址：http://dubbo-admin.shop.iocoder.cn:18099
@@ -74,7 +80,8 @@
 
 **Sentinel Console**
 
-TODO
+* 地址：http://sentinel.shop.iocoder.cn:18099
+* 账号：sentinel / sentinel
 
 **XXL-Job Console**
 
@@ -139,7 +146,6 @@ TODO 此处应有一个架构图的装逼 JPG 图。
 | [Elasticsearch](https://www.elastic.co/cn/) | 分布式搜索引擎 | 6.7.1 |
 | [Dubbo](http://dubbo.apache.org/) | 分布式 RPC 服务框架 | 2.7.1 |
 | [RocketMQ](http://dubbo.apache.org/) | 消息中间件 | 4.3.2 |
-| [SkyWalking](http://skywalking.apache.org/) | 分布式应用追踪系统 | 6.0.0 |
 | [Seata](https://github.com/seata/seata) | 分布式事务中间件 | 0.5.1 |
 | [Zookeeper](http://zookeeper.apache.org/) | 分布式系统协调 | 3.4.9 作为注册中心 |
 | [XXL-Job](http://www.xuxueli.com/xxl-job/) | 分布式任务调度平台 | 2.0.1 |
@@ -169,6 +175,21 @@ TODO 此处应有一个架构图的装逼 JPG 图。
 | --- | --- | --- |
 | [React](https://reactjs.org/) | JavaScript 框架  | 16.7.0 |
 | [Ant Design](https://ant.design/docs/react/introduce-cn) | React UI 组件库 | 3.13.0 |
+
+### 监控
+
+一般来说，监控会有三种方式：
+
+* 1、Tracing ，我们采用 Apache SkyWalking
+* 2、Logging ，我们采用 ELK
+* 3、Metrics ，我们采用 Prometheus
+
+| 框架 | 说明 |  版本 |
+| --- | --- | --- |
+| [SkyWalking](http://skywalking.apache.org/) | 分布式应用追踪系统 | 6.0.0 |
+| [Prometheus](https://prometheus.io/) | 服务监控体系 | 2.9.2 |
+| [Alertmanager](https://prometheus.io/docs/alerting/alertmanager/) | 告警管理器 | 0.17.0 |
+| [Grafana](https://grafana.com/) | 仪表盘和图形编辑器 | 0.17.0 |
 
 ### 其它
 

@@ -10,6 +10,8 @@ import cn.iocoder.mall.admin.api.SystemLogService;
 import cn.iocoder.mall.admin.api.dto.systemlog.AccessLogAddDTO;
 import cn.iocoder.mall.admin.api.dto.systemlog.ExceptionLogAddDTO;
 import com.alibaba.fastjson.JSON;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Metrics;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;
@@ -28,6 +30,11 @@ import java.util.Date;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    /**
+     * 异常总数 Metrics
+     */
+    private static final Counter EXCEPTION_COUNTER = Metrics.counter("mall.exception.total");
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -73,6 +80,8 @@ public class GlobalExceptionHandler {
         // 插入异常日志
         ExceptionLogAddDTO exceptionLog = new ExceptionLogAddDTO();
         try {
+            // 增加异常计数 metrics
+            EXCEPTION_COUNTER.increment();
             // 初始化 exceptionLog
             initExceptionLog(exceptionLog, req, e);
             // 执行插入 exceptionLog

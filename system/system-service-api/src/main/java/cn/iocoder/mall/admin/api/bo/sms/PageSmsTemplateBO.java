@@ -25,7 +25,7 @@ public class PageSmsTemplateBO {
 
     @Data
     @Accessors(chain = true)
-    public class Template {
+    public static class Template {
         /**
          * 编号
          */

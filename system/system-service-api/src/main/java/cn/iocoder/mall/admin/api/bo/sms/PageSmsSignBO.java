@@ -1,6 +1,5 @@
 package cn.iocoder.mall.admin.api.bo.sms;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -28,7 +27,7 @@ public class PageSmsSignBO {
 
     @Data
     @Accessors(chain = true)
-    public class Sign {
+    public static class Sign {
         /**
          * 编号
          */

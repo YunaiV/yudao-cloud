@@ -8,6 +8,7 @@ import cn.iocoder.mall.admin.api.dto.sms.PageQuerySmsSignDTO;
 import cn.iocoder.mall.admin.api.dto.sms.PageQuerySmsTemplateDTO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 短信服务
@@ -93,12 +94,12 @@ public interface SmsService {
      *
      * @return
      */
-    void singleSend(String mobile, Integer smsTemplateId);
+    void singleSend(String mobile, Integer smsTemplateId, Map<String, String> params);
 
     /**
      * 短信发送 - 批量
      *
      * @return
      */
-    void batchSend(List<String> mobileList, Integer smsTemplateId);
+    void batchSend(List<String> mobileList, Integer smsTemplateId, Map<String, String> params);
 }

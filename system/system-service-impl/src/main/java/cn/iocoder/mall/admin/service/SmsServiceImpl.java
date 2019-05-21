@@ -29,6 +29,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 短信
@@ -267,7 +268,9 @@ public class SmsServiceImpl implements SmsService {
     }
 
     @Override
-    public void singleSend(String mobile, Integer smsTemplateId) {
+    public void singleSend(String mobile, Integer smsTemplateId, Map<String, String> params) {
+
+        // TODO: 2019/5/21 Sin params 参数为特换到模板中
         SmsTemplateDO smsTemplateDO = smsTemplateMapper.selectOne(
                 new QueryWrapper<SmsTemplateDO>().eq("id", smsTemplateId));
 
@@ -285,7 +288,9 @@ public class SmsServiceImpl implements SmsService {
     }
 
     @Override
-    public void batchSend(List<String> mobileList, Integer smsTemplateId) {
+    public void batchSend(List<String> mobileList, Integer smsTemplateId, Map<String, String> params) {
+        // TODO: 2019/5/21 Sin params 参数为特换到模板中
+
         SmsTemplateDO smsTemplateDO = smsTemplateMapper.selectOne(
                 new QueryWrapper<SmsTemplateDO>().eq("id", smsTemplateId));
 

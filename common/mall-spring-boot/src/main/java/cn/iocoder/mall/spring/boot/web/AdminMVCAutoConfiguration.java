@@ -19,8 +19,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET) // TODO 芋艿，未来可能考虑 REACTIVE
-@ConditionalOnClass({DispatcherServlet.class, WebMvcConfigurer.class, // 有 Spring MVC 容器
-        AdminSecurityInterceptor.class, AccessLogInterceptor.class}) // 有引入 system-sdk
+@ConditionalOnClass({
+        DispatcherServlet.class,
+        WebMvcConfigurer.class, // 有 Spring MVC 容器
+        AdminSecurityInterceptor.class,
+        AccessLogInterceptor.class
+}) // 有引入 system-sdk
 public class AdminMVCAutoConfiguration implements WebMvcConfigurer {
 
     @Bean

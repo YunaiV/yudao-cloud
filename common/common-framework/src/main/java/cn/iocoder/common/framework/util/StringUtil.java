@@ -34,9 +34,4 @@ public class StringUtil {
     public static String substring(String str, int start) {
         return org.apache.commons.lang3.StringUtils.substring(str, start);
     }
-
-    public static void main(String[] args) {
-        System.out.println(StringUtil.split("cn.iocoder.mall.order.api.OrderService#updatePaySuccess#1.0.0", "#").size());
-    }
-
 }

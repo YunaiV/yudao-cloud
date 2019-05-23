@@ -34,7 +34,7 @@ public class AccessLogInterceptor extends HandlerInterceptorAdapter {
     private static final ThreadLocal<Date> START_TIME = new ThreadLocal<>();
 
     @Reference(validation = "true", version = "${dubbo.consumer.AdminAccessLogService.version:1.0.0}")
-    private SystemLogService adminAccessLogService;
+    private SystemLogService systemAccessLogService;
 
     @Value("${spring.application.name}")
     private String applicationName;
@@ -89,7 +89,7 @@ public class AccessLogInterceptor extends HandlerInterceptorAdapter {
     @Async // 异步入库
     public void addAccessLog(AccessLogAddDTO accessLog) {
         try {
-            adminAccessLogService.addAccessLog(accessLog);
+            systemAccessLogService.addAccessLog(accessLog);
         } catch (Throwable th) {
             logger.error("[addAccessLog][插入访问日志({}) 发生异常({})", JSON.toJSONString(accessLog), ExceptionUtils.getRootCauseMessage(th));
         }

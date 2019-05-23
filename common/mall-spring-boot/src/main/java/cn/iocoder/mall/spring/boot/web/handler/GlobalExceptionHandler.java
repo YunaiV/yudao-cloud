@@ -42,7 +42,7 @@ public class GlobalExceptionHandler {
     private String applicationName;
 
     @Reference(validation = "true", version = "${dubbo.consumer.AdminAccessLogService.version:1.0.0}")
-    private SystemLogService adminAccessLogService;
+    private SystemLogService systemLogService;
 
     // 逻辑异常
     @ResponseBody
@@ -125,7 +125,7 @@ public class GlobalExceptionHandler {
 
     @Async
     public void addExceptionLog(ExceptionLogAddDTO exceptionLog) {
-        adminAccessLogService.addExceptionLog(exceptionLog);
+        systemLogService.addExceptionLog(exceptionLog);
     }
 
 }

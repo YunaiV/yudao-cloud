@@ -56,6 +56,7 @@ public enum AdminErrorCodeEnum {
     SMS_SIGN_IS_EXISTENT(1002006002, "短信签名已存在"),
     SMS_TEMPLATE_NOT_EXISTENT(1002006020, "短信签名不存在"),
     SMS_TEMPLATE_IS_EXISTENT(1002006021, "短信签名不存在"),
+    SMS_NOT_SEND_CLIENT(1002006030, "短信没有发送的client"),
     ;
 
     private final int code;

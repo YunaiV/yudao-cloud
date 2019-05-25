@@ -23,13 +23,16 @@ public class SmsSignDO extends DeletableDO {
      */
     private Integer id;
     /**
-     * 签名id 这个是第三方的
-     */
-    private String platformId;
-    /**
      * 签名名称
      */
     private String sign;
+    /**
+     * 平台
+     *
+     * 1、云片
+     * 2、阿里云
+     */
+    private Integer platform;
     /**
      * 审核状态
      *

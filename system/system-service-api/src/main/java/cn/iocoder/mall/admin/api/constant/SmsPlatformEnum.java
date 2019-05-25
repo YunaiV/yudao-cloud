@@ -6,22 +6,21 @@ package cn.iocoder.mall.admin.api.constant;
  * @author Sin
  * @time 2019/5/16 12:48 PM
  */
-public enum SmsApplyStatusEnum {
+public enum SmsPlatformEnum {
 
-    CHECKING(1, "审核中"),
-    SUCCESS(2, "审核成功"),
-    FAIL(3, "审核失败"),
+    YunPian(1, "云片"),
+    AliYun(2, "阿里云"),
     ;
 
     private final Integer value;
     private final String name;
 
-    SmsApplyStatusEnum(int code, String message) {
+    SmsPlatformEnum(Integer code, String message) {
         this.value = code;
         this.name = message;
     }
 
-    public int getValue() {
+    public Integer getValue() {
         return value;
     }
 

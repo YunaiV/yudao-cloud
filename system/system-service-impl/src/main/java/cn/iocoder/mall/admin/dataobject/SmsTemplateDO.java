@@ -28,11 +28,19 @@ public class SmsTemplateDO extends DeletableDO {
     /**
      * 短信签名 id
      */
-    private String platformId;
+    private Integer platform;
     /**
      * 短信模板
      */
     private String template;
+    /**
+     * 短信类型
+     *
+     * - 验证码类
+     * - 通知类
+     * - 营销类
+     */
+    private Integer smsType;
     /**
      * 审核状态
      *

@@ -39,47 +39,56 @@ public interface SmsService {
      *
      * @param sign
      */
-    void createSign(String sign);
+    void createSign(String sign, Integer platform);
 
     /**
      * 签名 - 获取
      *
-     * @param sign
+     * @param id
      */
-    SmsSignBO getSign(String sign);
+    SmsSignBO getSign(Integer id);
 
     /**
      * 签名 - 更新
      *
-     * @param oldSign
-     * @param sign
+     * @param id
+     * @param newSign
+     * @param platform
      */
-    void updateSign(String oldSign, String sign);
+    void updateSign(Integer id, String newSign, Integer platform);
+
+    /**
+     * 签名 - 更新
+     *
+     * @param id
+     */
+    void deleteSign(Integer id);
 
     /**
      * 模板 - 创建
      *
      * @param smsSignId 选用的哪个签名
      * @param template 模板内容
-     * @param tplType 1 为验证码类型，其他为 null
+     * @param platform 平台
      */
-    void createTemplate(Integer smsSignId, String template, Integer tplType);
+    void createTemplate(Integer smsSignId, String template, Integer platform, Integer smsType);
 
     /**
      * 模板 - 获取
      *
      * @param id
      */
-    SmsTemplateBO getTemplate(Integer id);
+    SmsTemplateBO getTemplate(Integer id, Integer platform);
 
     /**
      * 模板 - 更新
      *
      * @param id 模板id
+     * @param smsSignId 短期签名
      * @param template 模板内容
-     * @param tplType 1 为验证码类型，其他为 null
+     * @param platform 短信平台
      */
-    void updateTemplate(Integer id, String template, Integer tplType);
+    void updateTemplate(Integer id, Integer smsSignId, String template, Integer platform, Integer smsType);
 
     /**
      * 模板 - 删除

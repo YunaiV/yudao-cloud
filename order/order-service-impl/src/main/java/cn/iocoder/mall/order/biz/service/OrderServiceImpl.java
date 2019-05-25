@@ -330,7 +330,7 @@ public class OrderServiceImpl implements OrderService {
 //        if (commonResult.isError()) {
 //            //手动开启事务回滚
 //            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-//            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_PAY_FAIL.getCode());
+//            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_GET_PAY_FAIL.getValue());
 //        }
 
         // TODO: 2019-03-17 Sin 需要发送 创建成果 MQ 消息，业务扩展和统计

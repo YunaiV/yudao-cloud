@@ -32,7 +32,7 @@ public class AdminUpdateDTO implements Serializable {
     private String nickname;
 
     @ApiModelProperty(value = "密码", example = "buzhidao")
-    @Length(min = 6, max = 16, message = "密码长度为 6-16 位")
+    @Length(min = 4, max = 16, message = "密码长度为 4-16 位")
     private String password;
 
 }

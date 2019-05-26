@@ -111,7 +111,7 @@ public class SmsServiceImpl implements SmsService {
 
     @Override
     @Transactional
-    public void createSign(String sign, Integer platform) {
+    public void addSign(String sign, Integer platform) {
 
         // 避免重复
         SmsSignDO smsSignDO = smsSignMapper.selectOne(
@@ -196,8 +196,8 @@ public class SmsServiceImpl implements SmsService {
 
     @Override
     @Transactional
-    public void createTemplate(Integer smsSignId, String templateCode,
-                               String template, Integer platform, Integer smsType) {
+    public void addTemplate(Integer smsSignId, String templateCode,
+                            String template, Integer platform, Integer smsType) {
 
         SmsSignDO smsSignDO = smsSignMapper.selectOne(
                 new QueryWrapper<SmsSignDO>().eq("id", smsSignId));
@@ -240,7 +240,8 @@ public class SmsServiceImpl implements SmsService {
 
     @Override
     @Transactional
-    public void updateTemplate(Integer id, Integer smsSignId, String template, Integer platform, Integer smsType) {
+    public void updateTemplate(Integer id, Integer smsSignId, String templateCode,
+                               String template, Integer platform, Integer smsType) {
         SmsTemplateDO smsTemplateDO = smsTemplateMapper.selectOne(
                 new QueryWrapper<SmsTemplateDO>().eq("id", id));
 
@@ -260,6 +261,7 @@ public class SmsServiceImpl implements SmsService {
         smsTemplateMapper.update(
                 (SmsTemplateDO) new SmsTemplateDO()
                         .setSmsSignId(smsSignId)
+                        .setTemplateCode(templateCode)
                         .setTemplate(template)
                         .setPlatform(platform)
                         .setSmsType(smsType)

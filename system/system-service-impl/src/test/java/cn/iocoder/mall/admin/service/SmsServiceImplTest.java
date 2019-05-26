@@ -31,8 +31,8 @@ public class SmsServiceImplTest {
 
     @Test
     public void createSignTest() {
-//        smsService.createSign("悦跑运动", SmsPlatformEnum.YunPian.getValue());
-        smsService.createSign("登录确认验证码", SmsPlatformEnum.AliYun.getValue());
+//        smsService.addSign("悦跑运动", SmsPlatformEnum.YunPian.getValue());
+        smsService.addSign("登录确认验证码", SmsPlatformEnum.AliYun.getValue());
     }
 
     @Test
@@ -63,7 +63,7 @@ public class SmsServiceImplTest {
         Integer sign = 4;
         String templateCode = "SMS_137110043";
         String template = "验证码#code#，您正在登录，若非本人操作，请勿泄露。";
-        smsService.createTemplate(
+        smsService.addTemplate(
                 sign,
                 templateCode,
                 template,

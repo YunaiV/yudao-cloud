@@ -242,7 +242,7 @@ class TemplateList extends PureComponent {
           <br />
           <div>
             <Button icon="plus" onClick={this.handleAddShow}>
-              添加签名
+              添加模板
             </Button>
           </div>
           <br />

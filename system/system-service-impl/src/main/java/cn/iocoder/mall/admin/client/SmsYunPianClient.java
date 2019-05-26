@@ -2,7 +2,6 @@ package cn.iocoder.mall.admin.client;
 
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
-import cn.iocoder.mall.admin.api.constant.SmsApplyStatusEnum;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
@@ -96,8 +95,7 @@ public class SmsYunPianClient implements SmsClient {
     private String apiKey;
 
     @Override
-    public SendResult singleSend(String mobile, String sign, String template, Map<String, String> templateParams) {
-
+    public SendResult singleSend(String mobile, String sign, String templateCode, String template, Map<String, String> templateParams) {
         // build 模板
         template = buildTemplate(sign, template, templateParams);
 
@@ -123,8 +121,7 @@ public class SmsYunPianClient implements SmsClient {
     }
 
     @Override
-    public SendResult batchSend(List<String> mobileList, String sign, String template, Map<String, String> templateParams) {
-
+    public SendResult batchSend(List<String> mobileList, String sign, String templateCode, String template, Map<String, String> templateParams) {
         // build 模板
         template = buildTemplate(sign, template, templateParams);
 
@@ -174,17 +171,19 @@ public class SmsYunPianClient implements SmsClient {
      *
      * @param sign
      * @param template
-     * @param params
+     * @param templateParams
      * @return
      */
-    private static String buildTemplate(String sign, String template, Map<String, String> params) {
-        if (CollectionUtils.isEmpty(params)) {
+    private static String buildTemplate(String sign, String template,
+                                        Map<String, String> templateParams) {
+
+        if (CollectionUtils.isEmpty(templateParams)) {
             return template;
         }
 
         LOGGER.debug("模板构建 before -> {}", template);
 
-        for (Map.Entry<String, String> entry : params.entrySet()) {
+        for (Map.Entry<String, String> entry : templateParams.entrySet()) {
             String paramsKey = entry.getKey();
             String value = entry.getValue();
             String paramPlace = String.format(PARAM_TEMPLATE, paramsKey);
@@ -194,28 +193,6 @@ public class SmsYunPianClient implements SmsClient {
         template = String.format(SIGN_TEMPLATE, sign, template);
         LOGGER.debug("模板构建 after -> {}", template);
         return template;
-    }
-
-    /**
-     * 短信 status 和 云片状态 映射关系
-     *
-     * @param checkStatus
-     * @return
-     */
-    private static Integer smsStatusMapping(String checkStatus) {
-        Integer applyStatus;
-        switch (checkStatus) {
-            case "SUCCESS":
-                applyStatus = SmsApplyStatusEnum.SUCCESS.getValue();
-                break;
-            case "FAIL":
-                applyStatus = SmsApplyStatusEnum.FAIL.getValue();
-                break;
-            default:
-                applyStatus = SmsApplyStatusEnum.CHECKING.getValue();
-                break;
-        }
-        return applyStatus;
     }
 
     /**

@@ -1,14 +1,6 @@
 package cn.iocoder.mall.admin.client;
 
 import cn.iocoder.mall.admin.SystemApplicationTest;
-import com.aliyuncs.CommonRequest;
-import com.aliyuncs.CommonResponse;
-import com.aliyuncs.DefaultAcsClient;
-import com.aliyuncs.IAcsClient;
-import com.aliyuncs.exceptions.ClientException;
-import com.aliyuncs.exceptions.ServerException;
-import com.aliyuncs.http.MethodType;
-import com.aliyuncs.profile.DefaultProfile;
 import com.google.common.collect.ImmutableMap;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
@@ -17,8 +9,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Map;
 
 /**
  * 短信 sms client test
@@ -44,13 +34,15 @@ public class SmsYunPianClientTest {
     public void sendMobileTest() {
         String mobile = "13302926050";
         String template = "您的验证码是#code#，打死也不告诉别人哦。";
-        smsYunPianClient.singleSend(mobile, sign, template, ImmutableMap.of("code", "1111"));
+        smsYunPianClient.singleSend(mobile, sign, null,
+                template, ImmutableMap.of("code", "1111"));
     }
 
     @Test
     public void batchSendTest() {
         String mobile = "13302926050";
         String template = "您的验证码是#code#，打死也不告诉别人哦。";
-        smsYunPianClient.batchSend(Lists.newArrayList(mobile), sign, template, ImmutableMap.of("code", "2222"));
+        smsYunPianClient.batchSend(Lists.newArrayList(mobile), sign, null,
+                template, ImmutableMap.of("code", "2222"));
     }
 }

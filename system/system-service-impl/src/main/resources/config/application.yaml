@@ -27,12 +27,10 @@ mybatis-plus:
 # sms
 sms:
   yunPian:
-    apiKey: d4705399e71e822fe3a90f801ed95bd9
+    apiKey: ${YUN_PIAN}
   aliYun:
-    accessKeyId: d4705399e71e822fe3a90f801ed95bd9
-    accessSecret: d4705399e71e822fe3a90f801ed95bd9
-
-
+    accessKeyId: ${ALI_YUN_KEY_ID}
+    accessSecret: ${ALI_YUN_SECRET}
 
 # dubbo
 dubbo:

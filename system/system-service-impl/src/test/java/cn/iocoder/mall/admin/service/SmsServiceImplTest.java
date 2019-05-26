@@ -31,8 +31,8 @@ public class SmsServiceImplTest {
 
     @Test
     public void createSignTest() {
-        smsService.createSign("悦跑运动", SmsPlatformEnum.YunPian.getValue());
-
+//        smsService.createSign("悦跑运动", SmsPlatformEnum.YunPian.getValue());
+        smsService.createSign("登录确认验证码", SmsPlatformEnum.AliYun.getValue());
     }
 
     @Test
@@ -50,7 +50,6 @@ public class SmsServiceImplTest {
         Assert.assertTrue("更新不成功!", smsSignBO.getSign().equals(newSign));
     }
 
-
     @Test
     public void deletedSignTest() {
         smsService.deleteSign(3);
@@ -61,23 +60,28 @@ public class SmsServiceImplTest {
 
     @Test
     public void createTemplateTest() {
-        String template = "您的验证码是#code#，打死也不告诉别人哦。";
-        smsService.createTemplate(3, template,
-                SmsPlatformEnum.YunPian.getValue(),
+        Integer sign = 4;
+        String templateCode = "SMS_137110043";
+        String template = "验证码#code#，您正在登录，若非本人操作，请勿泄露。";
+        smsService.createTemplate(
+                sign,
+                templateCode,
+                template,
+                SmsPlatformEnum.AliYun.getValue(),
                 SmsTypeEnum.VERIFICATION_CODE.getValue());
     }
 
     @Test
     public void singleSendTest() {
         String mobile = "13302926050";
-        Integer templateId = 5;
+        Integer templateId = 7;
         smsService.singleSend(mobile, templateId, ImmutableMap.of("code", "8888"));
     }
 
     @Test
     public void batchSendTest() {
         String mobile = "13302926050";
-        Integer templateId = 5;
+        Integer templateId = 7;
         smsService.batchSend(Lists.newArrayList(mobile), templateId, ImmutableMap.of("code", "8888"));
     }
 }

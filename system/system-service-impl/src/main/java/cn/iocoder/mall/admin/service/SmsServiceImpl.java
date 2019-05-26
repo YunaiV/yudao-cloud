@@ -2,18 +2,17 @@ package cn.iocoder.mall.admin.service;
 
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.common.framework.exception.ServiceException;
-import cn.iocoder.mall.admin.api.DataDictService;
+import cn.iocoder.mall.admin.api.SmsService;
+import cn.iocoder.mall.admin.api.bo.sms.PageSmsSignBO;
+import cn.iocoder.mall.admin.api.bo.sms.PageSmsTemplateBO;
+import cn.iocoder.mall.admin.api.bo.sms.SmsSignBO;
+import cn.iocoder.mall.admin.api.bo.sms.SmsTemplateBO;
+import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
 import cn.iocoder.mall.admin.api.constant.SmsApplyStatusEnum;
 import cn.iocoder.mall.admin.api.constant.SmsPlatformEnum;
-import cn.iocoder.mall.admin.client.SmsClient;
-import cn.iocoder.mall.admin.api.SmsService;
-import cn.iocoder.mall.admin.api.bo.sms.SmsSignBO;
-import cn.iocoder.mall.admin.api.bo.sms.PageSmsSignBO;
-import cn.iocoder.mall.admin.api.bo.sms.SmsTemplateBO;
-import cn.iocoder.mall.admin.api.bo.sms.PageSmsTemplateBO;
-import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
 import cn.iocoder.mall.admin.api.dto.sms.PageQuerySmsSignDTO;
 import cn.iocoder.mall.admin.api.dto.sms.PageQuerySmsTemplateDTO;
+import cn.iocoder.mall.admin.client.SmsClient;
 import cn.iocoder.mall.admin.convert.SmsSignConvert;
 import cn.iocoder.mall.admin.convert.SmsTemplateConvert;
 import cn.iocoder.mall.admin.dao.SmsSignMapper;
@@ -44,8 +43,6 @@ import java.util.Map;
 @org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.SmsService.version}")
 public class SmsServiceImpl implements SmsService {
 
-    private static final String SMS_TEMPLATE = "【%s】%s";
-
     @Autowired
     private SmsSignMapper smsSignMapper;
     @Autowired
@@ -57,8 +54,6 @@ public class SmsServiceImpl implements SmsService {
     @Autowired
     @Qualifier("smsAliYunClient")
     private SmsClient smsAliYunClient;
-    @Autowired
-    private DataDictService dataDictService;
 
     @Override
     public PageSmsSignBO pageSmsSign(PageQuerySmsSignDTO queryDTO) {
@@ -201,7 +196,8 @@ public class SmsServiceImpl implements SmsService {
 
     @Override
     @Transactional
-    public void createTemplate(Integer smsSignId, String template, Integer platform, Integer smsType) {
+    public void createTemplate(Integer smsSignId, String templateCode,
+                               String template, Integer platform, Integer smsType) {
 
         SmsSignDO smsSignDO = smsSignMapper.selectOne(
                 new QueryWrapper<SmsSignDO>().eq("id", smsSignId));
@@ -216,6 +212,7 @@ public class SmsServiceImpl implements SmsService {
                 (SmsTemplateDO) new SmsTemplateDO()
                         .setId(null)
                         .setSmsSignId(smsSignId)
+                        .setTemplateCode(templateCode)
                         .setTemplate(template)
                         .setPlatform(platform)
                         .setSmsType(smsType)
@@ -314,7 +311,8 @@ public class SmsServiceImpl implements SmsService {
         // 获取 client
         SmsClient smsClient = getSmsClient(smsTemplateDO.getPlatform());
         // 发送短信
-        smsClient.singleSend(mobile, smsSignDO.getSign(), smsTemplateDO.getTemplate(), params);
+        smsClient.singleSend(mobile, smsSignDO.getSign(),
+                smsTemplateDO.getTemplateCode(), smsTemplateDO.getTemplate(), params);
     }
 
     @Override
@@ -339,7 +337,8 @@ public class SmsServiceImpl implements SmsService {
         // 获取 client
         SmsClient smsClient = getSmsClient(smsTemplateDO.getPlatform());
         // 发送短信
-        smsClient.batchSend(mobileList, smsSignDO.getSign(), smsTemplateDO.getTemplate(), params);
+        smsClient.batchSend(mobileList, smsSignDO.getSign(),
+                smsTemplateDO.getTemplateCode(), smsTemplateDO.getTemplate(), params);
     }
 
     /**

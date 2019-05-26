@@ -20,11 +20,14 @@ public class SmsTemplateDO extends DeletableDO {
      * 编号
      */
     private Integer id;
-    // TODO FROM 芋艿 TO 小范，短信类型，分成，验证码类、通知类、营销类。
     /**
      * 模板编号 (第三方的)
      */
     private Integer smsSignId;
+    /**
+     * 模板 code（第三方平台 code）
+     */
+    private String templateCode;
     /**
      * 短信签名 id
      */

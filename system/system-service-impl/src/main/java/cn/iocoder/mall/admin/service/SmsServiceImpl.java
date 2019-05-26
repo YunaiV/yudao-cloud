@@ -27,11 +27,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 短信
@@ -95,6 +95,9 @@ public class SmsServiceImpl implements SmsService {
         if (!StringUtils.isEmpty(queryDTO.getTemplate())) {
             queryWrapper.like("template", queryDTO.getTemplate());
         }
+        if (!StringUtils.isEmpty(queryDTO.getId())) {
+            queryWrapper.eq("id", queryDTO.getId());
+        }
 
         Page<SmsTemplateDO> page = new Page<SmsTemplateDO>()
                 .setSize(queryDTO.getSize())
@@ -102,8 +105,38 @@ public class SmsServiceImpl implements SmsService {
                 .setDesc("create_time");
 
         IPage<SmsTemplateDO> signPage = smsTemplateMapper.selectPage(page, queryWrapper);
+
         List<PageSmsTemplateBO.Template> templateList
                 = SmsTemplateConvert.INSTANCE.convert(signPage.getRecords());
+
+        if (CollectionUtils.isEmpty(templateList)) {
+            return new PageSmsTemplateBO()
+                    .setData(Collections.EMPTY_LIST)
+                    .setCurrent(signPage.getCurrent())
+                    .setSize(signPage.getSize())
+                    .setTotal(signPage.getTotal());
+        }
+
+        // 获取 sign
+
+        Set<Integer> smsSignIds = templateList.stream().map(
+                PageSmsTemplateBO.Template::getSmsSignId).collect(Collectors.toSet());
+
+        List<SmsSignDO> smsSignDOList = smsSignMapper.selectList(
+                new QueryWrapper<SmsSignDO>().in("id", smsSignIds));
+
+        List<PageSmsTemplateBO.Sign> signList = SmsTemplateConvert.INSTANCE.convertTemplateSign(smsSignDOList);
+
+        Map<Integer, PageSmsTemplateBO.Sign> smsSignDOMap = signList
+                .stream().collect(Collectors.toMap(PageSmsTemplateBO.Sign::getId, o -> o));
+
+        // 设置 sign
+
+        templateList.forEach(template -> {
+            if (smsSignDOMap.containsKey(template.getSmsSignId())) {
+                template.setSign(smsSignDOMap.get(template.getSmsSignId()));
+            }
+        });
 
         return new PageSmsTemplateBO()
                 .setData(templateList)
@@ -121,7 +154,7 @@ public class SmsServiceImpl implements SmsService {
                 new QueryWrapper<SmsSignDO>()
                         .eq("platform", platform)
                         .eq("sign", sign)
-                        );
+        );
 
         if (smsSignDO != null) {
             throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_IS_EXISTENT.getCode(),

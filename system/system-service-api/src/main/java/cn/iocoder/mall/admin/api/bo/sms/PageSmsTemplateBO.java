@@ -1,8 +1,11 @@
 package cn.iocoder.mall.admin.api.bo.sms;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,11 +40,19 @@ public class PageSmsTemplateBO {
         /**
          * 短信签名 id
          */
-        private String platformId;
+        private String platform;
+        /**
+         * 短信模板 Code
+         */
+        private String templateCode;
         /**
          * 短信模板
          */
         private String template;
+        /**
+         * 短信类型
+         */
+        private Integer smsType;
         /**
          * 审核状态
          *
@@ -54,6 +65,16 @@ public class PageSmsTemplateBO {
          * 审核信息
          */
         private String applyMessage;
+        /**
+         * 更新时间
+         */
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+        private Date updateTime;
+        /**
+         * 创建时间
+         */
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+        private Date createTime;
 
         ///
         /// 关联字段
@@ -62,11 +83,12 @@ public class PageSmsTemplateBO {
          * 签名信息
          */
         private Sign sign;
+
     }
 
     @Data
     @Accessors(chain = true)
-    public class Sign {
+    public static class Sign {
         /**
          * 编号
          */

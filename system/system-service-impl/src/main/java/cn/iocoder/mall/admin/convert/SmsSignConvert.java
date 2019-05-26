@@ -1,6 +1,7 @@
 package cn.iocoder.mall.admin.convert;
 
 import cn.iocoder.mall.admin.api.bo.sms.PageSmsSignBO;
+import cn.iocoder.mall.admin.api.bo.sms.PageSmsTemplateBO;
 import cn.iocoder.mall.admin.api.bo.sms.SmsSignBO;
 import cn.iocoder.mall.admin.dataobject.SmsSignDO;
 import org.mapstruct.Mapper;
@@ -25,4 +26,5 @@ public interface SmsSignConvert {
 
     @Mappings({})
     List<PageSmsSignBO.Sign> convert(List<SmsSignDO> smsSignDOList);
+
 }

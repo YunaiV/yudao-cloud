@@ -3,6 +3,7 @@ package cn.iocoder.mall.admin.api.dto.sms;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -15,16 +16,21 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class PageQuerySmsTemplateDTO implements Serializable {
 
-
+    @NotNull
     private Long current;
 
+    @NotNull
     private Long size;
 
+    @NotNull
     private String id;
 
+    @NotNull
     private Integer smsSignId;
 
+    @NotNull
     private String template;
 
+    @NotNull
     private String applyStatus;
 }

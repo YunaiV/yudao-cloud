@@ -1,11 +1,8 @@
 package cn.iocoder.mall.admin.api.bo.sms;
 
-import cn.iocoder.common.framework.jsonField.DateFieldSerializer;
-import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;

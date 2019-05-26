@@ -13,8 +13,8 @@ import java.util.Arrays;
 public enum SmsTypeEnum implements IntArrayValuable {
 
     VERIFICATION_CODE(1, "验证码"),
-    NOTICE(1, "通知"),
-    MARKETING(2, "营销"),
+    NOTICE(2, "通知"),
+    MARKETING(3, "营销"),
     ;
 
     public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(SmsTypeEnum::getValue).toArray();

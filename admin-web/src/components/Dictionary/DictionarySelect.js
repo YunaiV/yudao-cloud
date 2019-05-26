@@ -4,7 +4,13 @@ import DictionaryContext from './DictionaryContext';
 
 export default class DictionarySelect extends PureComponent {
   renderSelect(children) {
-    return <Select {...this.props}>{children}</Select>;
+    // eslint-disable-next-line react/destructuring-assignment
+    // const { initialValue } = this.props['data-__meta'];
+    const propsX = this.props;
+    if (propsX.defaultValue === 'undefined' || propsX.defaultValue === 'null') {
+      propsX.defaultValue = undefined;
+    }
+    return <Select {...propsX}>{children}</Select>;
   }
 
   render() {

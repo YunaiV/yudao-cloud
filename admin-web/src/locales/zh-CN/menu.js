@@ -55,14 +55,21 @@ export default {
   'menu.order.order-list': '订单管理',
   'menu.order.order-refunds': '退货维权',
   // 营销相关
+  'menu.promotion': '首页管理',
   'menu.promotion.promotion-banner-list': '首页广告',
   'menu.promotion.product-recommend-list': '商品推荐',
   'menu.promotion.coupon-card-template-list': '优惠劵管理',
   'menu.promotion.time-limit-discount-list': '限时折扣',
   'menu.promotion.full-privilege-list': '满减送',
   // 会员相关
+  'menu.user': '会员管理',
   'menu.user.user-list': '会员资料',
   // 支付相关
+  'menu.pay': '支付管理',
   'menu.pay.pay-transaction-list': '支付单',
   'menu.pay.pay-refund-list': '退款单',
+  // 短信服务
+  'menu.sms': '短信服务',
+  'menu.sms.sign-list': '签名模板',
+  'menu.sms.template-list': '短信模板',
 };

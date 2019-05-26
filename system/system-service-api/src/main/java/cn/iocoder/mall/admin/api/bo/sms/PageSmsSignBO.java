@@ -1,8 +1,13 @@
 package cn.iocoder.mall.admin.api.bo.sms;
 
+import cn.iocoder.common.framework.jsonField.DateFieldSerializer;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,16 +38,16 @@ public class PageSmsSignBO {
          */
         private Integer id;
         /**
-         * 签名id 这个是第三方的
+         * 短信平台
          */
-        private String platformId;
+        private Integer platform;
         /**
          * 签名名称
          */
         private String sign;
         /**
          * 审核状态
-         *
+         * <p>
          * - 1、审核中
          * - 2、审核成功
          * - 3、审核失败
@@ -52,5 +57,15 @@ public class PageSmsSignBO {
          * 审核信息
          */
         private String applyMessage;
+        /**
+         * 更新时间
+         */
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+        private Date updateTime;
+        /**
+         * 创建时间
+         */
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+        private Date createTime;
     }
 }

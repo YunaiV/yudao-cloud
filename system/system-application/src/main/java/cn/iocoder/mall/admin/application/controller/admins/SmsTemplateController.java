@@ -1,6 +1,7 @@
 package cn.iocoder.mall.admin.application.controller.admins;
 
 import cn.iocoder.mall.admin.api.SmsService;
+import cn.iocoder.mall.admin.api.bo.sms.PageSmsTemplateBO;
 import cn.iocoder.mall.admin.api.dto.sms.PageQuerySmsSignDTO;
 import cn.iocoder.mall.admin.api.dto.sms.PageQuerySmsTemplateDTO;
 import cn.iocoder.mall.admin.application.po.sms.SmsTemplateAddPO;
@@ -29,8 +30,8 @@ public class SmsTemplateController {
 
     @PostMapping("page")
     @ApiOperation("短信模板-page")
-    public void pageSign(PageQuerySmsTemplateDTO pageQuerySmsTemplateDTO) {
-        smsService.pageSmsTemplate(pageQuerySmsTemplateDTO);
+    public PageSmsTemplateBO pageSign(PageQuerySmsTemplateDTO pageQuerySmsTemplateDTO) {
+        return smsService.pageSmsTemplate(pageQuerySmsTemplateDTO);
     }
 
     @PostMapping("add")

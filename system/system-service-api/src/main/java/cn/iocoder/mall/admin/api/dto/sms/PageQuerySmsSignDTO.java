@@ -1,8 +1,11 @@
 package cn.iocoder.mall.admin.api.dto.sms;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -13,13 +16,23 @@ import java.io.Serializable;
  */
 @Data
 @Accessors(chain = true)
+@ApiModel("短信服务查询")
 public class PageQuerySmsSignDTO implements Serializable {
 
-    private Integer pageSize;
+    @ApiModelProperty("每页大小")
+    @NotNull
+    private Integer size;
 
-    private Integer pageCurrent;
+    @ApiModelProperty("当前页")
+    @NotNull
+    private Integer current;
 
+    @ApiModelProperty("编号")
+    private Integer id;
+
+    @ApiModelProperty("签名")
     private String sign;
 
+    @ApiModelProperty("申请状态")
     private Integer applyStatus;
 }

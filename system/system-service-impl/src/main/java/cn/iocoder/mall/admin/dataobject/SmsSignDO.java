@@ -38,7 +38,7 @@ public class SmsSignDO extends DeletableDO {
      *
      * - 1、审核中
      * - 2、审核成功
-     * - 3、审核失败
+     * - 10、审核失败
      */
     private Integer applyStatus;
     /**

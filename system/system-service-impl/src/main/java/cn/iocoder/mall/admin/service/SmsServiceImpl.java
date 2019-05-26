@@ -64,10 +64,13 @@ public class SmsServiceImpl implements SmsService {
         if (!StringUtils.isEmpty(queryDTO.getSign())) {
             queryWrapper.like("sign", queryDTO.getSign());
         }
+        if (!StringUtils.isEmpty(queryDTO.getId())) {
+            queryWrapper.eq("id", queryDTO.getId());
+        }
 
         Page<SmsSignDO> page = new Page<SmsSignDO>()
-                .setSize(queryDTO.getPageSize())
-                .setCurrent(queryDTO.getPageCurrent())
+                .setSize(queryDTO.getSize())
+                .setCurrent(queryDTO.getCurrent())
                 .setDesc("create_time");
 
         IPage<SmsSignDO> signPage = smsSignMapper.selectPage(page, queryWrapper);

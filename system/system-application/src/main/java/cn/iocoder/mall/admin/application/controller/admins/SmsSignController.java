@@ -1,14 +1,14 @@
 package cn.iocoder.mall.admin.application.controller.admins;
 
+import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.admin.api.SmsService;
+import cn.iocoder.mall.admin.api.bo.sms.PageSmsSignBO;
 import cn.iocoder.mall.admin.api.dto.sms.PageQuerySmsSignDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 短信服务
@@ -17,37 +17,40 @@ import org.springframework.web.bind.annotation.RestController;
  * @time 2019/5/26 12:26 PM
  */
 @RestController
-@RequestMapping("sms/sign")
+@RequestMapping("admins/sms/sign")
 @Api("短信服务(签名)")
 public class SmsSignController {
 
     @Autowired
     private SmsService smsService;
 
-    @PostMapping("page")
+    @GetMapping("page")
     @ApiOperation("签名-page")
-    public void pageSign(PageQuerySmsSignDTO querySmsSignDTO) {
-        smsService.pageSmsSign(querySmsSignDTO);
+    public CommonResult<PageSmsSignBO> pageSign(@Validated PageQuerySmsSignDTO querySmsSignDTO) {
+        return CommonResult.success(smsService.pageSmsSign(querySmsSignDTO));
     }
 
     @PostMapping("add")
     @ApiOperation("签名-添加")
-    public void addSign(@RequestParam("sign") String sign,
+    public CommonResult addSign(@RequestParam("sign") String sign,
                         @RequestParam("platform") Integer platform) {
         smsService.addSign(sign, platform);
+        return CommonResult.success(null);
     }
 
-    @PostMapping("update")
+    @PutMapping("update")
     @ApiOperation("签名-更新")
-    public void updateSign(@RequestParam("id") Integer id,
-                           @RequestParam("sign") String sign,
-                           @RequestParam("platform") Integer platform) {
+    public CommonResult updateSign(@RequestParam("id") Integer id,
+                                           @RequestParam("sign") String sign,
+                                           @RequestParam("platform") Integer platform) {
         smsService.updateSign(id, sign, platform);
+        return CommonResult.success(null);
     }
 
-    @PostMapping("deleted")
+    @DeleteMapping("deleted")
     @ApiOperation("签名-删除")
-    public void deletedSign(@RequestParam("id") Integer id) {
+    public CommonResult deletedSign(@RequestParam("id") Integer id) {
         smsService.deleteSign(id);
+        return CommonResult.success(null);
     }
 }

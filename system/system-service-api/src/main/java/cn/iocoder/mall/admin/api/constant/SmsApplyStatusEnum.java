@@ -10,7 +10,7 @@ public enum SmsApplyStatusEnum {
 
     CHECKING(1, "审核中"),
     SUCCESS(2, "审核成功"),
-    FAIL(3, "审核失败"),
+    FAIL(10, "审核失败"),
     ;
 
     private final Integer value;

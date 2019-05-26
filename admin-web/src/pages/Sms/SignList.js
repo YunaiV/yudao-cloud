@@ -7,7 +7,7 @@ import DictionaryText from '../../components/Dictionary/DictionaryText';
 import dictionary from '../../utils/dictionary';
 import styles from '../List/TableList.less';
 import SignListSearch from './SignListSearch';
-import SignListUpdate from './SignListUpdate';
+import SignListModal from './SignListModal';
 
 @connect(({ smsSignList, loading }) => ({
   smsSignList,
@@ -26,7 +26,7 @@ class SignList extends PureComponent {
     // init page 参数
     this.current = 1;
     this.total = 0;
-    this.size = 20;
+    this.size = 10;
     this.searchParams = {};
 
     // 查询 page
@@ -80,7 +80,6 @@ class SignList extends PureComponent {
       okText: '确认',
       cancelText: '取消',
       onOk: () => {
-        console.log('OK');
         dispatch({
           type: 'smsSignList/deleted',
           payload: {
@@ -249,7 +248,7 @@ class SignList extends PureComponent {
           />
         </Card>
 
-        <SignListUpdate
+        <SignListModal
           initData={sign}
           title={title}
           visible={visible}

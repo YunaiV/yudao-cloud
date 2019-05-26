@@ -26,3 +26,29 @@ export async function deletedSign(params) {
     method: 'DELETE',
   });
 }
+
+// template
+
+export async function pageTemplate(params) {
+  return request(`/admin-api/admins/sms/template/page?${stringify(params)}`, {
+    method: 'GET',
+  });
+}
+
+export async function addTemplate(params) {
+  return request(`/admin-api/admins/sms/template/add?${stringify(params)}`, {
+    method: 'POST',
+  });
+}
+
+export async function updateTemplate(params) {
+  return request(`/admin-api/admins/sms/template/update?${stringify(params)}`, {
+    method: 'PUT',
+  });
+}
+
+export async function deletedTemplate(params) {
+  return request(`/admin-api/admins/sms/template/deleted?${stringify(params)}`, {
+    method: 'DELETE',
+  });
+}

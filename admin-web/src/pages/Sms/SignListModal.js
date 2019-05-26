@@ -8,7 +8,7 @@ import dictionary from '../../utils/dictionary';
  *
  * @type {React.ComponentClass<RcBaseFormProps & Omit<FormComponentProps, keyof FormComponentProps>>}
  */
-const SignListUpdate = Form.create()(props => {
+const SignListModal = Form.create()(props => {
   const { onOk, onCancel, visible, title, form, initData = {} } = props;
   const { getFieldDecorator, validateFields } = props.form;
 
@@ -57,7 +57,7 @@ const SignListUpdate = Form.create()(props => {
                 message: '请选择平台',
               },
             ],
-            initialValue: `${initData.platform}`,
+            initialValue: initData.platform,
           })(<DictionarySelect dicKey={dictionary.SMS_PLATFORM} />)}
         </Form.Item>
       </Form>
@@ -65,4 +65,4 @@ const SignListUpdate = Form.create()(props => {
   );
 });
 
-export default SignListUpdate;
+export default SignListModal;

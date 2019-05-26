@@ -12,6 +12,7 @@ const DictionaryConstants = {
   ORDER_RETURN_SERVICE_TYPE: 'order_return_service_type',
 
   // sms
+  SMS_TYPE: 'sms_type',
   SMS_PLATFORM: 'sms_platform',
   SMS_APPLY_STATUS: 'sms_apply_status',
 };

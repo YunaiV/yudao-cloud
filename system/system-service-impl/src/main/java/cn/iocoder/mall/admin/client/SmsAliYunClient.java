@@ -25,9 +25,9 @@ import java.util.Map;
 @Component
 public class SmsAliYunClient implements SmsClient {
 
-    @Value("${sms.aliYun.accessKeyId}")
+    @Value("${sms.aliYun.accessKeyId?:'default_value'}")
     private String accessKeyId;
-    @Value("${sms.aliYun.accessSecret}")
+    @Value("${sms.aliYun.accessSecret?:'default_value'}")
     private String accessSecret;
 
     private static final String DOMAIN = "dysmsapi.aliyuncs.com";

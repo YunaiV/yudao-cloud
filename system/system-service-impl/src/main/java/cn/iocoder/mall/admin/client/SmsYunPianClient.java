@@ -91,7 +91,7 @@ public class SmsYunPianClient implements SmsClient {
     //编码格式。发送编码格式统一用UTF-8
     private static String ENCODING = "UTF-8";
 
-    @Value("${sms.yunPian.apiKey}")
+    @Value("${sms.yunPian.apiKey?:'default_value'}")
     private String apiKey;
 
     @Override

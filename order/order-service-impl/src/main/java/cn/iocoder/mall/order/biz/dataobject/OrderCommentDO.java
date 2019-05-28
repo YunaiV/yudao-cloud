@@ -12,9 +12,9 @@ import lombok.experimental.Accessors;
  * @time 2019-05-14 20:48
  *
  */
+@TableName(value = "order_comment")
 @Data
 @Accessors(chain = true)
-@TableName(value = "order_comment")
 public class OrderCommentDO extends BaseDO {
 
     /**

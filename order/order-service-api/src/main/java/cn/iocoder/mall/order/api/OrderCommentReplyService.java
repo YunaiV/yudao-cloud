@@ -1,6 +1,8 @@
 package cn.iocoder.mall.order.api;
 
+import cn.iocoder.mall.order.api.bo.OrderCommentReplyCreateBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentReplyPageBO;
+import cn.iocoder.mall.order.api.dto.OrderCommentReplyCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderCommentReplyPageDTO;
 
 import java.util.List;
@@ -21,4 +23,12 @@ public interface OrderCommentReplyService {
      * @return
      */
     List<OrderCommentReplyPageBO> getOrderCommentReplyPage(OrderCommentReplyPageDTO orderCommentReplyPageDTO);
+
+
+    /**
+     * 评论回复创建
+     * @param orderCommentReplyCreateDTO
+     * @return
+     */
+    OrderCommentReplyCreateBO createOrderCommentReply(OrderCommentReplyCreateDTO orderCommentReplyCreateDTO);
 }

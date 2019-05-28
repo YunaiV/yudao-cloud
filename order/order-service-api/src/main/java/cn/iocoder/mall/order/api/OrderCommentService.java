@@ -3,10 +3,8 @@ package cn.iocoder.mall.order.api;
 import cn.iocoder.mall.order.api.bo.OrderCommentCreateBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentInfoAndMerchantReplyBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentPageBO;
-import cn.iocoder.mall.order.api.constant.OrderReplyUserTypeEnum;
 import cn.iocoder.mall.order.api.dto.OrderCommentCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderCommentPageDTO;
-import cn.iocoder.mall.order.api.dto.OrderCommentReplyCreateDTO;
 
 /**
  * 订单评论模块
@@ -24,12 +22,6 @@ public interface OrderCommentService {
     OrderCommentCreateBO createOrderComment(OrderCommentCreateDTO orderCommentCreateDTO);
 
 
-    /**
-     * 评论回复创建
-     * @param orderCommentReplyCreateDTO
-     * @return
-     */
-    Boolean createOrderCommentReply(OrderCommentReplyCreateDTO orderCommentReplyCreateDTO);
 
     /**
      * 获取评论列表的分页

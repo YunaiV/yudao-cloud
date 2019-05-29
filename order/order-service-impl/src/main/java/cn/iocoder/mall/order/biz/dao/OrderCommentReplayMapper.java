@@ -7,6 +7,7 @@ import cn.iocoder.mall.order.biz.dataobject.OrderCommentReplyDO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -49,5 +50,14 @@ public interface OrderCommentReplayMapper {
      */
     int selectCommentReplyTotalCountByCommentId(@Param("commentId") Integer commentId,
                                                 @Param("userType") Integer userType);
+
+
+    /**
+     * 根据评论 id 查询最新的商家回复
+     * @param commentIds
+     * @return
+     */
+    List<OrderCommentReplyDO> selectCommentNewMerchantReplyByCommentIds(@Param("commentIds") Collection<Integer> commentIds,
+                                                                        @Param("userType") Integer userType);
 
 }

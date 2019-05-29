@@ -1,8 +1,12 @@
 package cn.iocoder.mall.order.api.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -12,92 +16,70 @@ import java.io.Serializable;
  * @time 2019-05-15 20:42
  *
  */
+@ApiModel("订单创建 DTO")
 @Data
 @Accessors(chain = true)
 public class OrderCommentCreateDTO implements Serializable {
 
-    /**
-     * 订单 id
-     */
-    private int orderId;
 
-    /**
-     * 订单编号
-     */
+    @ApiModelProperty(value = "订单 id", required = true)
+    @NotNull(message = "订单 id 不能为空")
+    private Integer orderId;
+
+    @ApiModelProperty(value = "订单编号", required = true)
+    @NotEmpty(message = "订单编号不能为空")
     private String orderNo;
 
-    /**
-     * 商品 spu id
-     */
-    private int productSpuId;
+    @ApiModelProperty(value = "商品 spu id", required = true)
+    @NotNull(message = "商品的 spu id 不能为空")
+    private Integer productSpuId;
 
-    /**
-     * 商品 spu 名字 spu 这两个属性待考量我认为加入进去以后后期一些分析可能好做一些
-     */
+    @ApiModelProperty(value = "商品 spu name", required = true)
+    @NotEmpty(message = "商品的 spu name 不能为空")
     private String productSpuName;
 
-    /**
-     * 商品 sku id
-     */
-    private int productSkuId;
+    @ApiModelProperty(value = "商品 sku id", required = true)
+    @NotNull(message = "商品的 sku id 不能为空")
+    private Integer productSkuId;
 
-    /**
-     * 商品 sku 属性
-     */
+    @ApiModelProperty(value = "商品 sku attrs", required = true)
+    @NotEmpty(message = "商品的 sku attrs 不能为空")
     private String productSkuAttrs;
 
-    /**
-     * 商品 sku 价格
-     */
-    private int productSkuPrice;
+    @ApiModelProperty(value = "商品 sku price", required = true)
+    @NotNull(message = "商品的 sku price 不能为空")
+    private Integer productSkuPrice;
 
-    /**
-     * 商品 sku 地址
-     */
+    @ApiModelProperty(value = "商品 sku url", required = true)
+    @NotEmpty(message = "商品的 sku url 不能为空")
     private String productSkuPicUrl;
 
-    /**
-     * 用户 id
-     */
+    @ApiModelProperty(value = "用户 id", required = true)
+    @NotNull(message = "用户 id 不能为空")
     private Integer userId;
 
-    /**
-     * 用户头像
-     */
+    @ApiModelProperty(value = "用户头像", required = true)
     private String userAvatar;
 
-    /**
-     * 用户昵称
-     */
+    @ApiModelProperty(value = "用户昵称", required = true)
+    @NotEmpty(message = "用户昵称不能为空")
     private String userNickName;
 
-    /**
-     * 星
-     */
+    @ApiModelProperty(value = "评价星级", required = true,example = "1-5")
     private Integer star;
 
-    /**
-     * 产品描述
-     */
+    @ApiModelProperty(value = "商品描述星级", required = true,example = "1-5")
     private Integer productDescriptionStar;
 
-    /**
-     * 物流评价
-     */
+    @ApiModelProperty(value = "物流评价星级", required = true,example = "1-5")
     private Integer logisticsStar;
 
-    /**
-     * 商家评价
-     */
+    @ApiModelProperty(value = "商家评价星级", required = true,example = "1-5")
     private Integer merchantStar;
 
-    /**
-     * 评论内容
-     */
+    @ApiModelProperty(value = "商家评价内容", required = true,example = "1-5")
     private String commentContent;
 
-    /**
-     * 评论图片
-     */
+    @ApiModelProperty(value = "评价图片", required = true)
     private String commentPics;
 }

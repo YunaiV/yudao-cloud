@@ -6,7 +6,6 @@ import cn.iocoder.mall.order.api.bo.OrderCommentInfoAndMerchantReplyBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentPageBO;
 import cn.iocoder.mall.order.api.dto.OrderCommentCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderCommentPageDTO;
-import cn.iocoder.mall.order.api.dto.OrderCommentReplyCreateDTO;
 import cn.iocoder.mall.order.biz.convert.OrderCommentConvert;
 import cn.iocoder.mall.order.biz.dao.OrderCommentMapper;
 import cn.iocoder.mall.order.biz.dao.OrderCommentReplayMapper;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -24,14 +24,15 @@ import java.util.Date;
  * @time 2019
  */
 @Service
-@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.OrderService.version}")
+@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.OrderCommentService.version}")
 public class OrderCommentServiceImpl implements OrderCommentService {
 
     @Autowired
     private OrderCommentMapper orderCommentMapper;
 
+
     @Autowired
-    private OrderCommentReplayMapper orderCommentReplayMapper;
+    private OrderCommentService orderCommentService;
 
     @Override
     public OrderCommentCreateBO createOrderComment(OrderCommentCreateDTO orderCommentCreateDTO) {
@@ -40,18 +41,22 @@ public class OrderCommentServiceImpl implements OrderCommentService {
         //接下来就是入库
         OrderCommentDO orderCommentDO=OrderCommentConvert.INSTANCE.convert(orderCommentCreateDTO);
         orderCommentDO.setCreateTime(new Date());
+        orderCommentDO.setUpdateTime(new Date());
         orderCommentMapper.insert(orderCommentDO);
         return OrderCommentConvert.INSTANCE.convert(orderCommentDO);
     }
 
     @Override
-    public Boolean createOrderCommentReply(OrderCommentReplyCreateDTO orderCommentReplyCreateDTO) {
-        return null;
-    }
-
-    @Override
     public OrderCommentPageBO getOrderCommentPage(OrderCommentPageDTO orderCommentPageDTO) {
-        return null;
+        OrderCommentPageBO orderCommentPageBO=new OrderCommentPageBO();
+        //分页内容
+        List<OrderCommentDO> orderCommentDOList=orderCommentMapper.selectCommentPage(orderCommentPageDTO);
+        //查询商家的回复
+        //总数
+        int totalCount=orderCommentMapper.selectCommentTotalCountByProductSkuId(orderCommentPageDTO.getProductSkuId());
+        orderCommentPageBO.setOrderCommentItems(OrderCommentConvert.INSTANCE.convert(orderCommentDOList));
+        orderCommentPageBO.setTotal(totalCount);
+        return orderCommentPageBO;
     }
 
     @Override

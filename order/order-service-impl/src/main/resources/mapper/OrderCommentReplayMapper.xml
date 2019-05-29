@@ -9,7 +9,7 @@
 
     <!--插入-->
     <insert id="insert" parameterType="OrderCommentReplyDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO `order_comment_replay`(comment_id,reply_type,parent_id,parent_user_id,parent_user_nick_name,parent_user_avatar,reply_content,reply_user_id
+        INSERT INTO order_comment_replay(comment_id,reply_type,parent_id,parent_user_id,parent_user_nick_name,parent_user_avatar,reply_content,reply_user_id
         reply_user_nick_name,reply_user_avatar,user_type,create_time,update_time)
         VALUES (#{commentId},#{replyType},#{parentId},#{parentUserId},#{parentUserNickName},#{parentUserAvatar},#{replyContent},#{replyUserId},
         #{replyUserNickName},#{replyUserAvatar},#{userType},#{createTime},#{updateTime})
@@ -49,6 +49,12 @@
         user_type = #{userType}
         ORDER BY create_time DESC
         LIMIT ${pageNo * pageSize}, ${pageSize}
+    </select>
+
+
+    <!--根据评论 id 查询商家最新的评论列表-->
+    <select id="selectCommentNewMerchantReplyByCommentIds" resultType="cn.iocoder.mall.order.biz.dataobject.OrderCommentReplyDO">
+
     </select>
 
 </mapper>

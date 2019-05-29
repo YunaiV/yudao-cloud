@@ -86,7 +86,7 @@ public class OrderCommentInfoAndMerchantReplyBO {
 
     @Data
     @Accessors(chain = true)
-    private static class OrderCommentReplayMerchantItem{
+    public static class OrderCommentReplayMerchantItem{
         /**
          * 回复的内容
          */

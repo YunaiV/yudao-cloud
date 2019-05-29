@@ -24,20 +24,21 @@ public class OrderCommentPageBO implements Serializable {
      */
     private Integer total;
 
-    /**
-     * 好评
-     */
-    private Integer positiveTotal;
-
-    /**
-     * 中评
-     */
-    private Integer moderateTotal;
-
-    /**
-     * 差评
-     */
-    private Integer negativeTotal;
+//    评论标签化等等在做
+//    /**
+//     * 好评
+//     */
+//    private Integer positiveTotal;
+//
+//    /**
+//     * 中评
+//     */
+//    private Integer moderateTotal;
+//
+//    /**
+//     * 差评
+//     */
+//    private Integer negativeTotal;
 
     /**
      * 评论列表
@@ -47,7 +48,7 @@ public class OrderCommentPageBO implements Serializable {
 
     @Data
     @Accessors(chain = true)
-    private static class OrderCommentItem{
+    public static class OrderCommentItem{
         /**
          * 评论 id
          */

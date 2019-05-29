@@ -58,6 +58,7 @@ class SignList extends PureComponent {
       visible: true,
       type: 'add',
       title: '添加签名',
+      sign: {},
     });
   };
 

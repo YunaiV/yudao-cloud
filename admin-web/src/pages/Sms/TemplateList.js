@@ -9,7 +9,8 @@ import styles from '../List/TableList.less';
 import TemplateListSearch from './TemplateListSearch';
 import TemplateListModal from './TemplateListModal';
 
-@connect(({ smsTemplateList, loading }) => ({
+@connect(({ smsSignList, smsTemplateList, loading }) => ({
+  smsSignList,
   smsTemplateList,
   loading: loading.models.smsTemplateList,
 }))
@@ -19,7 +20,7 @@ class TemplateList extends PureComponent {
     title: '添加模板', // 添加签名 修改签名
     type: 'add', // add update
     id: '',
-    sign: {},
+    template: {},
   };
 
   componentDidMount() {
@@ -31,7 +32,23 @@ class TemplateList extends PureComponent {
 
     // 查询 page
     this.queryPage();
+
+    // 查询 sign 用于 signList
+    this.querySignList();
   }
+
+  querySignList = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'smsSignList/page',
+      payload: {
+        current: 1,
+        total: 0,
+        size: 100,
+        // ...searchParams,
+      },
+    });
+  };
 
   queryPage = () => {
     const { dispatch } = this.props;
@@ -58,25 +75,26 @@ class TemplateList extends PureComponent {
       visible: true,
       type: 'add',
       title: '添加模板',
+      template: {},
     });
   };
 
-  handleUpdateShow = sign => {
-    const { id } = sign;
+  handleUpdateShow = template => {
+    const { id } = template;
     this.setState({
       visible: true,
       type: 'update',
       title: '更新模板',
       id,
-      sign,
+      template,
     });
   };
 
-  handleDeleted = ({ id, sign }) => {
+  handleDeleted = ({ id, template }) => {
     const { dispatch } = this.props;
     Modal.confirm({
       title: `提示消息`,
-      content: `确认删除 ${sign} 签名吗`,
+      content: `确认删除 ${template} 签名吗`,
       okText: '确认',
       cancelText: '取消',
       onOk: () => {
@@ -147,9 +165,9 @@ class TemplateList extends PureComponent {
 
   render() {
     // props
-    const { loading, smsTemplateList } = this.props;
+    const { loading, smsTemplateList, smsSignList } = this.props;
     const { list, total, index, size } = smsTemplateList;
-    const { visible, title, type, sign } = this.state;
+    const { visible, title, type, template } = this.state;
 
     const columns = [
       {
@@ -167,7 +185,7 @@ class TemplateList extends PureComponent {
         },
       },
       {
-        title: '签名',
+        title: '模板',
         dataIndex: 'template',
         key: 'template',
       },
@@ -237,7 +255,7 @@ class TemplateList extends PureComponent {
       <PageHeaderWrapper>
         <Card>
           <div className={styles.tableListForm}>
-            <TemplateListSearch handleSearch={this.handleSearch} />
+            <TemplateListSearch signList={smsSignList.list} handleSearch={this.handleSearch} />
           </div>
           <br />
           <div>
@@ -258,7 +276,8 @@ class TemplateList extends PureComponent {
         </Card>
 
         <TemplateListModal
-          initData={sign}
+          initData={template}
+          signList={smsSignList.list}
           title={title}
           visible={visible}
           type={type}

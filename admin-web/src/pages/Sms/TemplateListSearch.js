@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Col, Form, Input, Row } from 'antd';
+import { Button, Col, Form, Input, Row, Select } from 'antd';
 
 const FormItem = Form.Item;
 
@@ -9,7 +9,7 @@ const FormItem = Form.Item;
  * @type {React.ComponentClass<RcBaseFormProps & Omit<FormComponentProps, keyof FormComponentProps>>}
  */
 const SignListSearch = Form.create()(props => {
-  const { handleSearch } = props;
+  const { handleSearch, signList } = props;
   const { getFieldDecorator, validateFields, form } = props.form;
 
   function onSubmit(e) {
@@ -37,7 +37,15 @@ const SignListSearch = Form.create()(props => {
         </Col>
         <Col md={8} sm={24}>
           <FormItem label="签名">
-            {getFieldDecorator('smsSignId')(<Input placeholder="请输入签名" />)}
+            {getFieldDecorator('smsSignId')(
+              <Select>
+                {signList.map(item => (
+                  <Select.Option key={item.id} value={item.id}>
+                    {item.sign}
+                  </Select.Option>
+                ))}
+              </Select>
+            )}
           </FormItem>
         </Col>
       </Row>

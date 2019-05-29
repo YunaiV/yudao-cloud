@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Modal } from 'antd';
+import { Form, Input, Modal, Select } from 'antd';
 import DictionarySelect from '../../components/Dictionary/DictionarySelect';
 import dictionary from '../../utils/dictionary';
 
@@ -9,7 +9,7 @@ import dictionary from '../../utils/dictionary';
  * @type {React.ComponentClass<RcBaseFormProps & Omit<FormComponentProps, keyof FormComponentProps>>}
  */
 const SignListModal = Form.create()(props => {
-  const { onOk, onCancel, visible, title, form, initData = {} } = props;
+  const { onOk, onCancel, visible, title, form, signList, initData = {} } = props;
   const { getFieldDecorator, validateFields } = props.form;
 
   function handleOk(e) {
@@ -47,7 +47,15 @@ const SignListModal = Form.create()(props => {
               },
             ],
             initialValue: initData.sign ? initData.sign.id : null,
-          })(<Input placeholder="请输入签名" />)}
+          })(
+            <Select>
+              {signList.map(item => (
+                <Select.Option key={item.id} value={item.id}>
+                  {item.sign}
+                </Select.Option>
+              ))}
+            </Select>
+          )}
         </Form.Item>
         <Form.Item {...formItemLayout} label="类型">
           {getFieldDecorator('smsType', {

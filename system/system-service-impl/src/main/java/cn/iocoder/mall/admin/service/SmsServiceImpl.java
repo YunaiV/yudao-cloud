@@ -12,11 +12,14 @@ import cn.iocoder.mall.admin.api.constant.SmsApplyStatusEnum;
 import cn.iocoder.mall.admin.api.constant.SmsPlatformEnum;
 import cn.iocoder.mall.admin.api.dto.sms.PageQuerySmsSignDTO;
 import cn.iocoder.mall.admin.api.dto.sms.PageQuerySmsTemplateDTO;
+import cn.iocoder.mall.admin.client.SmsAliYunClient;
 import cn.iocoder.mall.admin.client.SmsClient;
 import cn.iocoder.mall.admin.convert.SmsSignConvert;
 import cn.iocoder.mall.admin.convert.SmsTemplateConvert;
+import cn.iocoder.mall.admin.dao.SmsSendMapper;
 import cn.iocoder.mall.admin.dao.SmsSignMapper;
 import cn.iocoder.mall.admin.dao.SmsTemplateMapper;
+import cn.iocoder.mall.admin.dataobject.SmsSendLogDO;
 import cn.iocoder.mall.admin.dataobject.SmsSignDO;
 import cn.iocoder.mall.admin.dataobject.SmsTemplateDO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -47,6 +50,8 @@ public class SmsServiceImpl implements SmsService {
     private SmsSignMapper smsSignMapper;
     @Autowired
     private SmsTemplateMapper smsTemplateMapper;
+    @Autowired
+    private SmsSendMapper smsSendMapper;
 
     @Autowired
     @Qualifier("smsYunPianClient")
@@ -349,8 +354,17 @@ public class SmsServiceImpl implements SmsService {
         // 获取 client
         SmsClient smsClient = getSmsClient(smsTemplateDO.getPlatform());
         // 发送短信
-        smsClient.singleSend(mobile, smsSignDO.getSign(),
+        SmsClient.SendResult sendResult = smsClient.singleSend(mobile, smsSignDO.getSign(),
                 smsTemplateDO.getTemplateCode(), smsTemplateDO.getTemplate(), params);
+
+        // 添加日志
+        smsSendMapper.insert(
+                (SmsSendLogDO) new SmsSendLogDO()
+                        .setTemplateId(smsTemplateDO.getId())
+                        .setTemplate(smsTemplateDO.getTemplate())
+                        .setMessage(sendResult.getMessage())
+                        .setCreateTime(new Date())
+        );
     }
 
     @Override
@@ -368,15 +382,34 @@ public class SmsServiceImpl implements SmsService {
                 new QueryWrapper<SmsSignDO>().eq("id", smsTemplateDO.getSmsSignId()));
 
         if (smsSignDO == null) {
+            // 添加日志
+            smsSendMapper.insert(
+                    (SmsSendLogDO) new SmsSendLogDO()
+                            .setTemplateId(smsTemplateDO.getId())
+                            .setTemplate(smsTemplateDO.getTemplate())
+                            .setMessage("发送成功!")
+                            .setCreateTime(new Date())
+            );
+
             throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
                     AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
         }
 
         // 获取 client
         SmsClient smsClient = getSmsClient(smsTemplateDO.getPlatform());
+
         // 发送短信
-        smsClient.batchSend(mobileList, smsSignDO.getSign(),
+        SmsClient.SendResult sendResult = smsClient.batchSend(mobileList, smsSignDO.getSign(),
                 smsTemplateDO.getTemplateCode(), smsTemplateDO.getTemplate(), params);
+
+        // 添加日志
+        smsSendMapper.insert(
+                (SmsSendLogDO) new SmsSendLogDO()
+                        .setTemplateId(smsTemplateDO.getId())
+                        .setTemplate(smsTemplateDO.getTemplate())
+                        .setMessage(sendResult.getMessage())
+                        .setCreateTime(new Date())
+        );
     }
 
     /**

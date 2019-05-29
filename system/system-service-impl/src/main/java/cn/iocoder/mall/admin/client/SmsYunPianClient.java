@@ -36,6 +36,7 @@ public class SmsYunPianClient implements SmsClient {
     protected static final Logger LOGGER = LoggerFactory.getLogger(SmsYunPianClient.class);
 
     private static final int SUCCESS_CODE = 0;
+    private static final String SUCCESS_MESSAGE = "SUCCESS";
 
     /**
      * 云片短信 - 批量推送最大数 500，支持 1000
@@ -121,13 +122,17 @@ public class SmsYunPianClient implements SmsClient {
     }
 
     @Override
-    public SendResult batchSend(List<String> mobileList, String sign, String templateCode, String template, Map<String, String> templateParams) {
+    public SendResult batchSend(List<String> mobileList, String sign,
+                                String templateCode, String template,
+                                Map<String, String> templateParams) {
         // build 模板
         template = buildTemplate(sign, template, templateParams);
 
         // 最大发送数为 1000，我们设置为 500 个, 分段发送
         int maxSendSize = MAX_BATCH_SIZE;
-        int maxSendSizeCount = mobileList.size() % maxSendSize;
+        int maxSendSizeCount = mobileList.size() % maxSendSize == 0
+                ? mobileList.size() / maxSendSize
+                : mobileList.size() / maxSendSize + 1;
         int j = 0;
         int j2 = mobileList.size();
 
@@ -163,7 +168,7 @@ public class SmsYunPianClient implements SmsClient {
         return new SendResult()
                 .setIsSuccess(true)
                 .setCode(SUCCESS_CODE)
-                .setMessage(null);
+                .setMessage(SUCCESS_MESSAGE);
     }
 
     /**
@@ -181,8 +186,6 @@ public class SmsYunPianClient implements SmsClient {
             return template;
         }
 
-        LOGGER.debug("模板构建 before -> {}", template);
-
         for (Map.Entry<String, String> entry : templateParams.entrySet()) {
             String paramsKey = entry.getKey();
             String value = entry.getValue();
@@ -191,7 +194,6 @@ public class SmsYunPianClient implements SmsClient {
         }
 
         template = String.format(SIGN_TEMPLATE, sign, template);
-        LOGGER.debug("模板构建 after -> {}", template);
         return template;
     }
 
@@ -204,8 +206,6 @@ public class SmsYunPianClient implements SmsClient {
      */
 
     public static String post(String url, Map<String, String> paramsMap) {
-
-        // TODO: 2019/5/25 Sin 这个地方需要 记录日志
         CloseableHttpClient client = HttpClients.createDefault();
         String responseText = "";
         CloseableHttpResponse response = null;

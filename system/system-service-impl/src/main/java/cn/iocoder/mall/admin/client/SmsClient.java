@@ -14,15 +14,28 @@ import java.util.Map;
  */
 public interface SmsClient {
 
+
+
     @Data
     @Accessors(chain = true)
     class SendResult {
 
-        private Boolean isSuccess;
+        public static final int SUCCESS_CODE = 0;
+        public static final int ERROR_CODE = 1;
+        public static final String SUCCESS_MESSAGE = "SUCCESS";
 
+        /**
+         * 错误码
+         */
         private Integer code;
-
+        /**
+         * 错误信息
+         */
         private String message;
+        /**
+         * 是否成功
+         */
+        private Boolean isSuccess;
     }
 
     /**

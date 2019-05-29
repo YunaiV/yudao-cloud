@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class SmsClientLog extends BaseDO {
+public class SmsSendLogDO extends BaseDO {
 
     /**
      * 编号
@@ -26,6 +26,10 @@ public class SmsClientLog extends BaseDO {
      * 短信
      */
     private String template;
+    /**
+     * 参数
+     */
+    private String params;
     /**
      * 发送信息
      */

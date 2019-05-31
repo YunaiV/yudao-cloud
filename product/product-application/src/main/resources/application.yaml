@@ -16,8 +16,6 @@ server:
   servlet:
     context-path: /product-api/
 
-swagger:
-  enable: false
 
 
 management:
@@ -27,3 +25,10 @@ management:
         include: health,info,env,metrics,prometheus
     metrics:
       enabled: true
+
+swagger:
+  enable: true
+  title: 商品子系统
+  description: 商品子系统
+  version: 1.0.0
+  base-package: cn.iocoder.mall.product.application.controller

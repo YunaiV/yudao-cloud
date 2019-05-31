@@ -31,6 +31,8 @@ dubbo:
       version: 1.0.0
     ProductSpuService:
       version: 1.0.0
+    ProductBrandService:
+      version: 1.0.0
     OAuth2Service:
       version: 1.0.0
 

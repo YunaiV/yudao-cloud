@@ -43,8 +43,11 @@ dubbo:
       version: 1.0.0
     OrderLogisticsService:
       version: 1.0.0
+<<<<<<< Updated upstream
     OrderCommentService:
       version: 1.0.0
+=======
+>>>>>>> Stashed changes
   consumer:
     timeout: 120000 # 设置长一点，方便调试代码
     ProductSpuService:

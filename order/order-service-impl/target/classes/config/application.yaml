@@ -1,0 +1,73 @@
+spring:
+  # datasource
+  datasource:
+    url: jdbc:mysql://180.167.213.26:13306/mall_order?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: ${MALL_MYSQL_PASSWORD}
+
+# mybatis
+#mybatis:
+#  config-location: classpath:mybatis-config.xml
+#  mapper-locations: classpath:mapper/*.xml
+#  type-aliases-package: cn.iocoder.mall.order.biz.dataobject
+#
+# mybatis-plus
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true # 虽然默认为 true ，但是还是显示去指定下。
+  global-config:
+    db-config:
+      id-type: auto
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: cn.iocoder.mall.order.biz.dataobject
+
+# dubbo
+dubbo:
+  application:
+    name: order-service
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  protocol:
+    port: -1
+    name: dubbo
+  scan:
+    base-packages: cn.iocoder.mall.order.biz.service
+  provider:
+    filter: -exception
+    CartService:
+      version: 1.0.0
+    OrderService:
+      version: 1.0.0
+    OrderReturnService:
+      version: 1.0.0
+    OrderLogisticsService:
+      version: 1.0.0
+    OrderCommentService:
+      version: 1.0.0
+  consumer:
+    timeout: 120000 # 设置长一点，方便调试代码
+    ProductSpuService:
+      version: 1.0.0
+    PromotionActivityService:
+      version: 1.0.0
+    CouponService:
+      version: 1.0.0
+    PayRefundService:
+      version: 1.0.0
+    UserAddressService:
+      version: 1.0.0
+    PayTransactionService:
+      version: 1.0.0
+    DataDictService:
+      version: 1.0.0
+
+# logging
+logging:
+  level:
+    # dao 开启 debug 模式 mybatis 输入 sql
+    cn.iocoder.mall.order.biz.dao: debug
+
+# seata
+seata:
+  tx-service-group: my_test_tx_group

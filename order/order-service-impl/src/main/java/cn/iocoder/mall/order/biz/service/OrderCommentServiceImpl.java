@@ -4,17 +4,21 @@ import cn.iocoder.mall.order.api.OrderCommentService;
 import cn.iocoder.mall.order.api.bo.OrderCommentCreateBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentInfoAndMerchantReplyBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentPageBO;
+import cn.iocoder.mall.order.api.constant.OrderReplyUserTypeEnum;
 import cn.iocoder.mall.order.api.dto.OrderCommentCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderCommentPageDTO;
 import cn.iocoder.mall.order.biz.convert.OrderCommentConvert;
 import cn.iocoder.mall.order.biz.dao.OrderCommentMapper;
 import cn.iocoder.mall.order.biz.dao.OrderCommentReplayMapper;
 import cn.iocoder.mall.order.biz.dataobject.OrderCommentDO;
+import cn.iocoder.mall.order.biz.dataobject.OrderCommentReplyDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -29,6 +33,9 @@ public class OrderCommentServiceImpl implements OrderCommentService {
 
     @Autowired
     private OrderCommentMapper orderCommentMapper;
+
+    @Autowired
+    private OrderCommentReplayMapper orderCommentReplayMapper;
 
 
     @Autowired
@@ -50,11 +57,24 @@ public class OrderCommentServiceImpl implements OrderCommentService {
     public OrderCommentPageBO getOrderCommentPage(OrderCommentPageDTO orderCommentPageDTO) {
         OrderCommentPageBO orderCommentPageBO=new OrderCommentPageBO();
         //分页内容
-        List<OrderCommentDO> orderCommentDOList=orderCommentMapper.selectCommentPage(orderCommentPageDTO);
-        //查询商家的回复
+        int offset = (orderCommentPageDTO.getPageNo() - 1) * orderCommentPageDTO.getPageSize();
+        List<OrderCommentDO> orderCommentDOList=orderCommentMapper.selectCommentPage(orderCommentPageDTO.getProductSkuId(),
+                offset,orderCommentPageDTO.getPageSize());
+        //分页评论的 id
+        List<Integer> commentIds=orderCommentDOList.stream().map(x->x.getId()).collect(Collectors.toList());
+        //获取商家最新的评论回复
+        List<OrderCommentReplyDO> orderCommentReplyDOList=orderCommentReplayMapper.selectCommentNewMerchantReplyByCommentIds(commentIds,
+                OrderReplyUserTypeEnum.MERCHANT.getValue());
+        //评论组装
+        List<OrderCommentPageBO.OrderCommentItem> orderCommentItemList=orderCommentDOList.stream()
+                .flatMap(x->orderCommentReplyDOList.stream()
+                        .filter(y->x.getId()==y.getCommentId())
+                        .map(y->new OrderCommentPageBO.OrderCommentItem(x.getId(),x.getUserAvatar(),x.getUserNickName(),x.getStar(),
+                                x.getCommentContent(),x.getCommentPics(),x.getReplayCount(),x.getLikeCount(),x.getCreateTime(),y.getReplyContent()))
+                ).collect(Collectors.toList());
         //总数
         int totalCount=orderCommentMapper.selectCommentTotalCountByProductSkuId(orderCommentPageDTO.getProductSkuId());
-        orderCommentPageBO.setOrderCommentItems(OrderCommentConvert.INSTANCE.convert(orderCommentDOList));
+        orderCommentPageBO.setOrderCommentItems(orderCommentItemList);
         orderCommentPageBO.setTotal(totalCount);
         return orderCommentPageBO;
     }

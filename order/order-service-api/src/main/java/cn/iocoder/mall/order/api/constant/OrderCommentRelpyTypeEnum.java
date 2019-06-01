@@ -2,15 +2,15 @@ package cn.iocoder.mall.order.api.constant;
 
 /**
  *
- * 评论回复 - 回复的用户的类型
+ * 评论回复类型
  *
  * @author wtz
- * @time 2019-05-19 15:19
+ * @time 2019-06-01 10:30:00
  */
-public enum  OrderReplyUserTypeEnum {
+public enum OrderCommentRelpyTypeEnum {
 
-    USER(0, "普通用户"),
-    MERCHANT(1, "商家");
+    REPLY_REPLY(0, "回复的回复"),
+    COMMENT_REPLY(1, "评论的回复");
     /**
      * 状态值
      */
@@ -20,7 +20,7 @@ public enum  OrderReplyUserTypeEnum {
      */
     private String name;
 
-    OrderReplyUserTypeEnum(Integer value, String name) {
+    OrderCommentRelpyTypeEnum(Integer value, String name) {
         this.value = value;
         this.name = name;
     }
@@ -32,5 +32,4 @@ public enum  OrderReplyUserTypeEnum {
     public String getName() {
         return name;
     }
-
 }

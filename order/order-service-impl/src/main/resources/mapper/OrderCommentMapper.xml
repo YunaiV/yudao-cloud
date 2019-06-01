@@ -21,7 +21,7 @@
     <!--根据 sku id 获取评论总数-->
     <select id="selectCommentTotalCountByProductSkuId" parameterType="Integer" resultType="java.lang.Integer">
         SELECT
-        COUNT (*)
+        COUNT(*)
         FROM order_comment
         WHERE
         product_sku_id = #{productSkuId}
@@ -35,7 +35,7 @@
         WHERE
         product_sku_id = #{productSkuId}
         ORDER BY create_time DESC
-        LIMIT ${pageNo * pageSize}, ${pageSize}
+        LIMIT #{offset}, #{limit}
     </select>
 
     <!--根据评论 id 获取用户详情-->
@@ -46,7 +46,7 @@
         WHERE
         id = #{id}
         ORDER BY create_time DESC
-        LIMIT ${pageNo * pageSize}, ${pageSize}
+        LIMIT ${ pageNo * pageSize },${ pageSize }
     </select>
 
 </mapper>

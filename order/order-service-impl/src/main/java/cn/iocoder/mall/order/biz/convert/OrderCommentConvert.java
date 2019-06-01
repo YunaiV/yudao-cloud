@@ -12,6 +12,9 @@ import java.util.List;
 
 /**
  * 订单评论 convert
+ *
+ * @author wtz
+ * @time 2019-05-30 18:30
  */
 @Mapper
 public interface OrderCommentConvert {
@@ -24,6 +27,4 @@ public interface OrderCommentConvert {
     @Mappings({})
     OrderCommentCreateBO convert(OrderCommentDO orderCommentDO);
 
-    @Mappings({})
-    List<OrderCommentPageBO.OrderCommentItem> convert(List<OrderCommentDO> orderCommentDOList);
 }

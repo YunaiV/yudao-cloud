@@ -1,5 +1,10 @@
 package cn.iocoder.mall.order.api.bo;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+
 /**
  *
  * 订单回复创建
@@ -7,5 +12,13 @@ package cn.iocoder.mall.order.api.bo;
  * @author wtz
  * @time 2019-05-19 18:35
  */
-public class OrderCommentReplyCreateBO {
+@Data
+@Accessors(chain = true)
+public class OrderCommentReplyCreateBO implements Serializable {
+
+
+    /**
+     * 评论回复 id
+     */
+    private Integer id;
 }

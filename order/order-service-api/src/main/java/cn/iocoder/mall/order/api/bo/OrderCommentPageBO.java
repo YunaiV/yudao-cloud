@@ -1,5 +1,6 @@
 package cn.iocoder.mall.order.api.bo;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -48,6 +49,7 @@ public class OrderCommentPageBO implements Serializable {
 
     @Data
     @Accessors(chain = true)
+    @AllArgsConstructor
     public static class OrderCommentItem{
         /**
          * 评论 id
@@ -87,7 +89,7 @@ public class OrderCommentPageBO implements Serializable {
         /**
          * 点赞数
          */
-        private Integer collectCount;
+        private Integer likeCount;
 
         /**
          * 创建时间
@@ -98,7 +100,7 @@ public class OrderCommentPageBO implements Serializable {
          * 商家回复列表
          * 只展示最近的一条
          */
-        private String MerchantRaplayContent;
+        private String replyContent;
 
     }
 

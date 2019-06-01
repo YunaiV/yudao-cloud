@@ -55,7 +55,7 @@ public class OrderCommentReplyDO extends BaseDO {
     private String parentUserAvatar;
 
     /**
-     * 回复的数量
+     * 回复的内容
      */
     private String replyContent;
 

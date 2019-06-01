@@ -17,7 +17,11 @@ server:
     context-path: /order-api/
 
 swagger:
-  enable: false
+  enable: true # 暂时不去掉
+  title: 订单子系统
+  description: 订单子系统
+  version: 1.0.0
+  base-package: cn.iocoder.mall.order.application.controller
 
 management:
   endpoints:

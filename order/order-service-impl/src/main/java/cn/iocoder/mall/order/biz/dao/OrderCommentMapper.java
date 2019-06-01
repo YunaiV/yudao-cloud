@@ -39,10 +39,14 @@ public interface OrderCommentMapper{
 
     /**
      * 根据 sku id 分页查询评论
-     * @param orderCommentPageDTO
+     * @param productSkuId
+     * @param offset
+     * @param limit
      * @return
      */
-    List<OrderCommentDO> selectCommentPage(OrderCommentPageDTO orderCommentPageDTO);
+    List<OrderCommentDO> selectCommentPage(@Param("productSkuId") Integer productSkuId,
+                                           @Param("offset") Integer offset,
+                                           @Param("limit") Integer limit);
 
 
     /**

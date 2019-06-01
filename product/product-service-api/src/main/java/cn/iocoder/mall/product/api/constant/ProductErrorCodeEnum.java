@@ -30,6 +30,9 @@ public enum ProductErrorCodeEnum {
     PRODUCT_ATTR_STATUS_EQUALS(1003003003, "商品规格已经是该状态"),
     PRODUCT_ATTR_VALUE_EXISTS(1003003004, "商品规格值已经存在"),
     PRODUCT_ATTR_VALUE_STATUS_EQUALS(1003003005, "商品规格值已经是该状态"),
+
+    // ========== PRODUCT BRAND模块 ==========
+    PRODUCT_BRAND_EXIST(1003004000, "品牌值已经存在"),
     ;
 
     private final int code;

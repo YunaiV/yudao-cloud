@@ -115,6 +115,11 @@ export default [
             name: 'product-category-list',
             component: './Product/ProductCategoryList',
           },
+          {
+            path: '/product/product-brand-list',
+            name: 'product-brand-list',
+            component: './Product/ProductBrandList',
+          },
         ],
       },
       // promotion

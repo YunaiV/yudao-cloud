@@ -92,8 +92,36 @@ export async function productAttrTree(params) {
 }
 
 export async function productAttrValueAdd(params) {
-  return request(`/product-api/admins//attr_value/add?${stringify(params)}`, {
+  return request(`/product-api/admins/attr_value/add?${stringify(params)}`, {
     method: 'POST',
     body: {},
+  });
+}
+
+  // product brand  2019-05-31
+
+export async function productBrandAdd(params) {
+    return request(`/product-api/admins/brand/add?${stringify(params)}`, {
+      method: 'POST',
+      body: {},
+    });
+}
+
+export async function productBrandUpdate(params) {
+    return request(`/product-api/admins/brand/update?${stringify(params)}`, {
+      method: 'POST',
+      body: {},
+    });
+}
+
+export async function productBrandGet(params) {
+  return request(`/product-api/admins/brand/get?${stringify(params)}`, {
+    method: 'GET'
+  });
+}
+
+export async function productBrandPage(params) {
+  return request(`/product-api/admins/brand/page?${stringify(params)}`, {
+    method: 'GET'
   });
 }

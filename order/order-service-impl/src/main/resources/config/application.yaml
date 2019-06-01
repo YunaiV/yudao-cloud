@@ -45,6 +45,8 @@ dubbo:
       version: 1.0.0
     OrderCommentService:
       version: 1.0.0
+    OrderCommentReplyService:
+      version: 1.0.0
   consumer:
     timeout: 120000 # 设置长一点，方便调试代码
     ProductSpuService:

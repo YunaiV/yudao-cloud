@@ -16,7 +16,7 @@
     </insert>
 
     <!--根据评论 id 和用户类型获取商家回复列表-->
-    <select id="selectCommentMerchantReplyByCommentId" resultType="cn.iocoder.mall.order.biz.dataobject.OrderCommentReplyDO">
+    <select id="selectCommentMerchantReplyByCommentIdAndUserType" resultType="cn.iocoder.mall.order.biz.dataobject.OrderCommentReplyDO">
         SELECT
         <include refid="FIELDS" />
         FROM order_comment_replay
@@ -30,7 +30,7 @@
     <!--根据评论 id 和用户类型获取评论总数-->
     <select id="selectCommentReplyTotalCountByCommentId" parameterType="Integer" resultType="java.lang.Integer">
         SELECT
-        COUNT (*)
+        COUNT(*)
         FROM order_comment_replay
         WHERE
         comment_id = #{commentId}
@@ -48,7 +48,7 @@
         AND
         user_type = #{userType}
         ORDER BY create_time DESC
-        LIMIT ${pageNo * pageSize}, ${pageSize}
+        LIMIT ${pageNo*pageSize},${pageSize}
     </select>
 
     <!--根据评论 id 查询商家最新的评论列表-->

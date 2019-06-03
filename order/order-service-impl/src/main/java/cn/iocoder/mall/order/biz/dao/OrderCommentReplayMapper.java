@@ -31,12 +31,12 @@ public interface OrderCommentReplayMapper {
      * @param commentId,userType
      * @return
      */
-    List<OrderCommentReplyDO> selectCommentMerchantReplyByCommentId(@Param("commentId") Integer commentId,
-                                                                    @Param("userType") Integer userType);
+    List<OrderCommentReplyDO> selectCommentMerchantReplyByCommentIdAndUserType(@Param("commentId") Integer commentId,
+                                                                               @Param("userType") Integer userType);
 
 
     /**
-     * 评论回复分页
+     * 分页获取评论回复
      * @param orderCommentReplyPageDTO
      * @return
      */

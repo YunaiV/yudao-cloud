@@ -1,11 +1,16 @@
 package cn.iocoder.mall.order.biz.convert;
 
+import cn.iocoder.mall.order.api.bo.OrderCommentMerchantReplyBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentReplyCreateBO;
+import cn.iocoder.mall.order.api.bo.OrderCommentReplyPageBO;
 import cn.iocoder.mall.order.api.dto.OrderCommentReplyCreateDTO;
 import cn.iocoder.mall.order.biz.dataobject.OrderCommentReplyDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
+
+import javax.validation.constraints.Max;
+import java.util.List;
 
 /**
  *
@@ -24,4 +29,10 @@ public interface OrderCommentReplyConvert {
 
     @Mappings({})
     OrderCommentReplyCreateBO convert(OrderCommentReplyDO orderCommentReplyDO);
+
+    @Mappings({})
+    List<OrderCommentMerchantReplyBO> convert(List<OrderCommentReplyDO> orderCommentReplyDOList);
+
+    @Mappings({})
+    List<OrderCommentReplyPageBO.OrderCommentReplayItem> convertOrderCommentReplayItem(List<OrderCommentReplyDO> orderCommentReplyDOList);
 }

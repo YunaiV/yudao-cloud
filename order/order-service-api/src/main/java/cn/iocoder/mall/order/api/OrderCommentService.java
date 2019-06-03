@@ -1,7 +1,7 @@
 package cn.iocoder.mall.order.api;
 
 import cn.iocoder.mall.order.api.bo.OrderCommentCreateBO;
-import cn.iocoder.mall.order.api.bo.OrderCommentInfoAndMerchantReplyBO;
+import cn.iocoder.mall.order.api.bo.OrderCommentInfoBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentPageBO;
 import cn.iocoder.mall.order.api.dto.OrderCommentCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderCommentPageDTO;
@@ -32,11 +32,11 @@ public interface OrderCommentService {
 
 
     /**
-     * 获取评论详情和商家回复
+     * 获取评论详情
      * @param commentId
      * @return
      */
-    OrderCommentInfoAndMerchantReplyBO getOrderCommentInfo(Integer commentId, Integer userType);
+    OrderCommentInfoBO getOrderCommentInfo(Integer commentId);
 
 
 

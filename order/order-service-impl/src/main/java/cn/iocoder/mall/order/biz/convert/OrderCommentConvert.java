@@ -1,6 +1,7 @@
 package cn.iocoder.mall.order.biz.convert;
 
 import cn.iocoder.mall.order.api.bo.OrderCommentCreateBO;
+import cn.iocoder.mall.order.api.bo.OrderCommentInfoBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentPageBO;
 import cn.iocoder.mall.order.api.dto.OrderCommentCreateDTO;
 import cn.iocoder.mall.order.biz.dataobject.OrderCommentDO;
@@ -26,5 +27,8 @@ public interface OrderCommentConvert {
 
     @Mappings({})
     OrderCommentCreateBO convert(OrderCommentDO orderCommentDO);
+
+    @Mappings({})
+    OrderCommentInfoBO convertOrderCommentInfoBO(OrderCommentDO orderCommentDO);
 
 }

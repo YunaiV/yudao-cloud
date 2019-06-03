@@ -35,7 +35,7 @@
         WHERE
         product_sku_id = #{productSkuId}
         ORDER BY create_time DESC
-        LIMIT #{offset}, #{limit}
+        LIMIT ${pageNo*pageSize},${pageSize}
     </select>
 
     <!--根据评论 id 获取用户详情-->
@@ -45,8 +45,6 @@
         FROM order_comment
         WHERE
         id = #{id}
-        ORDER BY create_time DESC
-        LIMIT ${ pageNo * pageSize },${ pageSize }
     </select>
 
 </mapper>

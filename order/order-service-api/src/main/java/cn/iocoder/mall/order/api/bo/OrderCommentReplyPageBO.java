@@ -15,19 +15,24 @@ import java.util.List;
  * @time 2019-05-19 14:19
  *
  */
+@Data
+@Accessors(chain = true)
 public class OrderCommentReplyPageBO {
 
+    /**
+     * 评论回复总数
+     */
     private Integer total;
 
     /**
      * 用户回复
      */
-    List<OrderCommentReplayUserItem> orderCommentReplayUserItems;
+    List<OrderCommentReplayItem> orderCommentReplayItems;
 
 
     @Data
     @Accessors(chain = true)
-    private static class OrderCommentReplayUserItem{
+    public static class OrderCommentReplayItem{
         /**
          * 回复 id
          */

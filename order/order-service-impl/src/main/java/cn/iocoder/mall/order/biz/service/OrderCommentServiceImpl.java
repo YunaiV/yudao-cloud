@@ -2,7 +2,7 @@ package cn.iocoder.mall.order.biz.service;
 
 import cn.iocoder.mall.order.api.OrderCommentService;
 import cn.iocoder.mall.order.api.bo.OrderCommentCreateBO;
-import cn.iocoder.mall.order.api.bo.OrderCommentInfoAndMerchantReplyBO;
+import cn.iocoder.mall.order.api.bo.OrderCommentInfoBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentPageBO;
 import cn.iocoder.mall.order.api.constant.OrderReplyUserTypeEnum;
 import cn.iocoder.mall.order.api.dto.OrderCommentCreateDTO;
@@ -15,7 +15,6 @@ import cn.iocoder.mall.order.biz.dataobject.OrderCommentReplyDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,9 +56,7 @@ public class OrderCommentServiceImpl implements OrderCommentService {
     public OrderCommentPageBO getOrderCommentPage(OrderCommentPageDTO orderCommentPageDTO) {
         OrderCommentPageBO orderCommentPageBO=new OrderCommentPageBO();
         //分页内容
-        int offset = (orderCommentPageDTO.getPageNo() - 1) * orderCommentPageDTO.getPageSize();
-        List<OrderCommentDO> orderCommentDOList=orderCommentMapper.selectCommentPage(orderCommentPageDTO.getProductSkuId(),
-                offset,orderCommentPageDTO.getPageSize());
+        List<OrderCommentDO> orderCommentDOList=orderCommentMapper.selectCommentPage(orderCommentPageDTO);
         //分页评论的 id
         List<Integer> commentIds=orderCommentDOList.stream().map(x->x.getId()).collect(Collectors.toList());
         //获取商家最新的评论回复
@@ -79,9 +76,12 @@ public class OrderCommentServiceImpl implements OrderCommentService {
         return orderCommentPageBO;
     }
 
+
     @Override
-    public OrderCommentInfoAndMerchantReplyBO getOrderCommentInfo(Integer commentId, Integer userType) {
-        return null;
+    public OrderCommentInfoBO getOrderCommentInfo(Integer commentId) {
+        //查询评论详情
+        OrderCommentDO orderCommentDO=orderCommentMapper.selectCommentInfoByCommentId(commentId);
+        return OrderCommentConvert.INSTANCE.convertOrderCommentInfoBO(orderCommentDO);
     }
 
     @Override

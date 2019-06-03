@@ -1,5 +1,6 @@
 package cn.iocoder.mall.order.api;
 
+import cn.iocoder.mall.order.api.bo.OrderCommentMerchantReplyBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentReplyCreateBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentReplyPageBO;
 import cn.iocoder.mall.order.api.dto.OrderCommentReplyCreateDTO;
@@ -22,7 +23,7 @@ public interface OrderCommentReplyService {
      * @param orderCommentReplyPageDTO
      * @return
      */
-    List<OrderCommentReplyPageBO> getOrderCommentReplyPage(OrderCommentReplyPageDTO orderCommentReplyPageDTO);
+    OrderCommentReplyPageBO getOrderCommentReplyPage(OrderCommentReplyPageDTO orderCommentReplyPageDTO);
 
 
     /**
@@ -31,4 +32,15 @@ public interface OrderCommentReplyService {
      * @return
      */
     OrderCommentReplyCreateBO createOrderCommentReply(OrderCommentReplyCreateDTO orderCommentReplyCreateDTO);
+
+
+    /**
+     * 获取商家评论回复
+     * @param commentId
+     * @return
+     */
+    List<OrderCommentMerchantReplyBO> getOrderCommentMerchantReply(Integer commentId);
+
+
+
 }

@@ -1,3 +1,7 @@
+> 艿艿：本文暂时会写的比较简洁，如果有不懂的地方，请来[「交流群」](http://www.iocoder.cn/mall-user-group/?vip&gitee)，艿艿来帮你解决。
+>
+> 交流群，我们提供了我们自己在使用的开发环境，搭建调试环境会更简便。
+
 # 1. 概述
 
 > 艿艿：本文暂时会写的比较简洁，如果有不懂的地方，请来[「交流群」](http://www.iocoder.cn/mall-user-group/?vip&gitee)，艿艿来帮你解决。
@@ -149,15 +153,15 @@ spring:
 
 具体的启动顺序，是：
 
-* AdminApplication
+* SystemApplication
 * UserApplication
 * ProductApplication
 * PayApplication
     > 因为支付服务，涉及三方支付平台的配置。所以，需要艿艿后续提供简便的方案。TODO
 
 * PromotionApplication
-* SearchApplication
 * OrderApplication
+* SearchApplication
 
 # 9. 启动前端项目
 

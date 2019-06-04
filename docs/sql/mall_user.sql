@@ -3,15 +3,15 @@
 
  Source Server         : mall_mysql
  Source Server Type    : MySQL
- Source Server Version : 50643
+ Source Server Version : 50726
  Source Host           : 180.167.213.26:13306
  Source Schema         : mall_user
 
  Target Server Type    : MySQL
- Target Server Version : 50643
+ Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 28/04/2019 18:05:53
+ Date: 05/06/2019 07:58:03
 */
 
 SET NAMES utf8mb4;
@@ -27,12 +27,12 @@ CREATE TABLE `mobile_code` (
   `code` varchar(6) NOT NULL,
   `today_index` tinyint(4) NOT NULL,
   `used` tinyint(4) NOT NULL,
-  `userd_user_id` int(20) DEFAULT NULL,
+  `used_user_id` int(20) DEFAULT NULL,
   `used_time` datetime DEFAULT NULL,
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=236 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for oauth2_access_token
@@ -46,9 +46,9 @@ CREATE TABLE `oauth2_access_token` (
   `expires_time` datetime DEFAULT NULL,
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `idx_uid` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx_uid` (`user_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for oauth2_refresh_token
@@ -61,9 +61,9 @@ CREATE TABLE `oauth2_refresh_token` (
   `expires_time` datetime DEFAULT NULL,
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `idx_uid` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx_uid` (`user_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for user_access_log
@@ -80,8 +80,8 @@ CREATE TABLE `user_access_log` (
   `start_time` datetime NOT NULL COMMENT '请求时间',
   `response_time` int(11) NOT NULL COMMENT '响应时长 -- 毫秒级',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7772 DEFAULT CHARSET=utf8mb4 COMMENT='admin_access_log';
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=10579 DEFAULT CHARSET=utf8mb4 COMMENT='admin_access_log';
 
 -- ----------------------------
 -- Table structure for user_address
@@ -98,8 +98,8 @@ CREATE TABLE `user_address` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `has_default` int(1) NOT NULL COMMENT '是否默认',
   `deleted` int(2) NOT NULL COMMENT '删除状态',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Table structure for user_register
@@ -109,7 +109,7 @@ CREATE TABLE `user_register` (
   `id` int(20) NOT NULL,
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `udpate_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for users
@@ -124,8 +124,8 @@ CREATE TABLE `users` (
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted` bit(1) DEFAULT b'0' COMMENT '是否删除',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_uid` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `idx_uid` (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 SET FOREIGN_KEY_CHECKS = 1;

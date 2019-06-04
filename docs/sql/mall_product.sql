@@ -3,15 +3,15 @@
 
  Source Server         : mall_mysql
  Source Server Type    : MySQL
- Source Server Version : 50643
+ Source Server Version : 50726
  Source Host           : 180.167.213.26:13306
  Source Schema         : mall_product
 
  Target Server Type    : MySQL
- Target Server Version : 50643
+ Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 28/04/2019 18:05:35
+ Date: 05/06/2019 07:57:40
 */
 
 SET NAMES utf8mb4;
@@ -28,8 +28,8 @@ CREATE TABLE `product_attr` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   `deleted` bit(1) DEFAULT b'0' COMMENT '是否删除',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='product_attr';
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='product_attr';
 
 -- ----------------------------
 -- Table structure for product_attr_value
@@ -43,8 +43,24 @@ CREATE TABLE `product_attr_value` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   `deleted` bit(1) DEFAULT b'0' COMMENT '是否删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COMMENT='product_attr';
+
+-- ----------------------------
+-- Table structure for product_brand
+-- ----------------------------
+DROP TABLE IF EXISTS `product_brand`;
+CREATE TABLE `product_brand` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '品牌编号（主键）',
+  `name` varchar(50) DEFAULT NULL COMMENT '品牌名称',
+  `description` varchar(255) DEFAULT NULL COMMENT '品牌描述',
+  `pic_url` varchar(1024) DEFAULT NULL COMMENT '品牌名图片',
+  `status` tinyint(4) DEFAULT NULL COMMENT '状态 1开启 2禁用',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
+  `deleted` bit(1) DEFAULT b'0' COMMENT '是否删除 0正常1删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COMMENT='product_attr';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for product_category
@@ -61,8 +77,8 @@ CREATE TABLE `product_category` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   `status` tinyint(4) DEFAULT NULL COMMENT '状态',
   `deleted` bit(1) DEFAULT b'1' COMMENT '是否删除',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=793 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=796 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for product_sku
@@ -79,8 +95,8 @@ CREATE TABLE `product_sku` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COMMENT='product_sku';
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COMMENT='product_sku';
 
 -- ----------------------------
 -- Table structure for product_spu
@@ -100,7 +116,7 @@ CREATE TABLE `product_spu` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
   `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COMMENT='product_spu';
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COMMENT='product_spu';
 
 SET FOREIGN_KEY_CHECKS = 1;

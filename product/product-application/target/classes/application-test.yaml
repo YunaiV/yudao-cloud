@@ -1,6 +1,0 @@
-swagger:
-  enable: true
-  title: 商品子系统
-  description: 商品子系统
-  version: 1.0.0
-  base-package: cn.iocoder.mall.product.application.controller

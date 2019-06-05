@@ -7,6 +7,8 @@
 * 「Talk is cheap. Show me the code」（屁话少说，放码过来）
     > 我们看过很多技术文章，却依然不知道微服务该咋整。
 
+* 这会是一个认真做的业务开源项目，目前 Java 代码 2w+ 行，不包括注释的情况下。
+
 * 整体的功能如下图：![功能图](http://static.iocoder.cn/mall%20%E5%8A%9F%E8%83%BD%E5%9B%BE-min.png)
     > 功能图，和实际后端模块拆分，并不是绝对对应。
     * [功能列表 - H5 商城](https://gitee.com/zhijiantianya/onemall/blob/master/docs/guides/%E5%8A%9F%E8%83%BD%E5%88%97%E8%A1%A8/%E5%8A%9F%E8%83%BD%E5%88%97%E8%A1%A8-H5%20%E5%95%86%E5%9F%8E.md)

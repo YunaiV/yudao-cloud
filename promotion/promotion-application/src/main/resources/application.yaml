@@ -17,7 +17,11 @@ server:
     context-path: /promotion-api/
 
 swagger:
-  enable: false
+  enable: true
+  title: 促销子系统
+  description: 促销子系统
+  version: 1.0.0
+  base-package: cn.iocoder.mall.promotion.application.controller
 
 
 management:

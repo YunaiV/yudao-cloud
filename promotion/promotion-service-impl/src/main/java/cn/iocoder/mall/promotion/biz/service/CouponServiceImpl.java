@@ -10,7 +10,6 @@ import cn.iocoder.mall.promotion.api.constant.*;
 import cn.iocoder.mall.promotion.api.dto.*;
 import cn.iocoder.mall.promotion.biz.convert.CouponCardConvert;
 import cn.iocoder.mall.promotion.biz.convert.CouponTemplateConvert;
-import cn.iocoder.mall.promotion.biz.convert.CouponTemplateConvertImpl;
 import cn.iocoder.mall.promotion.biz.dao.CouponCardMapper;
 import cn.iocoder.mall.promotion.biz.dao.CouponTemplateMapper;
 import cn.iocoder.mall.promotion.biz.dataobject.CouponCardDO;
@@ -36,7 +35,7 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public CouponTemplateBO getCouponTemplate(Integer couponTemplateId) {
         CouponTemplateDO template = couponTemplateMapper.selectById(couponTemplateId);
-        return CouponTemplateConvertImpl.INSTANCE.convert(template);
+        return CouponTemplateConvert.INSTANCE.convert(template);
     }
 
     @Override

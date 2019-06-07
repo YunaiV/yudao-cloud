@@ -47,6 +47,7 @@ public class MallUtil {
         if (StringUtil.hasText(traceId)) {
             return traceId;
         }
+        // TODO 芋艿 多次调用会问题
         return UUID.randomUUID().toString();
     }
 

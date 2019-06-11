@@ -52,7 +52,7 @@ spring:
 ① 安装 Zookeeper
 
 * Windows ：参考 [《Windows 下 ZooKeeper 的配置和启动步骤 —— 单机模式》](https://www.jianshu.com/p/66857cbccbd3)
-* Mac ：参考 [《Mac 下安装与配置 MySQL》](https://www.jianshu.com/p/a8e4068a7a8a)
+* Mac ：参考 [《Zookeeper 安装及配置（Mac）》](https://www.jianshu.com/p/0ba61bf7149f)
 
 ② 修改项目中的 Zookeeper 配置
 
@@ -129,6 +129,8 @@ TODO 芋艿，需要完善
 
 * Windows ：参考 [《ElasticSearch 入门 第一篇：Windows 下安装ElasticSearch》](http://www.cnblogs.com/ljhdo/p/4887557.html)
 * Mac ：参考 [《mac 安装 ElasticSearch 笔记》](https://www.jianshu.com/p/81b0b3a60c01)
+
+因为需要中文分词，所以需要安装 [elasticsearch-analysis-ik](https://github.com/medcl/elasticsearch-analysis-ik) 插件。
 
 ② 修改项目中的 Elasticsearch 配置
 

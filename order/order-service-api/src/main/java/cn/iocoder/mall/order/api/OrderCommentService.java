@@ -3,8 +3,10 @@ package cn.iocoder.mall.order.api;
 import cn.iocoder.mall.order.api.bo.OrderCommentCreateBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentInfoBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentPageBO;
+import cn.iocoder.mall.order.api.bo.OrderCommentStateInfoPageBO;
 import cn.iocoder.mall.order.api.dto.OrderCommentCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderCommentPageDTO;
+import cn.iocoder.mall.order.api.dto.OrderCommentStateInfoPageDTO;
 
 /**
  * 订单评论模块
@@ -39,6 +41,12 @@ public interface OrderCommentService {
     OrderCommentInfoBO getOrderCommentInfo(Integer commentId);
 
 
+    /**
+     * 获取订单评论状态详情
+     * @param orderCommentStateInfoPageDTO
+     * @return
+     */
+    OrderCommentStateInfoPageBO getOrderCommentStateInfoPage(OrderCommentStateInfoPageDTO orderCommentStateInfoPageDTO);
 
     /**
      * 订单评价超时自动好评

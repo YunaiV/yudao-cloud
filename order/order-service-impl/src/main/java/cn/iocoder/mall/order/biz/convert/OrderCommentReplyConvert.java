@@ -9,7 +9,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
-import javax.validation.constraints.Max;
 import java.util.List;
 
 /**

@@ -4,9 +4,11 @@ import cn.iocoder.mall.order.api.OrderCommentService;
 import cn.iocoder.mall.order.api.bo.OrderCommentCreateBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentInfoBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentPageBO;
+import cn.iocoder.mall.order.api.bo.OrderCommentStateInfoPageBO;
 import cn.iocoder.mall.order.api.constant.OrderReplyUserTypeEnum;
 import cn.iocoder.mall.order.api.dto.OrderCommentCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderCommentPageDTO;
+import cn.iocoder.mall.order.api.dto.OrderCommentStateInfoPageDTO;
 import cn.iocoder.mall.order.biz.convert.OrderCommentConvert;
 import cn.iocoder.mall.order.biz.dao.OrderCommentMapper;
 import cn.iocoder.mall.order.biz.dao.OrderCommentReplayMapper;
@@ -37,19 +39,13 @@ public class OrderCommentServiceImpl implements OrderCommentService {
     private OrderCommentReplayMapper orderCommentReplayMapper;
 
 
-    @Autowired
-    private OrderCommentService orderCommentService;
-
     @Override
     public OrderCommentCreateBO createOrderComment(OrderCommentCreateDTO orderCommentCreateDTO) {
-        //首先判断订单状态是否处于待评价状态
-
-        //接下来就是入库
-        OrderCommentDO orderCommentDO=OrderCommentConvert.INSTANCE.convert(orderCommentCreateDTO);
+        OrderCommentDO orderCommentDO=OrderCommentConvert.INSTANCE.convertOrderCommentDO(orderCommentCreateDTO);
         orderCommentDO.setCreateTime(new Date());
         orderCommentDO.setUpdateTime(new Date());
         orderCommentMapper.insert(orderCommentDO);
-        return OrderCommentConvert.INSTANCE.convert(orderCommentDO);
+        return OrderCommentConvert.INSTANCE.convertOrderCommentCreateBO(orderCommentDO);
     }
 
     @Override
@@ -82,6 +78,22 @@ public class OrderCommentServiceImpl implements OrderCommentService {
         //查询评论详情
         OrderCommentDO orderCommentDO=orderCommentMapper.selectCommentInfoByCommentId(commentId);
         return OrderCommentConvert.INSTANCE.convertOrderCommentInfoBO(orderCommentDO);
+    }
+
+    @Override
+    public OrderCommentStateInfoPageBO getOrderCommentStateInfoPage(OrderCommentStateInfoPageDTO orderCommentStateInfoPageDTO) {
+        OrderCommentStateInfoPageBO orderCommentStateInfoPageBO=new OrderCommentStateInfoPageBO();
+        //总数
+        int total=orderCommentMapper.selectOrderCommentStateInfoTotal(orderCommentStateInfoPageDTO.getUserId(),
+                orderCommentStateInfoPageDTO.getCommentState());
+        //查询评论状态详情
+        List<OrderCommentDO> orderCommentDOList=orderCommentMapper.selectOrderCommentStateInfoPage(orderCommentStateInfoPageDTO);
+        //转化评论状态详情
+        List<OrderCommentStateInfoPageBO.OrderCommentStateInfoItem> orderCommentStateInfoItemList=
+                OrderCommentConvert.INSTANCE.convertOrderCommentStateInfoItems(orderCommentDOList);
+        orderCommentStateInfoPageBO.setTotal(total);
+        orderCommentStateInfoPageBO.setOrderCommentStateInfoItems(orderCommentStateInfoItemList);
+        return orderCommentStateInfoPageBO;
     }
 
     @Override

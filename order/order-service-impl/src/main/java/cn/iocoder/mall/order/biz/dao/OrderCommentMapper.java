@@ -1,10 +1,8 @@
 package cn.iocoder.mall.order.biz.dao;
 
-import cn.iocoder.mall.order.api.bo.OrderCommentReplyCreateBO;
-import cn.iocoder.mall.order.api.dto.OrderCommentCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderCommentPageDTO;
+import cn.iocoder.mall.order.api.dto.OrderCommentStateInfoPageDTO;
 import cn.iocoder.mall.order.biz.dataobject.OrderCommentDO;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -51,6 +49,23 @@ public interface OrderCommentMapper{
      * @return
      */
     OrderCommentDO selectCommentInfoByCommentId(@Param("id") Integer id);
+
+
+    /**
+     * 订单评论状态信息详情
+     * @param orderCommentStateInfoPageDTO
+     * @return
+     */
+    List<OrderCommentDO> selectOrderCommentStateInfoPage(OrderCommentStateInfoPageDTO orderCommentStateInfoPageDTO);
+
+
+    /**
+     * 订单评论状态总数
+     * @param userId,commentState
+     * @return
+     */
+    int selectOrderCommentStateInfoTotal(@Param("userId") Integer userId,
+                                         @Param("commentState") Integer commentState);
 
 
 

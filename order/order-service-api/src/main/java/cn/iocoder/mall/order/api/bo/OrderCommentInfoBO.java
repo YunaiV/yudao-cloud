@@ -4,6 +4,7 @@ package cn.iocoder.mall.order.api.bo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -16,7 +17,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-public class OrderCommentInfoBO {
+public class OrderCommentInfoBO implements Serializable {
 
     /**
      * 评论 id
@@ -52,7 +53,7 @@ public class OrderCommentInfoBO {
     /**
      * 点赞数
      */
-    private Integer collectCount;
+    private Integer likeCount;
 
     /**
      * 创建时间

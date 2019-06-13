@@ -4,6 +4,7 @@ package cn.iocoder.mall.order.api.bo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class OrderCommentReplyPageBO {
+public class OrderCommentReplyPageBO implements Serializable {
 
     /**
      * 评论回复总数

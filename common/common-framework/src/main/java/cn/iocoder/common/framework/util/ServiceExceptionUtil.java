@@ -39,7 +39,7 @@ public class ServiceExceptionUtil {
         ServiceExceptionUtil.messages.put(code, message);
     }
 
-    // TODO 芋艿，可能不是目前最优解，目前暂时这样
+    // TODO 芋艿，可能不是目前最优解，目前暂时这样 枚举实现接口
     public static <T> CommonResult<T> error(Integer code) {
         return CommonResult.error(code, messages.get(code));
     }

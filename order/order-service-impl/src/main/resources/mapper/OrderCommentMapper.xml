@@ -72,4 +72,30 @@
         comment_state = #{commentState}
     </select>
 
+    <!--订单评论超时分页-->
+    <select id="selectOrderCommentTimeOutPage" resultType="cn.iocoder.mall.order.biz.dataobject.OrderCommentDO">
+        SELECT
+        <include refid="FIELDS" />
+        FROM order_comment
+        WHERE
+        comment_state = #{commentState}
+        having
+        TIMESTAMPDIFF(DAY,create_time,NOW()) > #{orverDay}
+        LIMIT ${pageNo*pageSize},${pageSize}
+    </select>
+
+    <!--批量更新订单评论-->
+    <update id="updateBatchOrderCommentState" parameterType="java.util.List">
+        UPDATE order_comment
+        SET
+        comment_state = #{commentState}
+        WHERE
+        id IN
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            #{item.id}
+        </foreach>
+    </update>
+
+
+
 </mapper>

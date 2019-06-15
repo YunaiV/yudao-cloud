@@ -1,14 +1,13 @@
 package cn.iocoder.mall.order.biz.service;
 
 import cn.iocoder.mall.order.api.OrderCommentService;
-import cn.iocoder.mall.order.api.bo.OrderCommentCreateBO;
-import cn.iocoder.mall.order.api.bo.OrderCommentInfoBO;
-import cn.iocoder.mall.order.api.bo.OrderCommentPageBO;
-import cn.iocoder.mall.order.api.bo.OrderCommentStateInfoPageBO;
+import cn.iocoder.mall.order.api.bo.*;
+import cn.iocoder.mall.order.api.constant.OrderCommentStatusEnum;
 import cn.iocoder.mall.order.api.constant.OrderReplyUserTypeEnum;
 import cn.iocoder.mall.order.api.dto.OrderCommentCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderCommentPageDTO;
 import cn.iocoder.mall.order.api.dto.OrderCommentStateInfoPageDTO;
+import cn.iocoder.mall.order.api.dto.OrderCommentTimeOutPageDTO;
 import cn.iocoder.mall.order.biz.convert.OrderCommentConvert;
 import cn.iocoder.mall.order.biz.dao.OrderCommentMapper;
 import cn.iocoder.mall.order.biz.dao.OrderCommentReplayMapper;
@@ -16,6 +15,7 @@ import cn.iocoder.mall.order.biz.dataobject.OrderCommentDO;
 import cn.iocoder.mall.order.biz.dataobject.OrderCommentReplyDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -43,7 +43,6 @@ public class OrderCommentServiceImpl implements OrderCommentService {
     public OrderCommentCreateBO createOrderComment(OrderCommentCreateDTO orderCommentCreateDTO) {
         OrderCommentDO orderCommentDO=OrderCommentConvert.INSTANCE.convertOrderCommentDO(orderCommentCreateDTO);
         orderCommentDO.setCreateTime(new Date());
-        orderCommentDO.setUpdateTime(new Date());
         orderCommentMapper.insert(orderCommentDO);
         return OrderCommentConvert.INSTANCE.convertOrderCommentCreateBO(orderCommentDO);
     }
@@ -97,7 +96,14 @@ public class OrderCommentServiceImpl implements OrderCommentService {
     }
 
     @Override
-    public Boolean OrderCommentTimeOutProductCommentTask() {
-        return null;
+    public List<OrderCommentTimeOutBO> getOrderCommentTimeOutPage(OrderCommentTimeOutPageDTO orderCommentTimeOutPageDTO) {
+        List<OrderCommentDO> orderCommentDOList=orderCommentMapper.selectOrderCommentTimeOutPage(orderCommentTimeOutPageDTO);
+        return OrderCommentConvert.INSTANCE.convertOrderCommentTimeOutBOList(orderCommentDOList);
+    }
+
+    @Transactional
+    @Override
+    public void updateBatchOrderCommentState(List<OrderCommentTimeOutBO> orderCommentTimeOutBOList) {
+        orderCommentMapper.updateBatchOrderCommentState(orderCommentTimeOutBOList,OrderCommentStatusEnum.SUCCESS_COMMENT.getValue());
     }
 }

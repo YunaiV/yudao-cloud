@@ -60,7 +60,6 @@ public class OrderCommentReplyServiceImpl implements OrderCommentReplyService {
     public OrderCommentReplyCreateBO createOrderCommentReply(OrderCommentReplyCreateDTO orderCommentReplyCreateDTO) {
         OrderCommentReplyDO orderCommentReplyDO=OrderCommentReplyConvert.INSTANCE.convert(orderCommentReplyCreateDTO);
         orderCommentReplyDO.setCreateTime(new Date());
-        orderCommentReplyDO.setUpdateTime(new Date());
 
         Integer replyType=orderCommentReplyCreateDTO.getCommentId()==orderCommentReplyCreateDTO.getParentId()?
                 OrderCommentRelpyTypeEnum.COMMENT_REPLY.getValue():OrderCommentRelpyTypeEnum.REPLY_REPLY.getValue();

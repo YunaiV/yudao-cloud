@@ -3,6 +3,7 @@ package cn.iocoder.mall.order.biz.convert;
 import cn.iocoder.mall.order.api.bo.OrderCommentCreateBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentInfoBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentStateInfoPageBO;
+import cn.iocoder.mall.order.api.bo.OrderCommentTimeOutBO;
 import cn.iocoder.mall.order.api.dto.OrderCommentCreateDTO;
 import cn.iocoder.mall.order.biz.dataobject.OrderCommentDO;
 import org.mapstruct.Mapper;
@@ -37,6 +38,12 @@ public interface OrderCommentConvert {
 
     @Mappings({})
     OrderCommentInfoBO convertOrderCommentInfoBO(OrderCommentDO orderCommentDO);
+
+    @Mappings({})
+    OrderCommentTimeOutBO convertOrderCommentTimeOutBO(OrderCommentTimeOutBO orderCommentTimeOutBO);
+
+    @Mappings({})
+    List<OrderCommentTimeOutBO> convertOrderCommentTimeOutBOList(List<OrderCommentDO> orderCommentDOList);
 
 
 

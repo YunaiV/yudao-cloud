@@ -1,8 +1,11 @@
 package cn.iocoder.mall.order.biz.dao;
 
+import cn.iocoder.mall.order.api.bo.OrderCommentTimeOutBO;
 import cn.iocoder.mall.order.api.dto.OrderCommentPageDTO;
 import cn.iocoder.mall.order.api.dto.OrderCommentStateInfoPageDTO;
+import cn.iocoder.mall.order.api.dto.OrderCommentTimeOutPageDTO;
 import cn.iocoder.mall.order.biz.dataobject.OrderCommentDO;
+import cn.iocoder.mall.order.biz.dataobject.OrderItemDO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -66,6 +69,22 @@ public interface OrderCommentMapper{
      */
     int selectOrderCommentStateInfoTotal(@Param("userId") Integer userId,
                                          @Param("commentState") Integer commentState);
+
+
+    /**
+     * 订单评论超时分页
+     * @param orderCommentTimeOutPageDTO
+     * @return
+     */
+    List<OrderCommentDO> selectOrderCommentTimeOutPage(OrderCommentTimeOutPageDTO orderCommentTimeOutPageDTO);
+
+    /**
+     * 批量更新订单评论状态
+     * @param orderCommentTimeOutBOList
+     * @param commentState
+     */
+    void updateBatchOrderCommentState(@Param("list") List<OrderCommentTimeOutBO> orderCommentTimeOutBOList,
+                                      @Param("commentState") Integer commentState);
 
 
 

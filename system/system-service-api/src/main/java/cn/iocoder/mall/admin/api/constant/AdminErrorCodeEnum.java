@@ -57,6 +57,11 @@ public enum AdminErrorCodeEnum {
     SMS_TEMPLATE_NOT_EXISTENT(1002006020, "短信签名不存在"),
     SMS_TEMPLATE_IS_EXISTENT(1002006021, "短信签名不存在"),
     SMS_NOT_SEND_CLIENT(1002006030, "短信没有发送的client"),
+
+    // ========== 部门模块 1002007000 ==========
+    DEPT_SAME_LEVEL_NAME_EXITS(1002007001,"当前级别部门名字已存在"),
+    DEPT_PARENT_NOT_EXITS(1002007002,"父级部门不存在")
+
     ;
 
     private final int code;

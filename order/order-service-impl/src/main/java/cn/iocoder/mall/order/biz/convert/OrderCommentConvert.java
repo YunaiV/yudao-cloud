@@ -40,7 +40,7 @@ public interface OrderCommentConvert {
     OrderCommentInfoBO convertOrderCommentInfoBO(OrderCommentDO orderCommentDO);
 
     @Mappings({})
-    OrderCommentTimeOutBO convertOrderCommentTimeOutBO(OrderCommentTimeOutBO orderCommentTimeOutBO);
+    OrderCommentTimeOutBO convertOrderCommentTimeOutBO(OrderCommentDO orderCommentDO);
 
     @Mappings({})
     List<OrderCommentTimeOutBO> convertOrderCommentTimeOutBOList(List<OrderCommentDO> orderCommentDOList);

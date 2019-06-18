@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 超时以后自动生成评论
@@ -59,10 +60,8 @@ public class AutomaticCommentJob extends IJobHandler {
             orderCommentService.updateBatchOrderCommentState(orderCommentTimeOutBOList);
 
         }
-
-
-
-
         return null;
     }
+
+
 }

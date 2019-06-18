@@ -9,6 +9,7 @@ import cn.iocoder.mall.order.biz.dataobject.OrderItemDO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -76,15 +77,15 @@ public interface OrderCommentMapper{
      * @param orderCommentTimeOutPageDTO
      * @return
      */
-    List<OrderCommentDO> selectOrderCommentTimeOutPage(OrderCommentTimeOutPageDTO orderCommentTimeOutPageDTO);
+    List<OrderCommentDO> selectOrderCommentTimeOutPage(@Param("commentTimeOut") OrderCommentTimeOutPageDTO orderCommentTimeOutPageDTO);
 
     /**
      * 批量更新订单评论状态
      * @param orderCommentTimeOutBOList
      * @param commentState
      */
-    void updateBatchOrderCommentState(@Param("list") List<OrderCommentTimeOutBO> orderCommentTimeOutBOList,
-                                      @Param("commentState") Integer commentState);
+    void updateBatchOrderCommentState(@Param("commentState") Integer commentState,
+            @Param("list") List<OrderCommentTimeOutBO> orderCommentTimeOutBOList);
 
 
 

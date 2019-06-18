@@ -159,6 +159,65 @@ CREATE TABLE `order_recipient` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8;
 
+
+-- ----------------------------
+-- Table structure for order_comment
+-- ----------------------------
+
+DROP TABLE IF EXISTS `order_comment`;
+
+CREATE TABLE `order_comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `order_id` int(11) NOT NULL COMMENT '订单id',
+  `order_no` varchar(50) NOT NULL COMMENT '订单编号',
+  `product_spu_id` int(11) NOT NULL COMMENT '商品SPU',
+  `product_spu_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品SPU名称 SPU这两个字段待考量是否加入',
+  `product_sku_id` int(11) NOT NULL COMMENT '商品的sku',
+  `product_sku_attrs` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品规格属性',
+  `product_sku_price` int(11) NOT NULL COMMENT '商品价格，单位：分',
+  `product_sku_pic_url` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品的图片地址',
+  `user_id` int(11) NOT NULL COMMENT '用户id',
+  `user_avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户头像',
+  `user_nick_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户昵称',
+  `star` int(3) DEFAULT '5' COMMENT '评价星数:0->5',
+  `product_description_star` int(3) DEFAULT '5' COMMENT '商品描述:0->5',
+  `logistics_star` int(3) DEFAULT '5' COMMENT '物流星数:0->5',
+  `merchant_star` int(3) DEFAULT '5' COMMENT '商家星数:0->5',
+  `replay_count` int(11) DEFAULT '0' COMMENT '回复的条数',
+  `like_count` int(11) DEFAULT '0' COMMENT '点赞的个数',
+  `comment_content` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '评论的内容',
+  `comment_pics` varchar(1000) DEFAULT NULL COMMENT '评论的图片地址 按照,分割',
+  `comment_state` int(3) DEFAULT '0' COMMENT '评论的状态 0待评论 1已评论',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for order_comment_replay
+-- ----------------------------
+
+DROP TABLE IF EXISTS `order_comment_replay`;
+
+CREATE TABLE `order_comment_replay` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id自增',
+  `comment_id` int(11) NOT NULL COMMENT '评论id',
+  `reply_type` int(1) NOT NULL COMMENT '回复的类型:0基于评论的回复1基于回复的回复',
+  `parent_id` int(11) NOT NULL COMMENT '父id: parent_id=comment_id 基于评论的回复,否则基于回复的回复',
+  `parent_user_id` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '回复目标用户id',
+  `parent_user_nick_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '回复目标用户的真实姓名',
+  `parent_user_avatar` varchar(255) DEFAULT NULL COMMENT '回复目标的头像',
+  `reply_content` varchar(255) DEFAULT NULL COMMENT '回复的内容',
+  `reply_user_id` int(11) NOT NULL COMMENT '回复用户id',
+  `reply_user_nick_name` varchar(255) NOT NULL COMMENT '回复用户昵称',
+  `reply_user_avatar` varchar(255) NOT NULL COMMENT '回复用户头像',
+  `user_type` int(3) DEFAULT '0' COMMENT '回复用户的身份:0普通用户,1商家',
+  `reply_like_count` int(11) NOT NULL DEFAULT '0' COMMENT '回复的点赞数量',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '回复创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '回复更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
 -- ----------------------------
 -- Table structure for order_return
 -- ----------------------------

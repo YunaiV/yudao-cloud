@@ -18,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -101,9 +103,8 @@ public class OrderCommentServiceImpl implements OrderCommentService {
         return OrderCommentConvert.INSTANCE.convertOrderCommentTimeOutBOList(orderCommentDOList);
     }
 
-    @Transactional
     @Override
     public void updateBatchOrderCommentState(List<OrderCommentTimeOutBO> orderCommentTimeOutBOList) {
-        orderCommentMapper.updateBatchOrderCommentState(orderCommentTimeOutBOList,OrderCommentStatusEnum.SUCCESS_COMMENT.getValue());
+        orderCommentMapper.updateBatchOrderCommentState(OrderCommentStatusEnum.SUCCESS_COMMENT.getValue(),orderCommentTimeOutBOList);
     }
 }

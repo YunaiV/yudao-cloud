@@ -1,8 +1,8 @@
-package cn.iocoder.mall.admin.convert;
+package cn.iocoder.mall.admin.application.convert;
 
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.admin.api.bo.deptment.DeptmentBO;
-import cn.iocoder.mall.admin.api.dto.depetment.DeptmentAddDTO;
+import cn.iocoder.mall.admin.application.vo.deptment.DeptmentVO;
 import cn.iocoder.mall.admin.dataobject.DeptmentDO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.mapstruct.Mapper;
@@ -16,23 +16,17 @@ import java.util.List;
  * Description:
  *
  * @author: zhenxianyimeng
- * @date: 2019-06-14
- * @time: 20:06
+ * @date: 2019-06-22
+ * @time: 00:23
  */
 @Mapper
 public interface DeptmentConvert {
 
     DeptmentConvert INSTANCE = Mappers.getMapper(DeptmentConvert.class);
 
-    @Mappings({})
-    DeptmentDO convert(DeptmentAddDTO deptmentAddDTO);
+    @Mappings({@Mapping(source = "list", target = "list")})
+    PageResult<DeptmentVO> convert(PageResult<DeptmentBO> pageResult);
 
     @Mappings({})
-    DeptmentBO convert(DeptmentDO deptmentDO);
-
-    @Mappings({@Mapping(source = "records", target = "list")})
-    PageResult<DeptmentBO> convert(IPage<DeptmentDO> list);
-
-    @Mappings({})
-    List<DeptmentBO> convert(List<DeptmentDO> list);
+    List<DeptmentVO> convert(List<DeptmentBO> list);
 }

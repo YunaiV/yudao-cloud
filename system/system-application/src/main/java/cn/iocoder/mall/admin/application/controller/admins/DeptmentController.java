@@ -1,17 +1,27 @@
 package cn.iocoder.mall.admin.application.controller.admins;
 
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.admin.api.DeptmentService;
 import cn.iocoder.mall.admin.api.bo.deptment.DeptmentBO;
+import cn.iocoder.mall.admin.api.constant.ResourceConstants;
 import cn.iocoder.mall.admin.api.dto.depetment.DeptmentAddDTO;
+import cn.iocoder.mall.admin.api.dto.depetment.DeptmentPageDTO;
+import cn.iocoder.mall.admin.application.convert.DeptmentConvert;
+import cn.iocoder.mall.admin.application.vo.deptment.DeptmentVO;
+import cn.iocoder.mall.admin.application.vo.resource.ResourceTreeNodeVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import static cn.iocoder.common.framework.vo.CommonResult.success;
 
 /**
@@ -29,6 +39,33 @@ public class DeptmentController {
     @Autowired
     private DeptmentService deptmentService;
 
+    @GetMapping("tree/page")
+    @ApiOperation(value = "根部门分页的部门树")
+    public CommonResult<PageResult<DeptmentVO>> treePage(DeptmentPageDTO deptmentPageDTO){
+        PageResult<DeptmentBO> pageResult = deptmentService.getPageRootDeptment(deptmentPageDTO);
+        PageResult<DeptmentVO> voPageResult = DeptmentConvert.INSTANCE.convert(pageResult);
+        List<DeptmentBO> list = deptmentService.getAllDeptments();
+        List<DeptmentVO> voList = DeptmentConvert.INSTANCE.convert(list);
+        Map<Integer, DeptmentVO> nodeMap = voList.stream().collect(Collectors.toMap(e->e.getId(), e->e));
+
+        nodeMap.values().stream()
+                .filter(node -> !node.getPid().equals(ResourceConstants.PID_ROOT))
+                .forEach((childNode) -> {
+                    // 获得父节点
+                    DeptmentVO parentNode = nodeMap.get(childNode.getPid());
+                    if (parentNode.getChildren() == null) { // 初始化 children 数组
+                        parentNode.setChildren(new ArrayList<>());
+                    }
+                    // 将自己添加到父节点中
+                    parentNode.getChildren().add(childNode);
+                });
+
+        voPageResult.getList().forEach(d->{
+            d.setChildren(nodeMap.get(d.getId()).getChildren());
+        });
+        return success(voPageResult);
+    }
+
     @PostMapping("add")
     @ApiOperation(value = "新增部门", notes = "选择部门名称，父级部门")
     public CommonResult<DeptmentBO> add(@RequestBody DeptmentAddDTO deptmentAddDTO){
@@ -36,4 +73,7 @@ public class DeptmentController {
                 AdminSecurityContextHolder.getContext().getAdminId(), deptmentAddDTO));
 
     }
+
+
+
 }

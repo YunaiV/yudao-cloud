@@ -30,4 +30,6 @@ public class DeptmentAddDTO {
     @NotNull(message = "可以为空，默认0，顶层")
     @Min(value = 0,message = "父id不能小于0")
     private Integer pid = 0;
+
+
 }

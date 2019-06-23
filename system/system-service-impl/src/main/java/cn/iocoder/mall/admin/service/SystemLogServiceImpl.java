@@ -1,8 +1,12 @@
 package cn.iocoder.mall.admin.service;
 
 import cn.iocoder.common.framework.util.StringUtil;
+import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.admin.api.SystemLogService;
+import cn.iocoder.mall.admin.api.bo.systemlog.AccessLogBO;
+import cn.iocoder.mall.admin.api.bo.systemlog.AccessLogPageBO;
 import cn.iocoder.mall.admin.api.dto.systemlog.AccessLogAddDTO;
+import cn.iocoder.mall.admin.api.dto.systemlog.AccessLogPageDTO;
 import cn.iocoder.mall.admin.api.dto.systemlog.ExceptionLogAddDTO;
 import cn.iocoder.mall.admin.convert.AccessLogConvert;
 import cn.iocoder.mall.admin.dao.AccessLogMapper;
@@ -74,6 +78,17 @@ public class SystemLogServiceImpl implements SystemLogService {
         }
         // 插入
         exceptionLogMapper.insert(exceptionLog);
+    }
+
+    @Override
+    @SuppressWarnings("Duplicates")
+    public AccessLogPageBO getAccessLogPage(AccessLogPageDTO accessLogPageDTO) {
+        AccessLogPageBO accessLogPageBO = new AccessLogPageBO();
+        PageResult<AccessLogBO> accessLogPageBOPageResult = AccessLogConvert.INSTANCE.convert(
+                accessLogMapper.selectPage(accessLogPageDTO));
+        accessLogPageBO.setList(accessLogPageBOPageResult.getList());
+        accessLogPageBO.setTotal(accessLogPageBOPageResult.getTotal());
+        return accessLogPageBO;
     }
 
 }

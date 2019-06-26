@@ -3,6 +3,7 @@ package cn.iocoder.mall.admin.convert;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.admin.api.bo.deptment.DeptmentBO;
 import cn.iocoder.mall.admin.api.dto.depetment.DeptmentAddDTO;
+import cn.iocoder.mall.admin.api.dto.depetment.DeptmentUpdateDTO;
 import cn.iocoder.mall.admin.dataobject.DeptmentDO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.mapstruct.Mapper;
@@ -35,4 +36,7 @@ public interface DeptmentConvert {
 
     @Mappings({})
     List<DeptmentBO> convert(List<DeptmentDO> list);
+
+    @Mappings({})
+    DeptmentDO convert(DeptmentUpdateDTO deptmentUpdateDTO);
 }

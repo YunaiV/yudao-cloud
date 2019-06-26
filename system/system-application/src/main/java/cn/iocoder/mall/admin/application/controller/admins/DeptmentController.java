@@ -7,17 +7,18 @@ import cn.iocoder.mall.admin.api.bo.deptment.DeptmentBO;
 import cn.iocoder.mall.admin.api.constant.ResourceConstants;
 import cn.iocoder.mall.admin.api.dto.depetment.DeptmentAddDTO;
 import cn.iocoder.mall.admin.api.dto.depetment.DeptmentPageDTO;
+import cn.iocoder.mall.admin.api.dto.depetment.DeptmentUpdateDTO;
 import cn.iocoder.mall.admin.application.convert.DeptmentConvert;
 import cn.iocoder.mall.admin.application.vo.deptment.DeptmentVO;
-import cn.iocoder.mall.admin.application.vo.resource.ResourceTreeNodeVO;
+import cn.iocoder.mall.admin.sdk.context.AdminSecurityContext;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -74,6 +75,23 @@ public class DeptmentController {
 
     }
 
+    @PostMapping("delete")
+    @ApiOperation(value = "删除部门")
+    @ApiImplicitParam(name = "id", value = "部门id", required = true, example = "1")
+    public CommonResult<Boolean> delete(@RequestParam("id") Integer id){
+
+        return success(deptmentService.deleteDeptment(
+                AdminSecurityContextHolder.getContext().getAdminId(), id
+        ));
+    }
+
+    @PostMapping("update")
+    @ApiOperation(value = "更新部门")
+    public CommonResult<Boolean> update(@RequestBody DeptmentUpdateDTO deptmentUpdateDTO){
+        return success(deptmentService.updateDeptment(
+                AdminSecurityContextHolder.getContext().getAdminId(), deptmentUpdateDTO
+        ));
+    }
 
 
 }

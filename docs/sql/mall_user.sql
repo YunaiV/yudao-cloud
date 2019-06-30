@@ -145,4 +145,6 @@ CREATE TABLE `user_sku_collections`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户_商品_收藏记录表' ROW_FORMAT = Dynamic;
 
+
+
 SET FOREIGN_KEY_CHECKS = 1;

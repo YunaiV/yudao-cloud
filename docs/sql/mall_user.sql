@@ -129,21 +129,21 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
--- Table structure for user_sku_collections
+-- Table structure for user_spu_collections
 -- ----------------------------
-DROP TABLE IF EXISTS `user_sku_collections`;
-CREATE TABLE `user_sku_collections`  (
+DROP TABLE IF EXISTS `user_spu_collections`;
+CREATE TABLE `user_spu_collections`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id自增长',
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `nickname` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名称',
-  `sku_id` int(11) NOT NULL COMMENT '商品id',
-  `sku_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品名字',
-  `sku_image` varchar(250) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '图片名字',
+  `spu_id` int(11) NOT NULL COMMENT '商品id',
+  `spu_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品名字',
+  `spu_image` varchar(250) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '图片名字',
   `create_time` datetime(0) NOT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `deleted` smallint(2) NOT NULL COMMENT '删除状态',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户_商品_收藏记录表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户_商品_收藏记录表' ROW_FORMAT = Dynamic;
 
 
 

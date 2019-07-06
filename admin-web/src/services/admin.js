@@ -55,6 +55,13 @@ export async function adminRoleAssign(params) {
   });
 }
 
+// deptment
+export async function deptTreePage(params) {
+  return request(`/admin-api/admins/dept/tree/page?${stringify(params)}`, {
+    method: 'GET',
+  });
+}
+
 // resource
 
 export async function addResource(params) {

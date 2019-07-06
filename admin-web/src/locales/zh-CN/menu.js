@@ -44,6 +44,7 @@ export default {
   'menu.admin.resource-list': '权限列表',
   'menu.admin.role-list': '角色列表',
   'menu.admin.dictionary-list': '数据字典',
+  'menu.admin.deptment-list': '部门列表',
   // 商品相关
   'menu.product': '商品管理',
   'menu.product.product-spu-list': '商品管理',

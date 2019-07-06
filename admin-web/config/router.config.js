@@ -52,6 +52,11 @@ export default [
             component: './Admin/RoleList',
           },
           {
+            path: '/admin/dept-list',
+            name: 'deptment-list',
+            component: './Admin/DeptmentList',
+          },
+          {
             path: '/admin/dictionary-list',
             name: 'dictionary-list',
             component: './Admin/DictionaryList',

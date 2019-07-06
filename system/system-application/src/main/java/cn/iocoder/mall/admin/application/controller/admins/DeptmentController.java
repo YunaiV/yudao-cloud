@@ -16,8 +16,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +44,7 @@ public class DeptmentController {
 
     @GetMapping("tree/page")
     @ApiOperation(value = "根部门分页的部门树")
-    public CommonResult<PageResult<DeptmentVO>> treePage(DeptmentPageDTO deptmentPageDTO){
+    public CommonResult<PageResult<DeptmentVO>> treePage(@Validated DeptmentPageDTO deptmentPageDTO){
         PageResult<DeptmentBO> pageResult = deptmentService.getPageRootDeptment(deptmentPageDTO);
         PageResult<DeptmentVO> voPageResult = DeptmentConvert.INSTANCE.convert(pageResult);
         List<DeptmentBO> list = deptmentService.getAllDeptments();

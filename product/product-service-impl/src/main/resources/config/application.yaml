@@ -35,6 +35,8 @@ dubbo:
       version: 1.0.0
     OAuth2Service:
       version: 1.0.0
+    ProductSpuCollectionService:
+      version: 1.0.0
 
 # rocketmq
 rocketmq:

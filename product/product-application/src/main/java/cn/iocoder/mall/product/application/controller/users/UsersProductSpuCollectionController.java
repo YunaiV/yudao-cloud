@@ -30,11 +30,10 @@ public class UsersProductSpuCollectionController {
 
     @PostMapping("/collection/{spuId}/{hasCollectionType}")
     @ApiOperation("商品收藏")
-//    @RequiresLogin
+    @RequiresLogin
     public CommonResult<Boolean> productSpuCollection(@PathVariable("spuId") Integer spuId,
             @PathVariable("hasCollectionType") Integer hasCollectionType) {
-//        final Integer userId = UserSecurityContextHolder.getContext().getUserId();
-
-        return success(productSpuCollectionService.productSpuCollection(spuId, hasCollectionType,140));
+        final Integer userId = UserSecurityContextHolder.getContext().getUserId();
+        return success(productSpuCollectionService.productSpuCollection(spuId, hasCollectionType,userId));
     }
 }

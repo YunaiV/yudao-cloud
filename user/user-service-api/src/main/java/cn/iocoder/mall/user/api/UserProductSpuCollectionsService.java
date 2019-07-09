@@ -1,7 +1,10 @@
 package cn.iocoder.mall.user.api;
 
+import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.user.api.bo.UserProductSpuCollectionsBO;
+import cn.iocoder.mall.user.api.bo.UserProductSpuCollectionsPageBO;
 import cn.iocoder.mall.user.api.dto.UserProductSpuCollectionsAddDTO;
+import cn.iocoder.mall.user.api.dto.UserProductSpuCollectionsPageDTO;
 import cn.iocoder.mall.user.api.dto.UserProductSpuCollectionsUpdateDTO;
 
 /**
@@ -33,4 +36,19 @@ public interface UserProductSpuCollectionsService {
      */
     int updateUserProductSpuCollections(UserProductSpuCollectionsUpdateDTO userProductSpuCollectionsUpdateDTO);
 
+    /**
+     *  获取用户收藏列表数据
+     * @param userProductSpuCollectionsPageDTO
+     * @return
+     */
+    CommonResult<UserProductSpuCollectionsPageBO> getUserProductSpuCollectionsPage(
+            UserProductSpuCollectionsPageDTO userProductSpuCollectionsPageDTO);
+
+    /**
+     * 删除收藏数据
+     * @param userId
+     * @param spuId
+     * @return
+     */
+    CommonResult<Boolean> deleteUserProductSpuCollections(Integer userId, Integer spuId);
 }

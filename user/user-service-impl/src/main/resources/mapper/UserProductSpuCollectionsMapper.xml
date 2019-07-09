@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iocoder.mall.user.biz.dao.UserProductSpuCollectionsMapper">
+
+    <sql id="FIELDS">
+        id, user_id, nickname, spu_id, spu_name,
+        spu_image, create_time, update_time,
+        deleted
+    </sql>
+
+    <select id="selectById" parameterType="Integer" resultType="cn.iocoder.mall.user.biz.dataobject.UserProductSpuCollectionsDO">
+        SELECT
+            <include refid="FIELDS" />
+        FROM user_spu_collections
+        WHERE id = #{id}
+        AND deleted = 0
+    </select>
+
+
+    <select id="selectListByUser" resultType="cn.iocoder.mall.user.biz.dataobject.UserProductSpuCollectionsDO">
+        SELECT
+            <include refid="FIELDS" />
+        FROM user_spu_collections
+        <where>
+            user_id = #{userId} AND deleted = 0
+        </where>
+        ORDER BY sort ASC
+        <if test="offset != null and limit != null">
+            LIMIT #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="selectCountByUser" resultType="Integer">
+        SELECT
+            COUNT(1)
+        FROM user_spu_collections
+        <where>
+            user_id = #{userId} AND deleted = 0
+        </where>
+    </select>
+
+</mapper>

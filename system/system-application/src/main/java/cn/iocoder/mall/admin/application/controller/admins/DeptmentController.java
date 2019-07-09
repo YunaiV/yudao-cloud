@@ -10,6 +10,7 @@ import cn.iocoder.mall.admin.api.dto.depetment.DeptmentPageDTO;
 import cn.iocoder.mall.admin.api.dto.depetment.DeptmentUpdateDTO;
 import cn.iocoder.mall.admin.application.convert.DeptmentConvert;
 import cn.iocoder.mall.admin.application.vo.deptment.DeptmentVO;
+import cn.iocoder.mall.admin.application.vo.resource.ResourceTreeNodeVO;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContext;
 import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
 import io.swagger.annotations.Api;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,6 +44,19 @@ public class DeptmentController {
     @Autowired
     private DeptmentService deptmentService;
 
+    @GetMapping("tree/all")
+    @ApiOperation(value = "根部门的部门树")
+    public CommonResult<List<DeptmentVO>> treeAll(){
+        List<DeptmentBO> list = deptmentService.getAllDeptments();
+        List<DeptmentVO> voList = DeptmentConvert.INSTANCE.convert(list);
+        Map<Integer, DeptmentVO> nodeMap = calaNodeMap(voList);
+        // 获得到所有的根节点
+        List<DeptmentVO> rootNodes = nodeMap.values().stream()
+                .filter(node -> node.getPid().equals(ResourceConstants.PID_ROOT))
+                .collect(Collectors.toList());
+        return success(rootNodes);
+    }
+
     @GetMapping("tree/page")
     @ApiOperation(value = "根部门分页的部门树")
     public CommonResult<PageResult<DeptmentVO>> treePage(@Validated DeptmentPageDTO deptmentPageDTO){
@@ -49,20 +64,7 @@ public class DeptmentController {
         PageResult<DeptmentVO> voPageResult = DeptmentConvert.INSTANCE.convert(pageResult);
         List<DeptmentBO> list = deptmentService.getAllDeptments();
         List<DeptmentVO> voList = DeptmentConvert.INSTANCE.convert(list);
-        Map<Integer, DeptmentVO> nodeMap = voList.stream().collect(Collectors.toMap(e->e.getId(), e->e));
-
-        nodeMap.values().stream()
-                .filter(node -> !node.getPid().equals(ResourceConstants.PID_ROOT))
-                .forEach((childNode) -> {
-                    // 获得父节点
-                    DeptmentVO parentNode = nodeMap.get(childNode.getPid());
-                    if (parentNode.getChildren() == null) { // 初始化 children 数组
-                        parentNode.setChildren(new ArrayList<>());
-                    }
-                    // 将自己添加到父节点中
-                    parentNode.getChildren().add(childNode);
-                });
-
+        Map<Integer, DeptmentVO> nodeMap = calaNodeMap(voList);
         voPageResult.getList().forEach(d->{
             d.setChildren(nodeMap.get(d.getId()).getChildren());
         });
@@ -93,6 +95,23 @@ public class DeptmentController {
         return success(deptmentService.updateDeptment(
                 AdminSecurityContextHolder.getContext().getAdminId(), deptmentUpdateDTO
         ));
+    }
+
+    private Map<Integer, DeptmentVO> calaNodeMap(List<DeptmentVO> voList){
+        Map<Integer, DeptmentVO> nodeMap = voList.stream().collect(Collectors.toMap(e->e.getId(), e->e));
+
+        nodeMap.values().stream()
+                .filter(node -> !node.getPid().equals(ResourceConstants.PID_ROOT))
+                .forEach((childNode) -> {
+                    // 获得父节点
+                    DeptmentVO parentNode = nodeMap.get(childNode.getPid());
+                    if (parentNode.getChildren() == null) { // 初始化 children 数组
+                        parentNode.setChildren(new ArrayList<>());
+                    }
+                    // 将自己添加到父节点中
+                    parentNode.getChildren().add(childNode);
+                });
+        return nodeMap;
     }
 
 

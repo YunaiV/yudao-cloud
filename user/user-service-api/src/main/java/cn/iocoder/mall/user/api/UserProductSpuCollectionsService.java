@@ -51,4 +51,14 @@ public interface UserProductSpuCollectionsService {
      * @return
      */
     CommonResult<Boolean> deleteUserProductSpuCollections(Integer userId, Integer spuId);
+
+
+    /**
+     * 检验用户商品是否收藏
+     * @param spuId
+     * @param userId
+     * @return
+     */
+    CommonResult<Boolean> hasUserSpuFavorite(Integer spuId, Integer userId);
+
 }

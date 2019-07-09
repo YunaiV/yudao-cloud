@@ -16,6 +16,15 @@ export function DelFavorite(id){
   })
 }
 
+export function hasUserSpuFavorite(spuId){
+  return request({
+    url: '/user-api/users/favorite/hasUserFavorite',
+    method: 'get',
+    params: {spuId}
+  })
+}
+
+
 export function GetCoupon(data){
   return request({
     url: '/User/GetCoupon',

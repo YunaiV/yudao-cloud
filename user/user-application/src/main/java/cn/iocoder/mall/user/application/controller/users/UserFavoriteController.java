@@ -39,8 +39,16 @@ public class UserFavoriteController {
     @DeleteMapping("remove")
     @RequiresLogin
     @ApiOperation(value = "用户商品收藏-删除")
-    public CommonResult<Boolean> removeFavorite(@RequestParam("spuId") final Integer spuId) {
+    public CommonResult<Boolean> removeUserFavorite(@RequestParam("spuId") final Integer spuId) {
         final Integer userId = UserSecurityContextHolder.getContext().getUserId();
         return userProductSpuCollectionsService.deleteUserProductSpuCollections(userId, spuId);
+    }
+
+    @GetMapping("hasUserFavorite")
+    @RequiresLogin
+    @ApiOperation(value = "用户商品收藏-是否收藏")
+    public CommonResult<Boolean> hasUserSpuFavorite(@RequestParam("spuId") final Integer spuId) {
+        final Integer userId = UserSecurityContextHolder.getContext().getUserId();
+        return userProductSpuCollectionsService.hasUserSpuFavorite(spuId, userId);
     }
 }

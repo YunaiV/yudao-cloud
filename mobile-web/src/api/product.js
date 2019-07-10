@@ -31,3 +31,10 @@ export function getProductSpuInfo(id) {
     }
   });
 }
+
+export function collectionSpu(spuId,hasCollectionType) {
+  return request({
+    url: '/product-api/users/spu/collection/'+spuId+'/' + hasCollectionType,
+    method: 'post'
+  });
+}

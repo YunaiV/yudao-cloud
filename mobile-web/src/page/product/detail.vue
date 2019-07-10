@@ -98,7 +98,7 @@
     </div>
     <van-goods-action>
 
-      <van-goods-action-mini-btn icon="like-o" @click="sorry">
+      <van-goods-action-mini-btn icon="like-o" @click="onFavoriteClicked">
         收藏
       </van-goods-action-mini-btn>
       <van-goods-action-mini-btn icon="cart" :info="cartCount > 0 ? cartCount : undefined" @click="onClickCart">
@@ -171,8 +171,9 @@
 
 <script>
   // import skuData from '../../data/sku';
-  import {getProductSpuInfo} from '../../api/product';
+  import {getProductSpuInfo,collectionSpu} from '../../api/product';
   import {addCart, countCart, getCartCalcSkuPrice} from '../../api/order';
+  import {hasUserSpuFavorite} from  '../../api/user';
   import {Dialog} from 'vant';
   import {checkLogin} from "../../utils/cache";
 
@@ -290,6 +291,7 @@
           }
         });
       },
+
       onClickCart() {
         this.$router.push('/cart');
       },
@@ -304,6 +306,35 @@
       },
       onClickShowTag() {
         this.showTag = true;
+      },
+      onFavoriteClicked(){
+        if (!checkLogin()) {
+          Dialog.alert({
+            title: '系统提示',
+            message: '未登陆用户，暂时不支持使用购物车',
+          });
+          return;
+        }
+        let id = this.$route.params.id; // 商品编号
+          let hasCollectionType = 1; // 收藏类型  默认收藏
+          hasUserSpuFavorite(id).then(data => {
+              let hasCollection = data;
+              // alert("是否收藏==" + hasCollection);
+              if (hasCollection){
+                  hasCollectionType = 2;
+              }
+
+              // alert("hasCollectionType==" + hasCollectionType);
+              collectionSpu(id,hasCollectionType).then(data =>{
+                  let v = data;
+                  if (hasCollectionType == 1 && v){
+                      alert("商品已收藏");
+                  }else if (hasCollectionType == 2 && v){
+                      alert("商品已取消");
+                  }
+              })
+          });
+
       },
       onBuyClicked(data) {
         const { selectedNum } = data;

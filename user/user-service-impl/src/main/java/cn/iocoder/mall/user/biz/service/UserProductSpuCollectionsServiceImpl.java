@@ -96,11 +96,26 @@ public class UserProductSpuCollectionsServiceImpl implements UserProductSpuColle
         if (userProductSpuCollectionsBO != null) {
             // 未取消收藏的数据
             if (userProductSpuCollectionsBO.getDeleted().equals(DeletedStatusEnum.DELETED_NO.getValue())) {
-                UserProductSpuCollectionsUpdateDTO userProductSpuCollectionsUpdateDTO = new UserProductSpuCollectionsUpdateDTO().setId(userProductSpuCollectionsBO.getId())
-                        .setUpdateTime(new Date()).setDeleted(DeletedStatusEnum.DELETED_YES.getValue());
+                UserProductSpuCollectionsUpdateDTO userProductSpuCollectionsUpdateDTO = new UserProductSpuCollectionsUpdateDTO()
+                        .setId(userProductSpuCollectionsBO.getId()).setUpdateTime(new Date())
+                        .setDeleted(DeletedStatusEnum.DELETED_YES.getValue());
                 result = this.updateUserProductSpuCollections(userProductSpuCollectionsUpdateDTO);
             }
         }
         return CommonResult.success(result > 0 ? Boolean.TRUE : Boolean.FALSE);
+    }
+
+    @Override
+    public CommonResult<Boolean> hasUserSpuFavorite(final Integer spuId, final Integer userId) {
+        UserProductSpuCollectionsBO userProductSpuCollectionsBO = this
+                .getUserSpuCollectionsByUserIdAndSpuId(userId, spuId);
+
+        if (userProductSpuCollectionsBO != null) {
+            // 收藏
+            final boolean hasCollect = userProductSpuCollectionsBO.getDeleted()
+                    .equals(DeletedStatusEnum.DELETED_NO.getValue());
+            return CommonResult.success(hasCollect);
+        }
+        return CommonResult.success(Boolean.FALSE);
     }
 }

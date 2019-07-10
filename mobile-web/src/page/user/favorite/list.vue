@@ -9,6 +9,7 @@
         <div v-for="(item,index) in list" :key="index">
             <van-swipe-cell :right-width="65" :on-close="onClose(item)">
                 <product-card :product='item' />
+                    <span>{{item.spuName}}</span>
                     <span slot="right" >删除</span>
                 </van-swipe-cell>
         </div>
@@ -17,7 +18,7 @@
 </template>
 
 <script>
-import { GetFavorite ,DelFavorite} from "../../../api/user.js";
+import { GetFavoritePage ,DelFavorite} from "../../../api/user.js";
 
 export default {
     data(){
@@ -26,6 +27,7 @@ export default {
             finished:false,
             list:[],
             page:0,
+            pageSize:10
         }
     },
     methods:{
@@ -41,9 +43,9 @@ export default {
                         this.$dialog.confirm({
                             message: '确定删除吗？'
                         }).then(() => {
-                            DelFavorite(item.id).then(response=>{
+                            DelFavorite(item.spuId).then(response=>{
                                 this.$toast('删除成功');
-                                this.$router.go(0);  
+                                this.$router.go(0);
                             })
                             instance.close();
                         }).catch(() => {
@@ -54,16 +56,18 @@ export default {
             }
         },
         onLoad() {
-            this.page++;
-            GetFavorite().then(response=>{
-                response.list.forEach(item => {
-                    this.list.push(item);
-                });
+            let pageNo = this.page + 1;
+            GetFavoritePage(pageNo,this.pageSize).then(response=>{
+                this.page = pageNo;
+                this.list.push(...response.list);
+                // response.list.forEach(item => {
+                //     this.list.push(item);
+                // });
                 this.loading = false;
-                if(response.TotalPage<=this.page){
+                if(this.list.length >= response.total){
                     this.finished = true;
                 }
-            
+
             })
         }
     },

@@ -56,8 +56,32 @@ export async function adminRoleAssign(params) {
 }
 
 // deptment
+export async function addDeptment(params) {
+  return request('/admin-api/admins/dept/add', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
+export async function updateDeptment(params) {
+  return request('/admin-api/admins/dept/update', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+
 export async function deptTreePage(params) {
   return request(`/admin-api/admins/dept/tree/page?${stringify(params)}`, {
+    method: 'GET',
+  });
+}
+
+export async function deptTreeAll() {
+  return request('/admin-api/admins/dept/tree/all', {
     method: 'GET',
   });
 }

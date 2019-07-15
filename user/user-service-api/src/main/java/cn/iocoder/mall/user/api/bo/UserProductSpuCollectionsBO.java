@@ -46,6 +46,16 @@ public class UserProductSpuCollectionsBO implements Serializable {
     private String spuImage;
 
     /**
+     * 卖点
+     */
+    private String sellPoint;
+
+    /**
+     * 价格，单位：分
+     */
+    private Integer price;
+
+    /**
      * 创建时间
      */
     private Date createTime;

@@ -38,6 +38,16 @@ public class ProductSpuCollectionMessage {
     private String spuImage;
 
     /**
+     * 卖点
+     */
+    private String sellPoint;
+
+    /**
+     * 价格，单位：分
+     */
+    private Integer price;
+
+    /**
      * 1 收藏 2 取消
      */
     private Integer hasCollectionType;

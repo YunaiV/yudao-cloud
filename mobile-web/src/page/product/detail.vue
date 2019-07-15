@@ -98,7 +98,7 @@
     </div>
     <van-goods-action>
 
-      <van-goods-action-mini-btn icon="like-o" @click="onFavoriteClicked">
+      <van-goods-action-mini-btn icon="like-o"  :class="{active:hasCollectionType === 1 }" @click="onFavoriteClicked">
         收藏
       </van-goods-action-mini-btn>
       <van-goods-action-mini-btn icon="cart" :info="cartCount > 0 ? cartCount : undefined" @click="onClickCart">
@@ -208,6 +208,7 @@
         calSkuPriceResult: {
 
         },
+          hasCollectionType:0
 
       };
     },
@@ -327,11 +328,14 @@
               // alert("hasCollectionType==" + hasCollectionType);
               collectionSpu(id,hasCollectionType).then(data =>{
                   let v = data;
-                  if (hasCollectionType == 1 && v){
-                      alert("商品已收藏");
-                  }else if (hasCollectionType == 2 && v){
-                      alert("商品已取消");
-                  }
+                  this.hasCollectionType = hasCollectionType;
+                  // if (hasCollectionType == 1 && v){
+                  //     // alert("商品已收藏");
+                  //     this.hasCollectionType = hasCollectionType;
+                  // }else if (hasCollectionType == 2 && v){
+                  //     // alert("商品已取消");
+                  //     this.hasCollectionType = hasCollectionType;
+                  // }
               })
           });
 
@@ -448,6 +452,9 @@
 
 <style lang="less">
   .goods {
+      .active {
+          color: #e50f3d;
+      }
     padding-bottom: 50px;
 
     &-swipe {

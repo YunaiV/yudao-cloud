@@ -7,19 +7,27 @@
         @load="onLoad"
         >
         <div v-for="(item,index) in list" :key="index">
-            <van-swipe-cell :right-width="65" :on-close="onClose(item)">
-                <product-card :product='item' />
-                    <span>{{item.spuName}}</span>
-                    <span slot="right" >删除</span>
-                </van-swipe-cell>
+<!--            <van-swipe-cell :right-width="65" :on-close="onClose(item)">-->
+<!--                <product-card :product='item' />-->
+<!--                    <span>{{item.spuName}}</span>-->
+<!--                    <span slot="right" >删除</span>-->
+<!--                </van-swipe-cell>-->
+            <van-card
+                    :price="formatPrice(item.price)"
+                    :desc="item.sellPoint"
+                    :title="item.spuName"
+                    :thumb="item.spuImage"
+            />
         </div>
     </van-list>
 </div>
 </template>
 
 <script>
+    // import { Card } from 'vant';
 import { GetFavoritePage ,DelFavorite} from "../../../api/user.js";
 
+// Vue.use(Card);
 export default {
     data(){
         return{
@@ -31,6 +39,9 @@ export default {
         }
     },
     methods:{
+        formatPrice(data) {
+            return (data / 100).toFixed(2);
+        },
         onClose(item){
             return function(clickPosition, instance) {
                 switch (clickPosition) {

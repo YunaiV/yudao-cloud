@@ -139,6 +139,8 @@ CREATE TABLE `user_spu_collections`  (
   `spu_id` int(11) NOT NULL COMMENT '商品id',
   `spu_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品名字',
   `spu_image` varchar(250) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '图片名字',
+  `sell_point` varchar(50) NOT NULL DEFAULT '' COMMENT '卖点',
+  `price` int(11) DEFAULT NULL COMMENT '价格',
   `create_time` datetime(0) NOT NULL COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `deleted` smallint(2) NOT NULL COMMENT '删除状态',

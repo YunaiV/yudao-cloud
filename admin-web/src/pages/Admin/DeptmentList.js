@@ -130,6 +130,32 @@ export default class DepetmentList extends PureComponent {
     }
   };
 
+  handleDelete(row) {
+    const { dispatch } = this.props;
+    Modal.confirm({
+      title: `确认删除?`,
+      content: `${row.name}`,
+      onOk() {
+        dispatch({
+          type: 'deptmentList/delete',
+          payload: {
+            body: {
+              id: row.id,
+            },
+            onSuccess: () => {
+              message.success('删除成功');
+              this.handleModalVisible();
+            },
+            onFail: response => {
+              message.warn('删除失败' + response.message);
+            },
+          },
+        });
+      },
+      onCancel() {},
+    });
+  }
+
   handleAdd = ({ fields, modalType, initValues }) => {
     const { dispatch } = this.props;
     if (modalType === 'add') {

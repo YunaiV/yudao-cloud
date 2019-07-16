@@ -292,6 +292,20 @@
           }
         });
       },
+        initHasUserSpuFavorite(spuId){
+            if (!checkLogin()) {
+                this.hasCollectionType = 0;
+                return;
+            }
+            //初始化验证商品收藏
+            hasUserSpuFavorite(spuId).then(data => {
+                let hasCollection = data;
+                // alert("是否收藏==" + hasCollection);
+                if (hasCollection) {
+                    this.hasCollectionType = 1;
+                }
+            });
+        },
 
       onClickCart() {
         this.$router.push('/cart');
@@ -430,6 +444,7 @@
             // 初始化 attrValueMap
             this.attrValueMap.set(attr.attrValueId, attr.attrValueName);
           }
+
         }
         // debugger;
         this.vanSku = vanSku;
@@ -439,6 +454,9 @@
         this.initialSku.quantity = 1;
         // 执行 sku 价格计算
         this.doCalcSkuPrice(this.initialSku.id);
+
+        this.initHasUserSpuFavorite(id);
+
       });
       // 获得购物车数量
       if (checkLogin()) {
@@ -453,7 +471,7 @@
 <style lang="less">
   .goods {
       .active {
-          color: #e50f3d;
+          color: #f44;
       }
     padding-bottom: 50px;
 

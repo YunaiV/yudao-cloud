@@ -74,6 +74,12 @@ export async function updateDeptment(params) {
   });
 }
 
+export async function deleteDeptment(params) {
+  return request(`/admin-api/admins/dept/delete?${stringify(params)}`, {
+    method: 'POST',
+  });
+}
+
 export async function deptTreePage(params) {
   return request(`/admin-api/admins/dept/tree/page?${stringify(params)}`, {
     method: 'GET',

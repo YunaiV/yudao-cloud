@@ -313,6 +313,7 @@ INSERT INTO `resource` VALUES (50, 2, 3, '删除字典', 19, '', NULL, 'system.d
 INSERT INTO `resource` VALUES (51, 1, -1, '短信ss', 0, '', 'user', '', '2019-05-26 12:00:31', '2019-06-03 13:54:54', b'0');
 INSERT INTO `resource` VALUES (52, 1, 1, '短信签名', 51, '/sms/sign-list', 'user', '', '2019-05-26 12:01:56', '2019-05-26 12:01:56', b'0');
 INSERT INTO `resource` VALUES (53, 1, 2, '短信模板', 51, '/sms/template-list', 'user', '', '2019-05-26 12:02:19', '2019-05-26 12:02:18', b'0');
+INSERT INTO `resource` VALUES (54, 1, 3, '部门管理', 13, '/admin/dept-list', 'user', '', '2019-06-27 23:41:19', '2019-06-27 23:41:51', b'0')
 COMMIT;
 
 -- ----------------------------

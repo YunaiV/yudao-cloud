@@ -11,6 +11,7 @@ import cn.iocoder.mall.admin.api.dto.depetment.DeptmentAddDTO;
 import cn.iocoder.mall.admin.api.dto.depetment.DeptmentPageDTO;
 import cn.iocoder.mall.admin.api.dto.depetment.DeptmentUpdateDTO;
 import cn.iocoder.mall.admin.convert.DeptmentConvert;
+import cn.iocoder.mall.admin.dao.AdminMapper;
 import cn.iocoder.mall.admin.dao.DeptmentMapper;
 import cn.iocoder.mall.admin.dao.DeptmentRoleMapper;
 import cn.iocoder.mall.admin.dataobject.DeptmentDO;
@@ -38,6 +39,9 @@ public class DeptmentServiceImpl implements DeptmentService {
 
     @Autowired
     private DeptmentRoleMapper deptmentRoleMapper;
+
+    @Autowired
+    private AdminMapper adminMapper;
 
     @Override
     public DeptmentBO addDeptment(Integer adminId, DeptmentAddDTO deptmentAddDTO) {
@@ -69,6 +73,8 @@ public class DeptmentServiceImpl implements DeptmentService {
 
         deptmentRoleMapper.deleteByDeptmentId(deptmentId);
 
+        //将改部门下所有员工的DeptmentID设置为0
+        adminMapper.updateDeptByDeptId(deptmentId, 0);
         return true;
     }
 

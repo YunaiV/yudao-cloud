@@ -50,6 +50,7 @@ CREATE TABLE `admin` (
   `nickname` varchar(10) NOT NULL COMMENT '昵称',
   `password` varchar(32) NOT NULL COMMENT '密码\n     *\n     * TODO 芋艿 暂时最简单的 MD5',
   `status` tinyint(11) NOT NULL COMMENT '账号状态',
+  `deptment_id` int(11) DEFAULT 0 NOT NULL '部门id',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted` bit(1) DEFAULT NULL,

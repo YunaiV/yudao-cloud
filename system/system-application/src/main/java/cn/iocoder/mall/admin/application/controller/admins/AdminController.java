@@ -5,8 +5,10 @@ import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.admin.api.AdminService;
+import cn.iocoder.mall.admin.api.DeptmentService;
 import cn.iocoder.mall.admin.api.ResourceService;
 import cn.iocoder.mall.admin.api.RoleService;
+import cn.iocoder.mall.admin.api.bo.deptment.DeptmentBO;
 import cn.iocoder.mall.admin.api.bo.resource.ResourceBO;
 import cn.iocoder.mall.admin.api.bo.role.RoleBO;
 import cn.iocoder.mall.admin.api.bo.admin.AdminBO;
@@ -23,6 +25,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -43,6 +46,9 @@ public class AdminController {
 
     @Reference(validation = "true", version = "${dubbo.provider.RoleService.version}")
     private RoleService roleService;
+
+    @Autowired
+    private DeptmentService deptmentService;
 
     // =========== 当前管理员相关的资源 API ===========
 
@@ -97,7 +103,17 @@ public class AdminController {
             // 查询角色数组
             Map<Integer, Collection<RoleBO>> roleMap = adminService.getAdminRolesMap(CollectionUtil.convertList(resultPage.getList(), AdminBO::getId));
             resultPage.getList().forEach(admin -> admin.setRoles(AdminConvert.INSTANCE.convertAdminVORoleList(roleMap.get(admin.getId()))));
+
+            // 查询对应部门
+            List<DeptmentBO> deptmentBOS =  deptmentService.getAllDeptments();
+            Map<Integer, String> deptNameMap = deptmentBOS.stream().collect(Collectors.toMap(d->d.getId(), d->d.getName()));
+            //管理员所在部门被删后，变成未分配状态
+            deptNameMap.put(0, "未分配");
+            resultPage.getList().forEach(admin->{
+                admin.setDeptment(new AdminVO.Deptment(admin.getDeptmentId(), deptNameMap.get(admin.getDeptmentId())));
+            });
         }
+
         return success(resultPage);
     }
 

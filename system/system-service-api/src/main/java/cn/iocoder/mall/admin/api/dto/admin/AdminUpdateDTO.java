@@ -35,4 +35,8 @@ public class AdminUpdateDTO implements Serializable {
     @Length(min = 4, max = 16, message = "密码长度为 4-16 位")
     private String password;
 
+    @ApiModelProperty(value = "部门ID", required = true, example = "1")
+    @NotNull(message = "部门不能为空")
+    private Integer deptmentId;
+
 }

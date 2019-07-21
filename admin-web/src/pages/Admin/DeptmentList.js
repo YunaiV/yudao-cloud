@@ -107,12 +107,22 @@ export default class DepetmentList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'deptmentList/getDeptmentList',
+      type: 'deptmentList/getDeptmentAll',
       payload: {
         ...PaginationHelper.defaultPayload,
       },
     });
   }
+
+  initFetch = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'deptmentList/getDeptmentAll',
+      payload: {
+        ...PaginationHelper.defaultPayload,
+      },
+    });
+  };
 
   handleModalVisible = (flag, modalType, initValues) => {
     this.setState({
@@ -132,6 +142,7 @@ export default class DepetmentList extends PureComponent {
 
   handleDelete(row) {
     const { dispatch } = this.props;
+    const _this = this;
     Modal.confirm({
       title: `确认删除?`,
       content: `${row.name}`,
@@ -144,7 +155,7 @@ export default class DepetmentList extends PureComponent {
             },
             onSuccess: () => {
               message.success('删除成功');
-              this.handleModalVisible();
+              _this.initFetch();
             },
             onFail: response => {
               message.warn('删除失败' + response.message);
@@ -168,6 +179,7 @@ export default class DepetmentList extends PureComponent {
           onSuccess: () => {
             message.success('添加成功');
             this.handleModalVisible();
+            this.initFetch();
           },
           onFail: response => {
             message.warn('添加失败' + response.message);
@@ -185,6 +197,7 @@ export default class DepetmentList extends PureComponent {
           onSuccess: () => {
             message.success('更新成功成功');
             this.handleModalVisible();
+            this.initFetch();
           },
           onFail: response => {
             message.warn('更新失败' + response.message);
@@ -195,7 +208,7 @@ export default class DepetmentList extends PureComponent {
   };
 
   render() {
-    const { deptmentData, deptmentList } = this.props;
+    const { deptmentData, deptmentList, loading } = this.props;
     const { selectTree } = deptmentList;
     const { modalVisible, modalType, initValues } = this.state;
     const parentMethods = {
@@ -255,8 +268,9 @@ export default class DepetmentList extends PureComponent {
           <Table
             defaultExpandAllRows={true}
             columns={columns}
-            dataSource={deptmentData.list ? deptmentData.list : []}
+            dataSource={deptmentList.list ? deptmentList.list : []}
             rowKey="id"
+            loading={loading}
           />
         </Card>
         <CreateForm {...parentMethods} selectTree={selectTree} modalVisible={modalVisible} />

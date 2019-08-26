@@ -49,7 +49,7 @@ public class DeptmentController {
     public CommonResult<List<DeptmentVO>> treeAll(){
         List<DeptmentBO> list = deptmentService.getAllDeptments();
         List<DeptmentVO> voList = DeptmentConvert.INSTANCE.convert(list);
-        Map<Integer, DeptmentVO> nodeMap = calaNodeMap(voList);
+        Map<Integer, DeptmentVO> nodeMap = calcNodeMap(voList);
         // 获得到所有的根节点
         List<DeptmentVO> rootNodes = nodeMap.values().stream()
                 .filter(node -> node.getPid().equals(ResourceConstants.PID_ROOT))
@@ -64,7 +64,7 @@ public class DeptmentController {
         PageResult<DeptmentVO> voPageResult = DeptmentConvert.INSTANCE.convert(pageResult);
         List<DeptmentBO> list = deptmentService.getAllDeptments();
         List<DeptmentVO> voList = DeptmentConvert.INSTANCE.convert(list);
-        Map<Integer, DeptmentVO> nodeMap = calaNodeMap(voList);
+        Map<Integer, DeptmentVO> nodeMap = calcNodeMap(voList);
         voPageResult.getList().forEach(d->{
             d.setChildren(nodeMap.get(d.getId()).getChildren());
         });
@@ -97,7 +97,7 @@ public class DeptmentController {
         ));
     }
 
-    private Map<Integer, DeptmentVO> calaNodeMap(List<DeptmentVO> voList){
+    private Map<Integer, DeptmentVO> calcNodeMap(List<DeptmentVO> voList){
         Map<Integer, DeptmentVO> nodeMap = voList.stream().collect(Collectors.toMap(e->e.getId(), e->e));
 
         nodeMap.values().stream()

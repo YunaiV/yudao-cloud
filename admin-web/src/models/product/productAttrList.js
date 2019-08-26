@@ -1,11 +1,14 @@
 import { message } from 'antd';
-import { productAttrTree, productAttrValueAdd } from '../../services/product';
+import { productAttrTree, productAttrValueAdd, productAttrPage } from '../../services/product';
+import PaginationHelper from '../../../helpers/PaginationHelper';
 
 export default {
   namespace: 'productAttrList',
 
   state: {
     list: [],
+    attrData: [],
+    pagination: PaginationHelper.defaultPaginationConfig,
   },
 
   effects: {
@@ -51,6 +54,21 @@ export default {
     //   });
     // },
 
+    *page({ payload }, { call, put }) {
+      const result = yield call(productAttrPage, payload);
+      let attrData = {};
+      if (result.code === 0) {
+        attrData = result.data;
+      }
+      yield put({
+        type: 'save',
+        payload: {
+          attrData,
+          pagination: PaginationHelper.formatPagination(attrData, payload),
+        },
+      });
+    },
+
     *tree({ payload }, { call, put }) {
       const { queryParams } = payload;
       const response = yield call(productAttrTree, queryParams);
@@ -84,10 +102,16 @@ export default {
           callback(response.data);
         }
       }
-    }
+    },
   },
 
   reducers: {
+    save(state, action) {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    },
     treeSuccess(state, { payload }) {
       return {
         ...state,

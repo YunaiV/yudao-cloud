@@ -125,6 +125,11 @@ export default [
             name: 'product-brand-list',
             component: './Product/ProductBrandList',
           },
+          {
+            path: '/product/product-attr-list',
+            name: 'product-attr-list',
+            component: './Product/ProductAttrList',
+          },
         ],
       },
       // promotion

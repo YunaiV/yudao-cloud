@@ -52,6 +52,8 @@ export default {
   'menu.product.product-spu-update': '商品编辑',
   'menu.product.product-category-list': '商品分类',
   'menu.product.product-brand-list': '商品品牌',
+  'menu.product.product-attr-list': '规格管理',
+
   // 订单
   'menu.order': '订单管理',
   'menu.order.order-list': '订单管理',

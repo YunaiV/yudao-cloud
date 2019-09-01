@@ -315,6 +315,7 @@ INSERT INTO `resource` VALUES (51, 1, -1, '短信ss', 0, '', 'user', '', '2019-0
 INSERT INTO `resource` VALUES (52, 1, 1, '短信签名', 51, '/sms/sign-list', 'user', '', '2019-05-26 12:01:56', '2019-05-26 12:01:56', b'0');
 INSERT INTO `resource` VALUES (53, 1, 2, '短信模板', 51, '/sms/template-list', 'user', '', '2019-05-26 12:02:19', '2019-05-26 12:02:18', b'0');
 INSERT INTO `resource` VALUES (54, 1, 3, '部门管理', 13, '/admin/dept-list', 'user', '', '2019-06-27 23:41:19', '2019-06-27 23:41:51', b'0');
+INSERT INTO `resource` VALUES (55, 1, 4, '规格管理', 20, '/product/product-attr-list', null, null, '2019-08-14 23:59:38', '2019-08-14 23:59:38', b'0');
 COMMIT;
 
 -- ----------------------------

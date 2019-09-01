@@ -1,5 +1,18 @@
 import React, { PureComponent, Fragment, Component } from 'react';
-import { Form, Card, Table, Button, Divider, Modal, Input, message, Switch, Select } from 'antd';
+import {
+  Row,
+  Col,
+  Form,
+  Card,
+  Table,
+  Button,
+  Divider,
+  Modal,
+  Input,
+  message,
+  Switch,
+  Select,
+} from 'antd';
 import moment from 'moment';
 import { connect } from 'dva';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -148,6 +161,9 @@ export default class ProductAttrList extends PureComponent {
     valueModalVisible: false,
     modalType: 'add', //add or update
     initValues: {},
+    current: 1,
+    pageSize: 10,
+    name: null,
   };
 
   componentDidMount() {
@@ -156,10 +172,13 @@ export default class ProductAttrList extends PureComponent {
 
   initFetch = () => {
     const { dispatch } = this.props;
+    const { current, pageSize, name } = this.state;
     dispatch({
       type: 'productAttrList/page',
       payload: {
-        ...PaginationHelper.defaultPayload,
+        pageNo: current,
+        pageSize,
+        name,
       },
     });
     // const { dispatch } = this.props;
@@ -306,6 +325,19 @@ export default class ProductAttrList extends PureComponent {
     });
   };
 
+  handleTableChange = pagination => {
+    const { pageSize, current, index } = pagination;
+    this.setState(
+      {
+        current,
+        pageSize,
+      },
+      function() {
+        this.initFetch();
+      }
+    );
+  };
+
   switchValueChange = (checked, record) => {
     const { dispatch } = this.props;
     dispatch({
@@ -340,8 +372,82 @@ export default class ProductAttrList extends PureComponent {
     });
   };
 
+  handleFormReset = () => {
+    const { form, dispatch } = this.props;
+    form.resetFields();
+    this.setState(
+      {
+        name: null,
+      },
+      function() {
+        this.initFetch();
+      }
+    );
+  };
+
+  handleCondition = e => {
+    e.preventDefault();
+
+    const { dispatch, form } = this.props;
+
+    form.validateFields((err, fieldsValue) => {
+      if (err) return;
+      const values = {
+        ...fieldsValue,
+      };
+
+      if (values.name) {
+        this.setState(
+          {
+            searched: true,
+            name: values.name,
+          },
+          function() {
+            this.initFetch();
+          }
+        );
+      } else {
+        this.initFetch();
+      }
+
+      // dispatch({
+      //   type: 'fenfa/getCategoryList',
+      //   payload: {
+      //     key: values.name
+      //   },
+      // });
+    });
+  };
+
+  renderSimpleForm() {
+    const { form } = this.props;
+    const { getFieldDecorator } = form;
+    return (
+      <Form onSubmit={this.handleCondition} layout="inline">
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={8} sm={24}>
+            <FormItem label="规格名称">
+              {getFieldDecorator('name')(<Input placeholder="请输入" />)}
+            </FormItem>
+          </Col>
+
+          <Col md={8} sm={24}>
+            <span className={styles.submitButtons}>
+              <Button type="primary" htmlType="submit">
+                查询
+              </Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+                重置
+              </Button>
+            </span>
+          </Col>
+        </Row>
+      </Form>
+    );
+  }
+
   render() {
-    const { attrData, productAttrList, loading, pagination, tree } = this.props;
+    const { attrData, productAttrList, loading, tree } = this.props;
     const columns = [
       {
         title: '规格名称',
@@ -395,18 +501,31 @@ export default class ProductAttrList extends PureComponent {
       tree: tree,
     };
 
+    const pagination = {
+      total: attrData.count,
+      index: this.state.current,
+      pageSize: this.state.pageSize,
+    };
+
     return (
       <PageHeaderWrapper>
         <Card>
           <div className={styles.tableList}>
             <div className={styles.tableListOperator}>
-              <Button
-                icon="plus"
-                type="primary"
-                onClick={() => this.handleModalVisible(true, 'add', {})}
-              >
-                新建规格
-              </Button>
+              <Row>
+                <Col span={8}>
+                  <Button
+                    icon="plus"
+                    type="primary"
+                    onClick={() => this.handleModalVisible(true, 'add', {})}
+                  >
+                    新建规格
+                  </Button>
+                </Col>
+                <Col span={16}>
+                  <div>{this.renderSimpleForm()}</div>
+                </Col>
+              </Row>
             </div>
           </div>
           <Table
@@ -417,6 +536,8 @@ export default class ProductAttrList extends PureComponent {
             loading={loading}
             pagination={pagination}
             expandedRowRender={this.expandedRowRender}
+            defaultExpandAllRows={false}
+            onChange={pagination => this.handleTableChange(pagination)}
           />
         </Card>
         {modalVisible ? <CreateForm {...parentMethods} modalVisible={modalVisible} /> : null}

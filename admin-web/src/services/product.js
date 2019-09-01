@@ -91,9 +91,44 @@ export async function productAttrPage(params) {
   });
 }
 
+export async function productAttrAdd(params) {
+  return request(`/product-api/admins/attr/add?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
+}
+
+export async function productAttrUpdate(params) {
+  return request(`/product-api/admins/attr/update?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
+}
+
+export async function productAttrUpdateStatus(params) {
+  return request(`/product-api/admins/attr/update_status?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
+}
+
 export async function productAttrTree(params) {
   return request(`/product-api/admins/attr/tree?${stringify(params)}`, {
     method: 'GET',
+  });
+}
+
+export async function productAttrValueUpdate(params) {
+  return request(`/product-api/admins/attr_value/update?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
+}
+
+export async function productAttrValueUpdateStatus(params) {
+  return request(`/product-api/admins/attr_value/update_status?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
   });
 }
 

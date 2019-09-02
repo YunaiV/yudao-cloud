@@ -11,9 +11,6 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class AdminPageDTO extends PageParam {
 
-    /**
-     * 昵称，模糊匹配
-     */
     @ApiModelProperty(value = "昵称，模糊匹配", example = "小王")
     private String nickname;
 

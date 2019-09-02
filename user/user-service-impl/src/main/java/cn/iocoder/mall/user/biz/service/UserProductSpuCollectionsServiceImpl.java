@@ -11,6 +11,8 @@ import cn.iocoder.mall.user.api.dto.UserProductSpuCollectionsUpdateDTO;
 import cn.iocoder.mall.user.biz.convert.UserProductSpuCollectionsConvert;
 import cn.iocoder.mall.user.biz.dao.UserProductSpuCollectionsMapper;
 import cn.iocoder.mall.user.biz.dataobject.UserProductSpuCollectionsDO;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -32,6 +34,10 @@ public class UserProductSpuCollectionsServiceImpl implements UserProductSpuColle
 
     @Autowired
     private UserProductSpuCollectionsMapper userProductSpuCollectionsMapper;
+
+    // TODO 暂时先使用冗余字段，有需要在对接实时数据查询
+//    @Reference(validation = "true", version = "${dubbo.consumer.PromotionActivityService.version}")
+//    private ProductSpuService productSpuService;
 
 
     @Override
@@ -71,6 +77,11 @@ public class UserProductSpuCollectionsServiceImpl implements UserProductSpuColle
         if (CollectionUtils.isEmpty(list)) {
             return CommonResult.success(
                     new UserProductSpuCollectionsPageBO().setList(Collections.emptyList()).setTotal(totalCount));
+        }
+        for (UserProductSpuCollectionsDO userProductSpuCollectionsDO : list
+             ) {
+            List<String> result = Lists.newArrayList(Splitter.on(",").omitEmptyStrings().trimResults().split(userProductSpuCollectionsDO.getSpuImage()));
+            userProductSpuCollectionsDO.setSpuImage(result.size() > 0 ? result.get(0) : "");
         }
 
         UserProductSpuCollectionsPageBO userProductSpuCollectionsPageBO = new UserProductSpuCollectionsPageBO();

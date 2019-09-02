@@ -1,5 +1,5 @@
-import {message} from 'antd';
-import {buildTreeNode, findCheckedKeys} from '../../utils/tree.utils';
+import { message } from 'antd';
+import { buildTreeNode, findCheckedKeys } from '../../utils/tree.utils';
 import {
   addAdmin,
   adminRoleAssign,
@@ -8,12 +8,28 @@ import {
   queryAdminRoleList,
   updateAdmin,
   updateAdminStatus,
+  deptTreeAll,
 } from '../../services/admin';
-import {arrayToStringParams} from '../../utils/request.qs';
+import { arrayToStringParams } from '../../utils/request.qs';
 import PaginationHelper from '../../../helpers/PaginationHelper';
 
 const SEARCH_PARAMS_DEFAULT = {
   nickname: '',
+};
+
+const buildSelectTree = list => {
+  return list.map(item => {
+    let children = [];
+    if (item.children) {
+      children = buildSelectTree(item.children);
+    }
+    return {
+      title: item.name,
+      value: `${item.name}-${item.id}`,
+      key: item.id,
+      children,
+    };
+  });
 };
 
 export default {
@@ -37,11 +53,22 @@ export default {
     roleModalVisible: false,
     roleCheckedKeys: [], // 此处的 Key ，就是角色编号
     roleAssignLoading: false,
+
+    //部门相关
+    deptSelectTree: [],
   },
 
   effects: {
+    *getDeptmentTree({ payload }, { call, put }) {
+      const result = yield call(deptTreeAll, payload);
+      yield put({
+        type: 'treeSuccess',
+        payload: result.data,
+      });
+    },
+
     // 查询列表
-    * query({ payload }, { call, put }) {
+    *query({ payload }, { call, put }) {
       // 显示加载中
       yield put({
         type: 'changeListLoading',
@@ -57,8 +84,8 @@ export default {
           list: response.data.list,
           pagination: PaginationHelper.formatPagination(response.data, payload),
           searchParams: {
-            nickname: payload.nickname || ''
-          }
+            nickname: payload.nickname || '',
+          },
         },
       });
 
@@ -68,7 +95,7 @@ export default {
         payload: false,
       });
     },
-    * add({ payload }, { call, put }) {
+    *add({ payload }, { call, put }) {
       // 显示加载中
       yield put({
         type: 'changeModalLoading',
@@ -87,7 +114,7 @@ export default {
         yield put({
           type: 'query',
           payload: {
-            ...PaginationHelper.defaultPayload
+            ...PaginationHelper.defaultPayload,
           },
         });
       }
@@ -98,7 +125,7 @@ export default {
         payload: false,
       });
     },
-    * update({ payload }, { call, put }) {
+    *update({ payload }, { call, put }) {
       const { callback, body } = payload;
       // 显示加载中
       yield put({
@@ -117,7 +144,7 @@ export default {
         yield put({
           type: 'query',
           payload: {
-            ...PaginationHelper.defaultPayload
+            ...PaginationHelper.defaultPayload,
           },
         });
       }
@@ -129,7 +156,7 @@ export default {
       });
     },
 
-    * updateStatus({ payload }, { call, put }) {
+    *updateStatus({ payload }, { call, put }) {
       // 请求
       const response = yield call(updateAdminStatus, payload);
       // 响应
@@ -139,13 +166,13 @@ export default {
         yield put({
           type: 'query',
           payload: {
-            ...PaginationHelper.defaultPayload
+            ...PaginationHelper.defaultPayload,
           },
         });
       }
     },
 
-    * delete({ payload }, { call, put }) {
+    *delete({ payload }, { call, put }) {
       // 请求
       const response = yield call(deleteAdmin, payload);
       // 响应
@@ -155,13 +182,13 @@ export default {
         yield put({
           type: 'query',
           payload: {
-            ...PaginationHelper.defaultPayload
+            ...PaginationHelper.defaultPayload,
           },
         });
       }
     },
 
-    * queryRoleList({ payload }, { call, put }) {
+    *queryRoleList({ payload }, { call, put }) {
       // 显示加载中
       yield put({
         type: 'changeRoleAssignLoading',
@@ -191,7 +218,7 @@ export default {
       });
     },
 
-    * roleAssign({ payload }, { call, put }) {
+    *roleAssign({ payload }, { call, put }) {
       const { callback, body } = payload;
       // 显示加载中
       yield put({
@@ -220,6 +247,27 @@ export default {
   },
 
   reducers: {
+    treeSuccess(state, { payload }) {
+      const resultData = payload;
+      const treeData = buildSelectTree(resultData);
+
+      // // value 要保护 displayName 不然，搜索会失效
+      // const rootNode = [
+      //   {
+      //     title: '根节点',
+      //     value: `根节点-0`,
+      //     key: 0,
+      //     children: [],
+      //   },
+      // ];
+
+      // const deptSelectTree = rootNode.concat(treeData);
+      return {
+        ...state,
+        // list: resultData,
+        deptSelectTree: treeData,
+      };
+    },
     changeRoleCheckedKeys(state, { payload }) {
       return {
         ...state,
@@ -251,6 +299,6 @@ export default {
         ...state,
         ...payload,
       };
-    }
+    },
   },
 };

@@ -6,11 +6,14 @@ import cn.iocoder.mall.product.api.constant.ProductErrorCodeEnum;
 import cn.iocoder.mall.product.api.message.ProductSpuCollectionMessage;
 import cn.iocoder.mall.product.dao.ProductSpuMapper;
 import cn.iocoder.mall.product.dataobject.ProductSpuDO;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * ProductSpuCollectionServiceImpl
@@ -47,9 +50,14 @@ public class ProductSpuCollectionServiceImpl implements ProductSpuCollectionServ
      */
     private void sendProductSpuCollectionMessage(final ProductSpuDO productSpuDO, final Integer hasCollectionType,
             final Integer userId) {
+        List<String> result = Lists.newArrayList(Splitter.on(",").omitEmptyStrings().trimResults().split(productSpuDO.getPicUrls()));
         ProductSpuCollectionMessage productSpuCollectionMessage = new ProductSpuCollectionMessage()
-                .setSpuId(productSpuDO.getId()).setSpuName(productSpuDO.getName())
-                .setSpuImage(productSpuDO.getPicUrls()).setHasCollectionType(hasCollectionType)
+                .setSpuId(productSpuDO.getId())
+                .setSpuName(productSpuDO.getName())
+                .setSpuImage(result.size() > 0 ? result.get(0) : "")
+                .setSellPoint(productSpuDO.getSellPoint())
+                .setPrice(productSpuDO.getPrice())
+                .setHasCollectionType(hasCollectionType)
                 .setUserId(userId);
         rocketMQTemplate.convertAndSend(ProductSpuCollectionMessage.TOPIC, productSpuCollectionMessage);
     }

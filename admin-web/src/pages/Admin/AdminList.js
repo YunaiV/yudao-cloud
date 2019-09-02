@@ -2,22 +2,44 @@
 
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import {Card, Form, Input, Button, Modal, message, Table, Divider, Tree, Spin, Row, Col, Select, Icon} from 'antd';
-import { checkTypeWithEnglishAndNumbers } from '../../../helpers/validator'
+import {
+  Card,
+  Form,
+  Input,
+  Button,
+  Modal,
+  message,
+  Table,
+  Divider,
+  Tree,
+  Spin,
+  Row,
+  Col,
+  Select,
+  Icon,
+  TreeSelect,
+} from 'antd';
+import { checkTypeWithEnglishAndNumbers } from '../../../helpers/validator';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 import styles from './AdminList.less';
-import moment from "moment";
-import PaginationHelper from "../../../helpers/PaginationHelper";
+import moment from 'moment';
+import PaginationHelper from '../../../helpers/PaginationHelper';
 
 const FormItem = Form.Item;
 const { TreeNode } = Tree;
 const status = ['未知', '正常', '禁用'];
 
 // 列表
-function List ({ dataSource, loading, pagination, searchParams, dispatch,
-                 handleModalVisible, handleRoleAssignModalVisible}) {
-
+function List({
+  dataSource,
+  loading,
+  pagination,
+  searchParams,
+  dispatch,
+  handleModalVisible,
+  handleRoleAssignModalVisible,
+}) {
   function handleRoleAssign(record) {
     // 显示 Modal
     handleRoleAssignModalVisible(true, record);
@@ -66,11 +88,15 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
   const columns = [
     {
       title: '账号',
-      dataIndex: 'username'
+      dataIndex: 'username',
     },
     {
       title: '员工姓名',
       dataIndex: 'nickname',
+    },
+    {
+      title: '部门',
+      dataIndex: 'deptment.name',
     },
     {
       title: '角色',
@@ -85,8 +111,8 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
             text += roles[i].name;
           }
         }
-        return (<span>{text}</span>);
-      }
+        return <span>{text}</span>;
+      },
     },
     {
       title: '状态',
@@ -114,30 +140,30 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
             <a className={styles.tableDelete} onClick={() => handleStatus(record)}>
               {statusText}
             </a>
-            {
-              record.status === 2 ?
-                <span>
-                  <Divider type="vertical" />
-                  <a className={styles.tableDelete} onClick={() => handleDelete(record)}>
-                    删除
-                  </a>
-                </span> : null
-            }
+            {record.status === 2 ? (
+              <span>
+                <Divider type="vertical" />
+                <a className={styles.tableDelete} onClick={() => handleDelete(record)}>
+                  删除
+                </a>
+              </span>
+            ) : null}
           </Fragment>
         );
       },
     },
   ];
 
-  function onPageChange(page) { // 翻页
+  function onPageChange(page) {
+    // 翻页
     dispatch({
       type: 'adminList/query',
       payload: {
         pageNo: page.current,
         pageSize: page.pageSize,
-        ...searchParams
-      }
-    })
+        ...searchParams,
+      },
+    });
   }
 
   return (
@@ -149,7 +175,7 @@ function List ({ dataSource, loading, pagination, searchParams, dispatch,
       pagination={pagination}
       onChange={onPageChange}
     />
-  )
+  );
 }
 
 // 搜索表单
@@ -157,17 +183,23 @@ const SearchForm = Form.create()(props => {
   const {
     form,
     form: { getFieldDecorator },
-    dispatch
+    dispatch,
+    deptSelectTree,
   } = props;
 
   function search() {
+    const fields = form.getFieldsValue();
+    if (fields.deptmentId) {
+      const deptmentId = fields.deptmentId.split('-')[1];
+      fields.deptmentId = deptmentId;
+    }
     dispatch({
       type: 'adminList/query',
       payload: {
         ...PaginationHelper.defaultPayload,
-        ...form.getFieldsValue()
-      }
-    })
+        ...fields,
+      },
+    });
   }
 
   // 提交搜索
@@ -189,20 +221,36 @@ const SearchForm = Form.create()(props => {
   return (
     <Form onSubmit={handleSubmit} layout="inline">
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-        <Col md={8} sm={24}>
+        <Col md={6} sm={24}>
           <FormItem label="员工姓名">
-            {getFieldDecorator('nickname')(<Input placeholder="请输入" />)}
+            {getFieldDecorator('nickname')(<Input style={{ width: 250 }} placeholder="请输入" />)}
           </FormItem>
         </Col>
-        <Col md={8} sm={24}>
-            <span className={styles.submitButtons}>
-              <Button type="primary" htmlType="submit">
-                查询
-              </Button>
-              <Button style={{ marginLeft: 8 }} onClick={handleReset}>
-                重置
-              </Button>
-            </span>
+        <Col md={6} sm={24}>
+          <FormItem label="归属部门">
+            {getFieldDecorator('deptmentId', {
+              rules: [{ required: true, message: '请选择部门' }],
+            })(
+              <TreeSelect
+                showSearch
+                style={{ width: 250 }}
+                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                treeData={deptSelectTree}
+                placeholder="选择部门"
+              />
+            )}
+          </FormItem>
+        </Col>
+
+        <Col md={12} sm={24}>
+          <span className={styles.submitButtons}>
+            <Button type="primary" htmlType="submit">
+              查询
+            </Button>
+            <Button style={{ marginLeft: 8 }} onClick={handleReset}>
+              重置
+            </Button>
+          </span>
         </Col>
       </Row>
     </Form>
@@ -211,12 +259,24 @@ const SearchForm = Form.create()(props => {
 
 // 添加 or 修改 Form 表单
 const AddOrUpdateForm = Form.create()(props => {
-  const { dispatch, modalVisible, form, handleModalVisible, modalType, formVals } = props;
+  const {
+    dispatch,
+    modalVisible,
+    form,
+    handleModalVisible,
+    modalType,
+    formVals,
+    deptSelectTree,
+  } = props;
 
   const okHandle = () => {
     form.validateFields((err, fields) => {
       if (err) return;
       // 添加表单
+      if (fields.deptmentId) {
+        const deptmentId = fields.deptmentId.split('-')[1];
+        fields.deptmentId = deptmentId;
+      }
       if (modalType === 'add') {
         dispatch({
           type: 'adminList/add',
@@ -264,29 +324,52 @@ const AddOrUpdateForm = Form.create()(props => {
       title={title}
       visible={modalVisible}
       onOk={okHandle}
-      okText='保存'
+      okText="保存"
       onCancel={() => handleModalVisible()}
     >
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="账号">
         {form.getFieldDecorator('username', {
-          rules: [{ required: true, message: '请输入账号！'},
-            {max: 16, min:6, message: '长度为 6-16 位'},
-            { validator: (rule, value, callback) => checkTypeWithEnglishAndNumbers(rule, value, callback, '数字以及字母')}
+          rules: [
+            { required: true, message: '请输入账号！' },
+            { max: 16, min: 6, message: '长度为 6-16 位' },
+            {
+              validator: (rule, value, callback) =>
+                checkTypeWithEnglishAndNumbers(rule, value, callback, '数字以及字母'),
+            },
           ],
           initialValue: formVals.username,
         })(<Input placeholder="请输入" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="员工姓名">
         {form.getFieldDecorator('nickname', {
-          rules: [{ required: true, message: '请输入员工姓名！'},
-            {max: 10, message: '姓名最大长度为 10'}],
+          rules: [
+            { required: true, message: '请输入员工姓名！' },
+            { max: 10, message: '姓名最大长度为 10' },
+          ],
           initialValue: formVals.nickname,
         })(<Input placeholder="请输入" />)}
       </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="归属部门">
+        {form.getFieldDecorator('deptmentId', {
+          rules: [{ required: true, message: '请选择部门' }],
+          initialValue:
+            formVals.deptmentId && formVals.deptmentId !== 0 ? formVals.deptmentId : null,
+        })(
+          <TreeSelect
+            showSearch
+            style={{ width: 280 }}
+            dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+            treeData={deptSelectTree}
+            placeholder="选择部门"
+          />
+        )}
+      </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="密码">
         {form.getFieldDecorator('password', {
-          rules: [{ required: modalType === 'add', message: '请填写密码'}, // 添加时，必须输入密码
-            {max: 16, min: 6, message: '长度为 6-18 位'}],
+          rules: [
+            { required: modalType === 'add', message: '请填写密码' }, // 添加时，必须输入密码
+            { max: 16, min: 6, message: '长度为 6-18 位' },
+          ],
           initialValue: formVals.password,
         })(<Input placeholder="请输入" type="password" />)}
       </FormItem>
@@ -321,7 +404,8 @@ const RoleAssignModal = Form.create()(props => {
 
   const renderTreeNodes = data => {
     return data.map(item => {
-      if (item.children) { // 递归拼接节点
+      if (item.children) {
+        // 递归拼接节点
         return (
           <TreeNode title={item.title} key={item.key} dataRef={item}>
             {renderTreeNodes(item.children)}
@@ -387,31 +471,30 @@ const RoleAssignModal = Form.create()(props => {
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
-      <Spin spinning={loading}>
-        {renderModalContent(treeData)}
-      </Spin>
+      <Spin spinning={loading}>{renderModalContent(treeData)}</Spin>
     </Modal>
   );
 });
-
 
 @connect(({ adminList }) => ({
   // list: adminList.list,
   // pagination: adminList.pagination,
   ...adminList,
 }))
-
 // 主界面
 @Form.create()
 class AdminList extends PureComponent {
-
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
       type: 'adminList/query',
       payload: {
-        ...PaginationHelper.defaultPayload
+        ...PaginationHelper.defaultPayload,
       },
+    });
+    dispatch({
+      type: 'adminList/getDeptmentTree',
+      payload: {},
     });
   }
 
@@ -422,7 +505,7 @@ class AdminList extends PureComponent {
       payload: {
         modalVisible,
         modalType,
-        formVals: record || {}
+        formVals: record || {},
       },
     });
   };
@@ -433,18 +516,29 @@ class AdminList extends PureComponent {
       type: 'adminList/setAll',
       payload: {
         roleModalVisible: roleModalVisible,
-        formVals: record || {}
+        formVals: record || {},
       },
     });
   };
 
   render() {
     // let that = this;
-    const { dispatch,
-      list, listLoading, searchParams, pagination,
-      modalVisible, modalType, formVals,
+    const {
+      dispatch,
+      list,
+      listLoading,
+      searchParams,
+      pagination,
+      modalVisible,
+      modalType,
+      formVals,
       confirmLoading,
-      roleList, roleModalVisible, roleAssignLoading, roleCheckedKeys  } = this.props;
+      roleList,
+      roleModalVisible,
+      roleAssignLoading,
+      roleCheckedKeys,
+      deptSelectTree,
+    } = this.props;
 
     // 列表属性
     const listProps = {
@@ -461,6 +555,7 @@ class AdminList extends PureComponent {
     // 搜索表单属性
     const searchFormProps = {
       dispatch,
+      deptSelectTree,
     };
 
     // 添加 or 更新表单属性
@@ -469,6 +564,7 @@ class AdminList extends PureComponent {
       modalType,
       formVals,
       dispatch,
+      deptSelectTree,
       handleModalVisible: this.handleModalVisible, // Function
     };
 

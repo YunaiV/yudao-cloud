@@ -4,23 +4,23 @@ import request from '@/utils/request';
 // product category
 
 export async function productCategoryTree(params) {
-    return request(`/product-api/admins/category/tree?${stringify(params)}`, {
-        method: 'GET',
-    });
+  return request(`/product-api/admins/category/tree?${stringify(params)}`, {
+    method: 'GET',
+  });
 }
 
 export async function productCategoryAdd(params) {
-    return request(`/product-api/admins/category/add?${stringify(params)}`, {
-        method: 'POST',
-        body: {},
-    });
+  return request(`/product-api/admins/category/add?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
 }
 
 export async function productCategoryUpdate(params) {
-    return request(`/product-api/admins/category/update?${stringify(params)}`, {
-        method: 'POST',
-        body: {},
-    });
+  return request(`/product-api/admins/category/update?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
 }
 
 export async function productCategoryUpdateStatus(params) {
@@ -31,9 +31,9 @@ export async function productCategoryUpdateStatus(params) {
 }
 
 export async function productCategoryDelete(params) {
-    return request(`/product-api/admins/category/delete?${stringify(params)}`, {
-        method: 'POST',
-    });
+  return request(`/product-api/admins/category/delete?${stringify(params)}`, {
+    method: 'POST',
+  });
 }
 
 // product spu + sku
@@ -85,9 +85,50 @@ export async function productSpuInfo(params) {
 
 // product attr + attr value
 
+export async function productAttrPage(params) {
+  return request(`/product-api/admins/attr/page?${stringify(params)}`, {
+    method: 'GET',
+  });
+}
+
+export async function productAttrAdd(params) {
+  return request(`/product-api/admins/attr/add?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
+}
+
+export async function productAttrUpdate(params) {
+  return request(`/product-api/admins/attr/update?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
+}
+
+export async function productAttrUpdateStatus(params) {
+  return request(`/product-api/admins/attr/update_status?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
+}
+
 export async function productAttrTree(params) {
   return request(`/product-api/admins/attr/tree?${stringify(params)}`, {
     method: 'GET',
+  });
+}
+
+export async function productAttrValueUpdate(params) {
+  return request(`/product-api/admins/attr_value/update?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
+}
+
+export async function productAttrValueUpdateStatus(params) {
+  return request(`/product-api/admins/attr_value/update_status?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
   });
 }
 
@@ -98,30 +139,30 @@ export async function productAttrValueAdd(params) {
   });
 }
 
-  // product brand  2019-05-31
+// product brand  2019-05-31
 
 export async function productBrandAdd(params) {
-    return request(`/product-api/admins/brand/add?${stringify(params)}`, {
-      method: 'POST',
-      body: {},
-    });
+  return request(`/product-api/admins/brand/add?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
 }
 
 export async function productBrandUpdate(params) {
-    return request(`/product-api/admins/brand/update?${stringify(params)}`, {
-      method: 'POST',
-      body: {},
-    });
+  return request(`/product-api/admins/brand/update?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
 }
 
 export async function productBrandGet(params) {
   return request(`/product-api/admins/brand/get?${stringify(params)}`, {
-    method: 'GET'
+    method: 'GET',
   });
 }
 
 export async function productBrandPage(params) {
   return request(`/product-api/admins/brand/page?${stringify(params)}`, {
-    method: 'GET'
+    method: 'GET',
   });
 }

@@ -1,5 +1,11 @@
 import { message } from 'antd';
-import { deptTreePage, deptTreeAll, addDeptment, updateDeptment } from '../../services/admin';
+import {
+  deptTreePage,
+  deptTreeAll,
+  addDeptment,
+  updateDeptment,
+  deleteDeptment,
+} from '../../services/admin';
 
 const buildSelectTree = list => {
   return list.map(item => {
@@ -31,6 +37,13 @@ export default {
     *add({ payload }, { call, put }) {
       const { onSuccess, body } = payload;
       const response = yield call(addDeptment, body);
+      if (response && response.code === 0) {
+        onSuccess && onSuccess();
+      }
+    },
+    *delete({ payload }, { call, put }) {
+      const { onSuccess, body } = payload;
+      const response = yield call(deleteDeptment, body);
       if (response && response.code === 0) {
         onSuccess && onSuccess();
       }

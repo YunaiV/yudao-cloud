@@ -1,6 +1,6 @@
 package cn.iocoder.mall.demo.business.convert;
 
-import cn.iocoder.mall.demo.business.bo.DemoProductBO;
+import cn.iocoder.mall.demo.business.bo.product.DemoProductBO;
 import cn.iocoder.mall.demo.business.dataobject.product.DemoProductDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;

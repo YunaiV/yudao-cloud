@@ -1,17 +1,14 @@
-package cn.iocoder.mall.demo.business.dataobject.product;
+package cn.iocoder.mall.demo.business.bo.product;
 
-import cn.iocoder.common.framework.dataobject.DeletableDO;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * Demo 商品
+ * Demo 商品更新 BO
  */
 @Data
 @Accessors(chain = true)
-@TableName(value = "product")
-public class DemoProductDO extends DeletableDO {
+public class DemoProductUpdateBO {
 
     /**
      * 编号

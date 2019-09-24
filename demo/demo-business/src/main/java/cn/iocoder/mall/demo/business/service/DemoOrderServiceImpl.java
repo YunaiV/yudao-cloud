@@ -10,7 +10,7 @@ import cn.iocoder.mall.demo.business.bo.product.DemoProductBO;
 import cn.iocoder.mall.demo.business.bo.product.DemoProductQuantityReduceBO;
 import cn.iocoder.mall.demo.business.constant.OrderStatusEnum;
 import cn.iocoder.mall.demo.business.convert.DemoOrderConvert;
-import cn.iocoder.mall.demo.business.dao.DemoOrderMapper;
+import cn.iocoder.mall.demo.business.dao.mysql.DemoOrderMapper;
 import cn.iocoder.mall.demo.business.dataobject.order.DemoOrderDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

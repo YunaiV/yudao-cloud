@@ -16,3 +16,5 @@ dubbo:
 #    filter: -exception
     DemoProductRpcService:
       version: 1.0.0
+    DemoUserRpcService:
+      version: 1.0.0

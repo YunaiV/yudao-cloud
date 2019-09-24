@@ -1,4 +1,4 @@
-package cn.iocoder.mall.demo.business.dao;
+package cn.iocoder.mall.demo.business.dao.mysql;
 
 import cn.iocoder.mall.demo.business.dataobject.product.DemoProductDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

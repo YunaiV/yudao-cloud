@@ -5,6 +5,8 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: testb5f4
     password: F4df4db0ed86@11
+  # redis
+  redis:
 
 # mybatis-plus
 mybatis-plus:
@@ -17,3 +19,4 @@ mybatis-plus:
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
   mapperLocations: classpath*:mapper/*.xml
   typeAliasesPackage: cn.iocoder.mall.demo.business.dataobject
+

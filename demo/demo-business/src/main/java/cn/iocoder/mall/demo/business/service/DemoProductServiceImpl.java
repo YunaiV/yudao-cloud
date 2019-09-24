@@ -5,7 +5,7 @@ import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.demo.business.api.DemoProductService;
 import cn.iocoder.mall.demo.business.bo.product.*;
 import cn.iocoder.mall.demo.business.convert.DemoProductConvert;
-import cn.iocoder.mall.demo.business.dao.DemoProductMapper;
+import cn.iocoder.mall.demo.business.dao.mysql.DemoProductMapper;
 import cn.iocoder.mall.demo.business.dataobject.product.DemoProductDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -7,9 +7,9 @@ import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
-public interface DemOrderConvert {
+public interface DemoOrderConvert {
 
-    DemOrderConvert INSTANCE = Mappers.getMapper(DemOrderConvert.class);
+    DemoOrderConvert INSTANCE = Mappers.getMapper(DemoOrderConvert.class);
 
     @Mappings({})
     DemoOrderAddBO convert(DemoOrderAddDTO addDTO);

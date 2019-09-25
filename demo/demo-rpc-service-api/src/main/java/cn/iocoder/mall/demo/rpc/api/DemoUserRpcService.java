@@ -1,9 +1,9 @@
 package cn.iocoder.mall.demo.rpc.api;
 
-import cn.iocoder.mall.demo.rpc.vo.DemoUserVO;
+import cn.iocoder.mall.demo.rpc.dto.DemoUserDTO;
 
 public interface DemoUserRpcService {
 
-    DemoUserVO get(Integer id);
+    DemoUserDTO get(Integer id);
 
 }

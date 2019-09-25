@@ -1,7 +1,7 @@
 package cn.iocoder.mall.demo.rpc.convert;
 
 import cn.iocoder.mall.demo.business.bo.product.DemoProductBO;
-import cn.iocoder.mall.demo.rpc.vo.DemoProductVO;
+import cn.iocoder.mall.demo.rpc.dto.DemoProductDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -12,6 +12,6 @@ public interface DemoProductConvert {
     DemoProductConvert INSTANCE = Mappers.getMapper(DemoProductConvert.class);
 
     @Mappings({})
-    DemoProductVO convert(DemoProductBO object);
+    DemoProductDTO convert(DemoProductBO object);
 
 }

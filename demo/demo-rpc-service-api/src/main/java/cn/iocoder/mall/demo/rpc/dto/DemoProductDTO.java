@@ -1,12 +1,12 @@
-package cn.iocoder.mall.demo.rpc.vo;
+package cn.iocoder.mall.demo.rpc.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@ApiModel("Demo 商品 BO")
+@ApiModel("Demo 商品 DTO")
 @Data
-public class DemoProductVO {
+public class DemoProductDTO {
 
     @ApiModelProperty(value = "编号", required = true, example = "1")
     private Integer id;

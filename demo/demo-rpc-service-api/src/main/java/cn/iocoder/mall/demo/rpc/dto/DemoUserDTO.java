@@ -1,11 +1,11 @@
-package cn.iocoder.mall.demo.rpc.vo;
+package cn.iocoder.mall.demo.rpc.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class DemoUserVO {
+public class DemoUserDTO {
 
     /**
      * 用户编号

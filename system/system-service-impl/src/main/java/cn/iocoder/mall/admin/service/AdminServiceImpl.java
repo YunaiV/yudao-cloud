@@ -56,7 +56,7 @@ public class AdminServiceImpl implements AdminService {
             throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.ADMIN_USERNAME_NOT_REGISTERED.getCode());
         }
         // 密码不正确
-        if (encodePassword(adminAuthenticationDTO.getPassword()).equals(admin.getPassword())) {
+        if (!encodePassword(adminAuthenticationDTO.getPassword()).equals(admin.getPassword())) {
             throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.ADMIN_PASSWORD_ERROR.getCode());
         }
         // 账号被禁用

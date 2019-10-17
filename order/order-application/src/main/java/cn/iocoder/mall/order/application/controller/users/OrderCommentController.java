@@ -7,8 +7,12 @@ import cn.iocoder.mall.order.api.OrderCommentService;
 import cn.iocoder.mall.order.api.bo.OrderCommentCreateBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentInfoAndMerchantReplyBO;
 import cn.iocoder.mall.order.api.bo.OrderCommentPageBO;
+import cn.iocoder.mall.order.api.bo.OrderCommentStateInfoPageBO;
 import cn.iocoder.mall.order.api.dto.OrderCommentCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderCommentPageDTO;
+import cn.iocoder.mall.order.api.dto.OrderCommentStateInfoPageDTO;
+import cn.iocoder.mall.user.sdk.annotation.RequiresLogin;
+import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
@@ -39,20 +43,20 @@ public class OrderCommentController {
 
     @PostMapping("create_order_comment")
     //@RequiresLogin
-    @ApiOperation(value = "创建订单")
-    public CommonResult<OrderCommentCreateBO> createOrder(@RequestBody @Validated OrderCommentCreateDTO orderCommentCreateDTO) {
+    @ApiOperation(value = "创建订单评论")
+    public CommonResult<OrderCommentCreateBO> createOrderComment(@RequestBody @Validated OrderCommentCreateDTO orderCommentCreateDTO) {
+        Integer userId = UserSecurityContextHolder.getContext().getUserId();
+        orderCommentCreateDTO.setUserId(userId);
         return success(orderCommentService.createOrderComment(orderCommentCreateDTO));
     }
 
     @GetMapping("order_comment_page")
-    //@RequiresLogin
     @ApiOperation(value = "获取评论分页")
     public CommonResult<OrderCommentPageBO> getOrderCommentPage(@Validated OrderCommentPageDTO orderCommentPageDTO){
         return success(orderCommentService.getOrderCommentPage(orderCommentPageDTO));
     }
 
     @GetMapping("order_comment_info_merchant_reply")
-    //@RequiresLogin
     @ApiOperation(value = "获取评论和商家回复")
     public CommonResult<OrderCommentInfoAndMerchantReplyBO> geOrderCommentInfoAndMerchantReply(@RequestParam("commentId") Integer commentId){
         OrderCommentInfoAndMerchantReplyBO orderCommentInfoAndMerchantReplyBO=new OrderCommentInfoAndMerchantReplyBO();
@@ -60,5 +64,15 @@ public class OrderCommentController {
         orderCommentInfoAndMerchantReplyBO.setOrderCommentMerchantReplyBOS(orderCommentReplyService.getOrderCommentMerchantReply(commentId));
         return success(orderCommentInfoAndMerchantReplyBO);
     }
+
+    @GetMapping
+    //@RequiresLogin
+    @ApiOperation(value = "获取订单评论状态分页")
+    public CommonResult<OrderCommentStateInfoPageBO> getOrderCommentStateInfoPage(@Validated OrderCommentStateInfoPageDTO orderCommentStateInfoPageDTO){
+        //Integer userId = UserSecurityContextHolder.getContext().getUserId();
+        //orderCommentStateInfoPageDTO.setUserId(userId);
+        return success(orderCommentService.getOrderCommentStateInfoPage(orderCommentStateInfoPageDTO));
+    }
+
 
 }

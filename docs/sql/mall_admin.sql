@@ -50,6 +50,7 @@ CREATE TABLE `admin` (
   `nickname` varchar(10) NOT NULL COMMENT '昵称',
   `password` varchar(32) NOT NULL COMMENT '密码\n     *\n     * TODO 芋艿 暂时最简单的 MD5',
   `status` tinyint(11) NOT NULL COMMENT '账号状态',
+  `deptment_id` int(11) DEFAULT 0 NOT NULL COMMENT '部门id',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted` bit(1) DEFAULT NULL,
@@ -313,6 +314,8 @@ INSERT INTO `resource` VALUES (50, 2, 3, '删除字典', 19, '', NULL, 'system.d
 INSERT INTO `resource` VALUES (51, 1, -1, '短信ss', 0, '', 'user', '', '2019-05-26 12:00:31', '2019-06-03 13:54:54', b'0');
 INSERT INTO `resource` VALUES (52, 1, 1, '短信签名', 51, '/sms/sign-list', 'user', '', '2019-05-26 12:01:56', '2019-05-26 12:01:56', b'0');
 INSERT INTO `resource` VALUES (53, 1, 2, '短信模板', 51, '/sms/template-list', 'user', '', '2019-05-26 12:02:19', '2019-05-26 12:02:18', b'0');
+INSERT INTO `resource` VALUES (54, 1, 3, '部门管理', 13, '/admin/dept-list', 'user', '', '2019-06-27 23:41:19', '2019-06-27 23:41:51', b'0');
+INSERT INTO `resource` VALUES (55, 1, 4, '规格管理', 20, '/product/product-attr-list', null, null, '2019-08-14 23:59:38', '2019-08-14 23:59:38', b'0');
 COMMIT;
 
 -- ----------------------------
@@ -350,6 +353,21 @@ CREATE TABLE `sms_template` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 
+-- ----------------------------
+--  Table structure for `deptment`
+-- ----------------------------
+DROP TABLE IF EXISTS `deptment`;
+CREATE TABLE `deptment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '部门主键id',
+  `name` varchar(100) COLLATE utf8mb4_bin NOT NULL COMMENT '部门名称',
+  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序字段',
+  `pid` int(11) NOT NULL DEFAULT '0' COMMENT '父级部门id',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '删除标记',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `deptment_id_uindex` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 
 SET FOREIGN_KEY_CHECKS = 1;

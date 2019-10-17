@@ -12,9 +12,9 @@ import lombok.experimental.Accessors;
  * @time 2019-05-14 20:48
  *
  */
-@TableName(value = "order_comment")
 @Data
 @Accessors(chain = true)
+@TableName(value = "order_comment")
 public class OrderCommentDO extends BaseDO {
 
     /**
@@ -116,5 +116,10 @@ public class OrderCommentDO extends BaseDO {
      * 评论的图片地址
      */
     private String commentPics;
+
+    /**
+     * 订单评论状态
+     */
+    private Integer commentState;
 
 }

@@ -72,7 +72,7 @@ public class ProductAttrServiceImpl implements ProductAttrService {
     public ProductAttrPageBO getProductAttrPage(ProductAttrPageDTO productAttrPageDTO) {
         ProductAttrPageBO productAttrPageBO = new ProductAttrPageBO();
         // 查询分页数据
-        int offset = productAttrPageDTO.getPageNo() * productAttrPageDTO.getPageSize();
+        int offset = (productAttrPageDTO.getPageNo()-1) * productAttrPageDTO.getPageSize();
         productAttrPageBO.setAttrs(ProductAttrConvert.INSTANCE.convert(productAttrMapper.selectListByNameLike(productAttrPageDTO.getName(),
                 offset, productAttrPageDTO.getPageSize())));
         // 查询分页总数

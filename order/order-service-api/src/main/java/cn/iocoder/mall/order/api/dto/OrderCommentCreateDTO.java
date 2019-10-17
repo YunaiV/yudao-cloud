@@ -55,7 +55,6 @@ public class OrderCommentCreateDTO implements Serializable {
     private String productSkuPicUrl;
 
     @ApiModelProperty(value = "用户 id", required = true)
-    @NotNull(message = "用户 id 不能为空")
     private Integer userId;
 
     @ApiModelProperty(value = "用户头像", required = true)

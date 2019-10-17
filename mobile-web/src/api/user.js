@@ -1,20 +1,29 @@
 import request from "../config/request";
 
-export function GetFavorite(data){
+export function GetFavoritePage(pageNo,pageSize){
   return request({
-    url: '/User/GetFavorite',
-    method: 'post',
-    params: { data }
+    url: '/user-api/users/favorite/page',
+    method: 'get',
+    params: { pageNo,pageSize }
   })
 }
 
-export function DelFavorite(id){
+export function DelFavorite(spuId){
   return request({
-    url: '/User/DelFavorite',
-    method: 'get',
-    params: { id:id }
+    url: '/user-api/users/favorite/remove',
+    method: 'DELETE',
+    params: { spuId }
   })
 }
+
+export function hasUserSpuFavorite(spuId){
+  return request({
+    url: '/user-api/users/favorite/hasUserFavorite',
+    method: 'get',
+    params: {spuId}
+  })
+}
+
 
 export function GetCoupon(data){
   return request({

@@ -52,6 +52,11 @@ export default [
             component: './Admin/RoleList',
           },
           {
+            path: '/admin/dept-list',
+            name: 'deptment-list',
+            component: './Admin/DeptmentList',
+          },
+          {
             path: '/admin/dictionary-list',
             name: 'dictionary-list',
             component: './Admin/DictionaryList',
@@ -119,6 +124,11 @@ export default [
             path: '/product/product-brand-list',
             name: 'product-brand-list',
             component: './Product/ProductBrandList',
+          },
+          {
+            path: '/product/product-attr-list',
+            name: 'product-attr-list',
+            component: './Product/ProductAttrList',
           },
         ],
       },

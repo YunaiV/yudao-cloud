@@ -74,6 +74,8 @@
         <foreach collection="commentIds" item="commentId" separator="," open="(" close=")">
             #{commentId}
         </foreach>
+        AND
+        user_type = #{userType}
     </select>
 
 </mapper>

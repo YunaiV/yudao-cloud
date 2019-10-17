@@ -21,4 +21,5 @@ public class OrderCommentCreateBO implements Serializable {
      * 订单评论 id
      */
     private Integer id;
+
 }

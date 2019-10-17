@@ -17,6 +17,12 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>product-service-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <!-- DB 相关 -->
         <dependency>
             <groupId>mysql</groupId>
@@ -65,6 +71,12 @@
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-framework</artifactId>
+        </dependency>
+
+        <!-- MQ 相关 -->
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-spring-boot-starter</artifactId>
         </dependency>
 
     </dependencies>

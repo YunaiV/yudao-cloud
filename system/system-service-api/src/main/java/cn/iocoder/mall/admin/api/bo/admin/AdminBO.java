@@ -28,4 +28,7 @@ public class AdminBO implements Serializable {
     @ApiModelProperty(value = "创建时间", required = true, example = "时间戳格式")
     private Date createTime;
 
+    @ApiModelProperty(value = "部门ID", required = true, example = "1")
+    private Integer deptmentId;
+
 }

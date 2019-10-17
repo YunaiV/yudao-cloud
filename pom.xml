@@ -23,6 +23,7 @@
         <module>pay</module>
         <module>promotion</module>
         <module>search</module>
+        <module>demo</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -1,13 +1,15 @@
 package cn.iocoder.mall.order.biz.dao;
 
-import cn.iocoder.mall.order.api.bo.OrderCommentReplyCreateBO;
-import cn.iocoder.mall.order.api.dto.OrderCommentCreateDTO;
+import cn.iocoder.mall.order.api.bo.OrderCommentTimeOutBO;
 import cn.iocoder.mall.order.api.dto.OrderCommentPageDTO;
+import cn.iocoder.mall.order.api.dto.OrderCommentStateInfoPageDTO;
+import cn.iocoder.mall.order.api.dto.OrderCommentTimeOutPageDTO;
 import cn.iocoder.mall.order.biz.dataobject.OrderCommentDO;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import cn.iocoder.mall.order.biz.dataobject.OrderItemDO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -51,6 +53,39 @@ public interface OrderCommentMapper{
      * @return
      */
     OrderCommentDO selectCommentInfoByCommentId(@Param("id") Integer id);
+
+
+    /**
+     * 订单评论状态信息详情
+     * @param orderCommentStateInfoPageDTO
+     * @return
+     */
+    List<OrderCommentDO> selectOrderCommentStateInfoPage(OrderCommentStateInfoPageDTO orderCommentStateInfoPageDTO);
+
+
+    /**
+     * 订单评论状态总数
+     * @param userId,commentState
+     * @return
+     */
+    int selectOrderCommentStateInfoTotal(@Param("userId") Integer userId,
+                                         @Param("commentState") Integer commentState);
+
+
+    /**
+     * 订单评论超时分页
+     * @param orderCommentTimeOutPageDTO
+     * @return
+     */
+    List<OrderCommentDO> selectOrderCommentTimeOutPage(@Param("commentTimeOut") OrderCommentTimeOutPageDTO orderCommentTimeOutPageDTO);
+
+    /**
+     * 批量更新订单评论状态
+     * @param orderCommentTimeOutBOList
+     * @param commentState
+     */
+    void updateBatchOrderCommentState(@Param("commentState") Integer commentState,
+            @Param("list") List<OrderCommentTimeOutBO> orderCommentTimeOutBOList);
 
 
 

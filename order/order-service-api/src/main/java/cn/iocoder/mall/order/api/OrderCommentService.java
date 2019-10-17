@@ -1,10 +1,13 @@
 package cn.iocoder.mall.order.api;
 
-import cn.iocoder.mall.order.api.bo.OrderCommentCreateBO;
-import cn.iocoder.mall.order.api.bo.OrderCommentInfoBO;
-import cn.iocoder.mall.order.api.bo.OrderCommentPageBO;
+import cn.iocoder.mall.order.api.bo.*;
 import cn.iocoder.mall.order.api.dto.OrderCommentCreateDTO;
 import cn.iocoder.mall.order.api.dto.OrderCommentPageDTO;
+import cn.iocoder.mall.order.api.dto.OrderCommentStateInfoPageDTO;
+import cn.iocoder.mall.order.api.dto.OrderCommentTimeOutPageDTO;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 订单评论模块
@@ -39,13 +42,26 @@ public interface OrderCommentService {
     OrderCommentInfoBO getOrderCommentInfo(Integer commentId);
 
 
-
     /**
-     * 订单评价超时自动好评
-     * 采用任务的形式执行
+     * 获取订单评论状态详情
+     * @param orderCommentStateInfoPageDTO
      * @return
      */
-    Boolean OrderCommentTimeOutProductCommentTask();
+    OrderCommentStateInfoPageBO getOrderCommentStateInfoPage(OrderCommentStateInfoPageDTO orderCommentStateInfoPageDTO);
+
+    /**
+     * 获取订单评论超时分页
+     * @param orderCommentTimeOutPageDTO
+     * @return
+     */
+    List<OrderCommentTimeOutBO> getOrderCommentTimeOutPage(OrderCommentTimeOutPageDTO orderCommentTimeOutPageDTO);
+
+
+    /**
+     * 批量更新订单评论状态
+     * @param orderCommentTimeOutBOList
+     */
+    void updateBatchOrderCommentState(List<OrderCommentTimeOutBO> orderCommentTimeOutBOList);
 
 
 

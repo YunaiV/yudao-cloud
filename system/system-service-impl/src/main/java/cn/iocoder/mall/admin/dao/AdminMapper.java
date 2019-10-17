@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
+import org.omg.PortableInterceptor.INACTIVE;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -19,7 +20,14 @@ public interface AdminMapper extends BaseMapper<AdminDO> {
 
     default IPage<AdminDO> selectPage(AdminPageDTO adminPageDTO) {
         return selectPage(new Page<>(adminPageDTO.getPageNo(), adminPageDTO.getPageSize()),
-                new QueryWrapperX<AdminDO>().likeIfPresent("nickname", adminPageDTO.getNickname()));
+                new QueryWrapperX<AdminDO>().likeIfPresent("nickname", adminPageDTO.getNickname())
+                                            .eqIfPresent("deptment_id", adminPageDTO.getDeptmentId()));
+    }
+
+    default int updateDeptByDeptId(@Param("fromDeptId")Integer fromDeptId, @Param("toDeptId")Integer toDeptId){
+        QueryWrapper<AdminDO> query = new QueryWrapper<AdminDO>()
+                .eq("deptment_id", fromDeptId);
+        return update(new AdminDO().setDeptmentId(toDeptId), query);
     }
 
 }

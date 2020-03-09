@@ -4,7 +4,7 @@
  Source Server         : mall_mysql
  Source Server Type    : MySQL
  Source Server Version : 50726
- Source Host           : 180.167.213.26:13306
+ Source Host           : 127.0.0.1:3306
  Source Schema         : mall_user
 
  Target Server Type    : MySQL

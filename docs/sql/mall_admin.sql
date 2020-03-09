@@ -4,7 +4,7 @@
  Source Server         : mall_mysql
  Source Server Type    : MySQL
  Source Server Version : 50726
- Source Host           : 180.167.213.26:13306
+ Source Host           : 127.0.0.1:3306
  Source Schema         : mall_admin
 
  Target Server Type    : MySQL
@@ -57,6 +57,9 @@ CREATE TABLE `admin` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COMMENT='admin_d_o';
 
+insert into `admin` (`id`, `username`, `nickname`, `password`, `status`, `deptment_id`, `create_time`, `update_time`, `deleted`) values('1','admin','admin','529faef522e1b7f8ce1387406caf9394','1','0','2020-03-06 14:53:26','2020-03-06 15:13:09','');
+
+
 -- ----------------------------
 -- Table structure for admin_role
 -- ----------------------------
@@ -70,6 +73,9 @@ CREATE TABLE `admin_role` (
   `deleted` bit(1) DEFAULT b'0' COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COMMENT='admin_role_d_o';
+
+insert into `admin_role` (`id`, `admin_id`, `role_id`, `create_time`, `update_time`, `deleted`) values('1','1','1','2020-03-06 15:43:22','2020-03-06 15:43:22','');
+
 
 -- ----------------------------
 -- Table structure for data_dict
@@ -247,6 +253,9 @@ CREATE TABLE `role` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='role_d_o';
 
+insert into `role` (`id`, `name`, `create_time`, `update_time`, `deleted`) values('1','ADMIN','2020-03-06 15:42:52','2020-03-06 15:42:52','');
+
+
 -- ----------------------------
 -- Table structure for role_resource
 -- ----------------------------
@@ -260,6 +269,65 @@ CREATE TABLE `role_resource` (
   `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=667 DEFAULT CHARSET=utf8mb4 COMMENT='role_resource_d_o';
+
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('1','1','1','2020-03-06 15:43:09','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('2','1','2','2020-03-06 15:43:30','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('3','1','3','2020-03-06 15:44:17','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('4','1','4','2020-03-06 16:10:29','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('5','1','5','2020-03-06 16:10:31','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('6','1','6','2020-03-06 16:10:33','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('7','1','7','2020-03-06 16:10:36','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('8','1','8','2020-03-06 16:10:41','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('9','1','9','2020-03-06 16:10:44','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('10','1','10','2020-03-06 16:10:49','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('11','1','11','2020-03-06 16:10:52','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('12','1','12','2020-03-06 16:10:58','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('13','1','13','2020-03-06 16:11:01','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('14','1','14','2020-03-06 16:11:04','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('15','1','15','2020-03-06 16:11:07','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('16','1','16','2020-03-06 16:11:10','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('17','1','17','2020-03-06 16:13:14','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('18','1','18','2020-03-06 16:13:17','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('19','1','19','2020-03-06 16:13:20','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('20','1','20','2020-03-06 16:13:24','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('21','1','21','2020-03-06 16:13:27','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('22','1','22','2020-03-06 16:13:29','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('23','1','23','2020-03-06 16:13:32','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('24','1','24','2020-03-06 16:13:35','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('25','1','25','2020-03-06 16:13:38','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('26','1','26','2020-03-06 16:13:41','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('27','1','27','2020-03-06 16:13:45','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('28','1','28','2020-03-06 16:13:49','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('29','1','29','2020-03-06 16:13:50','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('30','1','30','2020-03-06 16:14:00','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('31','1','31','2020-03-06 16:15:45','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('32','1','32','2020-03-06 16:15:48','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('33','1','33','2020-03-06 16:15:51','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('34','1','34','2020-03-06 16:15:55','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('35','1','35','2020-03-06 16:16:00','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('36','1','36','2020-03-06 16:16:04','2020-03-06 16:22:16','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('57','1','15','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('58','1','16','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('59','1','21','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('60','1','22','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('61','1','24','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('62','1','25','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('63','1','26','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('64','1','28','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('65','1','29','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('66','1','30','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('67','1','31','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('68','1','32','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('69','1','33','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('70','1','34','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('71','1','43','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('72','1','44','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('73','1','45','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('74','1','51','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('75','1','52','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('76','1','53','2020-03-06 16:22:13','2020-03-06 16:22:13','');
+insert into `role_resource` (`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) values('77','1','55','2020-03-06 16:40:57','2020-03-06 16:40:57','');
+
 
 -- ----------------------------
 -- Records of resource

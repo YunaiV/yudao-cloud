@@ -20,10 +20,13 @@
         SELECT
             <include refid="FIELDS" />
         FROM product_spu
-        WHERE id IN
+        WHERE 1 =1
+        <if test="ids!=null  and ids.size()>0">
+            AND id IN
             <foreach item="id" collection="ids" separator="," open="(" close=")" index="">
                 #{id}
             </foreach>
+        </if>
         AND deleted = 0
     </select>
 

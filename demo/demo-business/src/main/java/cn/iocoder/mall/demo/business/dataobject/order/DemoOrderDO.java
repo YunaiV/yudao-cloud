@@ -19,6 +19,11 @@ public class DemoOrderDO extends DeletableDO {
     private Integer id;
 
     /**
+     * 用户编号
+     */
+    private Integer userId;
+
+    /**
      * 商品编号
      */
     private Integer productId;

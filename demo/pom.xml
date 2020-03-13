@@ -18,6 +18,7 @@
         <module>demo-business-api</module>
         <module>demo-business</module>
         <module>demo-job</module>
+        <module>demo-mq</module>
     </modules>
 
 

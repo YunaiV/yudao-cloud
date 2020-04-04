@@ -12,6 +12,7 @@ public enum CommonStatusEnum implements IntArrayValuable {
     ENABLE(1, "开启"),
     DISABLE(2, "关闭");
 
+    //sihai:获取枚举值数组
     public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(CommonStatusEnum::getValue).toArray();
 
     /**

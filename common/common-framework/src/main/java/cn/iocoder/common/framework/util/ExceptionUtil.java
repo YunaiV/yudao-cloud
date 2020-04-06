@@ -6,7 +6,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import javax.validation.ConstraintViolationException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
-
+//sihai:看着生硬，待读
 public class ExceptionUtil {
 
     public static ServiceException getServiceException(Exception e) {

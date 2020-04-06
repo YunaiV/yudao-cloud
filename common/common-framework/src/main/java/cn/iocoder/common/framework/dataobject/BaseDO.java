@@ -6,6 +6,7 @@ import java.util.Date;
 /**
  * 基础实体对象
  */
+//sihai:
 public class BaseDO implements Serializable {
 
     /**

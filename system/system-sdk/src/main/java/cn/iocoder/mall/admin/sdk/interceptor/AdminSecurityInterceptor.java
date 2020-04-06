@@ -83,6 +83,7 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
         }
 
         // 鉴权完成，初始化 AdminSecurityContext 上下文
+        //sihai:为什么要放到request里，而不是从Context里取
         AdminSecurityContext context = new AdminSecurityContext();
         AdminSecurityContextHolder.setContext(context);
         if (authentication != null) {

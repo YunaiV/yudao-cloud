@@ -5,6 +5,7 @@ package cn.iocoder.common.framework.constant;
  *
  * 系统级异常，使用 2-001-000-000 段
  */
+//sihai:框架错误枚举
 public enum SysErrorCodeEnum {
 
     SYS_ERROR(2001001000, "服务端发生异常"),

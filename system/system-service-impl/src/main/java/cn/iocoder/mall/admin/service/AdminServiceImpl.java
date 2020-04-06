@@ -176,6 +176,7 @@ public class AdminServiceImpl implements AdminService {
         }
         // 查询角色数据
         List<RoleBO> roleList = roleService.getRoleList(CollectionUtil.convertSet(adminRoleList, AdminRoleDO::getRoleId));
+        // sihai: 2个冒号是什么意思？双冒号运算就是Java中的[方法引用]。Function<T,R> T表示传入类型，R表示返回类型？
         Map<Integer, RoleBO> roleMap = CollectionUtil.convertMap(roleList, RoleBO::getId);
         // 拼接数据
         Multimap<Integer, RoleBO> result = ArrayListMultimap.create();

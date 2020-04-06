@@ -3,6 +3,7 @@ package cn.iocoder.common.framework.constant;
 /**
  * Mall 全局枚举
  */
+// sihai:常量定义成interface，方便。
 public interface MallConstants {
 
     // 全局请求路径枚举类，用于定义不同用户类型的根请求路径

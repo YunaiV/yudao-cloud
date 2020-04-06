@@ -10,6 +10,7 @@ import java.util.Date;
  * 角色 BO
  */
 @Data
+// sihai: Accessors是干嘛的？可以连续set
 @Accessors(chain = true)
 public class RoleBO implements Serializable {
 

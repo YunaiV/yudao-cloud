@@ -1,14 +1,7 @@
 spring:
   application:
     name: admin-application
-  cloud:
-    sentinel:
-      transport:
-        port: 8719
-        dashboard: localhost:12088
-      metric:
-        charset: UTF-8
-      eager: false
+
 
 # server
 server:
@@ -32,11 +25,3 @@ swagger:
   description: 管理员子系统
   version: 1.0.0
   base-package: cn.iocoder.mall.admin.application.controller
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,env,metrics,prometheus
-    metrics:
-      enabled: true

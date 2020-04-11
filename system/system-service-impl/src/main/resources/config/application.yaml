@@ -5,12 +5,11 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: ${MALL_MYSQL_PASSWORD}
-
-# mybatis
-#mybatis:
-#  config-location: classpath:mybatis-config.xml
-#  mapper-locations: classpath:mapper/*.xml
-#  type-aliases-package: cn.iocoder.mall.admin.dataobject
+  cloud:
+    # Nacos 作为注册中心的配置项
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848 # Nacos 服务器地址
 
 # mybatis-plus
 mybatis-plus:
@@ -36,13 +35,17 @@ sms:
 dubbo:
   application:
     name: admin-service
-  registry:
-    address: zookeeper://127.0.0.1:2181
   protocol:
     port: -1
     name: dubbo
   scan:
     base-packages: cn.iocoder.mall.admin.service
+  # Dubbo 服务注册中心配置，对应 RegistryConfig 类
+  registry:
+    address: spring-cloud://127.0.0.1:8848 # 指定 Dubbo 服务注册中心的地址
+  # Spring Cloud Alibaba Dubbo 专属配置项，对应 DubboCloudProperties 类
+  cloud:
+    subscribed-services: '' # 设置订阅的应用列表，默认为 * 订阅所有应用。
   provider:
     filter: -exception
     AdminAccessLogService:

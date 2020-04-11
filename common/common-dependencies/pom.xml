@@ -17,9 +17,11 @@
     <!-- 属性 -->
     <properties>
         <!-- TODO Spring Boot && Spring Cloud && Spring Cloud Alibaba -->
-        <spring.boot.version>2.2.6s.RELEASE</spring.boot.version>
+        <spring.boot.version>2.2.4.RELEASE</spring.boot.version>
         <spring.cloud.version>Hoxton.SR1</spring.cloud.version>
         <spring.cloud.alibaba.version>2.2.0.RELEASE</spring.cloud.alibaba.version>
+        <!-- RPC 相关 -->
+        <dubbo.version>2.7.1</dubbo.version>
     </properties>
 
     <!-- 依赖管理 -->
@@ -46,6 +48,13 @@
                 <version>${spring.cloud.alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- RPC 相关 -->
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>${dubbo.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

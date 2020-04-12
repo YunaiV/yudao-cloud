@@ -26,7 +26,7 @@ dubbo:
     address: spring-cloud://127.0.0.1:8848 # 指定 Dubbo 服务注册中心的地址
   # Spring Cloud Alibaba Dubbo 专属配置
   cloud:
-    subscribed-services: 'admin-application' # 设置订阅的应用列表，默认为 * 订阅所有应用
+    subscribed-services: admin-application # 设置订阅的应用列表，默认为 * 订阅所有应用
   # Dubbo 提供者的协议
   protocol:
     name: dubbo
@@ -62,6 +62,6 @@ seata:
   registry:
     type: nacos # 注册中心类型
     nacos:
-      serverAddr: 127.0.0.1:8848 # Nacos 服务地址
+      serverAddr: ${spring.cloud.nacos.discovery.server-addr} # Nacos 服务地址
       namespace: # Nacos 命名空间
       cluster: default # 使用的 Seata 分组

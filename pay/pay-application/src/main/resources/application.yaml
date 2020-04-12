@@ -1,13 +1,13 @@
 spring:
   application:
     name: pay-application
+
+  # Spring Cloud 配置项
   cloud:
+    # Spring Cloud Sentinel 配置项
     sentinel:
       transport:
-        port: 8719
         dashboard: localhost:12088
-      metric:
-        charset: UTF-8
       eager: false
 
 # server

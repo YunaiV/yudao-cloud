@@ -48,7 +48,6 @@
         <xxl-job.version>2.0.1</xxl-job.version>
         <guava.version>27.0.1-jre</guava.version>
         <rocketmq-spring-boot-starter.version>2.0.1</rocketmq-spring-boot-starter.version>
-        <sentinel.version>0.9.0.RELEASE</sentinel.version>
 
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <org.projectlombok.version>1.16.14</org.projectlombok.version>
@@ -58,12 +57,8 @@
 
         <servlet.version>2.5</servlet.version>
 
-        <seata.version>0.5.1</seata.version>
-
         <prometheus-spring-boot.version>0.6.0</prometheus-spring-boot.version>
         <micrometer.version>1.4.1</micrometer.version>
-
-<!--        <seata.version>0.6.0-SNAPSHOT</seata.version>-->
 
         <java.version>1.8</java.version>
         <hibernate-validator.version>6.0.16.Final</hibernate-validator.version>
@@ -172,44 +167,11 @@
                 </exclusions>
             </dependency>
 
-            <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-spring</artifactId>
-                <version>${seata.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-dubbo</artifactId>
-                <version>${seata.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-dubbo-alibaba</artifactId>
-                <version>${seata.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-discovery-zk</artifactId>
-                <version>${seata.version}</version>
-            </dependency>
-
             <!-- Job 相关 -->
             <dependency>
                 <groupId>com.xuxueli</groupId>
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxl-job.version}</version>
-            </dependency>
-
-            <!-- Registry 和 Config 相关 -->
-            <dependency>
-                <groupId>org.apache.curator</groupId>
-                <artifactId>curator-framework</artifactId>
-                <version>${curator.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.curator</groupId>
-                <artifactId>curator-recipes</artifactId>
-                <version>${curator.version}</version>
             </dependency>
 
             <!-- MQ 相关 -->
@@ -243,12 +205,6 @@
                 <groupId>io.micrometer</groupId>
                 <artifactId>micrometer-registry-prometheus</artifactId>
                 <version>${micrometer.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
-                <version>${sentinel.version}</version>
             </dependency>
 
             <dependency>

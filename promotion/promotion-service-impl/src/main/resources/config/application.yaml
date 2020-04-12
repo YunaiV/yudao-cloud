@@ -6,11 +6,13 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: ${MALL_MYSQL_PASSWORD}
-    # TODO 芋艿, 后续优化下 druid 参数
-    druid:
-      initial-size: 5
-      max-active: 5
-      max-wait: 10000
+
+  # Spring Cloud 配置项
+  cloud:
+    nacos:
+      # Spring Cloud Nacos Discovery 配置项
+      discovery:
+        server-addr: 127.0.0.1:8848 # Nacos 服务器地址
 
 # mybatis-plus
 mybatis-plus:
@@ -22,20 +24,25 @@ mybatis-plus:
   mapper-locations: classpath*:mapper/*.xml
   type-aliases-package: cn.iocoder.mall.promotion.biz.dataobject
 
-# dubbo
+# Dubbo 配置项
 dubbo:
-  application:
-    name: promotion-service
+  # Dubbo 注册中心
   registry:
-    address: zookeeper://127.0.0.1:2181
+    address: spring-cloud://127.0.0.1:8848 # 指定 Dubbo 服务注册中心的地址
+  # Spring Cloud Alibaba Dubbo 专属配置
+  cloud:
+    subscribed-services: admin-application, product-application # 设置订阅的应用列表，默认为 * 订阅所有应用
+  # Dubbo 提供者的协议
   protocol:
-    port: -1
     name: dubbo
+    port: -1
+  # Dubbo 提供服务的扫描基础包
   scan:
     base-packages: cn.iocoder.mall.promotion.biz.service
   consumer:
     ProductSpuService:
       version: 1.0.0
+  # Dubbo 服务提供者的配置
   provider:
     filter: -exception
     BannerService:
@@ -47,6 +54,15 @@ dubbo:
     PromotionActivityService:
       version: 1.0.0
 
+# Seata 配置项
+seata:
+  # Seata 注册中心配置项
+  registry:
+    type: nacos # 注册中心类型
+    nacos:
+      serverAddr: ${spring.cloud.nacos.discovery.server-addr} # Nacos 服务地址
+      namespace: # Nacos 命名空间
+      cluster: default # 使用的 Seata 分组
 
 # logging
 logging:

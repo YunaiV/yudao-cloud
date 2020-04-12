@@ -5,15 +5,14 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: ${MALL_MYSQL_PASSWORD}
-  application:
-    name: order-impl  # 设置值保证程序启动时不报错，具体的值需要修改[nengjie]
 
-# mybatis
-#mybatis:
-#  config-location: classpath:mybatis-config.xml
-#  mapper-locations: classpath:mapper/*.xml
-#  type-aliases-package: cn.iocoder.mall.order.biz.dataobject
-#
+  # Spring Cloud 配置项
+  cloud:
+    nacos:
+      # Spring Cloud Nacos Discovery 配置项
+      discovery:
+        server-addr: 127.0.0.1:8848 # Nacos 服务器地址
+
 # mybatis-plus
 mybatis-plus:
   configuration:
@@ -24,18 +23,22 @@ mybatis-plus:
   mapper-locations: classpath*:mapper/*.xml
   type-aliases-package: cn.iocoder.mall.order.biz.dataobject
 
-# dubbo
+# Dubbo 配置项
 dubbo:
-  application:
-    name: order-service
+  # Dubbo 注册中心
   registry:
-    address: zookeeper://127.0.0.1:2181
+    address: spring-cloud://127.0.0.1:8848 # 指定 Dubbo 服务注册中心的地址
+  # Spring Cloud Alibaba Dubbo 专属配置
+  cloud:
+    subscribed-services: admin-application, user-application, product-application, promotion-application, pay-application # 设置订阅的应用列表，默认为 * 订阅所有应用
+  # Dubbo 提供者的协议
   protocol:
-    port: -1
     name: dubbo
+    port: -1
+  # Dubbo 提供服务的扫描基础包
   scan:
     base-packages: cn.iocoder.mall.order.biz.service
-
+  # Dubbo 服务提供者的配置
   provider:
     filter: -exception
     CartService:
@@ -73,6 +76,12 @@ logging:
     # dao 开启 debug 模式 mybatis 输入 sql
     cn.iocoder.mall.order.biz.dao: debug
 
-# seata
+# Seata 配置项
 seata:
-  tx-service-group: my_test_tx_group
+  # Seata 注册中心配置项
+  registry:
+    type: nacos # 注册中心类型
+    nacos:
+      serverAddr: ${spring.cloud.nacos.discovery.server-addr} # Nacos 服务地址
+      namespace: # Nacos 命名空间
+      cluster: default # 使用的 Seata 分组

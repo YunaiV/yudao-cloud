@@ -1,11 +1,11 @@
 package cn.iocoder.mall.product.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.user.api.bo.UserProductSpuCollectionsBO;
-import cn.iocoder.mall.user.api.bo.UserProductSpuCollectionsPageBO;
-import cn.iocoder.mall.user.api.dto.UserProductSpuCollectionsAddDTO;
-import cn.iocoder.mall.user.api.dto.UserProductSpuCollectionsPageDTO;
-import cn.iocoder.mall.user.api.dto.UserProductSpuCollectionsUpdateDTO;
+import cn.iocoder.mall.product.api.bo.UserProductSpuCollectionsBO;
+import cn.iocoder.mall.product.api.bo.UserProductSpuCollectionsPageBO;
+import cn.iocoder.mall.product.api.dto.UserProductSpuCollectionsAddDTO;
+import cn.iocoder.mall.product.api.dto.UserProductSpuCollectionsPageDTO;
+import cn.iocoder.mall.product.api.dto.UserProductSpuCollectionsUpdateDTO;
 
 /**
  * UserProductSpuCollectionsService

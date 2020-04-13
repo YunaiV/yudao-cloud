@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.iocoder.mall.user.biz.dao.UserProductSpuCollectionsMapper">
+<mapper namespace="cn.iocoder.mall.product.dao.UserProductSpuCollectionsMapper">
 
     <sql id="FIELDS">
         id, user_id, nickname, spu_id, spu_name,
@@ -8,7 +8,7 @@
         deleted
     </sql>
 
-    <select id="selectById" parameterType="Integer" resultType="cn.iocoder.mall.user.biz.dataobject.UserProductSpuCollectionsDO">
+    <select id="selectById" parameterType="Integer" resultType="UserProductSpuCollectionsDO">
         SELECT
             <include refid="FIELDS" />
         FROM user_spu_collections
@@ -17,7 +17,7 @@
     </select>
 
 
-    <select id="selectListByUser" resultType="cn.iocoder.mall.user.biz.dataobject.UserProductSpuCollectionsDO">
+    <select id="selectListByUser" resultType="UserProductSpuCollectionsDO">
         SELECT
             <include refid="FIELDS" />
         FROM user_spu_collections

@@ -2,16 +2,17 @@ package cn.iocoder.mall.product.message;
 
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.mall.product.api.UserProductSpuCollectionsService;
+import cn.iocoder.mall.product.api.bo.UserProductSpuCollectionsBO;
+import cn.iocoder.mall.product.api.dto.UserProductSpuCollectionsAddDTO;
+import cn.iocoder.mall.product.api.dto.UserProductSpuCollectionsUpdateDTO;
 import cn.iocoder.mall.product.api.message.ProductSpuCollectionMessage;
-import cn.iocoder.mall.user.api.UserProductSpuCollectionsService;
+import cn.iocoder.mall.product.convert.UserProductSpuCollectionsConvert;
 import cn.iocoder.mall.user.api.UserService;
 import cn.iocoder.mall.user.api.bo.UserBO;
-import cn.iocoder.mall.user.api.bo.UserProductSpuCollectionsBO;
 import cn.iocoder.mall.user.api.constant.UserErrorCodeEnum;
-import cn.iocoder.mall.user.api.dto.UserProductSpuCollectionsAddDTO;
-import cn.iocoder.mall.user.api.dto.UserProductSpuCollectionsUpdateDTO;
-import cn.iocoder.mall.user.biz.convert.UserProductSpuCollectionsConvert;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.dubbo.config.annotation.Reference;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class UserProductSpuCollectionsConsumer implements RocketMQListener<Produ
     @Autowired
     private UserProductSpuCollectionsService userProductSpuCollectionsService;
 
-    @Autowired
+    @Reference(validation = "true", version = "${dubbo.consumer.UserService.version}")
     private UserService userService;
 
     @Override
@@ -115,7 +116,7 @@ public class UserProductSpuCollectionsConsumer implements RocketMQListener<Produ
      * @return
      */
     private UserProductSpuCollectionsUpdateDTO setUserProductSpuCollectionsUpdateDTO(final Integer id,
-            final DeletedStatusEnum deletedStatusEnum) {
+                                                                                     final DeletedStatusEnum deletedStatusEnum) {
         return new UserProductSpuCollectionsUpdateDTO().setId(id).setUpdateTime(new Date())
                 .setDeleted(deletedStatusEnum.getValue());
     }

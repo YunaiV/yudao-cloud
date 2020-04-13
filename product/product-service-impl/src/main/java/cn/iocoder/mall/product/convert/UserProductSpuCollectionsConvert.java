@@ -1,10 +1,10 @@
 package cn.iocoder.mall.product.convert;
 
+import cn.iocoder.mall.product.api.bo.UserProductSpuCollectionsBO;
+import cn.iocoder.mall.product.api.dto.UserProductSpuCollectionsAddDTO;
+import cn.iocoder.mall.product.api.dto.UserProductSpuCollectionsUpdateDTO;
 import cn.iocoder.mall.product.api.message.ProductSpuCollectionMessage;
-import cn.iocoder.mall.user.api.bo.UserProductSpuCollectionsBO;
-import cn.iocoder.mall.user.api.dto.UserProductSpuCollectionsAddDTO;
-import cn.iocoder.mall.user.api.dto.UserProductSpuCollectionsUpdateDTO;
-import cn.iocoder.mall.user.biz.dataobject.UserProductSpuCollectionsDO;
+import cn.iocoder.mall.product.dataobject.UserProductSpuCollectionsDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;

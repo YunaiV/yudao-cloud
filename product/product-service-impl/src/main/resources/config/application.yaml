@@ -44,7 +44,7 @@ dubbo:
     address: spring-cloud://s1.iocoder.cn:8848 # 指定 Dubbo 服务注册中心的地址
   # Spring Cloud Alibaba Dubbo 专属配置
   cloud:
-    subscribed-services: admin-application # 设置订阅的应用列表，默认为 * 订阅所有应用
+    subscribed-services: admin-application, user-application # 设置订阅的应用列表，默认为 * 订阅所有应用
   # Dubbo 提供者的协议
   protocol:
     name: dubbo
@@ -68,6 +68,9 @@ dubbo:
     ProductSpuCollectionService:
       version: 1.0.0
     UserProductSpuCollectionsService:
+      version: 1.0.0
+  consumer:
+    UserService:
       version: 1.0.0
 
 # Seata 配置项

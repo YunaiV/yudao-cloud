@@ -1,4 +1,4 @@
-package cn.iocoder.mall.user.biz.convert;
+package cn.iocoder.mall.product.convert;
 
 import cn.iocoder.mall.product.api.message.ProductSpuCollectionMessage;
 import cn.iocoder.mall.user.api.bo.UserProductSpuCollectionsBO;

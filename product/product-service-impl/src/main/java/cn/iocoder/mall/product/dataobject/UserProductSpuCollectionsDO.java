@@ -1,4 +1,4 @@
-package cn.iocoder.mall.user.biz.dataobject;
+package cn.iocoder.mall.product.dataobject;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

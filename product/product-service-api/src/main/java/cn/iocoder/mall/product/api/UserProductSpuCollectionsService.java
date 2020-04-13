@@ -1,4 +1,4 @@
-package cn.iocoder.mall.user.api;
+package cn.iocoder.mall.product.api;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.user.api.bo.UserProductSpuCollectionsBO;

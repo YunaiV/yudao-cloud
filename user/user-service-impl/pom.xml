@@ -17,12 +17,6 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>cn.iocoder.mall</groupId>
-            <artifactId>product-service-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
         <!-- DB 相关 -->
         <dependency>
             <groupId>mysql</groupId>

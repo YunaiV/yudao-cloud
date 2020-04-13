@@ -67,6 +67,8 @@ dubbo:
       version: 1.0.0
     ProductSpuCollectionService:
       version: 1.0.0
+    UserProductSpuCollectionsService:
+      version: 1.0.0
 
 # Seata 配置项
 seata:

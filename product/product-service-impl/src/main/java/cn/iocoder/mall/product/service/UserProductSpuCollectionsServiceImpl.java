@@ -1,4 +1,4 @@
-package cn.iocoder.mall.user.biz.service;
+package cn.iocoder.mall.product.service;
 
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.common.framework.vo.CommonResult;

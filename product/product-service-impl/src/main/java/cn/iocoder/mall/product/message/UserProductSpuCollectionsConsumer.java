@@ -1,4 +1,4 @@
-package cn.iocoder.mall.user.biz.mq;
+package cn.iocoder.mall.product.message;
 
 import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;

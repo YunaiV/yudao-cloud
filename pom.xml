@@ -47,7 +47,6 @@
         <mybatis-plus.version>3.1.1</mybatis-plus.version>
         <xxl-job.version>2.0.1</xxl-job.version>
         <guava.version>27.0.1-jre</guava.version>
-        <rocketmq-spring-boot-starter.version>2.0.1</rocketmq-spring-boot-starter.version>
 
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <org.projectlombok.version>1.16.14</org.projectlombok.version>
@@ -169,13 +168,6 @@
                 <groupId>com.xuxueli</groupId>
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxl-job.version}</version>
-            </dependency>
-
-            <!-- MQ 相关 -->
-            <dependency>
-                <groupId>org.apache.rocketmq</groupId>
-                <artifactId>rocketmq-spring-boot-starter</artifactId>
-                <version>${rocketmq-spring-boot-starter.version}</version>
             </dependency>
 
             <!-- 云服务相关 -->

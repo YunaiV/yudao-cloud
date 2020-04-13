@@ -78,6 +78,12 @@ logging:
 
 # Seata 配置项
 seata:
+  tx-service-group: default # Seata 事务组编号，用于 TC 集群名
+  # 服务配置项，对应 ServiceProperties 类
+  service:
+    # 虚拟组和分组的映射
+    vgroup-mapping:
+      default: default
   # Seata 注册中心配置项
   registry:
     type: nacos # 注册中心类型

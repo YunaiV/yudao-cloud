@@ -31,7 +31,6 @@ public class ProductSpuCollectionServiceImpl implements ProductSpuCollectionServ
     @Resource
     private RocketMQTemplate rocketMQTemplate;
 
-
     @Override
     public boolean productSpuCollection(Integer spuId, Integer hasCollectionType, Integer userId) {
         ProductSpuDO productSpuDO = this.productSpuMapper.selectById(spuId);
@@ -48,6 +47,7 @@ public class ProductSpuCollectionServiceImpl implements ProductSpuCollectionServ
      * @param productSpuDO
      * @param hasCollectionType
      */
+    // TODO FROM 芋艿 to ？？：切换到 Spring Cloud Stream 发送消息
     private void sendProductSpuCollectionMessage(final ProductSpuDO productSpuDO, final Integer hasCollectionType,
             final Integer userId) {
         List<String> result = Lists.newArrayList(Splitter.on(",").omitEmptyStrings().trimResults().split(productSpuDO.getPicUrls()));

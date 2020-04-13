@@ -57,9 +57,6 @@
 
         <servlet.version>2.5</servlet.version>
 
-        <prometheus-spring-boot.version>0.6.0</prometheus-spring-boot.version>
-        <micrometer.version>1.4.1</micrometer.version>
-
         <java.version>1.8</java.version>
         <hibernate-validator.version>6.0.16.Final</hibernate-validator.version>
         <fastjson.version>1.2.56</fastjson.version>
@@ -199,18 +196,6 @@
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-starter-client</artifactId>
                 <version>${spring-boot-admin-starter-client.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.micrometer</groupId>
-                <artifactId>micrometer-registry-prometheus</artifactId>
-                <version>${micrometer.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.prometheus</groupId>
-                <artifactId>simpleclient_spring_boot</artifactId>
-                <version>${prometheus-spring-boot.version}</version>
             </dependency>
 
             <!-- Test 相关 -->

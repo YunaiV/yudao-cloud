@@ -11,7 +11,25 @@ spring:
     nacos:
       # Spring Cloud Nacos Discovery 配置项
       discovery:
-        server-addr: 127.0.0.1:8848 # Nacos 服务器地址
+        server-addr: s1.iocoder.cn:8848 # Nacos 服务器地址
+
+    # Spring Cloud Stream 配置
+    stream:
+      # Binding 配置项
+      bindings:
+        product-update-output:
+          destination: ProductUpdate
+      # Spring Cloud Stream RocketMQ 配置项
+      rocketmq:
+        # RocketMQ Binder 配置项
+        binder:
+          name-server: s1.iocoder.cn:9876 # RocketMQ Namesrv 地址
+        # RocketMQ 默认 Binding 配置项
+        default:
+          # RocketMQ 生产者
+          producer:
+            group: product-producer-group # 生产者分组
+            sync: true # 是否同步发送消息，默认为 false 异步。
 
 # mybatis
 mybatis-plus:
@@ -23,7 +41,7 @@ mybatis-plus:
 dubbo:
   # Dubbo 注册中心
   registry:
-    address: spring-cloud://127.0.0.1:8848 # 指定 Dubbo 服务注册中心的地址
+    address: spring-cloud://s1.iocoder.cn:8848 # 指定 Dubbo 服务注册中心的地址
   # Spring Cloud Alibaba Dubbo 专属配置
   cloud:
     subscribed-services: admin-application # 设置订阅的应用列表，默认为 * 订阅所有应用
@@ -49,12 +67,6 @@ dubbo:
       version: 1.0.0
     ProductSpuCollectionService:
       version: 1.0.0
-
-# rocketmq
-rocketmq:
-  name-server: 127.0.0.1:9876
-  producer:
-    group: product-producer-group
 
 # Seata 配置项
 seata:

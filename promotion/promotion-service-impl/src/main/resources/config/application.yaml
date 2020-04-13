@@ -12,7 +12,7 @@ spring:
     nacos:
       # Spring Cloud Nacos Discovery 配置项
       discovery:
-        server-addr: 127.0.0.1:8848 # Nacos 服务器地址
+        server-addr: s1.iocoder.cn:8848 # Nacos 服务器地址
 
 # mybatis-plus
 mybatis-plus:
@@ -28,7 +28,7 @@ mybatis-plus:
 dubbo:
   # Dubbo 注册中心
   registry:
-    address: spring-cloud://127.0.0.1:8848 # 指定 Dubbo 服务注册中心的地址
+    address: spring-cloud://s1.iocoder.cn:8848 # 指定 Dubbo 服务注册中心的地址
   # Spring Cloud Alibaba Dubbo 专属配置
   cloud:
     subscribed-services: admin-application, product-application # 设置订阅的应用列表，默认为 * 订阅所有应用

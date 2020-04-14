@@ -1,11 +1,16 @@
 # es
 spring:
+  application:
+    name: search-application
   data:
     elasticsearch:
       cluster-name: elasticsearch
-      cluster-nodes: 180.167.213.26:9300
+      cluster-nodes: s1.iocoder.cn:9300
       repositories:
         enable: true
+  elasticsearch:
+    rest:
+      uris: s1.iocoder.cn:9200
 
   # Spring Cloud 配置项
   cloud:
@@ -44,6 +49,6 @@ dubbo:
 
 # rocketmq
 rocketmq:
-  name-server: 127.0.0.1:9876
+  name-server: s1.iocoder.cn:9876
   producer:
     group: search-producer-group

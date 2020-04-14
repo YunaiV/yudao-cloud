@@ -52,7 +52,6 @@
         <org.projectlombok.version>1.16.14</org.projectlombok.version>
 
         <qiniu.version>7.2.18</qiniu.version>
-        <skywalking.version>6.1.0</skywalking.version>
 
         <servlet.version>2.5</servlet.version>
 
@@ -177,12 +176,7 @@
                 <version>${qiniu.version}</version>
             </dependency>
 
-            <!-- 监控相关 -->
-            <dependency>
-                <groupId>org.apache.skywalking</groupId>
-                <artifactId>apm-toolkit-trace</artifactId>
-                <version>${skywalking.version}</version>
-            </dependency>
+
 
             <dependency>
                 <groupId>de.codecentric</groupId>

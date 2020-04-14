@@ -72,12 +72,6 @@
             <artifactId>spring-cloud-alibaba-seata</artifactId>
         </dependency>
 
-        <!-- MQ 相关 -->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-stream-rocketmq</artifactId>
-        </dependency>
-
         <!-- Job 相关 -->
         <dependency>
             <groupId>com.xuxueli</groupId>

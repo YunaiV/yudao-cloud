@@ -67,8 +67,10 @@
 
 **SkyWalking UI**
 
-* 地址：http://skywalking-ui.shop.iocoder.cn:18099
+* 地址：http://skywalking.shop.iocoder.cn
 * 管理员账号：admin / admin
+
+> 教程：[《芋道 SkyWalking 安装部署》](http://www.iocoder.cn/SkyWalking/install/?onemall)
 
 **Grafana UI**
 
@@ -83,18 +85,21 @@
 
 **RocketMQ Console**
 
-* 地址：http://rocketmq-console.shop.iocoder.cn:18099
-* 管理员账号：admin / RPsa2GHjTNs8pxEU
+* 地址：http://rocketmq.shop.iocoder.cn
+
+> 教程：[《芋道 RocketMQ 安装部署》](http://www.iocoder.cn/RocketMQ/install/?onemall)
+
+**XXL-Job Console**
+
+* 地址：http://job.shop.iocoder.cn
+* 管理员账号：admin / 233666
+
+> 教程：[《芋道 RocketMQ 安装部署》](http://www.iocoder.cn/XXL-JOB/install/?onemall)
 
 **Sentinel Console**
 
 * 地址：http://sentinel.shop.iocoder.cn:18099
 * 账号：sentinel / sentinel
-
-**XXL-Job Console**
-
-* 地址：http://job-console.shop.iocoder.cn:18099
-* 管理员账号：admin / 233666
 
 # 技术
 

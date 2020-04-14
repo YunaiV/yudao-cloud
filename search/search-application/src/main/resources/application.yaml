@@ -7,8 +7,8 @@ spring:
     # Spring Cloud Sentinel 配置项
     sentinel:
       transport:
-        dashboard: localhost:12088
-      eager: false
+        dashboard: s1.iocoder.cn:12088 # Sentinel Dashboard 服务地址
+      eager: true # 项目启动时，直接连接到 Sentinel
 
 # server
 server:

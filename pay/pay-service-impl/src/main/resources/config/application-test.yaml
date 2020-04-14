@@ -2,7 +2,7 @@
 xxl:
   job:
     admin:
-      addresses: http://127.0.0.1:18079/
+      addresses: http://s1.iocoder.cn:18079/
     executor:
       appname: pay-job-executor
       ip:

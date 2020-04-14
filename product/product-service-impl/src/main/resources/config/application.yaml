@@ -1,7 +1,7 @@
 spring:
   # datasource
   datasource:
-    url: jdbc:mysql://180.167.213.26:13306/mall_product?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://s1.iocoder.cn:3306/mall_product?useSSL=false&useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: ${MALL_MYSQL_PASSWORD}

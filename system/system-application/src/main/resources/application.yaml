@@ -2,6 +2,13 @@ spring:
   application:
     name: admin-application
 
+  # Spring Cloud 配置项
+  cloud:
+    # Spring Cloud Sentinel 配置项
+    sentinel:
+      transport:
+        dashboard: s1.iocoder.cn:12088 # Sentinel Dashboard 服务地址
+      eager: true # 项目启动时，直接连接到 Sentinel
 
 # server
 server:

@@ -37,27 +37,27 @@ const serviceRouter = function(requestUrl) {
     const configProd = {
       '/order-api': {
         prefix: '/order-api',
-        target: 'http://api.shop.iocoder.cn:18088/order-api',
+        target: 'http://api.shop.iocoder.cn/order-api',
       },
       '/user-api': {
         prefix: '/user-api',
-        target: 'http://api.shop.iocoder.cn:18099/user-api',
+        target: 'http://api.shop.iocoder.cn/user-api',
       },
       '/product-api': {
         prefix: '/product-api',
-        target: 'http://api.shop.iocoder.cn:18099/product-api',
+        target: 'http://api.shop.iocoder.cn/product-api',
       },
       '/promotion-api': {
         prefix: '/promotion-api',
-        target: 'http://api.shop.iocoder.cn:18099/promotion-api',
+        target: 'http://api.shop.iocoder.cn/promotion-api',
       },
       '/pay-api': {
         prefix: '/pay-api',
-        target: 'http://api.shop.iocoder.cn:18099/pay-api',
+        target: 'http://api.shop.iocoder.cn/pay-api',
       },
       '/search-api': {
         prefix: '/search-api',
-        target: 'http://api.shop.iocoder.cn:18099/search-api',
+        target: 'http://api.shop.iocoder.cn/search-api',
       },
     };
 
@@ -230,10 +230,10 @@ service.interceptors.response.use(
       // TODO token 过期
       // TODO 需要拿 refresh token 置换
       if (code === 1002001011 // 访问令牌不存在
-          || code === 1002001013 // 访问令牌已失效
-          || code === 1002001017 // 刷新令牌不存在
-          || code === 1002001018 // 刷新令牌已过期
-          || code === 1002001019) {  // 刷新令牌已失效
+        || code === 1002001013 // 访问令牌已失效
+        || code === 1002001017 // 刷新令牌不存在
+        || code === 1002001018 // 刷新令牌已过期
+        || code === 1002001019) {  // 刷新令牌已失效
         Dialog.confirm({
           title: '系统提示',
           message: res.message,

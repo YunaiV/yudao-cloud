@@ -1,5 +1,13 @@
 [toc]
 
+> 友情提示：近期在升级和优化该项目，建议先 Star 本项目。主要在做几个事情：
+> 
+> * 1、微服务技术选型以 Spring Cloud Alibaba 为中心。
+> * 2、修改项目分层，并合并部分服务，简化整体服务的复杂性。
+> * 3、解决下演示环境，特别是访问速度。
+> 
+> 交流群：[传送门](http://www.iocoder.cn/mall-user-group/?vip&gitee)
+
 # 前言
 
 基于微服务的思想，构建在 B2C 电商场景下的项目实战。
@@ -46,13 +54,13 @@
 
 ## H5 商城
 
-[体验传送门](http://h5.shop.iocoder.cn:18099)
+[体验传送门](http://h5.shop.iocoder.cn)
 
 ![GIF 图-耐心等待](https://raw.githubusercontent.com/YunaiV/Blog/master/Mall/onemall-h5-min.gif)
 
 ## 管理后台
 
-[体验传送门](http://admin.shop.iocoder.cn:18099)
+[体验传送门](http://admin.shop.iocoder.cn)
 
 * 账号：yudaoyuanma
 * 密码：yudaoyuanma
@@ -67,7 +75,7 @@
 
 **SkyWalking UI**
 
-* 地址：http://skywalking.shop.iocoder.cn
+* 地址：<http://skywalking.shop.iocoder.cn>
 * 管理员账号：admin / admin
 
 > 教程：[《芋道 SkyWalking 安装部署》](http://www.iocoder.cn/SkyWalking/install/?onemall)
@@ -85,21 +93,23 @@
 
 **RocketMQ Console**
 
-* 地址：http://rocketmq.shop.iocoder.cn
+* 地址：<http://rocketmq.shop.iocoder.cn>
 
 > 教程：[《芋道 RocketMQ 安装部署》](http://www.iocoder.cn/RocketMQ/install/?onemall)
 
 **XXL-Job Console**
 
-* 地址：http://job.shop.iocoder.cn
+* 地址：<http://job.shop.iocoder.cn>
 * 管理员账号：admin / 233666
 
 > 教程：[《芋道 RocketMQ 安装部署》](http://www.iocoder.cn/XXL-JOB/install/?onemall)
 
 **Sentinel Console**
 
-* 地址：http://sentinel.shop.iocoder.cn:18099
+* 地址：<http://sentinel.shop.iocoder.cn>
 * 账号：sentinel / sentinel
+
+> 教程：[《芋道 Sentinel 安装部署》](http://www.iocoder.cn/Sentinel/install/?onemall)
 
 # 技术
 

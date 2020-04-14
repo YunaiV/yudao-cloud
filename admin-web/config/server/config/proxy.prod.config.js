@@ -2,7 +2,7 @@
 
 module.exports = {
   '/admin-api/': {
-    target: 'http://api.shop.iocoder.cn:18099',
+    target: 'http://api.shop.iocoder.cn',
     changeOrigin: true,
     pathRewrite: {},
   },

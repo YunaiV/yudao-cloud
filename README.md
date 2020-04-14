@@ -127,13 +127,13 @@ TODO 此处应有一个架构图的装逼 JPG 图。
 | --- | --- | --- | --- |
 | `admin-web` | 【前端】管理后台 | HTTP 8080 | |
 | `mobile-web` | 【前端】商城 H5 | HTTP 8000 | |
-| `system-application` | 管理员 HTTP 服务 | HTTP 18083 | [接口文档](http://api.shop.iocoder.cn:18099/admin-api/doc.html) |
-| `user-application` | 用户 HTTP 服务 | HTTP 18082 | [接口文档](http://api.shop.iocoder.cn:18099/user-api/doc.html) |
-| `product-application` | 商品 HTTP 服务 | HTTP 18081 | [接口文档](http://api.shop.iocoder.cn:18099/product-api/doc.html) |
-| `pay-application` | 支付 HTTP 服务 | HTTP 18084 | [接口文档](http://api.shop.iocoder.cn:18099/pay-api/doc.html) |
-| `promotion-application` | 促销 HTTP 服务 | HTTP 18085 | [接口文档](http://api.shop.iocoder.cn:18099/promotion-api/doc.html) |
-| `search-application` | 搜索 HTTP 服务 | HTTP 18086 | [接口文档](http://api.shop.iocoder.cn:18099/search-api/doc.html) |
-| `order-application` | 订单 HTTP 服务 | HTTP 18088 | [接口文档](http://api.shop.iocoder.cn:18099/order-api/doc.html) |
+| `system-application` | 管理员 HTTP 服务 | HTTP 18083 | [接口文档](http://api.shop.iocoder.cn/admin-api/doc.html) |
+| `user-application` | 用户 HTTP 服务 | HTTP 18082 | [接口文档](http://api.shop.iocoder.cn/user-api/doc.html) |
+| `product-application` | 商品 HTTP 服务 | HTTP 18081 | [接口文档](http://api.shop.iocoder.cn/product-api/doc.html) |
+| `pay-application` | 支付 HTTP 服务 | HTTP 18084 | [接口文档](http://api.shop.iocoder.cn/pay-api/doc.html) |
+| `promotion-application` | 促销 HTTP 服务 | HTTP 18085 | [接口文档](http://api.shop.iocoder.cn/promotion-api/doc.html) |
+| `search-application` | 搜索 HTTP 服务 | HTTP 18086 | [接口文档](http://api.shop.iocoder.cn/search-api/doc.html) |
+| `order-application` | 订单 HTTP 服务 | HTTP 18088 | [接口文档](http://api.shop.iocoder.cn/order-api/doc.html) |
 
 -------
 

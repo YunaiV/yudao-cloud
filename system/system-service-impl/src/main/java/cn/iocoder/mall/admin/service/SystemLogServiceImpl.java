@@ -2,12 +2,12 @@ package cn.iocoder.mall.admin.service;
 
 import cn.iocoder.common.framework.util.StringUtil;
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.admin.api.SystemLogService;
-import cn.iocoder.mall.admin.api.bo.systemlog.AccessLogBO;
-import cn.iocoder.mall.admin.api.bo.systemlog.AccessLogPageBO;
-import cn.iocoder.mall.admin.api.dto.systemlog.AccessLogAddDTO;
-import cn.iocoder.mall.admin.api.dto.systemlog.AccessLogPageDTO;
-import cn.iocoder.mall.admin.api.dto.systemlog.ExceptionLogAddDTO;
+import cn.iocoder.mall.system.api.SystemLogService;
+import cn.iocoder.mall.system.api.bo.systemlog.AccessLogBO;
+import cn.iocoder.mall.system.api.bo.systemlog.AccessLogPageBO;
+import cn.iocoder.mall.system.api.dto.systemlog.AccessLogAddDTO;
+import cn.iocoder.mall.system.api.dto.systemlog.AccessLogPageDTO;
+import cn.iocoder.mall.system.api.dto.systemlog.ExceptionLogAddDTO;
 import cn.iocoder.mall.admin.convert.AccessLogConvert;
 import cn.iocoder.mall.admin.dao.AccessLogMapper;
 import cn.iocoder.mall.admin.dao.ExceptionLogMapper;

@@ -1,9 +1,9 @@
 package cn.iocoder.mall.admin.convert;
 
 import cn.iocoder.common.framework.util.StringUtil;
-import cn.iocoder.mall.admin.api.bo.resource.ResourceBO;
-import cn.iocoder.mall.admin.api.dto.resource.ResourceAddDTO;
-import cn.iocoder.mall.admin.api.dto.resource.ResourceUpdateDTO;
+import cn.iocoder.mall.system.api.bo.resource.ResourceBO;
+import cn.iocoder.mall.system.api.dto.resource.ResourceAddDTO;
+import cn.iocoder.mall.system.api.dto.resource.ResourceUpdateDTO;
 import cn.iocoder.mall.admin.dataobject.ResourceDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

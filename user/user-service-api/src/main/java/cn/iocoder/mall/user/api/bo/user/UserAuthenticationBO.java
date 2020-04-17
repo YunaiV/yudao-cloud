@@ -1,6 +1,6 @@
 package cn.iocoder.mall.user.api.bo.user;
 
-import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AccessTokenBO;
+import cn.iocoder.mall.system.api.bo.oauth2.OAuth2AccessTokenBO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

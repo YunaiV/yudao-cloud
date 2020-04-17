@@ -2,9 +2,9 @@ package cn.iocoder.mall.user.application.controller.users;
 
 import cn.iocoder.common.framework.constant.UserTypeEnum;
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.admin.api.OAuth2Service;
-import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AccessTokenBO;
-import cn.iocoder.mall.admin.api.dto.oauth2.OAuth2RefreshTokenDTO;
+import cn.iocoder.mall.system.api.OAuth2Service;
+import cn.iocoder.mall.system.api.bo.oauth2.OAuth2AccessTokenBO;
+import cn.iocoder.mall.system.api.dto.oauth2.OAuth2RefreshTokenDTO;
 import cn.iocoder.mall.user.api.MobileCodeService;
 import cn.iocoder.mall.user.api.UserService;
 import cn.iocoder.mall.user.api.bo.user.UserAuthenticationBO;

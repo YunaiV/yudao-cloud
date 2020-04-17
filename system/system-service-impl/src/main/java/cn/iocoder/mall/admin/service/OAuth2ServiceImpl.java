@@ -1,14 +1,14 @@
 package cn.iocoder.mall.admin.service;
 
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
-import cn.iocoder.mall.admin.api.OAuth2Service;
-import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AccessTokenBO;
-import cn.iocoder.mall.admin.api.bo.oauth2.OAuth2AuthenticationBO;
-import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
-import cn.iocoder.mall.admin.api.dto.oauth2.OAuth2CreateTokenDTO;
-import cn.iocoder.mall.admin.api.dto.oauth2.OAuth2GetTokenDTO;
-import cn.iocoder.mall.admin.api.dto.oauth2.OAuth2RefreshTokenDTO;
-import cn.iocoder.mall.admin.api.dto.oauth2.OAuth2RemoveTokenByUserDTO;
+import cn.iocoder.mall.system.api.OAuth2Service;
+import cn.iocoder.mall.system.api.bo.oauth2.OAuth2AccessTokenBO;
+import cn.iocoder.mall.system.api.bo.oauth2.OAuth2AuthenticationBO;
+import cn.iocoder.mall.system.api.constant.AdminErrorCodeEnum;
+import cn.iocoder.mall.system.api.dto.oauth2.OAuth2CreateTokenDTO;
+import cn.iocoder.mall.system.api.dto.oauth2.OAuth2GetTokenDTO;
+import cn.iocoder.mall.system.api.dto.oauth2.OAuth2RefreshTokenDTO;
+import cn.iocoder.mall.system.api.dto.oauth2.OAuth2RemoveTokenByUserDTO;
 import cn.iocoder.mall.admin.convert.OAuth2Convert;
 import cn.iocoder.mall.admin.dao.OAuth2AccessTokenMapper;
 import cn.iocoder.mall.admin.dao.OAuth2RefreshTokenMapper;

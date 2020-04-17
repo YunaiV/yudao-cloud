@@ -1,7 +1,7 @@
 package cn.iocoder.mall.product.application.controller.admins;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
+import cn.iocoder.mall.system.sdk.context.AdminSecurityContextHolder;
 import cn.iocoder.mall.product.api.ProductAttrService;
 import cn.iocoder.mall.product.api.bo.ProductAttrBO;
 import cn.iocoder.mall.product.api.bo.ProductAttrPageBO;

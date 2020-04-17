@@ -2,7 +2,7 @@ package cn.iocoder.mall.admin.dataobject;
 
 import cn.iocoder.common.framework.dataobject.BaseDO;
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.admin.api.dto.systemlog.AccessLogAddDTO;
+import cn.iocoder.mall.system.api.dto.systemlog.AccessLogAddDTO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;

@@ -1,7 +1,7 @@
 package cn.iocoder.mall.admin.client;
 
 import cn.iocoder.common.framework.exception.ServiceException;
-import cn.iocoder.mall.admin.api.constant.AdminErrorCodeEnum;
+import cn.iocoder.mall.system.api.constant.AdminErrorCodeEnum;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;

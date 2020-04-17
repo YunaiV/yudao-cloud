@@ -1,10 +1,10 @@
 package cn.iocoder.mall.admin.convert;
 
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.admin.api.bo.admin.AdminAuthenticationBO;
-import cn.iocoder.mall.admin.api.bo.admin.AdminBO;
-import cn.iocoder.mall.admin.api.dto.admin.AdminAddDTO;
-import cn.iocoder.mall.admin.api.dto.admin.AdminUpdateDTO;
+import cn.iocoder.mall.system.api.bo.admin.AdminAuthenticationBO;
+import cn.iocoder.mall.system.api.bo.admin.AdminBO;
+import cn.iocoder.mall.system.api.dto.admin.AdminAddDTO;
+import cn.iocoder.mall.system.api.dto.admin.AdminUpdateDTO;
 import cn.iocoder.mall.admin.dataobject.AdminDO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.mapstruct.Mapper;

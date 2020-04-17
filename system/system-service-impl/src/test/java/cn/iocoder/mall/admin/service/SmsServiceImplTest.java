@@ -2,10 +2,10 @@ package cn.iocoder.mall.admin.service;
 
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.mall.admin.SystemApplicationTest;
-import cn.iocoder.mall.admin.api.SmsService;
-import cn.iocoder.mall.admin.api.bo.sms.SmsSignBO;
-import cn.iocoder.mall.admin.api.constant.SmsPlatformEnum;
-import cn.iocoder.mall.admin.api.constant.SmsTypeEnum;
+import cn.iocoder.mall.system.api.SmsService;
+import cn.iocoder.mall.system.api.bo.sms.SmsSignBO;
+import cn.iocoder.mall.system.api.constant.SmsPlatformEnum;
+import cn.iocoder.mall.system.api.constant.SmsTypeEnum;
 import com.google.common.collect.ImmutableMap;
 import org.assertj.core.util.Lists;
 import org.junit.Assert;

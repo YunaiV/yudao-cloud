@@ -1,10 +1,8 @@
 package cn.iocoder.mall.admin.dao;
 
 import cn.iocoder.common.framework.mybatis.QueryWrapperX;
-import cn.iocoder.mall.admin.api.dto.admin.AdminPageDTO;
-import cn.iocoder.mall.admin.api.dto.systemlog.AccessLogPageDTO;
+import cn.iocoder.mall.system.api.dto.systemlog.AccessLogPageDTO;
 import cn.iocoder.mall.admin.dataobject.AccessLogDO;
-import cn.iocoder.mall.admin.dataobject.AdminDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

@@ -1,7 +1,7 @@
 package cn.iocoder.mall.promotion.application.controller.admins;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
+import cn.iocoder.mall.system.sdk.context.AdminSecurityContextHolder;
 import cn.iocoder.mall.promotion.api.BannerService;
 import cn.iocoder.mall.promotion.api.bo.BannerPageBO;
 import cn.iocoder.mall.promotion.api.dto.BannerAddDTO;

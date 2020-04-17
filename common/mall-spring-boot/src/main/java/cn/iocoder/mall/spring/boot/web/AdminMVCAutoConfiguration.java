@@ -2,9 +2,9 @@ package cn.iocoder.mall.spring.boot.web;
 
 import cn.iocoder.common.framework.constant.MallConstants;
 import cn.iocoder.common.framework.servlet.CorsFilter;
-import cn.iocoder.mall.admin.sdk.interceptor.AdminDemoInterceptor;
+import cn.iocoder.mall.system.sdk.interceptor.AdminDemoInterceptor;
 import cn.iocoder.mall.spring.boot.web.interceptor.AccessLogInterceptor;
-import cn.iocoder.mall.admin.sdk.interceptor.AdminSecurityInterceptor;
+import cn.iocoder.mall.system.sdk.interceptor.AdminSecurityInterceptor;
 import cn.iocoder.mall.spring.boot.web.handler.GlobalExceptionHandler;
 import cn.iocoder.mall.spring.boot.web.handler.GlobalResponseBodyHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

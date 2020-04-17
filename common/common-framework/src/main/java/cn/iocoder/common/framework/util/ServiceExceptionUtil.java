@@ -27,6 +27,15 @@ public class ServiceExceptionUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceExceptionUtil.class);
 
     /**
+     * 错误枚举的接口
+     */
+    public interface Enumerable {
+
+        int getCode();
+
+    }
+
+    /**
      * 错误码提示模板
      */
     private static ConcurrentMap<Integer, String> messages = new ConcurrentHashMap<>();
@@ -39,14 +48,29 @@ public class ServiceExceptionUtil {
         ServiceExceptionUtil.messages.put(code, message);
     }
 
-    // TODO 芋艿，可能不是目前最优解，目前暂时这样 枚举实现接口
+    public static <T> CommonResult<T> error(Enumerable enumerable) {
+        return error(enumerable.getCode());
+    }
+
+    public static <T> CommonResult<T> error(Enumerable enumerable, Object... params) {
+        return error(enumerable.getCode(), params);
+    }
+
     public static <T> CommonResult<T> error(Integer code) {
         return CommonResult.error(code, messages.get(code));
     }
 
-    public static CommonResult error(Integer code, Object... params) {
+    public static <T> CommonResult<T> error(Integer code, Object... params) {
         String message = doFormat(code, messages.get(code), params);
         return CommonResult.error(code, message);
+    }
+
+    public static ServiceException exception(Enumerable enumerable) {
+        return exception(enumerable.getCode());
+    }
+
+    public static ServiceException exception(Enumerable enumerable, Object... params) {
+        return exception(enumerable.getCode(), params);
     }
 
     /**

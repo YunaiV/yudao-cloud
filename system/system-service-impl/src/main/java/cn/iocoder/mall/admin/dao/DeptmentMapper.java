@@ -1,14 +1,12 @@
 package cn.iocoder.mall.admin.dao;
 
 import cn.iocoder.common.framework.mybatis.QueryWrapperX;
-import cn.iocoder.mall.admin.api.dto.depetment.DeptmentPageDTO;
-import cn.iocoder.mall.admin.dataobject.AdminDO;
+import cn.iocoder.mall.system.api.dto.depetment.DeptmentPageDTO;
 import cn.iocoder.mall.admin.dataobject.DeptmentDO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 

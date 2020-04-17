@@ -1,9 +1,9 @@
 package cn.iocoder.mall.admin.convert;
 
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.admin.api.bo.role.RoleBO;
-import cn.iocoder.mall.admin.api.dto.role.RoleAddDTO;
-import cn.iocoder.mall.admin.api.dto.role.RoleUpdateDTO;
+import cn.iocoder.mall.system.api.bo.role.RoleBO;
+import cn.iocoder.mall.system.api.dto.role.RoleAddDTO;
+import cn.iocoder.mall.system.api.dto.role.RoleUpdateDTO;
 import cn.iocoder.mall.admin.dataobject.RoleDO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.mapstruct.Mapper;

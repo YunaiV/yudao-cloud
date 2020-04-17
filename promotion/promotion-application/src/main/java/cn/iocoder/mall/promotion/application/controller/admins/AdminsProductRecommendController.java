@@ -1,7 +1,7 @@
 package cn.iocoder.mall.promotion.application.controller.admins;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.admin.sdk.context.AdminSecurityContextHolder;
+import cn.iocoder.mall.system.sdk.context.AdminSecurityContextHolder;
 import cn.iocoder.mall.product.api.ProductSpuService;
 import cn.iocoder.mall.product.api.bo.ProductSpuBO;
 import cn.iocoder.mall.promotion.api.ProductRecommendService;

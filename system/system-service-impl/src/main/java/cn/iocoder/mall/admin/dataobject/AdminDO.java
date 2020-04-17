@@ -3,6 +3,7 @@ package cn.iocoder.mall.admin.dataobject;
 import cn.iocoder.common.framework.dataobject.DeletableDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
@@ -10,6 +11,7 @@ import lombok.experimental.Accessors;
  */
 @TableName(value = "admin")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class AdminDO extends DeletableDO {
 

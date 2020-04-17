@@ -1,7 +1,7 @@
 package cn.iocoder.mall.admin.dao;
 
 import cn.iocoder.common.framework.mybatis.QueryWrapperX;
-import cn.iocoder.mall.admin.api.dto.role.RolePageDTO;
+import cn.iocoder.mall.system.api.dto.role.RolePageDTO;
 import cn.iocoder.mall.admin.dataobject.RoleDO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

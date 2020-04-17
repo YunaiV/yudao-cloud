@@ -1,8 +1,8 @@
 package cn.iocoder.mall.admin.service;
 
-import cn.iocoder.mall.admin.api.SystemLogService;
-import cn.iocoder.mall.admin.api.bo.systemlog.AccessLogPageBO;
-import cn.iocoder.mall.admin.api.dto.systemlog.AccessLogPageDTO;
+import cn.iocoder.mall.system.api.SystemLogService;
+import cn.iocoder.mall.system.api.bo.systemlog.AccessLogPageBO;
+import cn.iocoder.mall.system.api.dto.systemlog.AccessLogPageDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

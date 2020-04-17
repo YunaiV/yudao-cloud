@@ -8,6 +8,7 @@ import cn.iocoder.mall.system.biz.dao.oauth2.OAuth2AccessTokenMapper;
 import cn.iocoder.mall.system.biz.dao.oauth2.OAuth2RefreshTokenMapper;
 import cn.iocoder.mall.system.biz.dataobject.oauth2.OAuth2AccessTokenDO;
 import cn.iocoder.mall.system.biz.dataobject.oauth2.OAuth2RefreshTokenDO;
+import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2MobileCodeAuthenticateDTO;
 import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2UsernameAuthenticateDTO;
 import cn.iocoder.mall.system.biz.service.account.AccountService;
 import cn.iocoder.mall.system.biz.service.oauth2.OAuth2Service;
@@ -61,6 +62,11 @@ public class OAuth2ServiceImpl implements OAuth2Service {
         OAuth2AccessTokenDO oauth2AccessTokenDO = createOAuth2AccessToken(accountBO.getId(), oauth2RefreshTokenDO.getId());
         // 返回访问令牌
         return OAuth2Convert.INSTANCE.convert(oauth2AccessTokenDO);
+    }
+
+    @Override
+    public OAuth2AccessTokenBO authenticate(OAuth2MobileCodeAuthenticateDTO mobileCodeAuthenticateDTO) {
+        return null;
     }
 
     private OAuth2AccessTokenDO createOAuth2AccessToken(Integer accountId, String refreshToken) {

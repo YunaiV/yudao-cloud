@@ -49,7 +49,6 @@ public class MobileCodeServiceImpl implements MobileCodeService {
      * @return 手机验证码信息
      */
     public MobileCodeDO validLastMobileCode(String mobile, String code) {
-        // TODO: 2019-04-09 Sin 暂时先忽略掉验证码校验
 //        return new MobileCodeDO().setCode(code).setCreateTime(new Date()).setId(1);
         MobileCodeDO mobileCodePO = mobileCodeMapper.selectLast1ByMobile(mobile);
         if (mobileCodePO == null) { // 若验证码不存在，抛出异常
@@ -76,33 +75,6 @@ public class MobileCodeServiceImpl implements MobileCodeService {
     public void useMobileCode(Integer id, Integer userId) {
         MobileCodeDO update = new MobileCodeDO().setId(id).setUsed(true).setUsedUserId(userId).setUsedTime(new Date());
         mobileCodeMapper.updateById(update);
-    }
-
-    // TODO 芋艿，后面要返回有效时间
-    public void send(String mobile) {
-        if (!ValidationUtil.isMobile(mobile)) {
-            throw ServiceExceptionUtil.exception(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "手机格式不正确"); // TODO 有点搓
-        }
-        // 校验是否可以发送验证码
-        MobileCodeDO lastMobileCodePO = mobileCodeMapper.selectLast1ByMobile(mobile);
-        if (lastMobileCodePO != null) {
-            if (lastMobileCodePO.getTodayIndex() >= sendMaximumQuantityPerDay) { // 超过当天发送的上限。
-                throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_EXCEED_SEND_MAXIMUM_QUANTITY_PER_DAY.getCode());
-            }
-            if (System.currentTimeMillis() - lastMobileCodePO.getCreateTime().getTime() < sendFrequency) { // 发送过于频繁
-                throw ServiceExceptionUtil.exception(UserErrorCodeEnum.MOBILE_CODE_SEND_TOO_FAST.getCode());
-            }
-            // TODO 提升，每个 IP 每天可发送数量
-            // TODO 提升，每个 IP 每小时可发送数量
-        }
-        // 创建验证码记录
-        MobileCodeDO newMobileCodePO = new MobileCodeDO().setMobile(mobile)
-                .setCode("9999") // TODO 芋艿，随机 4 位验证码 or 6 位验证码
-                .setTodayIndex(lastMobileCodePO != null ? lastMobileCodePO.getTodayIndex() : 1)
-                .setUsed(false);
-        newMobileCodePO.setCreateTime(new Date());
-        mobileCodeMapper.insert(newMobileCodePO);
-        // TODO 发送验证码短信
     }
 
 }

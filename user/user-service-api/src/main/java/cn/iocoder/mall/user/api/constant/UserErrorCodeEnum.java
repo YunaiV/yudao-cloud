@@ -27,13 +27,7 @@ public enum UserErrorCodeEnum {
     USER_STATUS_EQUALS(1001002003, "账号已经是该状态"),
     USER_MOBILE_EQUALS(1001002004, "账号已经是该手机号"),
 
-    // ========== 手机验证码模块 ==========
-    MOBILE_CODE_NOT_FOUND(1001003000, "验证码不存在"),
-    MOBILE_CODE_EXPIRED(1001003001, "验证码已过期"),
-    MOBILE_CODE_USED(1001003002, "验证码已使用"),
-    MOBILE_CODE_NOT_CORRECT(1001003003, "验证码不正确"),
-    MOBILE_CODE_EXCEED_SEND_MAXIMUM_QUANTITY_PER_DAY(1001003004, "超过每日短信发送数量"),
-    MOBILE_CODE_SEND_TOO_FAST(1001003005, "短信发送过于频率"),
+
 
     // ========== 用户地址 ==========
     USER_ADDRESS_NOT_EXISTENT(1001004000, "用户地址不存在!"),

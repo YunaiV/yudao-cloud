@@ -9,8 +9,8 @@ import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2UsernameAuthenticateDTO;
  */
 public interface OAuth2Service {
 
-    OAuth2AccessTokenBO authenticate(OAuth2UsernameAuthenticateDTO usernameAuthenticateDTO);
+    OAuth2AccessTokenBO authenticate(OAuth2UsernameAuthenticateDTO authenticateDTO);
 
-    OAuth2AccessTokenBO authenticate(OAuth2MobileCodeAuthenticateDTO mobileCodeAuthenticateDTO);
+    OAuth2AccessTokenBO authenticate(OAuth2MobileCodeAuthenticateDTO authenticateDTO);
 
 }

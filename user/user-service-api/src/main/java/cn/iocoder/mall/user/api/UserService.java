@@ -2,16 +2,12 @@ package cn.iocoder.mall.user.api;
 
 import cn.iocoder.common.framework.constant.CommonStatusEnum;
 import cn.iocoder.common.framework.validator.InEnum;
-import cn.iocoder.mall.user.api.bo.user.UserAuthenticationBO;
 import cn.iocoder.mall.user.api.bo.UserBO;
 import cn.iocoder.mall.user.api.bo.UserPageBO;
 import cn.iocoder.mall.user.api.dto.UserPageDTO;
 import cn.iocoder.mall.user.api.dto.UserUpdateDTO;
-import cn.iocoder.mall.user.api.dto.user.UserAuthenticationByMobileCodeDTO;
 
 public interface UserService {
-
-    UserAuthenticationBO authenticationByMobileCode(UserAuthenticationByMobileCodeDTO userAuthenticationByMobileCodeDTO);
 
     UserPageBO getUserPage(UserPageDTO userPageDTO);
 

@@ -9,6 +9,8 @@ import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2MobileCodeSendDTO;
  */
 public interface OAuth2MobileCodeService {
 
-    void sendMobileCode(OAuth2MobileCodeSendDTO sendDTO);
+    void send(OAuth2MobileCodeSendDTO sendDTO);
+
+    void use(String mobile, String code);
 
 }

@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.rest.response;
+package cn.iocoder.mall.system.rest.response.user;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,10 +7,10 @@ import lombok.experimental.Accessors;
 
 import java.util.Date;
 
-@ApiModel("管理员 - 认证 - 用户名登陆响应")
+@ApiModel("用户 - OAuth2 模块 - 认证响应")
 @Data
 @Accessors(chain = true)
-public class AdminsAuthorizeUsernameLoginResponse {
+public class UsersOAuth2AuthenticateResponse {
 
     @Data
     public static class Token {
@@ -26,11 +26,21 @@ public class AdminsAuthorizeUsernameLoginResponse {
 
     }
 
-    @ApiModelProperty(value = "管理员编号", required = true, example = "1")
-    private Integer id;
+    @Data
+    public static class User {
 
-    @ApiModelProperty(value = "真实名字", required = true, example = "小王")
-    private String name;
+        @ApiModelProperty(value = "管理员编号", required = true, example = "1")
+        private Integer id;
+
+        @ApiModelProperty(value = "昵称", required = true, example = "小王")
+        private String nickname;
+
+    }
+
+    /**
+     * TODO 晚点测试下 swagger 的表现
+     */
+    private User user;
 
     /**
      * TODO 晚点测试下 swagger 的表现

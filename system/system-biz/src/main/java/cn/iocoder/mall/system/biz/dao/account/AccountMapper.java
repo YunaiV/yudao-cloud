@@ -14,4 +14,10 @@ public interface AccountMapper extends BaseMapper<AccountDO> {
         );
     }
 
+    default AccountDO selectByMobile(String mobile) {
+        return selectOne(new QueryWrapper<AccountDO>()
+                .eq("mobile", mobile)
+        );
+    }
+
 }

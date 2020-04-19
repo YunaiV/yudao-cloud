@@ -43,8 +43,6 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private UserRegisterMapper userRegisterMapper;
-    @Autowired
-    private MobileCodeServiceImpl mobileCodeService;
 
     @Reference(validation = "true", version = "${dubbo.consumer.OAuth2Service.version}")
     private OAuth2Service oAuth2Service;
@@ -77,36 +75,6 @@ public class UserServiceImpl implements UserService {
         UserRegisterDO userRegisterDO = new UserRegisterDO().setId(userDO.getId())
                 .setCreateTime(new Date());
         userRegisterMapper.insert(userRegisterDO);
-    }
-
-    @Override
-    @Transactional
-    public UserAuthenticationBO authenticationByMobileCode(UserAuthenticationByMobileCodeDTO userAuthenticationByMobileCodeDTO) {
-        String mobile = userAuthenticationByMobileCodeDTO.getMobile();
-        String code = userAuthenticationByMobileCodeDTO.getCode();
-        // 校验手机格式
-        if (!ValidationUtil.isMobile(mobile)) {
-            throw ServiceExceptionUtil.exception(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "手机格式不正确"); // TODO 有点搓
-        }
-        // 校验验证码是否正确
-        MobileCodeDO mobileCodeDO = mobileCodeService.validLastMobileCode(mobile, code);
-        // 获得用户
-        UserDO user = userMapper.selectByMobile(mobile);
-        if (user == null) { // 用户不存在，则进行创建
-            user = new UserDO().setMobile(mobile).setStatus(UserConstants.STATUS_ENABLE);
-            user.setCreateTime(new Date());
-            user.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
-            userMapper.insert(user);
-            // 插入注册信息 TODO 芋艿 后续完善，记录 ip、ua 等等
-            createUserRegister(user);
-        }
-        // 更新验证码已使用
-        mobileCodeService.useMobileCode(mobileCodeDO.getId(), user.getId());
-        // 创建 accessToken
-        OAuth2AccessTokenBO accessTokenBO = oAuth2Service.createToken(new OAuth2CreateTokenDTO().setUserId(user.getId())
-                .setUserType(UserTypeEnum.USER.getValue()));
-        // 转换返回
-        return UserConvert.INSTANCE.convert2(user).setToken(accessTokenBO);
     }
 
     @Override

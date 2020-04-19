@@ -10,7 +10,7 @@ import cn.iocoder.mall.system.biz.service.admin.AdminService;
 import cn.iocoder.mall.system.biz.service.oauth2.OAuth2Service;
 import cn.iocoder.mall.system.rest.convert.oauth2.AdminsOAuth2Convert;
 import cn.iocoder.mall.system.rest.request.oauth2.AdminsOAuth2UsernameAuthenticateRequest;
-import cn.iocoder.mall.system.rest.response.AdminsAuthorizeUsernameLoginResponse;
+import cn.iocoder.mall.system.rest.response.oauth2.AdminsOAuth2AuthenticateResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +32,10 @@ public class AdminsOAuth2Controller {
 
     @PostMapping("/username_authenticate")
     @ApiOperation("用户名认证")
-    public CommonResult<AdminsAuthorizeUsernameLoginResponse> usernameAuthenticate(AdminsOAuth2UsernameAuthenticateRequest request) {
+    public CommonResult<AdminsOAuth2AuthenticateResponse> usernameAuthenticate(AdminsOAuth2UsernameAuthenticateRequest request) {
         // 执行认证
-        OAuth2UsernameAuthenticateDTO usernameAuthenticateDTO = AdminsOAuth2Convert.INSTANCE.convert(request);
-        OAuth2AccessTokenBO accessTokenBO = oauth2Service.authenticate(usernameAuthenticateDTO);
+        OAuth2UsernameAuthenticateDTO authenticateDTO = AdminsOAuth2Convert.INSTANCE.convert(request);
+        OAuth2AccessTokenBO accessTokenBO = oauth2Service.authenticate(authenticateDTO);
         // 获得 Admin 信息
         AdminBO adminBO = adminService.get(accessTokenBO.getAccountId());
         if (adminBO == null) {

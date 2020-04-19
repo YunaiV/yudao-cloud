@@ -32,6 +32,7 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
     OAUTH2_MOBILE_CODE_EXCEED_SEND_MAXIMUM_QUANTITY_PER_DAY(1001001105, "超过每日短信发送数量"),
     OAUTH2_MOBILE_CODE_SEND_TOO_FAST(1001001106, "短信发送过于频率"),
 
+
     // ========== 管理员模块 1002002000 ==========
     ADMIN_NOT_FOUND(1002002000, "管理员不存在"),
 // 废弃    ADMIN_USERNAME_NOT_REGISTERED(1002002000, "账号不存在"),

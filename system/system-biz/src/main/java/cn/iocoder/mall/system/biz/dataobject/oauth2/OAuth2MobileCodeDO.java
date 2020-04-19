@@ -42,10 +42,6 @@ public class OAuth2MobileCodeDO extends BaseDO {
      */
     private Boolean used;
     /**
-     * 使用的账号编号
-     */
-    private Integer usedAccountId;
-    /**
      * 使用时间
      */
     private Date usedTime;

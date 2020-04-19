@@ -3,7 +3,6 @@ package cn.iocoder.mall.system.biz.service.oauth2.impl;
 import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.ValidationUtil;
-import cn.iocoder.mall.system.biz.constant.SystemErrorCodeEnum;
 import cn.iocoder.mall.system.biz.dao.oauth2.OAuth2MobileCodeMapper;
 import cn.iocoder.mall.system.biz.dataobject.oauth2.OAuth2MobileCodeDO;
 import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2MobileCodeSendDTO;
@@ -13,6 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+
+import static cn.iocoder.mall.system.biz.constant.SystemErrorCodeEnum.*;
 
 @Service
 public class OAuth2MobileCodeServiceImpl implements OAuth2MobileCodeService {
@@ -37,7 +38,7 @@ public class OAuth2MobileCodeServiceImpl implements OAuth2MobileCodeService {
     private OAuth2MobileCodeMapper oauth2MobileCodeMapper;
 
     @Override
-    public void sendMobileCode(OAuth2MobileCodeSendDTO sendDTO) {
+    public void send(OAuth2MobileCodeSendDTO sendDTO) {
         if (!ValidationUtil.isMobile(sendDTO.getMobile())) {
             throw ServiceExceptionUtil.exception(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "手机格式不正确"); // TODO 有点搓
         }
@@ -45,10 +46,10 @@ public class OAuth2MobileCodeServiceImpl implements OAuth2MobileCodeService {
         OAuth2MobileCodeDO lastMobileCodePO = oauth2MobileCodeMapper.selectLastByMobile(sendDTO.getMobile());
         if (lastMobileCodePO != null) {
             if (lastMobileCodePO.getTodayIndex() >= sendMaximumQuantityPerDay) { // 超过当天发送的上限。
-                throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.OAUTH2_MOBILE_CODE_EXCEED_SEND_MAXIMUM_QUANTITY_PER_DAY.getCode());
+                throw ServiceExceptionUtil.exception(OAUTH2_MOBILE_CODE_EXCEED_SEND_MAXIMUM_QUANTITY_PER_DAY);
             }
             if (System.currentTimeMillis() - lastMobileCodePO.getCreateTime().getTime() < sendFrequency) { // 发送过于频繁
-                throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.OAUTH2_MOBILE_CODE_SEND_TOO_FAST.getCode());
+                throw ServiceExceptionUtil.exception(OAUTH2_MOBILE_CODE_SEND_TOO_FAST);
             }
             // TODO 提升，每个 IP 每天可发送数量
             // TODO 提升，每个 IP 每小时可发送数量
@@ -62,6 +63,28 @@ public class OAuth2MobileCodeServiceImpl implements OAuth2MobileCodeService {
         newMobileCodePO.setCreateTime(new Date());
         oauth2MobileCodeMapper.insert(newMobileCodePO);
         // TODO 发送验证码短信
+    }
+
+    @Override
+    public void use(String mobile, String code) {
+        // 校验验证码
+        OAuth2MobileCodeDO mobileCodeDO = oauth2MobileCodeMapper.selectLastByMobile(mobile);
+        if (mobileCodeDO == null) { // 若验证码不存在，抛出异常
+            throw ServiceExceptionUtil.exception(OAUTH2_MOBILE_CODE_NOT_FOUND);
+        }
+        if (System.currentTimeMillis() - mobileCodeDO.getCreateTime().getTime() >= codeExpireTimes) { // 验证码已过期
+            throw ServiceExceptionUtil.exception(OAUTH2_MOBILE_CODE_EXPIRED);
+        }
+        if (mobileCodeDO.getUsed()) { // 验证码已使用
+            throw ServiceExceptionUtil.exception(OAUTH2_MOBILE_CODE_USED);
+        }
+        if (!mobileCodeDO.getCode().equals(code)) {
+            throw ServiceExceptionUtil.exception(OAUTH2_MOBILE_CODE_NOT_CORRECT);
+        }
+        // 使用验证码
+        OAuth2MobileCodeDO update = new OAuth2MobileCodeDO().setId(mobileCodeDO.getId())
+                .setUsed(true).setUsedTime(new Date()); // TODO usedIp
+        oauth2MobileCodeMapper.updateById(update);
     }
 
 }

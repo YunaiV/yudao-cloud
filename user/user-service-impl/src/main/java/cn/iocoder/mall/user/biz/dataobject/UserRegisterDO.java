@@ -10,6 +10,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
+@Deprecated
 public class UserRegisterDO {
 
     /**

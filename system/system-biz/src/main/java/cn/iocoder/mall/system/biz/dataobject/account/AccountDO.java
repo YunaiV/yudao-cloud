@@ -1,5 +1,6 @@
 package cn.iocoder.mall.system.biz.dataobject.account;
 
+import cn.iocoder.common.framework.constant.CommonStatusEnum;
 import cn.iocoder.common.framework.dataobject.DeletableDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -42,7 +43,7 @@ public class AccountDO extends DeletableDO {
     /**
      * 账号状态
      *
-     * {@link cn.iocoder.common.framework.constant.CommonStatusEnum}
+     * 枚举 {@link CommonStatusEnum}
      */
     private Integer status;
 

@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.application.controller.admins;
+package cn.iocoder.mall.system.rest.controller.admin;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import com.qiniu.util.Auth;
@@ -11,10 +11,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 文件模块(Admins API)
+ *
+ * author: sin
+ * time: 2020/4/20 9:41 上午
+ */
 @RestController
 @RequestMapping("admins/file")
-@Api("文件模块")
-public class FileController {
+@Api(tags = "文件模块")
+public class AdminsFileController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -29,5 +35,4 @@ public class FileController {
         logger.info("[qiniu_token][token({}) get]", token);
         return CommonResult.success(token);
     }
-
 }

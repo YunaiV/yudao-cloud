@@ -197,7 +197,7 @@ export async function dictionaryDelete(params) {
 // file
 
 export async function fileGetQiniuToken() {
-  return request(`/admin-api/admins/file/get_qiniu_token`, {
+  return request(`/admin-api/admins/file/get-qiniu-token`, {
     method: 'GET',
   });
 }

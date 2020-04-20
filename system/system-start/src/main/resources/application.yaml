@@ -18,7 +18,7 @@ server:
 
 admins:
   security:
-    ignore_urls: /admin-api/admins/passport/login, /admin-api/admins/file/get_qiniu_token
+    ignore_urls: /admin-api/admins/passport/login, /admin-api/admins/file/get-qiniu-token
 
 # qiniu
 qiniu:

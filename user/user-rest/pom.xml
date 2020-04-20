@@ -9,22 +9,24 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>user-application</artifactId>
-
+    <artifactId>user-rest</artifactId>
 
     <dependencies>
         <!-- Mall 相关 -->
+<!--        <dependency>-->
+<!--            <groupId>cn.iocoder.mall</groupId>-->
+<!--            <artifactId>system-biz</artifactId>-->
+<!--            <version>1.0-SNAPSHOT</version>-->
+<!--        </dependency>-->
+
+        <!-- Web 相关 -->
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
-            <artifactId>user-rest</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.iocoder.mall</groupId>
-            <artifactId>user-rpc</artifactId>
+            <artifactId>mall-spring-boot-starter-web</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <!-- TODO 云服务 -->
     </dependencies>
 
 </project>

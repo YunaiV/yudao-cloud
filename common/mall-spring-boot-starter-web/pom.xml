@@ -12,6 +12,13 @@
     <artifactId>mall-spring-boot-starter-web</artifactId>
 
     <dependencies>
+        <!-- Mall 相关 -->
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>system-rpc-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <!-- Spring 核心 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -23,6 +30,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- RPC 相关 -->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
         </dependency>
     </dependencies>
 

@@ -4,4 +4,4 @@ spring:
     name: admin-application
   # Profile 的配置项
   profiles:
-    active: test
+    active: local

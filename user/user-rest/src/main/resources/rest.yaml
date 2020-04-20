@@ -1,0 +1,12 @@
+# 服务器的配置项
+server:
+  port: 18082
+  servlet:
+    context-path: /user-api/
+
+# Swagger 配置项
+swagger:
+  title: 用户子系统
+  description: 用户子系统
+  version: 1.0.0
+  base-package: cn.iocoder.mall.user.rest.controller

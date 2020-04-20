@@ -12,17 +12,21 @@
     <artifactId>user</artifactId>
     <packaging>pom</packaging>
     <modules>
+<!--        <module>user-application</module>-->
+<!--        <module>user-service-api</module>-->
+<!--        <module>user-sdk</module>-->
+<!--        <module>user-service-impl</module>-->
         <module>user-application</module>
-        <module>user-service-api</module>
-        <module>user-sdk</module>
-        <module>user-service-impl</module>
+        <module>user-rest</module>
+        <module>user-rpc</module>
+        <module>user-rpc-api</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>cn.iocoder.mall</groupId>
-                <artifactId>common-dependencies</artifactId>
+                <artifactId>mall-dependencies</artifactId>
                 <version>1.0-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>

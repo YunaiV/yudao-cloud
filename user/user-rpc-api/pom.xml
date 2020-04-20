@@ -9,20 +9,20 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>user-application</artifactId>
-
+    <artifactId>user-rpc-api</artifactId>
 
     <dependencies>
         <!-- Mall 相关 -->
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
-            <artifactId>user-rest</artifactId>
+            <artifactId>common-framework</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <!-- 工具类 -->
         <dependency>
-            <groupId>cn.iocoder.mall</groupId>
-            <artifactId>user-rpc</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
         </dependency>
 
     </dependencies>

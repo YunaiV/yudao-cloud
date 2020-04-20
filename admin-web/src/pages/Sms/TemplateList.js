@@ -42,9 +42,9 @@ class TemplateList extends PureComponent {
     dispatch({
       type: 'smsSignList/page',
       payload: {
-        current: 1,
+        pageNo: 1,
         total: 0,
-        size: 100,
+        pageSize: 100,
         // ...searchParams,
       },
     });
@@ -57,9 +57,9 @@ class TemplateList extends PureComponent {
     dispatch({
       type: 'smsTemplateList/page',
       payload: {
-        current,
+        pageNo: current,
         total,
-        size,
+        pageSize: size,
         ...searchParams,
       },
     });

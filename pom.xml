@@ -56,6 +56,10 @@
 
         <servlet.version>2.5</servlet.version>
 
+        <!-- 短信平台 阿里云、云片 -->
+        <yunpian-java-sdk.version>1.2.7</yunpian-java-sdk.version>
+        <aliyun-java-sdk-core.version>4.1.0</aliyun-java-sdk-core.version>
+
         <java.version>1.8</java.version>
         <hibernate-validator.version>6.0.16.Final</hibernate-validator.version>
         <fastjson.version>1.2.56</fastjson.version>
@@ -168,6 +172,18 @@
                 <groupId>com.xuxueli</groupId>
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxl-job.version}</version>
+            </dependency>
+
+            <!-- 短信平台 阿里云、云片 -->
+            <dependency>
+                <groupId>com.yunpian.sdk</groupId>
+                <artifactId>yunpian-java-sdk</artifactId>
+                <version>${yunpian-java-sdk.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-core</artifactId>
+                <version>${aliyun-java-sdk-core.version}</version>
             </dependency>
 
             <!-- 云服务相关 -->

@@ -40,9 +40,9 @@ class SignList extends PureComponent {
     dispatch({
       type: 'smsSignList/page',
       payload: {
-        current,
+        pageNo: current,
         total,
-        size,
+        pageSize: size,
         ...searchParams,
       },
     });

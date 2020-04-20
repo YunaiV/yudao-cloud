@@ -1,9 +1,12 @@
-import { pageSign, addSign, updateSign, deletedSign } from '../../services/sms';
+import { addSign, deletedSign, pageSign, updateSign } from '../../services/sms';
 
 export default {
   namespace: 'smsSignList',
 
   state: {
+    total: 0,
+    index: 1,
+    size: 20,
     list: [],
   },
 
@@ -13,7 +16,10 @@ export default {
       if (response.code === 0) {
         yield put({
           type: 'pageSuccess',
-          payload: response.data,
+          payload: {
+            data: response.data,
+            params: payload,
+          },
         });
       }
     },
@@ -46,10 +52,15 @@ export default {
 
   reducers: {
     pageSuccess(state, { payload }) {
-      const { data } = payload;
+      const { data, params } = payload;
+      const { pageNo, pageSize } = params;
+      const { list, total } = data;
       return {
         ...state,
-        list: data,
+        size: pageSize,
+        index: pageNo,
+        total,
+        list,
       };
     },
   },

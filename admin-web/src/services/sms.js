@@ -10,14 +10,20 @@ export async function pageSign(params) {
 }
 
 export async function addSign(params) {
-  return request(`/admin-api/admins/sms/sign/add?${stringify(params)}`, {
+  return request(`/admin-api/admins/sms/sign/add`, {
     method: 'POST',
+    body: {
+      ...params,
+    },
   });
 }
 
 export async function updateSign(params) {
-  return request(`/admin-api/admins/sms/sign/update?${stringify(params)}`, {
+  return request(`/admin-api/admins/sms/sign/update`, {
     method: 'PUT',
+    body: {
+      ...params,
+    },
   });
 }
 
@@ -30,8 +36,11 @@ export async function deletedSign(params) {
 // template
 
 export async function pageTemplate(params) {
-  return request(`/admin-api/admins/sms/template/page?${stringify(params)}`, {
-    method: 'GET',
+  return request(`/admin-api/admins/sms/template/page`, {
+    method: 'POST',
+    body: {
+      ...params,
+    },
   });
 }
 

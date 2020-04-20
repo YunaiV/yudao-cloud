@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.biz.convert;
+package cn.iocoder.mall.system.biz.convert.oauth2;
 
 import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AccessTokenBO;
 import cn.iocoder.mall.system.biz.dataobject.oauth2.OAuth2AccessTokenDO;

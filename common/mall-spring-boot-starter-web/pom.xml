@@ -3,28 +3,27 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>system</artifactId>
+        <artifactId>common</artifactId>
         <groupId>cn.iocoder.mall</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>system-rpc-api</artifactId>
+    <artifactId>mall-spring-boot-starter-web</artifactId>
 
     <dependencies>
-        <!-- Mall 相关 -->
+        <!-- Spring 核心 -->
         <dependency>
-            <groupId>cn.iocoder.mall</groupId>
-            <artifactId>common-framework</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
 
-        <!-- 工具类 -->
+        <!-- Web 相关 -->
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
     </dependencies>
 
 </project>

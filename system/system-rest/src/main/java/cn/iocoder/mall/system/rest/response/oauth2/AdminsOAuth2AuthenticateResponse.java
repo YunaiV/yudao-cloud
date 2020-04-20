@@ -12,6 +12,19 @@ import java.util.Date;
 @Accessors(chain = true)
 public class AdminsOAuth2AuthenticateResponse {
 
+    @ApiModel("管理员")
+    @Data
+    public static class Admin {
+
+        @ApiModelProperty(value = "管理员编号", required = true, example = "1")
+        private Integer id;
+
+        @ApiModelProperty(value = "真实名字", required = true, example = "小王")
+        private String name;
+
+    }
+
+    @ApiModel("访问令牌")
     @Data
     public static class Token {
 
@@ -26,23 +39,12 @@ public class AdminsOAuth2AuthenticateResponse {
 
     }
 
-    @Data
-    public static class Admin {
-
-        @ApiModelProperty(value = "管理员编号", required = true, example = "1")
-        private Integer id;
-
-        @ApiModelProperty(value = "真实名字", required = true, example = "小王")
-        private String name;
-
-    }
-
     /**
-     * TODO 晚点测试下 swagger 的表现
+     * 管理员
      */
     private Admin admin;
     /**
-     * TODO 晚点测试下 swagger 的表现
+     * 访问令牌
      */
     private Token token;
 

@@ -11,7 +11,7 @@ public class SystemApplication {
      * 设置需要读取的配置文件的名字。
      * 基于 {@link org.springframework.boot.context.config.ConfigFileApplicationListener#CONFIG_NAME_PROPERTY} 实现。
      */
-    private static final String CONFIG_NAME_VALUE = "biz,rest,application";
+    private static final String CONFIG_NAME_VALUE = "biz,rest,rpc,application";
 
     public static void main(String[] args) {
         // 设置环境变量

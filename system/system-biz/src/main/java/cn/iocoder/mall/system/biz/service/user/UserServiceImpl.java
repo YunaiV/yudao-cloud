@@ -1,14 +1,13 @@
-package cn.iocoder.mall.system.biz.service.user.impl;
+package cn.iocoder.mall.system.biz.service.user;
 
 import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AccessTokenBO;
 import cn.iocoder.mall.system.biz.bo.user.UserAuthenticateBO;
 import cn.iocoder.mall.system.biz.bo.user.UserBO;
-import cn.iocoder.mall.system.biz.convert.UserConvert;
+import cn.iocoder.mall.system.biz.convert.user.UserConvert;
 import cn.iocoder.mall.system.biz.dao.user.UserMapper;
 import cn.iocoder.mall.system.biz.dataobject.user.UserDO;
 import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2MobileCodeAuthenticateDTO;
 import cn.iocoder.mall.system.biz.service.oauth2.OAuth2Service;
-import cn.iocoder.mall.system.biz.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

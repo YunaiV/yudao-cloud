@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.biz.convert;
+package cn.iocoder.mall.system.biz.convert.account;
 
 import cn.iocoder.mall.system.biz.bo.account.AccountBO;
 import cn.iocoder.mall.system.biz.dataobject.account.AccountDO;

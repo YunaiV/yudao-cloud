@@ -1,7 +1,7 @@
-package cn.iocoder.mall.system.biz.service.admin.impl;
+package cn.iocoder.mall.system.biz.service.admin;
 
 import cn.iocoder.mall.system.biz.bo.admin.AdminBO;
-import cn.iocoder.mall.system.biz.convert.AdminConvert;
+import cn.iocoder.mall.system.biz.convert.admin.AdminConvert;
 import cn.iocoder.mall.system.biz.dao.admin.AdminMapper;
 import cn.iocoder.mall.system.biz.dataobject.admin.AdminDO;
 import cn.iocoder.mall.system.biz.service.admin.AdminService;

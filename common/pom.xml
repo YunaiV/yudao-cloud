@@ -16,6 +16,7 @@
         <module>mall-spring-boot</module>
         <module>common-dependencies</module>
         <module>mall-spring-boot-starter-swagger</module>
+        <module>mall-spring-boot-starter-web</module>
     </modules>
 
     <dependencyManagement>

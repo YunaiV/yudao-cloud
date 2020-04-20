@@ -1,10 +1,10 @@
-package cn.iocoder.mall.admin.dataobject;
+package cn.iocoder.mall.system.biz.dataobject.system;
 
 import cn.iocoder.common.framework.dataobject.BaseDO;
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.system.api.dto.systemlog.AccessLogAddDTO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
@@ -13,9 +13,15 @@ import java.util.Date;
  * 访问日志 DO
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("access_log")
 public class AccessLogDO extends BaseDO {
+
+    /**
+     * 账号编号 - 空
+     */
+    public static final Integer ACCOUNT_ID_NULL = 0;
 
     /**
      * 编号
@@ -28,11 +34,11 @@ public class AccessLogDO extends BaseDO {
      */
     private String traceId;
     /**
-     * 用户编号.
+     * 账号编号
      *
-     * 当管理员为空时，该值为 {@link AccessLogAddDTO#USER_ID_NULL}
+     * 空值 {@link #ACCOUNT_ID_NULL}
      */
-    private Integer userId;
+    private Integer accountId;
     /**
      * 用户类型
      */
@@ -40,7 +46,7 @@ public class AccessLogDO extends BaseDO {
     /**
      * 应用名
      *
-     * 目前读取 spring.application.name
+     * 目前读取 `spring.application.name` 配置项
      */
     private String applicationName;
     /**

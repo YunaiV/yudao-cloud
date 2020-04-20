@@ -1,11 +1,11 @@
-package cn.iocoder.mall.system.biz.service.oauth2.impl;
+package cn.iocoder.mall.system.biz.service.oauth2;
 
 import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.ValidationUtil;
 import cn.iocoder.mall.system.biz.bo.account.AccountBO;
 import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AccessTokenBO;
-import cn.iocoder.mall.system.biz.convert.OAuth2Convert;
+import cn.iocoder.mall.system.biz.convert.oauth2.OAuth2Convert;
 import cn.iocoder.mall.system.biz.dao.oauth2.OAuth2AccessTokenMapper;
 import cn.iocoder.mall.system.biz.dao.oauth2.OAuth2RefreshTokenMapper;
 import cn.iocoder.mall.system.biz.dataobject.oauth2.OAuth2AccessTokenDO;
@@ -14,8 +14,6 @@ import cn.iocoder.mall.system.biz.dto.account.AccountCreateDTO;
 import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2MobileCodeAuthenticateDTO;
 import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2UsernameAuthenticateDTO;
 import cn.iocoder.mall.system.biz.service.account.AccountService;
-import cn.iocoder.mall.system.biz.service.oauth2.OAuth2MobileCodeService;
-import cn.iocoder.mall.system.biz.service.oauth2.OAuth2Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

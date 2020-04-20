@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.biz.service.oauth2.impl;
+package cn.iocoder.mall.system.biz.service.oauth2;
 
 import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;

@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
 @ConfigurationProperties("swagger")
+@Deprecated
 public class SwaggerProperties {
 
     private String title;

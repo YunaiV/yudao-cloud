@@ -24,6 +24,7 @@
         <module>promotion</module>
         <module>search</module>
         <module>demo</module>
+        <module>mall-dependencies</module>
     </modules>
     <packaging>pom</packaging>
 

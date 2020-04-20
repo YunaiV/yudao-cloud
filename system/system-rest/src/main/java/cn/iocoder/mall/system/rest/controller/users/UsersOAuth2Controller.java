@@ -37,8 +37,10 @@ public class UsersOAuth2Controller {
 
     @PostMapping("/mobile_code_authenticate")
     @ApiOperation("手机验证码认证")
-    public CommonResult<UsersOAuth2AuthenticateResponse> mobileCodeAuthenticate(UsersOAuth2MobileCodeAuthenticateRequest request,
-                                                                                HttpServletRequest httpRequest) {
+    public CommonResult<UsersOAuth2AuthenticateResponse> mobileCodeAuthenticate(
+            UsersOAuth2MobileCodeAuthenticateRequest request,
+            HttpServletRequest httpRequest
+    ) {
         // 执行认证
         OAuth2MobileCodeAuthenticateDTO authenticateDTO = UsersOAuth2Convert.INSTANCE.convert(request)
                 .setIp(HttpUtil.getIp(httpRequest));
@@ -52,8 +54,7 @@ public class UsersOAuth2Controller {
     @PostMapping("/send_mobile_code")
     @ApiOperation("发送手机验证码")
     @ApiImplicitParam(name = "mobile", value = "手机号", required = true, example = "15601691234")
-    public CommonResult<Boolean> sendMobileCode(@RequestParam("mobile") String mobile,
-                                                HttpServletRequest request) {
+    public CommonResult<Boolean> sendMobileCode(@RequestParam("mobile") String mobile, HttpServletRequest request) {
         // 执行发送验证码
         OAuth2MobileCodeSendDTO sendDTO = new OAuth2MobileCodeSendDTO()
                 .setMobile(mobile).setIp(HttpUtil.getIp(request));

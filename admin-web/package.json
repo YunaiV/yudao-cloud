@@ -11,6 +11,7 @@
     "start:admin-web:no-mock": "cross-env BASE_PATH='/admin-web/' NODE_ENV=development MOCK=none APP_TYPE=site umi dev",
     "build": "cross-env BASE_PATH='/' NODE_ENV=production umi build",
     "build:admin-web": "cross-env BASE_PATH='/admin-web/' NODE_ENV=production umi build",
+    "build:oss": "cross-env BASE_PATH='/www/onemall/admin-web/' NODE_ENV=production umi build",
     "site": "npm run presite && cross-env APP_TYPE=site npm run build && firebase deploy && npm run docker:push",
     "analyze": "cross-env ANALYZE=1 umi build",
     "lint:style": "stylelint 'src/**/*.less' --syntax less",

@@ -12,8 +12,6 @@
     <artifactId>mall-spring-boot-starter-swagger</artifactId>
 
     <dependencies>
-
-
         <!-- Spring 核心 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -25,10 +25,12 @@ public class MallUtil {
         request.setAttribute(MallConstants.REQUEST_ATTR_USER_TYPE_KEY, userType);
     }
 
+    @Deprecated
     public static CommonResult getCommonResult(ServletRequest request) {
         return (CommonResult) request.getAttribute(MallConstants.REQUEST_ATTR_COMMON_RESULT);
     }
 
+    @Deprecated
     public static void setCommonResult(ServletRequest request, CommonResult result) {
         request.setAttribute(MallConstants.REQUEST_ATTR_COMMON_RESULT, result);
     }

@@ -1,11 +1,16 @@
 package cn.iocoder.mall.system.biz.dto.system;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
  * 访问日志添加 DTO
  */
+@Data
+@Accessors(chain = true)
 public class AccessLogAddDTO {
 
     /**

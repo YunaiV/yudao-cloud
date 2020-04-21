@@ -9,7 +9,7 @@ import cn.iocoder.mall.system.rpc.request.system.AccessLogAddRequest;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Service(version = "dubbo.provider.SystemLogRPC.version", validation = "true")
+@Service(version = "${dubbo.provider.SystemLogRPC.version}", validation = "true")
 public class SystemLogRPCImpl implements SystemLogRPC {
 
     @Autowired

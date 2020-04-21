@@ -1,8 +1,16 @@
 package cn.iocoder.mall.system.rpc.request.system;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+/**
+ * 访问日志添加请求
+ */
+@Data
+@Accessors(chain = true)
 public class AccessLogAddRequest {
 
     /**
@@ -10,7 +18,9 @@ public class AccessLogAddRequest {
      */
     public static final Integer ACCOUNT_ID_NULL = 0;
 
-    @NotNull(message = "链路追踪编号不能为空")
+    /**
+     * 链路追踪编号
+     */
     private String traceId;
     /**
      * 账号编号

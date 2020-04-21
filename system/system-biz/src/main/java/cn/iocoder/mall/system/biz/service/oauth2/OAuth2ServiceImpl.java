@@ -11,8 +11,10 @@ import cn.iocoder.mall.system.biz.dao.oauth2.OAuth2RefreshTokenMapper;
 import cn.iocoder.mall.system.biz.dataobject.oauth2.OAuth2AccessTokenDO;
 import cn.iocoder.mall.system.biz.dataobject.oauth2.OAuth2RefreshTokenDO;
 import cn.iocoder.mall.system.biz.dto.account.AccountCreateDTO;
+import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2AccessTokenAuthenticateDTO;
 import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2MobileCodeAuthenticateDTO;
 import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2UsernameAuthenticateDTO;
+import cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum;
 import cn.iocoder.mall.system.biz.service.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,8 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.UUID;
 
-import static cn.iocoder.mall.system.biz.constant.SystemErrorCodeEnum.OAUTH2_ACCOUNT_NOT_FOUND;
-import static cn.iocoder.mall.system.biz.constant.SystemErrorCodeEnum.OAUTH2_ACCOUNT_PASSWORD_ERROR;
+import static cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum.OAUTH2_ACCOUNT_NOT_FOUND;
+import static cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum.OAUTH2_ACCOUNT_PASSWORD_ERROR;
 
 @Service
 public class OAuth2ServiceImpl implements OAuth2Service {
@@ -92,6 +94,22 @@ public class OAuth2ServiceImpl implements OAuth2Service {
         OAuth2RefreshTokenDO oauth2RefreshTokenDO = createOAuth2RefreshToken(accountBO.getId());
         OAuth2AccessTokenDO oauth2AccessTokenDO = createOAuth2AccessToken(accountBO.getId(), oauth2RefreshTokenDO.getId());
         // 返回访问令牌
+        return OAuth2Convert.INSTANCE.convert(oauth2AccessTokenDO);
+    }
+
+    @Override
+    public OAuth2AccessTokenBO authenticate(OAuth2AccessTokenAuthenticateDTO authenticateDTO) {
+        OAuth2AccessTokenDO oauth2AccessTokenDO = oauth2AccessTokenMapper.selectById(authenticateDTO.getAccessToken());
+        if (oauth2AccessTokenDO == null) { // 不存在
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.OAUTH2_INVALID_TOKEN_NOT_FOUND.getCode());
+        }
+        if (oauth2AccessTokenDO.getExpiresTime().getTime() < System.currentTimeMillis()) { // 已过期
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.OAUTH2_INVALID_TOKEN_EXPIRED.getCode());
+        }
+        if (!oauth2AccessTokenDO.getValid()) { // 无效
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.OAUTH2_INVALID_TOKEN_INVALID.getCode());
+        }
+        // 转换返回
         return OAuth2Convert.INSTANCE.convert(oauth2AccessTokenDO);
     }
 

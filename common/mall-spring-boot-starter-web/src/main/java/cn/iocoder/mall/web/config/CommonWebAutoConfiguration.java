@@ -1,8 +1,9 @@
 package cn.iocoder.mall.web.config;
 
-import cn.iocoder.mall.web.constant.CommonMallConstants;
-import cn.iocoder.mall.web.handler.GlobalResponseBodyHandler;
-import cn.iocoder.mall.web.interceptor.AccessLogInterceptor;
+import cn.iocoder.mall.web.core.constant.CommonMallConstants;
+import cn.iocoder.mall.web.core.handler.GlobalExceptionHandler;
+import cn.iocoder.mall.web.core.handler.GlobalResponseBodyHandler;
+import cn.iocoder.mall.web.core.interceptor.AccessLogInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -28,10 +29,16 @@ public class CommonWebAutoConfiguration implements WebMvcConfigurer {
         return new GlobalResponseBodyHandler();
     }
 
+    @Bean
+    @ConditionalOnMissingBean(GlobalExceptionHandler.class)
+    public GlobalExceptionHandler globalExceptionHandler() {
+        return new GlobalExceptionHandler();
+    }
+
     // ========== 拦截器相关 ==========
 
     @Bean
-    @ConditionalOnClass(name = "cn.iocoder.mall.system.rpc.api.SystemLogRPC")
+    @ConditionalOnClass(name = {"cn.iocoder.mall.system.rpc.api.systemlog.SystemLogRPC", "org.apache.dubbo.config.annotation.Reference"})
     @ConditionalOnMissingBean(AccessLogInterceptor.class)
     public AccessLogInterceptor accessLogInterceptor() {
         return new AccessLogInterceptor();

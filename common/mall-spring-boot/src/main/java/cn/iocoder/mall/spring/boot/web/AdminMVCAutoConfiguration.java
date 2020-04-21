@@ -28,12 +28,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class AdminMVCAutoConfiguration implements WebMvcConfigurer {
 
     @Bean
-//    @ConditionalOnMissingBean(AccessLogInterceptor.class)
-    public AccessLogInterceptor adminAccessLogInterceptor() {
-        return new AccessLogInterceptor();
-    }
-
-    @Bean
     @ConditionalOnMissingBean(AdminSecurityInterceptor.class)
     public AdminSecurityInterceptor adminSecurityInterceptor() {
         return new AdminSecurityInterceptor();
@@ -43,18 +37,6 @@ public class AdminMVCAutoConfiguration implements WebMvcConfigurer {
     @ConditionalOnMissingBean(AdminDemoInterceptor.class)
     public AdminDemoInterceptor adminDemoInterceptor() {
         return new AdminDemoInterceptor();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(GlobalResponseBodyHandler.class)
-    public GlobalResponseBodyHandler globalReturnValueHandler() {
-        return new GlobalResponseBodyHandler();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(GlobalExceptionHandler.class)
-    public GlobalExceptionHandler globalExceptionHandler() {
-        return new GlobalExceptionHandler();
     }
 
     @Override

@@ -15,6 +15,8 @@ dubbo:
     filter: -exception
     SystemLogRPC:
       version: 1.0.0
+    OAuth2RPC:
+      version: 1.0.0
   # Dubbo 服务消费者的配置
   consumer:
     SystemLogRPC: # 用于 AccessLogInterceptor 等拦截器，记录 HTTP API 请求的访问日志

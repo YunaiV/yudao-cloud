@@ -1,6 +1,6 @@
 package cn.iocoder.mall.system.biz.dao.system;
 
-import cn.iocoder.mall.system.biz.dataobject.system.AccessLogDO;
+import cn.iocoder.mall.system.biz.dataobject.systemlog.AccessLogDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 

@@ -6,14 +6,13 @@ import cn.iocoder.common.framework.util.ValidationUtil;
 import cn.iocoder.mall.system.biz.dao.oauth2.OAuth2MobileCodeMapper;
 import cn.iocoder.mall.system.biz.dataobject.oauth2.OAuth2MobileCodeDO;
 import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2MobileCodeSendDTO;
-import cn.iocoder.mall.system.biz.service.oauth2.OAuth2MobileCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
-import static cn.iocoder.mall.system.biz.constant.SystemErrorCodeEnum.*;
+import static cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum.*;
 
 @Service
 public class OAuth2MobileCodeServiceImpl implements OAuth2MobileCodeService {

@@ -12,9 +12,6 @@ import cn.iocoder.mall.system.api.dto.systemlog.ExceptionLogAddDTO;
  */
 public interface SystemLogService {
 
-    void addAccessLog(AccessLogAddDTO accessLogAddDTO);
-
-    void addExceptionLog(ExceptionLogAddDTO exceptionLogAddDTO);
-
     AccessLogPageBO getAccessLogPage(AccessLogPageDTO accessLogPageDTO);
+
 }

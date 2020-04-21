@@ -5,6 +5,7 @@ package cn.iocoder.mall.system.biz.enums;
  *
  * 管理员系统，使用 1-002-000-000 段
  */
+@Deprecated
 public enum AdminErrorCodeEnum {
 
     // ========== OAUTH2 模块 ==========

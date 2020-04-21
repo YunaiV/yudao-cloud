@@ -1,7 +1,7 @@
 package cn.iocoder.mall.system.biz.config;
 
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
-import cn.iocoder.mall.system.biz.constant.SystemErrorCodeEnum;
+import cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;

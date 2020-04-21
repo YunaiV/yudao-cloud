@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.biz.dto.system;
+package cn.iocoder.mall.system.rpc.request.systemlog;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -7,11 +7,11 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
- * 访问日志添加 DTO
+ * 访问日志添加 Request
  */
 @Data
 @Accessors(chain = true)
-public class AccessLogAddDTO {
+public class AccessLogAddRequest {
 
     /**
      * 用户编号 - 空
@@ -19,13 +19,13 @@ public class AccessLogAddDTO {
     public static final Integer ACCOUNT_ID_NULL = 0;
 
     /**
+     * 链路追踪编号
+     */
+    private String traceId;
+    /**
      * 账号编号
      */
     private Integer accountId;
-    /**
-     * 链路编号
-     */
-    private String traceId;
     @NotNull(message = "应用名不能为空")
     private String applicationName;
     @NotNull(message = "访问地址不能为空")

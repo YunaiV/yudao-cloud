@@ -17,6 +17,7 @@
         <module>common-dependencies</module>
         <module>mall-spring-boot-starter-swagger</module>
         <module>mall-spring-boot-starter-web</module>
+        <module>mall-spring-boot-starter-security</module>
     </modules>
 
     <dependencyManagement>

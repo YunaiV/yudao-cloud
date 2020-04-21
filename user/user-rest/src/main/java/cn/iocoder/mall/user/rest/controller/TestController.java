@@ -1,7 +1,7 @@
 package cn.iocoder.mall.user.rest.controller;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.web.constant.CommonMallConstants;
+import cn.iocoder.mall.web.core.constant.CommonMallConstants;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

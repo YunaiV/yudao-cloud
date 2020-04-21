@@ -4,6 +4,7 @@ import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.common.framework.vo.CommonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -98,6 +99,11 @@ public class ServiceExceptionUtil {
     public static ServiceException exception(Integer code, String messagePattern, Object... params) {
         String message = doFormat(code, messagePattern, params);
         return new ServiceException(code, message);
+    }
+
+    public static ServiceException exception(CommonResult result) {
+        Assert.isTrue(result.isError(), "结果必须是错误的");
+        return new ServiceException(result.getCode(), result.getMessage());
     }
 
     /**

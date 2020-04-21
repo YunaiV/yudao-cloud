@@ -53,13 +53,6 @@ public class UserMVCAutoConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(userSecurityInterceptor()).addPathPatterns(MallConstants.ROOT_PATH_USER + "/**");
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public FilterRegistrationBean<CorsFilter> corsFilter() {
-        FilterRegistrationBean<CorsFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new CorsFilter());
-        registrationBean.addUrlPatterns("/*");
-        return registrationBean;
-    }
+
 
 }

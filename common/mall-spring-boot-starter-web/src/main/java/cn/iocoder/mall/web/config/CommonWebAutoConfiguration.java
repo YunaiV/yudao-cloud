@@ -1,5 +1,6 @@
 package cn.iocoder.mall.web.config;
 
+import cn.iocoder.common.framework.servlet.CorsFilter;
 import cn.iocoder.mall.web.core.constant.CommonMallConstants;
 import cn.iocoder.mall.web.core.handler.GlobalExceptionHandler;
 import cn.iocoder.mall.web.core.handler.GlobalResponseBodyHandler;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -47,14 +49,23 @@ public class CommonWebAutoConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         try {
-            AccessLogInterceptor accessLogInterceptor = this.accessLogInterceptor();
-            if (accessLogInterceptor != null) {
-                registry.addInterceptor(accessLogInterceptor)
-                        .addPathPatterns(CommonMallConstants.ROOT_PATH_ADMIN + "/**", CommonMallConstants.ROOT_PATH_USER + "/**");
-            }
+            registry.addInterceptor(this.accessLogInterceptor())
+                    .addPathPatterns(CommonMallConstants.ROOT_PATH_ADMIN + "/**", CommonMallConstants.ROOT_PATH_USER + "/**");
+            logger.info("[addInterceptors][加载 AccessLogInterceptor 拦截器完成]");
         } catch (NoSuchBeanDefinitionException e) {
             logger.warn("[addInterceptors][无法获取 AccessLogInterceptor 拦截器，因此不启动 AccessLog 的记录]");
         }
+    }
+
+    // ========== 过滤器相关 ==========
+
+    @Bean
+    @ConditionalOnMissingBean
+    public FilterRegistrationBean<CorsFilter> corsFilter() {
+        FilterRegistrationBean<CorsFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new CorsFilter());
+        registrationBean.addUrlPatterns("/*");
+        return registrationBean;
     }
 
 }

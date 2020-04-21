@@ -1,4 +1,4 @@
-package cn.iocoder.mall.security.core.account;
+package cn.iocoder.mall.security.core.interceptor;
 
 import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
@@ -10,6 +10,7 @@ import cn.iocoder.mall.web.core.util.CommonWebUtil;
 import org.apache.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,8 +25,12 @@ public class AccountAuthInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        // 执行认证
+        // 获得访问令牌
         String accessToken = HttpUtil.obtainAuthorization(request);
+        if (StringUtils.hasText(accessToken)) { // 如果未传递，则不进行认证
+            return true;
+        }
+        // 执行认证
         OAuth2AccessTokenAuthenticateRequest oauth2AccessTokenAuthenticateRequest = new OAuth2AccessTokenAuthenticateRequest()
                 .setAccessToken(accessToken).setIp(HttpUtil.getIp(request));
         CommonResult<OAuth2AccessTokenResponse> oauth2AccessTokenResponseResult = oauth2RPC.authenticate(oauth2AccessTokenAuthenticateRequest);

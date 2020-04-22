@@ -9,26 +9,15 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>system-rpc-api</artifactId>
+    <artifactId>system-biz-api</artifactId>
 
     <dependencies>
         <!-- Mall 相关 -->
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
-            <artifactId>system-biz-api</artifactId>
+            <artifactId>common-framework</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
-        <!-- 工具类相关 -->
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-
     </dependencies>
 
 </project>

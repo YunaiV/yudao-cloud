@@ -22,6 +22,7 @@
         <module>system-rpc</module>
         <module>system-rest</module>
         <module>system-biz</module>
+        <module>system-biz-api</module>
     </modules>
 
     <dependencyManagement>

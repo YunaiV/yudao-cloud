@@ -53,7 +53,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 
     @Override
     @Transactional
-    public OAuth2AccessTokenBO  authenticate(OAuth2UsernameAuthenticateDTO authenticateDTO) {
+    public OAuth2AccessTokenBO authenticate(OAuth2UsernameAuthenticateDTO authenticateDTO) {
         // 获得账号
         AccountBO accountBO = accountService.getByUsername(authenticateDTO.getUsername());
         if (accountBO == null) {
@@ -101,13 +101,13 @@ public class OAuth2ServiceImpl implements OAuth2Service {
     public OAuth2AccessTokenBO authenticate(OAuth2AccessTokenAuthenticateDTO authenticateDTO) {
         OAuth2AccessTokenDO oauth2AccessTokenDO = oauth2AccessTokenMapper.selectById(authenticateDTO.getAccessToken());
         if (oauth2AccessTokenDO == null) { // 不存在
-            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.OAUTH2_INVALID_TOKEN_NOT_FOUND.getCode());
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.OAUTH2_ACCESS_TOKEN_NOT_FOUND.getCode());
         }
         if (oauth2AccessTokenDO.getExpiresTime().getTime() < System.currentTimeMillis()) { // 已过期
-            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.OAUTH2_INVALID_TOKEN_EXPIRED.getCode());
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.OAUTH2_ACCESS_TOKEN_TOKEN_EXPIRED.getCode());
         }
         if (!oauth2AccessTokenDO.getValid()) { // 无效
-            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.OAUTH2_INVALID_TOKEN_INVALID.getCode());
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.OAUTH2_ACCESS_TOKEN_INVALID.getCode());
         }
         // 转换返回
         return OAuth2Convert.INSTANCE.convert(oauth2AccessTokenDO);

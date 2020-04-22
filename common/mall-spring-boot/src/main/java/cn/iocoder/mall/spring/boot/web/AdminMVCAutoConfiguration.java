@@ -46,13 +46,4 @@ public class AdminMVCAutoConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(adminDemoInterceptor()).addPathPatterns(MallConstants.ROOT_PATH_ADMIN + "/**");
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public FilterRegistrationBean<CorsFilter> corsFilter() {
-        FilterRegistrationBean<CorsFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new CorsFilter());
-        registrationBean.addUrlPatterns("/*");
-        return registrationBean;
-    }
-
 }

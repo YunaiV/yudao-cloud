@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.rpc.request.oauth2;
+package cn.iocoder.mall.system.biz.dto.authorization;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @Accessors(chain = true)
-public class OAuth2AccessTokenAuthenticateRequest {
+public class AuthorizationCheckPermissionsDTO {
 
     @NotNull(message = "访问令牌不能为空")
     private String accessToken;

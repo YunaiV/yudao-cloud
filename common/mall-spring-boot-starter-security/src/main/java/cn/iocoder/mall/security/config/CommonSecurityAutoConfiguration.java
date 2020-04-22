@@ -6,7 +6,6 @@ import cn.iocoder.mall.web.core.constant.CommonMallConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,16 +21,22 @@ public class CommonSecurityAutoConfiguration implements WebMvcConfigurer {
 
     // ========== 拦截器相关 ==========
     @Bean
-    @ConditionalOnMissingBean(AccountAuthInterceptor.class)
-    public AccountAuthInterceptor accountAuthInterceptor() {
-        return new AccountAuthInterceptor();
+    public AccountAuthInterceptor adminAccountAuthInterceptor() {
+        return new AccountAuthInterceptor(true);
+    }
+
+    @Bean
+    public AccountAuthInterceptor userAccountAuthInterceptor() {
+        return new AccountAuthInterceptor(false);
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // AccountAuthInterceptor 拦截器
-        registry.addInterceptor(this.accountAuthInterceptor())
-                .addPathPatterns(CommonMallConstants.ROOT_PATH_ADMIN + "/**", CommonMallConstants.ROOT_PATH_USER + "/**");
+        registry.addInterceptor(this.userAccountAuthInterceptor())
+                .addPathPatterns(CommonMallConstants.ROOT_PATH_USER + "/**");
+        registry.addInterceptor(this.adminAccountAuthInterceptor())
+                .addPathPatterns(CommonMallConstants.ROOT_PATH_ADMIN + "/**");
         logger.info("[addInterceptors][加载 AccountAuthInterceptor 拦截器完成]");
     }
 

@@ -12,6 +12,10 @@ public class CollectionUtil {
         return collection == null || collection.isEmpty();
     }
 
+    public static boolean isEmpty(Object[] arrays) {
+        return arrays == null || arrays.length == 0;
+    }
+
     public static <T> Set<T> asSet(T... objs) {
         return new HashSet<>(Arrays.asList(objs));
     }

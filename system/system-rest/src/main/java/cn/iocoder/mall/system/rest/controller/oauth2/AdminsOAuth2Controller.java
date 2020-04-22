@@ -3,6 +3,7 @@ package cn.iocoder.mall.system.rest.controller.oauth2;
 import cn.iocoder.common.framework.constant.MallConstants;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.security.core.annotation.RequiresNone;
 import cn.iocoder.mall.system.biz.bo.admin.AdminBO;
 import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AccessTokenBO;
 import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2UsernameAuthenticateDTO;
@@ -31,7 +32,8 @@ public class AdminsOAuth2Controller {
     private AdminService adminService;
 
     @PostMapping("/username-authenticate")
-    @ApiOperation("用户名认证")
+    @ApiOperation("用户名认证（登陆）")
+    @RequiresNone
     public CommonResult<AdminsOAuth2AuthenticateResponse> usernameAuthenticate(AdminsOAuth2UsernameAuthenticateRequest request) {
         // 执行认证
         OAuth2UsernameAuthenticateDTO authenticateDTO = AdminsOAuth2Convert.INSTANCE.convert(request);

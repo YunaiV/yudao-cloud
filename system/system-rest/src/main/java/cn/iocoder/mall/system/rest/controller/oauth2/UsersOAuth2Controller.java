@@ -3,6 +3,7 @@ package cn.iocoder.mall.system.rest.controller.oauth2;
 import cn.iocoder.common.framework.constant.MallConstants;
 import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.security.core.annotation.RequiresNone;
 import cn.iocoder.mall.system.biz.bo.user.UserAuthenticateBO;
 import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2MobileCodeAuthenticateDTO;
 import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2MobileCodeSendDTO;
@@ -37,6 +38,7 @@ public class UsersOAuth2Controller {
 
     @PostMapping("/mobile-code-authenticate")
     @ApiOperation("手机验证码认证")
+    @RequiresNone
     public CommonResult<UsersOAuth2AuthenticateResponse> mobileCodeAuthenticate(UsersOAuth2MobileCodeAuthenticateRequest request,
             HttpServletRequest httpRequest) {
         // 执行认证
@@ -52,6 +54,7 @@ public class UsersOAuth2Controller {
     @PostMapping("/send-mobile-code")
     @ApiOperation("发送手机验证码")
     @ApiImplicitParam(name = "mobile", value = "手机号", required = true, example = "15601691234")
+    @RequiresNone
     public CommonResult<Boolean> sendMobileCode(@RequestParam("mobile") String mobile,
                                                 HttpServletRequest request) {
         // 执行发送验证码

@@ -14,6 +14,6 @@ public interface OAuth2Convert {
 
     OAuth2AccessTokenAuthenticateDTO convert(OAuth2AccessTokenAuthenticateRequest authenticateRequest);
 
-    OAuth2AccessTokenResponse convert(OAuth2AccessTokenBO accessTokenBO);
+    OAuth2AccessTokenResponse convert(OAuth2AccessTokenBO bean);
 
 }

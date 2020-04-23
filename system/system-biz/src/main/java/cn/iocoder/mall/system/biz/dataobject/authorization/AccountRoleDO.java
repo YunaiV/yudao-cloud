@@ -4,14 +4,16 @@ import cn.iocoder.common.framework.dataobject.DeletableDO;
 import cn.iocoder.mall.system.biz.dataobject.account.AccountDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * {@link AccountDO} 和 {@link RoleDO} 的关联表
  */
-@TableName("admin_role")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
+@TableName("account_role")
 public class AccountRoleDO extends DeletableDO {
 
     /**

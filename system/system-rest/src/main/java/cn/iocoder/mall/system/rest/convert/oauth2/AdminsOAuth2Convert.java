@@ -14,7 +14,7 @@ public interface AdminsOAuth2Convert {
 
     AdminsOAuth2Convert INSTANCE = Mappers.getMapper(AdminsOAuth2Convert.class);
 
-    OAuth2UsernameAuthenticateDTO convert(AdminsOAuth2UsernameAuthenticateRequest request);
+    OAuth2UsernameAuthenticateDTO convert(AdminsOAuth2UsernameAuthenticateRequest bean);
 
     @Mapping(source = "adminBO", target = "admin")
     @Mapping(source = "accessTokenBO.id", target = "token.accessToken")

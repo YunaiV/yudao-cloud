@@ -19,6 +19,6 @@ public @interface RequiresPermissions {
      *
      * @return 权限标识数组
      */
-    String[] value();
+    String[] value() default {};
 
 }

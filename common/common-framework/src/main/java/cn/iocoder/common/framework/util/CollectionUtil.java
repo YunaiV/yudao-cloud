@@ -28,12 +28,17 @@ public class CollectionUtil {
         return from.stream().map(func).collect(Collectors.toSet());
     }
 
+    public static <T, K> Map<K, T> convertMap(List<T> from, Function<T, K> keyFunc) {
+        return from.stream().collect(Collectors.toMap(keyFunc, item -> item));
+    }
+
     public static <T, K, V> Map<K, V> convertMap(List<T> from, Function<T, K> keyFunc, Function<T, V> valueFunc) {
         return from.stream().collect(Collectors.toMap(keyFunc, valueFunc));
     }
 
-    public static <T, K> Map<K, T> convertMap(List<T> from, Function<T, K> keyFunc) {
-        return from.stream().collect(Collectors.toMap(keyFunc, item -> item));
+    public static <T, K, V> Map<K, List<V>> convertMultiMap(List<T> from, Function<T, K> keyFunc, Function<T, V> valueFunc) {
+        return from.stream().collect(Collectors.groupingBy(keyFunc,
+                Collectors.mapping(valueFunc, Collectors.toList())));
     }
 
     public static boolean containsAny(Collection<?> source, Collection<?> candidates) {

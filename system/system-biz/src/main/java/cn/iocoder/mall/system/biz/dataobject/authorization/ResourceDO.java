@@ -1,6 +1,7 @@
 package cn.iocoder.mall.system.biz.dataobject.authorization;
 
 import cn.iocoder.common.framework.dataobject.DeletableDO;
+import cn.iocoder.mall.system.biz.enums.authorization.ResourceTypeEnum;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -37,7 +38,7 @@ public class ResourceDO extends DeletableDO {
     /**
      * 资源类型
      *
-     * 关联 {@link Resource}
+     * 关联 {@link ResourceTypeEnum}
      */
     private Integer type;
     /**
@@ -51,23 +52,16 @@ public class ResourceDO extends DeletableDO {
      */
     private Integer pid;
     /**
+     * 前端路由
      *
-     *
-     * 目前当且仅当资源类型为【菜单】时，才会生效，即 handler 配置为界面 URL ，或者前端组件名，或者前端的路由。
+     * 目前当且仅当资源类型为 {@link ResourceTypeEnum#MENU} 时，才会生效
      */
-    private String handler;
+    private String route;
     /**
-     * 图标
+     * 菜单图标
      *
-     * 目前当且仅当资源类型为【菜单】时，才会生效
+     * 目前当且仅当资源类型为 {@link ResourceTypeEnum#MENU} 时，才会生效
      */
     private String icon;
-    /**
-     * 权限标识数组，使用逗号分隔。
-     *
-     * 例如：system:admin:add
-     * 推荐格式为 ${系统}:${模块}:${操作}
-     */
-    private String permissions;
 
 }

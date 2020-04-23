@@ -13,9 +13,9 @@ public interface UsersOAuth2Convert {
 
     UsersOAuth2Convert INSTANCE = Mappers.getMapper(UsersOAuth2Convert.class);
 
-    OAuth2MobileCodeAuthenticateDTO convert(UsersOAuth2MobileCodeAuthenticateRequest request);
+    OAuth2MobileCodeAuthenticateDTO convert(UsersOAuth2MobileCodeAuthenticateRequest bean);
 
     @Mapping(source = "token.id", target = "token.accessToken")
-    UsersOAuth2AuthenticateResponse convert(UserAuthenticateBO userAuthenticateBO);
+    UsersOAuth2AuthenticateResponse convert(UserAuthenticateBO bean);
 
 }

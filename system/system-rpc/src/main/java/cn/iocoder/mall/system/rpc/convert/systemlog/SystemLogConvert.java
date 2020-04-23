@@ -12,8 +12,8 @@ public interface SystemLogConvert {
 
     SystemLogConvert INSTANCE = Mappers.getMapper(SystemLogConvert.class);
 
-    AccessLogAddDTO convert(AccessLogAddRequest accessLogAddRequest);
+    AccessLogAddDTO convert(AccessLogAddRequest bean);
 
-    ExceptionLogAddDTO convert(ExceptionLogAddRequest exceptionLogAddRequest);
+    ExceptionLogAddDTO convert(ExceptionLogAddRequest bean);
 
 }

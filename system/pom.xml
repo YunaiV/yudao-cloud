@@ -15,7 +15,7 @@
 
     <modules>
         <module>system-application</module>
-        <module>system-sdk</module>
+<!--        <module>system-sdk</module>-->
 <!--        <module>system-service-api</module>-->
 <!--        <module>system-service-impl</module>-->
         <module>system-rpc-api</module>

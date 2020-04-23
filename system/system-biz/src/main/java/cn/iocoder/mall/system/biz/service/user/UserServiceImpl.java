@@ -1,5 +1,6 @@
 package cn.iocoder.mall.system.biz.service.user;
 
+import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AccessTokenBO;
 import cn.iocoder.mall.system.biz.bo.user.UserAuthenticateBO;
 import cn.iocoder.mall.system.biz.bo.user.UserBO;
@@ -36,9 +37,16 @@ public class UserServiceImpl implements UserService {
         return UserConvert.INSTANCE.convert(userBO, accessTokenBO);
     }
 
+    @Override
+    public UserBO getUserByAccountId(Integer accountId) {
+        UserDO userDO = userMapper.selectById(accountId);
+        return UserConvert.INSTANCE.convert(userDO);
+    }
+
     private UserDO creatUser(Integer accountId) {
         UserDO user = new UserDO();
         user.setAccountId(accountId);
+        user.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
         userMapper.insert(user);
         return user;
     }

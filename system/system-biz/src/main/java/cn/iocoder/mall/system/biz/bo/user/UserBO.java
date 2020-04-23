@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * TODO 注释
+ * User 模块 - User 信息 BO
  */
 @Data
 @Accessors(chain = true)

@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * 鉴权模块 - 校验账号是否有权限 Request
+ * 授权模块 - 校验账号是否有权限 Request
  */
 @Data
 @Accessors(chain = true)

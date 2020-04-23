@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iocoder.mall.system.biz.dao.authorization.AccountRoleMapper">
+
+    <insert id="insertList">
+        INSERT INTO account_role (
+          account_id, role_id, create_time, deleted
+        ) VALUES
+        <foreach collection="accountRoleDOs" item="accountRole" separator=",">
+            (#{accountRole.accountId}, #{accountRole.roleId}, #{accountRole.createTime}, #{accountRole.deleted})
+        </foreach>
+    </insert>
+
+</mapper>

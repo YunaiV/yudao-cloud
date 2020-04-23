@@ -19,8 +19,6 @@ public interface RoleService {
      */
     List<RoleBO> getRoleList();
 
-    List<RoleBO> getRoleList(Collection<Integer> ids);
-
     RoleBO addRole(Integer adminId, RoleAddDTO roleAddDTO);
 
     Boolean updateRole(Integer adminId, RoleUpdateDTO roleUpdateDTO);

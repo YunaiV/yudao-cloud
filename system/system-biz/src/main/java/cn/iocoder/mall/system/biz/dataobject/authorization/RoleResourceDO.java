@@ -3,14 +3,16 @@ package cn.iocoder.mall.system.biz.dataobject.authorization;
 import cn.iocoder.common.framework.dataobject.DeletableDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * {@link RoleDO} 和 {@link ResourceDO} 的关联表
  */
-@TableName("role_resource")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
+@TableName("role_resource")
 public class RoleResourceDO extends DeletableDO {
 
     /**

@@ -17,9 +17,21 @@ dubbo:
       version: 1.0.0
     OAuth2RPC:
       version: 1.0.0
+    AuthorizationRPC:
+      version: 1.0.0
+    AdminRPC:
+      version: 1.0.0
+    UserRPC:
+      version: 1.0.0
   # Dubbo 服务消费者的配置
   consumer:
     SystemLogRPC: # 用于 AccessLogInterceptor 等拦截器，记录 HTTP API 请求的访问日志
       version: 1.0.0
-    OAuth2RPC:
+    OAuth2RPC: # 用于 AccountAuthInterceptor 拦截器，执行认证
+      version: 1.0.0
+    AuthorizationRPC: # 用于 AccountAuthInterceptor 拦截器，执行鉴权（权限验证）
+      version: 1.0.0
+    AdminRPC:
+      version: 1.0.0
+    UserRPC:
       version: 1.0.0

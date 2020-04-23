@@ -14,9 +14,5 @@ public class AdminSecurityContext {
      * 管理员编号
      */
     private Integer adminId;
-    /**
-     * 管理员账号
-     */
-    private String username;
 
 }

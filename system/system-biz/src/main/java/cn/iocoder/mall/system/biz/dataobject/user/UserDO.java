@@ -1,6 +1,6 @@
 package cn.iocoder.mall.system.biz.dataobject.user;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.common.framework.dataobject.DeletableDO;
 import cn.iocoder.mall.system.biz.dataobject.account.AccountDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class UserDO extends BaseDO {
+public class UserDO extends DeletableDO {
 
     /**
      * 用户编号

@@ -49,28 +49,6 @@ public class AdminServiceImpl implements AdminService {
     private RoleServiceImpl roleService;
 
     @Override
-    public AdminAuthenticationBO authentication(AdminAuthenticationDTO adminAuthenticationDTO) {
-        AdminDO admin = adminMapper.selectByUsername(adminAuthenticationDTO.getUsername());
-        // 账号不存在
-        if (admin == null) {
-            throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.ADMIN_USERNAME_NOT_REGISTERED.getCode());
-        }
-        // 密码不正确
-        if (!encodePassword(adminAuthenticationDTO.getPassword()).equals(admin.getPassword())) {
-            throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.ADMIN_PASSWORD_ERROR.getCode());
-        }
-        // 账号被禁用
-        if (CommonStatusEnum.DISABLE.getValue().equals(admin.getStatus())) {
-            throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.ADMIN_IS_DISABLE.getCode());
-        }
-        // 创建 accessToken
-        OAuth2AccessTokenBO accessTokenBO = oauth2Service.createToken(new OAuth2CreateTokenDTO().setUserId(admin.getId())
-            .setUserType(UserTypeEnum.ADMIN.getValue()));
-        // 转换返回
-        return AdminConvert.INSTANCE.convert2(admin).setToken(accessTokenBO);
-    }
-
-    @Override
     public PageResult<AdminBO> getAdminPage(AdminPageDTO adminPageDTO) {
         IPage<AdminDO> page = adminMapper.selectPage(adminPageDTO);
         return AdminConvert.INSTANCE.convert(page);
@@ -225,31 +203,6 @@ public class AdminServiceImpl implements AdminService {
         // TODO 插入操作日志
         // 返回成功
         return true;
-    }
-
-    @Override
-    public AdminAuthorizationBO checkPermissions(Integer adminId, List<String> permissions) {
-        // 查询管理员拥有的角色关联数据
-        List<AdminRoleDO> adminRoleList = adminRoleMapper.selectByAdminId(adminId);
-        Set<Integer> adminRoleIds = CollectionUtil.convertSet(adminRoleList, AdminRoleDO::getRoleId);
-        // 授权校验
-        if (!CollectionUtil.isEmpty(permissions)) {
-            Map<String, List<Integer>> permissionRoleMap = roleService.getPermissionRoleMap(permissions);
-            for (Map.Entry<String, List<Integer>> entry : permissionRoleMap.entrySet()) {
-                if (!CollectionUtil.containsAny(entry.getValue(), adminRoleIds)) { // 所以有任一不满足，就验证失败，抛出异常
-                    throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.ADMIN_INVALID_PERMISSION.getCode());
-                }
-            }
-        }
-        // 获得用户
-        AdminDO admin = adminMapper.selectById(adminId);
-        // 返回成功
-        return new AdminAuthorizationBO().setId(adminId).setUsername(admin.getUsername())
-                .setRoleIds(adminRoleIds);
-    }
-
-    private String encodePassword(String password) {
-        return DigestUtils.md5DigestAsHex(password.getBytes());
     }
 
 }

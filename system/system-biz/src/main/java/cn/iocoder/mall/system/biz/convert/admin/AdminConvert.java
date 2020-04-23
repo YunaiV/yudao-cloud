@@ -10,6 +10,6 @@ public interface AdminConvert {
 
     AdminConvert INSTANCE = Mappers.getMapper(AdminConvert.class);
 
-    AdminBO convert(AdminDO adminDO);
+    AdminBO convert(AdminDO bean);
 
 }

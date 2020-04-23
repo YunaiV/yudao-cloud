@@ -7,6 +7,8 @@ import cn.iocoder.mall.system.biz.bo.admin.AdminBO;
  */
 public interface AdminService {
 
-    AdminBO get(Integer id);
+    AdminBO getAdmin(Integer id);
+
+    AdminBO getAdminByAccountId(Integer accountId);
 
 }

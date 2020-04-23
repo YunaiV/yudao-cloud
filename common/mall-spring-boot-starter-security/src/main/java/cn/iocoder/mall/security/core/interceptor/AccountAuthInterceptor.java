@@ -8,7 +8,9 @@ import cn.iocoder.mall.security.core.annotation.RequiresAuthenticate;
 import cn.iocoder.mall.security.core.annotation.RequiresNone;
 import cn.iocoder.mall.security.core.annotation.RequiresPermissions;
 import cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum;
+import cn.iocoder.mall.system.rpc.api.authorization.AuthorizationRPC;
 import cn.iocoder.mall.system.rpc.api.oauth2.OAuth2RPC;
+import cn.iocoder.mall.system.rpc.request.authorization.AuthorizationCheckPermissionsRequest;
 import cn.iocoder.mall.system.rpc.request.oauth2.OAuth2AccessTokenAuthenticateRequest;
 import cn.iocoder.mall.system.rpc.response.oauth2.OAuth2AccessTokenResponse;
 import cn.iocoder.mall.web.core.util.CommonWebUtil;
@@ -21,6 +23,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 
 public class AccountAuthInterceptor extends HandlerInterceptorAdapter {
 
@@ -28,7 +31,8 @@ public class AccountAuthInterceptor extends HandlerInterceptorAdapter {
 
     @Reference(validation = "true", version = "${dubbo.consumer.OAuth2RPC.version}")
     private OAuth2RPC oauth2RPC;
-
+    @Reference(validation = "true", version = "${dubbo.consumer.AuthorizationRPC.version}")
+    private AuthorizationRPC authorizationRPC;
 
     /**
      * 是否默认要求认证
@@ -51,7 +55,7 @@ public class AccountAuthInterceptor extends HandlerInterceptorAdapter {
         // 判断是否需要认证
         this.checkAuthenticate(handlerMethod, accountId);
         // 判断是否需要权限
-
+        this.checkPermission(handlerMethod, accountId);
         return true;
     }
 
@@ -63,12 +67,12 @@ public class AccountAuthInterceptor extends HandlerInterceptorAdapter {
         // 执行认证
         OAuth2AccessTokenAuthenticateRequest oauth2AccessTokenAuthenticateRequest = new OAuth2AccessTokenAuthenticateRequest()
                 .setAccessToken(accessToken).setIp(HttpUtil.getIp(request));
-        CommonResult<OAuth2AccessTokenResponse> oauth2AccessTokenResponseResult = oauth2RPC.authenticate(oauth2AccessTokenAuthenticateRequest);
-        if (oauth2AccessTokenResponseResult.isError()) { // TODO 有一个问题点，假设 token 认证失败，但是该 url 是无需认证的，是不是一样能够执行过去？
-            throw ServiceExceptionUtil.exception(oauth2AccessTokenResponseResult);
+        CommonResult<OAuth2AccessTokenResponse> oauth2AccessTokenResult = oauth2RPC.authenticate(oauth2AccessTokenAuthenticateRequest);
+        if (oauth2AccessTokenResult.isError()) { // TODO 有一个问题点，假设 token 认证失败，但是该 url 是无需认证的，是不是一样能够执行过去？
+            throw ServiceExceptionUtil.exception(oauth2AccessTokenResult);
         }
         // 设置账号编号
-        Integer accountId = oauth2AccessTokenResponseResult.getData().getAccountId();
+        Integer accountId = oauth2AccessTokenResult.getData().getAccountId();
         CommonWebUtil.setAccountId(request, accountId);
         return accountId;
     }
@@ -96,7 +100,12 @@ public class AccountAuthInterceptor extends HandlerInterceptorAdapter {
             return;
         }
         // 权限验证
-
+        AuthorizationCheckPermissionsRequest authorizationCheckPermissionsRequest = new AuthorizationCheckPermissionsRequest()
+                .setAccountId(accountId).setPermissions(Arrays.asList(permissions));
+        CommonResult<Boolean> authorizationCheckPermissionsResult = authorizationRPC.checkPermissions(authorizationCheckPermissionsRequest);
+        if (authorizationCheckPermissionsResult.isError()) { // TODO 有一个问题点，假设 token 认证失败，但是该 url 是无需认证的，是不是一样能够执行过去？
+            throw ServiceExceptionUtil.exception(authorizationCheckPermissionsResult);
+        }
     }
 
 }

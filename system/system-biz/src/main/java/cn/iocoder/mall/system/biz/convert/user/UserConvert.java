@@ -17,6 +17,6 @@ public interface UserConvert {
     @Mapping(source = "accessTokenBO", target = "token")
     UserAuthenticateBO convert(UserBO userBO, OAuth2AccessTokenBO accessTokenBO);
 
-    UserBO convert(UserDO userDO);
+    UserBO convert(UserDO bean);
 
 }

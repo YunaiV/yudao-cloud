@@ -22,11 +22,11 @@ public interface AdminsSmsConvert {
     AdminsSmsConvert INSTANCE = Mappers.getMapper(AdminsSmsConvert.class);
 
     @Mappings({})
-    AddSignDTO convert(AddSignRequest addSignRequest);
+    AddSignDTO convert(AddSignRequest bean);
 
     @Mappings({})
-    UpdateSignDTO convert(UpdateSignRequest updateSignRequest);
+    UpdateSignDTO convert(UpdateSignRequest bean);
 
     @Mappings({})
-    ListSmsTemplateDTO convert(ListSmsTemplateRequest listSmsTemplateRequest);
+    ListSmsTemplateDTO convert(ListSmsTemplateRequest bean);
 }

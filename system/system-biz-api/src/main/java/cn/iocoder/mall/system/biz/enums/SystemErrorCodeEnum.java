@@ -38,9 +38,7 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
 //    ADMIN_DELETE_ONLY_DISABLE(1002002004, "只有关闭的账号才可以删除"),
 //    ADMIN_ADMIN_STATUS_CAN_NOT_UPDATE(1002002005, "管理员的账号状态不允许变更"),
 //    ADMIN_ASSIGN_ROLE_NOT_EXISTS(1002002006, "分配员工角色时，有角色不存在"),
-//    ADMIN_INVALID_PERMISSION(1002002007, "没有该操作权限"),
 //    ADMIN_ADMIN_CAN_NOT_UPDATE(1002002008, "管理员的账号不允许变更"),
-//    ADMIN_DEMO_CAN_NOT_WRITE(1002002009, "演示账号，暂不允许写操作。欢迎加入我们的交流群：http://t.cn/EKEr5WE"),
 
     // ========== 资源模块 1002003000 ==========
 //    RESOURCE_NAME_DUPLICATE(1002003000, "已经存在该名字的资源"),
@@ -72,7 +70,14 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
 //    DEPT_NOT_EXITS(1002007003, "当前部门不存在"),
 //    DEPT_EXITS_CHILDREN(1002007004, "当前部门存在子部门"),
 //    DEPT_PARENT_NOT_LEGAL(1002007005, "父级部门不合法"),
+
+
+    // ========== 授权模块 1002008000 ==========
+    AUTHORIZATION_PERMISSION_DENY(1002008001, "没有该操作权限"),
+    AUTHORIZATION_DEMO_PERMISSION_DENY(1002008002, "演示账号，暂不允许写操作。欢迎加入我们的交流群：http://t.cn/EKEr5WE"),
+
     ;
+
 
     private final int code;
     private final String message;

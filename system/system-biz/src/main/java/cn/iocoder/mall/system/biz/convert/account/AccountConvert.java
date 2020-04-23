@@ -11,8 +11,8 @@ public interface AccountConvert {
 
     AccountConvert INSTANCE = Mappers.getMapper(AccountConvert.class);
 
-    AccountBO convert(AccountDO accountDO);
+    AccountBO convert(AccountDO bean);
 
-    AccountDO convert(AccountCreateDTO accountCreateDTO);
+    AccountDO convert(AccountCreateDTO bean);
 
 }

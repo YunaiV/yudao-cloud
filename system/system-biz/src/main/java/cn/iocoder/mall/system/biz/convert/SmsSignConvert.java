@@ -21,9 +21,9 @@ public interface SmsSignConvert {
     SmsSignConvert INSTANCE = Mappers.getMapper(SmsSignConvert.class);
 
     @Mappings({})
-    SmsSignBO convert(SmsSignDO smsSignDO);
+    SmsSignBO convert(SmsSignDO bean);
 
     @Mappings({})
-    List<ListSmsSignBO> convert(List<SmsSignDO> smsSignDOList);
+    List<ListSmsSignBO> convert(List<SmsSignDO> beans);
 
 }

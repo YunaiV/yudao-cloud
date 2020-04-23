@@ -10,6 +10,6 @@ public interface AdminsAdminConvert {
 
     AdminsAdminConvert INSTANCE = Mappers.getMapper(AdminsAdminConvert.class);
 
-    AccountUsernameAuthorizeBO convert(AdminsOAuth2UsernameAuthenticateRequest request);
+    AccountUsernameAuthorizeBO convert(AdminsOAuth2UsernameAuthenticateRequest bean);
 
 }

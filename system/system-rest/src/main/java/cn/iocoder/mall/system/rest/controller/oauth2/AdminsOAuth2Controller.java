@@ -39,7 +39,7 @@ public class AdminsOAuth2Controller {
         OAuth2UsernameAuthenticateDTO authenticateDTO = AdminsOAuth2Convert.INSTANCE.convert(request);
         OAuth2AccessTokenBO accessTokenBO = oauth2Service.authenticate(authenticateDTO);
         // 获得 Admin 信息
-        AdminBO adminBO = adminService.get(accessTokenBO.getAccountId());
+        AdminBO adminBO = adminService.getAdmin(accessTokenBO.getAccountId());
         if (adminBO == null) {
             throw ServiceExceptionUtil.exception(ADMIN_NOT_FOUND);
         }

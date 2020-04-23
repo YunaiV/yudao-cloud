@@ -10,6 +10,6 @@ public interface OAuth2Convert {
 
     OAuth2Convert INSTANCE = Mappers.getMapper(OAuth2Convert.class);
 
-    OAuth2AccessTokenBO convert(OAuth2AccessTokenDO accessTokenDO);
+    OAuth2AccessTokenBO convert(OAuth2AccessTokenDO bean);
 
 }

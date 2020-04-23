@@ -14,7 +14,6 @@
     <modules>
 <!--        <module>user-application</module>-->
 <!--        <module>user-service-api</module>-->
-<!--        <module>user-sdk</module>-->
 <!--        <module>user-service-impl</module>-->
         <module>user-application</module>
         <module>user-rest</module>

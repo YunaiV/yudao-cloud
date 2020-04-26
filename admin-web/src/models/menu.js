@@ -3,7 +3,8 @@ import isEqual from 'lodash/isEqual';
 import { formatMessage } from 'umi/locale';
 import Authorized from '@/utils/Authorized';
 import { menu } from '../defaultSettings';
-import { getAdminMenus, getAdminUrls } from '../services/admin';
+import {  getAdminUrls } from '../services/admin';
+import { authorizationMenuResourceTree } from '../services/system';
 
 const { check } = Authorized;
 
@@ -84,7 +85,7 @@ const findRootMenu = (antDataMenus, rootAntDataMenu, requestDataMenu) => {
   let res;
   for (let i = 0; i < antDataMenus.length; i += 1) {
     const antDataMenu = antDataMenus[i];
-    if (antDataMenu.path === requestDataMenu.handler) {
+    if (antDataMenu.path === requestDataMenu.route) {
       res = rootAntDataMenu;
       break;
     }
@@ -98,12 +99,12 @@ const findRootMenu = (antDataMenus, rootAntDataMenu, requestDataMenu) => {
 
 const buildTreeMenu = (antMenuData, moveChildrenMenusData, requestDataMenus) => {
   return requestDataMenus.map(item => {
-    if (!item.handler) {
+    if (!item.route) {
       // root 节点
       const uuid = `sms${guid()}`;
       const res = {
         icon: 'user',
-        name: item.displayName,
+        name: item.name,
         path: uuid,
       };
 
@@ -123,13 +124,13 @@ const buildTreeMenu = (antMenuData, moveChildrenMenusData, requestDataMenus) => 
     }
 
     // moveChildrenMenusData 是一个 map，对比 url 地址是否存在，不存在就给一个 404 的页面
-    const handleMapperData = moveChildrenMenusData[item.handler];
+    const handleMapperData = moveChildrenMenusData[item.route];
     if (handleMapperData) {
       return {
         ...handleMapperData,
         icon: 'user',
-        name: item.displayName,
-        path: item.handler,
+        name: item.name,
+        path: item.route,
       };
     }
 
@@ -191,7 +192,7 @@ export default {
 
   effects: {
     *getMenuData({ payload }, { put, call }) {
-      const { data } = yield call(getAdminMenus);
+      const { data } = yield call(authorizationMenuResourceTree);
       const { routes, authority } = payload;
 
       // authority 已经不适用

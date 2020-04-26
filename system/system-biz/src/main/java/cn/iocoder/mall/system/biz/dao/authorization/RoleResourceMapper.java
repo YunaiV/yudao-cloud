@@ -19,12 +19,20 @@ public interface RoleResourceMapper extends BaseMapper<RoleResourceDO> {
      */
     int insertList(@Param("roleResources") List<RoleResourceDO> roleResources);
 
-    default  List<RoleResourceDO> selectListByResourceId(Integer resourceId) {
+    default List<RoleResourceDO> selectListByResourceId(Integer resourceId) {
         return selectList(new QueryWrapper<RoleResourceDO>().eq("resource_id", resourceId));
     }
 
-    default  List<RoleResourceDO> selectListByResourceIds(Collection<Integer> resourceIds) {
+    default List<RoleResourceDO> selectListByResourceIds(Collection<Integer> resourceIds) {
         return selectList(new QueryWrapper<RoleResourceDO>().in("resource_id", resourceIds));
+    }
+
+    default List<RoleResourceDO> selectListByRoleId(Integer roleId) {
+        return selectList(new QueryWrapper<RoleResourceDO>().eq("role_id", roleId));
+    }
+
+    default List<RoleResourceDO> selectListByRoleIds(Collection<Integer> roleIds) {
+        return selectList(new QueryWrapper<RoleResourceDO>().in("role_id", roleIds));
     }
 
     default int deleteByResourceId(Integer resourceId) {

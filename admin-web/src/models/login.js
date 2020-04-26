@@ -1,7 +1,7 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
 import { getFakeCaptcha } from '@/services/api';
-import { usernameAuthenticate } from '@/services/system';
+import { oauth2UsernameAuthenticate } from '@/services/system';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { reloadAuthorized } from '@/utils/Authorized';
@@ -16,15 +16,13 @@ export default {
 
   effects: {
     *login({ payload }, { call, put }) {
-      const response = yield call(usernameAuthenticate, payload);
+      const response = yield call(oauth2UsernameAuthenticate, payload);
       yield put({
         type: 'changeLoginStatus',
         payload: response,
       });
 
       yield put(routerRedux.replace('/'));
-
-      debugger;
 
       // Login successfully
       if (response.code === 0) {

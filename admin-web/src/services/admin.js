@@ -3,10 +3,6 @@ import request from '@/utils/request';
 
 // auth
 
-export async function getAdminMenus() {
-  return request('/admin-api/admins/admin/menu_resource_tree');
-}
-
 export async function getAdminUrls(params) {
   return request(`/admin-api/admins/admin/url_resource_list?${stringify(params)}`);
 }

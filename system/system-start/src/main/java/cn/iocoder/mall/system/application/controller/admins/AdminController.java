@@ -54,35 +54,6 @@ public class AdminController {
 
     // TODO 功能：当前管理员
 
-    @SuppressWarnings("Duplicates")
-    @GetMapping("/menu_resource_tree")
-    @ApiOperation(value = "获得当前登陆的管理员拥有的菜单权限", notes = "以树结构返回")
-    public CommonResult<List<AdminMenuTreeNodeVO>> menuResourceTree() {
-        List<ResourceBO> resources = resourceService.getResourcesByTypeAndRoleIds(ResourceConstants.TYPE_MENU,
-                AdminSecurityContextHolder.getContext().getRoleIds());
-        // 创建 AdminMenuTreeNodeVO Map
-        Map<Integer, AdminMenuTreeNodeVO> treeNodeMap = new LinkedHashMap<>(); // 使用 LinkedHashMap 的原因，是为了排序 。实际也可以用 Stream API ，就是太丑了。
-        resources.stream().sorted(Comparator.comparing(ResourceBO::getSort)).forEach(resourceBO -> treeNodeMap.put(resourceBO.getId(), ResourceConvert.INSTANCE.convert(resourceBO)));
-        // 处理父子关系
-        treeNodeMap.values().stream()
-                .filter(node -> !node.getPid().equals(ResourceConstants.PID_ROOT))
-                .forEach((childNode) -> {
-                    // 获得父节点
-                    AdminMenuTreeNodeVO parentNode = treeNodeMap.get(childNode.getPid());
-                    if (parentNode.getChildren() == null) { // 初始化 children 数组
-                        parentNode.setChildren(new ArrayList<>());
-                    }
-                    // 将自己添加到父节点中
-                    parentNode.getChildren().add(childNode);
-                });
-        // 获得到所有的根节点
-        List<AdminMenuTreeNodeVO> rootNodes = treeNodeMap.values().stream()
-                .filter(node -> node.getPid().equals(ResourceConstants.PID_ROOT))
-//                .sorted(Comparator.comparing(AdminMenuTreeNodeVO::getSort))
-                .collect(Collectors.toList());
-        return success(rootNodes);
-    }
-
     @GetMapping("/url_resource_list")
     @ApiOperation(value = "获得当前登陆的管理员拥有的 URL 权限列表")
     public CommonResult<Set<String>> urlResourceList() {

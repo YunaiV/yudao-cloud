@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(MallConstants.ROOT_PATH_ADMIN + "/admin")
 @Api(tags = "管理员 - 管理员 API")
-public class AdminsOAdminController {
+public class AdminsAdminController {
 
 
 

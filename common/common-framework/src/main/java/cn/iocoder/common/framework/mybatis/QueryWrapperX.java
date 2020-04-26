@@ -1,7 +1,10 @@
 package cn.iocoder.common.framework.mybatis;
 
+import cn.iocoder.common.framework.util.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.util.StringUtils;
+
+import java.util.Collection;
 
 /**
  * 拓展 MyBatis Plus QueryWrapper 类，主要增加如下功能：
@@ -15,6 +18,20 @@ public class QueryWrapperX<T> extends QueryWrapper<T> {
     public QueryWrapperX<T> likeIfPresent(String column, String val) {
         if (StringUtils.hasText(val)) {
             return (QueryWrapperX<T>) super.like(column, val);
+        }
+        return this;
+    }
+
+    public QueryWrapperX<T> inIfPresent(String column, Collection<?> values) {
+        if (!CollectionUtil.isEmpty(values)) {
+            return (QueryWrapperX<T>) super.in(column, values);
+        }
+        return this;
+    }
+
+    public QueryWrapperX<T> inIfPresent(String column, Object... values) {
+        if (!CollectionUtil.isEmpty(values)) {
+            return (QueryWrapperX<T>) super.in(column, values);
         }
         return this;
     }

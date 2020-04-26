@@ -27,4 +27,12 @@ public class AdminSecurityContextHolder {
         SECURITY_CONTEXT.remove();
     }
 
+    public static Integer getAdminId() {
+        return getContext().getAdminId();
+    }
+
+    public static Integer getAccountId() {
+        return getContext().getAccountId();
+    }
+
 }

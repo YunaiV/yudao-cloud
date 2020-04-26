@@ -3,8 +3,7 @@ import isEqual from 'lodash/isEqual';
 import { formatMessage } from 'umi/locale';
 import Authorized from '@/utils/Authorized';
 import { menu } from '../defaultSettings';
-import {  getAdminUrls } from '../services/admin';
-import { authorizationMenuResourceTree } from '../services/system';
+import { authorizationMenuResourceTree, authorizationResourcePermissions } from '../services/system';
 
 const { check } = Authorized;
 
@@ -213,7 +212,7 @@ export default {
       });
     },
     *getUrlsData(state, { put, call }) {
-      const { data } = yield call(getAdminUrls);
+      const { data } = yield call(authorizationResourcePermissions);
 
       // 构建 {'/user': true} 这种 map 结构方便取数据、
       const urlsData = {};

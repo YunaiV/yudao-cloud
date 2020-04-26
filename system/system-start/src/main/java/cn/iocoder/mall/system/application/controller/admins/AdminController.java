@@ -50,17 +50,6 @@ public class AdminController {
     @Autowired
     private DeptmentService deptmentService;
 
-    // =========== 当前管理员相关的资源 API ===========
-
-    // TODO 功能：当前管理员
-
-    @GetMapping("/url_resource_list")
-    @ApiOperation(value = "获得当前登陆的管理员拥有的 URL 权限列表")
-    public CommonResult<Set<String>> urlResourceList() {
-        List<ResourceBO> resources = resourceService.getResourcesByTypeAndRoleIds(ResourceConstants.TYPE_BUTTON, AdminSecurityContextHolder.getContext().getRoleIds());
-        return success(resources.stream().map(ResourceBO::getHandler).collect(Collectors.toSet()));
-    }
-
     // =========== 管理员管理 API ===========
     //TODO 目前需要增加搜索所有子部门的用户
     @GetMapping("/page")

@@ -63,4 +63,12 @@ public class AdminsAuthorizationController {
         return CommonResult.success(rootNodes);
     }
 
+    @GetMapping("/resource-permissions")
+    @ApiOperation(value = "获得当前账号的资源权限列表")
+    public CommonResult<Set<String>> resourcePermissions() {
+        List<ResourceBO> resources = authorizationService.getResourcesByAccountId(new AuthorizationGetResourcesByAccountIdDTO()
+                .setAccountId(AdminSecurityContextHolder.getAccountId()));
+        return CommonResult.success(resources.stream().map(ResourceBO::getRoute).collect(Collectors.toSet()));
+    }
+
 }

@@ -1,7 +1,7 @@
 // production 配置文件
 
 module.exports = {
-  '/admin-api/': {
+  '/system-api/': {
     target: 'http://api.shop.iocoder.cn',
     changeOrigin: true,
     pathRewrite: {},

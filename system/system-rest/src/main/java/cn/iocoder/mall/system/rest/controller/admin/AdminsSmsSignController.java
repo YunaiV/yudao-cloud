@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("admins/sms/sign")
 @Api("短信服务(签名)")
+// TODO FROM 芋艿 to 小范：挪下
 public class AdminsSmsSignController {
 
     @Autowired

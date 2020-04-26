@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 //@RestController
 @RequestMapping("admins/file")
 @Api(tags = "文件模块")
+// TODO FROM 芋艿 to 小范：挪下
 public class AdminsFileController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

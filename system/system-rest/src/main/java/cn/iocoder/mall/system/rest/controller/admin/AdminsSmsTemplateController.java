@@ -3,7 +3,6 @@ package cn.iocoder.mall.system.rest.controller.admin;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.system.biz.bo.smsTemplate.ListSmsTemplateBO;
-import cn.iocoder.mall.system.biz.dto.smsTemplate.ListSmsTemplateDTO;
 import cn.iocoder.mall.system.biz.service.sms.SmsService;
 import cn.iocoder.mall.system.rest.convert.sms.AdminsSmsConvert;
 import cn.iocoder.mall.system.rest.request.smsTemplate.AddSmsTemplateRequest;
@@ -23,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("admins/sms/template")
 @Api("短信服务(短信模板)")
+// TODO FROM 芋艿 to 小范：挪下
 public class AdminsSmsTemplateController {
 
     @Autowired

@@ -1,7 +1,7 @@
 package cn.iocoder.mall.system.biz.dataobject.account;
 
 import cn.iocoder.common.framework.constant.CommonStatusEnum;
-import cn.iocoder.common.framework.dataobject.DeletableDO;
+import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -4,8 +4,6 @@ import cn.iocoder.common.framework.dataobject.BaseDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
-
 /**
  * 订单关闭
  *

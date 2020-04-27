@@ -1,6 +1,6 @@
 package cn.iocoder.mall.system.biz.dataobject.authorization;
 
-import cn.iocoder.common.framework.dataobject.DeletableDO;
+import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

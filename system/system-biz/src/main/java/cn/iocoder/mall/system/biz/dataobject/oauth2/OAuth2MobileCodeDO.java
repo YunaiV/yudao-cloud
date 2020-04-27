@@ -1,6 +1,6 @@
 package cn.iocoder.mall.system.biz.dataobject.oauth2;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.mall.mybatis.dataobject.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

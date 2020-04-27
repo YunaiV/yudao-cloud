@@ -10,7 +10,6 @@ import cn.iocoder.mall.order.api.bo.OrderLogisticsInfoBO;
 import cn.iocoder.mall.order.api.bo.OrderLogisticsInfoWithOrderBO;
 import cn.iocoder.mall.order.api.constant.OrderErrorCodeEnum;
 import cn.iocoder.mall.order.biz.convert.OrderLogisticsConvert;
-import cn.iocoder.mall.order.biz.convert.OrderLogisticsDetailConvert;
 import cn.iocoder.mall.order.biz.dao.OrderItemMapper;
 import cn.iocoder.mall.order.biz.dao.OrderLogisticsDetailMapper;
 import cn.iocoder.mall.order.biz.dao.OrderLogisticsMapper;

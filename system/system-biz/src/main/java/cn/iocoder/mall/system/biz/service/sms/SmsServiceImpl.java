@@ -1,11 +1,11 @@
 package cn.iocoder.mall.system.biz.service.sms;
 
-import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.common.framework.vo.PageResult;
+import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
 import cn.iocoder.mall.system.biz.bo.smsSign.ListSmsSignBO;
-import cn.iocoder.mall.system.biz.bo.smsTemplate.ListSmsTemplateBO;
 import cn.iocoder.mall.system.biz.bo.smsSign.SmsSignBO;
+import cn.iocoder.mall.system.biz.bo.smsTemplate.ListSmsTemplateBO;
 import cn.iocoder.mall.system.biz.bo.smsTemplate.SmsTemplateBO;
 import cn.iocoder.mall.system.biz.convert.SmsSignConvert;
 import cn.iocoder.mall.system.biz.convert.SmsTemplateConvert;
@@ -17,8 +17,8 @@ import cn.iocoder.mall.system.biz.dataobject.sms.SmsSignDO;
 import cn.iocoder.mall.system.biz.dataobject.sms.SmsTemplateDO;
 import cn.iocoder.mall.system.biz.dto.smsSign.AddSignDTO;
 import cn.iocoder.mall.system.biz.dto.smsSign.ListSmsSignDTO;
-import cn.iocoder.mall.system.biz.dto.smsTemplate.ListSmsTemplateDTO;
 import cn.iocoder.mall.system.biz.dto.smsSign.UpdateSignDTO;
+import cn.iocoder.mall.system.biz.dto.smsTemplate.ListSmsTemplateDTO;
 import cn.iocoder.mall.system.biz.enums.AdminErrorCodeEnum;
 import cn.iocoder.mall.system.biz.enums.sms.SmsApplyStatusEnum;
 import cn.iocoder.mall.system.biz.enums.sms.SmsPlatformEnum;
@@ -43,7 +43,8 @@ import java.util.stream.Collectors;
  * @time 2019/5/16 10:30 AM
  */
 @Service
-@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.SmsService.version}")
+//@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.SmsService.version}")
+// TODO FROM 芋艿 to 小范，biz 层，不提供 dubbo 接口
 public class SmsServiceImpl implements SmsService {
 
     @Autowired

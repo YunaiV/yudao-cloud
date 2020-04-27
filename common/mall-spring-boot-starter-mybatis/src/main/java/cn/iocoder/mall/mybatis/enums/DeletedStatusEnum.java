@@ -1,6 +1,6 @@
-package cn.iocoder.common.framework.constant;
+package cn.iocoder.mall.mybatis.enums;
 
-import cn.iocoder.common.framework.dataobject.DeletableDO;
+import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
 
 /**
  * {@link DeletableDO#getDeleted()} delete 状态

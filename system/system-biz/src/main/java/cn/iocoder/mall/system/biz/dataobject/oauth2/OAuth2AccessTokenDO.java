@@ -1,6 +1,6 @@
 package cn.iocoder.mall.system.biz.dataobject.oauth2;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.mall.mybatis.dataobject.BaseDO;
 import cn.iocoder.mall.system.biz.dataobject.account.AccountDO;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

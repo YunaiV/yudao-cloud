@@ -9,8 +9,8 @@
     </sql>
 
     <resultMap id="PromotionActivityResultMap" type="PromotionActivityDO">
-        <result property="timeLimitedDiscount" column="time_limited_discount" javaType="cn.iocoder.mall.promotion.biz.dataobject.PromotionActivityDO$TimeLimitedDiscount" typeHandler="cn.iocoder.common.framework.mybatis.JSONTypeHandler"/>
-        <result property="fullPrivilege" column="full_privilege" javaType="cn.iocoder.mall.promotion.biz.dataobject.PromotionActivityDO$FullPrivilege" typeHandler="cn.iocoder.common.framework.mybatis.JSONTypeHandler"/>
+        <result property="timeLimitedDiscount" column="time_limited_discount" javaType="cn.iocoder.mall.promotion.biz.dataobject.PromotionActivityDO$TimeLimitedDiscount" typeHandler="cn.iocoder.mall.mybatis.type.JSONTypeHandler"/>
+        <result property="fullPrivilege" column="full_privilege" javaType="cn.iocoder.mall.promotion.biz.dataobject.PromotionActivityDO$FullPrivilege" typeHandler="cn.iocoder.mall.mybatis.type.JSONTypeHandler"/>
     </resultMap>
 
 <!--    <select id="selectListByPidAndStatusOrderBySort" resultType="PromotionActivityDO">-->

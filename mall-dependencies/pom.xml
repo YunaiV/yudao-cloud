@@ -23,12 +23,19 @@
         <spring.cloud.alibaba.version>2.2.0.RELEASE</spring.cloud.alibaba.version>
         <!-- Web 相关 -->
         <knife4j.version>2.0.2</knife4j.version>
+        <!-- DB 相关 -->
+        <mybatis-spring-boot-starter.version>2.0.0</mybatis-spring-boot-starter.version>
+        <mybatis.version>3.5.1</mybatis.version>
+        <mybatis-plus.version>3.1.1</mybatis-plus.version>
         <!-- RPC 相关 -->
         <dubbo.version>2.7.1</dubbo.version>
         <!-- Transaction 相关 -->
         <seata.version>1.1.0</seata.version>
         <!-- 监控相关 -->
         <skywalking.version>7.0.0</skywalking.version>
+        <!-- 工具类相关 -->
+        <fastjson.version>1.2.56</fastjson.version>
+        <hibernate-validator.version>6.0.16.Final</hibernate-validator.version>
     </properties>
 
     <!-- 依赖管理 -->
@@ -55,6 +62,34 @@
                 <version>${spring.cloud.alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- DB 相关 -->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-core</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-jdbc</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- Web 相关 -->
@@ -84,6 +119,14 @@
                 <artifactId>apm-toolkit-trace</artifactId>
                 <version>${skywalking.version}</version>
             </dependency>
+
+            <!-- 工具类相关 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
 
 
         </dependencies>

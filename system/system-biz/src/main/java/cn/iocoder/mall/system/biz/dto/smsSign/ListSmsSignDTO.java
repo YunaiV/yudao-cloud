@@ -25,4 +25,5 @@ public class ListSmsSignDTO extends PageParam {
 
     @ApiModelProperty("申请状态")
     private Integer applyStatus;
+
 }

@@ -14,16 +14,16 @@
     <artifactId>onemall</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>product</module>
-        <module>order</module>
-        <module>user</module>
+<!--        <module>product</module>-->
+<!--        <module>order</module>-->
+<!--        <module>user</module>-->
         <module>common</module>
         <module>system</module>
-        <module>ops</module>
-        <module>pay</module>
-        <module>promotion</module>
-        <module>search</module>
-        <module>demo</module>
+<!--        <module>ops</module>-->
+<!--        <module>pay</module>-->
+<!--        <module>promotion</module>-->
+<!--        <module>search</module>-->
+<!--        <module>demo</module>-->
         <module>mall-dependencies</module>
     </modules>
     <packaging>pom</packaging>
@@ -43,9 +43,7 @@
         <swagger.version>1.5.21</swagger.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
         <swagger-bootstrap-ui.version>1.9.3</swagger-bootstrap-ui.version>
-        <mybatis-spring-boot-starter.version>2.0.0</mybatis-spring-boot-starter.version>
-        <mybatis.version>3.5.1</mybatis.version>
-        <mybatis-plus.version>3.1.1</mybatis-plus.version>
+
         <xxl-job.version>2.0.1</xxl-job.version>
         <guava.version>27.0.1-jre</guava.version>
 
@@ -61,8 +59,6 @@
         <aliyun-java-sdk-core.version>4.1.0</aliyun-java-sdk-core.version>
 
         <java.version>1.8</java.version>
-        <hibernate-validator.version>6.0.16.Final</hibernate-validator.version>
-        <fastjson.version>1.2.56</fastjson.version>
     </properties>
 
     <dependencyManagement>
@@ -133,38 +129,6 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis</artifactId>
-                <version>${mybatis.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>${mybatis-spring-boot-starter.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-annotation</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-core</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-starter-jdbc</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <!-- Job 相关 -->
@@ -240,16 +204,11 @@
                 <version>${jackson.version}</version>
             </dependency>
 
+
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
-                <version>${hibernate-validator.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
+                <version>6.0.19.Final</version>
             </dependency>
 
         </dependencies>

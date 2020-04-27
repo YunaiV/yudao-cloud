@@ -1,7 +1,8 @@
-package cn.iocoder.common.framework.mybatis;
+package cn.iocoder.mall.mybatis.query;
 
-import cn.iocoder.common.framework.util.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
@@ -23,14 +24,14 @@ public class QueryWrapperX<T> extends QueryWrapper<T> {
     }
 
     public QueryWrapperX<T> inIfPresent(String column, Collection<?> values) {
-        if (!CollectionUtil.isEmpty(values)) {
+        if (!CollectionUtils.isEmpty(values)) {
             return (QueryWrapperX<T>) super.in(column, values);
         }
         return this;
     }
 
     public QueryWrapperX<T> inIfPresent(String column, Object... values) {
-        if (!CollectionUtil.isEmpty(values)) {
+        if (!ArrayUtils.isEmpty(values)) {
             return (QueryWrapperX<T>) super.in(column, values);
         }
         return this;

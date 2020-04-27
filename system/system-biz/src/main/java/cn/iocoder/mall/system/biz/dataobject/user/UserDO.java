@@ -1,6 +1,6 @@
 package cn.iocoder.mall.system.biz.dataobject.user;
 
-import cn.iocoder.common.framework.dataobject.DeletableDO;
+import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
 import cn.iocoder.mall.system.biz.dataobject.account.AccountDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

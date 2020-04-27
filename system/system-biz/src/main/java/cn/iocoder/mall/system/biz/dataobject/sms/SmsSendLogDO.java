@@ -1,6 +1,6 @@
 package cn.iocoder.mall.system.biz.dataobject.sms;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.mall.mybatis.dataobject.BaseDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

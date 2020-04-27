@@ -1,6 +1,6 @@
 package cn.iocoder.mall.web.config;
 
-import cn.iocoder.common.framework.servlet.CorsFilter;
+import cn.iocoder.mall.web.core.servlet.CorsFilter;
 import cn.iocoder.mall.web.core.constant.CommonMallConstants;
 import cn.iocoder.mall.web.core.handler.GlobalExceptionHandler;
 import cn.iocoder.mall.web.core.handler.GlobalResponseBodyHandler;

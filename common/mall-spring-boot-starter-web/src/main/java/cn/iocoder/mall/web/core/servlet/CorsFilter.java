@@ -1,4 +1,4 @@
-package cn.iocoder.common.framework.servlet;
+package cn.iocoder.mall.web.core.servlet;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

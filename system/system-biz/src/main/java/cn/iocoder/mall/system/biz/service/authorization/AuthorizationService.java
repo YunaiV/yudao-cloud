@@ -2,6 +2,7 @@ package cn.iocoder.mall.system.biz.service.authorization;
 
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.mall.system.biz.bo.authorization.ResourceBO;
+import cn.iocoder.mall.system.biz.bo.authorization.ResourceTreeNodeBO;
 import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationCheckPermissionsDTO;
 import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationGetResourcesByAccountIdDTO;
 
@@ -25,8 +26,18 @@ public interface AuthorizationService {
      * 如果该账号为超级管理员，则返回所有资源
      *
      * @param getResourcesByAccountIdDTO 查询条件 DTO
-     * @return 列表
+     * @return 资源列表
      */
     List<ResourceBO> getResourcesByAccountId(AuthorizationGetResourcesByAccountIdDTO getResourcesByAccountIdDTO);
+
+    /**
+     * 获得指定账号的资源树
+     *
+     * 如果该账号为超级管理员，则返回所有资源
+     *
+     * @param getResourceTreeByAccountIdDTO 查询条件 DTO
+     * @return 资源树
+     */
+    List<ResourceTreeNodeBO> getResourceTreeByAccountId(AuthorizationGetResourcesByAccountIdDTO getResourceTreeByAccountIdDTO);
 
 }

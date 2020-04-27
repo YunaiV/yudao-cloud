@@ -89,9 +89,9 @@ const CreateForm = Form.create()(props => {
         )}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
-        {form.getFieldDecorator('displayName', {
+        {form.getFieldDecorator('name', {
           rules: [{ required: true, message: '请输入名称！', min: 2 }],
-          initialValue: initValues.displayName,
+          initialValue: initValues.name,
         })(<Input placeholder="名称" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="父级菜单">
@@ -99,8 +99,8 @@ const CreateForm = Form.create()(props => {
           rules: [{ required: true, message: '请选择父级编号！' }],
           initialValue:
             initValues.pid === 0
-              ? `根节点-${initValues.pid}`
-              : initValues.pid ? `${initValues.displayName}-${initValues.pid}` : undefined,
+              ? `根节点`
+              : initValues.pid ? `${initValues.name}` : undefined,
         })(
           <TreeSelect
             showSearch
@@ -129,17 +129,17 @@ const CreateForm = Form.create()(props => {
       }
       {
         initValues.type === 1 ? (
-          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="操作">
-            {form.getFieldDecorator('handler', {
-              initialValue: initValues.handler,
-            })(<Input placeholder="操作" />)}
+          <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="路由">
+            {form.getFieldDecorator('route', {
+              initialValue: initValues.route,
+            })(<Input placeholder="路由" />)}
           </FormItem>
         ) : ''
       }
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="权限标识">
-        {form.getFieldDecorator('permissions', {
-          initialValue: initValues.permissions,
-        })(<TextArea placeholder="多个用逗号进行分割，例如：system.admin.add,system.admin.update" />)}
+        {form.getFieldDecorator('permission', {
+          initialValue: initValues.permission,
+        })(<Input placeholder="多个用逗号进行分割，例如：system.admin.add,system.admin.update" />)}
       </FormItem>
     </Modal>
   );
@@ -210,7 +210,7 @@ class ResourceList extends PureComponent {
     const { dispatch } = this.props;
     Modal.confirm({
       title: `确认删除?`,
-      content: `${row.displayName}`,
+      content: `${row.name}`,
       onOk() {
         dispatch({
           type: 'resourceList/delete',
@@ -237,7 +237,7 @@ class ResourceList extends PureComponent {
     const columns = [
       {
         title: '名称',
-        dataIndex: 'displayName',
+        dataIndex: 'name',
       },
       {
         title: '图标',
@@ -256,27 +256,16 @@ class ResourceList extends PureComponent {
         dataIndex: 'sort',
       },
       {
-        title: '操作',
-        dataIndex: 'handler',
+        title: '路由',
+        dataIndex: 'route',
         width: 200,
         render: val => <span>{val}</span>,
       },
       {
         title: '权限标识',
-        dataIndex: 'permissions',
+        dataIndex: 'permission',
         width: 300,
-        render(permissions) {
-          let text = '';
-          if (permissions) {
-            for (let i in permissions) {
-              if (i > 0) {
-                text += '  ';
-              }
-              text += permissions[i];
-            }
-          }
-          return (<span>{text}</span>);
-        }
+        render: val => <span>{val}</span>,
       },
       {
         title: '创建时间',

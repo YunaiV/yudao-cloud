@@ -84,29 +84,7 @@ export async function deptTreeAll() {
 
 // resource
 
-export async function addResource(params) {
-  return request(`/admin-api/admins/resource/add?${stringify(params)}`, {
-    method: 'POST',
-  });
-}
 
-export async function updateResource(params) {
-  return request(`/admin-api/admins/resource/update?${stringify(params)}`, {
-    method: 'POST',
-  });
-}
-
-export async function deleteResource(params) {
-  return request(`/admin-api/admins/resource/delete?${stringify(params)}`, {
-    method: 'POST',
-  });
-}
-
-export async function resourceTree(params) {
-  return request(`/admin-api/admins/resource/tree?${stringify(params)}`, {
-    method: 'GET',
-  });
-}
 
 // role
 

@@ -3,6 +3,7 @@ package cn.iocoder.mall.system.biz.service.authorization;
 import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.mall.system.biz.bo.authorization.ResourceBO;
+import cn.iocoder.mall.system.biz.bo.authorization.ResourceTreeNodeBO;
 import cn.iocoder.mall.system.biz.dao.authorization.AccountRoleMapper;
 import cn.iocoder.mall.system.biz.dao.authorization.RoleResourceMapper;
 import cn.iocoder.mall.system.biz.dataobject.authorization.AccountRoleDO;
@@ -10,8 +11,11 @@ import cn.iocoder.mall.system.biz.dataobject.authorization.RoleResourceDO;
 import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationCheckPermissionsDTO;
 import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationGetResourcesByAccountIdDTO;
 import cn.iocoder.mall.system.biz.dto.authorization.ResourceGetListDTO;
+import cn.iocoder.mall.system.biz.dto.authorization.ResourceGetTreeDTO;
+import cn.iocoder.mall.system.biz.event.authorization.ResourceDeleteEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -89,8 +93,35 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             return Collections.emptyList();
         }
         Set<Integer> resourceIds = CollectionUtil.convertSet(roleResourceDOs, RoleResourceDO::getResourceId);
-        // 查询对应资源
+        // 查询对应资源列表
         return resourceService.getResources(new ResourceGetListDTO().setIds(resourceIds).setType(getResourcesByAccountIdDTO.getType()));
+    }
+
+    @Override
+    public List<ResourceTreeNodeBO> getResourceTreeByAccountId(AuthorizationGetResourcesByAccountIdDTO getResourcesByAccountIdDTO) {
+        // 查询管理员拥有的角色关联数据
+        List<AccountRoleDO> accountRoleDOs = accountRoleMapper.selectByAccountId(getResourcesByAccountIdDTO.getAccountId());
+        if (CollectionUtil.isEmpty(accountRoleDOs)) {
+            return Collections.emptyList();
+        }
+        Set<Integer> roleIds = CollectionUtil.convertSet(accountRoleDOs, AccountRoleDO::getRoleId);
+        // 判断是否为超管。若是超管，默认有所有权限
+        if (roleService.hasSuperAdmin(roleIds)) {
+            return resourceService.getResourceTree(new ResourceGetTreeDTO().setType(getResourcesByAccountIdDTO.getType()));
+        }
+        // 查询角色拥有的资源关联数据
+        List<RoleResourceDO> roleResourceDOs = roleResourceMapper.selectListByRoleIds(roleIds);
+        if (CollectionUtil.isEmpty(roleResourceDOs)) {
+            return Collections.emptyList();
+        }
+        Set<Integer> resourceIds = CollectionUtil.convertSet(roleResourceDOs, RoleResourceDO::getResourceId);
+        // 查询对应资源树
+        return resourceService.getResourceTree(new ResourceGetTreeDTO().setIds(resourceIds).setType(getResourcesByAccountIdDTO.getType()));
+    }
+
+    @EventListener
+    public void handleResourceDeleteEvent(ResourceDeleteEvent event) {
+        roleResourceMapper.deleteByResourceId(event.getId());
     }
 
 }

@@ -9,17 +9,8 @@ import cn.iocoder.mall.system.api.bo.role.RoleBO;
 import cn.iocoder.mall.system.api.constant.AdminErrorCodeEnum;
 import cn.iocoder.mall.system.api.dto.role.RoleAddDTO;
 import cn.iocoder.mall.system.api.dto.role.RoleAssignResourceDTO;
-import cn.iocoder.mall.system.api.dto.role.RolePageDTO;
 import cn.iocoder.mall.system.api.dto.role.RoleUpdateDTO;
 import cn.iocoder.mall.admin.convert.RoleConvert;
-import cn.iocoder.mall.admin.dao.AdminRoleMapper;
-import cn.iocoder.mall.admin.dao.RoleMapper;
-import cn.iocoder.mall.admin.dao.RoleResourceMapper;
-import cn.iocoder.mall.admin.dataobject.ResourceDO;
-import cn.iocoder.mall.admin.dataobject.RoleDO;
-import cn.iocoder.mall.admin.dataobject.RoleResourceDO;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -148,36 +139,6 @@ public class RoleServiceImpl implements RoleService {
             return Collections.emptyList();
         }
         return roleMapper.selectBatchIds(roleIds);
-    }
-
-    /**
-     * 获得权限与角色的映射关系。
-     *
-     * TODO 芋艿，等以后有 redis ，优化成从缓存读取。每个 permission ，哪些角色可以访问
-     *
-     * @param permissions 权限标识数组
-     * @return 映射关系。KEY：权限标识；VALUE：角色编号数组
-     */
-    public Map<String, List<Integer>> getPermissionRoleMap(List<String> permissions) {
-        if (CollectionUtil.isEmpty(permissions)) {
-            return Collections.emptyMap();
-        }
-        Map<String, List<Integer>> result = Maps.newHashMapWithExpectedSize(permissions.size());
-        for (String permission : permissions) {
-            List<ResourceDO> resources = resourceService.getResourceListByPermission(permission);
-            if (resources.isEmpty()) { // 无需授权
-                result.put(permission, Collections.emptyList());
-            } else {
-                List<RoleResourceDO> roleResources = roleResourceMapper.selectListByResourceId(
-                        CollectionUtil.convertSet(resources, ResourceDO::getId));
-                if (roleResources.isEmpty()) {
-                    result.put(permission, Collections.emptyList());
-                } else {
-                    result.put(permission, CollectionUtil.convertList(roleResources, RoleResourceDO::getRoleId));
-                }
-            }
-        }
-        return result;
     }
 
 }

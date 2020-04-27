@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { addResource, updateResource, deleteResource, resourceTree } from '../../services/admin';
+import { resourceTree, resourceAdd, resourceUpdate, resourceDelete } from '../../services/system';
 
 const buildSelectTree = list => {
   return list.map(item => {
@@ -8,8 +8,8 @@ const buildSelectTree = list => {
       children = buildSelectTree(item.children);
     }
     return {
-      title: item.displayName,
-      value: `${item.displayName}-${item.id}`,
+      title: item.name,
+      value: `${item.name}-${item.id}`,
       key: item.id,
       children,
     };
@@ -27,7 +27,7 @@ export default {
   effects: {
     *add({ payload }, { call, put }) {
       const { callback, body } = payload;
-      const response = yield call(addResource, body);
+      const response = yield call(resourceAdd, body);
       if (callback) {
         callback(response);
       }
@@ -38,7 +38,7 @@ export default {
     },
     *update({ payload }, { call, put }) {
       const { callback, body } = payload;
-      const response = yield call(updateResource, body);
+      const response = yield call(resourceUpdate, body);
       if (callback) {
         callback(response);
       }
@@ -48,7 +48,7 @@ export default {
       });
     },
     *delete({ payload }, { call, put }) {
-      yield call(deleteResource, payload);
+      yield call(resourceDelete, payload);
       message.info('删除成功!');
       yield put({
         type: 'tree',
@@ -71,7 +71,7 @@ export default {
       const resultData = payload;
       const treeData = buildSelectTree(resultData);
 
-      // value 要保护 displayName 不然，搜索会失效
+      // value 要保护 name 不然，搜索会失效
       const rootNode = [
         {
           title: '根节点',

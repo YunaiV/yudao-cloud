@@ -1,11 +1,7 @@
 package cn.iocoder.mall.system.rest.controller.datadict;
 
 import cn.iocoder.common.framework.constant.MallConstants;
-import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.security.core.annotation.RequiresPermissions;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,13 +12,6 @@ public class AdminsDataDictController {
 
 //    @Reference(validation = "true", version = "${dubbo.provider.DataDictService.version}")
 //    private DataDictService dataDictService;
-
-    @GetMapping("/demo")
-    @ApiOperation(value = "数据字典全列表")
-    @RequiresPermissions("system.dataDict.list")
-    public CommonResult<Boolean> list() {
-        return CommonResult.success(true);
-    }
 
 //    @GetMapping("/list")
 //    @ApiOperation(value = "数据字典全列表")

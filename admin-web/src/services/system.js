@@ -23,3 +23,29 @@ export async function authorizationResourcePermissions(params) {
     method: 'GET',
   });
 }
+
+// ========== Resource 模块 ==========
+
+export async function resourceTree(params) {
+  return request(`/system-api/admins/resource/tree`, {
+    method: 'GET',
+  });
+}
+
+export async function resourceAdd(params) {
+  return request(`/system-api/admins/resource/add?${stringify(params)}`, {
+    method: 'POST',
+  });
+}
+
+export async function resourceUpdate(params) {
+  return request(`/system-api/admins/resource/update?${stringify(params)}`, {
+    method: 'POST',
+  });
+}
+
+export async function resourceDelete(params) {
+  return request(`/system-api/admins/resource/delete?${stringify(params)}`, {
+    method: 'POST',
+  });
+}

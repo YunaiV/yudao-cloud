@@ -16,13 +16,10 @@ public class AdminsAuthorizationMenuTreeResponse {
     private Integer id;
     @ApiModelProperty(value = "菜单名", required = true, example = "商品管理")
     private String name;
-
-    @ApiModelProperty(value = "排序", required = true, example = "1")
-    private Integer sort;
-    @ApiModelProperty(value = "父菜单编号", required = true, example = "1", notes = "如果无父菜单，则值为 0")
-    private Integer pid;
-    @ApiModelProperty(value = "route", required = true, example = "/order/list")
+    @ApiModelProperty(value = "前端路由", required = true, example = "/order/list")
     private String route;
+    @ApiModelProperty(value = "菜单图标", required = true, example = "user")
+    private String icon;
     @ApiModelProperty(value = "子节点数组")
     private List<AdminsAuthorizationMenuTreeResponse> children;
 

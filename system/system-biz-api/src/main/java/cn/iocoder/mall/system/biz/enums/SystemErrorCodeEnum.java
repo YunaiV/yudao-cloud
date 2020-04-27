@@ -41,12 +41,12 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
 //    ADMIN_ADMIN_CAN_NOT_UPDATE(1002002008, "管理员的账号不允许变更"),
 
     // ========== 资源模块 1002003000 ==========
-//    RESOURCE_NAME_DUPLICATE(1002003000, "已经存在该名字的资源"),
-//    RESOURCE_PARENT_NOT_EXISTS(1002003001, "父资源不存在"),
-//    RESOURCE_PARENT_ERROR(1002003002, "不能设置自己为父资源"),
-//    RESOURCE_NOT_EXISTS(1002003003, "资源不存在"),
-//    RESOURCE_EXISTS_CHILDREN(1002003004, "存在子资源，无法删除"),
-//    RESOURCE_PARENT_NOT_MENU(1002003005, "父资源的类型必须是菜单"),
+    RESOURCE_NAME_DUPLICATE(1002003000, "已经存在该名字的资源"),
+    RESOURCE_PARENT_NOT_EXISTS(1002003001, "父资源不存在"),
+    RESOURCE_PARENT_ERROR(1002003002, "不能设置自己为父资源"),
+    RESOURCE_NOT_EXISTS(1002003003, "资源不存在"),
+    RESOURCE_EXISTS_CHILDREN(1002003004, "存在子资源，无法删除"),
+    RESOURCE_PARENT_NOT_MENU(1002003005, "父资源的类型必须是菜单"),
 
     // ========== 角色模块 1002004000 ==========
 //    ROLE_NOT_EXISTS(1002004000, "角色不存在"),

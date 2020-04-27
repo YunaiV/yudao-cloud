@@ -29,8 +29,6 @@ public class RoleDO extends DeletableDO {
     private String code;
     /**
      * 角色类型
-     *
-     * TODO 需要补充
      */
     private Integer type;
 

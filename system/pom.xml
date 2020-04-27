@@ -29,7 +29,7 @@
         <dependencies>
             <dependency>
                 <groupId>cn.iocoder.mall</groupId>
-                <artifactId>common-dependencies</artifactId>
+                <artifactId>mall-dependencies</artifactId>
                 <version>1.0-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>

@@ -39,6 +39,12 @@
             <artifactId>dubbo</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!-- 工具相关 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

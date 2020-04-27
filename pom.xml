@@ -204,13 +204,6 @@
                 <version>${jackson.version}</version>
             </dependency>
 
-
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-validator</artifactId>
-                <version>6.0.19.Final</version>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 

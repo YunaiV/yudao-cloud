@@ -1,6 +1,6 @@
 package cn.iocoder.mall.system.biz.dao.authorization;
 
-import cn.iocoder.common.framework.mybatis.QueryWrapperX;
+import cn.iocoder.mall.mybatis.query.QueryWrapperX;
 import cn.iocoder.mall.system.biz.dataobject.authorization.RoleDO;
 import cn.iocoder.mall.system.biz.dto.authorization.RolePageDTO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

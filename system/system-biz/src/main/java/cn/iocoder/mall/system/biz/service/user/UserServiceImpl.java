@@ -1,6 +1,6 @@
 package cn.iocoder.mall.system.biz.service.user;
 
-import cn.iocoder.common.framework.constant.DeletedStatusEnum;
+import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
 import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AccessTokenBO;
 import cn.iocoder.mall.system.biz.bo.user.UserAuthenticateBO;
 import cn.iocoder.mall.system.biz.bo.user.UserBO;

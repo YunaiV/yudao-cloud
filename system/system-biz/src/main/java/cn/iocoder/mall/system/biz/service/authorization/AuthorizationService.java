@@ -5,8 +5,10 @@ import cn.iocoder.mall.system.biz.bo.authorization.ResourceBO;
 import cn.iocoder.mall.system.biz.bo.authorization.ResourceTreeNodeBO;
 import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationCheckPermissionsDTO;
 import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationGetResourcesByAccountIdDTO;
+import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationGetRoleResourcesDTO;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 授权模块 - Service 接口
@@ -39,5 +41,13 @@ public interface AuthorizationService {
      * @return 资源树
      */
     List<ResourceTreeNodeBO> getResourceTreeByAccountId(AuthorizationGetResourcesByAccountIdDTO getResourceTreeByAccountIdDTO);
+
+    /**
+     * 获得指定角色拥有的资源编号集合
+     *
+     * @param getRoleResourcesDTO 查询条件 DTO
+     * @return 资源编号数集合
+     */
+    Set<Integer> getRoleResources(AuthorizationGetRoleResourcesDTO getRoleResourcesDTO);
 
 }

@@ -44,6 +44,12 @@ const CreateForm = Form.create()(props => {
           initialValue: initValues.name,
         })(<Input placeholder="请输入" />)}
       </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="角色编码">
+        {form.getFieldDecorator('code', {
+          rules: [{ required: false }],
+          initialValue: initValues.code,
+        })(<Input placeholder="请输入" />)}
+      </FormItem>
     </Modal>
   );
 });
@@ -285,6 +291,10 @@ class RoleList extends PureComponent {
       {
         title: '名称',
         dataIndex: 'name',
+      },
+      {
+        title: '编码',
+        dataIndex: 'code',
       },
       {
         title: '创建时间',

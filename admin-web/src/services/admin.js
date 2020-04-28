@@ -88,30 +88,7 @@ export async function deptTreeAll() {
 
 // role
 
-export async function queryRole(params) {
-  return request(`/admin-api/admins/role/page?${stringify(params)}`);
-}
 
-export async function deleteRole(params) {
-  return request(`/admin-api/admins/role/delete?${stringify(params)}`, {
-    method: 'POST',
-    body: {},
-  });
-}
-
-export async function addRole(params) {
-  return request(`/admin-api/admins/role/add?${stringify(params)}`, {
-    method: 'POST',
-    body: {},
-  });
-}
-
-export async function updateRole(params) {
-  return request(`/admin-api/admins/role/update?${stringify(params)}`, {
-    method: 'POST',
-    body: {},
-  });
-}
 
 export async function queryRoleResourceTree(params) {
   return request(`/admin-api/admins/role/resource_tree?${stringify(params)}`, {

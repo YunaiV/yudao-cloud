@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * 账号信息 BO
+ * 账号模块 - 账号信息 BO
  */
 @Data
 @Accessors(chain = true)

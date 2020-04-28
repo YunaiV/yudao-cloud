@@ -6,16 +6,22 @@ import cn.iocoder.mall.security.core.context.AdminSecurityContextHolder;
 import cn.iocoder.mall.system.biz.bo.authorization.ResourceBO;
 import cn.iocoder.mall.system.biz.bo.authorization.ResourceTreeNodeBO;
 import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationGetResourcesByAccountIdDTO;
+import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationGetRoleResourcesDTO;
+import cn.iocoder.mall.system.biz.dto.authorization.ResourceGetTreeDTO;
 import cn.iocoder.mall.system.biz.enums.authorization.ResourceTypeEnum;
 import cn.iocoder.mall.system.biz.service.authorization.AuthorizationService;
+import cn.iocoder.mall.system.biz.service.authorization.ResourceService;
 import cn.iocoder.mall.system.rest.convert.authorization.AdminsAuthorizationConvert;
 import cn.iocoder.mall.system.rest.response.authorization.AdminsAuthorizationMenuTreeResponse;
+import cn.iocoder.mall.system.rest.response.authorization.AdminsAuthorizationRoleResourceTreeResponse;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -30,6 +36,8 @@ public class AdminsAuthorizationController {
 
     @Autowired
     private AuthorizationService authorizationService;
+    @Autowired
+    private ResourceService resourceService;
 
     @GetMapping("/menu-resource-tree")
     @ApiOperation(value = "获得当前账号的菜单资源树", notes = "以树结构返回")
@@ -45,6 +53,18 @@ public class AdminsAuthorizationController {
         List<ResourceBO> resources = authorizationService.getResourcesByAccountId(new AuthorizationGetResourcesByAccountIdDTO()
                 .setAccountId(AdminSecurityContextHolder.getAccountId()));
         return CommonResult.success(resources.stream().map(ResourceBO::getRoute).collect(Collectors.toSet()));
+    }
+
+    @GetMapping("/role_tree")
+    @ApiOperation(value = "获得角色拥有的菜单权限", notes = "以树结构返回。注意，返回的资源树是完整的结构，会标记每个资源节点是否被角色所拥有")
+    @ApiImplicitParam(name = "roleId", value = "角色编号", required = true, example = "1")
+    public CommonResult<List<AdminsAuthorizationRoleResourceTreeResponse>> roleTree(@RequestParam("roleId") Integer roleId) {
+        // 1. 获得完整的资源树
+        List<ResourceTreeNodeBO> resourceTreeNodeBOs = resourceService.getResourceTree(new ResourceGetTreeDTO());
+        // 2. 获得角色拥有的子树
+        Set<Integer> roleResourceIds = authorizationService.getRoleResources(new AuthorizationGetRoleResourcesDTO().setRoleId(roleId));
+        // 3. 拼接，返回结果
+        return CommonResult.success(AdminsAuthorizationConvert.INSTANCE.convertList(resourceTreeNodeBOs, roleResourceIds));
     }
 
 }

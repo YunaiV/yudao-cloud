@@ -8,20 +8,14 @@ import cn.iocoder.mall.system.biz.dao.authorization.AccountRoleMapper;
 import cn.iocoder.mall.system.biz.dao.authorization.RoleResourceMapper;
 import cn.iocoder.mall.system.biz.dataobject.authorization.AccountRoleDO;
 import cn.iocoder.mall.system.biz.dataobject.authorization.RoleResourceDO;
-import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationCheckPermissionsDTO;
-import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationGetResourcesByAccountIdDTO;
-import cn.iocoder.mall.system.biz.dto.authorization.ResourceGetListDTO;
-import cn.iocoder.mall.system.biz.dto.authorization.ResourceGetTreeDTO;
+import cn.iocoder.mall.system.biz.dto.authorization.*;
 import cn.iocoder.mall.system.biz.event.authorization.ResourceDeleteEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum.AUTHORIZATION_PERMISSION_DENY;
 
@@ -117,6 +111,21 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         Set<Integer> resourceIds = CollectionUtil.convertSet(roleResourceDOs, RoleResourceDO::getResourceId);
         // 查询对应资源树
         return resourceService.getResourceTree(new ResourceGetTreeDTO().setIds(resourceIds).setType(getResourcesByAccountIdDTO.getType()));
+    }
+
+    @Override
+    public Set<Integer> getRoleResources(AuthorizationGetRoleResourcesDTO getRoleResourcesDTO) {
+        Set<Integer> roleIds = Collections.singleton(getRoleResourcesDTO.getRoleId());
+        // 判断是否为超管。若是超管，默认有所有权限
+        if (roleService.hasSuperAdmin(roleIds)) {
+            return CollectionUtil.convertSet(resourceService.getResources(new ResourceGetListDTO()), ResourceBO::getId);
+        }
+        // 查询角色拥有的资源关联数据
+        List<RoleResourceDO> roleResourceDOs = roleResourceMapper.selectListByRoleIds(roleIds);
+        if (CollectionUtil.isEmpty(roleResourceDOs)) {
+            return Collections.emptySet();
+        }
+        return CollectionUtil.convertSet(roleResourceDOs, RoleResourceDO::getResourceId);
     }
 
     @EventListener

@@ -7,22 +7,20 @@ import lombok.experimental.Accessors;
 
 import java.util.List;
 
-@ApiModel(value = "管理员 - 授权模块 - 菜单资源树", description = "一般用于首页菜单树")
+@ApiModel(value = "管理员 - 授权模块 - 角色拥有的资源树")
 @Data
 @Accessors(chain = true)
-public class AdminsAuthorizationMenuTreeResponse {
+public class AdminsAuthorizationRoleResourceTreeResponse {
 
     @ApiModelProperty(value = "菜单编号", required = true, example = "1")
     private Integer id;
     @ApiModelProperty(value = "菜单名", required = true, example = "商品管理")
     private String name;
-    @ApiModelProperty(value = "前端路由", required = true, example = "/order/list")
-    private String route;
-    @ApiModelProperty(value = "菜单图标", required = true, example = "user")
-    private String icon;
+    @ApiModelProperty(value = "是否分配", required = true, notes = "即角色是否拥有该资源")
+    private Boolean assign;
     /**
      * 子节点数组
      */
-    private List<AdminsAuthorizationMenuTreeResponse> children;
+    private List<AdminsAuthorizationRoleResourceTreeResponse> children;
 
 }

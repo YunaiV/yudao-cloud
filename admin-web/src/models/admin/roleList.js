@@ -2,13 +2,16 @@ import { message } from 'antd';
 import { arrayToStringParams } from '../../utils/request.qs';
 import { buildTreeNode, findAllNodes, findCheckedKeys } from '../../utils/tree.utils';
 import {
-  addRole,
-  updateRole,
-  deleteRole,
-  queryRole,
   queryRoleResourceTree,
   roleAssignResource,
 } from '../../services/admin';
+import {
+  rolePage,
+  roleAdd,
+  roleUpdate,
+  roleDelete,
+} from '../../services/system';
+
 
 export default {
   namespace: 'roleList',
@@ -27,7 +30,7 @@ export default {
   effects: {
     *add({ payload }, { call, put }) {
       const { callback, body, queryParams } = payload;
-      const response = yield call(addRole, body);
+      const response = yield call(roleAdd, body);
       if (callback) {
         callback(response);
       }
@@ -40,7 +43,7 @@ export default {
     },
     *update({ payload }, { call, put }) {
       const { callback, body, queryParams } = payload;
-      const response = yield call(updateRole, body);
+      const response = yield call(roleUpdate, body);
       if (callback) {
         callback(response);
       }
@@ -53,7 +56,7 @@ export default {
     },
     *delete({ payload }, { call, put }) {
       const { queryParams, body } = payload;
-      yield call(deleteRole, body);
+      yield call(roleDelete, body);
       message.info('删除成功!');
       yield put({
         type: 'query',
@@ -63,7 +66,7 @@ export default {
       });
     },
     *query({ payload }, { call, put }) {
-      const response = yield call(queryRole, payload);
+      const response = yield call(rolePage, payload);
       message.info('查询成功!');
       const { total, list } = response.data;
       yield put({

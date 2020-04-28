@@ -4,7 +4,7 @@ import cn.iocoder.mall.system.biz.bo.account.AccountBO;
 import cn.iocoder.mall.system.biz.dto.account.AccountCreateDTO;
 
 /**
- * 账号 Service 接口
+ * 账号模块 - Service 接口
  */
 public interface AccountService {
 

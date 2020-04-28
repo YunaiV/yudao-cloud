@@ -49,3 +49,30 @@ export async function resourceDelete(params) {
     method: 'POST',
   });
 }
+
+// ========== Role 模块 ==========
+
+export async function rolePage(params) {
+  return request(`/system-api/admins/role/page?${stringify(params)}`);
+}
+
+export async function roleDelete(params) {
+  return request(`/system-api/admins/role/delete?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
+}
+
+export async function roleAdd(params) {
+  return request(`/system-api/admins/role/add?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
+}
+
+export async function roleUpdate(params) {
+  return request(`/system-api/admins/role/update?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
+}

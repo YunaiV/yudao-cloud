@@ -17,6 +17,12 @@ public interface ResourceService {
 
     List<ResourceBO> getResources(ResourceGetListDTO getListDTO);
 
+    /**
+     * 获得资源树
+     *
+     * @param getTreeDTO 查询条件
+     * @return 资源树
+     */
     List<ResourceTreeNodeBO> getResourceTree(ResourceGetTreeDTO getTreeDTO);
 
     Integer addResource(ResourceAddDTO addDTO);

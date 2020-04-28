@@ -1,7 +1,6 @@
 package cn.iocoder.mall.system.biz.dto.authorization;
 
 import cn.iocoder.common.framework.vo.PageParam;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -14,7 +13,9 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class RolePageDTO extends PageParam {
 
-    @ApiModelProperty( value = "角色名，模糊匹配", example = "系统管理员")
+    /**
+     * 角色名，模糊匹配
+     */
     private String name;
 
 }

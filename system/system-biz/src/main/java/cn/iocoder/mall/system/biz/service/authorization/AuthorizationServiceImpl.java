@@ -124,4 +124,12 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         roleResourceMapper.deleteByResourceId(event.getId());
     }
 
+    @EventListener
+    public void handleRoleDeleteEvent(ResourceDeleteEvent event) {
+        // 标记删除 RoleResource
+        roleResourceMapper.deleteByRoleId(event.getId());
+        // 标记删除 AdminRole
+        accountRoleMapper.deleteByRoleId(event.getId());
+    }
+
 }

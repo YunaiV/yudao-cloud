@@ -26,78 +26,13 @@ public class RoleServiceImpl implements RoleService {
     private RoleResourceMapper roleResourceMapper;
     @Autowired
     private AdminRoleMapper adminRoleMapper;
-    @Autowired
-    private RoleMapper roleMapper;
+
 
     @Autowired
     private ResourceServiceImpl resourceService;
 
     public List<RoleResourceDO> getRoleByResourceId(Integer resourceId) {
         return roleResourceMapper.selectListByResourceId(resourceId);
-    }
-
-    @Override
-    public PageResult<RoleBO> getRolePage(RolePageDTO rolePageDTO) {
-        IPage<RoleDO> page = roleMapper.selectPage(rolePageDTO);
-        return RoleConvert.INSTANCE.convert(page);
-    }
-
-    @Override
-    public List<RoleBO> getRoleList() {
-        List<RoleDO> roleList = roleMapper.selectList();
-        return RoleConvert.INSTANCE.convert(roleList);
-    }
-
-    @Override
-    public List<RoleBO> getRoleList(Collection<Integer> ids) {
-        List<RoleDO> roles = roleMapper.selectBatchIds(ids);
-        return RoleConvert.INSTANCE.convert(roles);
-    }
-
-    @Override
-    public RoleBO addRole(Integer adminId, RoleAddDTO roleAddDTO) {
-        // TODO 芋艿，角色名是否要唯一呢？貌似一般系统都是允许的。
-        // 保存到数据库
-        RoleDO role = RoleConvert.INSTANCE.convert(roleAddDTO);
-        role.setCreateTime(new Date());
-        role.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
-        roleMapper.insert(role);
-        // TODO 插入操作日志
-        // 返回成功
-        return RoleConvert.INSTANCE.convert(role);
-    }
-
-    @Override
-    public Boolean updateRole(Integer adminId, RoleUpdateDTO roleUpdateDTO) {
-        // TODO 芋艿，角色名是否要唯一呢？貌似一般系统都是允许的。
-        // 校验角色是否存在
-        if (roleMapper.selectById(roleUpdateDTO.getId()) == null) {
-            throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.RESOURCE_NOT_EXISTS.getCode());
-        }
-        // 更新到数据库
-        RoleDO roleDO = RoleConvert.INSTANCE.convert(roleUpdateDTO);
-        roleMapper.updateById(roleDO);
-        // TODO 插入操作日志
-        // 返回成功
-        return true;
-    }
-
-    @Override
-    @Transactional
-    public Boolean deleteRole(Integer adminId, Integer roleId) {
-        // 校验角色是否存在
-        if (roleMapper.selectById(roleId) == null) {
-            throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.RESOURCE_NOT_EXISTS.getCode());
-        }
-        // 更新到数据库，标记删除
-        roleMapper.deleteById(roleId);
-        // 标记删除 RoleResource
-        roleResourceMapper.deleteByRoleId(roleId);
-        // 标记删除 AdminRole
-        adminRoleMapper.deleteByRoleId(roleId);
-        // TODO 插入操作日志
-        // 返回成功
-        return true;
     }
 
     @Override

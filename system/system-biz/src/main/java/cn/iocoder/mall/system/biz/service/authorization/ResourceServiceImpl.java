@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -77,6 +78,8 @@ public class ResourceServiceImpl implements ResourceService {
     public Integer addResource(ResourceAddDTO addDTO) {
         // 校验父资源存在
         checkParentResource(addDTO.getPid(), null);
+        // 校验资源（自己）
+        checkResource(addDTO.getPid(), addDTO.getName(), null);
         // 存储到数据库
         ResourceDO resource = ResourceConvert.INSTANCE.convert(addDTO);
         initResourceProperty(resource);
@@ -92,10 +95,12 @@ public class ResourceServiceImpl implements ResourceService {
     public void updateResource(ResourceUpdateDTO updateDTO) {
         // 校验更新的资源是否存在
         if (resourceMapper.selectById(updateDTO.getId()) == null) {
-            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.RESOURCE_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.RESOURCE_NOT_EXISTS);
         }
         // 校验父资源存在
         checkParentResource(updateDTO.getPid(), updateDTO.getId());
+        // 校验资源（自己）
+        checkResource(updateDTO.getPid(), updateDTO.getName(), updateDTO.getId());
         // 更新到数据库
         ResourceDO resource = ResourceConvert.INSTANCE.convert(updateDTO);
         initResourceProperty(resource);
@@ -104,23 +109,28 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
+    @Transactional
     public void deleteResource(ResourceDeleteDTO deleteDTO) {
         // 校验更新的资源是否存在
         if (resourceMapper.selectById(deleteDTO.getId()) == null) {
-            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.RESOURCE_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.RESOURCE_NOT_EXISTS);
         }
         // 校验是否还有子资源
         if (resourceMapper.selectCountByPid(deleteDTO.getId()) > 0) {
-            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.RESOURCE_EXISTS_CHILDREN.getCode());
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.RESOURCE_EXISTS_CHILDREN);
         }
         // 更新到数据库
         resourceMapper.deleteById(deleteDTO.getId());
-        // 删除资源关联表
+        // 发布资源删除事件，方便清理关联表
         eventPublisher.publishEvent(new ResourceDeleteEvent(this, deleteDTO.getId()));
     }
 
     /**
      * 校验父资源是否合法
+     *
+     * 1. 不能舌质红自己为父资源
+     * 2. 父资源不存在
+     * 3. 父资源必须是 {@link ResourceTypeEnum#MENU} 菜单类型
      *
      * @param pid 父资源编号
      * @param childId 当前资源编号
@@ -130,14 +140,37 @@ public class ResourceServiceImpl implements ResourceService {
             return;
         }
         if (pid.equals(childId)) { // 不能设置自己为父资源
-            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.RESOURCE_PARENT_ERROR.getCode());
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.RESOURCE_PARENT_ERROR);
         }
         ResourceDO resource = resourceMapper.selectById(pid);
         if (resource == null) { // 父资源不存在
-            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.RESOURCE_PARENT_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.RESOURCE_PARENT_NOT_EXISTS);
         }
         if (!ResourceTypeEnum.MENU.getType().equals(resource.getType())) { // 父资源必须是菜单类型
-            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.RESOURCE_PARENT_NOT_MENU.getCode());
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.RESOURCE_PARENT_NOT_MENU);
+        }
+    }
+
+    /**
+     * 校验资源是否合法
+     *
+     * 1. 校验相同父资源编号下，是否存在相同的资源名
+     *
+     * @param name 资源名字
+     * @param pid 父资源编号
+     * @param id 资源编号
+     */
+    private void checkResource(Integer pid, String name, Integer id) {
+        ResourceDO resource = resourceMapper.selectByPidAndName(pid, name);
+        if (resource == null) {
+            return;
+        }
+        // 如果 id 为空，说明不用比较是否为相同 id 的资源
+        if (id == null) {
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.RESOURCE_NAME_DUPLICATE);
+        }
+        if (!resource.getId().equals(id)) {
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.RESOURCE_NAME_DUPLICATE);
         }
     }
 
@@ -149,10 +182,6 @@ public class ResourceServiceImpl implements ResourceService {
      * @param resource 资源
      */
     private void initResourceProperty(ResourceDO resource) {
-        // 初始化根节点的情况
-        if (resource.getPid() == null) {
-            resource.setPid(ResourceIdEnum.ROOT.getId());
-        }
         // 初始化资源为按钮类型时，无需 route 和 icon 属性
         if (ResourceTypeEnum.BUTTON.getType().equals(resource.getType())) {
             resource.setRoute(null);

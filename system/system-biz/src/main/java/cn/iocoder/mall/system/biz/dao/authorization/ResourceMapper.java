@@ -16,6 +16,11 @@ public interface ResourceMapper extends BaseMapper<ResourceDO> {
         return selectOne(new QueryWrapper<ResourceDO>().eq("permission", permission));
     }
 
+    default ResourceDO selectByPidAndName(Integer pid, String name) {
+        return selectOne(new QueryWrapperX<ResourceDO>().eqIfPresent("pid", pid)
+            .eqIfPresent("name", name));
+    }
+
     default List<ResourceDO> selectListByPermissions(Collection<String> permissions) {
         return selectList(new QueryWrapper<ResourceDO>().in("permission", permissions));
     }

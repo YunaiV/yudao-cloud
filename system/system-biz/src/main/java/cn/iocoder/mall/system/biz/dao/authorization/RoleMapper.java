@@ -23,4 +23,12 @@ public interface RoleMapper extends BaseMapper<RoleDO> {
                 new QueryWrapperX<RoleDO>().likeIfPresent("name", rolePageDTO.getName()));
     }
 
+    default RoleDO selectByName(String name) {
+        return selectOne(new QueryWrapperX<RoleDO>().eqIfPresent("name", name));
+    }
+
+    default RoleDO selectByCode(String code) {
+        return selectOne(new QueryWrapperX<RoleDO>().eqIfPresent("code", code));
+    }
+
 }

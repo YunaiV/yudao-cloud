@@ -49,7 +49,9 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
     RESOURCE_PARENT_NOT_MENU(1002003005, "父资源的类型必须是菜单"),
 
     // ========== 角色模块 1002004000 ==========
-//    ROLE_NOT_EXISTS(1002004000, "角色不存在"),
+    ROLE_NOT_EXISTS(1002004000, "角色不存在"),
+    ROLE_NAME_DUPLICATE(1002004001, "已经存在名为【{}}】的角色"),
+    ROLE_CODE_DUPLICATE(1002004002, "已经存在编码为【{}}】的角色"),
 //    ROLE_ASSIGN_RESOURCE_NOT_EXISTS(1002004001, "分配角色资源时，有资源不存在"),
 
     // ========== 数据字典模块 1002005000 ==========

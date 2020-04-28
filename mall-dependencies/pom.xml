@@ -24,6 +24,8 @@
         <!-- Web 相关 -->
         <knife4j.version>2.0.2</knife4j.version>
         <!-- DB 相关 -->
+        <mysql-connector-java.version>5.1.46</mysql-connector-java.version>
+        <druid.version>1.1.16</druid.version>
         <mybatis-spring-boot-starter.version>2.0.0</mybatis-spring-boot-starter.version>
         <mybatis.version>3.5.1</mybatis.version>
         <mybatis-plus.version>3.1.1</mybatis-plus.version>
@@ -65,6 +67,18 @@
             </dependency>
 
             <!-- DB 相关 -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector-java.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>

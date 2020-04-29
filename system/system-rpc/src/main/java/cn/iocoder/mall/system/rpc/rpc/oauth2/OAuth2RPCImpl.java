@@ -1,7 +1,7 @@
 package cn.iocoder.mall.system.rpc.rpc.oauth2;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AccessTokenBO;
+import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AuthenticateBO;
 import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2AccessTokenAuthenticateDTO;
 import cn.iocoder.mall.system.biz.service.oauth2.OAuth2Service;
 import cn.iocoder.mall.system.rpc.api.oauth2.OAuth2RPC;
@@ -21,7 +21,7 @@ public class OAuth2RPCImpl implements OAuth2RPC {
     public CommonResult<OAuth2AccessTokenResponse> authenticate(OAuth2AccessTokenAuthenticateRequest authenticateRequest) {
         // 执行认证
         OAuth2AccessTokenAuthenticateDTO authenticateDTO = OAuth2Convert.INSTANCE.convert(authenticateRequest);
-        OAuth2AccessTokenBO accessTokenBO = oauth2Service.authenticate(authenticateDTO);
+        OAuth2AuthenticateBO accessTokenBO = oauth2Service.authenticate(authenticateDTO);
         // 返回结果
         OAuth2AccessTokenResponse accessTokenResponse = OAuth2Convert.INSTANCE.convert(accessTokenBO);
         return CommonResult.success(accessTokenResponse);

@@ -168,7 +168,7 @@ class RoleList extends PureComponent {
     dispatch({
       type: 'roleList/queryRoleAssign',
       payload: {
-        id: record.id,
+        roleId: record.id,
       },
     });
     this.setState({
@@ -200,7 +200,7 @@ class RoleList extends PureComponent {
     dispatch({
       type: 'roleList/roleAssignResource',
       payload: {
-        id: roleAssignRecord.id,
+        roleId: roleAssignRecord.id,
         resourceIds: data.checkedKeys,
         roleTreeData: data.roleTreeData,
       },

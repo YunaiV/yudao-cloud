@@ -15,6 +15,8 @@ import java.util.List;
  */
 public interface RoleService {
 
+    RoleBO getRole(Integer id);
+
     List<RoleBO> getRoleList(Collection<Integer> ids);
 
     PageResult<RoleBO> getRolePage(RolePageDTO pageDTO);

@@ -24,6 +24,19 @@ export async function authorizationResourcePermissions(params) {
   });
 }
 
+export async function authorizationRoleResourceTree(params) {
+  return request(`/system-api/admins/authorization/role_resource_tree?${stringify(params)}`, {
+    method: 'GET',
+  });
+}
+
+export async function authorizationRoleAssignResource(params) {
+  return request(`/system-api/admins/authorization/assign_role_resource?${stringify(params)}`, {
+    method: 'POST',
+    body: {},
+  });
+}
+
 // ========== Resource 模块 ==========
 
 export async function resourceTree(params) {

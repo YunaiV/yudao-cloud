@@ -1,6 +1,6 @@
 package cn.iocoder.mall.system.biz.convert.user;
 
-import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AccessTokenBO;
+import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AuthenticateBO;
 import cn.iocoder.mall.system.biz.bo.user.UserAuthenticateBO;
 import cn.iocoder.mall.system.biz.bo.user.UserBO;
 import cn.iocoder.mall.system.biz.dataobject.user.UserDO;
@@ -15,7 +15,7 @@ public interface UserConvert {
 
     @Mapping(source = "userBO", target = "user")
     @Mapping(source = "accessTokenBO", target = "token")
-    UserAuthenticateBO convert(UserBO userBO, OAuth2AccessTokenBO accessTokenBO);
+    UserAuthenticateBO convert(UserBO userBO, OAuth2AuthenticateBO accessTokenBO);
 
     UserBO convert(UserDO bean);
 

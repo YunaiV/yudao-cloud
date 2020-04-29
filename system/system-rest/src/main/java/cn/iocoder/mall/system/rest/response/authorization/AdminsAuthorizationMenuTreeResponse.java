@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 
 import java.util.List;
 
-@ApiModel(value = "管理员 - 授权模块 - 菜单资源树", description = "一般用于首页菜单树")
+@ApiModel(value = "管理员 - 授权模块 - 菜单资源树 Response", description = "一般用于首页菜单树")
 @Data
 @Accessors(chain = true)
 public class AdminsAuthorizationMenuTreeResponse {

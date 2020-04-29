@@ -2,9 +2,9 @@ import { message } from 'antd';
 import { arrayToStringParams } from '../../utils/request.qs';
 import { buildTreeNode, findAllNodes, findCheckedKeys } from '../../utils/tree.utils';
 import {
-  queryRoleResourceTree,
-  roleAssignResource,
-} from '../../services/admin';
+  authorizationRoleResourceTree,
+  authorizationRoleAssignResource,
+} from '../../services/system';
 import {
   rolePage,
   roleAdd,
@@ -83,9 +83,9 @@ export default {
         payload: true,
       });
 
-      const response = yield call(queryRoleResourceTree, payload);
+      const response = yield call(authorizationRoleResourceTree, payload);
       const roleResourceTree = response.data;
-      const roleTreeData = buildTreeNode(roleResourceTree, 'displayName', 'id');
+      const roleTreeData = buildTreeNode(roleResourceTree, 'name', 'id');
       const checkedKeys = findCheckedKeys(roleResourceTree);
 
       yield put({
@@ -102,13 +102,13 @@ export default {
       });
     },
     *roleAssignResource({ payload }, { call }) {
-      const { id, resourceIds, roleTreeData } = payload;
+      const { roleId, resourceIds, roleTreeData } = payload;
       const assignNodes = findAllNodes(resourceIds, roleTreeData);
       const params = {
-        id,
+        roleId,
         resourceIds: arrayToStringParams(assignNodes),
       };
-      const response = yield call(roleAssignResource, params);
+      const response = yield call(authorizationRoleAssignResource, params);
       if (response.code === 0) {
         message.info('操作成功!');
       }

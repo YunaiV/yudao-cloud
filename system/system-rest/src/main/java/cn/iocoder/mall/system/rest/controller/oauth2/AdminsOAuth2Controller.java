@@ -5,7 +5,7 @@ import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.security.core.annotation.RequiresNone;
 import cn.iocoder.mall.system.biz.bo.admin.AdminBO;
-import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AccessTokenBO;
+import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AuthenticateBO;
 import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2UsernameAuthenticateDTO;
 import cn.iocoder.mall.system.biz.service.admin.AdminService;
 import cn.iocoder.mall.system.biz.service.oauth2.OAuth2Service;
@@ -37,7 +37,7 @@ public class AdminsOAuth2Controller {
     public CommonResult<AdminsOAuth2AuthenticateResponse> usernameAuthenticate(AdminsOAuth2UsernameAuthenticateRequest request) {
         // 执行认证
         OAuth2UsernameAuthenticateDTO authenticateDTO = AdminsOAuth2Convert.INSTANCE.convert(request);
-        OAuth2AccessTokenBO accessTokenBO = oauth2Service.authenticate(authenticateDTO);
+        OAuth2AuthenticateBO accessTokenBO = oauth2Service.authenticate(authenticateDTO);
         // 获得 Admin 信息
         AdminBO adminBO = adminService.getAdmin(accessTokenBO.getAccountId());
         if (adminBO == null) {

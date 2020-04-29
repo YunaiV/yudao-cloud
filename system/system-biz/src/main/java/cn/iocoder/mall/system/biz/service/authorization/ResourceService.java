@@ -17,6 +17,8 @@ public interface ResourceService {
 
     List<ResourceBO> getResources(ResourceGetListDTO getListDTO);
 
+    int countResource(ResourceCountDTO countDTO);
+
     /**
      * 获得资源树
      *

@@ -1,7 +1,7 @@
 package cn.iocoder.mall.system.biz.service.user;
 
 import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
-import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AccessTokenBO;
+import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AuthenticateBO;
 import cn.iocoder.mall.system.biz.bo.user.UserAuthenticateBO;
 import cn.iocoder.mall.system.biz.bo.user.UserBO;
 import cn.iocoder.mall.system.biz.convert.user.UserConvert;
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserAuthenticateBO authenticate(OAuth2MobileCodeAuthenticateDTO authenticateDTO) {
         // 执行认证
-        OAuth2AccessTokenBO accessTokenBO = oAuth2Service.authenticate(authenticateDTO);
+        OAuth2AuthenticateBO accessTokenBO = oAuth2Service.authenticate(authenticateDTO);
         // 获得用户
         UserDO userDO = userMapper.selectById(accessTokenBO.getAccountId());
         if (userDO == null) {

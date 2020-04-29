@@ -2,6 +2,7 @@ package cn.iocoder.mall.system.biz.service.authorization;
 
 import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
 import cn.iocoder.mall.system.biz.bo.authorization.ResourceBO;
 import cn.iocoder.mall.system.biz.bo.authorization.ResourceTreeNodeBO;
 import cn.iocoder.mall.system.biz.dao.authorization.AccountRoleMapper;
@@ -9,6 +10,7 @@ import cn.iocoder.mall.system.biz.dao.authorization.RoleResourceMapper;
 import cn.iocoder.mall.system.biz.dataobject.authorization.AccountRoleDO;
 import cn.iocoder.mall.system.biz.dataobject.authorization.RoleResourceDO;
 import cn.iocoder.mall.system.biz.dto.authorization.*;
+import cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum;
 import cn.iocoder.mall.system.biz.event.authorization.ResourceDeleteEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum.AUTHORIZATION_PERMISSION_DENY;
 
@@ -126,6 +129,37 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             return Collections.emptySet();
         }
         return CollectionUtil.convertSet(roleResourceDOs, RoleResourceDO::getResourceId);
+    }
+
+    @Override
+    public void assignRoleResource(AuthorizationAssignRoleResourceDTO assignRoleResourceDTO) {
+        Integer roleId = assignRoleResourceDTO.getRoleId();
+        Set<Integer> resourceIds = assignRoleResourceDTO.getResourceIds();
+        // 校验角色是否存在
+        if (roleService.getRole(roleId) == null) {
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ROLE_NOT_EXISTS.getCode());
+        }
+        // 校验是否有不存在的资源
+        if (!CollectionUtil.isEmpty(resourceIds)) {
+            int dbResourceSize = resourceService.countResource(new ResourceCountDTO().setIds(resourceIds));
+            if (resourceIds.size() != dbResourceSize) {
+                throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.AUTHORIZATION_ROLE_ASSIGN_RESOURCE_NOT_EXISTS.getCode());
+            }
+        }
+        // TODO 芋艿，这里先简单实现。即方式是，删除老的分配的资源关系，然后添加新的分配的资源关系
+        // 标记角色原资源关系都为删除
+        roleResourceMapper.deleteByRoleId(roleId);
+        // 创建 RoleResourceDO 数组，并插入到数据库
+        if (!CollectionUtil.isEmpty(resourceIds)) {
+            List<RoleResourceDO> roleResources = resourceIds.stream().map(resourceId -> {
+                RoleResourceDO roleResource = new RoleResourceDO().setRoleId(roleId).setResourceId(resourceId);
+                roleResource.setCreateTime(new Date());
+                roleResource.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
+                return roleResource;
+            }).collect(Collectors.toList());
+            roleResourceMapper.insertList(roleResources);
+        }
+        // TODO 插入操作日志
     }
 
     @EventListener

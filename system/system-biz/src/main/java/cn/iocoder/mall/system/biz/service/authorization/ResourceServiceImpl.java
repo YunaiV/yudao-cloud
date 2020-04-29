@@ -44,6 +44,11 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
+    public int countResource(ResourceCountDTO countDTO) {
+        return resourceMapper.selectCountByIdsAndType(countDTO.getIds(), countDTO.getType());
+    }
+
+    @Override
     public List<ResourceTreeNodeBO> getResourceTree(ResourceGetTreeDTO getTreeDTO) {
         // 获得对应的资源列表
         List<ResourceDO> resourceDOs = resourceMapper.selectListByIdsAndType(getTreeDTO.getIds(), getTreeDTO.getType());

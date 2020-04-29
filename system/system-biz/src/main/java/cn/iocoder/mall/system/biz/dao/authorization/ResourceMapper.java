@@ -30,6 +30,11 @@ public interface ResourceMapper extends BaseMapper<ResourceDO> {
                 .eqIfPresent("type", type));
     }
 
+    default int selectCountByIdsAndType(Collection<Integer> ids, Integer type) {
+        return selectCount(new QueryWrapperX<ResourceDO>().inIfPresent("id", ids)
+                .eqIfPresent("type", type));
+    }
+
     default int selectCountByPid(Integer pid) {
         return selectCount(new QueryWrapper<ResourceDO>().eq("pid", pid));
     }

@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 
 import java.util.List;
 
-@ApiModel("管理员 - 授权模块 - 菜单资源树")
+@ApiModel("管理员 - 授权模块 - 菜单资源树 Response")
 @Data
 @Accessors(chain = true)
 public class AdminsResourceTreeResponse {

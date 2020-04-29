@@ -70,11 +70,6 @@ public class AdminsRoleController {
     }
 
 
-//
-//    @PostMapping("/assign_role")
-//    @ApiOperation(value = "分配角色资源")
-//    public CommonResult<Boolean> assignRole(RoleAssignRoleDTO roleAssignRoleDTO) {
-//        return success(roleService.assignRoleRole(AdminSecurityContextHolder.getContext().getAdminId(), roleAssignRoleDTO));
-//    }
+
 
 }

@@ -52,7 +52,6 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
     ROLE_NOT_EXISTS(1002004000, "角色不存在"),
     ROLE_NAME_DUPLICATE(1002004001, "已经存在名为【{}}】的角色"),
     ROLE_CODE_DUPLICATE(1002004002, "已经存在编码为【{}}】的角色"),
-//    ROLE_ASSIGN_RESOURCE_NOT_EXISTS(1002004001, "分配角色资源时，有资源不存在"),
 
     // ========== 数据字典模块 1002005000 ==========
 //    DATA_DICT_EXISTS(1002005000, "该数据字典已经存在"),
@@ -77,6 +76,7 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
     // ========== 授权模块 1002008000 ==========
     AUTHORIZATION_PERMISSION_DENY(1002008001, "没有该操作权限"),
     AUTHORIZATION_DEMO_PERMISSION_DENY(1002008002, "演示账号，暂不允许写操作。欢迎加入我们的交流群：http://t.cn/EKEr5WE"),
+    AUTHORIZATION_ROLE_ASSIGN_RESOURCE_NOT_EXISTS(1002004001, "分配角色资源时，有资源不存在"),
 
     ;
 

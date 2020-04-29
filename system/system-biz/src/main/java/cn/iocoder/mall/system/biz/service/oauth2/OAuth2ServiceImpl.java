@@ -4,7 +4,7 @@ import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.ValidationUtil;
 import cn.iocoder.mall.system.biz.bo.account.AccountBO;
-import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AccessTokenBO;
+import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AuthenticateBO;
 import cn.iocoder.mall.system.biz.convert.oauth2.OAuth2Convert;
 import cn.iocoder.mall.system.biz.dao.oauth2.OAuth2AccessTokenMapper;
 import cn.iocoder.mall.system.biz.dao.oauth2.OAuth2RefreshTokenMapper;
@@ -53,7 +53,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 
     @Override
     @Transactional
-    public OAuth2AccessTokenBO authenticate(OAuth2UsernameAuthenticateDTO authenticateDTO) {
+    public OAuth2AuthenticateBO authenticate(OAuth2UsernameAuthenticateDTO authenticateDTO) {
         // 获得账号
         AccountBO accountBO = accountService.getByUsername(authenticateDTO.getUsername());
         if (accountBO == null) {
@@ -73,7 +73,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
 
     @Override
     @Transactional
-    public OAuth2AccessTokenBO authenticate(OAuth2MobileCodeAuthenticateDTO authenticateDTO) {
+    public OAuth2AuthenticateBO authenticate(OAuth2MobileCodeAuthenticateDTO authenticateDTO) {
         // 校验手机格式
         if (!ValidationUtil.isMobile(authenticateDTO.getMobile())) {
             throw ServiceExceptionUtil.exception(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "手机格式不正确"); // TODO 有点搓
@@ -98,7 +98,7 @@ public class OAuth2ServiceImpl implements OAuth2Service {
     }
 
     @Override
-    public OAuth2AccessTokenBO authenticate(OAuth2AccessTokenAuthenticateDTO authenticateDTO) {
+    public OAuth2AuthenticateBO authenticate(OAuth2AccessTokenAuthenticateDTO authenticateDTO) {
         OAuth2AccessTokenDO oauth2AccessTokenDO = oauth2AccessTokenMapper.selectById(authenticateDTO.getAccessToken());
         if (oauth2AccessTokenDO == null) { // 不存在
             throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.OAUTH2_ACCESS_TOKEN_NOT_FOUND.getCode());

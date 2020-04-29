@@ -6,16 +6,16 @@ import lombok.experimental.Accessors;
 import java.util.Date;
 
 /**
- * TODO 注释
+ * 认证模块 - 认证结果 BO
  */
 @Data
 @Accessors(chain = true)
-public class OAuth2AccessTokenBO {
+public class OAuth2AuthenticateBO {
 
     /**
      * 访问令牌
      */
-    private String id;
+    private String accessToken;
     /**
      * 刷新令牌
      */

@@ -1,6 +1,6 @@
 package cn.iocoder.mall.system.biz.bo.user;
 
-import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AccessTokenBO;
+import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AuthenticateBO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -13,6 +13,6 @@ public class UserAuthenticateBO {
 
     private UserBO user;
 
-    private OAuth2AccessTokenBO token;
+    private OAuth2AuthenticateBO token;
 
 }

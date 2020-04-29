@@ -15,7 +15,6 @@ import cn.iocoder.mall.system.biz.dto.authorization.RoleUpdateDTO;
 import cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum;
 import cn.iocoder.mall.system.biz.enums.authorization.RoleCodeEnum;
 import cn.iocoder.mall.system.biz.event.authorization.ResourceDeleteEvent;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -35,15 +34,18 @@ public class RoleServiceImpl implements RoleService {
     private RoleMapper roleMapper;
 
     @Override
+    public RoleBO getRole(Integer id) {
+        return RoleConvert.INSTANCE.convert(roleMapper.selectById(id));
+    }
+
+    @Override
     public List<RoleBO> getRoleList(Collection<Integer> ids) {
-        List<RoleDO> roleDOs = roleMapper.selectBatchIds(ids);
-        return RoleConvert.INSTANCE.convertList(roleDOs);
+        return RoleConvert.INSTANCE.convertList(roleMapper.selectBatchIds(ids));
     }
 
     @Override
     public PageResult<RoleBO> getRolePage(RolePageDTO pageDTO) {
-        IPage<RoleDO> pageResult = roleMapper.selectPage(pageDTO);
-        return RoleConvert.INSTANCE.convertPage(pageResult);
+        return RoleConvert.INSTANCE.convertPage(roleMapper.selectPage(pageDTO));
     }
 
     @Override
@@ -94,9 +96,9 @@ public class RoleServiceImpl implements RoleService {
         }
         // 更新到数据库，标记删除
         roleMapper.deleteById(roleDeleteDTO.getId());
-        // TODO 插入操作日志
         // 发布角色删除事件，方便清理关联表
         eventPublisher.publishEvent(new ResourceDeleteEvent(this, roleDeleteDTO.getId()));
+        // TODO 插入操作日志
     }
 
     /**

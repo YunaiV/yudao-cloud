@@ -3,6 +3,7 @@ package cn.iocoder.mall.system.biz.service.authorization;
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.mall.system.biz.bo.authorization.ResourceBO;
 import cn.iocoder.mall.system.biz.bo.authorization.ResourceTreeNodeBO;
+import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationAssignRoleResourceDTO;
 import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationCheckPermissionsDTO;
 import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationGetResourcesByAccountIdDTO;
 import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationGetRoleResourcesDTO;
@@ -50,4 +51,10 @@ public interface AuthorizationService {
      */
     Set<Integer> getRoleResources(AuthorizationGetRoleResourcesDTO getRoleResourcesDTO);
 
+    /**
+     * 给指定权限授予权限。如果更新失败，则抛出 {@link ServiceException} 异常
+     *
+     * @param assignRoleResourceDTO 授予权限 DTO
+     */
+    void assignRoleResource(AuthorizationAssignRoleResourceDTO assignRoleResourceDTO);
 }

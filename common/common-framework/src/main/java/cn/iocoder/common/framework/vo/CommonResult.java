@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public final class CommonResult<T> implements Serializable {
 
-    public static Integer CODE_SUCCESS = 0;
+    private static Integer CODE_SUCCESS = 0;
 
     /**
      * 错误码
@@ -93,4 +93,5 @@ public final class CommonResult<T> implements Serializable {
                 ", data=" + data +
                 '}';
     }
+
 }

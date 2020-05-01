@@ -1,7 +1,7 @@
 package cn.iocoder.mall.system.biz.service.sms;
 
 import cn.iocoder.common.framework.exception.ServiceException;
-import cn.iocoder.mall.system.biz.enums.AdminErrorCodeEnum;
+import cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
@@ -111,7 +111,7 @@ public class SmsClientOfYunPian implements SmsClient {
         JSONObject jsonObject = JSON.parseObject(result);
         if (jsonObject.containsKey("code")
                 && !(jsonObject.getInteger("code") == SUCCESS_CODE)) {
-            throw new ServiceException(AdminErrorCodeEnum.SMS_PLATFORM_FAIL.getCode(),
+            throw new ServiceException(SystemErrorCodeEnum.SMS_PLATFORM_FAIL.getCode(),
                     jsonObject.getString("detail"));
         }
 
@@ -156,7 +156,7 @@ public class SmsClientOfYunPian implements SmsClient {
             JSONObject jsonObject = JSON.parseObject(result);
             if (jsonObject.containsKey("code")
                     && !(jsonObject.getInteger("code") == SUCCESS_CODE)) {
-                throw new ServiceException(AdminErrorCodeEnum.SMS_PLATFORM_FAIL.getCode(),
+                throw new ServiceException(SystemErrorCodeEnum.SMS_PLATFORM_FAIL.getCode(),
                         jsonObject.getString("detail"));
             }
 

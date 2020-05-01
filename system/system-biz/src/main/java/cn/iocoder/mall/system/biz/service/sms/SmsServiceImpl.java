@@ -19,7 +19,7 @@ import cn.iocoder.mall.system.biz.dto.smsSign.AddSignDTO;
 import cn.iocoder.mall.system.biz.dto.smsSign.ListSmsSignDTO;
 import cn.iocoder.mall.system.biz.dto.smsSign.UpdateSignDTO;
 import cn.iocoder.mall.system.biz.dto.smsTemplate.ListSmsTemplateDTO;
-import cn.iocoder.mall.system.biz.enums.AdminErrorCodeEnum;
+import cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum;
 import cn.iocoder.mall.system.biz.enums.sms.SmsApplyStatusEnum;
 import cn.iocoder.mall.system.biz.enums.sms.SmsPlatformEnum;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -43,8 +43,6 @@ import java.util.stream.Collectors;
  * @time 2019/5/16 10:30 AM
  */
 @Service
-//@org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.SmsService.version}")
-// TODO FROM 芋艿 to 小范，biz 层，不提供 dubbo 接口
 public class SmsServiceImpl implements SmsService {
 
     @Autowired
@@ -149,8 +147,8 @@ public class SmsServiceImpl implements SmsService {
         );
 
         if (smsSignDO != null) {
-            throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_IS_EXISTENT.getCode(),
-                    AdminErrorCodeEnum.SMS_SIGN_IS_EXISTENT.getMessage());
+            throw new ServiceException(SystemErrorCodeEnum.SMS_SIGN_IS_EXISTENT.getCode(),
+                    SystemErrorCodeEnum.SMS_SIGN_IS_EXISTENT.getMessage());
         }
 
         // 保存数据库
@@ -173,8 +171,8 @@ public class SmsServiceImpl implements SmsService {
                         .eq("deleted", DeletedStatusEnum.DELETED_NO.getValue()));
 
         if (smsSignDO == null) {
-            throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
-                    AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
+            throw new ServiceException(SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
+                    SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
         }
 
         return SmsSignConvert.INSTANCE.convert(smsSignDO);
@@ -190,8 +188,8 @@ public class SmsServiceImpl implements SmsService {
                         .eq("platform", updateSignDTO.getPlatform()));
 
         if (smsSignDO != null) {
-            throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_IS_EXISTENT.getCode(),
-                    AdminErrorCodeEnum.SMS_SIGN_IS_EXISTENT.getMessage());
+            throw new ServiceException(SystemErrorCodeEnum.SMS_SIGN_IS_EXISTENT.getCode(),
+                    SystemErrorCodeEnum.SMS_SIGN_IS_EXISTENT.getMessage());
         }
 
         // 更新
@@ -211,8 +209,8 @@ public class SmsServiceImpl implements SmsService {
                         .eq("id", id));
 
         if (smsSignDO == null) {
-            throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
-                    AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
+            throw new ServiceException(SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
+                    SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
         }
 
         // 更新 deleted 为 YES
@@ -231,8 +229,8 @@ public class SmsServiceImpl implements SmsService {
                 new QueryWrapper<SmsSignDO>().eq("id", smsSignId));
 
         if (smsSignDO == null) {
-            throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
-                    AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
+            throw new ServiceException(SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
+                    SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
         }
 
         // 保存数据库
@@ -259,8 +257,8 @@ public class SmsServiceImpl implements SmsService {
                         .eq("id", id));
 
         if (smsTemplateDO == null) {
-            throw new ServiceException(AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
-                    AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
+            throw new ServiceException(SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
+                    SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
         }
 
         return SmsTemplateConvert.INSTANCE.convert(smsTemplateDO);
@@ -274,16 +272,16 @@ public class SmsServiceImpl implements SmsService {
                 new QueryWrapper<SmsTemplateDO>().eq("id", id));
 
         if (smsTemplateDO == null) {
-            throw new ServiceException(AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
-                    AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
+            throw new ServiceException(SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
+                    SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
         }
 
         SmsSignDO smsSignDO = smsSignMapper.selectOne(
                 new QueryWrapper<SmsSignDO>().eq("id", smsTemplateDO.getSmsSignId()));
 
         if (smsSignDO == null) {
-            throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
-                    AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
+            throw new ServiceException(SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
+                    SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
         }
 
         smsTemplateMapper.update(
@@ -306,8 +304,8 @@ public class SmsServiceImpl implements SmsService {
 
         if (smsTemplateDO == null
                 || smsTemplateDO.getDeleted().equals(DeletedStatusEnum.DELETED_YES.getValue())) {
-            throw new ServiceException(AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
-                    AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
+            throw new ServiceException(SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
+                    SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
         }
 
         // 删除 数据库模板
@@ -326,16 +324,16 @@ public class SmsServiceImpl implements SmsService {
 
         if (smsTemplateDO == null
                 || smsTemplateDO.getDeleted().equals(DeletedStatusEnum.DELETED_YES.getValue())) {
-            throw new ServiceException(AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
-                    AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
+            throw new ServiceException(SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
+                    SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
         }
 
         SmsSignDO smsSignDO = smsSignMapper.selectOne(
                 new QueryWrapper<SmsSignDO>().eq("id", smsTemplateDO.getSmsSignId()));
 
         if (smsSignDO == null) {
-            throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
-                    AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
+            throw new ServiceException(SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
+                    SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
         }
 
         // 获取 client
@@ -361,8 +359,8 @@ public class SmsServiceImpl implements SmsService {
 
         if (smsTemplateDO == null
                 || smsTemplateDO.getDeleted().equals(DeletedStatusEnum.DELETED_YES.getValue())) {
-            throw new ServiceException(AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
-                    AdminErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
+            throw new ServiceException(SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
+                    SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
         }
 
         SmsSignDO smsSignDO = smsSignMapper.selectOne(
@@ -378,8 +376,8 @@ public class SmsServiceImpl implements SmsService {
                             .setCreateTime(new Date())
             );
 
-            throw new ServiceException(AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
-                    AdminErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
+            throw new ServiceException(SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
+                    SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
         }
 
         // 获取 client
@@ -415,8 +413,8 @@ public class SmsServiceImpl implements SmsService {
 
         if (smsClient == null) {
             throw new ServiceException(
-                    AdminErrorCodeEnum.SMS_NOT_SEND_CLIENT.getCode(),
-                    AdminErrorCodeEnum.SMS_NOT_SEND_CLIENT.getMessage());
+                    SystemErrorCodeEnum.SMS_NOT_SEND_CLIENT.getCode(),
+                    SystemErrorCodeEnum.SMS_NOT_SEND_CLIENT.getMessage());
         }
 
         return smsClient;

@@ -78,6 +78,10 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
     AUTHORIZATION_DEMO_PERMISSION_DENY(1002008002, "演示账号，暂不允许写操作。欢迎加入我们的交流群：http://t.cn/EKEr5WE"),
     AUTHORIZATION_ROLE_ASSIGN_RESOURCE_NOT_EXISTS(1002004001, "分配角色资源时，有资源不存在"),
 
+    // ========== 用户地址 ==========
+    USER_ADDRESS_NOT_EXISTENT(1001004000, "用户地址不存在!"),
+    USER_ADDRESS_IS_DELETED(1001004001, "用户地址已被删除!"),
+    USER_GET_ADDRESS_NOT_EXISTS(1001004002, "获取的地址不存在!"),
     ;
 
 

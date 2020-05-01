@@ -37,12 +37,11 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-        <!-- TODO 云服务 -->
+        <!-- 文件服务商 -->
         <dependency>
             <groupId>com.qiniu</groupId>
             <artifactId>qiniu-java-sdk</artifactId>
         </dependency>
-
     </dependencies>
 
 </project>

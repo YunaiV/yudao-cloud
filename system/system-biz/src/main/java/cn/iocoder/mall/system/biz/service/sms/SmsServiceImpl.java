@@ -55,10 +55,10 @@ public class SmsServiceImpl implements SmsService {
     private SmsSendMapper smsSendMapper;
 
     @Autowired
-    @Qualifier("smsYunPianClient")
+    @Qualifier("smsClientOfYunPian")
     private SmsClient smsYunPianClient;
     @Autowired
-    @Qualifier("smsAliYunClient")
+    @Qualifier("smsClientOfAliYun")
     private SmsClient smsAliYunClient;
 
     @Override

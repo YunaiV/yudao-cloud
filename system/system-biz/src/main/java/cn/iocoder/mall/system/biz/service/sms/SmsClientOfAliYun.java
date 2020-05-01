@@ -1,6 +1,5 @@
-package cn.iocoder.mall.system.biz.service.sms.client;
+package cn.iocoder.mall.system.biz.service.sms;
 
-import cn.iocoder.mall.system.biz.service.sms.SmsClient;
 import com.alibaba.fastjson.JSON;
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;
@@ -28,9 +27,9 @@ import java.util.Map;
  * @time 2019/5/25 12:28 PM
  */
 @Component
-public class SmsAliYunClient implements SmsClient {
+public class SmsClientOfAliYun implements SmsClient {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SmsAliYunClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SmsClientOfAliYun.class);
 
     private static final String DOMAIN = "dysmsapi.aliyuncs.com";
     private static final String SUCCESS_CODE = "OK";

@@ -1,8 +1,7 @@
-package cn.iocoder.mall.system.biz.service.sms.client;
+package cn.iocoder.mall.system.biz.service.sms;
 
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.mall.system.biz.enums.AdminErrorCodeEnum;
-import cn.iocoder.mall.system.biz.service.sms.SmsClient;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
@@ -32,9 +31,9 @@ import java.util.Map;
  * @time 2019/5/16 6:34 PM
  */
 @Component
-public class SmsYunPianClient implements SmsClient {
+public class SmsClientOfYunPian implements SmsClient {
 
-    protected static final Logger LOGGER = LoggerFactory.getLogger(SmsYunPianClient.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(SmsClientOfYunPian.class);
 
     private static final int SUCCESS_CODE = 0;
     private static final String SUCCESS_MESSAGE = "SUCCESS";

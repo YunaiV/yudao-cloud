@@ -16,6 +16,9 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
     OAUTH2_ACCESS_TOKEN_TOKEN_EXPIRED(1001001002, "访问令牌已过期"),
     OAUTH2_ACCESS_TOKEN_INVALID(1001001003, "访问令牌已失效"),
     OAUTH2_NOT_AUTHENTICATE(1001001004, "账号未登陆"),
+    OAUTH2_REFRESH_TOKEN_NOT_FOUND(1001001005, "刷新令牌不存在"),
+    OAUTH_REFRESH_TOKEN_EXPIRED(1001001006, "访问令牌已过期"),
+    OAUTH_REFRESH_TOKEN_INVALID(1001001007, "刷新令牌已失效"),
     // 其它 1001001100 开始
     OAUTH2_ACCOUNT_NOT_FOUND(1001001100, "账号不存在"),
     OAUTH2_ACCOUNT_PASSWORD_ERROR(1001001101, "密码不正确"),
@@ -52,6 +55,8 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
     ROLE_NOT_EXISTS(1002004000, "角色不存在"),
     ROLE_NAME_DUPLICATE(1002004001, "已经存在名为【{}}】的角色"),
     ROLE_CODE_DUPLICATE(1002004002, "已经存在编码为【{}}】的角色"),
+    ROLE_CAN_NOT_UPDATE_SYSTEM_TYPE_ROLE(1002004004, "不能修改类型为系统内置的角色"),
+    ROLE_CAN_NOT_DELETE_SYSTEM_TYPE_ROLE(1002004005, "不能删除类型为系统内置的角色"),
 
     // ========== 数据字典模块 1002005000 ==========
 //    DATA_DICT_EXISTS(1002005000, "该数据字典已经存在"),

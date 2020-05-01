@@ -5,7 +5,7 @@ import cn.iocoder.common.framework.core.IntArrayValuable;
 import java.util.Arrays;
 
 /**
- * 资源类型枚举
+ * Resource 类型枚举
  */
 public enum ResourceTypeEnum implements IntArrayValuable {
 

@@ -8,12 +8,10 @@ import cn.iocoder.mall.system.biz.bo.authorization.RoleBO;
 import cn.iocoder.mall.system.biz.convert.authorization.RoleConvert;
 import cn.iocoder.mall.system.biz.dao.authorization.RoleMapper;
 import cn.iocoder.mall.system.biz.dataobject.authorization.RoleDO;
-import cn.iocoder.mall.system.biz.dto.authorization.RoleAddDTO;
-import cn.iocoder.mall.system.biz.dto.authorization.RoleDeleteDTO;
-import cn.iocoder.mall.system.biz.dto.authorization.RolePageDTO;
-import cn.iocoder.mall.system.biz.dto.authorization.RoleUpdateDTO;
+import cn.iocoder.mall.system.biz.dto.authorization.*;
 import cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum;
 import cn.iocoder.mall.system.biz.enums.authorization.RoleCodeEnum;
+import cn.iocoder.mall.system.biz.enums.authorization.RoleTypeEnum;
 import cn.iocoder.mall.system.biz.event.authorization.ResourceDeleteEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -39,8 +37,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<RoleBO> getRoleList(Collection<Integer> ids) {
-        return RoleConvert.INSTANCE.convertList(roleMapper.selectBatchIds(ids));
+    public List<RoleBO> getRoleList(RoleGetListDTO getListDTO) {
+        return RoleConvert.INSTANCE.convertList(roleMapper.selectListByIds(getListDTO.getIds()));
     }
 
     @Override
@@ -62,9 +60,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Integer addRole(RoleAddDTO roleAddDTO) {
         // 校验角色
-        checkRole(roleAddDTO.getName(), roleAddDTO.getCode(), null);
+        checkDuplicateRole(roleAddDTO.getName(), roleAddDTO.getCode(), null);
         // 保存到数据库
         RoleDO role = RoleConvert.INSTANCE.convert(roleAddDTO);
+        role.setType(RoleTypeEnum.CUSTOM.getType());
         role.setCreateTime(new Date());
         role.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
         roleMapper.insert(role);
@@ -76,14 +75,19 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void updateRole(RoleUpdateDTO roleUpdateDTO) {
         // 校验角色是否存在
-        if (roleMapper.selectById(roleUpdateDTO.getId()) == null) {
+        RoleDO roleDO = roleMapper.selectById(roleUpdateDTO.getId());
+        if (roleDO == null) {
             throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ROLE_NOT_EXISTS);
         }
-        // 校验角色
-        checkRole(roleUpdateDTO.getName(), roleUpdateDTO.getCode(), roleUpdateDTO.getId());
+        // 内置角色，不允许修改
+        if (RoleTypeEnum.SYSTEM.getType().equals(roleDO.getType())) {
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ROLE_CAN_NOT_UPDATE_SYSTEM_TYPE_ROLE);
+        }
+        // 校验角色的唯一字段是否重复
+        checkDuplicateRole(roleUpdateDTO.getName(), roleUpdateDTO.getCode(), roleUpdateDTO.getId());
         // 更新到数据库
-        RoleDO roleDO = RoleConvert.INSTANCE.convert(roleUpdateDTO);
-        roleMapper.updateById(roleDO);
+        RoleDO updateRole = RoleConvert.INSTANCE.convert(roleUpdateDTO);
+        roleMapper.updateById(updateRole);
         // TODO 插入操作日志
     }
 
@@ -91,8 +95,13 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public void deleteRole(RoleDeleteDTO roleDeleteDTO) {
         // 校验角色是否存在
-        if (roleMapper.selectById(roleDeleteDTO.getId()) == null) {
+        RoleDO roleDO = roleMapper.selectById(roleDeleteDTO.getId());
+        if (roleDO == null) {
             throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ROLE_NOT_EXISTS);
+        }
+        // 内置角色，不允许删除
+        if (RoleTypeEnum.SYSTEM.getType().equals(roleDO.getType())) {
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ROLE_CAN_NOT_DELETE_SYSTEM_TYPE_ROLE);
         }
         // 更新到数据库，标记删除
         roleMapper.deleteById(roleDeleteDTO.getId());
@@ -102,7 +111,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     /**
-     * 校验角色是否合法
+     * 校验角色的唯一字段是否重复
      *
      * 1. 是否存在相同名字的角色
      * 2. 是否存在相同编码的角色
@@ -111,31 +120,20 @@ public class RoleServiceImpl implements RoleService {
      * @param code 角色额编码
      * @param id 角色编号
      */
-    private void checkRole(String name, String code, Integer id) {
-        // 1. 是否存在相同名字的角色
+    private void checkDuplicateRole(String name, String code, Integer id) {
+        // 1. 该 name 名字被其它角色所使用
         RoleDO role = roleMapper.selectByName(name);
-        if (role != null) {
-            // 如果 id 为空，说明不用比较是否为相同 id 的资源
-            if (id == null) {
-                throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ROLE_NAME_DUPLICATE, name);
-            }
-            if (!role.getId().equals(id)) {
-                throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ROLE_NAME_DUPLICATE, name);
-            }
+        if (role != null && !role.getId().equals(id)) {
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ROLE_NAME_DUPLICATE, name);
         }
         // 2. 是否存在相同编码的角色
         if (!StringUtil.hasText(code)) {
             return;
         }
+        // 该 code 编码被其它角色所使用
         role = roleMapper.selectByCode(code);
-        if (role != null) {
-            // 如果 id 为空，说明不用比较是否为相同 id 的资源
-            if (id == null) {
-                throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ROLE_CODE_DUPLICATE, name);
-            }
-            if (!role.getId().equals(id)) {
-                throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ROLE_CODE_DUPLICATE, name);
-            }
+        if (role != null && !role.getId().equals(id)) {
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ROLE_CODE_DUPLICATE, name);
         }
     }
 

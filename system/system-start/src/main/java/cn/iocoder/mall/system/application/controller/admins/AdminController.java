@@ -102,25 +102,4 @@ public class AdminController {
         return success(adminService.deleteAdmin(AdminSecurityContextHolder.getContext().getAdminId(), id));
     }
 
-    @GetMapping("/role_list")
-    @ApiOperation(value = "指定管理员拥有的角色列表")
-    @ApiImplicitParam(name = "id", value = "管理员编号", required = true, example = "1")
-    public CommonResult<List<AdminRoleVO>> roleList(@RequestParam("id") Integer id) {
-        // 获得所有角色列表
-        List<RoleBO> allRoleList = roleService.getRoleList();
-        // 获得管理员的角色数组
-        Set<Integer> adminRoleIdSet = CollectionUtil.convertSet(adminService.getRoleList(id), RoleBO::getId);
-        // 转换出返回结果
-        List<AdminRoleVO> result = AdminConvert.INSTANCE.convert(allRoleList);
-        // 设置每个角色是否赋予给改管理员
-        result.forEach(adminRoleVO -> adminRoleVO.setAssigned(adminRoleIdSet.contains(adminRoleVO.getId())));
-        return success(result);
-    }
-
-    @PostMapping("/assign_role")
-    @ApiOperation(value = "分配给管理员角色")
-    public CommonResult<Boolean> assignRole(AdminAssignRoleDTO adminAssignRoleDTO) {
-        return success(adminService.assignAdminRole(AdminSecurityContextHolder.getContext().getAdminId(), adminAssignRoleDTO));
-    }
-
 }

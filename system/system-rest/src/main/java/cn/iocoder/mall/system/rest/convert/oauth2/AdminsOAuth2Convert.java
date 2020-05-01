@@ -17,7 +17,7 @@ public interface AdminsOAuth2Convert {
     OAuth2UsernameAuthenticateDTO convert(AdminsOAuth2UsernameAuthenticateRequest bean);
 
     @Mapping(source = "adminBO", target = "admin")
-    @Mapping(source = "accessTokenBO.id", target = "token.accessToken")
+    @Mapping(source = "accessTokenBO.accessToken", target = "token.accessToken")
     @Mapping(source = "accessTokenBO.refreshToken", target = "token.refreshToken")
     @Mapping(source = "accessTokenBO.expiresTime", target = "token.expiresTime")
     AdminsOAuth2AuthenticateResponse convert(AdminBO adminBO, OAuth2AuthenticateBO accessTokenBO);

@@ -4,17 +4,19 @@ import {
   addAdmin,
   adminRoleAssign,
   deleteAdmin,
-  queryAdmin,
   queryAdminRoleList,
   updateAdmin,
   updateAdminStatus,
   deptTreeAll,
 } from '../../services/admin';
+import {
+  adminPage
+} from '../../services/system';
 import { arrayToStringParams } from '../../utils/request.qs';
 import PaginationHelper from '../../../helpers/PaginationHelper';
 
 const SEARCH_PARAMS_DEFAULT = {
-  nickname: '',
+  name: '',
 };
 
 const buildSelectTree = list => {
@@ -76,7 +78,7 @@ export default {
       });
 
       // 请求
-      const response = yield call(queryAdmin, payload);
+      const response = yield call(adminPage, payload);
       // 响应
       yield put({
         type: 'setAll',
@@ -84,7 +86,7 @@ export default {
           list: response.data.list,
           pagination: PaginationHelper.formatPagination(response.data, payload),
           searchParams: {
-            nickname: payload.nickname || '',
+            name: payload.name || '',
           },
         },
       });

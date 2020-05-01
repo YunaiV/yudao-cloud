@@ -28,7 +28,7 @@ import PaginationHelper from '../../../helpers/PaginationHelper';
 
 const FormItem = Form.Item;
 const { TreeNode } = Tree;
-const status = ['未知', '正常', '禁用'];
+const status = ['未知', '在职', '离职'];
 
 // 列表
 function List({
@@ -49,23 +49,6 @@ function List({
       payload: {
         id: record.id,
       },
-    });
-  }
-
-  function handleStatus(record) {
-    Modal.confirm({
-      title: record.status === 1 ? '确认禁用' : '取消禁用',
-      content: `${record.username}`,
-      onOk() {
-        dispatch({
-          type: 'adminList/updateStatus',
-          payload: {
-            id: record.id,
-            status: record.status === 1 ? 2 : 1,
-          },
-        });
-      },
-      onCancel() {},
     });
   }
 
@@ -92,7 +75,7 @@ function List({
     },
     {
       title: '员工姓名',
-      dataIndex: 'nickname',
+      dataIndex: 'name',
     },
     {
       title: '部门',
@@ -115,7 +98,7 @@ function List({
       },
     },
     {
-      title: '状态',
+      title: '在职状态',
       dataIndex: 'status',
       render(val) {
         return <span>{status[val]}</span>; // TODO 芋艿，此处要改
@@ -130,16 +113,12 @@ function List({
       title: '操作',
       width: 360,
       render: (text, record) => {
-        const statusText = record.status === 1 ? '禁用' : '开启'; // TODO 芋艿，此处要改
         return (
           <Fragment>
             <a onClick={() => handleModalVisible(true, 'update', record)}>编辑</a>
             <Divider type="vertical" />
             <a onClick={() => handleRoleAssign(record)}>角色分配</a>
             <Divider type="vertical" />
-            <a className={styles.tableDelete} onClick={() => handleStatus(record)}>
-              {statusText}
-            </a>
             {record.status === 2 ? (
               <span>
                 <Divider type="vertical" />
@@ -223,7 +202,7 @@ const SearchForm = Form.create()(props => {
       <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
         <Col md={6} sm={24}>
           <FormItem label="员工姓名">
-            {getFieldDecorator('nickname')(<Input style={{ width: 250 }} placeholder="请输入" />)}
+            {getFieldDecorator('name')(<Input style={{ width: 200 }} placeholder="请输入" />)}
           </FormItem>
         </Col>
         <Col md={6} sm={24}>
@@ -233,7 +212,7 @@ const SearchForm = Form.create()(props => {
             })(
               <TreeSelect
                 showSearch
-                style={{ width: 250 }}
+                style={{ width: 200 }}
                 dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                 treeData={deptSelectTree}
                 placeholder="选择部门"
@@ -327,26 +306,13 @@ const AddOrUpdateForm = Form.create()(props => {
       okText="保存"
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="账号">
-        {form.getFieldDecorator('username', {
-          rules: [
-            { required: true, message: '请输入账号！' },
-            { max: 16, min: 6, message: '长度为 6-16 位' },
-            {
-              validator: (rule, value, callback) =>
-                checkTypeWithEnglishAndNumbers(rule, value, callback, '数字以及字母'),
-            },
-          ],
-          initialValue: formVals.username,
-        })(<Input placeholder="请输入" />)}
-      </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="员工姓名">
-        {form.getFieldDecorator('nickname', {
+        {form.getFieldDecorator('name', {
           rules: [
             { required: true, message: '请输入员工姓名！' },
             { max: 10, message: '姓名最大长度为 10' },
           ],
-          initialValue: formVals.nickname,
+          initialValue: formVals.name,
         })(<Input placeholder="请输入" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="归属部门">
@@ -363,6 +329,19 @@ const AddOrUpdateForm = Form.create()(props => {
             placeholder="选择部门"
           />
         )}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="账号">
+        {form.getFieldDecorator('username', {
+          rules: [
+            { required: true, message: '请输入账号！' },
+            { max: 16, min: 6, message: '长度为 6-16 位' },
+            {
+              validator: (rule, value, callback) =>
+                checkTypeWithEnglishAndNumbers(rule, value, callback, '数字以及字母'),
+            },
+          ],
+          initialValue: formVals.username,
+        })(<Input placeholder="请输入" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="密码">
         {form.getFieldDecorator('password', {

@@ -6,22 +6,17 @@ import lombok.experimental.Accessors;
 import java.util.Collection;
 
 /**
- * 资源模块 - 获得资源列表 DTO
+ * 角色模块 - 获得角色列表 DTO
  */
 @Data
 @Accessors(chain = true)
-public class ResourceGetListDTO {
+public class RoleGetListDTO {
 
     /**
-     * 资源编号数组
+     * 角色编号数组
      *
-     * 如果传入空，则不进行资源编号的过滤
+     * 如果传入空，则不进行角色编号的过滤
      */
     private Collection<Integer> ids;
-
-    /**
-     * 资源类型
-     */
-    private Integer type;
 
 }

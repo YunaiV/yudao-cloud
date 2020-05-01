@@ -18,6 +18,8 @@ public class AdminsRolePageResponse {
     private String name;
     @ApiModelProperty(value = "角色编码", example = "SUPER_ADMIN")
     private String code;
+    @ApiModelProperty(value = "角色类型", required = true, example = "1-系统角色; 2-内置角色")
+    private Integer type;
     @ApiModelProperty(value = "创建时间", required = true)
     private Date createTime;
 

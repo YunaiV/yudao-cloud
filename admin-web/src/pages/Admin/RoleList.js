@@ -10,6 +10,7 @@ import styles from './RoleList.less';
 
 const FormItem = Form.Item;
 const { TreeNode } = Tree;
+const types = ['未知', '系统角色', '自定义角色'];
 
 // 添加 form 表单
 const CreateForm = Form.create()(props => {
@@ -297,6 +298,13 @@ class RoleList extends PureComponent {
         dataIndex: 'code',
       },
       {
+        title: '类型',
+        dataIndex: 'type',
+        render(val) {
+          return <span>{types[val]}</span>;
+        },
+      },
+      {
         title: '创建时间',
         dataIndex: 'createTime',
         // sorter: true,
@@ -307,13 +315,21 @@ class RoleList extends PureComponent {
         width: 200,
         render: (text, record) => (
           <Fragment>
-            <a onClick={() => this.handleModalVisible(true, 'update', record)}>更新</a>
+            {record.type === 2 ? (
+              <span>
+                <a onClick={() => this.handleModalVisible(true, 'update', record)}>更新</a>
+              </span>
+            ) : null}
             <Divider type="vertical" />
             <a onClick={() => this.handleAssignModalVisible(true, record)}>分配权限</a>
             <Divider type="vertical" />
-            <a className={styles.tableDelete} onClick={() => this.handleDelete(record)}>
-              删除
-            </a>
+            {record.type === 2 ? (
+              <span>
+                <a className={styles.tableDelete} onClick={() => this.handleDelete(record)}>
+                  删除
+                </a>
+              </span>
+            ) : null}
           </Fragment>
         ),
       },

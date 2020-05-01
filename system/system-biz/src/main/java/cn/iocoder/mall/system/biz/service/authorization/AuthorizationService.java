@@ -3,12 +3,11 @@ package cn.iocoder.mall.system.biz.service.authorization;
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.mall.system.biz.bo.authorization.ResourceBO;
 import cn.iocoder.mall.system.biz.bo.authorization.ResourceTreeNodeBO;
-import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationAssignRoleResourceDTO;
-import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationCheckPermissionsDTO;
-import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationGetResourcesByAccountIdDTO;
-import cn.iocoder.mall.system.biz.dto.authorization.AuthorizationGetRoleResourcesDTO;
+import cn.iocoder.mall.system.biz.bo.authorization.RoleBO;
+import cn.iocoder.mall.system.biz.dto.authorization.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -32,6 +31,14 @@ public interface AuthorizationService {
      * @return 资源列表
      */
     List<ResourceBO> getResourcesByAccountId(AuthorizationGetResourcesByAccountIdDTO getResourcesByAccountIdDTO);
+
+    /**
+     * 获得每个账号拥有的角色集合
+     *
+     * @param getRoleMapByAccountIdsDTO 查询条件 DTO
+     * @return <账号编号, <RoleBO>>
+     */
+    Map<Integer, Set<RoleBO>> getRoleMapByAccountIds(AuthorizationGetRoleMapByAccountIdsDTO getRoleMapByAccountIdsDTO);
 
     /**
      * 获得指定账号的资源树

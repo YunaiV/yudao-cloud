@@ -2,6 +2,7 @@ package cn.iocoder.mall.system.biz.dataobject.admin;
 
 import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
 import cn.iocoder.mall.system.biz.dataobject.account.AccountDO;
+import cn.iocoder.mall.system.biz.enums.admin.AdminStatusEnum;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,10 +32,16 @@ public class AdminDO extends DeletableDO {
      */
     private String name;
     /**
-     * 科室编号
+     * 部门编号
      *
      * 关联 {@link DepartmentDO#getId()}
      */
     private Integer departmentId;
+    /**
+     * 在职状态
+     *
+     * 枚举 {@link AdminStatusEnum}
+     */
+    private Integer status;
 
 }

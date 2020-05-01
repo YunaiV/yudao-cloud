@@ -25,6 +25,10 @@ public class RoleBO {
      */
     private String code;
     /**
+     * 角色类型
+     */
+    private Integer type;
+    /**
      * 添加时间
      */
     private Date createTime;

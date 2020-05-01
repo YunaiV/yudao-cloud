@@ -41,6 +41,12 @@ public class CollectionUtil {
                 Collectors.mapping(valueFunc, Collectors.toList())));
     }
 
+    // 暂时没想好名字，先以 2 结尾噶
+    public static <T, K, V> Map<K, Set<V>> convertMultiMap2(List<T> from, Function<T, K> keyFunc, Function<T, V> valueFunc) {
+        return from.stream().collect(Collectors.groupingBy(keyFunc,
+                Collectors.mapping(valueFunc, Collectors.toSet())));
+    }
+
     public static boolean containsAny(Collection<?> source, Collection<?> candidates) {
         return CollectionUtils.containsAny(source, candidates);
     }

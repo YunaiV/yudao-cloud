@@ -89,3 +89,11 @@ export async function roleUpdate(params) {
     body: {},
   });
 }
+
+// ========== Admin 模块 ==========
+
+export async function adminPage(params) {
+  return request(`/system-api/admins/admin/page?${stringify(params)}`, {
+    method: 'GET',
+  });
+}

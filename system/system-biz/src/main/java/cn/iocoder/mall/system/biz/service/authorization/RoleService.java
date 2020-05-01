@@ -6,6 +6,7 @@ import cn.iocoder.mall.system.biz.dto.authorization.RoleAddDTO;
 import cn.iocoder.mall.system.biz.dto.authorization.RoleDeleteDTO;
 import cn.iocoder.mall.system.biz.dto.authorization.RolePageDTO;
 import cn.iocoder.mall.system.biz.dto.authorization.RoleUpdateDTO;
+import cn.iocoder.mall.system.biz.dto.authorization.RoleGetListDTO;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +18,7 @@ public interface RoleService {
 
     RoleBO getRole(Integer id);
 
-    List<RoleBO> getRoleList(Collection<Integer> ids);
+    List<RoleBO> getRoleList(RoleGetListDTO getListDTO);
 
     PageResult<RoleBO> getRolePage(RolePageDTO pageDTO);
 

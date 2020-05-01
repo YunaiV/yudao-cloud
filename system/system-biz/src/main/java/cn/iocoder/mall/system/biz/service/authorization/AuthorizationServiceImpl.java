@@ -5,6 +5,7 @@ import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
 import cn.iocoder.mall.system.biz.bo.authorization.ResourceBO;
 import cn.iocoder.mall.system.biz.bo.authorization.ResourceTreeNodeBO;
+import cn.iocoder.mall.system.biz.bo.authorization.RoleBO;
 import cn.iocoder.mall.system.biz.dao.authorization.AccountRoleMapper;
 import cn.iocoder.mall.system.biz.dao.authorization.RoleResourceMapper;
 import cn.iocoder.mall.system.biz.dataobject.authorization.AccountRoleDO;
@@ -93,6 +94,25 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         // 查询对应资源列表
         return resourceService.getResources(new ResourceGetListDTO().setIds(resourceIds).setType(getResourcesByAccountIdDTO.getType()));
     }
+
+    @Override
+    public Map<Integer, Set<RoleBO>> getRoleMapByAccountIds(AuthorizationGetRoleMapByAccountIdsDTO getRoleMapByAccountIdsDTO) {
+        return null;
+    }
+
+//    @Override
+//    public Map<Integer, Set<RoleBO>> getRoleIdMapByAccountIds(AuthorizationGetRoleMapByAccountIdsDTO getRoleMapByAccountIdsDTO) {
+//        // 查询管理员拥有的角色关联数据
+//        List<AccountRoleDO> accountRoleDOs = accountRoleMapper.selectListByAccountIds(getRoleMapByAccountIdsDTO.getAccountIds());
+//        if (CollectionUtil.isEmpty(accountRoleDOs)) {
+//            return Collections.emptyMap();
+//        }
+//        // 构建结果
+//        Map<Integer, Set<Integer>> accountRoleMap = CollectionUtil.convertMultiMap2(accountRoleDOs,
+//                AccountRoleDO::getAccountId, AccountRoleDO::getRoleId);
+//        getRoleMapByAccountIdsDTO.getAccountIds().forEach(accountId -> accountRoleMap.putIfAbsent(accountId, Collections.emptySet()));
+//        return accountRoleMap;
+//    }
 
     @Override
     public List<ResourceTreeNodeBO> getResourceTreeByAccountId(AuthorizationGetResourcesByAccountIdDTO getResourcesByAccountIdDTO) {

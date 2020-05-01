@@ -10,10 +10,10 @@ import javax.validation.constraints.NotEmpty;
  */
 @Data
 @Accessors(chain = true)
-public class OAuth2AccessTokenAuthenticateDTO {
+public class OAuth2RefreshTokenAuthenticateDTO {
 
     @NotEmpty(message = "访问令牌不能为空")
-    private String accessToken;
+    private String refreshToken;
     @NotEmpty(message = "IP 不能为空")
     private String ip;
 

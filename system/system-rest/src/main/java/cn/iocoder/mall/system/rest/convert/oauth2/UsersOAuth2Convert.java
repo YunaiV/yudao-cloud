@@ -5,7 +5,6 @@ import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2MobileCodeAuthenticateDTO;
 import cn.iocoder.mall.system.rest.request.oauth2.UsersOAuth2MobileCodeAuthenticateRequest;
 import cn.iocoder.mall.system.rest.response.user.UsersOAuth2AuthenticateResponse;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
@@ -15,7 +14,6 @@ public interface UsersOAuth2Convert {
 
     OAuth2MobileCodeAuthenticateDTO convert(UsersOAuth2MobileCodeAuthenticateRequest bean);
 
-    @Mapping(source = "token.id", target = "token.accessToken")
     UsersOAuth2AuthenticateResponse convert(UserAuthenticateBO bean);
 
 }

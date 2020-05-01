@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 文件模块(Admins API)
@@ -16,10 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * author: sin
  * time: 2020/4/20 9:41 上午
  */
-//@RestController
+@RestController
 @RequestMapping("admins/file")
 @Api(tags = "文件模块")
-// TODO FROM 芋艿 to 小范：挪下
 public class AdminsFileController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());

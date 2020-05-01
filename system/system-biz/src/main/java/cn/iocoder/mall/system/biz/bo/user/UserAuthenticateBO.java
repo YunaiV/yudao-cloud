@@ -4,9 +4,6 @@ import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AuthenticateBO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-/**
- * TODO 注释
- */
 @Data
 @Accessors(chain = true)
 public class UserAuthenticateBO {

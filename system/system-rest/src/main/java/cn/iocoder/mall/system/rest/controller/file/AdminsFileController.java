@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.rest.controller.admin.file;
+package cn.iocoder.mall.system.rest.controller.file;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import com.qiniu.util.Auth;

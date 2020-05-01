@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.rest.controller.admin.sms;
+package cn.iocoder.mall.system.rest.controller.sms;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
@@ -6,8 +6,8 @@ import cn.iocoder.mall.system.biz.bo.smsSign.ListSmsSignBO;
 import cn.iocoder.mall.system.biz.dto.smsSign.ListSmsSignDTO;
 import cn.iocoder.mall.system.biz.service.sms.SmsService;
 import cn.iocoder.mall.system.rest.convert.sms.AdminsSmsConvert;
-import cn.iocoder.mall.system.rest.request.smsSign.AddSignRequest;
-import cn.iocoder.mall.system.rest.request.smsSign.UpdateSignRequest;
+import cn.iocoder.mall.system.rest.request.sms.AddSignRequest;
+import cn.iocoder.mall.system.rest.request.sms.UpdateSignRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

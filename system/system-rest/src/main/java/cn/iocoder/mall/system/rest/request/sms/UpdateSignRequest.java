@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.rest.request.smsSign;
+package cn.iocoder.mall.system.rest.request.sms;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

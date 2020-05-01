@@ -1,8 +1,7 @@
-package cn.iocoder.mall.system.rest.request.smsSign;
+package cn.iocoder.mall.system.rest.request.sms;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.Serializable;
 

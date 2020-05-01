@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.rest.request.smsTemplate;
+package cn.iocoder.mall.system.rest.request.sms;
 
 import cn.iocoder.common.framework.validator.InEnum;
 import cn.iocoder.mall.system.biz.enums.sms.SmsPlatformEnum;
@@ -21,7 +21,11 @@ import java.io.Serializable;
 @ApiModel("短信模板-添加")
 @Data
 @Accessors(chain = true)
-public class AddSmsTemplateRequest implements Serializable {
+public class UpdateSmsTemplateRequest implements Serializable {
+
+    @ApiModelProperty("短信模板id")
+    @NotNull(message = "短信模板不能为空!")
+    private Integer id;
 
     @ApiModelProperty("短信签名id")
     @NotNull(message = "短信短信签名id不能为空!")

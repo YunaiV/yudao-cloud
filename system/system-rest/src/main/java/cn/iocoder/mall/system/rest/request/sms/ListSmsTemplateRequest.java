@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.rest.request.smsTemplate;
+package cn.iocoder.mall.system.rest.request.sms;
 
 import cn.iocoder.common.framework.vo.PageParam;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.biz.enums;
+package cn.iocoder.mall.system.biz.enums.userAddress;
 
 /**
  * 用户地址 - 用户默认地址

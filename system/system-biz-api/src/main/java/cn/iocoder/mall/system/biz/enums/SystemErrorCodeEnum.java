@@ -58,12 +58,12 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
 //    DATA_DICT_NOT_EXISTS(1002005001, "该数据字典不存在"),
 
     // ========== 短信模板 1002006000 ==========
-//    SMS_PLATFORM_FAIL(1002006000, "短信平台调用失败【具体错误会动态替换】"),
-//    SMS_SIGN_NOT_EXISTENT(1002006001, "短信签名不存在"),
-//    SMS_SIGN_IS_EXISTENT(1002006002, "短信签名已存在"),
-//    SMS_TEMPLATE_NOT_EXISTENT(1002006020, "短信签名不存在"),
-//    SMS_TEMPLATE_IS_EXISTENT(1002006021, "短信签名不存在"),
-//    SMS_NOT_SEND_CLIENT(1002006030, "短信没有发送的client"),
+    SMS_PLATFORM_FAIL(1002006000, "短信平台调用失败【具体错误会动态替换】"),
+    SMS_SIGN_NOT_EXISTENT(1002006001, "短信签名不存在"),
+    SMS_SIGN_IS_EXISTENT(1002006002, "短信签名已存在"),
+    SMS_TEMPLATE_NOT_EXISTENT(1002006020, "短信签名不存在"),
+    SMS_TEMPLATE_IS_EXISTENT(1002006021, "短信签名不存在"),
+    SMS_NOT_SEND_CLIENT(1002006030, "短信没有发送的client"),
 
     // ========== 部门模块 1002007000 ==========
 //    DEPT_SAME_LEVEL_NAME_EXITS(1002007001,"当前级别部门名字已存在"),

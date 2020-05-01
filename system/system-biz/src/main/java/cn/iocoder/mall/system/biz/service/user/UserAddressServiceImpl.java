@@ -8,8 +8,8 @@ import cn.iocoder.mall.system.biz.dao.user.UserAddressMapper;
 import cn.iocoder.mall.system.biz.dataobject.user.UserAddressDO;
 import cn.iocoder.mall.system.biz.dto.user.UserAddressAddDTO;
 import cn.iocoder.mall.system.biz.dto.user.UserAddressUpdateDTO;
-import cn.iocoder.mall.system.biz.enums.UserAddressHasDefaultEnum;
-import cn.iocoder.mall.system.biz.enums.UserErrorCodeEnum;
+import cn.iocoder.mall.system.biz.enums.userAddress.UserAddressHasDefaultEnum;
+import cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,11 +59,11 @@ public class UserAddressServiceImpl implements UserAddressService {
                 .selectByUserIdAndId(userAddressAddDTO.getUserId(), userAddressAddDTO.getId());
 
         if (DeletedStatusEnum.DELETED_YES.getValue().equals(userAddress.getDeleted())) {
-            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.USER_ADDRESS_IS_DELETED.getCode());
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.USER_ADDRESS_IS_DELETED.getCode());
         }
 
         if (userAddress == null) {
-            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.USER_ADDRESS_NOT_EXISTENT.getCode());
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.USER_ADDRESS_NOT_EXISTENT.getCode());
         }
 
         // 检查是否设置为默认地址
@@ -106,7 +106,7 @@ public class UserAddressServiceImpl implements UserAddressService {
         }
 
         if (userAddress == null) {
-            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.USER_ADDRESS_NOT_EXISTENT.getCode());
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.USER_ADDRESS_NOT_EXISTENT.getCode());
         }
 
         userAddressMapper.updateById(
@@ -131,11 +131,11 @@ public class UserAddressServiceImpl implements UserAddressService {
     public UserAddressBO getAddress(Integer userId, Integer id) {
         UserAddressDO userAddress = userAddressMapper.selectByUserIdAndId(userId, id);
         if (userAddress == null) {
-            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.USER_GET_ADDRESS_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.USER_GET_ADDRESS_NOT_EXISTS.getCode());
         }
 
         if (DeletedStatusEnum.DELETED_YES.getValue().equals(userAddress.getDeleted())) {
-            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.USER_ADDRESS_IS_DELETED.getCode());
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.USER_ADDRESS_IS_DELETED.getCode());
         }
 
         UserAddressBO userAddressBO = UserAddressConvert.INSTANCE.convert(userAddress);

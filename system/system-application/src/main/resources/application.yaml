@@ -5,3 +5,9 @@ spring:
   # Profile 的配置项
   profiles:
     active: local
+
+# TODO 小范 TO 芋艿，这个临时加了个
+qiniu:
+  bucket: xx
+  access-key: xx
+  secret-key: xx

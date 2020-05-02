@@ -36,12 +36,6 @@
             <artifactId>mall-spring-boot-starter-swagger</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
-        <!-- 文件服务商 -->
-        <dependency>
-            <groupId>com.qiniu</groupId>
-            <artifactId>qiniu-java-sdk</artifactId>
-        </dependency>
     </dependencies>
 
 </project>

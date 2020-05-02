@@ -60,6 +60,12 @@
             <artifactId>aliyun-java-sdk-core</artifactId>
         </dependency>
 
+        <!-- 文件服务商 -->
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+        </dependency>
+
         <!-- 工具类相关 -->
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -78,6 +84,7 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
+
     </dependencies>
 
 </project>

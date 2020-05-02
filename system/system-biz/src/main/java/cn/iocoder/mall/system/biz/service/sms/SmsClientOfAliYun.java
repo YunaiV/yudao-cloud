@@ -26,7 +26,7 @@ import java.util.Map;
  * @author Sin
  * @time 2019/5/25 12:28 PM
  */
-@Component
+@Component // TODO FROM 芋艿 to 小范：建议类名改成 AliYunSmsClient
 public class SmsClientOfAliYun implements SmsClient {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SmsClientOfAliYun.class);

@@ -61,6 +61,7 @@ public class SmsServiceImpl implements SmsService {
 
     @Override
     public PageResult<ListSmsSignBO> listSmsSign(ListSmsSignDTO queryDTO) {
+        // TODO FROM 芋艿 to 小范：mybatis-plus 的 QueryWrapper 不要到 Service 层，可以抽 Dao 方法里哈。其它的类似可以瞅瞅噢
         QueryWrapper<SmsSignDO> queryWrapper = new QueryWrapper<>();
         if (queryDTO.getApplyStatus() != null) {
             queryWrapper.eq("apply_status", queryDTO.getApplyStatus());
@@ -109,6 +110,7 @@ public class SmsServiceImpl implements SmsService {
                 = SmsTemplateConvert.INSTANCE.convert(signPage.getRecords());
 
         if (CollectionUtils.isEmpty(templateList)) {
+            // TODO FROM 芋艿 to 小范，Collections.EMPTY_LIST =》Collections.emptyList();另外，可以考虑直接 Convert 哈
             return new PageResult<>().setList(Collections.EMPTY_LIST).setTotal((int) signPage.getTotal());
         }
 
@@ -147,6 +149,7 @@ public class SmsServiceImpl implements SmsService {
         );
 
         if (smsSignDO != null) {
+            // TODO FROM 芋艿 to 小范：可以使用 ServiceExceptionUtil.exception(SystemErrorCodeEnum.SMS_SIGN_IS_EXISTENT);
             throw new ServiceException(SystemErrorCodeEnum.SMS_SIGN_IS_EXISTENT.getCode(),
                     SystemErrorCodeEnum.SMS_SIGN_IS_EXISTENT.getMessage());
         }

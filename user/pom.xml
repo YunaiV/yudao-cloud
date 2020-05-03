@@ -19,6 +19,8 @@
         <module>user-rest</module>
         <module>user-rpc</module>
         <module>user-rpc-api</module>
+        <module>user-biz-api</module>
+        <module>user-biz</module>
     </modules>
 
     <dependencyManagement>

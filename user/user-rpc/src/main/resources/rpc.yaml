@@ -15,3 +15,5 @@ dubbo:
     filter: -exception
     SystemLogRPC:
       version: 1.0.0
+    UserAddressRPC:
+      version: 1.0.0

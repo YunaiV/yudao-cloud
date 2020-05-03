@@ -26,10 +26,10 @@ import java.util.Map;
  * @author Sin
  * @time 2019/5/25 12:28 PM
  */
-@Component // TODO FROM 芋艿 to 小范：建议类名改成 AliYunSmsClient
-public class SmsClientOfAliYun implements SmsClient {
+@Component // TODO DOME FROM 芋艿 to 小范：建议类名改成 AliYunSmsClient
+public class AliYunSmsClient implements SmsClient {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SmsClientOfAliYun.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AliYunSmsClient.class);
 
     private static final String DOMAIN = "dysmsapi.aliyuncs.com";
     private static final String SUCCESS_CODE = "OK";

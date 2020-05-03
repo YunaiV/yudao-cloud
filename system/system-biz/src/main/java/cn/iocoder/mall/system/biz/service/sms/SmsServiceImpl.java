@@ -1,6 +1,7 @@
 package cn.iocoder.mall.system.biz.service.sms;
 
 import cn.iocoder.common.framework.exception.ServiceException;
+import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
 import cn.iocoder.mall.system.biz.bo.smsSign.ListSmsSignBO;
@@ -53,65 +54,30 @@ public class SmsServiceImpl implements SmsService {
     private SmsSendMapper smsSendMapper;
 
     @Autowired
-    @Qualifier("smsClientOfYunPian")
+    @Qualifier("yunPianSmsClient")
     private SmsClient smsYunPianClient;
     @Autowired
-    @Qualifier("smsClientOfAliYun")
+    @Qualifier("aliYunSmsClient")
     private SmsClient smsAliYunClient;
 
     @Override
     public PageResult<ListSmsSignBO> listSmsSign(ListSmsSignDTO queryDTO) {
-        // TODO FROM 芋艿 to 小范：mybatis-plus 的 QueryWrapper 不要到 Service 层，可以抽 Dao 方法里哈。其它的类似可以瞅瞅噢
-        QueryWrapper<SmsSignDO> queryWrapper = new QueryWrapper<>();
-        if (queryDTO.getApplyStatus() != null) {
-            queryWrapper.eq("apply_status", queryDTO.getApplyStatus());
-        }
-        if (!StringUtils.isEmpty(queryDTO.getSign())) {
-            queryWrapper.like("sign", queryDTO.getSign());
-        }
-        if (!StringUtils.isEmpty(queryDTO.getId())) {
-            queryWrapper.eq("id", queryDTO.getId());
-        }
-
-        Page<SmsSignDO> page = new Page<SmsSignDO>()
-                .setSize(queryDTO.getPageSize())
-                .setCurrent(queryDTO.getPageNo())
-                .setDesc("create_time");
-
-        IPage<SmsSignDO> signPage = smsSignMapper.selectPage(page, queryWrapper);
+        // TODO DOME FROM 芋艿 to 小范：mybatis-plus 的 QueryWrapper 不要到 Service 层，可以抽 Dao 方法里哈。其它的类似可以瞅瞅噢
+        IPage<SmsSignDO> signPage = smsSignMapper.listSmsSign(queryDTO);
         List<ListSmsSignBO> signList = SmsSignConvert.INSTANCE.convert(signPage.getRecords());
         return new PageResult<ListSmsSignBO>().setList(signList).setTotal((int) signPage.getTotal());
     }
 
     @Override
     public PageResult<ListSmsTemplateBO> listSmsTemplate(ListSmsTemplateDTO listSmsTemplateDTO) {
-        QueryWrapper<SmsTemplateDO> queryWrapper = new QueryWrapper<>();
-        if (listSmsTemplateDTO.getApplyStatus() != null) {
-            queryWrapper.eq("apply_status", listSmsTemplateDTO.getApplyStatus());
-        }
-        if (listSmsTemplateDTO.getSmsSignId() != null) {
-            queryWrapper.eq("sms_sign_id", listSmsTemplateDTO.getSmsSignId());
-        }
-        if (!StringUtils.isEmpty(listSmsTemplateDTO.getTemplate())) {
-            queryWrapper.like("template", listSmsTemplateDTO.getTemplate());
-        }
-        if (!StringUtils.isEmpty(listSmsTemplateDTO.getId())) {
-            queryWrapper.eq("id", listSmsTemplateDTO.getId());
-        }
-
-        Page<SmsTemplateDO> page = new Page<SmsTemplateDO>()
-                .setSize(listSmsTemplateDTO.getPageSize())
-                .setCurrent(listSmsTemplateDTO.getPageNo())
-                .setDesc("create_time");
-
-        IPage<SmsTemplateDO> signPage = smsTemplateMapper.selectPage(page, queryWrapper);
+        IPage<SmsTemplateDO> signPage = smsTemplateMapper.listSmsTemplate(listSmsTemplateDTO);
 
         List<ListSmsTemplateBO> templateList
                 = SmsTemplateConvert.INSTANCE.convert(signPage.getRecords());
 
         if (CollectionUtils.isEmpty(templateList)) {
-            // TODO FROM 芋艿 to 小范，Collections.EMPTY_LIST =》Collections.emptyList();另外，可以考虑直接 Convert 哈
-            return new PageResult<>().setList(Collections.EMPTY_LIST).setTotal((int) signPage.getTotal());
+            // TODO DOME FROM 芋艿 to 小范，Collections.EMPTY_LIST =》Collections.emptyList();另外，可以考虑直接 Convert 哈
+            return new PageResult<ListSmsTemplateBO>().setList(Collections.emptyList()).setTotal((int) signPage.getTotal());
         }
 
         // 获取 sign
@@ -149,9 +115,8 @@ public class SmsServiceImpl implements SmsService {
         );
 
         if (smsSignDO != null) {
-            // TODO FROM 芋艿 to 小范：可以使用 ServiceExceptionUtil.exception(SystemErrorCodeEnum.SMS_SIGN_IS_EXISTENT);
-            throw new ServiceException(SystemErrorCodeEnum.SMS_SIGN_IS_EXISTENT.getCode(),
-                    SystemErrorCodeEnum.SMS_SIGN_IS_EXISTENT.getMessage());
+            // TODO DOME FROM 芋艿 to 小范：可以使用 ServiceExceptionUtil.exception(SystemErrorCodeEnum.SMS_SIGN_IS_EXISTENT);
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.SMS_SIGN_IS_EXISTENT);
         }
 
         // 保存数据库

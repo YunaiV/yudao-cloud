@@ -31,9 +31,9 @@ import java.util.Map;
  * @time 2019/5/16 6:34 PM
  */
 @Component
-public class SmsClientOfYunPian implements SmsClient {
+public class YunPianSmsClient implements SmsClient {
 
-    protected static final Logger LOGGER = LoggerFactory.getLogger(SmsClientOfYunPian.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(YunPianSmsClient.class);
 
     private static final int SUCCESS_CODE = 0;
     private static final String SUCCESS_MESSAGE = "SUCCESS";

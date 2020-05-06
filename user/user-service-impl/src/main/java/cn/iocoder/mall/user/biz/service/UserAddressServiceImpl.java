@@ -39,6 +39,7 @@ public class UserAddressServiceImpl implements UserAddressService {
         userAddressDO.setCreateTime(new Date());
         userAddressDO.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
 
+        // TODO FROM 芋艿 to 小范：建议先更新，然后在创建 UserAddressDO
         // 检查是否设置为默认地址
         if (UserAddressHasDefaultEnum.DEFAULT_ADDRESS_YES.getValue() == userAddressAddDTO.getHasDefault()) {
             UserAddressDO defaultUserAddress = userAddressMapper.selectHasDefault(
@@ -106,6 +107,7 @@ public class UserAddressServiceImpl implements UserAddressService {
     public CommonResult removeAddress(Integer userId, Integer addressId) {
         UserAddressDO userAddress = userAddressMapper.selectByUserIdAndId(userId, addressId);
 
+        // TODO FROM 芋艿 to 小范：这个应该不会触发哈
         if (DeletedStatusEnum.DELETED_YES.getValue().equals(userAddress.getDeleted())) {
             // skip
             return CommonResult.success(null);

@@ -12,7 +12,6 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-// TODO FROM 芋艿 to 小范：还是放在 user 服务，哈哈哈，我表述错了。
 public class UserAddressDO extends DeletableDO {
 
     /**

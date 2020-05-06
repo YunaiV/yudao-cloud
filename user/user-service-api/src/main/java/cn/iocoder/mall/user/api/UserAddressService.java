@@ -15,6 +15,8 @@ import java.util.List;
  */
 public interface UserAddressService {
 
+    // TODO FROM 芋艿 to 小范：泛型哈。另外，Service 不用 CommonResult 返回
+
     CommonResult addAddress(UserAddressAddDTO userAddressAddDTO);
 
     CommonResult updateAddress(UserAddressUpdateDTO userAddressAddDTO);

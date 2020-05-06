@@ -24,6 +24,7 @@ public interface UserAddressRPCConvert {
     UserAddressRPCConvert INSTANCE = Mappers.getMapper(UserAddressRPCConvert.class);
 
 
+    // TODO FROM 芋艿 to 小范：如果不用映射，可以不用 @Mappings 哈
     @Mappings({})
     UserAddressAddDTO convert(UserAddressAddRequest userAddressAddRequest);
 

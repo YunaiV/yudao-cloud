@@ -22,6 +22,8 @@ public class UserAddressDO extends DeletableDO {
      * 用户编号
      */
     private Integer userId;
+    // TODO FROM 芋艿 to 小范：需要增加下省市区；
+    // TODO FROM 芋艿 to 小范：想了一个增强，可以靠 API ，实现自动识别，哈哈哈；https://open.kuaidihelp.com/apitool/1019
     /**
      * 收件区域编号
      */
@@ -41,6 +43,7 @@ public class UserAddressDO extends DeletableDO {
     /**
      * 是否为默认
      */
+    // TODO FROM 芋艿 to 小范：是不是一起在捉摸个单词，总觉得 hasDefault 怪怪的。。
     private Integer hasDefault;
 
 }

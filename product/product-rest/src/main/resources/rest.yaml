@@ -1,0 +1,12 @@
+# 服务器的配置项
+server:
+  port: 18081
+  servlet:
+    context-path: /product-api/
+
+# Swagger 配置项
+swagger:
+  title: 商品子系统
+  description: 商品子系统
+  version: 1.0.0
+  base-package: cn.iocoder.mall.system.rest.controller

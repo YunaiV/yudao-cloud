@@ -10,11 +10,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>product</artifactId>
+    <name>product</name>
     <packaging>pom</packaging>
     <modules>
         <module>product-application</module>
-        <module>product-service-api</module>
-        <module>product-service-impl</module>
+        <module>product-rpc-api</module>
+        <module>product-rpc</module>
+        <module>product-rest</module>
+        <module>product-biz</module>
+        <module>product-biz-api</module>
     </modules>
 
     <dependencyManagement>

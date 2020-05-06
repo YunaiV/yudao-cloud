@@ -1,18 +1,18 @@
-package cn.iocoder.mall.product.biz.bo.product;
+package cn.iocoder.mall.product.biz.bo.category;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
-
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 商品分类 BO
+ * @Author: jiangweifan
+ * @Date: 2020/5/6
+ * @Description: 商品分类 - 创建商品分类BO
  */
 @Data
 @Accessors(chain = true)
-@Deprecated // TODO jiangweifan 后面确认无使用后删除
-public class ProductCategoryBO implements Serializable {
+public class ProductCategoryAddBO implements Serializable {
 
     /**
      * 分类编号

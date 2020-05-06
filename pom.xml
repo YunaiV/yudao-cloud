@@ -14,7 +14,7 @@
     <artifactId>onemall</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-<!--        <module>product</module>-->
+        <module>product</module>
 <!--        <module>order</module>-->
 <!--        <module>user</module>-->
         <module>common</module>

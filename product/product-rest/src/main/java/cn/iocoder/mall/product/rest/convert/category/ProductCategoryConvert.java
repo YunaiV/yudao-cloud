@@ -3,7 +3,12 @@ package cn.iocoder.mall.product.rest.convert.category;
 import cn.iocoder.mall.product.biz.bo.category.ProductCategoryAddBO;
 import cn.iocoder.mall.product.biz.bo.category.ProductCategoryAllListBO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryAddDTO;
+import cn.iocoder.mall.product.biz.dto.category.ProductCategoryDeleteDTO;
+import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateDTO;
+import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateStatusDTO;
 import cn.iocoder.mall.product.rest.request.category.AdminsProductCategoryAddRequest;
+import cn.iocoder.mall.product.rest.request.category.AdminsProductCategoryUpdateRequest;
+import cn.iocoder.mall.product.rest.request.category.AdminsProductCategoryUpdateStatusRequest;
 import cn.iocoder.mall.product.rest.response.category.AdminsProductCategoryAddResponse;
 import cn.iocoder.mall.product.rest.response.category.AdminsProductCategoryTreeNodeResponse;
 import org.mapstruct.Mapper;
@@ -25,7 +30,6 @@ public interface ProductCategoryConvert {
      * @param productCategoryAllListBO
      * @return
      */
-    @Mappings({})
     AdminsProductCategoryTreeNodeResponse convertToTreeNodeResponse(ProductCategoryAllListBO productCategoryAllListBO);
 
 
@@ -34,7 +38,6 @@ public interface ProductCategoryConvert {
      * @param adminsProductCategoryAddRequest
      * @return
      */
-    @Mappings({})
     ProductCategoryAddDTO convertToAddDTO(Integer adminId, AdminsProductCategoryAddRequest adminsProductCategoryAddRequest);
 
     /**
@@ -42,6 +45,27 @@ public interface ProductCategoryConvert {
      * @param productCategoryAddBO
      * @return
      */
-    @Mappings({})
     AdminsProductCategoryAddResponse convertToAddResponse(ProductCategoryAddBO productCategoryAddBO);
+
+    /**
+     * 更新商品分类 - Request转DTO
+     * @param adminsProductCategoryUpdateRequest
+     * @return
+     */
+    ProductCategoryUpdateDTO convertToUpdateDTO(Integer adminId, AdminsProductCategoryUpdateRequest adminsProductCategoryUpdateRequest);
+
+    /**
+     * 更新商品分类状态 - Request转DTO
+     * @param adminsProductCategoryUpdateStatusRequest
+     * @return
+     */
+    ProductCategoryUpdateStatusDTO convertToUpdateStatusDTO(Integer adminId, AdminsProductCategoryUpdateStatusRequest adminsProductCategoryUpdateStatusRequest);
+
+    /**
+     * 删除商品分类 - Request转DTO
+     * @param adminId 管理员id
+     * @param id 商品分类id
+     * @return
+     */
+    ProductCategoryDeleteDTO convertToDeleteDTO(Integer adminId, Integer id);
 }

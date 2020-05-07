@@ -3,6 +3,10 @@ package cn.iocoder.mall.product.biz.service.product;
 import cn.iocoder.mall.product.biz.bo.category.ProductCategoryAddBO;
 import cn.iocoder.mall.product.biz.bo.category.ProductCategoryAllListBO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryAddDTO;
+import cn.iocoder.mall.product.biz.dto.category.ProductCategoryDeleteDTO;
+import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateDTO;
+import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateStatusDTO;
+
 import java.util.List;
 
 
@@ -25,4 +29,25 @@ public interface ProductCategoryService {
      * @return
      */
     ProductCategoryAddBO addProductCategory(ProductCategoryAddDTO productCategoryAddDTO);
+
+    /**
+     * 更新商品分类
+     * @param productCategoryUpdateDTO
+     * @return
+     */
+    Boolean updateProductCategory(ProductCategoryUpdateDTO productCategoryUpdateDTO);
+
+    /**
+     * 更新商品分类状态
+     * @param productCategoryUpdateStatusDTO
+     * @return
+     */
+    Boolean updateProductCategoryStatus(ProductCategoryUpdateStatusDTO productCategoryUpdateStatusDTO);
+
+    /**
+     * 删除商品分类
+     * @param productCategoryDeleteDTO
+     * @return
+     */
+    Boolean deleteProductCategory(ProductCategoryDeleteDTO productCategoryDeleteDTO);
 }

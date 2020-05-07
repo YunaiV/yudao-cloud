@@ -4,6 +4,7 @@ import cn.iocoder.mall.product.biz.bo.category.ProductCategoryAddBO;
 import cn.iocoder.mall.product.biz.bo.category.ProductCategoryAllListBO;
 import cn.iocoder.mall.product.biz.dataobject.product.ProductCategoryDO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryAddDTO;
+import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -24,7 +25,6 @@ public interface ProductCategoryConvert {
      * @param category
      * @return
      */
-    @Mappings({})
     ProductCategoryAllListBO convertToAllListBO(ProductCategoryDO category);
 
 
@@ -33,24 +33,27 @@ public interface ProductCategoryConvert {
      * @param category
      * @return
      */
-    @Mappings({})
     List<ProductCategoryAllListBO> convertToAllListBO(List<ProductCategoryDO> category);
 
     /**
-     * 商品分类新增 - DTO转换DO
+     * 新增商品分类 - DTO转换DO
      * @param productCategoryAddDTO
      * @return
      */
-    @Mappings({})
     ProductCategoryDO convertToDO(ProductCategoryAddDTO productCategoryAddDTO);
 
     /**
-     * 商品分类新增 - DO转换BO
+     * 新增商品分类 - DO转换BO
      * @param category
      * @return
      */
-    @Mappings({})
     ProductCategoryAddBO convertToAddBO(ProductCategoryDO category);
 
+    /**
+     * 更新商品分类 - DTO转换DO
+     * @param productCategoryUpdateDTO
+     * @return
+     */
+    ProductCategoryDO convertToDO(ProductCategoryUpdateDTO productCategoryUpdateDTO);
 
 }

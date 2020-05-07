@@ -16,6 +16,8 @@ import javax.validation.constraints.NotNull;
 @Data
 @Accessors(chain = true)
 public class AdminsProductCategoryAddRequest {
+
+    // TODO FROM 芋艿 to 伟帆：写了 swagger 注解，我们可以少写一份 Java 注释。
     /**
      * 父分类编号
      */

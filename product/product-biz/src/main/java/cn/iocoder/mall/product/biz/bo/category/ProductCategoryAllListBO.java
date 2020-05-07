@@ -12,6 +12,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
+// TODO FROM 芋艿 to 伟帆，
 public class ProductCategoryAllListBO implements Serializable {
 
     /**

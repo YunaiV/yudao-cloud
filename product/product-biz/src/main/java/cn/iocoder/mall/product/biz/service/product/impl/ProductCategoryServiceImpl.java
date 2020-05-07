@@ -18,8 +18,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Wrapper;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: jiangweifan
@@ -168,6 +168,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
             }
             // 父分类必须是一级分类
             if (!ProductCategoryConstants.PID_ROOT.equals(parentCategory.getPid())) {
+                // TODO FROM 芋艿 to 伟帆，ProductErrorCodeEnum 去实现下 ServiceExceptionUtil.Enumerable 接口，酱紫就不用 .getCode() 方法，代码会更简洁。同时，可以把 ProductErrorCodeEnum static import 下，
                 throw ServiceExceptionUtil.exception((ProductErrorCodeEnum.PRODUCT_CATEGORY_PARENT_CAN_NOT_BE_LEVEL2.getCode()));
             }
         }

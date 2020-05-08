@@ -2,7 +2,6 @@ package cn.iocoder.mall.promotion.application.controller.admins;
 
 import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.system.sdk.context.AdminSecurityContextHolder;
 import cn.iocoder.mall.promotion.api.CouponService;
 import cn.iocoder.mall.promotion.api.bo.CouponTemplateBO;
 import cn.iocoder.mall.promotion.api.bo.CouponTemplatePageBO;
@@ -12,6 +11,7 @@ import cn.iocoder.mall.promotion.api.dto.CouponTemplatePageDTO;
 import cn.iocoder.mall.promotion.application.convert.CouponTemplateConvert;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsCouponTemplatePageVO;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsCouponTemplateVO;
+import cn.iocoder.mall.security.core.context.AdminSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

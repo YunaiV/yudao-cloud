@@ -1,8 +1,8 @@
 package cn.iocoder.mall.promotion.biz.service;
 
 import cn.iocoder.common.framework.constant.CommonStatusEnum;
-import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
 import cn.iocoder.mall.product.api.ProductSpuService;
 import cn.iocoder.mall.promotion.api.ProductRecommendService;
 import cn.iocoder.mall.promotion.api.bo.ProductRecommendBO;

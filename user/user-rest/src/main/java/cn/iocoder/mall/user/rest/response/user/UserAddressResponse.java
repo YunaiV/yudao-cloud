@@ -1,4 +1,4 @@
-package cn.iocoder.mall.user.rest.response;
+package cn.iocoder.mall.user.rest.response.user;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

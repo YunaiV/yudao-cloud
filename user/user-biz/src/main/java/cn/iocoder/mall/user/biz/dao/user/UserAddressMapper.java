@@ -15,7 +15,7 @@ import java.util.List;
  * @time 2019-04-06 13:29
  */
 @Repository
-// TODO FROM 芋艿 to 小范：替换成 Mybatis Plus
+// TODO done FROM 芋艿 to 小范：替换成 Mybatis Plus
 public interface UserAddressMapper extends BaseMapper<UserAddressDO> {
 
     default List<UserAddressDO> selectByUserId(Integer userId) {

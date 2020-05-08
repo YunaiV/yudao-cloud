@@ -1,5 +1,9 @@
 root=true
 
+# TODO 不是所有文件都是 UTF-8 格式（会影响二进制文件）
+[*]
+charset = utf-8
+
 [*.java]
 indent_style = space
 indent_size = 4

@@ -52,7 +52,7 @@ public class UsersUserAddressController {
 
     @DeleteMapping("/{addressId}/remove")
     @ApiOperation("删除 - 根据id删除")
-    public CommonResult<UserAddressResponse> getDefaultAddress(@PathVariable("addressId") Integer addressId) {
+    public CommonResult getDefaultAddress(@PathVariable("addressId") Integer addressId) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         userAddressService.removeAddress(userId, addressId);
         return CommonResult.success(null);
@@ -60,7 +60,7 @@ public class UsersUserAddressController {
 
     @PostMapping("/add-address")
     @ApiOperation("添加地址")
-    public CommonResult<UserAddressResponse> addAddress(@RequestBody UserAddressAddRequest userAddressAddRequest) {
+    public CommonResult addAddress(@RequestBody UserAddressAddRequest userAddressAddRequest) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         UserAddressAddDTO userAddressAddDTO = UserAddressConvert.INSTANCE.convert(userAddressAddRequest);
         userAddressAddDTO.setUserId(userId);
@@ -70,7 +70,7 @@ public class UsersUserAddressController {
 
     @PutMapping("/update-address")
     @ApiOperation("更新地址")
-    public CommonResult<UserAddressResponse> updateAddress(@RequestBody UserAddressUpdateRequest userAddressAddRequest) {
+    public CommonResult updateAddress(@RequestBody UserAddressUpdateRequest userAddressAddRequest) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         UserAddressUpdateDTO userAddressAddDTO = UserAddressConvert.INSTANCE.convert(userAddressAddRequest);
         userAddressAddDTO.setUserId(userId);

@@ -16,7 +16,7 @@
     <modules>
         <module>product</module>
 <!--        <module>order</module>-->
-<!--        <module>user</module>-->
+        <module>user</module>
         <module>common</module>
         <module>system</module>
 <!--        <module>ops</module>-->

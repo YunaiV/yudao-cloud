@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -60,7 +61,7 @@ public class UsersUserAddressController {
 
     @PostMapping("/add-address")
     @ApiOperation("添加地址")
-    public CommonResult addAddress(@RequestBody UserAddressAddRequest userAddressAddRequest) {
+    public CommonResult addAddress(@RequestBody @Valid UserAddressAddRequest userAddressAddRequest) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         UserAddressAddDTO userAddressAddDTO = UserAddressConvert.INSTANCE.convert(userAddressAddRequest);
         userAddressAddDTO.setUserId(userId);
@@ -70,7 +71,7 @@ public class UsersUserAddressController {
 
     @PutMapping("/update-address")
     @ApiOperation("更新地址")
-    public CommonResult updateAddress(@RequestBody UserAddressUpdateRequest userAddressAddRequest) {
+    public CommonResult updateAddress(@RequestBody @Valid UserAddressUpdateRequest userAddressAddRequest) {
         Integer userId = UserSecurityContextHolder.getContext().getUserId();
         UserAddressUpdateDTO userAddressAddDTO = UserAddressConvert.INSTANCE.convert(userAddressAddRequest);
         userAddressAddDTO.setUserId(userId);

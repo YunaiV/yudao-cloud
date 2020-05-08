@@ -2,13 +2,13 @@ package cn.iocoder.mall.user.biz.service.user;
 
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
-import cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum;
 import cn.iocoder.mall.user.biz.bo.user.UserAddressBO;
 import cn.iocoder.mall.user.biz.convert.user.UserAddressConvert;
 import cn.iocoder.mall.user.biz.dao.user.UserAddressMapper;
 import cn.iocoder.mall.user.biz.dataobject.user.UsersUserAddressDO;
 import cn.iocoder.mall.user.biz.dto.user.UserAddressAddDTO;
 import cn.iocoder.mall.user.biz.dto.user.UserAddressUpdateDTO;
+import cn.iocoder.mall.user.biz.enums.UserErrorCodeEnum;
 import cn.iocoder.mall.user.biz.enums.user.UserAddressHasDefaultEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,12 +62,12 @@ public class UserAddressServiceImpl implements UserAddressService {
         UsersUserAddressDO userAddress = userAddressMapper.selectById(userAddressAddDTO.getId());
 
         if (userAddress == null) {
-            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.USER_ADDRESS_NOT_EXISTENT.getCode());
+            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.USER_ADDRESS_NOT_EXISTENT.getCode());
         }
 
         // 删除的地址不能更新
         if (DeletedStatusEnum.DELETED_YES.getValue().equals(userAddress.getDeleted())) {
-            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.USER_ADDRESS_IS_DELETED.getCode());
+            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.USER_ADDRESS_IS_DELETED.getCode());
         }
 
         // 检查是否设置为默认地址
@@ -95,7 +95,7 @@ public class UserAddressServiceImpl implements UserAddressService {
         UsersUserAddressDO userAddress = userAddressMapper.selectById(addressId);
 
         if (userAddress == null) {
-            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.USER_ADDRESS_NOT_EXISTENT.getCode());
+            throw ServiceExceptionUtil.exception(UserErrorCodeEnum.USER_ADDRESS_NOT_EXISTENT.getCode());
         }
 
         if (DeletedStatusEnum.DELETED_YES.getValue().equals(userAddress.getDeleted())) {

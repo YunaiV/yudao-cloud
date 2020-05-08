@@ -11,5 +11,12 @@
 
     <artifactId>user-biz-api</artifactId>
 
-
+    <dependencies>
+        <!-- Mall 相关 -->
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>common-framework</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>

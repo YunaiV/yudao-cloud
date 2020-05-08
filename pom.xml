@@ -21,7 +21,7 @@
         <module>system</module>
 <!--        <module>ops</module>-->
 <!--        <module>pay</module>-->
-<!--        <module>promotion</module>-->
+        <module>promotion</module>
 <!--        <module>search</module>-->
 <!--        <module>demo</module>-->
         <module>mall-dependencies</module>

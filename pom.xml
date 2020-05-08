@@ -25,6 +25,7 @@
 <!--        <module>search</module>-->
 <!--        <module>demo</module>-->
         <module>mall-dependencies</module>
+        <module>mall-cache</module>
     </modules>
     <packaging>pom</packaging>
 

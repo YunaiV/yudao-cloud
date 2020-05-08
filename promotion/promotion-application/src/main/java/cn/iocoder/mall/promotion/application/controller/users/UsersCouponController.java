@@ -26,6 +26,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 @Api("优惠劵（码）模块")
 public class UsersCouponController {
 
+
     @Reference(validation = "true", version = "${dubbo.provider.CouponService.version}")
     private CouponService couponService;
 

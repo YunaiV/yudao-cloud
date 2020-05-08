@@ -1,7 +1,6 @@
 package cn.iocoder.mall.promotion.application.controller.admins;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.system.sdk.context.AdminSecurityContextHolder;
 import cn.iocoder.mall.product.api.ProductSpuService;
 import cn.iocoder.mall.product.api.bo.ProductSpuBO;
 import cn.iocoder.mall.promotion.api.ProductRecommendService;
@@ -13,6 +12,7 @@ import cn.iocoder.mall.promotion.api.dto.ProductRecommendUpdateDTO;
 import cn.iocoder.mall.promotion.application.convert.ProductRecommendConvert;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsProductRecommendPageVO;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsProductRecommendVO;
+import cn.iocoder.mall.security.core.context.AdminSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

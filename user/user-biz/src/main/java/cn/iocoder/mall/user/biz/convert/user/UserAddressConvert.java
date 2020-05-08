@@ -1,7 +1,7 @@
 package cn.iocoder.mall.user.biz.convert.user;
 
 import cn.iocoder.mall.user.biz.bo.user.UserAddressBO;
-import cn.iocoder.mall.user.biz.dataobject.user.UserAddressDO;
+import cn.iocoder.mall.user.biz.dataobject.user.UsersUserAddressDO;
 import cn.iocoder.mall.user.biz.dto.user.UserAddressAddDTO;
 import cn.iocoder.mall.user.biz.dto.user.UserAddressUpdateDTO;
 import org.mapstruct.Mapper;
@@ -22,14 +22,14 @@ public interface UserAddressConvert {
     UserAddressConvert INSTANCE = Mappers.getMapper(UserAddressConvert.class);
 
     @Mappings({})
-    UserAddressDO convert(UserAddressAddDTO userAddressAddDTO);
+    UsersUserAddressDO convert(UserAddressAddDTO userAddressAddDTO);
 
     @Mappings({})
-    UserAddressDO convert(UserAddressUpdateDTO userAddressUpdateDTO);
+    UsersUserAddressDO convert(UserAddressUpdateDTO userAddressUpdateDTO);
 
     @Mappings({})
-    UserAddressBO convert(UserAddressDO userAddressDO);
+    UserAddressBO convert(UsersUserAddressDO userAddressDO);
 
     @Mappings({})
-    List<UserAddressBO> convertUserAddressBOList(List<UserAddressDO> userAddressDOList);
+    List<UserAddressBO> convertUserAddressBOList(List<UsersUserAddressDO> userAddressDOList);
 }

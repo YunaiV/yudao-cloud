@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class UserAddressDO extends DeletableDO {
+public class UsersUserAddressDO extends DeletableDO {
 
     /**
      * 编号

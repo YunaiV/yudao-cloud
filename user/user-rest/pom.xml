@@ -13,17 +13,11 @@
 
     <dependencies>
         <!-- Mall 相关 -->
-<!--        <dependency>-->
-<!--            <groupId>cn.iocoder.mall</groupId>-->
-<!--            <artifactId>user-biz</artifactId>-->
-<!--            <version>1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-
-        <!-- Mall 相关 -->
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
-            <artifactId>common-framework</artifactId>
+            <artifactId>user-biz</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
 
         <!-- Web 相关 -->
@@ -32,8 +26,16 @@
             <artifactId>mall-spring-boot-starter-web</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
-        <!-- TODO 云服务 -->
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>mall-spring-boot-starter-security</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>mall-spring-boot-starter-swagger</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

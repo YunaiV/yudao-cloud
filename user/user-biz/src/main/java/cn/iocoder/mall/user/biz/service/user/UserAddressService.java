@@ -14,15 +14,49 @@ import java.util.List;
  */
 public interface UserAddressService {
 
+    /**
+     * 添加地址
+     *
+     * @param userAddressAddDTO
+     */
     void addAddress(UserAddressAddDTO userAddressAddDTO);
 
+    /**
+     * 更新 - 根据id 更新
+     *
+     * @param userAddressAddDTO
+     */
     void updateAddress(UserAddressUpdateDTO userAddressAddDTO);
 
+    /**
+     * 删除 - 更新id 删除
+     *
+     * @param userId
+     * @param addressId
+     */
     void removeAddress(Integer userId, Integer addressId);
 
-    List<UserAddressBO> addressList(Integer userId);
+    /**
+     * 获取 - 用户所有地址
+     *
+     * @param userId
+     * @return
+     */
+    List<UserAddressBO> listAddress(Integer userId);
 
-    UserAddressBO getAddress(Integer userId, Integer id);
+    /**
+     * 获取 - 根据id 获取地址
+     *
+     * @param id
+     * @return
+     */
+    UserAddressBO getAddress(Integer id);
 
+    /**
+     * 获取 - 获取用户 default 地址
+     *
+     * @param userId
+     * @return
+     */
     UserAddressBO getDefaultAddress(Integer userId);
 }

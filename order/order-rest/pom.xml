@@ -19,7 +19,6 @@
             <artifactId>order-biz</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
         <!-- Web 相关 -->
         <dependency>
             <groupId>cn.iocoder.mall</groupId>

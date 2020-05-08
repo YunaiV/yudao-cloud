@@ -1,8 +1,8 @@
 # 服务器的配置项
 server:
-  port: 18083
+  port: 18088
   servlet:
-    context-path: /system-api/
+    context-path: /order-api/
 
 # Swagger 配置项
 swagger:

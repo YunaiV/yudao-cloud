@@ -18,8 +18,10 @@ import javax.validation.constraints.NotNull;
 public class AdminsProductCategoryUpdateStatusRequest {
 
     @ApiModelProperty(name = "id", value = "分类编号", required = true, example = "1")
+    @NotNull(message = "编号不能为空")
     private Integer id;
 
     @ApiModelProperty(name = "status", value = "状态。1 - 开启；2 - 禁用", required = true, example = "1")
+    @NotNull(message = "状态不能为空")
     private Integer status;
 }

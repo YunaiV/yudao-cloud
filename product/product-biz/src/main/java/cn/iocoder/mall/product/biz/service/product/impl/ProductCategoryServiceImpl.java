@@ -2,8 +2,7 @@ package cn.iocoder.mall.product.biz.service.product.impl;
 
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
-import cn.iocoder.mall.product.biz.bo.category.ProductCategoryAddBO;
-import cn.iocoder.mall.product.biz.bo.category.ProductCategoryAllListBO;
+import cn.iocoder.mall.product.biz.bo.category.ProductCategoryBO;
 import cn.iocoder.mall.product.biz.convert.category.ProductCategoryConvert;
 import cn.iocoder.mall.product.biz.dao.product.ProductCategoryMapper;
 import cn.iocoder.mall.product.biz.dataobject.product.ProductCategoryDO;
@@ -11,13 +10,14 @@ import cn.iocoder.mall.product.biz.dto.category.ProductCategoryAddDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryDeleteDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateStatusDTO;
-import cn.iocoder.mall.product.biz.enums.ProductErrorCodeEnum;
 import cn.iocoder.mall.product.biz.enums.product.ProductCategoryConstants;
 import cn.iocoder.mall.product.biz.service.product.ProductCategoryService;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.validation.annotation.Validated;
+import static cn.iocoder.mall.product.biz.enums.ProductErrorCodeEnum.*;
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +27,7 @@ import java.util.List;
  * @Description: 商品分类 - 服务实现层
  */
 @Service
+@Validated
 public class ProductCategoryServiceImpl implements ProductCategoryService {
 
     @Autowired
@@ -37,7 +38,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
      * @return
      */
     @Override
-    public List<ProductCategoryAllListBO> getAllProductCategory() {
+    public List<ProductCategoryBO> getAllProductCategory() {
         List<ProductCategoryDO> categoryList = productCategoryMapper.selectList(null);
         return ProductCategoryConvert.INSTANCE.convertToAllListBO(categoryList);
     }
@@ -48,7 +49,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
      * @return
      */
     @Override
-    public ProductCategoryAddBO addProductCategory(ProductCategoryAddDTO productCategoryAddDTO) {
+    public ProductCategoryBO addProductCategory(@Valid ProductCategoryAddDTO productCategoryAddDTO) {
         // 校验父分类
         validParent(productCategoryAddDTO.getPid());
         // 保存到数据库
@@ -57,9 +58,9 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         productCategory.setCreateTime(new Date());
         productCategory.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
         productCategoryMapper.insert(productCategory);
-        // TODO jiangweifan 操作日志
+        // TODO 伟帆 操作日志
         // 返回成功
-        return ProductCategoryConvert.INSTANCE.convertToAddBO(productCategory);
+        return ProductCategoryConvert.INSTANCE.convertToBO(productCategory);
     }
 
     /**
@@ -68,26 +69,26 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
      * @return
      */
     @Override
-    public Boolean updateProductCategory(ProductCategoryUpdateDTO productCategoryUpdateDTO) {
+    public Boolean updateProductCategory(@Valid ProductCategoryUpdateDTO productCategoryUpdateDTO) {
         // 校验当前分类是否存在
         if (productCategoryMapper.selectById(productCategoryUpdateDTO.getId()) == null) {
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_CATEGORY_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_NOT_EXISTS);
         }
         // 校验父分类
         validParent(productCategoryUpdateDTO.getPid());
         // 校验不能设置自己为父分类
         if (productCategoryUpdateDTO.getId().equals(productCategoryUpdateDTO.getPid())) {
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_CATEGORY_PARENT_NOT_SELF.getCode());
+            throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_PARENT_NOT_SELF);
         }
         // 校验父分类是否存在
         if (!ProductCategoryConstants.PID_ROOT.equals(productCategoryUpdateDTO.getPid())
                 && productCategoryMapper.selectById(productCategoryUpdateDTO.getPid()) == null) {
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_CATEGORY_PARENT_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_PARENT_NOT_EXISTS);
         }
         // 更新到数据库
         ProductCategoryDO productCategoryDO = ProductCategoryConvert.INSTANCE.convertToDO(productCategoryUpdateDTO);
         productCategoryMapper.updateById(productCategoryDO);
-        // TODO jiangweifan 操作日志
+        // TODO 伟帆 操作日志
         return true;
     }
 
@@ -97,27 +98,27 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
      * @return
      */
     @Override
-    public Boolean updateProductCategoryStatus(ProductCategoryUpdateStatusDTO productCategoryUpdateStatusDTO) {
+    public Boolean updateProductCategoryStatus(@Valid ProductCategoryUpdateStatusDTO productCategoryUpdateStatusDTO) {
         Integer productCategoryId = productCategoryUpdateStatusDTO.getId();
         Integer status = productCategoryUpdateStatusDTO.getStatus();
         // 校验商品分类是否存在
         ProductCategoryDO productCategoryDO = productCategoryMapper.selectById(productCategoryId);
         if (productCategoryDO == null) {
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_CATEGORY_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_NOT_EXISTS);
         }
         // 判断更新状态是否存在
         if (!ProductCategoryConstants.STATUS_ENABLE.equals(status)
                 && !ProductCategoryConstants.STATUS_DISABLE.equals(status)) {
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_CATEGORY_STATUS_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_STATUS_NOT_EXISTS);
         }
         // 如果状态相同，则返回错误
         if (productCategoryDO.getStatus().equals(status)) {
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_CATEGORY_STATUS_EQUALS.getCode());
+            throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_STATUS_EQUALS);
         }
         // 更新商品分类
         productCategoryDO.setId(productCategoryId).setStatus(status);
         productCategoryMapper.updateById(productCategoryDO);
-        // TODO jiangweifan 操作日志
+        // TODO 伟帆 操作日志
         return true;
     }
 
@@ -127,31 +128,31 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
      * @return
      */
     @Override
-    public Boolean deleteProductCategory(ProductCategoryDeleteDTO productCategoryDeleteDTO) {
+    public Boolean deleteProductCategory(@Valid ProductCategoryDeleteDTO productCategoryDeleteDTO) {
         Integer productCategoryId = productCategoryDeleteDTO.getId();
         // 校验分类是否存在
         ProductCategoryDO productCategory = productCategoryMapper.selectById(productCategoryId);
         if (productCategory == null) {
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_CATEGORY_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_NOT_EXISTS);
         }
         // 只有禁用的商品分类才可以删除
         if (ProductCategoryConstants.STATUS_ENABLE.equals(productCategory.getStatus())) {
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_CATEGORY_DELETE_ONLY_DISABLE.getCode());
+            throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_DELETE_ONLY_DISABLE);
         }
         // 只有不存在子分类才可以删除
         Integer childCount = productCategoryMapper.selectCount(
                 Wrappers.<ProductCategoryDO>lambdaQuery().eq(ProductCategoryDO::getPid, productCategoryId)
         );
         if (childCount > 0) {
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_CATEGORY_DELETE_ONLY_NO_CHILD.getCode());
+            throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_DELETE_ONLY_NO_CHILD);
         }
-        // TODO jiangweifan 补充只有不存在商品才可以删除
+        // TODO 伟帆 补充只有不存在商品才可以删除
         // 标记删除商品分类
         ProductCategoryDO updateProductCategory = new ProductCategoryDO()
                 .setId(productCategoryId);
         updateProductCategory.setDeleted(DeletedStatusEnum.DELETED_YES.getValue());
         productCategoryMapper.updateById(updateProductCategory);
-        // TODO jiangweifan 操作日志
+        // TODO 伟帆 操作日志
         return true;
     }
 
@@ -164,12 +165,12 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
             ProductCategoryDO parentCategory = productCategoryMapper.selectById(pid);
             // 校验父分类是否存在
             if (parentCategory == null) {
-                throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_CATEGORY_PARENT_NOT_EXISTS.getCode());
+                throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_PARENT_NOT_EXISTS);
             }
             // 父分类必须是一级分类
             if (!ProductCategoryConstants.PID_ROOT.equals(parentCategory.getPid())) {
-                // TODO FROM 芋艿 to 伟帆，ProductErrorCodeEnum 去实现下 ServiceExceptionUtil.Enumerable 接口，酱紫就不用 .getCode() 方法，代码会更简洁。同时，可以把 ProductErrorCodeEnum static import 下，
-                throw ServiceExceptionUtil.exception((ProductErrorCodeEnum.PRODUCT_CATEGORY_PARENT_CAN_NOT_BE_LEVEL2.getCode()));
+                // TODO FROM 芋艿 to 伟帆，ProductErrorCodeEnum 去实现下 ServiceExceptionUtil.Enumerable 接口，酱紫就不用 .getCode() 方法，代码会更简洁。同时，可以把 ProductErrorCodeEnum static import 下，[DONE]
+                throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_PARENT_CAN_NOT_BE_LEVEL2);
             }
         }
     }

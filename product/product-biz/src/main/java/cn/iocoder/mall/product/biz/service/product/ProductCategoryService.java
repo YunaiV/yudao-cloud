@@ -1,12 +1,10 @@
 package cn.iocoder.mall.product.biz.service.product;
 
-import cn.iocoder.mall.product.biz.bo.category.ProductCategoryAddBO;
-import cn.iocoder.mall.product.biz.bo.category.ProductCategoryAllListBO;
+import cn.iocoder.mall.product.biz.bo.category.ProductCategoryBO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryAddDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryDeleteDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateStatusDTO;
-
 import java.util.List;
 
 
@@ -21,14 +19,14 @@ public interface ProductCategoryService {
      * 获取所有商品分类
      * @return
      */
-    List<ProductCategoryAllListBO> getAllProductCategory();
+    List<ProductCategoryBO> getAllProductCategory();
 
     /**
      * 新增商品分类
      * @param productCategoryAddDTO
      * @return
      */
-    ProductCategoryAddBO addProductCategory(ProductCategoryAddDTO productCategoryAddDTO);
+    ProductCategoryBO addProductCategory(ProductCategoryAddDTO productCategoryAddDTO);
 
     /**
      * 更新商品分类

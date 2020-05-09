@@ -3,6 +3,7 @@ package cn.iocoder.mall.product.biz.dao.product;
 import cn.iocoder.mall.product.biz.dataobject.product.ProductBrandDO;
 import cn.iocoder.mall.product.biz.dataobject.product.ProductCategoryDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 /**

@@ -87,6 +87,11 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
     USER_ADDRESS_NOT_EXISTENT(1001004000, "用户地址不存在!"),
     USER_ADDRESS_IS_DELETED(1001004001, "用户地址已被删除!"),
     USER_GET_ADDRESS_NOT_EXISTS(1001004002, "获取的地址不存在!"),
+
+    // ========== 错误码模块 1002009000 ==========
+    ERROR_CODE_NOT_EXISTS(1002009000, "错误码不存在"),
+    ERROR_CODE_DUPLICATE(1002009001, "已经存在编码为【{}}】的错误码"),
+    ERROR_CAN_NOT_UPDATE_SYSTEM_TYPE_ERROR(1002004003, "不能修改类型为系统内置的错误码"),
     ;
 
 

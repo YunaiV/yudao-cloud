@@ -1,11 +1,10 @@
 root=true
 
-[*.java]
+[*.{adoc,bat,groovy,html,java,js,jsp,kt,kts,md,properties,py,rb,sh,sql,svg,txt,xml,xsd}]
+charset = utf-8
+
+[*.{groovy,java,kt,kts,xml,xsd}]
 indent_style = space
 indent_size = 4
 continuation_indent_size = 8
-
-[*.xml]
-indent_style = space
-indent_size = 4
-continuation_indent_size = 4
+end_of_line = lf

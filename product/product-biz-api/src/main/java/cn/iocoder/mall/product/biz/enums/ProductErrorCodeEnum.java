@@ -1,11 +1,13 @@
 package cn.iocoder.mall.product.biz.enums;
 
+import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+
 /**
  * 错误码枚举类
  *
  * 商品系统，使用 1-003-000-000 段
  */
-public enum ProductErrorCodeEnum {
+public enum ProductErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
 
     // ========== PRODUCT CATEGORY 模块 ==========
     PRODUCT_CATEGORY_PARENT_NOT_EXISTS(1003001000, "父分类不存在"),
@@ -45,12 +47,12 @@ public enum ProductErrorCodeEnum {
         this.message = message;
     }
 
-    public int getCode() {
-        return code;
-    }
-
     public String getMessage() {
         return message;
     }
 
+    @Override
+    public int getCode() {
+        return code;
+    }
 }

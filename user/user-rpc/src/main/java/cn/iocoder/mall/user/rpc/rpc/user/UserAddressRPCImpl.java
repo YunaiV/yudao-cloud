@@ -34,12 +34,12 @@ public class UserAddressRPCImpl implements UserAddressRPC {
 
     @Override
     public List<UserAddressResponse> addressList(Integer userId) {
-        return UserAddressRPCConvert.INSTANCE.convert(userAddressService.addressList(userId));
+        return UserAddressRPCConvert.INSTANCE.convert(userAddressService.listAddress(userId));
     }
 
     @Override
-    public UserAddressResponse getAddress(Integer userId, Integer id) {
-        return UserAddressRPCConvert.INSTANCE.convert(userAddressService.getAddress(userId, id));
+    public UserAddressResponse getAddress(Integer id) {
+        return UserAddressRPCConvert.INSTANCE.convert(userAddressService.getAddress(id));
     }
 
     @Override

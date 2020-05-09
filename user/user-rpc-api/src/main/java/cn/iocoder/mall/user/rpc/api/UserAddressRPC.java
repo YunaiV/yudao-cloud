@@ -22,7 +22,7 @@ public interface UserAddressRPC {
 
     List<UserAddressResponse> addressList(Integer userId);
 
-    UserAddressResponse getAddress(Integer userId, Integer id);
+    UserAddressResponse getAddress(Integer id);
 
     UserAddressResponse getDefaultAddress(Integer userId);
 }

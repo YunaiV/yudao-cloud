@@ -2,8 +2,7 @@ package cn.iocoder.mall.product.rest.controller.admins;
 
 import cn.iocoder.common.framework.constant.MallConstants;
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.product.biz.bo.category.ProductCategoryAddBO;
-import cn.iocoder.mall.product.biz.bo.category.ProductCategoryAllListBO;
+import cn.iocoder.mall.product.biz.bo.category.ProductCategoryBO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryAddDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryDeleteDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateDTO;
@@ -45,9 +44,9 @@ public class AdminsProductCategoryController {
     @GetMapping("/tree")
     @ApiOperation("获取分类树结构")
     public CommonResult<List<AdminsProductCategoryTreeNodeResponse>> tree() {
-        List<ProductCategoryAllListBO> productCategories = productCategoryService.getAllProductCategory();
+        List<ProductCategoryBO> productCategories = productCategoryService.getAllProductCategory();
         // 创建 ProductCategoryTreeNodeVO Map
-        Map<Integer, AdminsProductCategoryTreeNodeResponse> treeNodeMap = productCategories.stream().collect(Collectors.toMap(ProductCategoryAllListBO::getId, ProductCategoryConvert.INSTANCE::convertToTreeNodeResponse));
+        Map<Integer, AdminsProductCategoryTreeNodeResponse> treeNodeMap = productCategories.stream().collect(Collectors.toMap(ProductCategoryBO::getId, ProductCategoryConvert.INSTANCE::convertToTreeNodeResponse));
         // 处理父子关系
         treeNodeMap.values().stream()
                 .filter(node -> !node.getPid().equals(ProductCategoryConstants.PID_ROOT))
@@ -74,7 +73,7 @@ public class AdminsProductCategoryController {
         // 转换 ProductCategoryAddDTO 对象
         ProductCategoryAddDTO productCategoryAddDTO = ProductCategoryConvert.INSTANCE.convertToAddDTO(AdminSecurityContextHolder.getContext().getAdminId(), adminsProductCategoryAddRequest);
         // 创建商品分类
-        ProductCategoryAddBO addProductCategoryBO = productCategoryService.addProductCategory(productCategoryAddDTO);
+        ProductCategoryBO addProductCategoryBO = productCategoryService.addProductCategory(productCategoryAddDTO);
         // 返回结果
         return success(ProductCategoryConvert.INSTANCE.convertToAddResponse(addProductCategoryBO));
     }

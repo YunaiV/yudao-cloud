@@ -16,7 +16,7 @@
         <!-- Mall 相关 -->
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
-            <artifactId>system-biz-api</artifactId>
+            <artifactId>user-biz-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 

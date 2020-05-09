@@ -1,7 +1,6 @@
 package cn.iocoder.mall.promotion.application.controller.admins;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.system.sdk.context.AdminSecurityContextHolder;
 import cn.iocoder.mall.promotion.api.BannerService;
 import cn.iocoder.mall.promotion.api.bo.BannerPageBO;
 import cn.iocoder.mall.promotion.api.dto.BannerAddDTO;
@@ -10,6 +9,7 @@ import cn.iocoder.mall.promotion.api.dto.BannerUpdateDTO;
 import cn.iocoder.mall.promotion.application.convert.BannerConvert;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsBannerPageVO;
 import cn.iocoder.mall.promotion.application.vo.admins.AdminsBannerVO;
+import cn.iocoder.mall.security.core.context.AdminSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

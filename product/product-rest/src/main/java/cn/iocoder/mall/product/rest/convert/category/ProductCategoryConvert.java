@@ -1,7 +1,6 @@
 package cn.iocoder.mall.product.rest.convert.category;
 
-import cn.iocoder.mall.product.biz.bo.category.ProductCategoryAddBO;
-import cn.iocoder.mall.product.biz.bo.category.ProductCategoryAllListBO;
+import cn.iocoder.mall.product.biz.bo.category.ProductCategoryBO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryAddDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryDeleteDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateDTO;
@@ -12,7 +11,6 @@ import cn.iocoder.mall.product.rest.request.category.AdminsProductCategoryUpdate
 import cn.iocoder.mall.product.rest.response.category.AdminsProductCategoryAddResponse;
 import cn.iocoder.mall.product.rest.response.category.AdminsProductCategoryTreeNodeResponse;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -30,7 +28,7 @@ public interface ProductCategoryConvert {
      * @param productCategoryAllListBO
      * @return
      */
-    AdminsProductCategoryTreeNodeResponse convertToTreeNodeResponse(ProductCategoryAllListBO productCategoryAllListBO);
+    AdminsProductCategoryTreeNodeResponse convertToTreeNodeResponse(ProductCategoryBO productCategoryAllListBO);
 
 
     /**
@@ -45,7 +43,7 @@ public interface ProductCategoryConvert {
      * @param productCategoryAddBO
      * @return
      */
-    AdminsProductCategoryAddResponse convertToAddResponse(ProductCategoryAddBO productCategoryAddBO);
+    AdminsProductCategoryAddResponse convertToAddResponse(ProductCategoryBO productCategoryAddBO);
 
     /**
      * 更新商品分类 - Request转DTO

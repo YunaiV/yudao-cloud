@@ -5,6 +5,8 @@ import cn.iocoder.mall.product.biz.dto.category.ProductCategoryAddDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryDeleteDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateStatusDTO;
+
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -26,26 +28,26 @@ public interface ProductCategoryService {
      * @param productCategoryAddDTO
      * @return
      */
-    ProductCategoryBO addProductCategory(ProductCategoryAddDTO productCategoryAddDTO);
+    ProductCategoryBO addProductCategory(@Valid ProductCategoryAddDTO productCategoryAddDTO);
 
     /**
      * 更新商品分类
      * @param productCategoryUpdateDTO
      * @return
      */
-    Boolean updateProductCategory(ProductCategoryUpdateDTO productCategoryUpdateDTO);
+    Boolean updateProductCategory(@Valid ProductCategoryUpdateDTO productCategoryUpdateDTO);
 
     /**
      * 更新商品分类状态
      * @param productCategoryUpdateStatusDTO
      * @return
      */
-    Boolean updateProductCategoryStatus(ProductCategoryUpdateStatusDTO productCategoryUpdateStatusDTO);
+    Boolean updateProductCategoryStatus(@Valid ProductCategoryUpdateStatusDTO productCategoryUpdateStatusDTO);
 
     /**
      * 删除商品分类
      * @param productCategoryDeleteDTO
      * @return
      */
-    Boolean deleteProductCategory(ProductCategoryDeleteDTO productCategoryDeleteDTO);
+    Boolean deleteProductCategory(@Valid ProductCategoryDeleteDTO productCategoryDeleteDTO);
 }

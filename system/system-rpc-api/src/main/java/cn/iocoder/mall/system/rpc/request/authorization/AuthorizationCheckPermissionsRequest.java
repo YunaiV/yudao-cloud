@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class AuthorizationCheckPermissionsRequest {
+public class AuthorizationCheckPermissionsRequest implements Serializable {
 
     @NotNull(message = "账号不能为空")
     private Integer accountId;

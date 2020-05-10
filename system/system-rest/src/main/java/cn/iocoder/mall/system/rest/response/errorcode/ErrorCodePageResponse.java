@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.rest.request.errorcode;
+package cn.iocoder.mall.system.rest.response.errorcode;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;

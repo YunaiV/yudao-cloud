@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.biz.service.errorCode;
+package cn.iocoder.mall.system.biz.service.errorcode;
 
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.PageResult;
@@ -41,12 +41,25 @@ public class ErrorCodeServiceImpl implements ErrorCodeService {
         return ErrorCodeConvert.INSTANCE.convertList(list);
     }
 
+    @Override
+    public List<ErrorCodeBO> getErrorCodeListAll() {
+        List<ErrorCodeDO> list = errorCodeMapper.selectList(new QueryWrapperX<ErrorCodeDO>());
+        for (SystemErrorCodeEnum item : SystemErrorCodeEnum.values()) {
+            list.add(new ErrorCodeDO().setId(0).setCode(item.getCode()).
+                    setMessage(item.getMessage()).setType(ErrorCodeTypeEnum.SYSTEM.getType()));
+        }
+        return ErrorCodeConvert.INSTANCE.convertList(list);
+    }
+
 
     @Override
     public PageResult<ErrorCodeBO> getErrorCodePage(ErrorCodePageDTO pageDTO) {
-//        List<ErrorCodeDO> list = errorCodeMapper.selectList(new QueryWrapperX<ErrorCodeDO>());
-//        List<>
-        return null;
+        List<ErrorCodeDO> list = errorCodeMapper.selectList(new QueryWrapperX<ErrorCodeDO>());
+        for (SystemErrorCodeEnum item : SystemErrorCodeEnum.values()) {
+            list.add(new ErrorCodeDO().setId(0).setCode(item.getCode()).
+                    setMessage(item.getMessage()).setType(ErrorCodeTypeEnum.SYSTEM.getType()));
+        }
+        return listToPageList(pageDTO.getPageNo(),pageDTO.getPageSize(),list);
     }
 
     @Override
@@ -85,14 +98,15 @@ public class ErrorCodeServiceImpl implements ErrorCodeService {
 
     @Override
     public void deleteErrorCode(ErrorCodeDeleteDTO errorCodeDeleteDTO) {
-        // 校验角色是否存在
+        // 校验错误码是否存在
         ErrorCodeDO errorCodeDO = errorCodeMapper.selectById(errorCodeDeleteDTO.getId());
         if (errorCodeDO == null) {
             throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ERROR_CODE_NOT_EXISTS);
         }
         // 更新到数据库，标记删除
         errorCodeMapper.deleteById(errorCodeDO.getId());
-        // TODO: 2020-05-08 刷新对外提供的错误码列表
+        // TODO: 2020-05-10 刷新对外提供的错误码列表
+        // TODO: 2020-05-10 ServiceExceptionUtil中未提供去除错误码操作，后续新增此接口是否影响？
     }
 
     /**
@@ -108,5 +122,16 @@ public class ErrorCodeServiceImpl implements ErrorCodeService {
         if (errorCodeDO != null && !errorCodeDO.getId().equals(id)) {
             throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ERROR_CODE_DUPLICATE, errorCodeDO.getCode());
         }
+    }
+
+    private PageResult listToPageList(int currentPage, int rows, List list){
+        currentPage = currentPage * rows;
+        Integer sum = list.size();
+        if (currentPage + rows > sum){
+            list = list.subList(currentPage, sum);
+        }else {
+            list = list.subList(currentPage, currentPage + rows);
+        }
+        return new PageResult().setList(list).setTotal(sum);
     }
 }

@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.biz.service.errorCode;
+package cn.iocoder.mall.system.biz.service.errorcode;
 
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.system.biz.bo.errorcode.ErrorCodeBO;
@@ -20,8 +20,23 @@ public interface ErrorCodeService {
      */
     ErrorCodeBO getErrorCode(Integer code);
 
+    /**
+     * 从db取出错误码列表数据
+     * @return  db错误码列表
+     */
     List<ErrorCodeBO> getErrorCodeList();
 
+    /**
+     * 取出所有错误码列表数据
+     * @return  所有错误码列表
+     */
+    List<ErrorCodeBO> getErrorCodeListAll();
+
+    /**
+     * 分页取出所有错误码列表数据
+     * @param pageDTO 分页数据
+     * @return 错误码列表
+     */
     PageResult<ErrorCodeBO> getErrorCodePage(ErrorCodePageDTO pageDTO);
 
     /**

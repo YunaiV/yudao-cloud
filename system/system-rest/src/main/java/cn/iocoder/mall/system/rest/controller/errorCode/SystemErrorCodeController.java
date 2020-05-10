@@ -3,16 +3,17 @@ package cn.iocoder.mall.system.rest.controller.errorCode;
 import cn.iocoder.common.framework.constant.MallConstants;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
+import cn.iocoder.mall.security.core.annotation.RequiresPermissions;
 import cn.iocoder.mall.system.biz.bo.errorcode.ErrorCodeBO;
 import cn.iocoder.mall.system.biz.dto.errorcode.ErrorCodeAddDTO;
 import cn.iocoder.mall.system.biz.dto.errorcode.ErrorCodeDeleteDTO;
 import cn.iocoder.mall.system.biz.dto.errorcode.ErrorCodePageDTO;
 import cn.iocoder.mall.system.biz.dto.errorcode.ErrorCodeUpdateDTO;
-import cn.iocoder.mall.system.biz.service.errorCode.ErrorCodeService;
+import cn.iocoder.mall.system.biz.service.errorcode.ErrorCodeService;
 import cn.iocoder.mall.system.rest.convert.errorcode.ErrorCodeConvert;
 import cn.iocoder.mall.system.rest.request.errorcode.ErrorCodeAddRequest;
 import cn.iocoder.mall.system.rest.request.errorcode.ErrorCodePageRequest;
-import cn.iocoder.mall.system.rest.request.errorcode.ErrorCodePageResponse;
+import cn.iocoder.mall.system.rest.response.errorcode.ErrorCodePageResponse;
 import cn.iocoder.mall.system.rest.request.errorcode.ErrorCodeUpdateRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
  * @author youyusi
  */
 @RestController
-@RequestMapping(MallConstants.ROOT_PATH_ADMIN + "/errorCode")
+@RequestMapping(MallConstants.ROOT_PATH_ADMIN + "/errorcode")
 @Api("错误码")
 public class SystemErrorCodeController {
     @Autowired
@@ -34,7 +35,7 @@ public class SystemErrorCodeController {
 
     @GetMapping("/page")
     @ApiOperation(value = "错误码分页")
-//    @RequiresPermissions("system:errorCode:page")
+    @RequiresPermissions("system:errorcode:page")
     public CommonResult<PageResult<ErrorCodePageResponse>> page(ErrorCodePageRequest request) {
         ErrorCodePageDTO pageDTO = ErrorCodeConvert.INSTANCE.convert(request);
         PageResult<ErrorCodeBO> pageResult = errorCodeService.getErrorCodePage(pageDTO);
@@ -43,7 +44,7 @@ public class SystemErrorCodeController {
 
     @PostMapping("/add")
     @ApiOperation(value = "创建错误码")
-//    @RequiresPermissions("system:errorCode:add")
+    @RequiresPermissions("system:errorcode:add")
     public CommonResult<Integer> add(ErrorCodeAddRequest request) {
         ErrorCodeAddDTO addDTO = ErrorCodeConvert.INSTANCE.convert(request);
         return CommonResult.success(errorCodeService.addErrorCode(addDTO));
@@ -51,7 +52,7 @@ public class SystemErrorCodeController {
 
     @PostMapping("/update")
     @ApiOperation(value = "更新错误码")
-//    @RequiresPermissions("system:errorCode:update")
+    @RequiresPermissions("system:errorcode:update")
     public CommonResult<Boolean> update(ErrorCodeUpdateRequest request) {
         ErrorCodeUpdateDTO updateDTO = ErrorCodeConvert.INSTANCE.convert(request);
         errorCodeService.updateErrorCode(updateDTO);
@@ -60,7 +61,7 @@ public class SystemErrorCodeController {
 
     @PostMapping("/delete")
     @ApiOperation(value = "删除错误码")
-//    @RequiresPermissions("system:errorCode:delete")
+    @RequiresPermissions("system:errorcode:delete")
     @ApiImplicitParam(name = "id", value = "错误码编号", required = true, example = "1")
     public CommonResult<Boolean> delete(@RequestParam("id") Integer id) {
         ErrorCodeDeleteDTO deleteDTO = new ErrorCodeDeleteDTO().setId(id);

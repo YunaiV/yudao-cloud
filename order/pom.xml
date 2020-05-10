@@ -13,8 +13,12 @@
     <packaging>pom</packaging>
     <modules>
         <module>order-application</module>
-        <module>order-service-api</module>
-        <module>order-service-impl</module>
+        <module>order-biz</module>
+        <module>order-biz-api</module>
+        <module>order-rest</module>
+        <module>order-rpc</module>
+        <module>order-rpc-api</module>
+
     </modules>
 
     <dependencyManagement>

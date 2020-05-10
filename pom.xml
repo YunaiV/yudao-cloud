@@ -15,7 +15,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>product</module>
-<!--        <module>order</module>-->
+        <module>order</module>
         <module>user</module>
         <module>common</module>
         <module>system</module>
@@ -25,7 +25,12 @@
 <!--        <module>search</module>-->
 <!--        <module>demo</module>-->
         <module>mall-dependencies</module>
-        <module>mall-cache</module>
+        <module>order-biz</module>
+        <module>order/order-biz</module>
+        <module>order/order-biz-api</module>
+        <module>order/order-rpc</module>
+        <module>order/order-rpc-api</module>
+        <module>order-rest</module>
     </modules>
     <packaging>pom</packaging>
 

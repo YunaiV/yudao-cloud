@@ -49,7 +49,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
      * @return
      */
     @Override
-    public ProductCategoryBO addProductCategory(@Valid ProductCategoryAddDTO productCategoryAddDTO) {
+    public ProductCategoryBO addProductCategory(ProductCategoryAddDTO productCategoryAddDTO) {
         // 校验父分类
         validParent(productCategoryAddDTO.getPid());
         // 保存到数据库
@@ -69,7 +69,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
      * @return
      */
     @Override
-    public Boolean updateProductCategory(@Valid ProductCategoryUpdateDTO productCategoryUpdateDTO) {
+    public Boolean updateProductCategory(ProductCategoryUpdateDTO productCategoryUpdateDTO) {
         // 校验当前分类是否存在
         if (productCategoryMapper.selectById(productCategoryUpdateDTO.getId()) == null) {
             throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_NOT_EXISTS);
@@ -98,7 +98,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
      * @return
      */
     @Override
-    public Boolean updateProductCategoryStatus(@Valid ProductCategoryUpdateStatusDTO productCategoryUpdateStatusDTO) {
+    public Boolean updateProductCategoryStatus(ProductCategoryUpdateStatusDTO productCategoryUpdateStatusDTO) {
         Integer productCategoryId = productCategoryUpdateStatusDTO.getId();
         Integer status = productCategoryUpdateStatusDTO.getStatus();
         // 校验商品分类是否存在
@@ -128,7 +128,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
      * @return
      */
     @Override
-    public Boolean deleteProductCategory(@Valid ProductCategoryDeleteDTO productCategoryDeleteDTO) {
+    public Boolean deleteProductCategory(ProductCategoryDeleteDTO productCategoryDeleteDTO) {
         Integer productCategoryId = productCategoryDeleteDTO.getId();
         // 校验分类是否存在
         ProductCategoryDO productCategory = productCategoryMapper.selectById(productCategoryId);
@@ -148,10 +148,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         }
         // TODO 伟帆 补充只有不存在商品才可以删除
         // 标记删除商品分类
-        ProductCategoryDO updateProductCategory = new ProductCategoryDO()
-                .setId(productCategoryId);
-        updateProductCategory.setDeleted(DeletedStatusEnum.DELETED_YES.getValue());
-        productCategoryMapper.updateById(updateProductCategory);
+        productCategoryMapper.deleteById(productCategoryId);
         // TODO 伟帆 操作日志
         return true;
     }

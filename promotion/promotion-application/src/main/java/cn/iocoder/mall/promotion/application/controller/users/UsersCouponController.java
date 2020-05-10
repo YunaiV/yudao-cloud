@@ -11,7 +11,7 @@ import cn.iocoder.mall.promotion.application.convert.CouponTemplateConvert;
 import cn.iocoder.mall.promotion.application.vo.users.UsersCouponCardPageVO;
 import cn.iocoder.mall.promotion.application.vo.users.UsersCouponCardVO;
 import cn.iocoder.mall.promotion.application.vo.users.UsersCouponTemplateVO;
-import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
+import cn.iocoder.mall.security.core.context.UserSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

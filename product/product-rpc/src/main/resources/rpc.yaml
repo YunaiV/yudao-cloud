@@ -2,7 +2,7 @@
 dubbo:
   # Spring Cloud Alibaba Dubbo 专属配置
   cloud:
-    subscribed-services: '' # 设置订阅的应用列表，默认为 * 订阅所有应用
+    subscribed-services: 'system-application' # 设置订阅的应用列表，默认为 * 订阅所有应用
   # Dubbo 提供者的协议
   protocol:
     name: dubbo

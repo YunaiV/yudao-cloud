@@ -69,7 +69,7 @@ public class AdminsProductCategoryController {
 
     @PostMapping("/add")
     @ApiOperation(value = "创建商品分类")
-    public CommonResult<AdminsProductCategoryAddResponse> add(@RequestBody AdminsProductCategoryAddRequest adminsProductCategoryAddRequest) {
+    public CommonResult<AdminsProductCategoryAddResponse> add(AdminsProductCategoryAddRequest adminsProductCategoryAddRequest) {
         // 转换 ProductCategoryAddDTO 对象
         ProductCategoryAddDTO productCategoryAddDTO = ProductCategoryConvert.INSTANCE.convertToAddDTO(AdminSecurityContextHolder.getContext().getAdminId(), adminsProductCategoryAddRequest);
         // 创建商品分类
@@ -80,7 +80,7 @@ public class AdminsProductCategoryController {
 
     @PostMapping("/update")
     @ApiOperation(value = "更新商品分类")
-    public CommonResult<Boolean> update(@RequestBody AdminsProductCategoryUpdateRequest adminsProductCategoryUpdateRequest) {
+    public CommonResult<Boolean> update(AdminsProductCategoryUpdateRequest adminsProductCategoryUpdateRequest) {
         // 创建 ProductCategoryUpdateDTO 对象
         ProductCategoryUpdateDTO productCategoryUpdateDTO = ProductCategoryConvert.INSTANCE.convertToUpdateDTO(AdminSecurityContextHolder.getContext().getAdminId(), adminsProductCategoryUpdateRequest);
         // 更新商品分类
@@ -89,7 +89,7 @@ public class AdminsProductCategoryController {
 
     @PostMapping("/update_status")
     @ApiOperation(value = "更新商品分类状态")
-    public CommonResult<Boolean> updateStatus(@RequestBody AdminsProductCategoryUpdateStatusRequest adminsProductCategoryUpdateStatusRequest) {
+    public CommonResult<Boolean> updateStatus(AdminsProductCategoryUpdateStatusRequest adminsProductCategoryUpdateStatusRequest) {
         // 创建 ProductCategoryUpdateStatusDTO 对象
         ProductCategoryUpdateStatusDTO productCategoryUpdateStatusDTO = ProductCategoryConvert.INSTANCE.convertToUpdateStatusDTO(AdminSecurityContextHolder.getContext().getAdminId(),
                 adminsProductCategoryUpdateStatusRequest);

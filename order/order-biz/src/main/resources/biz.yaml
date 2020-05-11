@@ -1,7 +1,7 @@
 spring:
   # 数据源配置项
   datasource:
-    url: jdbc:mysql://s1.iocoder.cn:3306/mall_system?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://s1.iocoder.cn:3306/mall_order?useSSL=false&useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: 3WLiVUBEwTbvAfsh
@@ -16,4 +16,4 @@ mybatis-plus:
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
   mapper-locations: classpath*:mapper/*.xml
-  type-aliases-package: cn.iocoder.mall.system.biz.dataobject
+  type-aliases-package: cn.iocoder.mall.order.biz.dataobject

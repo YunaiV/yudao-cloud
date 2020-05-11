@@ -1,6 +1,6 @@
 package cn.iocoder.mall.order.biz.bo.order;
 
-import cn.iocoder.common.framework.dataobject.BaseDO;
+import cn.iocoder.mall.mybatis.dataobject.BaseDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

@@ -25,12 +25,6 @@
 <!--        <module>search</module>-->
 <!--        <module>demo</module>-->
         <module>mall-dependencies</module>
-        <module>order-biz</module>
-        <module>order/order-biz</module>
-        <module>order/order-biz-api</module>
-        <module>order/order-rpc</module>
-        <module>order/order-rpc-api</module>
-        <module>order-rest</module>
         <module>mall-spring-boot-starter-cache</module>
     </modules>
     <packaging>pom</packaging>

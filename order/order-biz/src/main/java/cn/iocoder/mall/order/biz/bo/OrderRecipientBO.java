@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.biz.bo.order;
+package cn.iocoder.mall.order.biz.bo;
 
 import cn.iocoder.mall.mybatis.dataobject.BaseDO;
 import lombok.Data;

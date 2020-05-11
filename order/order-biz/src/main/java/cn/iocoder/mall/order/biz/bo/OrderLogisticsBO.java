@@ -1,27 +1,23 @@
-package cn.iocoder.mall.order.biz.bo.order;
+package cn.iocoder.mall.order.biz.bo;
 
 import cn.iocoder.mall.mybatis.dataobject.BaseDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * 订单收件人信息 order_recipient
+ * 订单物流信息
  *
  * @author Sin
- * @time 2019-03-31 11:37
+ * @time 2019-03-19 20:47
  */
 @Data
 @Accessors(chain = true)
-public class OrderRecipientBO extends BaseDO { // TODO FROM 芋艿 TO 小范，不要继承 BaseDO
+public class OrderLogisticsBO extends BaseDO {
 
     /**
-     * 编号
+     * id
      */
     private Integer id;
-    /**
-     * 订单id
-     */
-    private Integer orderId;
     /**
      * 收件区域编号
      */
@@ -35,11 +31,11 @@ public class OrderRecipientBO extends BaseDO { // TODO FROM 芋艿 TO 小范，�
      */
     private String mobile;
     /**
-     * 手机方式
-     */
-    private Integer type;
-    /**
      * 收件详细地址
      */
     private String address;
+    /**
+     * 物流编号
+     */
+    private String logisticsNo;
 }

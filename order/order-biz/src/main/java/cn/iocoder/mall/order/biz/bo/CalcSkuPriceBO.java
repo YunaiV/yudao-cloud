@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.biz.bo.order;
+package cn.iocoder.mall.order.biz.bo;
 
 import java.io.Serializable;
 import lombok.Data;

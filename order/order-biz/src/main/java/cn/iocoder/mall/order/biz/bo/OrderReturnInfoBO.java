@@ -1,41 +1,64 @@
-package cn.iocoder.mall.order.biz.bo.order;
+package cn.iocoder.mall.order.biz.bo;
+
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import lombok.Data;
-import lombok.experimental.Accessors;
 
 /**
- * 订单退货 list
+ * 订单退货 info
  *
  * @author Sin
- * @time 2019-05-06 21:54
+ * @time 2019-04-27 10:19
  */
 @Data
 @Accessors(chain = true)
-public class OrderReturnListBO implements Serializable {
+public class OrderReturnInfoBO implements Serializable {
 
     /**
-     * 分页当前 index
+     * 退货信息
      */
-    private Integer index;
+    private ReturnInfo returnInfo;
     /**
-     * pageSize
+     * 订单 item
      */
-    private Integer pageSize;
+    private List<OrderItem> orderItems;
     /**
-     * totalCount
+     * 最后一个物流信息/最新物流信息
      */
-    private Integer totalCount;
-    /**
-     * data
-     */
-    private List<OrderReturn> data;
+    private OrderLastLogisticsInfoBO lastLogisticsInfo;
 
     @Data
     @Accessors(chain = true)
-    public static class OrderReturn {
+    public static class OrderItem {
+
+        /**
+         * 商品编号
+         */
+        private Integer skuId;
+        /**
+         * 商品名称
+         */
+        private String skuName;
+        /**
+         * 商品图片
+         */
+        private String skuImage;
+        /**
+         * 数量
+         */
+        private Integer quantity;
+        /**
+         * 最终总金额，单位：分。
+         */
+        private Integer presentTotal;
+    }
+
+    @Data
+    @Accessors(chain = true)
+    public static class ReturnInfo {
 
         /**
          * 编号自动增长
@@ -94,12 +117,16 @@ public class OrderReturnListBO implements Serializable {
          */
         private Date closingTime;
         /**
-         * 服务类型
+         * 退款类型
          *
          * - 1、退货退款
          * - 2、退款
          */
         private Integer serviceType;
+        /**
+         * 退款类型 转换值
+         */
+        private String serviceTypeText;
         /**
          * 状态
          *
@@ -110,13 +137,5 @@ public class OrderReturnListBO implements Serializable {
          * - 5、退货成功
          */
         private Integer status;
-        /**
-         * 创建时间
-         */
-        private Date createTime;
-        /**
-         * 更新时间
-         */
-        private Date updateTime;
     }
 }

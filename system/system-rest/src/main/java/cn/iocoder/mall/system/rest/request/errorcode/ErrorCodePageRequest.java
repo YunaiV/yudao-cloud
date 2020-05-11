@@ -12,4 +12,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class ErrorCodePageRequest {
+
+    // TODO FROM 芋艿 to 鱿鱼须：分页参数？
+    // TODO FROM 芋艿 to 鱿鱼须：对于 rest 的接口，要区分下是给 Admins 管理员还是 Users 用户的
 }

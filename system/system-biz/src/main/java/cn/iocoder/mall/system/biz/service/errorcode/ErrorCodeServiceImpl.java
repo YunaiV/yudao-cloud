@@ -37,6 +37,7 @@ public class ErrorCodeServiceImpl implements ErrorCodeService {
 
     @Override
     public List<ErrorCodeBO> getErrorCodeList() {
+        // TODO FROM 芋艿 to 鱿鱼丝：QueryWrapperX 只存在 mapper 里，不直接体现在 Service
         List<ErrorCodeDO> list = errorCodeMapper.selectList(new QueryWrapperX<ErrorCodeDO>());
         return ErrorCodeConvert.INSTANCE.convertList(list);
     }
@@ -44,6 +45,7 @@ public class ErrorCodeServiceImpl implements ErrorCodeService {
     @Override
     public List<ErrorCodeBO> getErrorCodeListAll() {
         List<ErrorCodeDO> list = errorCodeMapper.selectList(new QueryWrapperX<ErrorCodeDO>());
+        // TODO FROM 芋艿 to 鱿鱼丝：这块微信交流一波哈。
         for (SystemErrorCodeEnum item : SystemErrorCodeEnum.values()) {
             list.add(new ErrorCodeDO().setId(0).setCode(item.getCode()).
                     setMessage(item.getMessage()).setType(ErrorCodeTypeEnum.SYSTEM.getType()));
@@ -103,6 +105,7 @@ public class ErrorCodeServiceImpl implements ErrorCodeService {
         if (errorCodeDO == null) {
             throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ERROR_CODE_NOT_EXISTS);
         }
+        // TODO FROM 芋艿 to 鱿鱼丝：不能删除内置错误码
         // 更新到数据库，标记删除
         errorCodeMapper.deleteById(errorCodeDO.getId());
         // TODO: 2020-05-10 刷新对外提供的错误码列表
@@ -125,13 +128,15 @@ public class ErrorCodeServiceImpl implements ErrorCodeService {
     }
 
     private PageResult listToPageList(int currentPage, int rows, List list){
+        // TODO FROM 芋艿 to 鱿鱼须：可以直接使用数据库分页哇
         currentPage = currentPage * rows;
-        Integer sum = list.size();
+        Integer sum = list.size(); // TODO FROM 芋艿 to 鱿鱼须：这里 int 就可以啦。一般情况下，如果 IDEA 提示警告，要尽量去掉噢。
         if (currentPage + rows > sum){
             list = list.subList(currentPage, sum);
         }else {
             list = list.subList(currentPage, currentPage + rows);
         }
+        // TODO FROM 芋艿 to 鱿鱼丝：泛型噢
         return new PageResult().setList(list).setTotal(sum);
     }
 }

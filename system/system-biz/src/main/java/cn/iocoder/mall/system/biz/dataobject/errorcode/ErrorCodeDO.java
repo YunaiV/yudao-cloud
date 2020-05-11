@@ -30,4 +30,8 @@ public class ErrorCodeDO extends DeletableDO {
      * 错误码类型
      */
     private Integer type;
+
+    // TODO FROM 芋艿 to 鱿鱼丝：增加一个分组字段。方便做归类
+    // TODO FROM 芋艿 to 鱿鱼丝：增加个备注字段，方便做备注哈。
+
 }

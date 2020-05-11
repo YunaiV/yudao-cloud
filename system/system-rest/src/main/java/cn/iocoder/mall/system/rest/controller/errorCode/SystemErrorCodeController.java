@@ -27,9 +27,9 @@ import org.springframework.web.bind.annotation.*;
  * @author youyusi
  */
 @RestController
-@RequestMapping(MallConstants.ROOT_PATH_ADMIN + "/errorcode")
+@RequestMapping(MallConstants.ROOT_PATH_ADMIN + "/errorcode") // TODO FROM 芋艿 to 鱿鱼须：error-code
 @Api("错误码")
-public class SystemErrorCodeController {
+public class SystemErrorCodeController { // TODO FROM 芋艿 to 鱿鱼须：变量要空行
     @Autowired
     private ErrorCodeService errorCodeService;
 

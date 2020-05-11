@@ -14,6 +14,7 @@ import java.util.List;
 @Configuration
 public class ServiceExceptionConfiguration {
 
+    // TODO FROM 芋艿 to 鱿鱼须：这块的实现，微信一起沟通下哈。大体是说，要调用 RPC 接口，不然别的模块无法使用哟。最终，我们是要做成 starter，提供给各个模块用。
     @Autowired
     private ErrorCodeService errorCodeService;
 

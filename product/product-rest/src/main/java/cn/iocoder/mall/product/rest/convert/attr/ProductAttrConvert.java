@@ -5,13 +5,13 @@ import cn.iocoder.mall.product.biz.bo.attr.ProductAttrBO;
 import cn.iocoder.mall.product.biz.bo.attr.ProductAttrSimpleWithValueBO;
 import cn.iocoder.mall.product.biz.bo.attr.ProductAttrValueBO;
 import cn.iocoder.mall.product.biz.bo.attr.ProductAttrWithValueBO;
-import cn.iocoder.mall.product.biz.dto.attr.AdminProductAttrPageDTO;
+import cn.iocoder.mall.product.biz.dto.attr.ProductAttrPageDTO;
 import cn.iocoder.mall.product.biz.dto.attr.ProductAttrUpdateDTO;
-import cn.iocoder.mall.product.rest.request.attr.AdminProductAttrPageRequest;
+import cn.iocoder.mall.product.rest.request.attr.ProductAttrPageRequest;
 import cn.iocoder.mall.product.rest.request.attr.ProductAttrUpdateRequest;
 import cn.iocoder.mall.product.rest.response.attr.AdminsProductAttrPageResponse;
 import cn.iocoder.mall.product.rest.response.attr.AdminsProductAttrSimpleResponse;
-import cn.iocoder.mall.product.rest.response.attr.AdminsProductAttrVO;
+import cn.iocoder.mall.product.rest.response.attr.AdminsProdutAttrResponse;
 import cn.iocoder.mall.product.rest.response.attr.AdminsProductAttrValueResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
@@ -25,7 +25,7 @@ public interface ProductAttrConvert {
     ProductAttrConvert INSTANCE = Mappers.getMapper(ProductAttrConvert.class);
 
     @Mappings({})
-    AdminProductAttrPageDTO convert(AdminProductAttrPageRequest bean);
+    ProductAttrPageDTO convert(ProductAttrPageRequest bean);
 
     @Mappings({})
     PageResult<AdminsProductAttrPageResponse> convertPage(PageResult<ProductAttrWithValueBO> productAttrPage);
@@ -34,7 +34,7 @@ public interface ProductAttrConvert {
     List<AdminsProductAttrSimpleResponse> convertSimple(List<ProductAttrSimpleWithValueBO> simpleList);
 
     @Mappings({})
-    AdminsProductAttrVO convertAttr(ProductAttrBO attrBO);
+    AdminsProdutAttrResponse convertAttr(ProductAttrBO attrBO);
 
     @Mappings({})
     ProductAttrUpdateDTO convertUpdate(ProductAttrUpdateRequest updateRequest);

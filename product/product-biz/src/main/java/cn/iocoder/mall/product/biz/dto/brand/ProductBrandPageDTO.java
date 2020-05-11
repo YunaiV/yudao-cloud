@@ -1,16 +1,17 @@
-package cn.iocoder.mall.product.biz.dto.product;
+package cn.iocoder.mall.product.biz.dto.brand;
 
+import cn.iocoder.common.framework.vo.PageParam;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * 商品品牌分页 DTO
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class ProductBrandPageDTO {
+public class ProductBrandPageDTO extends PageParam {
 
     /**
      * 名称
@@ -26,11 +27,5 @@ public class ProductBrandPageDTO {
      * 状态 1-开启 2-禁用
      */
     private Integer status;
-
-    @NotNull(message = "页码不能为空")
-    private Integer pageNo;
-
-    @NotNull(message = "每页条数不能为空")
-    private Integer pageSize;
 
 }

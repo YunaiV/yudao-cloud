@@ -1,14 +1,13 @@
 package cn.iocoder.mall.product.rest.request.attr;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
 
-/**
- * 规格添加
- */
+@ApiModel("商品 - 规格模块 - 商品规格添加 Request")
 @Data
 @Accessors(chain = true)
 public class ProductAttrAddRequest {

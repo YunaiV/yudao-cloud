@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class AdminProductAttrPageRequest extends PageParam {
+public class ProductAttrPageRequest extends PageParam {
 
     @ApiModelProperty(value = "商品规格名字，模糊匹配", example = "材料")
     private String name;

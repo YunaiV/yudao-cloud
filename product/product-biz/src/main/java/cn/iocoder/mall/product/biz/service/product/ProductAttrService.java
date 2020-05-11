@@ -20,7 +20,7 @@ public interface ProductAttrService {
      * @param productAttrPageDTO 查询参数
      * @return 规格分页信息
      */
-    PageResult<ProductAttrWithValueBO> getProductAttrPage(AdminProductAttrPageDTO productAttrPageDTO);
+    PageResult<ProductAttrWithValueBO> getProductAttrPage(ProductAttrPageDTO productAttrPageDTO);
 
     /**
      * 获得规格属性数组

@@ -1,5 +1,6 @@
 package cn.iocoder.mall.product.rest.request.attr;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -7,9 +8,7 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-/**
- * Product 规格值添加 DTO
- */
+@ApiModel("商品 - 规格模块 - 商品规格值添加 Request")
 @Data
 @Accessors(chain = true)
 public class ProductAttrValueAddRequest {

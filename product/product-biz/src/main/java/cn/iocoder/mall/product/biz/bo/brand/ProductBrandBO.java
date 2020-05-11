@@ -1,4 +1,4 @@
-package cn.iocoder.mall.product.biz.bo.product;
+package cn.iocoder.mall.product.biz.bo.brand;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

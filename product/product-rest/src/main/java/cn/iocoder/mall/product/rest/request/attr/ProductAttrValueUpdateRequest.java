@@ -1,5 +1,6 @@
 package cn.iocoder.mall.product.rest.request.attr;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotNull;
  * <p>
  * 注意，不允许修改所属规格
  */
+@ApiModel("商品 - 规格模块 - 商品规格值修改 Request")
 @Data
 @Accessors(chain = true)
 public class ProductAttrValueUpdateRequest {

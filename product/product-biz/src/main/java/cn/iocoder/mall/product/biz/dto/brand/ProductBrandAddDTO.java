@@ -1,4 +1,4 @@
-package cn.iocoder.mall.product.biz.dto.product;
+package cn.iocoder.mall.product.biz.dto.brand;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -11,13 +11,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @Accessors(chain = true)
-public class ProductBrandUpdateDTO {
-
-    /**
-     * 主键
-     */
-    @NotNull(message = "品牌主键不能为空")
-    private Integer id;
+public class ProductBrandAddDTO {
 
     /**
      * 名称

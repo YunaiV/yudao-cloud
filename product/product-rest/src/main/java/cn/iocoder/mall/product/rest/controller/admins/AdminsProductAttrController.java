@@ -9,13 +9,13 @@ import cn.iocoder.mall.product.biz.bo.attr.ProductAttrWithValueBO;
 import cn.iocoder.mall.product.biz.dto.attr.*;
 import cn.iocoder.mall.product.biz.service.product.ProductAttrService;
 import cn.iocoder.mall.product.rest.convert.attr.ProductAttrConvert;
-import cn.iocoder.mall.product.rest.request.attr.AdminProductAttrPageRequest;
+import cn.iocoder.mall.product.rest.request.attr.ProductAttrPageRequest;
 import cn.iocoder.mall.product.rest.request.attr.ProductAttrAddRequest;
 import cn.iocoder.mall.product.rest.request.attr.ProductAttrUpdateRequest;
 import cn.iocoder.mall.product.rest.request.attr.ProductAttrValueAddRequest;
 import cn.iocoder.mall.product.rest.response.attr.AdminsProductAttrPageResponse;
 import cn.iocoder.mall.product.rest.response.attr.AdminsProductAttrSimpleResponse;
-import cn.iocoder.mall.product.rest.response.attr.AdminsProductAttrVO;
+import cn.iocoder.mall.product.rest.response.attr.AdminsProdutAttrResponse;
 import cn.iocoder.mall.product.rest.response.attr.AdminsProductAttrValueResponse;
 import cn.iocoder.mall.security.core.context.AdminSecurityContextHolder;
 import io.swagger.annotations.Api;
@@ -45,8 +45,8 @@ public class AdminsProductAttrController {
 
     @GetMapping("/attr/page")
     @ApiOperation("获得规格分页")
-    public CommonResult<PageResult<AdminsProductAttrPageResponse>> attrPage(AdminProductAttrPageRequest request) {
-        AdminProductAttrPageDTO pageDTO = ProductAttrConvert.INSTANCE.convert(request);
+    public CommonResult<PageResult<AdminsProductAttrPageResponse>> attrPage(ProductAttrPageRequest request) {
+        ProductAttrPageDTO pageDTO = ProductAttrConvert.INSTANCE.convert(request);
         PageResult<ProductAttrWithValueBO> productAttrPage = productAttrService.getProductAttrPage(pageDTO);
         PageResult<AdminsProductAttrPageResponse> adminPageResponse = ProductAttrConvert.INSTANCE.convertPage(productAttrPage);
         return CommonResult.success(adminPageResponse);
@@ -62,7 +62,7 @@ public class AdminsProductAttrController {
 
     @PostMapping("/attr/add")
     @ApiOperation(value = "创建商品规格")
-    public CommonResult<AdminsProductAttrVO> addAttr(@Validated ProductAttrAddRequest addRequest) {
+    public CommonResult<AdminsProdutAttrResponse> addAttr(@Validated ProductAttrAddRequest addRequest) {
         // 创建 ProductAttrAddDTO 对象
         ProductAttrAddDTO productAttrAddDTO = new ProductAttrAddDTO().setName(addRequest.getName());
         // 添加

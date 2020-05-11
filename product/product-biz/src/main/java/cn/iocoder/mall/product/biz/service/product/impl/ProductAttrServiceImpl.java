@@ -44,7 +44,7 @@ public class ProductAttrServiceImpl implements ProductAttrService {
     private ProductAttrValueMapper productAttrValueMapper;
 
     @Override
-    public PageResult<ProductAttrWithValueBO> getProductAttrPage(AdminProductAttrPageDTO productAttrPageDTO) {
+    public PageResult<ProductAttrWithValueBO> getProductAttrPage(ProductAttrPageDTO productAttrPageDTO) {
         //查询分页
         Page<ProductAttrDO> page = new Page<>(productAttrPageDTO.getPageNo(), productAttrPageDTO.getPageSize());
         LambdaQueryWrapper<ProductAttrDO> queryWrapper = Wrappers.<ProductAttrDO>query().lambda()

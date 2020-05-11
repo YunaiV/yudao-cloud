@@ -1,5 +1,6 @@
 package cn.iocoder.mall.product.biz.bo.product;
 
+import cn.iocoder.mall.product.biz.bo.brand.ProductBrandBO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

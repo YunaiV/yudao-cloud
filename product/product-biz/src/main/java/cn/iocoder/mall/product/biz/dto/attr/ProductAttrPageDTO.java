@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class AdminProductAttrPageDTO extends PageParam {
+public class ProductAttrPageDTO extends PageParam {
     /**
      * 商品规格名字
      */

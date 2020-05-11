@@ -1,10 +1,12 @@
 package cn.iocoder.mall.product.biz.convert.attr;
 
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.product.biz.bo.attr.ProductAttrBO;
-import cn.iocoder.mall.product.biz.bo.attr.ProductAttrValueBO;
+import cn.iocoder.mall.product.biz.bo.attr.*;
 import cn.iocoder.mall.product.biz.dataobject.product.ProductAttrDO;
 import cn.iocoder.mall.product.biz.dataobject.product.ProductAttrValueDO;
+import cn.iocoder.mall.product.biz.dto.attr.ProductAttrUpdateDTO;
+import cn.iocoder.mall.product.biz.dto.attr.ProductAttrValueAddDTO;
+import cn.iocoder.mall.product.biz.dto.attr.ProductAttrValueUpdateDTO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -19,8 +21,29 @@ public interface ProductAttrConvert {
     ProductAttrConvert INSTANCE = Mappers.getMapper(ProductAttrConvert.class);
 
     @Mapping(source = "records", target = "list")
-    PageResult<ProductAttrBO> convertPage(IPage<ProductAttrDO> bean);
+    PageResult<ProductAttrWithValueBO> convertPage(IPage<ProductAttrDO> bean);
 
     @Mappings({})
-    List<ProductAttrValueBO> convertAttrValue(List<ProductAttrValueDO> values);
+    ProductAttrBO convertAttr(ProductAttrDO values);
+
+    @Mappings({})
+    ProductAttrValueBO convertAttrValue(ProductAttrValueDO productAttrValueDO);
+
+    @Mappings({})
+    List<ProductAttrValueBO> convertAttrValues(List<ProductAttrValueDO> values);
+
+    @Mappings({})
+    List<ProductAttrSimpleWithValueBO> convertAttrSimple(List<ProductAttrDO> attrs);
+
+    @Mappings({})
+    List<ProductAttrValueSimpleBO> convertAttrValueSimple(List<ProductAttrValueDO> values);
+
+    @Mappings({})
+    ProductAttrDO convertUpdate(ProductAttrUpdateDTO productAttrUpdateDTO);
+
+    @Mappings({})
+    ProductAttrValueDO convertValueAdd(ProductAttrValueAddDTO productAttrValueAddDTO);
+
+    @Mappings({})
+    ProductAttrValueDO convertValueUpdate(ProductAttrValueUpdateDTO productAttrValueUpdateDTO);
 }

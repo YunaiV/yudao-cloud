@@ -1,4 +1,4 @@
-package cn.iocoder.mall.product.biz.dto.product;
+package cn.iocoder.mall.product.biz.dto.attr;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

@@ -1,9 +1,7 @@
 package cn.iocoder.mall.system.api;
 
 import cn.iocoder.mall.system.api.bo.systemlog.AccessLogPageBO;
-import cn.iocoder.mall.system.api.dto.systemlog.AccessLogAddDTO;
 import cn.iocoder.mall.system.api.dto.systemlog.AccessLogPageDTO;
-import cn.iocoder.mall.system.api.dto.systemlog.ExceptionLogAddDTO;
 
 /**
  * 系统日志 Service 接口

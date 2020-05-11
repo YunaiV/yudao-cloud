@@ -1,7 +1,7 @@
 package cn.iocoder.mall.product.service;
 
-import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
 import cn.iocoder.mall.product.api.ProductCategoryService;
 import cn.iocoder.mall.product.api.bo.ProductCategoryBO;
 import cn.iocoder.mall.product.api.constant.ProductCategoryConstants;

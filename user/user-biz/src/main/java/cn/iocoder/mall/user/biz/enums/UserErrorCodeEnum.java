@@ -13,6 +13,9 @@ public enum UserErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
     USER_ADDRESS_NOT_EXISTENT(1001004000, "用户地址不存在!"),
     USER_ADDRESS_IS_DELETED(1001004001, "用户地址已被删除!"),
     USER_GET_ADDRESS_NOT_EXISTS(1001004002, "获取的地址不存在!"),
+
+    // ========== 用户 ==========
+    USER_NOT_EXISTS(1001004003, "获取的地址不存在!"),
     ;
 
     private final int code;

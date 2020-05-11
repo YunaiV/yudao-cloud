@@ -10,13 +10,14 @@ import cn.iocoder.mall.product.application.convert.ProductSpuConvert;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductSpuDetailVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductSpuPageVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductSpuVO;
-import cn.iocoder.mall.system.sdk.context.AdminSecurityContextHolder;
+import cn.iocoder.mall.security.core.context.AdminSecurityContextHolder;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;

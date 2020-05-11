@@ -10,12 +10,13 @@ import cn.iocoder.mall.product.api.dto.ProductBrandUpdateDTO;
 import cn.iocoder.mall.product.application.convert.ProductBrandConvert;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductBrandVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductBrangPageVO;
-import cn.iocoder.mall.system.sdk.context.AdminSecurityContextHolder;
+import cn.iocoder.mall.security.core.context.AdminSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.web.bind.annotation.*;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
 

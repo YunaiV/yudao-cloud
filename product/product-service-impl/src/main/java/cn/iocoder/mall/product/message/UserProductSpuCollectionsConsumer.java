@@ -1,7 +1,7 @@
 package cn.iocoder.mall.product.message;
 
-import cn.iocoder.common.framework.constant.DeletedStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
 import cn.iocoder.mall.product.api.UserProductSpuCollectionsService;
 import cn.iocoder.mall.product.api.bo.UserProductSpuCollectionsBO;
 import cn.iocoder.mall.product.api.dto.UserProductSpuCollectionsAddDTO;
@@ -10,7 +10,7 @@ import cn.iocoder.mall.product.api.message.ProductSpuCollectionMessage;
 import cn.iocoder.mall.product.convert.UserProductSpuCollectionsConvert;
 import cn.iocoder.mall.user.api.UserService;
 import cn.iocoder.mall.user.api.bo.UserBO;
-import cn.iocoder.mall.user.api.constant.UserErrorCodeEnum;
+import cn.iocoder.mall.user.biz.enums.UserErrorCodeEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;

@@ -1,10 +1,11 @@
 package cn.iocoder.mall.order.rest.request.users;
 
-import java.io.Serializable;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * 订单售后
@@ -26,6 +27,8 @@ public class OrderReturnApplyRequest implements Serializable {
      *
      * - 1、退货退款
      * - 2、退款
+     *
+     * / TODO FROM 芋艿 to xiaofeng：可以瞅瞅 @InEnum 注解，直接校验退货类型
      */
     @NotNull(message = "退货类型不能为空!")
     private Integer returnType;

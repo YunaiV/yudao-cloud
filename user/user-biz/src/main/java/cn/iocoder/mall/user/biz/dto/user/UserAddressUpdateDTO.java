@@ -13,6 +13,7 @@ import java.io.Serializable;
  */
 @Data
 @Accessors(chain = true)
+// TODO FROM 芋艿 to 小范：service 要做 validation 哈。其它同理
 public class UserAddressUpdateDTO implements Serializable {
 
     /**

@@ -1,7 +1,6 @@
 package cn.iocoder.mall.product.application.controller.admins;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.system.sdk.context.AdminSecurityContextHolder;
 import cn.iocoder.mall.product.api.ProductAttrService;
 import cn.iocoder.mall.product.api.bo.ProductAttrBO;
 import cn.iocoder.mall.product.api.bo.ProductAttrPageBO;
@@ -13,6 +12,7 @@ import cn.iocoder.mall.product.application.vo.admins.AdminsProductAttrPageVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductAttrSimpleVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductAttrVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductAttrValueVO;
+import cn.iocoder.mall.security.core.context.AdminSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

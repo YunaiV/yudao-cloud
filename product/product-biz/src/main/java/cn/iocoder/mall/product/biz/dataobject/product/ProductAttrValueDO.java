@@ -2,12 +2,14 @@ package cn.iocoder.mall.product.biz.dataobject.product;
 
 import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * Product 规格值
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class ProductAttrValueDO extends DeletableDO {
 
@@ -25,7 +27,7 @@ public class ProductAttrValueDO extends DeletableDO {
     private String name;
     /**
      * 状态
-     *
+     * <p>
      * 1-正常
      * 2-禁用
      */

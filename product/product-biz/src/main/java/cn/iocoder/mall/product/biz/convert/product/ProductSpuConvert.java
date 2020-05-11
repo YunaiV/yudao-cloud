@@ -130,6 +130,4 @@ public interface ProductSpuConvert {
         return spuDetailList;
     }
 
-
-
 }

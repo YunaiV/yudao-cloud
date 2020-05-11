@@ -12,6 +12,7 @@
     <artifactId>product</artifactId>
     <name>product</name>
     <packaging>pom</packaging>
+
     <modules>
         <module>product-application</module>
         <module>product-rpc-api</module>

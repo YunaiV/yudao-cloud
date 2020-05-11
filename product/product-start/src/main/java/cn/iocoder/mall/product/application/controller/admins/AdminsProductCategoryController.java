@@ -1,7 +1,6 @@
 package cn.iocoder.mall.product.application.controller.admins;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.system.sdk.context.AdminSecurityContextHolder;
 import cn.iocoder.mall.product.api.ProductCategoryService;
 import cn.iocoder.mall.product.api.bo.ProductCategoryBO;
 import cn.iocoder.mall.product.api.constant.ProductCategoryConstants;
@@ -10,6 +9,7 @@ import cn.iocoder.mall.product.api.dto.ProductCategoryUpdateDTO;
 import cn.iocoder.mall.product.application.convert.ProductCategoryConvert;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductCategoryTreeNodeVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductCategoryVO;
+import cn.iocoder.mall.security.core.context.AdminSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

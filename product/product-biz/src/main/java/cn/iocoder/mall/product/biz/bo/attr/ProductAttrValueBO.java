@@ -18,6 +18,10 @@ public class ProductAttrValueBO implements Serializable {
      */
     private Integer id;
     /**
+     * 规格编号
+     */
+    private Integer attrId;
+    /**
      * 规格值名
      */
     private String name;

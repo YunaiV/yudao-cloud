@@ -25,7 +25,7 @@
         </dependency>
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
-            <artifactId>product-service-api</artifactId>
+            <artifactId>product-rpc-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 

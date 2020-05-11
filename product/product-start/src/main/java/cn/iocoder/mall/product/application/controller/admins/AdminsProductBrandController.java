@@ -1,7 +1,6 @@
 package cn.iocoder.mall.product.application.controller.admins;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.system.sdk.context.AdminSecurityContextHolder;
 import cn.iocoder.mall.product.api.ProductBrandService;
 import cn.iocoder.mall.product.api.bo.ProductBrandBO;
 import cn.iocoder.mall.product.api.bo.ProductBrangPageBO;
@@ -11,6 +10,7 @@ import cn.iocoder.mall.product.api.dto.ProductBrandUpdateDTO;
 import cn.iocoder.mall.product.application.convert.ProductBrandConvert;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductBrandVO;
 import cn.iocoder.mall.product.application.vo.admins.AdminsProductBrangPageVO;
+import cn.iocoder.mall.security.core.context.AdminSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

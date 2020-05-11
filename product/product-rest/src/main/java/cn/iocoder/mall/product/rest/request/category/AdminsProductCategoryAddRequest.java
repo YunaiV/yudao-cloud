@@ -17,7 +17,6 @@ import javax.validation.constraints.NotNull;
 @Accessors(chain = true)
 public class AdminsProductCategoryAddRequest {
 
-    // TODO FROM 芋艿 to 伟帆：写了 swagger 注解，我们可以少写一份 Java 注释。[DONE]
     @ApiModelProperty(name = "pid", value = "父级分类编号", required = true, example = "1")
     @NotNull(message = "父分类编号不能为空")
     private Integer pid;

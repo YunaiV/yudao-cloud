@@ -3,12 +3,12 @@ package cn.iocoder.mall.product.biz.bo.attr;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Accessors(chain = true)
-public class ProductAttrBO {
+public class ProductAttrBO implements Serializable {
 
     /**
      * 规格编号
@@ -26,8 +26,5 @@ public class ProductAttrBO {
      * 创建时间
      */
     private Date createTime;
-    /**
-     * 规格值数组
-     */
-    private List<ProductAttrValueBO> values;
+
 }

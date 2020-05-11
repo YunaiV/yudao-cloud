@@ -2,8 +2,7 @@ package cn.iocoder.mall.product.application.controller.users;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.ProductSpuCollectionService;
-import cn.iocoder.mall.user.sdk.annotation.RequiresLogin;
-import cn.iocoder.mall.user.sdk.context.UserSecurityContextHolder;
+import cn.iocoder.mall.security.core.context.UserSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
@@ -30,7 +29,6 @@ public class UsersProductSpuCollectionController {
 
     @PostMapping("/collection/{spuId}/{hasCollectionType}")
     @ApiOperation("商品收藏")
-    @RequiresLogin
     public CommonResult<Boolean> productSpuCollection(@PathVariable("spuId") Integer spuId,
             @PathVariable("hasCollectionType") Integer hasCollectionType) {
         final Integer userId = UserSecurityContextHolder.getContext().getUserId();

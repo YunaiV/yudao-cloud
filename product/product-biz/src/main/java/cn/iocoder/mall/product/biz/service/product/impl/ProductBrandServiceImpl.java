@@ -32,7 +32,7 @@ public class ProductBrandServiceImpl implements ProductBrandService {
 
     @Override
     public PageResult<ProductBrandBO> getProductBrandPage(ProductBrandPageDTO productBrandPageDTO) {
-        IPage<ProductBrandDO> brandPage = productBrandMapper.selectListByParams(productBrandPageDTO);
+        IPage<ProductBrandDO> brandPage = productBrandMapper.selectPageByParams(productBrandPageDTO);
         return ProductBrandConvert.INSTANCE.convertPage(brandPage);
     }
 

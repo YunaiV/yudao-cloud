@@ -13,8 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductBrandMapper extends BaseMapper<ProductBrandDO> {
 
-    // TODO FROM 芋艿 to q2118cs：selectPageByParams
-    default IPage<ProductBrandDO> selectListByParams(ProductBrandPageDTO productBrandPageDTO) {
+    default IPage<ProductBrandDO> selectPageByParams(ProductBrandPageDTO productBrandPageDTO) {
         Page<ProductBrandDO> page = new Page<>(productBrandPageDTO.getPageNo(), productBrandPageDTO.getPageSize());
         LambdaQueryWrapper<ProductBrandDO> queryWrapper = Wrappers.<ProductBrandDO>query().lambda()
                 .like(StringUtils.isNotBlank(productBrandPageDTO.getName()), ProductBrandDO::getName, productBrandPageDTO.getName())

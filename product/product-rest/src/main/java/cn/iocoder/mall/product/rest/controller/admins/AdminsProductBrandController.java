@@ -17,6 +17,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,11 +25,11 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 
 @RestController
 @RequestMapping("admins/brand")
-@Api("商品品牌") // TODO FROM 芋艿 to q2118cs：管理员 - 商品品牌 API。。哈哈哈，原来没规范
+@Api("管理员 - 商品品牌 API")
+@AllArgsConstructor
 public class AdminsProductBrandController {
 
-    // TODO FROM 芋艿 to q2118cs：貌似没注入哈
-    private ProductBrandService productBrandService;
+    private final ProductBrandService productBrandService;
 
     @PostMapping("/add")
     @ApiOperation("创建品牌")

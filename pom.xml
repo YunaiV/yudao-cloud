@@ -31,6 +31,7 @@
         <module>order/order-rpc</module>
         <module>order/order-rpc-api</module>
         <module>order-rest</module>
+        <module>mall-spring-boot-starter-cache</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -204,6 +204,7 @@ public class ProductAttrServiceImpl implements ProductAttrService {
         return i > 0;
     }
 
+    @Override
     public List<ProductAttrAndValuePairBO> validProductAttrAndValue(Set<Integer> productAttrValueIds, boolean validStatus) {
         // 首先，校验规格值
         List<ProductAttrValueDO> attrValues = productAttrValueMapper.selectBatchIds(productAttrValueIds);

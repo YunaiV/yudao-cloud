@@ -3,7 +3,7 @@ package cn.iocoder.mall.promotion.biz.service;
 import cn.iocoder.common.framework.constant.CommonStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
-import cn.iocoder.mall.product.api.ProductSpuService;
+import cn.iocoder.mall.product.rpc.api.ProductSpuRpc;
 import cn.iocoder.mall.promotion.api.ProductRecommendService;
 import cn.iocoder.mall.promotion.api.bo.ProductRecommendBO;
 import cn.iocoder.mall.promotion.api.bo.ProductRecommendPageBO;
@@ -26,7 +26,7 @@ import java.util.List;
 public class ProductRecommendServiceImpl implements ProductRecommendService {
 
     @Reference(validation = "true", version = "${dubbo.consumer.ProductSpuService.version}")
-    private ProductSpuService productSpuService;
+    private ProductSpuRpc productSpuRpc;
 
     @Autowired
     private ProductRecommendMapper productRecommendMapper;
@@ -52,7 +52,7 @@ public class ProductRecommendServiceImpl implements ProductRecommendService {
     @Override
     public ProductRecommendBO addProductRecommend(Integer adminId, ProductRecommendAddDTO productRecommendAddDTO) {
         // 校验商品不存在
-        if (productSpuService.getProductSpuDetail(productRecommendAddDTO.getProductSpuId()) == null) {
+        if (productSpuRpc.getProductSpuDetail(productRecommendAddDTO.getProductSpuId()) == null) {
             throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.PRODUCT_RECOMMEND_PRODUCT_NOT_EXISTS.getCode());
         }
         // 校验商品是否已经推荐
@@ -74,7 +74,7 @@ public class ProductRecommendServiceImpl implements ProductRecommendService {
             throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.PRODUCT_RECOMMEND_NOT_EXISTS.getCode());
         }
         // 校验商品不存在
-        if (productSpuService.getProductSpuDetail(productRecommendUpdateDTO.getProductSpuId()) == null) {
+        if (productSpuRpc.getProductSpuDetail(productRecommendUpdateDTO.getProductSpuId()) == null) {
             throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.PRODUCT_RECOMMEND_PRODUCT_NOT_EXISTS.getCode());
         }
         // 校验商品是否已经推荐

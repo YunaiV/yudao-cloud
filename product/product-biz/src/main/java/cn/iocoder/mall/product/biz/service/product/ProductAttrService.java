@@ -7,9 +7,11 @@ import cn.iocoder.mall.product.biz.bo.attr.ProductAttrBO;
 import cn.iocoder.mall.product.biz.bo.attr.ProductAttrSimpleWithValueBO;
 import cn.iocoder.mall.product.biz.bo.attr.ProductAttrValueBO;
 import cn.iocoder.mall.product.biz.bo.attr.ProductAttrWithValueBO;
+import cn.iocoder.mall.product.biz.bo.product.ProductAttrAndValuePairBO;
 import cn.iocoder.mall.product.biz.dto.attr.*;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ProductAttrService {
     /**
@@ -64,4 +66,5 @@ public interface ProductAttrService {
     Boolean updateProductAttrValueStatus(Integer adminId, Integer productAttrValueId,
                                          @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}") Integer status);
 
+    List<ProductAttrAndValuePairBO> validProductAttrAndValue(Set<Integer> productAttrValueIds, boolean validStatus);
 }

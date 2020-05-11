@@ -35,6 +35,7 @@ public class OrderApplication {
      * @return
      */
     @Bean
+    // TODO FROM 芋艿 to 芋艿：这个不太了解，可能后续要放到 starter 里，统一处理。
     public ConfigurableServletWebServerFactory webServerFactory() {
         TomcatServletWebServerFactory factory = new TomcatServletWebServerFactory();
         factory.addConnectorCustomizers(new TomcatConnectorCustomizer() {

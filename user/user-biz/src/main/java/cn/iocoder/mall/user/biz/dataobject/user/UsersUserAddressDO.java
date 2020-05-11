@@ -11,6 +11,7 @@ import lombok.experimental.Accessors;
  * @time 2019-04-06 13:22
  */
 @Data
+// TODO FROM 芋艿 to 小范：如果继承了，需要添加 @EqualsAndHashCode(callSuper = true) 注解
 @Accessors(chain = true)
 public class UsersUserAddressDO extends DeletableDO {
 

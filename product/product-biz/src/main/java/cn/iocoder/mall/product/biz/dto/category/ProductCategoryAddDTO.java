@@ -17,7 +17,6 @@ public class ProductCategoryAddDTO {
     /**
      * 管理员id
      */
-    // TODO FROM 芋艿 to 伟帆：传入 Service 的，要加下 Validation 的注解，虽然 Controller 那也添加了 Validation，但是相比来说，Service 更应该被保护，嘿嘿。因为一些时候，Service 也会被别人所调用，所以要保护好自己。[DONE]
     @NotNull(message = "管理员id不能为空")
     private Integer adminId;
 

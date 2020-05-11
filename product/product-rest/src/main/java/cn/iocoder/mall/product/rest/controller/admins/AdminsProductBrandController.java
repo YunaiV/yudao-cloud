@@ -24,9 +24,10 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 
 @RestController
 @RequestMapping("admins/brand")
-@Api("商品品牌")
+@Api("商品品牌") // TODO FROM 芋艿 to q2118cs：管理员 - 商品品牌 API。。哈哈哈，原来没规范
 public class AdminsProductBrandController {
 
+    // TODO FROM 芋艿 to q2118cs：貌似没注入哈
     private ProductBrandService productBrandService;
 
     @PostMapping("/add")
@@ -49,6 +50,7 @@ public class AdminsProductBrandController {
             @ApiImplicitParam(name = "picUrl", value = "品牌图片", required = true, example = "http://www.iocoder.cn"),
             @ApiImplicitParam(name = "status", value = "状态 1开启 2禁用", required = true, example = "1")
     })
+    // TODO FROM 芋艿 to q2118cs：只要改成了 bean 接收，就不用在写 @ApiImplicitParam 注解啦，直接在 bean 里写就 ok 啦
     public CommonResult<Boolean> update(@Validated ProductBrandUpdateRequest updateRequest) {
         // 创建 productBrandUpdateDTO 对象
         ProductBrandUpdateDTO productBrandUpdateDTO = ProductBrandConvert.INSTANCE.convertUpdate(updateRequest);

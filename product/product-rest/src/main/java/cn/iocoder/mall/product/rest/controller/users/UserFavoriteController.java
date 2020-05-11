@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("users/favorite")
 @Api("用户收藏")
+// TODO FROM 芋艿 to ilnhj：controller 分包的话，还是按照模块。然后通过 Admins 和 Users 前缀，区分不同的 Controlller
 public class UserFavoriteController {
 
 }

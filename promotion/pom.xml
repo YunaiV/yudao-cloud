@@ -12,9 +12,9 @@
     <artifactId>promotion</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>promotion-service-api</module>
-        <module>promotion-service-impl</module>
-        <module>promotion-application</module>
+<!--        <module>promotion-service-api</module>-->
+<!--        <module>promotion-service-impl</module>-->
+<!--        <module>promotion-application</module>-->
     </modules>
 
     <dependencyManagement>

@@ -36,21 +36,21 @@ public class AdminsSmsSignController {
 
     @PostMapping("add")
     @ApiOperation("签名-添加")
-    public CommonResult addSign(@RequestBody AddSignRequest addSignRequest) {
+    public CommonResult<?> addSign(@RequestBody AddSignRequest addSignRequest) {
         smsService.addSign(AdminsSmsConvert.INSTANCE.convert(addSignRequest));
         return CommonResult.success(null);
     }
 
     @PutMapping("update")
     @ApiOperation("签名-更新")
-    public CommonResult updateSign(@RequestBody UpdateSignRequest updateSignRequest) {
+    public CommonResult<?> updateSign(@RequestBody UpdateSignRequest updateSignRequest) {
         smsService.updateSign(AdminsSmsConvert.INSTANCE.convert(updateSignRequest));
         return CommonResult.success(null);
     }
 
     @DeleteMapping("deleted")
     @ApiOperation("签名-删除")
-    public CommonResult deletedSign(@RequestParam("id") Integer id) {
+    public CommonResult<?> deletedSign(@RequestParam("id") Integer id) {
         smsService.deleteSign(id);
         return CommonResult.success(null);
     }

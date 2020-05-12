@@ -1,6 +1,6 @@
 package cn.iocoder.mall.order.rest.request.admin;
 
-import cn.iocoder.mall.order.api.bo.OrderBO;
+import cn.iocoder.mall.order.biz.bo.order.OrderBO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;

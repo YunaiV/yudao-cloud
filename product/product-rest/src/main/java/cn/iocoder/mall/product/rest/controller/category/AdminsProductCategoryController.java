@@ -35,7 +35,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
  */
 @RestController
 @RequestMapping(MallConstants.ROOT_PATH_ADMIN + "/category")
-@Api(tags = "商品分类 API")
+@Api(tags = "管理员 - 商品分类 API")
 public class AdminsProductCategoryController {
 
     @Autowired

@@ -31,8 +31,17 @@ public class UserDO extends DeletableDO {
      */
     private String nickname;
     /**
+     * 手机
+     */
+    private String mobile;
+    /**
      * 头像
      */
     private String avatar;
+
+    /**
+     * 用户状态 1 - 开启；2 - 禁用
+     */
+    private Integer status;
 
 }

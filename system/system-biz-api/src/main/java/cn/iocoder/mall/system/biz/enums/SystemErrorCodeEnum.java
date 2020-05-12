@@ -88,6 +88,11 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
     USER_ADDRESS_IS_DELETED(1001004001, "用户地址已被删除!"),
     USER_GET_ADDRESS_NOT_EXISTS(1001004002, "获取的地址不存在!"),
 
+    // ========== 用户信息模块 1004004100 ==========
+    USER_NOT_EXISTS(1004004100, "用户不存在"),
+    USER_STATUS_NOT_EXISTS(1004004101, "用户状态不存在"),
+    USER_STATUS_EQUALS(1004004101, "用户已经是该状态"),
+
     // ========== 错误码模块 1002009000 ==========
     ERROR_CODE_NOT_EXISTS(1002009000, "错误码不存在"),
     ERROR_CODE_DUPLICATE(1002009001, "已经存在编码为【{}}】的错误码"),

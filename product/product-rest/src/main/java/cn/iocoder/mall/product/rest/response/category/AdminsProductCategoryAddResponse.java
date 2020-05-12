@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * @Author: jiangweifan
  * @Date: 2020/5/6
- * @Description: 商品分类 - 新增商品分类Response
+ * @Description: 管理员 - 商品分类 - 新增商品分类Response
  */
 @ApiModel("创建商品分类Response")
 @Data

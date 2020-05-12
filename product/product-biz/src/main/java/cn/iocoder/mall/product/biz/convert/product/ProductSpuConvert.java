@@ -2,9 +2,9 @@ package cn.iocoder.mall.product.biz.convert.product;
 
 import cn.iocoder.common.framework.util.StringUtil;
 import cn.iocoder.mall.product.biz.bo.product.*;
-import cn.iocoder.mall.product.biz.dataobject.product.ProductCategoryDO;
-import cn.iocoder.mall.product.biz.dataobject.product.ProductSkuDO;
-import cn.iocoder.mall.product.biz.dataobject.product.ProductSpuDO;
+import cn.iocoder.mall.product.biz.dataobject.category.ProductCategoryDO;
+import cn.iocoder.mall.product.biz.dataobject.spu.ProductSkuDO;
+import cn.iocoder.mall.product.biz.dataobject.spu.ProductSpuDO;
 import cn.iocoder.mall.product.biz.dto.product.ProductSkuAddOrUpdateDTO;
 import cn.iocoder.mall.product.biz.dto.product.ProductSpuAddDTO;
 import cn.iocoder.mall.product.biz.dto.product.ProductSpuUpdateDTO;

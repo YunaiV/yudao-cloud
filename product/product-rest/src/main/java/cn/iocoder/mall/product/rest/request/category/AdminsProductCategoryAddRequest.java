@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 /**
  * @Author: jiangweifan
  * @Date: 2020/5/6
- * @Description: 商品分类 - 创建商品分类Request
+ * @Description: 管理员 - 商品分类 - 创建商品分类Request
  */
 @ApiModel("创建商品分类Request")
 @Data

@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @Author: jiangweifan
  * @Date: 2020/5/6
- * @Description: 商品分类 - 分类树Response
+ * @Description: 管理员 - 商品分类 - 分类树Response
  */
 @ApiModel("商品分类树节点")
 @Data

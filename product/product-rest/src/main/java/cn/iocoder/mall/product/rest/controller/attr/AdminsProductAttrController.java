@@ -7,7 +7,7 @@ import cn.iocoder.mall.product.biz.bo.attr.ProductAttrSimpleWithValueBO;
 import cn.iocoder.mall.product.biz.bo.attr.ProductAttrValueBO;
 import cn.iocoder.mall.product.biz.bo.attr.ProductAttrWithValueBO;
 import cn.iocoder.mall.product.biz.dto.attr.*;
-import cn.iocoder.mall.product.biz.service.product.ProductAttrService;
+import cn.iocoder.mall.product.biz.service.attr.ProductAttrService;
 import cn.iocoder.mall.product.rest.convert.attr.ProductAttrConvert;
 import cn.iocoder.mall.product.rest.request.attr.ProductAttrPageRequest;
 import cn.iocoder.mall.product.rest.request.attr.ProductAttrAddRequest;

@@ -6,7 +6,7 @@ import cn.iocoder.mall.product.biz.bo.brand.ProductBrandBO;
 import cn.iocoder.mall.product.biz.dto.brand.ProductBrandAddDTO;
 import cn.iocoder.mall.product.biz.dto.brand.ProductBrandPageDTO;
 import cn.iocoder.mall.product.biz.dto.brand.ProductBrandUpdateDTO;
-import cn.iocoder.mall.product.biz.service.product.ProductBrandService;
+import cn.iocoder.mall.product.biz.service.brand.ProductBrandService;
 import cn.iocoder.mall.product.rest.convert.brand.ProductBrandConvert;
 import cn.iocoder.mall.product.rest.request.brand.ProductBrandAddRequest;
 import cn.iocoder.mall.product.rest.request.brand.ProductBrandPageRequest;

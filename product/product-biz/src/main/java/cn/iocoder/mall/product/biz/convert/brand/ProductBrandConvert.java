@@ -2,7 +2,7 @@ package cn.iocoder.mall.product.biz.convert.brand;
 
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.product.biz.bo.brand.ProductBrandBO;
-import cn.iocoder.mall.product.biz.dataobject.product.ProductBrandDO;
+import cn.iocoder.mall.product.biz.dataobject.brand.ProductBrandDO;
 import cn.iocoder.mall.product.biz.dto.brand.ProductBrandAddDTO;
 import cn.iocoder.mall.product.biz.dto.brand.ProductBrandUpdateDTO;
 import com.baomidou.mybatisplus.core.metadata.IPage;

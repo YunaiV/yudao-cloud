@@ -2,8 +2,8 @@ package cn.iocoder.mall.product.biz.convert.attr;
 
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.product.biz.bo.attr.*;
-import cn.iocoder.mall.product.biz.dataobject.product.ProductAttrDO;
-import cn.iocoder.mall.product.biz.dataobject.product.ProductAttrValueDO;
+import cn.iocoder.mall.product.biz.dataobject.attr.ProductAttrDO;
+import cn.iocoder.mall.product.biz.dataobject.attr.ProductAttrValueDO;
 import cn.iocoder.mall.product.biz.dto.attr.ProductAttrUpdateDTO;
 import cn.iocoder.mall.product.biz.dto.attr.ProductAttrValueAddDTO;
 import cn.iocoder.mall.product.biz.dto.attr.ProductAttrValueUpdateDTO;

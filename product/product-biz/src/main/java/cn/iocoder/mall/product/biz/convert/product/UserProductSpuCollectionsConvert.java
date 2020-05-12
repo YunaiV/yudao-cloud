@@ -1,7 +1,7 @@
 package cn.iocoder.mall.product.biz.convert.product;
 
 import cn.iocoder.mall.product.biz.bo.product.UserProductSpuCollectionsBO;
-import cn.iocoder.mall.product.biz.dataobject.product.UserProductSpuCollectionsDO;
+import cn.iocoder.mall.product.biz.dataobject.spu.UserProductSpuCollectionsDO;
 import cn.iocoder.mall.product.biz.dto.product.UserProductSpuCollectionsAddDTO;
 import cn.iocoder.mall.product.biz.dto.product.UserProductSpuCollectionsUpdateDTO;
 import org.mapstruct.Mapper;

@@ -7,9 +7,9 @@ import cn.iocoder.mall.product.biz.dto.category.ProductCategoryAddDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryDeleteDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateStatusDTO;
-import cn.iocoder.mall.product.biz.enums.product.ProductCategoryConstants;
-import cn.iocoder.mall.product.biz.service.product.ProductCategoryService;
-import cn.iocoder.mall.product.rest.convert.category.ProductCategoryConvert;
+import cn.iocoder.mall.product.biz.enums.category.ProductCategoryConstants;
+import cn.iocoder.mall.product.biz.service.category.ProductCategoryService;
+import cn.iocoder.mall.product.rest.convert.category.AdminsProductCategoryConvert;
 import cn.iocoder.mall.product.rest.request.category.AdminsProductCategoryAddRequest;
 import cn.iocoder.mall.product.rest.request.category.AdminsProductCategoryUpdateRequest;
 import cn.iocoder.mall.product.rest.request.category.AdminsProductCategoryUpdateStatusRequest;
@@ -46,7 +46,7 @@ public class AdminsProductCategoryController {
     public CommonResult<List<AdminsProductCategoryTreeNodeResponse>> tree() {
         List<ProductCategoryBO> productCategories = productCategoryService.getAllProductCategory();
         // 创建 ProductCategoryTreeNodeVO Map
-        Map<Integer, AdminsProductCategoryTreeNodeResponse> treeNodeMap = productCategories.stream().collect(Collectors.toMap(ProductCategoryBO::getId, ProductCategoryConvert.INSTANCE::convertToTreeNodeResponse));
+        Map<Integer, AdminsProductCategoryTreeNodeResponse> treeNodeMap = productCategories.stream().collect(Collectors.toMap(ProductCategoryBO::getId, AdminsProductCategoryConvert.INSTANCE::convertToTreeNodeResponse));
         // 处理父子关系
         treeNodeMap.values().stream()
                 .filter(node -> !node.getPid().equals(ProductCategoryConstants.PID_ROOT))
@@ -71,18 +71,18 @@ public class AdminsProductCategoryController {
     @ApiOperation(value = "创建商品分类")
     public CommonResult<AdminsProductCategoryAddResponse> add(AdminsProductCategoryAddRequest adminsProductCategoryAddRequest) {
         // 转换 ProductCategoryAddDTO 对象
-        ProductCategoryAddDTO productCategoryAddDTO = ProductCategoryConvert.INSTANCE.convertToAddDTO(AdminSecurityContextHolder.getContext().getAdminId(), adminsProductCategoryAddRequest);
+        ProductCategoryAddDTO productCategoryAddDTO = AdminsProductCategoryConvert.INSTANCE.convertToAddDTO(AdminSecurityContextHolder.getContext().getAdminId(), adminsProductCategoryAddRequest);
         // 创建商品分类
         ProductCategoryBO addProductCategoryBO = productCategoryService.addProductCategory(productCategoryAddDTO);
         // 返回结果
-        return success(ProductCategoryConvert.INSTANCE.convertToAddResponse(addProductCategoryBO));
+        return success(AdminsProductCategoryConvert.INSTANCE.convertToAddResponse(addProductCategoryBO));
     }
 
     @PostMapping("/update")
     @ApiOperation(value = "更新商品分类")
     public CommonResult<Boolean> update(AdminsProductCategoryUpdateRequest adminsProductCategoryUpdateRequest) {
         // 创建 ProductCategoryUpdateDTO 对象
-        ProductCategoryUpdateDTO productCategoryUpdateDTO = ProductCategoryConvert.INSTANCE.convertToUpdateDTO(AdminSecurityContextHolder.getContext().getAdminId(), adminsProductCategoryUpdateRequest);
+        ProductCategoryUpdateDTO productCategoryUpdateDTO = AdminsProductCategoryConvert.INSTANCE.convertToUpdateDTO(AdminSecurityContextHolder.getContext().getAdminId(), adminsProductCategoryUpdateRequest);
         // 更新商品分类
         return success(productCategoryService.updateProductCategory(productCategoryUpdateDTO));
     }
@@ -91,7 +91,7 @@ public class AdminsProductCategoryController {
     @ApiOperation(value = "更新商品分类状态")
     public CommonResult<Boolean> updateStatus(AdminsProductCategoryUpdateStatusRequest adminsProductCategoryUpdateStatusRequest) {
         // 创建 ProductCategoryUpdateStatusDTO 对象
-        ProductCategoryUpdateStatusDTO productCategoryUpdateStatusDTO = ProductCategoryConvert.INSTANCE.convertToUpdateStatusDTO(AdminSecurityContextHolder.getContext().getAdminId(),
+        ProductCategoryUpdateStatusDTO productCategoryUpdateStatusDTO = AdminsProductCategoryConvert.INSTANCE.convertToUpdateStatusDTO(AdminSecurityContextHolder.getContext().getAdminId(),
                 adminsProductCategoryUpdateStatusRequest);
         // 更新商品分类状态
         return success(productCategoryService.updateProductCategoryStatus(productCategoryUpdateStatusDTO));
@@ -102,7 +102,7 @@ public class AdminsProductCategoryController {
     @ApiImplicitParam(name = "id", value = "商品分类编号", required = true, example = "1")
     public CommonResult<Boolean> delete(@RequestParam("id") Integer id) {
         // 创建 ProductCategoryDeleteDTO 对象
-        ProductCategoryDeleteDTO productCategoryDeleteDTO = ProductCategoryConvert.INSTANCE.convertToDeleteDTO(AdminSecurityContextHolder.getContext().getAdminId(), id);
+        ProductCategoryDeleteDTO productCategoryDeleteDTO = AdminsProductCategoryConvert.INSTANCE.convertToDeleteDTO(AdminSecurityContextHolder.getContext().getAdminId(), id);
         // 删除商品分类
         return success(productCategoryService.deleteProductCategory(productCategoryDeleteDTO));
     }

@@ -1,9 +1,10 @@
 package cn.iocoder.mall.product.biz.convert.category;
 
 import cn.iocoder.mall.product.biz.bo.category.ProductCategoryBO;
-import cn.iocoder.mall.product.biz.dataobject.product.ProductCategoryDO;
+import cn.iocoder.mall.product.biz.dataobject.category.ProductCategoryDO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryAddDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateDTO;
+import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateStatusDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import java.util.List;
@@ -46,5 +47,12 @@ public interface ProductCategoryConvert {
      * @return
      */
     ProductCategoryDO convertToDO(ProductCategoryUpdateDTO productCategoryUpdateDTO);
+
+    /**
+     * 更新商品分类状态 - DTO转换DO
+     * @param productCategoryUpdateStatusDTO
+     * @return
+     */
+    ProductCategoryDO convertToDO(ProductCategoryUpdateStatusDTO productCategoryUpdateStatusDTO);
 
 }

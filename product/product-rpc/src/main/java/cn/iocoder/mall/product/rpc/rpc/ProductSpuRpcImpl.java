@@ -1,7 +1,7 @@
 package cn.iocoder.mall.product.rpc.rpc;
 
 import cn.iocoder.mall.product.biz.bo.product.ProductSpuDetailBO;
-import cn.iocoder.mall.product.biz.service.product.ProductSpuService;
+import cn.iocoder.mall.product.biz.service.spu.ProductSpuService;
 import cn.iocoder.mall.product.rpc.api.ProductSpuRpc;
 import cn.iocoder.mall.product.rpc.convert.ProductSpuConvert;
 import cn.iocoder.mall.product.rpc.response.ProductSpuDetailResponse;

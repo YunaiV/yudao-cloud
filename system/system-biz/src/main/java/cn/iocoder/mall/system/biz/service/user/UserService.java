@@ -7,10 +7,13 @@ import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2MobileCodeAuthenticateDTO;
 import cn.iocoder.mall.system.biz.dto.user.UserPageDTO;
 import cn.iocoder.mall.system.biz.dto.user.UserUpdateDTO;
 import cn.iocoder.mall.system.biz.dto.user.UserUpdateStatusDTO;
+import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
 
 /**
  * 用户 Service 接口
  */
+@Validated
 public interface UserService {
 
     UserAuthenticateBO authenticate(OAuth2MobileCodeAuthenticateDTO authenticateDTO);
@@ -29,13 +32,13 @@ public interface UserService {
      * @param userUpdateDTO
      * @return
      */
-    Boolean updateUserInfo(UserUpdateDTO userUpdateDTO);
+    Boolean updateUserInfo(@Valid UserUpdateDTO userUpdateDTO);
 
     /**
      * 更新用户状态
      * @param userUpdateStatusDTO
      * @return
      */
-    Boolean updateUserStatus(UserUpdateStatusDTO userUpdateStatusDTO);
+    Boolean updateUserStatus(@Valid UserUpdateStatusDTO userUpdateStatusDTO);
 
 }

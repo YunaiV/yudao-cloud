@@ -1,4 +1,4 @@
-package cn.iocoder.mall.product.rest.controller.users;
+package cn.iocoder.mall.product.rest.controller.favorite;
 
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;

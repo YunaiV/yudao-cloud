@@ -1,4 +1,4 @@
-package cn.iocoder.mall.product.rest.controller.admins;
+package cn.iocoder.mall.product.rest.controller.category;
 
 import cn.iocoder.common.framework.constant.MallConstants;
 import cn.iocoder.common.framework.vo.CommonResult;

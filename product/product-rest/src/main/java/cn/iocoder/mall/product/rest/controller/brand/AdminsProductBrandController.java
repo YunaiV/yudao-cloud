@@ -1,4 +1,4 @@
-package cn.iocoder.mall.product.rest.controller.admins;
+package cn.iocoder.mall.product.rest.controller.brand;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;

@@ -1,13 +1,13 @@
-package cn.iocoder.mall.product.biz.convert.product;
+package cn.iocoder.mall.product.biz.convert.sku;
 
 import cn.iocoder.common.framework.util.StringUtil;
 import cn.iocoder.mall.product.biz.bo.product.*;
 import cn.iocoder.mall.product.biz.dataobject.category.ProductCategoryDO;
 import cn.iocoder.mall.product.biz.dataobject.spu.ProductSkuDO;
 import cn.iocoder.mall.product.biz.dataobject.spu.ProductSpuDO;
-import cn.iocoder.mall.product.biz.dto.product.ProductSkuAddOrUpdateDTO;
-import cn.iocoder.mall.product.biz.dto.product.ProductSpuAddDTO;
-import cn.iocoder.mall.product.biz.dto.product.ProductSpuUpdateDTO;
+import cn.iocoder.mall.product.biz.dto.sku.ProductSkuAddOrUpdateDTO;
+import cn.iocoder.mall.product.biz.dto.sku.ProductSpuAddDTO;
+import cn.iocoder.mall.product.biz.dto.sku.ProductSpuUpdateDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -25,6 +25,17 @@ public interface ProductSpuConvert {
     ProductSpuConvert INSTANCE = Mappers.getMapper(ProductSpuConvert.class);
 
     @Mappings({
+            @Mapping(source = "picUrls", target = "picUrls", ignore = true)
+    })
+    ProductSpuDO convertToSpuDO(ProductSpuAddDTO productSpuAddDTO);
+
+
+    @Mappings({
+            @Mapping(source = "attrs", target = "attrs", ignore = true)
+    })
+    ProductSkuDO convertToSkuDO(ProductSkuAddOrUpdateDTO productSkuAddDTO);
+
+    @Mappings({
             @Mapping(source = "picUrls", target = "picUrls", qualifiedByName = "translatePicUrlsFromString")
     })
     ProductSpuBO convert(ProductSpuDO spu);
@@ -36,16 +47,6 @@ public interface ProductSpuConvert {
 
     @Mappings({})
     List<ProductSpuBO> convert(List<ProductSpuDO> spus);
-
-    @Mappings({
-            @Mapping(source = "picUrls", target = "picUrls", ignore = true)
-    })
-    ProductSpuDO convert(ProductSpuAddDTO productSpuAddDTO);
-
-    @Mappings({
-            @Mapping(source = "attrs", target = "attrs", ignore = true)
-    })
-    ProductSkuDO convert(ProductSkuAddOrUpdateDTO productSkuAddDTO);
 
 
     @Mappings({

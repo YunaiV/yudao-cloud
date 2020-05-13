@@ -20,6 +20,7 @@
         <module>product-rest</module>
         <module>product-biz</module>
         <module>product-biz-api</module>
+        <module>product-mq</module>
     </modules>
 
     <dependencyManagement>

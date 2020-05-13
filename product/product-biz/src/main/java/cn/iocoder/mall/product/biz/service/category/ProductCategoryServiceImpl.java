@@ -10,11 +10,13 @@ import cn.iocoder.mall.product.biz.dto.category.ProductCategoryAddDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryDeleteDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateStatusDTO;
+import cn.iocoder.mall.product.biz.enums.ProductErrorCodeEnum;
 import cn.iocoder.mall.product.biz.enums.category.ProductCategoryConstants;
 import cn.iocoder.mall.product.biz.enums.category.ProductCategoryStatusEnum;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -32,21 +34,12 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     @Autowired
     private ProductCategoryMapper productCategoryMapper;
 
-    /**
-     * 获取所有商品分类
-     * @return
-     */
     @Override
     public List<ProductCategoryBO> getAllProductCategory() {
         List<ProductCategoryDO> categoryList = productCategoryMapper.selectList(null);
         return ProductCategoryConvert.INSTANCE.convertToAllListBO(categoryList);
     }
 
-    /**
-     * 新增商品分类
-     * @param productCategoryAddDTO
-     * @return
-     */
     @Override
     public ProductCategoryBO addProductCategory(ProductCategoryAddDTO productCategoryAddDTO) {
         // 校验父分类
@@ -62,11 +55,6 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         return ProductCategoryConvert.INSTANCE.convertToBO(productCategory);
     }
 
-    /**
-     * 更新商品分类
-     * @param productCategoryUpdateDTO
-     * @return
-     */
     @Override
     public Boolean updateProductCategory(ProductCategoryUpdateDTO productCategoryUpdateDTO) {
         // 校验当前分类是否存在
@@ -91,11 +79,6 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         return true;
     }
 
-    /**
-     * 更新商品分类状态
-     * @param productCategoryUpdateStatusDTO
-     * @return
-     */
     @Override
     public Boolean updateProductCategoryStatus(ProductCategoryUpdateStatusDTO productCategoryUpdateStatusDTO) {
         // 校验商品分类是否存在
@@ -118,11 +101,6 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         return true;
     }
 
-    /**
-     * 删除商品分类
-     * @param productCategoryDeleteDTO
-     * @return
-     */
     @Override
     public Boolean deleteProductCategory(ProductCategoryDeleteDTO productCategoryDeleteDTO) {
         Integer productCategoryId = productCategoryDeleteDTO.getId();
@@ -149,10 +127,6 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         return true;
     }
 
-    /**
-     * 校验商品分类的父分类
-     * @param pid
-     */
     private void validParent(Integer pid) {
         if (!ProductCategoryConstants.PID_ROOT.equals(pid)) {
             ProductCategoryDO parentCategory = productCategoryMapper.selectById(pid);
@@ -167,4 +141,18 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
         }
     }
 
+    @Override
+    public ProductCategoryDO validProductCategory(Integer productCategoryId) {
+        // 校验分类是否存在
+        ProductCategoryDO productCategory = productCategoryMapper.selectById(productCategoryId);
+        if (productCategory == null) {
+            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_CATEGORY_NOT_EXISTS.getCode());
+        }
+        // 只有禁用的商品分类才可以删除
+        if (ProductCategoryConstants.STATUS_DISABLE.equals(productCategory.getStatus())) {
+            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_CATEGORY_MUST_ENABLE.getCode());
+        }
+        // 返回结果
+        return productCategory;
+    }
 }

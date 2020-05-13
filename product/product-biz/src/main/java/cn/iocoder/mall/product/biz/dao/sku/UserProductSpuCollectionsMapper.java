@@ -1,4 +1,4 @@
-package cn.iocoder.mall.product.biz.dao.spu;
+package cn.iocoder.mall.product.biz.dao.sku;
 
 import cn.iocoder.mall.product.biz.dataobject.spu.UserProductSpuCollectionsDO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

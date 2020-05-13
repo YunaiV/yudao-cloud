@@ -1,10 +1,19 @@
 package cn.iocoder.mall.product.biz.enums.category;
 
-public class ProductCategoryConstants {
+public interface ProductCategoryConstants {
+
+    /**
+     * 状态 - 开启
+     */
+    Integer STATUS_ENABLE = 1;
+    /**
+     * 状态 - 关闭
+     */
+    Integer STATUS_DISABLE = 2;
 
     /**
      * 父分类编号 - 根节点
      */
-    public static final Integer PID_ROOT = 0;
+    Integer PID_ROOT = 0;
 
 }

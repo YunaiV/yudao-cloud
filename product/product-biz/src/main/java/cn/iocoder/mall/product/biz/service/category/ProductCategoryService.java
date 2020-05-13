@@ -1,6 +1,7 @@
 package cn.iocoder.mall.product.biz.service.category;
 
 import cn.iocoder.mall.product.biz.bo.category.ProductCategoryBO;
+import cn.iocoder.mall.product.biz.dataobject.category.ProductCategoryDO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryAddDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryDeleteDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateDTO;
@@ -21,12 +22,14 @@ public interface ProductCategoryService {
 
     /**
      * 获取所有商品分类
+     *
      * @return
      */
     List<ProductCategoryBO> getAllProductCategory();
 
     /**
      * 新增商品分类
+     *
      * @param productCategoryAddDTO
      * @return
      */
@@ -34,6 +37,7 @@ public interface ProductCategoryService {
 
     /**
      * 更新商品分类
+     *
      * @param productCategoryUpdateDTO
      * @return
      */
@@ -41,6 +45,7 @@ public interface ProductCategoryService {
 
     /**
      * 更新商品分类状态
+     *
      * @param productCategoryUpdateStatusDTO
      * @return
      */
@@ -48,8 +53,17 @@ public interface ProductCategoryService {
 
     /**
      * 删除商品分类
+     *
      * @param productCategoryDeleteDTO
      * @return
      */
     Boolean deleteProductCategory(@Valid ProductCategoryDeleteDTO productCategoryDeleteDTO);
+
+    /**
+     * 校验分类是否可用
+     *
+     * @param productCategoryId 分类ID
+     * @return 商品分类
+     */
+    ProductCategoryDO validProductCategory(Integer productCategoryId);
 }

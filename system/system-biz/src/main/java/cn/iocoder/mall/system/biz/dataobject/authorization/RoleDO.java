@@ -1,6 +1,8 @@
 package cn.iocoder.mall.system.biz.dataobject.authorization;
 
 import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
+import cn.iocoder.mall.system.biz.enums.authorization.RoleCodeEnum;
+import cn.iocoder.mall.system.biz.enums.authorization.RoleTypeEnum;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,10 +27,14 @@ public class RoleDO extends DeletableDO {
     private String name;
     /**
      * 角色编码
+     *
+     * 关联 {@link RoleCodeEnum}
      */
     private String code;
     /**
      * 角色类型
+     *
+     * 关联 {@link RoleTypeEnum}
      */
     private Integer type;
 

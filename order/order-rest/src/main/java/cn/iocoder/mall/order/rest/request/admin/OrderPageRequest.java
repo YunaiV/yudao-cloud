@@ -3,10 +3,11 @@ package cn.iocoder.mall.order.rest.request.admin;
 import cn.iocoder.mall.order.biz.bo.order.OrderBO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.Serializable;
-import java.util.List;
 import lombok.Data;
 import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * 订单分页 vo
@@ -17,6 +18,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ApiModel("订单VO")
+// TODO FROM 芋艿 to jwf1173：命名要改下，rest 以 Admins 和 Users 开头
 public class OrderPageRequest implements Serializable {
 
     /**

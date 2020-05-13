@@ -16,6 +16,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
+// TODO FROM 芋艿 to xiaofeng：辛苦后续补充下 Validation 注解哈
 public class OrderCreateDTO implements Serializable {
 
     /**

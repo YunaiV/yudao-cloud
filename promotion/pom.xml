@@ -17,8 +17,9 @@
         <module>promotion-biz-api</module>
         <module>promotion-rpc-api</module>
         <module>promotion-rpc</module>
+        <module>promotion-rest</module>
 
-<!--        <module>promotion-service-api</module>-->
+        <!--        <module>promotion-service-api</module>-->
 <!--        <module>promotion-service-impl</module>-->
 <!--        <module>promotion-start</module>-->
     </modules>

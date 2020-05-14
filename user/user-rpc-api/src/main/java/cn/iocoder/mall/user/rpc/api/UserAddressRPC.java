@@ -1,10 +1,7 @@
 package cn.iocoder.mall.user.rpc.api;
 
-import cn.iocoder.mall.user.rpc.request.user.UserAddressAddRequest;
-import cn.iocoder.mall.user.rpc.request.user.UserAddressUpdateRequest;
+import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.user.rpc.response.user.UserAddressResponse;
-
-import java.util.List;
 
 /**
  * 用户地址 RPC
@@ -14,15 +11,19 @@ import java.util.List;
  */
 public interface UserAddressRPC {
 
-    void addAddress(UserAddressAddRequest userAddressAddRequest);
+    /**
+     * 获取 - 根据id获取用户地址
+     *
+     * @param id
+     * @return
+     */
+    CommonResult<UserAddressResponse> getAddress(Integer id);
 
-    void updateAddress(UserAddressUpdateRequest userAddressUpdateRequest);
-
-    void removeAddress(Integer userId, Integer addressId);
-
-    List<UserAddressResponse> addressList(Integer userId);
-
-    UserAddressResponse getAddress(Integer id);
-
-    UserAddressResponse getDefaultAddress(Integer userId);
+    /**
+     * 获取 - 获取用户默认地址
+     *
+     * @param userId
+     * @return
+     */
+    CommonResult<UserAddressResponse> getDefaultAddress(Integer userId);
 }

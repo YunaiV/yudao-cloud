@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ApiModel("订单物流信息")
-public class OrderLogisticsRequest implements Serializable {
+public class AdminsOrderLogisticsRequest implements Serializable {
 
     /**
      * 订单 id

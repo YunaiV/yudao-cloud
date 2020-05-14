@@ -15,7 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  */
 @Data
 @Accessors(chain = true)
-public class OrderReturnQueryRequest implements Serializable {
+public class AdminsOrderReturnQueryRequest implements Serializable {
 
     /**
      *

@@ -26,6 +26,7 @@ public interface UserMapper extends BaseMapper<UserDO> {
      */
     default IPage<UserDO> selectUserPage(UserPageDTO userPageDTO) {
         // TODO FROM 芋艿 to jwf1173：看下 QueryWrapperX 噢，已经提供判空啦
+        // TODO FROM 伟帆 to 芋艿： 这里是使用MP原生的判空，支持lambda好，还是使用QueryWrapperX，使用字段名字符串的好呢
         return this.selectPage(new Page<>(userPageDTO.getPageNo(), userPageDTO.getPageSize()),
                 Wrappers.<UserDO>query().lambda()
                 .eq(StringUtils.isNotBlank(userPageDTO.getNickname()), UserDO::getNickname, userPageDTO.getNickname())

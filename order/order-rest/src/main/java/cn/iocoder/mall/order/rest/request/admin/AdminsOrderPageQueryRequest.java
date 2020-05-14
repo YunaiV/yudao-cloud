@@ -17,7 +17,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Data
 @Accessors(chain = true)
 @ApiModel("订单查询")
-public class OrderPageQueryRequest implements Serializable {
+public class AdminsOrderPageQueryRequest implements Serializable {
 
     /**
      * id

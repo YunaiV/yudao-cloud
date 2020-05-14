@@ -18,8 +18,8 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 @ApiModel("订单VO")
-// TODO FROM 芋艿 to jwf1173：命名要改下，rest 以 Admins 和 Users 开头
-public class OrderPageRequest implements Serializable {
+// TODO FROM 芋艿 to jwf1173：命名要改下，rest 以 Admins 和 Users 开头 [DONE]
+public class AdminsOrderPageRequest implements Serializable {
 
     /**
      * 分页

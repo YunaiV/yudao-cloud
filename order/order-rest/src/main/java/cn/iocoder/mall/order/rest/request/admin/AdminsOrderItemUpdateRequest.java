@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @ApiModel("订单item更新")
-public class OrderItemUpdateRequest implements Serializable {
+public class AdminsOrderItemUpdateRequest implements Serializable {
 
     /**
      * 编号

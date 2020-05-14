@@ -65,7 +65,7 @@ public class SmsServiceImpl implements SmsService {
         // TODO DOME FROM 芋艿 to 小范：mybatis-plus 的 QueryWrapper 不要到 Service 层，可以抽 Dao 方法里哈。其它的类似可以瞅瞅噢
         IPage<SmsSignDO> signPage = smsSignMapper.listSmsSign(queryDTO);
         List<ListSmsSignBO> signList = SmsSignConvert.INSTANCE.convert(signPage.getRecords());
-        return new PageResult<ListSmsSignBO>().setList(signList).setTotal((int) signPage.getTotal());
+        return new PageResult<ListSmsSignBO>().setList(signList).setTotal(signPage.getTotal());
     }
 
     @Override
@@ -77,7 +77,7 @@ public class SmsServiceImpl implements SmsService {
 
         if (CollectionUtils.isEmpty(templateList)) {
             // TODO DOME FROM 芋艿 to 小范，Collections.EMPTY_LIST =》Collections.emptyList();另外，可以考虑直接 Convert 哈
-            return new PageResult<ListSmsTemplateBO>().setList(Collections.emptyList()).setTotal((int) signPage.getTotal());
+            return new PageResult<ListSmsTemplateBO>().setList(Collections.emptyList()).setTotal(signPage.getTotal());
         }
 
         // 获取 sign
@@ -100,7 +100,7 @@ public class SmsServiceImpl implements SmsService {
             }
         });
 
-        return new PageResult<ListSmsTemplateBO>().setList(templateList).setTotal((int) signPage.getTotal());
+        return new PageResult<ListSmsTemplateBO>().setList(templateList).setTotal(signPage.getTotal());
     }
 
     @Override

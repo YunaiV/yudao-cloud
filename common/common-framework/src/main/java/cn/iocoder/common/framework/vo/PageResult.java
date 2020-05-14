@@ -13,7 +13,7 @@ public final class PageResult<T> implements Serializable {
     private List<T> list;
 
     @ApiModelProperty(value = "总量", required = true)
-    private Integer total;
+    private Long total;
 
     public List<T> getList() {
         return list;
@@ -24,11 +24,11 @@ public final class PageResult<T> implements Serializable {
         return this;
     }
 
-    public Integer getTotal() {
+    public Long getTotal() {
         return total;
     }
 
-    public PageResult<T> setTotal(Integer total) {
+    public PageResult<T> setTotal(Long total) {
         this.total = total;
         return this;
     }

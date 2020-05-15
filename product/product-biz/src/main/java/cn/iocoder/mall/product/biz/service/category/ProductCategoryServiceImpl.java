@@ -114,6 +114,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
             throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_DELETE_ONLY_DISABLE);
         }
         // 只有不存在子分类才可以删除
+        // TODO FROM 芋艿 to jiangweifan：Wrappers 只用在 Mapper 层
         Integer childCount = productCategoryMapper.selectCount(
                 Wrappers.<ProductCategoryDO>lambdaQuery().eq(ProductCategoryDO::getPid, productCategoryId)
         );

@@ -41,7 +41,8 @@ public class SystemLogController {
                                                                 @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
                                                                 @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize) {
 
-
+        // TODO FROM 芋艿 to 2447007062：不要留这么大的空行；
+        // TODO FROM 芋艿 to 2447007062：使用 Request 接收参数噢；
         AccessLogPageDTO accessLogPageDTO = new AccessLogPageDTO().setAccountId(accountId)
                 .setPageNo(pageNo).setPageSize(pageSize);
         // 查询分页

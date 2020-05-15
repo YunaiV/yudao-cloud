@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 public class BannerAddRequest implements Serializable {
 
-    @NotNull
+    @NotNull // TODO FROM 芋艿 to 小范：提示要加下，哈哈哈
     @ApiModelProperty("跳转链接")
     private Integer url;
 

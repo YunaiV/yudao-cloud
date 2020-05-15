@@ -48,6 +48,7 @@ public interface BannerService {
      */
     void updateBanner(BannerUpdateDTO adminsBannerUpdateDTO);
 
+    // TODO FROM 芋艿 to 小范：貌似要把 dto 搞起来，嘿嘿；
     /**
      * 更新 - banner 状态
      *

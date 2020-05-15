@@ -15,6 +15,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
+// TODO FROM 芋艿 to 小范：捉摸是不是先统一的 BannerBO；另外，biz 不使用 swagger 注解哈，其他 banner 的 dto 和 bo 也一起改改哈；
 public class BannerListBO implements Serializable {
 
 

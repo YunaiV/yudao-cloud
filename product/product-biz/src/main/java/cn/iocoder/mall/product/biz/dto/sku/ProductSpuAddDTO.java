@@ -12,6 +12,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
+// TODO FROM 芋艿 to sunderui && q2118cs：貌似重复了，只要保留一个哈
 public class ProductSpuAddDTO {
 
     // ========== 基本信息 =========

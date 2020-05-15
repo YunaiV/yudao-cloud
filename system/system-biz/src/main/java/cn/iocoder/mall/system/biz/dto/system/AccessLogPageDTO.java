@@ -4,14 +4,13 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 /**
  * 访问日志添加 DTO
  */
 @Data
 @Accessors(chain = true)
-public class AccessLogPageDTO {
+public class AccessLogPageDTO { // TODO FROM 芋艿 to 2447007062：有个 PageParams 类哈，可以继承
 
 
     /**

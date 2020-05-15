@@ -24,7 +24,7 @@
 
 # 3. MySQL
 
-① 安装 MySQL 数据库
+① 安装 MySQL 数据库 数据库需要5.6以上版本
 
 * Windows ：参考 [《Windows 安装 MySQL》](https://juejin.im/post/5bdab0645188251e753c66f8)
 * Mac ：参考 [《Mac 下安装与配置 MySQL》](https://www.jianshu.com/p/a8e4068a7a8a)

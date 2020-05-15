@@ -22,6 +22,7 @@
             <groupId>cn.iocoder.mall</groupId>
             <artifactId>system-sdk</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <!--默认<optional>的值为false, 及子项目必须依赖-->
             <optional>true</optional>
         </dependency>
         <dependency>

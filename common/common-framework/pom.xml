@@ -76,6 +76,12 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- hutool 工具集，减少重复开发各种Util-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

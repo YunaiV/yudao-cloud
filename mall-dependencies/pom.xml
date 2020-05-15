@@ -38,6 +38,7 @@
         <!-- 工具类相关 -->
         <fastjson.version>1.2.56</fastjson.version>
         <hibernate-validator.version>6.0.16.Final</hibernate-validator.version>
+        <hutool.version>5.2.5</hutool.version>
     </properties>
 
     <!-- 依赖管理 -->
@@ -139,6 +140,13 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+
+            <!-- hutool 工具类-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
             </dependency>
 
             <dependency>

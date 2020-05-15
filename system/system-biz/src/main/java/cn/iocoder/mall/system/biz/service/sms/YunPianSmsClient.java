@@ -88,7 +88,6 @@ public class YunPianSmsClient implements SmsClient {
      */
     private static final String URL_SEND_BATCH = "https://sms.yunpian.com/v2/sms/batch_send.json";
 
-
     //编码格式。发送编码格式统一用UTF-8
     private static String ENCODING = "UTF-8";
 
@@ -99,7 +98,6 @@ public class YunPianSmsClient implements SmsClient {
     public SendResult singleSend(String mobile, String sign, String templateCode, String template, Map<String, String> templateParams) {
         // build 模板
         template = buildTemplate(sign, template, templateParams);
-
         // 请求参数
         Map<String, String> params = new LinkedHashMap<>();
         params.put("apikey", apiKey);
@@ -114,7 +112,7 @@ public class YunPianSmsClient implements SmsClient {
             throw new ServiceException(SystemErrorCodeEnum.SMS_PLATFORM_FAIL.getCode(),
                     jsonObject.getString("detail"));
         }
-
+        // 转换 result
         return new SendResult()
                 .setIsSuccess(SUCCESS_CODE == jsonObject.getInteger("code"))
                 .setCode(jsonObject.getInteger("code"))
@@ -127,7 +125,6 @@ public class YunPianSmsClient implements SmsClient {
                                 Map<String, String> templateParams) {
         // build 模板
         template = buildTemplate(sign, template, templateParams);
-
         // 最大发送数为 1000，我们设置为 500 个, 分段发送
         int maxSendSize = MAX_BATCH_SIZE;
         int maxSendSizeCount = mobileList.size() % maxSendSize == 0
@@ -142,9 +139,7 @@ public class YunPianSmsClient implements SmsClient {
                 sendMobileStr.append(",");
                 sendMobileStr.append(mobileList.get(k));
             }
-
             String dividedMobile = sendMobileStr.toString().substring(1);
-
             // 发送手机号
             Map<String, String> params = new LinkedHashMap<>();
             params.put("apikey", apiKey);
@@ -159,12 +154,10 @@ public class YunPianSmsClient implements SmsClient {
                 throw new ServiceException(SystemErrorCodeEnum.SMS_PLATFORM_FAIL.getCode(),
                         jsonObject.getString("detail"));
             }
-
             // 用于递增 maxSendSize
             j = j2;
             j2 = j + maxSendSize;
         }
-
         return new SendResult()
                 .setIsSuccess(true)
                 .setCode(SUCCESS_CODE)
@@ -181,18 +174,17 @@ public class YunPianSmsClient implements SmsClient {
      */
     private static String buildTemplate(String sign, String template,
                                         Map<String, String> templateParams) {
-
+        // 不处理 empty 数据
         if (CollectionUtils.isEmpty(templateParams)) {
             return template;
         }
-
+        // 处理template参数
         for (Map.Entry<String, String> entry : templateParams.entrySet()) {
             String paramsKey = entry.getKey();
             String value = entry.getValue();
             String paramPlace = String.format(PARAM_TEMPLATE, paramsKey);
             template = template.replaceAll(paramPlace, value);
         }
-
         template = String.format(SIGN_TEMPLATE, sign, template);
         return template;
     }
@@ -234,7 +226,6 @@ public class YunPianSmsClient implements SmsClient {
                 e.printStackTrace();
             }
         }
-
         LOGGER.debug("云片短信平台 res: {}", responseText);
         return responseText;
     }

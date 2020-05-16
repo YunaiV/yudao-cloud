@@ -137,6 +137,6 @@ public class ErrorCodeServiceImpl implements ErrorCodeService {
             list = list.subList(currentPage, currentPage + rows);
         }
         // TODO FROM 芋艿 to 鱿鱼丝：泛型噢
-        return new PageResult().setList(list).setTotal(sum);
+        return new PageResult().setList(list).setTotal(new Long(sum));
     }
 }

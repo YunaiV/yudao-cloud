@@ -1,10 +1,10 @@
 spring:
   # datasource
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/mall_user?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://127.0.0.1:3306/mall_user?useSSL=false&useUnicode=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: ${MALL_MYSQL_PASSWORD}
+    password: ${MALL_MYSQL_PASSWORD:root}
 
 # mybatis-plus
 mybatis-plus:
@@ -23,7 +23,7 @@ dubbo:
   application:
     name: user-service
   registry:
-    address: zookeeper://127.0.0.1:2181
+    address: zookeeper://192.168.137.3:2181
   protocol:
     port: -1
     name: dubbo
@@ -47,6 +47,6 @@ dubbo:
 
 # rocketmq
 rocketmq:
-  name-server: 127.0.0.1:9876
+  name-server: 192.168.137.3:9876
   producer:
     group: user-producer-spu-collection-group

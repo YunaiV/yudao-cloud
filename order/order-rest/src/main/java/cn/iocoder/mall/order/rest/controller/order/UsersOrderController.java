@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.rest.controller.users;
+package cn.iocoder.mall.order.rest.controller.order;
 
 
 import io.swagger.annotations.Api;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("users/order")
 @Api(description = "用户订单") // TODO FROM 芋艿 to 小范，description 已经废弃啦
-public class OrderController {
+public class UsersOrderController {
 
 //    @Reference(validation = "true", version = "${dubbo.provider.OrderReturnService.version}")
 //    private OrderService orderService;

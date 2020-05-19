@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.rest.controller.users;
+package cn.iocoder.mall.order.rest.controller.comment;
 
 import cn.iocoder.common.framework.constant.MallConstants;
 import io.swagger.annotations.Api;

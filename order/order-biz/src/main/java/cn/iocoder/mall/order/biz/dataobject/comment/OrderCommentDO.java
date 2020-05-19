@@ -1,25 +1,24 @@
-package cn.iocoder.mall.order.biz.dataobject;
+package cn.iocoder.mall.order.biz.dataobject.comment;
 
 import cn.iocoder.mall.mybatis.dataobject.BaseDO;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * 订单评论表
+ * 订单评论 MONGODB
  *
- * @author  wtz
- * @time 2019-05-14 20:48
- *
+ * @author xiaofeng
+ * @version 1.0
+ * @date 2020/05/19 22:30
  */
 @Data
 @Accessors(chain = true)
-@TableName(value = "order_comment")
+@Document(collection = "order_comment")
 public class OrderCommentDO extends BaseDO {
 
-    /**
-     * 评论 id // TODO FROM 芋艿 TO wtz 中英文之间，要有空格
-     */
+    @Id
     private Integer id;
 
     /**
@@ -103,7 +102,7 @@ public class OrderCommentDO extends BaseDO {
     private Integer replayCount;
 
     /**
-     * 点赞数 // TODO FROM 芋艿 TO wtz collect 是收藏的意思，最好换个单词噢。
+     * 点赞数
      */
     private Integer likeCount;
 

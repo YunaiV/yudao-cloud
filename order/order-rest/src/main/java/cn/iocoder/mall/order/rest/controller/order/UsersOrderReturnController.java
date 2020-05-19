@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.rest.controller.users;
+package cn.iocoder.mall.order.rest.controller.order;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("users/order_return")
-public class OrderReturnController {
+public class UsersOrderReturnController {
 
 //    @Reference(validation = "true", version = "${dubbo.provider.OrderReturnService.version}")
 //    private OrderReturnService orderReturnService;

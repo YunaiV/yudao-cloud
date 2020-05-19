@@ -1,4 +1,4 @@
-package cn.iocoder.mall.order.rest.controller.admins;
+package cn.iocoder.mall.order.rest.controller.order;
 
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;

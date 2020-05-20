@@ -3,7 +3,7 @@ package cn.iocoder.mall.search.biz.convert;
 import cn.iocoder.mall.order.api.bo.CalcSkuPriceBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
 import cn.iocoder.mall.promotion.api.bo.PromotionActivityBO;
-import cn.iocoder.mall.search.api.bo.ProductBO;
+import cn.iocoder.mall.search.biz.bo.ProductBO;
 import cn.iocoder.mall.search.biz.dataobject.ESProductDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;

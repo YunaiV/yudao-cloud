@@ -1,4 +1,4 @@
-package cn.iocoder.mall.search.biz.service;
+package cn.iocoder.mall.search.biz.api;
 
 import cn.iocoder.mall.search.biz.dao.ProductRepository;
 import org.junit.Test;

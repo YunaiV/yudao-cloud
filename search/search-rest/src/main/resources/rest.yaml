@@ -1,0 +1,12 @@
+# 服务器的配置项
+server:
+  port: 18099
+  servlet:
+    context-path: /search-api/
+
+# Swagger 配置项
+swagger:
+  title: 商品查询子系统
+  description: 商品查询子系统
+  version: 1.0.0
+  base-package: cn.iocoder.mall.search.rest.controller

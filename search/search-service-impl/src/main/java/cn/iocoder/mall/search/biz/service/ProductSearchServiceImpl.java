@@ -1,4 +1,4 @@
-package cn.iocoder.mall.search.biz.service;
+package cn.iocoder.mall.search.biz.api;
 
 import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.util.StringUtil;
@@ -9,11 +9,11 @@ import cn.iocoder.mall.product.api.ProductCategoryService;
 import cn.iocoder.mall.product.api.ProductSpuService;
 import cn.iocoder.mall.product.api.bo.ProductCategoryBO;
 import cn.iocoder.mall.product.api.bo.ProductSpuDetailBO;
-import cn.iocoder.mall.search.api.ProductSearchService;
-import cn.iocoder.mall.search.api.bo.ProductConditionBO;
-import cn.iocoder.mall.search.api.bo.ProductPageBO;
-import cn.iocoder.mall.search.api.dto.ProductConditionDTO;
-import cn.iocoder.mall.search.api.dto.ProductSearchPageDTO;
+import cn.iocoder.mall.search.biz.ProductSearchService;
+import cn.iocoder.mall.search.biz.bo.ProductConditionBO;
+import cn.iocoder.mall.search.biz.bo.ProductPageBO;
+import cn.iocoder.mall.search.biz.dto.ProductConditionDTO;
+import cn.iocoder.mall.search.biz.dto.ProductSearchPageDTO;
 import cn.iocoder.mall.search.biz.convert.ProductSearchConvert;
 import cn.iocoder.mall.search.biz.dao.ProductRepository;
 import cn.iocoder.mall.search.biz.dataobject.ESProductDO;

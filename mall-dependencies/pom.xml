@@ -39,6 +39,7 @@
         <fastjson.version>1.2.56</fastjson.version>
         <hibernate-validator.version>6.0.16.Final</hibernate-validator.version>
         <hutool.version>5.2.5</hutool.version>
+        <spring-boot-starter-data-jest.version>3.2.5.RELEASE</spring-boot-starter-data-jest.version>
     </properties>
 
     <!-- 依赖管理 -->
@@ -153,6 +154,13 @@
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate-validator.version}</version>
+            </dependency>
+
+            <!-- 自动化配置 Spring Data Jest -->
+            <dependency>
+                <groupId>com.github.vanroy</groupId>
+                <artifactId>spring-boot-starter-data-jest</artifactId>
+                <version>${spring-boot-starter-data-jest.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

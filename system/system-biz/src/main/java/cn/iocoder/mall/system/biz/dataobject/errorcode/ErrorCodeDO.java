@@ -31,6 +31,16 @@ public class ErrorCodeDO extends DeletableDO {
      */
     private Integer type;
 
+    /**
+     * 错误码分组
+     */
+    private Integer group;
+
+    /**
+     * 错误码备注
+     */
+    private String remark;
+
     // TODO FROM 芋艿 to 鱿鱼丝：增加一个分组字段。方便做归类
     // TODO FROM 芋艿 to 鱿鱼丝：增加个备注字段，方便做备注哈。
 

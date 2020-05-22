@@ -1,22 +1,25 @@
-package cn.iocoder.mall.system.rest.request.errorcode;
+package cn.iocoder.mall.system.rpc.request.errorcode;
 
-import io.swagger.annotations.ApiModel;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
-@ApiModel("管理员 - 错误码模块 - 添加错误码 Request")
+/**
+ * 错误码模块，枚举初始化错误码时使用
+ * @author ding
+ */
 @Data
 @Accessors(chain = true)
-public class ErrorCodeAddRequest {
-
-    @ApiModelProperty(value = "错误码信息", required = true, example = "系统管理员")
+public class ErrorCodeAddRequest implements Serializable {
+    @ApiModelProperty(value = "错误码信息", required = true)
     @NotEmpty(message = "错误码信息不能为空")
     private String message;
 
-    @ApiModelProperty(value = "错误码编码", example = "SUPER_ADMIN")
+    @ApiModelProperty(value = "错误码编码")
     @NotEmpty(message = "错误码编码不能为空")
     private Integer code;
 
@@ -27,5 +30,4 @@ public class ErrorCodeAddRequest {
     @ApiModelProperty(value = "错误码角色，系统内置（枚举）还是自定义")
     @NotEmpty(message = "错误码角色不能空")
     private Integer type;
-
 }

@@ -17,5 +17,5 @@ public class ErrorCodeGetListDTO {
      *
      * 如果传入空，则不进行错误码编号的过滤
      */
-    private Collection<Integer> codes;
+    private Collection<Integer> ids;
 }

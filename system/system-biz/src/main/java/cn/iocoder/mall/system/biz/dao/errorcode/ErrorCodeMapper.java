@@ -1,11 +1,20 @@
 package cn.iocoder.mall.system.biz.dao.errorcode;
 
 import cn.iocoder.mall.mybatis.query.QueryWrapperX;
+import cn.iocoder.mall.system.biz.dataobject.authorization.RoleDO;
 import cn.iocoder.mall.system.biz.dataobject.errorcode.ErrorCodeDO;
+import cn.iocoder.mall.system.biz.dto.authorization.RolePageDTO;
+import cn.iocoder.mall.system.biz.dto.errorcode.ErrorCodeDTO;
+import cn.iocoder.mall.system.biz.dto.errorcode.ErrorCodePageDTO;
 import cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum;
 import cn.iocoder.mall.system.biz.enums.errorcode.ErrorCodeTypeEnum;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Repository;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author ding
@@ -14,18 +23,23 @@ import org.springframework.stereotype.Repository;
 public interface ErrorCodeMapper extends BaseMapper<ErrorCodeDO> {
 
     default ErrorCodeDO selectByCode(Integer code){
-        //从db查询
-        ErrorCodeDO errorCodeDO = selectOne(new QueryWrapperX<ErrorCodeDO>().eqIfPresent("code", code));
-        if (null == errorCodeDO){
-            //从enum查询
-            for (SystemErrorCodeEnum item : SystemErrorCodeEnum.values()) {
-                if(code.equals(item.getCode())){
-                    return new ErrorCodeDO().setCode(item.getCode()).
-                            setId(0).setType(ErrorCodeTypeEnum.SYSTEM.getType());
-                }
-            }
-        }
-        return null;
+        return selectOne(new QueryWrapperX<ErrorCodeDO>().eqIfPresent("code", code));
+    }
 
+    default IPage<ErrorCodeDO> selectPage(ErrorCodePageDTO errorCodePageDTO) {
+        return selectPage(new Page<>(errorCodePageDTO.getPageNo(), errorCodePageDTO.getPageSize()),
+                new QueryWrapperX<ErrorCodeDO>().likeIfPresent("message", errorCodePageDTO.getMessage()));
+    }
+
+    default List<ErrorCodeDO> selectListByIds(Collection<Integer> ids) {
+        return selectList(new QueryWrapperX<ErrorCodeDO>().inIfPresent("id", ids));
+    }
+
+    default ErrorCodeDO selectByMessage(String message) {
+        return selectOne(new QueryWrapperX<ErrorCodeDO>().eqIfPresent("message", message));
+    }
+
+    default List<ErrorCodeDO> selectByGroup(Integer group) {
+        return selectList(new QueryWrapperX<ErrorCodeDO>().eqIfPresent("group", group));
     }
 }

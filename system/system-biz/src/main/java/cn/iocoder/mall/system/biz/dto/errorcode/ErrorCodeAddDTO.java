@@ -18,4 +18,12 @@ public class ErrorCodeAddDTO {
 
     @NotEmpty(message = "错误码错误信息")
     private String message;
+
+    @NotNull(message = "错误码分组id")
+    private Integer group;
+
+    /**
+     * 错误码备注
+     */
+    private String remark;
 }

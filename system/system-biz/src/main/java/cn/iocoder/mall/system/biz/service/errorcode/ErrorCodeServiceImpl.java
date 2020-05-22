@@ -8,15 +8,15 @@ import cn.iocoder.mall.system.biz.bo.errorcode.ErrorCodeBO;
 import cn.iocoder.mall.system.biz.convert.errorcode.ErrorCodeConvert;
 import cn.iocoder.mall.system.biz.dao.errorcode.ErrorCodeMapper;
 import cn.iocoder.mall.system.biz.dataobject.errorcode.ErrorCodeDO;
-import cn.iocoder.mall.system.biz.dto.errorcode.ErrorCodeAddDTO;
-import cn.iocoder.mall.system.biz.dto.errorcode.ErrorCodeDeleteDTO;
-import cn.iocoder.mall.system.biz.dto.errorcode.ErrorCodePageDTO;
-import cn.iocoder.mall.system.biz.dto.errorcode.ErrorCodeUpdateDTO;
+import cn.iocoder.mall.system.biz.dto.errorcode.*;
 import cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum;
 import cn.iocoder.mall.system.biz.enums.errorcode.ErrorCodeTypeEnum;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +24,7 @@ import java.util.List;
  * @author ding
  */
 @Service
-public class ErrorCodeServiceImpl implements ErrorCodeService {
+public class ErrorCodeServiceImpl extends ServiceImpl<ErrorCodeMapper, ErrorCodeDO> implements ErrorCodeService {
 
     @Autowired
     private ErrorCodeMapper errorCodeMapper;
@@ -36,32 +36,23 @@ public class ErrorCodeServiceImpl implements ErrorCodeService {
     }
 
     @Override
-    public List<ErrorCodeBO> getErrorCodeList() {
+    public List<ErrorCodeBO> getErrorCodeList(ErrorCodeGetListDTO errorCodeGetListDTO) {
         // TODO FROM 芋艿 to 鱿鱼丝：QueryWrapperX 只存在 mapper 里，不直接体现在 Service
-        List<ErrorCodeDO> list = errorCodeMapper.selectList(new QueryWrapperX<ErrorCodeDO>());
-        return ErrorCodeConvert.INSTANCE.convertList(list);
+        return ErrorCodeConvert.INSTANCE.convertList(errorCodeMapper.selectListByIds(errorCodeGetListDTO.getIds()));
     }
 
     @Override
-    public List<ErrorCodeBO> getErrorCodeListAll() {
-        List<ErrorCodeDO> list = errorCodeMapper.selectList(new QueryWrapperX<ErrorCodeDO>());
+    public List<ErrorCodeBO> getErrorCodeByGroup(Integer group) {
+        List<ErrorCodeDO> list = errorCodeMapper.selectByGroup(group);
         // TODO FROM 芋艿 to 鱿鱼丝：这块微信交流一波哈。
-        for (SystemErrorCodeEnum item : SystemErrorCodeEnum.values()) {
-            list.add(new ErrorCodeDO().setId(0).setCode(item.getCode()).
-                    setMessage(item.getMessage()).setType(ErrorCodeTypeEnum.SYSTEM.getType()));
-        }
         return ErrorCodeConvert.INSTANCE.convertList(list);
     }
 
 
     @Override
     public PageResult<ErrorCodeBO> getErrorCodePage(ErrorCodePageDTO pageDTO) {
-        List<ErrorCodeDO> list = errorCodeMapper.selectList(new QueryWrapperX<ErrorCodeDO>());
-        for (SystemErrorCodeEnum item : SystemErrorCodeEnum.values()) {
-            list.add(new ErrorCodeDO().setId(0).setCode(item.getCode()).
-                    setMessage(item.getMessage()).setType(ErrorCodeTypeEnum.SYSTEM.getType()));
-        }
-        return listToPageList(pageDTO.getPageNo(),pageDTO.getPageSize(),list);
+        IPage<ErrorCodeDO> list = errorCodeMapper.selectPage(pageDTO);
+        return ErrorCodeConvert.INSTANCE.convertPage(list);
     }
 
     @Override
@@ -70,13 +61,28 @@ public class ErrorCodeServiceImpl implements ErrorCodeService {
         checkDuplicateErrorCode(errorCodeAddDTO.getCode(), null);
         // 保存到数据库
         ErrorCodeDO errorCode = ErrorCodeConvert.INSTANCE.convert(errorCodeAddDTO);
-        errorCode.setType(ErrorCodeTypeEnum.CUSTOM.getType());
         errorCode.setCreateTime(new Date());
         errorCode.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
         errorCodeMapper.insert(errorCode);
         // TODO 插入操作日志
         // 返回成功
         return errorCode.getId();
+    }
+
+    @Override
+    public Boolean addErrorCodeList(List<ErrorCodeAddDTO> list) {
+        List<ErrorCodeDO> doList = new ArrayList<>();
+        for (ErrorCodeAddDTO errorCodeAddDTO:list
+             ) {
+            // 校验错误码
+            checkDuplicateErrorCode(errorCodeAddDTO.getCode(), null);
+            ErrorCodeDO errorCode = ErrorCodeConvert.INSTANCE.convert(errorCodeAddDTO);
+            errorCode.setCreateTime(new Date());
+            errorCode.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
+            doList.add(errorCode);
+        }
+        // TODO 插入操作日志
+        return this.saveBatch(doList);
     }
 
     @Override
@@ -105,6 +111,10 @@ public class ErrorCodeServiceImpl implements ErrorCodeService {
         if (errorCodeDO == null) {
             throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ERROR_CODE_NOT_EXISTS);
         }
+        // 内置错误码，不允许删除
+        if (ErrorCodeTypeEnum.SYSTEM.getType().equals(errorCodeDO.getType())) {
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ERROR_CAN_NOT_UPDATE_SYSTEM_TYPE_ERROR);
+        }
         // TODO FROM 芋艿 to 鱿鱼丝：不能删除内置错误码
         // 更新到数据库，标记删除
         errorCodeMapper.deleteById(errorCodeDO.getId());
@@ -125,18 +135,5 @@ public class ErrorCodeServiceImpl implements ErrorCodeService {
         if (errorCodeDO != null && !errorCodeDO.getId().equals(id)) {
             throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ERROR_CODE_DUPLICATE, errorCodeDO.getCode());
         }
-    }
-
-    private PageResult listToPageList(int currentPage, int rows, List list){
-        // TODO FROM 芋艿 to 鱿鱼须：可以直接使用数据库分页哇
-        currentPage = currentPage * rows;
-        Integer sum = list.size(); // TODO FROM 芋艿 to 鱿鱼须：这里 int 就可以啦。一般情况下，如果 IDEA 提示警告，要尽量去掉噢。
-        if (currentPage + rows > sum){
-            list = list.subList(currentPage, sum);
-        }else {
-            list = list.subList(currentPage, currentPage + rows);
-        }
-        // TODO FROM 芋艿 to 鱿鱼丝：泛型噢
-        return new PageResult().setList(list).setTotal(sum);
     }
 }

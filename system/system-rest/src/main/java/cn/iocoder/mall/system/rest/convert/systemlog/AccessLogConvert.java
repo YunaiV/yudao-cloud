@@ -19,7 +19,7 @@ public interface AccessLogConvert {
     AccessLogConvert INSTANCE = Mappers.getMapper(AccessLogConvert.class);
 
 
-    @Mappings({})
+    @Mappings({}) // TODO FROM 芋艿 to 2447007062：注意空行哟；另外，如果不需要专门 mapping，可以不添加该注解，嘿嘿。
     PageResult<AccessLogPageResponse> convert(PageResult<AccessLogBO> result);
 
 

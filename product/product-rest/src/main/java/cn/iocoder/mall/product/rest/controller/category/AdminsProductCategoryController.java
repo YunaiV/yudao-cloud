@@ -7,7 +7,7 @@ import cn.iocoder.mall.product.biz.dto.category.ProductCategoryAddDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryDeleteDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateStatusDTO;
-import cn.iocoder.mall.product.biz.enums.category.ProductCategoryConstants;
+import cn.iocoder.mall.product.biz.enums.category.ProductCategoryNodeEnum;
 import cn.iocoder.mall.product.biz.service.category.ProductCategoryService;
 import cn.iocoder.mall.product.rest.convert.category.AdminsProductCategoryConvert;
 import cn.iocoder.mall.product.rest.request.category.AdminsProductCategoryAddRequest;
@@ -49,7 +49,7 @@ public class AdminsProductCategoryController {
         Map<Integer, AdminsProductCategoryTreeNodeResponse> treeNodeMap = productCategories.stream().collect(Collectors.toMap(ProductCategoryBO::getId, AdminsProductCategoryConvert.INSTANCE::convertToTreeNodeResponse));
         // 处理父子关系
         treeNodeMap.values().stream()
-                .filter(node -> !node.getPid().equals(ProductCategoryConstants.PID_ROOT))
+                .filter(node -> !node.getPid().equals(ProductCategoryNodeEnum.ROOT.getId()))
                 .forEach((childNode) -> {
                     // 获得父节点
                     AdminsProductCategoryTreeNodeResponse parentNode = treeNodeMap.get(childNode.getPid());
@@ -61,7 +61,7 @@ public class AdminsProductCategoryController {
                 });
         // 获得到所有的根节点
         List<AdminsProductCategoryTreeNodeResponse> rootNodes = treeNodeMap.values().stream()
-                .filter(node -> node.getPid().equals(ProductCategoryConstants.PID_ROOT))
+                .filter(node -> node.getPid().equals(ProductCategoryNodeEnum.ROOT.getId()))
                 .sorted(Comparator.comparing(AdminsProductCategoryTreeNodeResponse::getSort))
                 .collect(Collectors.toList());
         return success(rootNodes);

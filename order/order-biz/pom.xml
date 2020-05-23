@@ -48,6 +48,12 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <!-- mongodb 相关-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+
         <!-- 工具类相关 -->
         <dependency>
             <groupId>org.mapstruct</groupId>

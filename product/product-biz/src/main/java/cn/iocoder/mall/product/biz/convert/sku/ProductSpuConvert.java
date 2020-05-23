@@ -40,14 +40,8 @@ public interface ProductSpuConvert {
     })
     ProductSpuBO convert(ProductSpuDO spu);
 
-    @Named("translatePicUrlsFromString")
-    default List<String> translatePicUrlsFromString(String picUrls) {
-        return StringUtil.split(picUrls, ",");
-    }
-
     @Mappings({})
     List<ProductSpuBO> convert(List<ProductSpuDO> spus);
-
 
     @Mappings({
             @Mapping(source = "picUrls", target = "picUrls", ignore = true)
@@ -129,6 +123,11 @@ public interface ProductSpuConvert {
         }
         // 返回
         return spuDetailList;
+    }
+
+    @Named("translatePicUrlsFromString")
+    default List<String> translatePicUrlsFromString(String picUrls) {
+        return StringUtil.split(picUrls, ",");
     }
 
 }

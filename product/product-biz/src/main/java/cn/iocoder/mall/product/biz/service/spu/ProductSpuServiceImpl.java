@@ -15,7 +15,7 @@ import cn.iocoder.mall.product.biz.dataobject.spu.ProductSpuDO;
 import cn.iocoder.mall.product.biz.dto.sku.ProductSkuAddOrUpdateDTO;
 import cn.iocoder.mall.product.biz.dto.sku.ProductSpuAddDTO;
 import cn.iocoder.mall.product.biz.enums.ProductErrorCodeEnum;
-import cn.iocoder.mall.product.biz.enums.category.ProductCategoryConstants;
+import cn.iocoder.mall.product.biz.enums.category.ProductCategoryNodeEnum;
 import cn.iocoder.mall.product.biz.enums.spu.ProductSpuConstants;
 import cn.iocoder.mall.product.biz.service.attr.ProductAttrService;
 import cn.iocoder.mall.product.biz.service.category.ProductCategoryService;
@@ -76,7 +76,7 @@ public class ProductSpuServiceImpl implements ProductSpuService {
     public ProductSpuDetailBO addProductSpu0(Integer adminId, ProductSpuAddDTO productSpuAddDTO) {
         // 校验商品分类分类存在
         ProductCategoryDO category = productCategoryService.validProductCategory(productSpuAddDTO.getCid());
-        if (ProductCategoryConstants.PID_ROOT.equals(category.getPid())) {
+        if (ProductCategoryNodeEnum.ROOT.getId().equals(category.getPid())) {
             // 商品只能添加到二级分类下
             throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_SPU_CATEGORY_MUST_BE_LEVEL2.getCode());
         }

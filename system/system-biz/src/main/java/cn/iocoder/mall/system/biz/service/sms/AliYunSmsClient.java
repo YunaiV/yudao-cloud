@@ -80,7 +80,6 @@ public class AliYunSmsClient implements SmsClient {
         request.putQueryParameter("SignName", sign);
         request.putQueryParameter("TemplateCode", templateCode);
         request.putQueryParameter("TemplateParam", JSON.toJSONString(templateParams));
-
         // 发送请求
         return doSend(request);
     }
@@ -88,19 +87,17 @@ public class AliYunSmsClient implements SmsClient {
     @Override
     public SendResult batchSend(List<String> mobileList, String sign, String templateCode,
                                 String template, Map<String, String> templateParams) {
-
         // 最大发送数为 1000，我们设置为 500 个, 分段发送
         int maxSendSize = MAX_BATCH_SIZE;
         int maxSendSizeCount = mobileList.size() % maxSendSize == 0
                 ? mobileList.size() / maxSendSize
                 : mobileList.size() / maxSendSize + 1;
-
+        // 处理批量
         SendResult sendResult = null;
         for (int i = 0; i < maxSendSizeCount; i++) {
             // 分批发送
             List<String> batchSendMobile = mobileList
                     .subList(i * maxSendSize, (i + 1) * maxSendSize);
-
             // params
             CommonRequest request = new CommonRequest();
             request.setMethod(MethodType.POST);
@@ -111,7 +108,6 @@ public class AliYunSmsClient implements SmsClient {
             request.putQueryParameter("SignNameJson", JSON.toJSONString(Collections.singletonList(sign)));
             request.putQueryParameter("TemplateCode", templateCode);
             request.putQueryParameter("TemplateParamJson", JSON.toJSONString(Collections.singletonList(templateParams)));
-
             // 发送请求
             sendResult = doSend(request);
         }
@@ -125,9 +121,7 @@ public class AliYunSmsClient implements SmsClient {
             CommonResponse response = client.getCommonResponse(request);
             Result result = JSON.parseObject(response.getData(), Result.class);
             if (!SUCCESS_CODE.equals(result.getCode())) {
-
                 LOGGER.info("发送验证码失败 params {} res {}", JSON.toJSON(request), JSON.toJSON(result));
-
                 // 错误发送失败
                 return new SendResult()
                         .setIsSuccess(false)
@@ -135,7 +129,6 @@ public class AliYunSmsClient implements SmsClient {
                         .setMessage(result.getMessage());
             } else {
                 LOGGER.info("发送验证码失败 params {} res", JSON.toJSON(request), JSON.toJSON(result));
-
                 // 发送成功
                 return new SendResult()
                         .setIsSuccess(true)

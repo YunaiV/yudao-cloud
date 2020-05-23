@@ -23,6 +23,7 @@ import cn.iocoder.mall.system.biz.dto.smsTemplate.ListSmsTemplateDTO;
 import cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum;
 import cn.iocoder.mall.system.biz.enums.sms.SmsApplyStatusEnum;
 import cn.iocoder.mall.system.biz.enums.sms.SmsPlatformEnum;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -70,16 +71,14 @@ public class SmsServiceImpl implements SmsService {
 
     @Override
     public PageResult<ListSmsTemplateBO> listSmsTemplate(ListSmsTemplateDTO listSmsTemplateDTO) {
+        // 获取 template
         IPage<SmsTemplateDO> signPage = smsTemplateMapper.listSmsTemplate(listSmsTemplateDTO);
-
-        List<ListSmsTemplateBO> templateList
-                = SmsTemplateConvert.INSTANCE.convert(signPage.getRecords());
-
-        if (CollectionUtils.isEmpty(templateList)) {
+        if (CollectionUtils.isEmpty(signPage.getRecords())) {
             // TODO DOME FROM 芋艿 to 小范，Collections.EMPTY_LIST =》Collections.emptyList();另外，可以考虑直接 Convert 哈
             return new PageResult<ListSmsTemplateBO>().setList(Collections.emptyList()).setTotal(signPage.getTotal());
         }
-
+        // 转换bo
+        List<ListSmsTemplateBO> templateList = SmsTemplateConvert.INSTANCE.convert(signPage.getRecords());
         // 获取 sign
         Set<Integer> smsSignIds = templateList.stream().map(
                 ListSmsTemplateBO::getSmsSignId).collect(Collectors.toSet());
@@ -88,37 +87,32 @@ public class SmsServiceImpl implements SmsService {
                 new QueryWrapper<SmsSignDO>().in("id", smsSignIds));
 
         List<ListSmsTemplateBO.Sign> signList = SmsTemplateConvert.INSTANCE.convertTemplateSign(smsSignDOList);
-
+        // sign 转换为 map
         Map<Integer, ListSmsTemplateBO.Sign> smsSignDOMap = signList
                 .stream().collect(Collectors.toMap(ListSmsTemplateBO.Sign::getId, o -> o));
-
         // 设置 sign
-
         templateList.forEach(template -> {
             if (smsSignDOMap.containsKey(template.getSmsSignId())) {
                 template.setSign(smsSignDOMap.get(template.getSmsSignId()));
             }
         });
-
         return new PageResult<ListSmsTemplateBO>().setList(templateList).setTotal(signPage.getTotal());
     }
 
     @Override
     @Transactional
     public void addSign(AddSignDTO addSignDTO) {
-
         // 避免重复
         SmsSignDO smsSignDO = smsSignMapper.selectOne(
                 new QueryWrapper<SmsSignDO>()
                         .eq("platform", addSignDTO.getPlatform())
                         .eq("sign", addSignDTO.getSign())
         );
-
+        // 处理 null 情况
         if (smsSignDO != null) {
             // TODO DOME FROM 芋艿 to 小范：可以使用 ServiceExceptionUtil.exception(SystemErrorCodeEnum.SMS_SIGN_IS_EXISTENT);
             throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.SMS_SIGN_IS_EXISTENT);
         }
-
         // 保存数据库
         smsSignMapper.insert(
                 (SmsSignDO) new SmsSignDO()
@@ -133,16 +127,17 @@ public class SmsServiceImpl implements SmsService {
 
     @Override
     public SmsSignBO getSign(Integer signId) {
+        // 查询数据库
         SmsSignDO smsSignDO = smsSignMapper.selectOne(
                 new QueryWrapper<SmsSignDO>()
                         .eq("id", signId)
                         .eq("deleted", DeletedStatusEnum.DELETED_NO.getValue()));
-
+        // 处理 null
         if (smsSignDO == null) {
             throw new ServiceException(SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
                     SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
         }
-
+        // 转换vo返回
         return SmsSignConvert.INSTANCE.convert(smsSignDO);
     }
 
@@ -154,12 +149,11 @@ public class SmsServiceImpl implements SmsService {
                 new QueryWrapper<SmsSignDO>()
                         .eq("sign", updateSignDTO.getSign())
                         .eq("platform", updateSignDTO.getPlatform()));
-
+        // 处理 null
         if (smsSignDO != null) {
             throw new ServiceException(SystemErrorCodeEnum.SMS_SIGN_IS_EXISTENT.getCode(),
                     SystemErrorCodeEnum.SMS_SIGN_IS_EXISTENT.getMessage());
         }
-
         // 更新
         smsSignMapper.update(
                 (SmsSignDO) new SmsSignDO()
@@ -172,15 +166,13 @@ public class SmsServiceImpl implements SmsService {
 
     @Override
     public void deleteSign(Integer id) {
-        SmsSignDO smsSignDO = smsSignMapper.selectOne(
-                new QueryWrapper<SmsSignDO>()
-                        .eq("id", id));
-
+        // 根据id查询
+        SmsSignDO smsSignDO = smsSignMapper.selectById(id);
+        // 处理 null
         if (smsSignDO == null) {
             throw new ServiceException(SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
                     SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
         }
-
         // 更新 deleted 为 YES
         smsSignMapper.delete(new UpdateWrapper<SmsSignDO>()
                 .set("deleted", DeletedStatusEnum.DELETED_YES.getName())
@@ -192,15 +184,13 @@ public class SmsServiceImpl implements SmsService {
     @Transactional
     public void addTemplate(Integer smsSignId, String templateCode,
                             String template, Integer platform, Integer smsType) {
-
-        SmsSignDO smsSignDO = smsSignMapper.selectOne(
-                new QueryWrapper<SmsSignDO>().eq("id", smsSignId));
-
+        // 根据id查询
+        SmsSignDO smsSignDO = smsSignMapper.selectById(smsSignId);
+        // 处理 null
         if (smsSignDO == null) {
             throw new ServiceException(SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
                     SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
         }
-
         // 保存数据库
         smsTemplateMapper.insert(
                 (SmsTemplateDO) new SmsTemplateDO()
@@ -219,16 +209,17 @@ public class SmsServiceImpl implements SmsService {
 
     @Override
     public SmsTemplateBO getTemplate(Integer id, Integer platform) {
+        // 获取数据
         SmsTemplateDO smsTemplateDO = smsTemplateMapper.selectOne(
                 new QueryWrapper<SmsTemplateDO>()
                         .eq("platform", platform)
                         .eq("id", id));
-
+        // 处理 null
         if (smsTemplateDO == null) {
             throw new ServiceException(SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
                     SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
         }
-
+        // 转换bo返回
         return SmsTemplateConvert.INSTANCE.convert(smsTemplateDO);
     }
 
@@ -236,22 +227,20 @@ public class SmsServiceImpl implements SmsService {
     @Transactional
     public void updateTemplate(Integer id, Integer smsSignId, String templateCode,
                                String template, Integer platform, Integer smsType) {
-        SmsTemplateDO smsTemplateDO = smsTemplateMapper.selectOne(
-                new QueryWrapper<SmsTemplateDO>().eq("id", id));
-
+        // 获取 template
+        SmsTemplateDO smsTemplateDO = smsTemplateMapper.selectById(id);
         if (smsTemplateDO == null) {
             throw new ServiceException(SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
                     SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
         }
-
+        // 获取 sign
         SmsSignDO smsSignDO = smsSignMapper.selectOne(
                 new QueryWrapper<SmsSignDO>().eq("id", smsTemplateDO.getSmsSignId()));
-
         if (smsSignDO == null) {
             throw new ServiceException(SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
                     SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
         }
-
+        // 更新数据库
         smsTemplateMapper.update(
                 (SmsTemplateDO) new SmsTemplateDO()
                         .setSmsSignId(smsSignId)
@@ -269,13 +258,12 @@ public class SmsServiceImpl implements SmsService {
     public void deleteTemplate(Integer id) {
         SmsTemplateDO smsTemplateDO = smsTemplateMapper.selectOne(
                 new QueryWrapper<SmsTemplateDO>().eq("id", id));
-
+        // 处理不存在情况
         if (smsTemplateDO == null
                 || smsTemplateDO.getDeleted().equals(DeletedStatusEnum.DELETED_YES.getValue())) {
             throw new ServiceException(SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
                     SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
         }
-
         // 删除 数据库模板
         SmsTemplateDO updateTemplate =new SmsTemplateDO();
         updateTemplate.setDeleted(DeletedStatusEnum.DELETED_YES.getValue());
@@ -287,29 +275,24 @@ public class SmsServiceImpl implements SmsService {
 
     @Override
     public void singleSend(String mobile, Integer smsTemplateId, Map<String, String> params) {
-        SmsTemplateDO smsTemplateDO = smsTemplateMapper.selectOne(
-                new QueryWrapper<SmsTemplateDO>().eq("id", smsTemplateId));
-
+        // 获取 template
+        SmsTemplateDO smsTemplateDO = smsTemplateMapper.selectById(smsTemplateId);
         if (smsTemplateDO == null
                 || smsTemplateDO.getDeleted().equals(DeletedStatusEnum.DELETED_YES.getValue())) {
             throw new ServiceException(SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
                     SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
         }
-
-        SmsSignDO smsSignDO = smsSignMapper.selectOne(
-                new QueryWrapper<SmsSignDO>().eq("id", smsTemplateDO.getSmsSignId()));
-
+        // 获取 sign
+        SmsSignDO smsSignDO = smsSignMapper.selectById(smsTemplateDO.getSmsSignId());
         if (smsSignDO == null) {
             throw new ServiceException(SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
                     SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
         }
-
         // 获取 client
         SmsClient smsClient = getSmsClient(smsTemplateDO.getPlatform());
         // 发送短信
         SmsClient.SendResult sendResult = smsClient.singleSend(mobile, smsSignDO.getSign(),
                 smsTemplateDO.getTemplateCode(), smsTemplateDO.getTemplate(), params);
-
         // 添加日志
         smsSendMapper.insert(
                 (SmsSendLogDO) new SmsSendLogDO()
@@ -322,18 +305,15 @@ public class SmsServiceImpl implements SmsService {
 
     @Override
     public void batchSend(List<String> mobileList, Integer smsTemplateId, Map<String, String> params) {
-        SmsTemplateDO smsTemplateDO = smsTemplateMapper.selectOne(
-                new QueryWrapper<SmsTemplateDO>().eq("id", smsTemplateId));
-
+        // 获取 template
+        SmsTemplateDO smsTemplateDO = smsTemplateMapper.selectById(smsTemplateId);
         if (smsTemplateDO == null
                 || smsTemplateDO.getDeleted().equals(DeletedStatusEnum.DELETED_YES.getValue())) {
             throw new ServiceException(SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getCode(),
                     SystemErrorCodeEnum.SMS_TEMPLATE_NOT_EXISTENT.getMessage());
         }
-
-        SmsSignDO smsSignDO = smsSignMapper.selectOne(
-                new QueryWrapper<SmsSignDO>().eq("id", smsTemplateDO.getSmsSignId()));
-
+        // 获取 sign
+        SmsSignDO smsSignDO = smsSignMapper.selectById(smsTemplateDO.getSmsSignId());
         if (smsSignDO == null) {
             // 添加日志
             smsSendMapper.insert(
@@ -347,14 +327,11 @@ public class SmsServiceImpl implements SmsService {
             throw new ServiceException(SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getCode(),
                     SystemErrorCodeEnum.SMS_SIGN_NOT_EXISTENT.getMessage());
         }
-
         // 获取 client
         SmsClient smsClient = getSmsClient(smsTemplateDO.getPlatform());
-
         // 发送短信
         SmsClient.SendResult sendResult = smsClient.batchSend(mobileList, smsSignDO.getSign(),
                 smsTemplateDO.getTemplateCode(), smsTemplateDO.getTemplate(), params);
-
         // 添加日志
         smsSendMapper.insert(
                 (SmsSendLogDO) new SmsSendLogDO()
@@ -373,18 +350,18 @@ public class SmsServiceImpl implements SmsService {
      */
     private SmsClient getSmsClient(Integer platform) {
         SmsClient smsClient = null;
+        // 阿里云和云片
         if (SmsPlatformEnum.YunPian.getValue().equals(platform)) {
             smsClient = smsYunPianClient;
         } else if (SmsPlatformEnum.AliYun.getValue().equals(platform)) {
             smsClient = smsAliYunClient;
         }
-
+        // 没有支持的平台
         if (smsClient == null) {
             throw new ServiceException(
                     SystemErrorCodeEnum.SMS_NOT_SEND_CLIENT.getCode(),
                     SystemErrorCodeEnum.SMS_NOT_SEND_CLIENT.getMessage());
         }
-
         return smsClient;
     }
 }

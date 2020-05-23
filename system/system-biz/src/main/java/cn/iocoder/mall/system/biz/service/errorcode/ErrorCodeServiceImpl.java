@@ -86,6 +86,21 @@ public class ErrorCodeServiceImpl extends ServiceImpl<ErrorCodeMapper, ErrorCode
     }
 
     @Override
+    public Boolean addSystemErrorCodeList(ServiceExceptionUtil.Enumerable[] enumerable) {
+        List<ErrorCodeDO> doList = new ArrayList<>();
+        for (ServiceExceptionUtil.Enumerable errorCodeEnum : enumerable){
+            ErrorCodeDO errorCode = new ErrorCodeDO().setCode(errorCodeEnum.getCode()).
+                    setMessage(errorCodeEnum.getMessage()).setType(ErrorCodeTypeEnum.SYSTEM.getType())
+                    .setGroup(errorCodeEnum.getGroup());
+            errorCode.setCreateTime(new Date());
+            errorCode.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
+            doList.add(errorCode);
+        }
+        // TODO 插入操作日志
+        return this.saveBatch(doList);
+    }
+
+    @Override
     public void updateErrorCode(ErrorCodeUpdateDTO errorCodeUpdateDTO) {
         // 校验错误码是否存在
         ErrorCodeDO errorCodeDO = errorCodeMapper.selectByCode(errorCodeUpdateDTO.getCode());
@@ -118,8 +133,12 @@ public class ErrorCodeServiceImpl extends ServiceImpl<ErrorCodeMapper, ErrorCode
         // TODO FROM 芋艿 to 鱿鱼丝：不能删除内置错误码
         // 更新到数据库，标记删除
         errorCodeMapper.deleteById(errorCodeDO.getId());
-        // TODO: 2020-05-10 刷新对外提供的错误码列表
-        // TODO: 2020-05-10 ServiceExceptionUtil中未提供去除错误码操作，后续新增此接口是否影响？
+        ServiceExceptionUtil.delete(errorCodeDO.getCode(),errorCodeDO.getMessage());
+    }
+
+    @Override
+    public void deleteSyStemErrorCode(int group) {
+        errorCodeMapper.deleteSyStemErrorCode(group);
     }
 
     /**

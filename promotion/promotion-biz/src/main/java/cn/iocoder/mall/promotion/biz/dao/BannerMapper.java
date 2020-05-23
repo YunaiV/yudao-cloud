@@ -26,6 +26,7 @@ public interface BannerMapper extends BaseMapper<BannerDO> {
      * @param dto
      * @return
      */
+    // TODO FROM 芋艿 to 小范：Page 方法哈
     default IPage<BannerDO> selectBannerList(BannerListDTO dto) {
         LambdaQueryWrapper<BannerDO> queryWrapper = new LambdaQueryWrapper<>();
         if (StringUtils.isEmpty(dto.getStatus())) {

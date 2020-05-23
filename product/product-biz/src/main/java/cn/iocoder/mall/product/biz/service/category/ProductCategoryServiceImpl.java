@@ -11,9 +11,8 @@ import cn.iocoder.mall.product.biz.dto.category.ProductCategoryDeleteDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateDTO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryUpdateStatusDTO;
 import cn.iocoder.mall.product.biz.enums.ProductErrorCodeEnum;
-import cn.iocoder.mall.product.biz.enums.category.ProductCategoryConstants;
+import cn.iocoder.mall.product.biz.enums.category.ProductCategoryNodeEnum;
 import cn.iocoder.mall.product.biz.enums.category.ProductCategoryStatusEnum;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,7 +67,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
             throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_PARENT_NOT_SELF);
         }
         // 校验父分类是否存在
-        if (!ProductCategoryConstants.PID_ROOT.equals(productCategoryUpdateDTO.getPid())
+        if (!ProductCategoryNodeEnum.ROOT.getId().equals(productCategoryUpdateDTO.getPid())
                 && productCategoryMapper.selectById(productCategoryUpdateDTO.getPid()) == null) {
             throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_PARENT_NOT_EXISTS);
         }
@@ -114,9 +113,8 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
             throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_DELETE_ONLY_DISABLE);
         }
         // 只有不存在子分类才可以删除
-        Integer childCount = productCategoryMapper.selectCount(
-                Wrappers.<ProductCategoryDO>lambdaQuery().eq(ProductCategoryDO::getPid, productCategoryId)
-        );
+        // TODO FROM 芋艿 to jiangweifan：Wrappers 只用在 Mapper 层 [DONE]
+        Integer childCount = productCategoryMapper.selectChildCategoryCount(productCategoryId);
         if (childCount > 0) {
             throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_DELETE_ONLY_NO_CHILD);
         }
@@ -128,14 +126,14 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
     }
 
     private void validParent(Integer pid) {
-        if (!ProductCategoryConstants.PID_ROOT.equals(pid)) {
+        if (!ProductCategoryNodeEnum.ROOT.getId().equals(pid)) {
             ProductCategoryDO parentCategory = productCategoryMapper.selectById(pid);
             // 校验父分类是否存在
             if (parentCategory == null) {
                 throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_PARENT_NOT_EXISTS);
             }
             // 父分类必须是一级分类
-            if (!ProductCategoryConstants.PID_ROOT.equals(parentCategory.getPid())) {
+            if (!ProductCategoryNodeEnum.ROOT.getId().equals(parentCategory.getPid())) {
                 throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_PARENT_CAN_NOT_BE_LEVEL2);
             }
         }
@@ -149,7 +147,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
             throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_CATEGORY_NOT_EXISTS.getCode());
         }
         // 只有禁用的商品分类才可以删除
-        if (ProductCategoryConstants.STATUS_DISABLE.equals(productCategory.getStatus())) {
+        if (ProductCategoryStatusEnum.DISABLED.getStatus().equals(productCategory.getStatus())) {
             throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_CATEGORY_MUST_ENABLE.getCode());
         }
         // 返回结果

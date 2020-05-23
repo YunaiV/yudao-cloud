@@ -7,7 +7,7 @@ import cn.iocoder.common.framework.util.ServiceExceptionUtil;
  *
  * system 系统，使用 1-002-000-000 段
  */
-public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
+public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable<SystemErrorCodeEnum> {
 
     // ========== OAUTH2 模块 ==========
     OAUTH2_UNKNOWN(1001001000, "未知错误"), // 预留
@@ -113,8 +113,16 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
         return code;
     }
 
+    @Override
     public String getMessage() {
         return message;
     }
+
+    // TODO: 2020-05-22 封装成start的时候，直接在start中定义一个统一的枚举，从中取值； 
+    @Override
+    public int getGroup() {
+        return 0;
+    }
+
 
 }

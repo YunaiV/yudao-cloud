@@ -35,4 +35,9 @@ public enum UserErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
         return message;
     }
 
+    @Override
+    public int getGroup() {
+        return 0;
+    }
+
 }

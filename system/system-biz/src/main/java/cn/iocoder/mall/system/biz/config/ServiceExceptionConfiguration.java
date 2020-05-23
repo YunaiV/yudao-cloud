@@ -20,11 +20,12 @@ public class ServiceExceptionConfiguration {
 
     @EventListener(ApplicationReadyEvent.class) // 可参考 https://www.cnblogs.com/ssslinppp/p/7607509.html
     public void initMessages() {
-        List<ErrorCodeBO> list = errorCodeService.getErrorCodeList();
+        errorCodeService.deleteSyStemErrorCode(SystemErrorCodeEnum.ADMIN_NOT_FOUND.getGroup());
+        errorCodeService.addSystemErrorCodeList(SystemErrorCodeEnum.values());
         for (SystemErrorCodeEnum item : SystemErrorCodeEnum.values()) {
             ServiceExceptionUtil.put(item.getCode(), item.getMessage());
         }
-        for (ErrorCodeBO bo : list) {
+        for (ErrorCodeBO bo : errorCodeService.getErrorCodeByGroup(SystemErrorCodeEnum.ADMIN_NOT_FOUND.getGroup())) {
             ServiceExceptionUtil.put(bo.getCode(),bo.getMessage());
         }
     }

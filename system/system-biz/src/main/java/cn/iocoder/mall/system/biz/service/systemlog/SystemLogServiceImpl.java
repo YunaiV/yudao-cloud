@@ -48,7 +48,7 @@ public class SystemLogServiceImpl implements SystemLogService {
     @SuppressWarnings("Duplicates")
     public PageResult<AccessLogBO> getAccessLogPage(AccessLogPageDTO accessLogPageDTO) {
         PageResult<AccessLogBO> accessLogPageBOPageResult = SystemLogConvert.INSTANCE.convertPage(
-                accessLogMapper.selectPage(accessLogPageDTO));
+                accessLogMapper.selectPage(accessLogPageDTO)); // TODO FROM 芋艿 to 2447007062：可以考虑直接 return，简洁 + IDEA 不告警；
         return accessLogPageBOPageResult;
     }
 }

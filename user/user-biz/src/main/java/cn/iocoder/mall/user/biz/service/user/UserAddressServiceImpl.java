@@ -32,12 +32,10 @@ public class UserAddressServiceImpl implements UserAddressService {
     @Override
     @Transactional
     public void addAddress(UserAddressAddDTO userAddressAddDTO) {
-
         // 转换do，设置默认数据
         UsersUserAddressDO userAddressDO = UserAddressConvert.INSTANCE.convert(userAddressAddDTO);
         userAddressDO.setCreateTime(new Date());
         userAddressDO.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
-
         // 检查是否设置为默认地址
         if (UserAddressHasDefaultEnum.DEFAULT_ADDRESS_YES.getValue() == userAddressAddDTO.getHasDefault()) {
             UsersUserAddressDO defaultUserAddress = userAddressMapper.selectHasDefault(userAddressAddDTO.getUserId());
@@ -49,7 +47,6 @@ public class UserAddressServiceImpl implements UserAddressService {
                 );
             }
         }
-
         // 保存地址
         userAddressMapper.insert(userAddressDO);
     }
@@ -57,19 +54,15 @@ public class UserAddressServiceImpl implements UserAddressService {
     @Override
     @Transactional
     public void updateAddress(UserAddressUpdateDTO userAddressAddDTO) {
-
         // 检查地址
         UsersUserAddressDO userAddress = userAddressMapper.selectById(userAddressAddDTO.getId());
-
         if (userAddress == null) {
             throw ServiceExceptionUtil.exception(UserErrorCodeEnum.USER_ADDRESS_NOT_EXISTENT.getCode());
         }
-
         // 删除的地址不能更新
         if (DeletedStatusEnum.DELETED_YES.getValue().equals(userAddress.getDeleted())) {
             throw ServiceExceptionUtil.exception(UserErrorCodeEnum.USER_ADDRESS_IS_DELETED.getCode());
         }
-
         // 检查是否设置为默认地址
         // 是：将数据库 default address 设置为 no
         if (UserAddressHasDefaultEnum.DEFAULT_ADDRESS_YES.getValue() == userAddressAddDTO.getHasDefault()) {
@@ -82,7 +75,6 @@ public class UserAddressServiceImpl implements UserAddressService {
                 );
             }
         }
-
         // 转换 vo, 并保存数据
         UsersUserAddressDO userAddressDO = UserAddressConvert.INSTANCE.convert(userAddressAddDTO);
         userAddressDO.setUpdateTime(new Date());
@@ -93,16 +85,13 @@ public class UserAddressServiceImpl implements UserAddressService {
     public void removeAddress(Integer userId, Integer addressId) {
         // checked address is exists.
         UsersUserAddressDO userAddress = userAddressMapper.selectById(addressId);
-
         if (userAddress == null) {
             throw ServiceExceptionUtil.exception(UserErrorCodeEnum.USER_ADDRESS_NOT_EXISTENT.getCode());
         }
-
         if (DeletedStatusEnum.DELETED_YES.getValue().equals(userAddress.getDeleted())) {
             // skip
             return;
         }
-
         // 更新状态为 remove
         userAddressMapper.updateById(
                 (UsersUserAddressDO) new UsersUserAddressDO()

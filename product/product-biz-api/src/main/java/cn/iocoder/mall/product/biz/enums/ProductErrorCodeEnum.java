@@ -52,6 +52,11 @@ public enum ProductErrorCodeEnum implements ServiceExceptionUtil.Enumerable {
     }
 
     @Override
+    public int getGroup() {
+        return 0;
+    }
+
+    @Override
     public int getCode() {
         return code;
     }

@@ -6,6 +6,12 @@ spring:
     username: root
     password: 3WLiVUBEwTbvAfsh
 
+  #mongodb
+  data:
+    mongodb:
+      uri: mongodb://localhost/order-comment
+
+
 # MyBatis Plus 配置项
 mybatis-plus:
   configuration:

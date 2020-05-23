@@ -30,10 +30,11 @@ public class ServiceExceptionUtil {
     /**
      * 错误枚举的接口
      */
-    public interface Enumerable {
+    public interface Enumerable<V extends Enum> {
 
         int getCode();
-
+        String getMessage();
+        int getGroup();
     }
 
     /**
@@ -47,6 +48,9 @@ public class ServiceExceptionUtil {
 
     public static void put(Integer code, String message) {
         ServiceExceptionUtil.messages.put(code, message);
+    }
+    public static void delete(Integer code, String message) {
+        ServiceExceptionUtil.messages.remove(code, message);
     }
 
     public static <T> CommonResult<T> error(Enumerable enumerable) {

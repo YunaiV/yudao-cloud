@@ -1,5 +1,7 @@
 package cn.iocoder.mall.system.biz.dao.user;
 
+import cn.iocoder.mall.mybatis.query.QueryWrapperX;
+import cn.iocoder.mall.system.biz.dataobject.authorization.RoleDO;
 import cn.iocoder.mall.system.biz.dataobject.user.UserDO;
 import cn.iocoder.mall.system.biz.dto.user.UserPageDTO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -25,12 +27,11 @@ public interface UserMapper extends BaseMapper<UserDO> {
      * @return
      */
     default IPage<UserDO> selectUserPage(UserPageDTO userPageDTO) {
-        // TODO FROM 芋艿 to jwf1173：看下 QueryWrapperX 噢，已经提供判空啦
-        // TODO FROM 伟帆 to 芋艿： 这里是使用MP原生的判空，支持lambda好，还是使用QueryWrapperX，使用字段名字符串的好呢
+        // TODO FROM 芋艿 to jwf1173：看下 QueryWrapperX 噢，已经提供判空啦 [DONE]
         return this.selectPage(new Page<>(userPageDTO.getPageNo(), userPageDTO.getPageSize()),
-                Wrappers.<UserDO>query().lambda()
-                .eq(StringUtils.isNotBlank(userPageDTO.getNickname()), UserDO::getNickname, userPageDTO.getNickname())
-                .eq(null != userPageDTO.getStatus(), UserDO::getStatus, userPageDTO.getStatus())
+                new QueryWrapperX<UserDO>()
+                .eq(StringUtils.isNotBlank(userPageDTO.getNickname()), "nickname", userPageDTO.getNickname())
+                .eq(null != userPageDTO.getStatus(), "status", userPageDTO.getStatus())
         );
     }
 

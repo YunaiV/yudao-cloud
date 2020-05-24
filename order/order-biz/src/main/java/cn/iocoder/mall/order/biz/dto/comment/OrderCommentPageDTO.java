@@ -1,32 +1,22 @@
 package cn.iocoder.mall.order.biz.dto.comment;
 
+import cn.iocoder.common.framework.vo.PageParam;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
-
 /**
+ * 订单评论 page
  *
- * 订单评论 query
- *
+ * @author xiaofeng
  */
 @Data
 @Accessors(chain = true)
-public class OrderCommentPageDTO implements Serializable {
+public class OrderCommentPageDTO extends PageParam implements Serializable {
 
     /**
      * 商品 sku id
      */
     private Integer productSkuId;
-
-    /**
-     * 页码
-     */
-    private Integer pageNo;
-
-    /**
-     * 每页条数
-     */
-    private Integer pageSize;
 
 }

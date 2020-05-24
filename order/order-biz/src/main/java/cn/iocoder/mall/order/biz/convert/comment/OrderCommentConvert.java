@@ -1,7 +1,9 @@
 package cn.iocoder.mall.order.biz.convert.comment;
 
+import cn.iocoder.mall.order.biz.bo.comment.OrderCommentPageBO;
 import cn.iocoder.mall.order.biz.dataobject.comment.OrderCommentDO;
 import cn.iocoder.mall.order.biz.dto.comment.OrderCommentAddDTO;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -24,5 +26,13 @@ public interface OrderCommentConvert {
      * @return
      */
     OrderCommentDO convert(OrderCommentAddDTO orderCommentAddDTO);
+
+    /**
+     * 参数转成BO
+     *
+     * @param orderCommentList
+     * @return
+     */
+    List<OrderCommentPageBO> convert(List<OrderCommentDO> orderCommentList);
 
 }

@@ -1,7 +1,9 @@
 package cn.iocoder.mall.order.biz.service.comment;
 
-import cn.iocoder.mall.order.biz.bo.comment.OrderCommentBO;
+import cn.iocoder.common.framework.vo.PageResult;
+import cn.iocoder.mall.order.biz.bo.comment.OrderCommentPageBO;
 import cn.iocoder.mall.order.biz.dto.comment.OrderCommentAddDTO;
+import cn.iocoder.mall.order.biz.dto.comment.OrderCommentPageDTO;
 import javax.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 
@@ -23,4 +25,11 @@ public interface OrderCommentService {
      */
     Boolean addOrderComment(@Valid OrderCommentAddDTO orderCommentAddDTO);
 
+    /**
+     * 分页
+     *
+     * @param orderCommentPageDTO
+     * @return
+     */
+    PageResult<OrderCommentPageBO> page(OrderCommentPageDTO orderCommentPageDTO);
 }

@@ -1,5 +1,6 @@
 package cn.iocoder.mall.order.biz.convert.comment;
 
+import cn.iocoder.mall.order.biz.bo.comment.OrderCommentInfoBO;
 import cn.iocoder.mall.order.biz.bo.comment.OrderCommentPageBO;
 import cn.iocoder.mall.order.biz.dataobject.comment.OrderCommentDO;
 import cn.iocoder.mall.order.biz.dto.comment.OrderCommentAddDTO;
@@ -34,5 +35,12 @@ public interface OrderCommentConvert {
      * @return
      */
     List<OrderCommentPageBO> convert(List<OrderCommentDO> orderCommentList);
+
+    /**
+     *
+     * @param orderCommentDO
+     * @return
+     */
+    OrderCommentInfoBO convert(OrderCommentDO orderCommentDO);
 
 }

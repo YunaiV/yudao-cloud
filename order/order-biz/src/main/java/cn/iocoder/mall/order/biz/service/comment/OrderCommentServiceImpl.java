@@ -2,12 +2,16 @@ package cn.iocoder.mall.order.biz.service.comment;
 
 import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.vo.PageResult;
+import cn.iocoder.mall.order.biz.bo.comment.OrderCommentInfoBO;
 import cn.iocoder.mall.order.biz.bo.comment.OrderCommentPageBO;
+import cn.iocoder.mall.order.biz.bo.comment.OrderCommentStateInfoPageBO;
+import cn.iocoder.mall.order.biz.bo.comment.OrderCommentTimeOutBO;
 import cn.iocoder.mall.order.biz.convert.comment.OrderCommentConvert;
 import cn.iocoder.mall.order.biz.dataobject.comment.OrderCommentDO;
 import cn.iocoder.mall.order.biz.dto.comment.OrderCommentAddDTO;
 import cn.iocoder.mall.order.biz.dto.comment.OrderCommentPageDTO;
-import java.util.Collection;
+import cn.iocoder.mall.order.biz.dto.comment.OrderCommentStateInfoPageDTO;
+import cn.iocoder.mall.order.biz.dto.comment.OrderCommentTimeOutPageDTO;
 import java.util.Collections;
 import java.util.List;
 import javax.validation.Valid;
@@ -70,5 +74,31 @@ public class OrderCommentServiceImpl implements OrderCommentService {
         PageResult<OrderCommentPageBO> pageResult = new PageResult<>();
         pageResult.setList(OrderCommentConvert.INSTANCE.convert(orderCommentList));
         return pageResult;
+    }
+
+    @Override
+    public OrderCommentInfoBO getOrderCommentInfo(
+            Integer commentId) {
+        OrderCommentDO orderCommentDO = mongoTemplate
+                .findOne(new Query(Criteria.where("_id").is(commentId)), OrderCommentDO.class);
+        return OrderCommentConvert.INSTANCE.convert(orderCommentDO);
+    }
+
+    @Override
+    public OrderCommentStateInfoPageBO getOrderCommentStateInfoPage(
+            OrderCommentStateInfoPageDTO orderCommentStateInfoPageDTO) {
+        return null;
+    }
+
+    @Override
+    public List<OrderCommentTimeOutBO> getOrderCommentTimeOutPage(
+            OrderCommentTimeOutPageDTO orderCommentTimeOutPageDTO) {
+        return null;
+    }
+
+    @Override
+    public void updateBatchOrderCommentState(
+            List<OrderCommentTimeOutBO> orderCommentTimeOutBOList) {
+
     }
 }

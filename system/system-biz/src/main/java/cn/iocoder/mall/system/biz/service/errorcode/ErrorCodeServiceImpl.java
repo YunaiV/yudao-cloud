@@ -3,7 +3,6 @@ package cn.iocoder.mall.system.biz.service.errorcode;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
-import cn.iocoder.mall.mybatis.query.QueryWrapperX;
 import cn.iocoder.mall.system.biz.bo.errorcode.ErrorCodeBO;
 import cn.iocoder.mall.system.biz.convert.errorcode.ErrorCodeConvert;
 import cn.iocoder.mall.system.biz.dao.errorcode.ErrorCodeMapper;
@@ -37,7 +36,6 @@ public class ErrorCodeServiceImpl extends ServiceImpl<ErrorCodeMapper, ErrorCode
 
     @Override
     public List<ErrorCodeBO> getErrorCodeList(ErrorCodeGetListDTO errorCodeGetListDTO) {
-        // TODO FROM 芋艿 to 鱿鱼丝：QueryWrapperX 只存在 mapper 里，不直接体现在 Service
         return ErrorCodeConvert.INSTANCE.convertList(errorCodeMapper.selectListByIds(errorCodeGetListDTO.getIds()));
     }
 

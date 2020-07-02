@@ -29,7 +29,7 @@ dubbo:
     port: -1
   # Dubbo 提供服务的扫描基础包
   scan:
-    base-packages: cn.iocoder.mall.userservice.rpc.rpc
+    base-packages: cn.iocoder.mall.userservice.rpc
   # Dubbo 服务提供者的配置
   provider:
     filter: -exception

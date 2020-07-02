@@ -13,11 +13,8 @@
     <packaging>pom</packaging>
     <description>用户服务</description>
     <modules>
-        <module>user-service-dal</module>
-        <module>user-service-biz</module>
-        <module>user-service-rpc</module>
-        <module>user-service-rpc-api</module>
-        <module>user-service-common</module>
+        <module>user-service-api</module>
+        <module>user-service-app</module>
     </modules>
 
     <dependencyManagement>
@@ -31,25 +28,16 @@
                 <scope>import</scope>
             </dependency>
 
+            <dependency>
+                <groupId>cn.iocoder.mall</groupId>
+                <artifactId>common-framework</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
             <!-- 自身项目 -->
             <dependency>
                 <groupId>cn.iocoder.mall</groupId>
-                <artifactId>user-service-common</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.iocoder.mall</groupId>
-                <artifactId>user-service-rpc-api</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.iocoder.mall</groupId>
-                <artifactId>user-service-biz</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.iocoder.mall</groupId>
-                <artifactId>user-service-dal</artifactId>
+                <artifactId>user-service-api</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
         </dependencies>

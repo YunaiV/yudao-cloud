@@ -9,17 +9,20 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>user-service-rpc</artifactId>
+    <artifactId>user-service-app</artifactId>
     <dependencies>
-        <dependency>
-            <groupId>cn.iocoder.mall</groupId>
-            <artifactId>user-service-rpc-api</artifactId>
-        </dependency>
+
 
         <!-- RPC 相关 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-dubbo</artifactId>
+        </dependency>
+
+        <dependency>
+            <!-- 用户服务 -->
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>user-service-api</artifactId>
         </dependency>
 
         <!-- Registry 和 Config 相关 -->

@@ -9,12 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>user-service-rpc-api</artifactId>
+    <artifactId>user-service-api</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
-            <artifactId>user-service-common</artifactId>
+            <artifactId>common-framework</artifactId>
         </dependency>
     </dependencies>
 

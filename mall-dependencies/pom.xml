@@ -20,7 +20,7 @@
         <!-- TODO Spring Boot && Spring Cloud && Spring Cloud Alibaba -->
         <spring.boot.version>2.2.4.RELEASE</spring.boot.version>
         <spring.cloud.version>Hoxton.SR1</spring.cloud.version>
-        <spring.cloud.alibaba.version>2.2.0.RELEASE</spring.cloud.alibaba.version>
+        <spring.cloud.alibaba.version>2.2.1.RELEASE</spring.cloud.alibaba.version>
         <!-- Web 相关 -->
         <knife4j.version>2.0.2</knife4j.version>
         <!-- DB 相关 -->
@@ -44,8 +44,8 @@
 
     <!-- 依赖管理 -->
     <dependencyManagement>
-        <!-- TODO Spring Boot && Spring Cloud && Spring Cloud Alibaba -->
         <dependencies>
+            <!-- Spring 体系提供的基础 bom -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-parent</artifactId>
@@ -66,6 +66,13 @@
                 <version>${spring.cloud.alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- 通用相关 -->
+            <dependency>
+                <groupId>cn.iocoder.mall</groupId>
+                <artifactId>common-framework</artifactId>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
 
             <!-- DB 相关 -->
@@ -108,11 +115,42 @@
                 </exclusions>
             </dependency>
 
+            <dependency>
+                <!-- 自动化配置 Spring Data Jest -->
+                <groupId>com.github.vanroy</groupId>
+                <artifactId>spring-boot-starter-data-jest</artifactId>
+                <version>${spring-boot-starter-data-jest.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.iocoder.mall</groupId>
+                <artifactId>mall-spring-boot-starter-mybatis</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
             <!-- Web 相关 -->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.iocoder.mall</groupId>
+                <artifactId>mall-spring-boot-starter-web</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.iocoder.mall</groupId>
+                <artifactId>mall-spring-boot-starter-security</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.iocoder.mall</groupId>
+                <artifactId>mall-spring-boot-starter-swagger</artifactId>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
 
             <!-- RPC 相关 -->
@@ -143,8 +181,8 @@
                 <version>${fastjson.version}</version>
             </dependency>
 
-            <!-- hutool 工具类-->
             <dependency>
+                <!-- hutool 工具类-->
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
@@ -154,13 +192,6 @@
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate-validator.version}</version>
-            </dependency>
-
-            <!-- 自动化配置 Spring Data Jest -->
-            <dependency>
-                <groupId>com.github.vanroy</groupId>
-                <artifactId>spring-boot-starter-data-jest</artifactId>
-                <version>${spring-boot-starter-data-jest.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

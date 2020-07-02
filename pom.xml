@@ -25,7 +25,9 @@
 <!--        <module>search</module>-->
 <!--        <module>demo</module>-->
         <module>mall-dependencies</module>
-        <module>mall-spring-boot-starter-cache</module>
+<!--        <module>mall-spring-boot-starter-cache</module>-->
+        <module>user-service-project</module>
+        <module>user-application-project</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -1,7 +1,7 @@
-package cn.iocoder.mall.system.biz.dataobject.user;
+package cn.iocoder.mall.userservice.app.dal.mysql.dataobject.user;
 
+import cn.iocoder.common.framework.constant.CommonStatusEnum;
 import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
-import cn.iocoder.mall.system.biz.dataobject.account.AccountDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,7 +14,6 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@Deprecated
 public class UserDO extends DeletableDO {
 
     /**
@@ -22,27 +21,30 @@ public class UserDO extends DeletableDO {
      */
     private Integer id;
     /**
-     * 账号编号
-     *
-     * 关联 {@link AccountDO#getId()}
-     */
-    private Integer accountId;
-    /**
      * 昵称
      */
     private String nickname;
+    /**
+     * 头像
+     */
+    private String avatar;
+    /**
+     * 用户状态
+     *
+     * 枚举 {@link CommonStatusEnum}
+     */
+    private Integer status;
     /**
      * 手机
      */
     private String mobile;
     /**
-     * 头像
+     * 经过加密的密码串
      */
-    private String avatar;
-
+    private String password;
     /**
-     * 用户状态 1 - 开启；2 - 禁用
+     * {@link #password} 的盐
      */
-    private Integer status;
+    private String passwordSalt;
 
 }

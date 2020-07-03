@@ -3,28 +3,29 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>user</artifactId>
+        <artifactId>system-service-project</artifactId>
         <groupId>cn.iocoder.mall</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>user-application</artifactId>
-
+    <artifactId>system-service-api</artifactId>
 
     <dependencies>
-        <!-- Mall 相关 -->
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
-            <artifactId>user-rest</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.iocoder.mall</groupId>
-            <artifactId>user-rpc</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <artifactId>common-framework</artifactId>
         </dependency>
 
+        <!-- 工具类相关 -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

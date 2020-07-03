@@ -9,27 +9,35 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>user</artifactId>
+    <artifactId>system-service-project</artifactId>
     <packaging>pom</packaging>
     <modules>
-<!--        <module>user-application</module>-->
-<!--        <module>user-service-api</module>-->
-<!--        <module>user-service-impl</module>-->
-        <module>user-rest</module>
-        <module>user-rpc</module>
-        <module>user-rpc-api</module>
-        <module>user-biz-api</module>
-        <module>user-biz</module>
+        <module>system-service-api</module>
+        <module>system-service-app</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
+            <!-- onemall 基础 bom 文件  -->
             <dependency>
                 <groupId>cn.iocoder.mall</groupId>
                 <artifactId>mall-dependencies</artifactId>
                 <version>1.0-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.iocoder.mall</groupId>
+                <artifactId>common-framework</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <!-- 自身项目 -->
+            <dependency>
+                <groupId>cn.iocoder.mall</groupId>
+                <artifactId>system-service-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

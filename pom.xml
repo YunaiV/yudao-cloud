@@ -28,6 +28,7 @@
 <!--        <module>mall-spring-boot-starter-cache</module>-->
         <module>user-service-project</module>
         <module>user-web-app</module>
+        <module>system-service-project</module>
     </modules>
     <packaging>pom</packaging>
 

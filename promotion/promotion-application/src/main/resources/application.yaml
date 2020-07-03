@@ -1,14 +1,14 @@
 spring:
   application:
     name: promotion-application
+
+  # Spring Cloud 配置项
   cloud:
+    # Spring Cloud Sentinel 配置项
     sentinel:
       transport:
-        port: 8719
-        dashboard: localhost:12088
-      metric:
-        charset: UTF-8
-      eager: false
+        dashboard: s1.iocoder.cn:12088 # Sentinel Dashboard 服务地址
+      eager: true # 项目启动时，直接连接到 Sentinel
 
 # server
 server:

@@ -1,23 +1,40 @@
 # es
 spring:
+  application:
+    name: search-application
   data:
     elasticsearch:
       cluster-name: elasticsearch
-      cluster-nodes: 180.167.213.26:9300
+      cluster-nodes: s1.iocoder.cn:9300
       repositories:
         enable: true
+  elasticsearch:
+    rest:
+      uris: s1.iocoder.cn:9200
 
-# dubbo
+  # Spring Cloud 配置项
+  cloud:
+    nacos:
+      # Spring Cloud Nacos Discovery 配置项
+      discovery:
+        server-addr: s1.iocoder.cn:8848 # Nacos 服务器地址
+
+# Dubbo 配置项
 dubbo:
-  application:
-    name: search-service
+  # Dubbo 注册中心
   registry:
-    address: zookeeper://127.0.0.1:2181
+    address: spring-cloud://s1.iocoder.cn:8848 # 指定 Dubbo 服务注册中心的地址
+  # Spring Cloud Alibaba Dubbo 专属配置
+  cloud:
+    subscribed-services: admin-application, order-application, product-application # 设置订阅的应用列表，默认为 * 订阅所有应用
+  # Dubbo 提供者的协议
   protocol:
-    port: -1
     name: dubbo
+    port: -1
+  # Dubbo 提供服务的扫描基础包
   scan:
     base-packages: cn.iocoder.mall.search.biz.service
+  # Dubbo 服务提供者的配置
   provider:
     filter: -exception
     ProductSearchService:
@@ -32,6 +49,6 @@ dubbo:
 
 # rocketmq
 rocketmq:
-  name-server: 127.0.0.1:9876
+  name-server: s1.iocoder.cn:9876
   producer:
     group: search-producer-group

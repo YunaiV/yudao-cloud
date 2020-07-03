@@ -59,12 +59,13 @@
             <artifactId>swagger-bootstrap-ui</artifactId>
         </dependency>
 
-        <!--  监控  -->
+        <!-- 服务保障相关 -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
+            <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
 
+        <!--  监控  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>

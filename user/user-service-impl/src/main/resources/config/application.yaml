@@ -1,10 +1,17 @@
 spring:
   # datasource
   datasource:
-    url: jdbc:mysql://180.167.213.26:13306/mall_user?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://s1.iocoder.cn:3306/mall_user?useSSL=false&useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: ${MALL_MYSQL_PASSWORD}
+
+  # Spring Cloud 配置项
+  cloud:
+    nacos:
+      # Spring Cloud Nacos Discovery 配置项
+      discovery:
+        server-addr: s1.iocoder.cn:8848 # Nacos 服务器地址
 
 # mybatis-plus
 mybatis-plus:
@@ -18,17 +25,22 @@ mybatis-plus:
   mapperLocations: classpath*:mapper/*.xml
   typeAliasesPackage: cn.iocoder.mall.user.biz.dataobject
 
-# dubbo
+# Dubbo 配置项
 dubbo:
-  application:
-    name: user-service
+  # Dubbo 注册中心
   registry:
-    address: zookeeper://127.0.0.1:2181
+    address: spring-cloud://s1.iocoder.cn:8848 # 指定 Dubbo 服务注册中心的地址
+  # Spring Cloud Alibaba Dubbo 专属配置
+  cloud:
+    subscribed-services: admin-application # 设置订阅的应用列表，默认为 * 订阅所有应用
+  # Dubbo 提供者的协议
   protocol:
-    port: -1
     name: dubbo
+    port: -1
+  # Dubbo 提供服务的扫描基础包
   scan:
     base-packages: cn.iocoder.mall.user.biz.service
+  # Dubbo 服务提供者的配置
   provider:
     filter: -exception
     MobileCodeService:
@@ -38,8 +50,6 @@ dubbo:
     UserAddressService:
       version: 1.0.0
     UserService:
-      version: 1.0.0
-    UserProductSpuCollectionsService:
       version: 1.0.0
   consumer:
     OAuth2Service:

@@ -16,6 +16,10 @@ public class ProductSearchServiceImplTest {
     @Autowired
     private ProductRepository productRepository;
 
+    static {
+        System.setProperty("es.set.netty.runtime.available.processors", "false");
+    }
+
     @Test
     public void testRebuild() {
         int counts = productSearchService.rebuild();

@@ -49,9 +49,9 @@ public class OrderReturnServiceImpl implements OrderReturnService {
     private OrderItemMapper orderItemMapper;
     @Autowired
     private OrderReturnMapper orderReturnMapper;
-
-    @Reference(validation = "true")
+    @Autowired
     private OrderLogisticsService orderLogisticsService;
+
     @Reference(validation = "true", version = "${dubbo.consumer.PayRefundService.version}")
     private PayRefundService payRefundService;
     @Reference(validation = "true", version = "${dubbo.consumer.DataDictService.version}")

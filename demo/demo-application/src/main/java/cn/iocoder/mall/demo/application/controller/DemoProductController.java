@@ -4,7 +4,7 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.demo.application.convert.DemoProductConvert;
 import cn.iocoder.mall.demo.application.vo.DemoProductVO;
 import cn.iocoder.mall.demo.business.api.DemoProductService;
-import cn.iocoder.mall.demo.business.bo.DemoProductBO;
+import cn.iocoder.mall.demo.business.bo.product.DemoProductBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

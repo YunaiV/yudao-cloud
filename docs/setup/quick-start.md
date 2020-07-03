@@ -41,7 +41,7 @@
 spring:
   # datasource
   datasource:
-    url: jdbc:mysql://180.167.213.26:13306/mall_product?useSSL=false&useUnicode=true&characterEncoding=UTF-8 # 请修改成你本地的 MySQL url
+    url: jdbc:mysql://s1.iocoder.cn:3306/mall_product?useSSL=false&useUnicode=true&characterEncoding=UTF-8 # 请修改成你本地的 MySQL url
     driver-class-name: com.mysql.jdbc.Driver
     username: root # 请修改成你本地的 MySQL username
     password: ${MALL_MYSQL_PASSWORD} # 请修改成你本地的 MySQL password

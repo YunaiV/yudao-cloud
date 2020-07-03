@@ -17,13 +17,14 @@ import cn.iocoder.mall.product.dao.ProductSpuMapper;
 import cn.iocoder.mall.product.dataobject.ProductCategoryDO;
 import cn.iocoder.mall.product.dataobject.ProductSkuDO;
 import cn.iocoder.mall.product.dataobject.ProductSpuDO;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import cn.iocoder.mall.product.message.MQStreamProducer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -41,8 +42,8 @@ public class ProductSpuServiceImpl implements ProductSpuService {
     @Autowired
     private ProductAttrServiceImpl productAttrService;
 
-    @Resource
-    private RocketMQTemplate rocketMQTemplate;
+    @Autowired
+    private MQStreamProducer mqStreamProducer;
 
 //    @Override
 //    public ProductSpuBO getProductSpuDetail(Integer id) {
@@ -346,8 +347,14 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         spu.setQuantity(skus.stream().mapToInt(ProductSkuAddOrUpdateDTO::getQuantity).sum()); // 求库存之和
     }
 
-    private void sendProductUpdateMessage(Integer id) {
-        rocketMQTemplate.convertAndSend(ProductUpdateMessage.TOPIC, new ProductUpdateMessage().setId(id));
+    private boolean sendProductUpdateMessage(Integer id) {
+        // 创建 Message 对象
+        ProductUpdateMessage message = new ProductUpdateMessage().setId(id);
+        // 创建 Spring Message 对象
+        Message<ProductUpdateMessage> springMessage = MessageBuilder.withPayload(message)
+                .build();
+        // 发送消息
+        return mqStreamProducer.productUpdateOutput().send(springMessage);
     }
 
 }

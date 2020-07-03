@@ -1,10 +1,17 @@
 spring:
   # datasource
   datasource:
-    url: jdbc:mysql://180.167.213.26:13306/mall_pay?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://s1.iocoder.cn:3306/mall_pay?useSSL=false&useUnicode=true&characterEncoding=UTF-8
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: ${MALL_MYSQL_PASSWORD}
+
+  # Spring Cloud 配置项
+  cloud:
+    nacos:
+      # Spring Cloud Nacos Discovery 配置项
+      discovery:
+        server-addr: s1.iocoder.cn:8848 # Nacos 服务器地址
 
 # mybatis
 mybatis-plus:
@@ -12,17 +19,22 @@ mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: cn.iocoder.mall.pay.biz.dataobject
 
-# dubbo
+# Dubbo 配置项
 dubbo:
-  application:
-    name: pay-service
+  # Dubbo 注册中心
   registry:
-    address: zookeeper://127.0.0.1:2181
+    address: spring-cloud://s1.iocoder.cn:8848 # 指定 Dubbo 服务注册中心的地址
+  # Spring Cloud Alibaba Dubbo 专属配置
+  cloud:
+    subscribed-services: admin-application # 设置订阅的应用列表，默认为 * 订阅所有应用
+  # Dubbo 提供者的协议
   protocol:
-    port: -1
     name: dubbo
+    port: -1
+  # Dubbo 提供服务的扫描基础包
   scan:
     base-packages: cn.iocoder.mall.pay.biz.service
+  # Dubbo 服务提供者的配置
   provider:
     filter: -exception
     PayTransactionService:
@@ -32,10 +44,22 @@ dubbo:
 
 # rocketmq
 rocketmq:
-  name-server: 127.0.0.1:9876
+  name-server: s1.iocoder.cn:9876
   producer:
     group: pay-producer-group
 
-# seata
+# Seata 配置项
 seata:
-  tx-service-group: my_test_tx_group
+  tx-service-group: default # Seata 事务组编号，用于 TC 集群名
+  # 服务配置项，对应 ServiceProperties 类
+  service:
+    # 虚拟组和分组的映射
+    vgroup-mapping:
+      default: default
+  # Seata 注册中心配置项
+  registry:
+    type: nacos # 注册中心类型
+    nacos:
+      serverAddr: ${spring.cloud.nacos.discovery.server-addr} # Nacos 服务地址
+      namespace: # Nacos 命名空间
+      cluster: default # 使用的 Seata 分组

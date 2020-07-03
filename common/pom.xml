@@ -14,6 +14,7 @@
     <modules>
         <module>common-framework</module>
         <module>mall-spring-boot</module>
+        <module>common-dependencies</module>
     </modules>
 
 

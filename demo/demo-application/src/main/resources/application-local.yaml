@@ -1,0 +1,15 @@
+dubbo:
+  application:
+    name: demo-service
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  protocol:
+    port: -1
+    name: dubbo
+  scan:
+    base-packages: cn.iocoder.mall.demo.rpc.service
+  consumer:
+    DemoProductRpcService:
+      version: 1.0.0
+    DemoUserRpcService:
+      version: 1.0.0

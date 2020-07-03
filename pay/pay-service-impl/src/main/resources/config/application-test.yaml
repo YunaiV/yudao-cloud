@@ -1,16 +1,8 @@
-spring:
-  # datasource
-  datasource:
-    url: jdbc:mysql://192.168.88.14:3306/mall_pay?useSSL=false&useUnicode=true&characterEncoding=UTF-8
-    driver-class-name: com.mysql.jdbc.Driver
-    username: root
-    password: ${MALL_MYSQL_PASSWORD}
-
 # xxl-job
 xxl:
   job:
     admin:
-      addresses: http://127.0.0.1:18079/
+      addresses: http://s1.iocoder.cn:18079/
     executor:
       appname: pay-job-executor
       ip:
@@ -18,9 +10,3 @@ xxl:
       logpath: /Users/yunai/logs/xxl-job/
       logretentiondays: 1
     accessToken:
-
-# rocketmq
-rocketmq:
-  name-server: 192.168.88.14:9876
-  producer:
-    group: pay-producer-group

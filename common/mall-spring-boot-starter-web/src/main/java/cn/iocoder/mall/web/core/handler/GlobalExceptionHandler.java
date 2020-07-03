@@ -4,7 +4,7 @@ import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.common.framework.util.ExceptionUtil;
 import cn.iocoder.common.framework.util.HttpUtil;
-import cn.iocoder.common.framework.util.MallUtil;
+import cn.iocoder.common.framework.util.MallUtils;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.system.rpc.api.systemlog.SystemLogRPC;
 import cn.iocoder.mall.system.rpc.request.systemlog.ExceptionLogAddRequest;
@@ -108,7 +108,7 @@ public class GlobalExceptionHandler {
         exceptionLog.setExceptionMethodName(stackTraceElement.getMethodName());
         exceptionLog.setExceptionLineNumber(stackTraceElement.getLineNumber());
         // 设置其它字段
-        exceptionLog.setTraceId(MallUtil.getTraceId())
+        exceptionLog.setTraceId(MallUtils.getTraceId())
                 .setApplicationName(applicationName)
                 .setUri(request.getRequestURI()) // TODO 提升：如果想要优化，可以使用 Swagger 的 @ApiOperation 注解。
                 .setQueryString(HttpUtil.buildQueryString(request))

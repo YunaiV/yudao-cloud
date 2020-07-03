@@ -7,7 +7,7 @@ import org.apache.skywalking.apm.toolkit.trace.TraceContext;
 import javax.servlet.ServletRequest;
 import java.util.UUID;
 
-public class MallUtil {
+public class MallUtils {
 
     public static Integer getUserId(ServletRequest request) {
         return (Integer) request.getAttribute(MallConstants.REQUEST_ATTR_USER_ID_KEY);
@@ -46,7 +46,7 @@ public class MallUtil {
      */
     public static String getTraceId() {
         String traceId = TraceContext.traceId();
-        if (StringUtil.hasText(traceId)) {
+        if (StringUtils.hasText(traceId)) {
             return traceId;
         }
         // TODO 芋艿 多次调用会问题

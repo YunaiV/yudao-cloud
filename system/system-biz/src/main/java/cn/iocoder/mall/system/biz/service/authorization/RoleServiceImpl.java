@@ -1,7 +1,7 @@
 package cn.iocoder.mall.system.biz.service.authorization;
 
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
-import cn.iocoder.common.framework.util.StringUtil;
+import cn.iocoder.common.framework.util.StringUtils;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
 import cn.iocoder.mall.system.biz.bo.authorization.RoleBO;
@@ -127,7 +127,7 @@ public class RoleServiceImpl implements RoleService {
             throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ROLE_NAME_DUPLICATE, name);
         }
         // 2. 是否存在相同编码的角色
-        if (!StringUtil.hasText(code)) {
+        if (!StringUtils.hasText(code)) {
             return;
         }
         // 该 code 编码被其它角色所使用

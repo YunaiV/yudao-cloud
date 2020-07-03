@@ -1,7 +1,7 @@
 package cn.iocoder.mall.web.core.interceptor;
 
 import cn.iocoder.common.framework.util.HttpUtil;
-import cn.iocoder.common.framework.util.MallUtil;
+import cn.iocoder.common.framework.util.MallUtils;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.system.rpc.api.systemlog.SystemLogRPC;
 import cn.iocoder.mall.system.rpc.request.systemlog.AccessLogAddRequest;
@@ -63,7 +63,7 @@ public class AccessLogInterceptor extends HandlerInterceptorAdapter {
         accessLog.setErrorCode(result.getCode())
                 .setErrorMessage(result.getMessage());
         // 设置其它字段
-        accessLog.setTraceId(MallUtil.getTraceId())
+        accessLog.setTraceId(MallUtils.getTraceId())
                 .setApplicationName(applicationName)
                 .setUri(request.getRequestURI()) // TODO 提升：如果想要优化，可以使用 Swagger 的 @ApiOperation 注解。
                 .setQueryString(HttpUtil.buildQueryString(request))

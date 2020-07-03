@@ -1,5 +1,7 @@
 package cn.iocoder.mall.userservice.rpc.user.vo;
 
+import cn.iocoder.common.framework.constant.CommonStatusEnum;
+
 import java.io.Serializable;
 
 /**

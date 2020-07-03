@@ -35,3 +35,5 @@ dubbo:
     filter: -exception
     UserRpc:
       version: 1.0.0
+    UserSmsCodeRpc:
+      version: 1.0.0

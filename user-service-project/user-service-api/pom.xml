@@ -16,6 +16,16 @@
             <groupId>cn.iocoder.mall</groupId>
             <artifactId>common-framework</artifactId>
         </dependency>
+
+        <!-- 工具类相关 -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

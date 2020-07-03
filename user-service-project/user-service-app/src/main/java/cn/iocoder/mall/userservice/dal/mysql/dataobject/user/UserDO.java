@@ -46,5 +46,9 @@ public class UserDO extends DeletableDO {
      * {@link #password} 的盐
      */
     private String passwordSalt;
+    /**
+     * 注册 IP
+     */
+    private String createIp;
 
 }

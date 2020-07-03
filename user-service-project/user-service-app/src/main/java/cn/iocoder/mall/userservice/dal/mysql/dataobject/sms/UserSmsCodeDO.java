@@ -1,6 +1,7 @@
-package cn.iocoder.mall.system.biz.dataobject.oauth2;
+package cn.iocoder.mall.userservice.dal.mysql.dataobject.sms;
 
 import cn.iocoder.mall.mybatis.dataobject.BaseDO;
+import cn.iocoder.mall.userservice.enums.sms.UserSmsSceneEnum;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,13 +10,13 @@ import lombok.experimental.Accessors;
 import java.util.Date;
 
 /**
- * OAuth2 手机验证码
+ * 手机验证码 DO
  */
-@TableName("oauth2_mobile_code")
+@TableName("user_sms_code")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class OAuth2MobileCodeDO extends BaseDO {
+public class UserSmsCodeDO extends BaseDO {
 
     /**
      * 编号
@@ -29,6 +30,12 @@ public class OAuth2MobileCodeDO extends BaseDO {
      * 验证码
      */
     private String code;
+    /**
+     * 发送场景
+     *
+     * 外键 {@link UserSmsSceneEnum}
+     */
+    private Integer scene;
     /**
      * 创建 IP
      */
@@ -48,6 +55,6 @@ public class OAuth2MobileCodeDO extends BaseDO {
     /**
      * 使用 IP
      */
-    private Date usedIp;
+    private String usedIp;
 
 }

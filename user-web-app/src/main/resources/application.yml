@@ -1,0 +1,25 @@
+# 服务器的配置项
+server:
+  port: 18082
+  servlet:
+    context-path: /user-api/
+
+spring:
+  # Application 的配置项
+  application:
+    name: user-web
+  # Profile 的配置项
+  profiles:
+    active: local
+
+# Dubbo 配置项
+dubbo:
+  # Spring Cloud Alibaba Dubbo 专属配置
+  cloud:
+    subscribed-services: 'user-service' # 设置订阅的应用列表，默认为 * 订阅所有应用
+  # Dubbo 服务消费者的配置
+  consumer:
+    UserSmsCodeRpc:
+      version: 1.0.0
+    UserRpc:
+      version: 1.0.0

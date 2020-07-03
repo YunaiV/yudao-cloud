@@ -1,26 +1,36 @@
 package cn.iocoder.common.framework.vo;
 
+import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
 
+/**
+ * 通用返回
+ *
+ * @param <T> 数据泛型
+ */
 public final class CommonResult<T> implements Serializable {
 
-    private static Integer CODE_SUCCESS = 0;
+    private static final Integer CODE_SUCCESS = 0;
 
     /**
      * 错误码
      */
     private Integer code;
     /**
-     * 错误提示
-     */
-    private String message;
-    /**
      * 返回数据
      */
     private T data;
+    /**
+     * 错误提示，用户可阅读
+     */
+    private String message;
+    /**
+     * 错误明细，内部调试错误
+     */
+    private String detailMessage;
 
     /**
      * 将传入的 result 对象，转换成另外一个泛型结果的对象
@@ -75,6 +85,15 @@ public final class CommonResult<T> implements Serializable {
         this.data = data;
     }
 
+    public String getDetailMessage() {
+        return detailMessage;
+    }
+
+    public CommonResult<T> setDetailMessage(String detailMessage) {
+        this.detailMessage = detailMessage;
+        return this;
+    }
+
     @JsonIgnore
     public boolean isSuccess() {
         return CODE_SUCCESS.equals(code);
@@ -83,6 +102,16 @@ public final class CommonResult<T> implements Serializable {
     @JsonIgnore
     public boolean isError() {
         return !isSuccess();
+    }
+
+    /**
+     * 判断是否有异常。如果有，则抛出 {@link cn.iocoder.common.framework.exception.ServiceException} 异常
+     */
+    public void checkError() {
+        if (isSuccess()) {
+            return;
+        }
+        throw ServiceExceptionUtil.exception0(code, message);
     }
 
     @Override

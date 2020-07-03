@@ -44,4 +44,30 @@ public class QueryWrapperX<T> extends QueryWrapper<T> {
         return this;
     }
 
+    // ========== 重写父类方法，方便链式调用 ==========
+
+    @Override
+    public QueryWrapperX<T> eq(boolean condition, String column, Object val) {
+        super.eq(condition, column, val);
+        return this;
+    }
+
+    @Override
+    public QueryWrapperX<T> eq(String column, Object val) {
+        super.eq(column, val);
+        return this;
+    }
+
+    @Override
+    public QueryWrapperX<T> orderByDesc(String column) {
+        super.orderByDesc(true, column);
+        return this;
+    }
+
+    @Override
+    public QueryWrapperX<T> last(String lastSql) {
+        super.last(lastSql);
+        return this;
+    }
+
 }

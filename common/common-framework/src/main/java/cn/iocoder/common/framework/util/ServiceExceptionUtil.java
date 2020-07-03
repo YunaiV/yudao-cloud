@@ -85,7 +85,7 @@ public class ServiceExceptionUtil {
      * @return 异常
      */
     public static ServiceException exception(Integer code) {
-        return new ServiceException(code, messages.get(code));
+        return exception(code, messages.get(code));
     }
 
     /**
@@ -96,11 +96,10 @@ public class ServiceExceptionUtil {
      * @return 异常
      */
     public static ServiceException exception(Integer code, Object... params) {
-        String message = doFormat(code, messages.get(code), params);
-        return new ServiceException(code, message);
+        return exception0(code, messages.get(code), params);
     }
 
-    public static ServiceException exception(Integer code, String messagePattern, Object... params) {
+    public static ServiceException exception0(Integer code, String messagePattern, Object... params) {
         String message = doFormat(code, messagePattern, params);
         return new ServiceException(code, message);
     }

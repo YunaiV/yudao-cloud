@@ -4,7 +4,7 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.json.JSONUtil;
 import cn.iocoder.common.framework.util.HttpUtil;
-import cn.iocoder.common.framework.util.MallUtil;
+import cn.iocoder.common.framework.util.MallUtils;
 import cn.iocoder.mall.system.biz.log.operation.annotation.OperationLogging;
 import cn.iocoder.mall.system.biz.log.operation.enums.LogStatus;
 import cn.iocoder.mall.system.biz.log.operation.event.OperationLogEvent;
@@ -98,7 +98,7 @@ public class OperationLogAspect {
                 .requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
 
         return new OperationLogDTO()
-                .setTraceId(MallUtil.getTraceId())
+                .setTraceId(MallUtils.getTraceId())
                 .setUri(URLUtil.getPath(request.getRequestURI()))
                 .setUserAgent(HttpUtil.getUserAgent(request))
                 .setIp(HttpUtil.getIp(request))

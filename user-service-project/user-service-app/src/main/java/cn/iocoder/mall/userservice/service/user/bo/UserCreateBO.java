@@ -34,6 +34,6 @@ public class UserCreateBO {
     /**
      * IP 地址
      */
-    private String ip;
+    private String createIp;
 
 }

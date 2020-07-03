@@ -11,6 +11,8 @@ import java.util.Date;
 
 /**
  * 手机验证码 DO
+ *
+ * idx_mobile 索引：基于 {@link #mobile} 字段
  */
 @TableName("user_sms_code")
 @Data

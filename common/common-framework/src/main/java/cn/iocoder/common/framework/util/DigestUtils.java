@@ -7,6 +7,10 @@ import cn.hutool.crypto.digest.BCrypt;
  */
 public class DigestUtils {
 
+    public static String genBcryptSalt() {
+        return BCrypt.gensalt();
+    }
+
     public static String bcrypt(String key, String salt) {
         return BCrypt.hashpw(key, salt);
     }

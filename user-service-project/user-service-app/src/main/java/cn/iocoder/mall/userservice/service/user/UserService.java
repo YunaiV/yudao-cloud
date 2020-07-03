@@ -1,5 +1,6 @@
 package cn.iocoder.mall.userservice.service.user;
 
+import cn.iocoder.common.framework.constant.CommonStatusEnum;
 import cn.iocoder.common.framework.util.DigestUtils;
 import cn.iocoder.common.framework.util.StringUtils;
 import cn.iocoder.mall.userservice.convert.user.UserConvert;
@@ -27,7 +28,8 @@ public class UserService {
     }
 
     public UserBO createUser(UserCreateBO createBO) {
-        UserDO userDO = UserConvert.INSTANCE.convert(createBO);
+        UserDO userDO = UserConvert.INSTANCE.convert(createBO)
+                .setStatus(CommonStatusEnum.ENABLE.getValue());
         // 加密密码
         String passwordSalt = genPasswordSalt();
         String password = createBO.getPassword();
@@ -42,7 +44,7 @@ public class UserService {
     }
 
     private String genPasswordSalt() {
-        return StringUtils.uuid(true);
+        return DigestUtils.genBcryptSalt();
     }
 
     private String genPassword() {

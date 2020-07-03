@@ -85,7 +85,7 @@ public class ServiceExceptionUtil {
      * @return 异常
      */
     public static ServiceException exception(Integer code) {
-        return exception(code, messages.get(code));
+        return exception0(code, messages.get(code));
     }
 
     /**

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static cn.iocoder.common.framework.vo.CommonResult.success;
+
 @RestController
 @RequestMapping("/passport")
 public class UserPassportController {
@@ -26,17 +28,17 @@ public class UserPassportController {
 //    @RequiresNone TODO 晚点加上
     public CommonResult<UserPassportVO> loginBySms(UserPassportLoginBySmsDTO loginBySmsDTO,
                                                    HttpServletRequest request) {
-        return CommonResult.success(userPassportManager.loginBySms(loginBySmsDTO, HttpUtil.getIp(request)));
+        return success(userPassportManager.loginBySms(loginBySmsDTO, HttpUtil.getIp(request)));
     }
 
-    @PostMapping("/send_sms_code")
+        @PostMapping("/send_sms_code")
     @ApiOperation("发送手机验证码")
 //    @RequiresNone TODO 晚点加上
     public CommonResult<Boolean> sendSmsCode(UserPassportSendSmsCodeDTO sendSmsCodeDTO,
                                              HttpServletRequest request) {
         userPassportManager.sendSmsCode(sendSmsCodeDTO, HttpUtil.getIp(request));
         // 返回成功
-        return CommonResult.success(true);
+        return success(true);
     }
 
 }

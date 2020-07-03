@@ -19,6 +19,7 @@ dubbo:
     subscribed-services: 'user-service' # 设置订阅的应用列表，默认为 * 订阅所有应用
   # Dubbo 服务消费者的配置
   consumer:
+    timeout: 10000
     UserSmsCodeRpc:
       version: 1.0.0
     UserRpc:

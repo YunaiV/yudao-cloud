@@ -1,5 +1,6 @@
 package cn.iocoder.mall.userservice.convert.user;
 
+import cn.iocoder.mall.userservice.rpc.user.dto.UserCreateDTO;
 import cn.iocoder.mall.userservice.service.user.bo.UserBO;
 import cn.iocoder.mall.userservice.dal.mysql.dataobject.user.UserDO;
 import cn.iocoder.mall.userservice.rpc.user.vo.UserVO;
@@ -17,7 +18,9 @@ public interface UserConvert {
 
     UserBO convert(UserDO bean);
 
-    @Mapping(source = "ip", target = "createIp")
     UserDO convert(UserCreateBO bean);
+
+    @Mapping(source = "ip", target = "createIp")
+    UserCreateBO convert(UserCreateDTO createDTO);
 
 }

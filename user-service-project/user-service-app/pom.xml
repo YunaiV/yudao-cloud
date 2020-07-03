@@ -11,8 +11,6 @@
 
     <artifactId>user-service-app</artifactId>
     <dependencies>
-
-
         <!-- RPC 相关 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

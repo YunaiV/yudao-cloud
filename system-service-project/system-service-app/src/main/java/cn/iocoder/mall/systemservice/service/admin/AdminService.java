@@ -24,7 +24,7 @@ public class AdminService {
         }
         // 校验密码是否正确
         String encodedPassword = DigestUtils.bcrypt(password, adminDO.getPasswordSalt());
-        if (encodedPassword.equals(adminDO.getPassword())) {
+        if (!encodedPassword.equals(adminDO.getPassword())) {
             // TODO 需要补充密码错误上限
             throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ADMIN_PASSWORD_ERROR);
         }

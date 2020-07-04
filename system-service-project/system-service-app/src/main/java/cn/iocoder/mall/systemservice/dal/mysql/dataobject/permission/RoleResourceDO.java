@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("role_resource")
+@TableName("permission_role_resource")
 public class RoleResourceDO extends DeletableDO {
 
     /**

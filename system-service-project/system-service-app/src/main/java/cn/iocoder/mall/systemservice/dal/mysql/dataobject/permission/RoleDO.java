@@ -1,8 +1,8 @@
 package cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission;
 
 import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
-import cn.iocoder.mall.system.biz.enums.authorization.RoleCodeEnum;
-import cn.iocoder.mall.system.biz.enums.authorization.RoleTypeEnum;
+import cn.iocoder.mall.systemservice.enums.permission.RoleCodeEnum;
+import cn.iocoder.mall.systemservice.enums.permission.RoleTypeEnum;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("role")
+@TableName("permission_role")
 public class RoleDO extends DeletableDO {
 
     /**

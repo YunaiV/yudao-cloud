@@ -6,13 +6,14 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 
 /**
  * 管理员校验密码 DTO
  */
 @Data
 @Accessors(chain = true)
-public class AdminVerifyPasswordDTO {
+public class AdminVerifyPasswordDTO implements Serializable {
 
     /**
      * 用户名

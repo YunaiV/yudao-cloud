@@ -4,12 +4,14 @@ import cn.iocoder.mall.systemservice.enums.admin.AdminStatusEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
  * 管理员 DO
  */
 @Data
 @Accessors(chain = true)
-public class AdminVO {
+public class AdminVO implements Serializable {
 
     /**
      * 管理员编号

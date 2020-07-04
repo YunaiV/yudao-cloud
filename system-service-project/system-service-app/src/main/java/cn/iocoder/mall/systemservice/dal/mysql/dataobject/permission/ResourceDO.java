@@ -1,7 +1,7 @@
 package cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission;
 
 import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
-import cn.iocoder.mall.system.biz.enums.authorization.ResourceTypeEnum;
+import cn.iocoder.mall.systemservice.enums.permission.ResourceTypeEnum;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName(value = "resource")
+@TableName(value = "permission_resource")
 public class ResourceDO extends DeletableDO {
 
     /**

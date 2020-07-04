@@ -1,4 +1,4 @@
-package cn.iocoder.mall.security.core.annotation;
+package cn.iocoder.security.annotations;
 
 import java.lang.annotation.*;
 

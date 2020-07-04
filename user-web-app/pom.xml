@@ -31,6 +31,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>mall-spring-boot-starter-security-user</artifactId>
+        </dependency>
+
         <!-- RPC 相关 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

@@ -18,6 +18,10 @@ public class UserVO implements Serializable {
      */
     private Integer id;
     /**
+     * 手机号
+     */
+    private String mobile;
+    /**
      * 昵称
      */
     private String nickname;

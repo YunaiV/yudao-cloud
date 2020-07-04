@@ -71,11 +71,13 @@ public class ServiceExceptionUtil {
     }
 
     public static ServiceException exception(Enumerable enumerable) {
-        return exception(enumerable.getCode());
+        String messagePattern = messages.getOrDefault(enumerable.getCode(), enumerable.getMessage());
+        return exception0(enumerable.getCode(), messagePattern);
     }
 
     public static ServiceException exception(Enumerable enumerable, Object... params) {
-        return exception(enumerable.getCode(), params);
+        String messagePattern = messages.getOrDefault(enumerable.getCode(), enumerable.getMessage());
+        return exception0(enumerable.getCode(), messagePattern, params);
     }
 
     /**

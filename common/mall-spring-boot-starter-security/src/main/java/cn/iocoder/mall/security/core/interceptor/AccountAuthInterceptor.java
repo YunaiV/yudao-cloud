@@ -73,7 +73,7 @@ public class AccountAuthInterceptor extends HandlerInterceptorAdapter {
         }
         // 设置账号编号
         Integer accountId = oauth2AccessTokenResult.getData().getAccountId();
-        CommonWebUtil.setAccountId(request, accountId);
+        CommonWebUtil.setUserId(request, accountId);
         return accountId;
     }
 

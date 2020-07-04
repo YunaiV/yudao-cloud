@@ -22,7 +22,7 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        Integer accountId = CommonWebUtil.getAccountId(request);
+        Integer accountId = CommonWebUtil.getUserId(request);
         if (accountId != null) {
             // 获得 Admin 信息
             CommonResult<AdminResponse> adminResult = adminRPC.getAdminByAccountId(accountId);

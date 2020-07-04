@@ -36,4 +36,8 @@ public class AdminService {
         return AdminConvert.INSTANCE.convert(adminDO);
     }
 
+//    public PageResult<AdminBO> getAdminPage(AdminPageDTO pageDTO) {
+//        return AdminConvert.INSTANCE.convertPage(adminMapper.selectPage(pageDTO));
+//    }
+
 }

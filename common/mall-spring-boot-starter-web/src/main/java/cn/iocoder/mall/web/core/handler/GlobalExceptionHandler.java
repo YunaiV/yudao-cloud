@@ -6,8 +6,8 @@ import cn.iocoder.common.framework.util.ExceptionUtil;
 import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.util.MallUtils;
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.system.rpc.api.systemlog.SystemLogRPC;
-import cn.iocoder.mall.system.rpc.request.systemlog.ExceptionLogAddRequest;
+import cn.iocoder.mall.systemservice.rpc.systemlog.SystemLogRPC;
+import cn.iocoder.mall.systemservice.rpc.systemlog.dto.ExceptionLogAddDTO;
 import cn.iocoder.mall.web.core.util.CommonWebUtil;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -33,7 +33,6 @@ public class GlobalExceptionHandler {
 
     // TODO 芋艿，应该还有其它的异常，需要进行翻译
 
-
 //    /**
 //     * 异常总数 Metrics
 //     */
@@ -50,20 +49,20 @@ public class GlobalExceptionHandler {
 
     // 逻辑异常
     @ExceptionHandler(value = ServiceException.class)
-    public CommonResult serviceExceptionHandler(HttpServletRequest req, ServiceException ex) {
+    public CommonResult serviceExceptionHandler(ServiceException ex) {
         logger.debug("[serviceExceptionHandler]", ex);
         return CommonResult.error(ex.getCode(), ex.getMessage());
     }
 
     // Spring MVC 参数不正确
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
-    public CommonResult missingServletRequestParameterExceptionHandler(HttpServletRequest req, MissingServletRequestParameterException ex) {
+    public CommonResult missingServletRequestParameterExceptionHandler(MissingServletRequestParameterException ex) {
         logger.warn("[missingServletRequestParameterExceptionHandler]", ex);
         return CommonResult.error(SysErrorCodeEnum.MISSING_REQUEST_PARAM_ERROR.getCode(), SysErrorCodeEnum.MISSING_REQUEST_PARAM_ERROR.getMessage() + ":" + ex.getMessage());
     }
 
     @ExceptionHandler(value = ConstraintViolationException.class)
-    public CommonResult constraintViolationExceptionHandler(HttpServletRequest req, ConstraintViolationException ex) {
+    public CommonResult constraintViolationExceptionHandler(ConstraintViolationException ex) {
         logger.info("[constraintViolationExceptionHandler]", ex);
         // TODO 芋艿，后续要想一个更好的方式。
         // 拼接详细报错
@@ -77,7 +76,7 @@ public class GlobalExceptionHandler {
     public CommonResult exceptionHandler(HttpServletRequest req, Exception e) {
         logger.error("[exceptionHandler]", e);
         // 插入异常日志
-        ExceptionLogAddRequest exceptionLog = new ExceptionLogAddRequest();
+        ExceptionLogAddDTO exceptionLog = new ExceptionLogAddDTO();
         try {
             // 增加异常计数 metrics TODO 暂时去掉
 //            EXCEPTION_COUNTER.increment();
@@ -92,9 +91,10 @@ public class GlobalExceptionHandler {
         return CommonResult.error(SysErrorCodeEnum.SYS_ERROR.getCode(), SysErrorCodeEnum.SYS_ERROR.getMessage());
     }
 
-    private void initExceptionLog(ExceptionLogAddRequest exceptionLog, HttpServletRequest request,  Exception e) {
+    private void initExceptionLog(ExceptionLogAddDTO exceptionLog, HttpServletRequest request,  Exception e) {
         // 设置账号编号
-        exceptionLog.setAccountId(CommonWebUtil.getAccountId(request));
+        exceptionLog.setUserId(CommonWebUtil.getUserId(request));
+        exceptionLog.setUserType(CommonWebUtil.getUserType(request));
         // 设置异常字段
         exceptionLog.setExceptionName(e.getClass().getName());
         exceptionLog.setExceptionMessage(ExceptionUtil.getMessage(e));
@@ -119,13 +119,12 @@ public class GlobalExceptionHandler {
     }
 
     @Async
-    public void addExceptionLog(ExceptionLogAddRequest exceptionLog) {
+    public void addExceptionLog(ExceptionLogAddDTO exceptionLog) {
         try {
             systemLogRPC.addExceptionLog(exceptionLog);
         } catch (Throwable th) {
             logger.error("[addAccessLog][插入异常日志({}) 发生异常({})", JSON.toJSONString(exceptionLog), ExceptionUtils.getRootCauseMessage(th));
         }
-
     }
 
 }

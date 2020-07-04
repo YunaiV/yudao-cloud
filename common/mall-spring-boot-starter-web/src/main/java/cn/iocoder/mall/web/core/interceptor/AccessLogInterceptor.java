@@ -3,8 +3,8 @@ package cn.iocoder.mall.web.core.interceptor;
 import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.util.MallUtils;
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.system.rpc.api.systemlog.SystemLogRPC;
-import cn.iocoder.mall.system.rpc.request.systemlog.AccessLogAddRequest;
+import cn.iocoder.mall.systemservice.rpc.systemlog.SystemLogRPC;
+import cn.iocoder.mall.systemservice.rpc.systemlog.dto.AccessLogAddDTO;
 import cn.iocoder.mall.web.core.util.CommonWebUtil;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -27,7 +27,7 @@ public class AccessLogInterceptor extends HandlerInterceptorAdapter {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Reference(validation = "true", version = "${dubbo.consumer.SystemLogRPC.version}")
+    @Reference(validation = "false", version = "${dubbo.consumer.SystemLogRPC.version}")
     private SystemLogRPC systemLogRPC;
 
     @Value("${spring.application.name}")
@@ -42,7 +42,7 @@ public class AccessLogInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        AccessLogAddRequest accessLog = new AccessLogAddRequest();
+        AccessLogAddDTO accessLog = new AccessLogAddDTO();
         try {
             // 初始化 accessLog
             initAccessLog(accessLog, request);
@@ -54,9 +54,10 @@ public class AccessLogInterceptor extends HandlerInterceptorAdapter {
         }
     }
 
-    private void initAccessLog(AccessLogAddRequest accessLog, HttpServletRequest request) {
+    private void initAccessLog(AccessLogAddDTO accessLog, HttpServletRequest request) {
         // 设置账号编号
-        accessLog.setAccountId(CommonWebUtil.getAccountId(request));
+        accessLog.setUserId(CommonWebUtil.getUserId(request));
+        accessLog.setUserType(CommonWebUtil.getUserType(request));
         // 设置访问结果
         CommonResult result = CommonWebUtil.getCommonResult(request);
         Assert.isTrue(result != null, "result 必须非空");
@@ -75,7 +76,7 @@ public class AccessLogInterceptor extends HandlerInterceptorAdapter {
     }
 
     @Async // 异步入库
-    public void addAccessLog(AccessLogAddRequest accessLog) {
+    public void addAccessLog(AccessLogAddDTO accessLog) {
         try {
             systemLogRPC.addAccessLog(accessLog);
         } catch (Throwable th) {

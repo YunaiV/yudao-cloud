@@ -1,5 +1,6 @@
-package cn.iocoder.mall.system.biz.dataobject.systemlog;
+package cn.iocoder.mall.systemservice.dal.mysql.dataobject.systemlog;
 
+import cn.iocoder.common.framework.enums.UserTypeEnum;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.mybatis.dataobject.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -12,27 +13,26 @@ import java.util.Date;
 /**
  * 访问日志 DO
  */
+@TableName("system_access_log")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName("access_log")
 public class AccessLogDO extends BaseDO {
-
-    /**
-     * 账号编号 - 空
-     */
-    public static final Integer ACCOUNT_ID_NULL = 0;
 
     /**
      * 编号
      */
     private Integer id;
     /**
-     * 账号编号
-     *
-     * 空值 {@link #ACCOUNT_ID_NULL}
+     * 用户编号
      */
-    private Integer accountId;
+    private Integer userId;
+    /**
+     * 用户类型
+     *
+     * 枚举 {@link UserTypeEnum}
+     */
+    private Integer userType;
     /**
      * 链路追踪编号
      *

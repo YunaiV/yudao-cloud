@@ -1,10 +1,9 @@
 package cn.iocoder.mall.web.config;
 
-import cn.iocoder.mall.web.core.servlet.CorsFilter;
-import cn.iocoder.mall.web.core.constant.CommonMallConstants;
 import cn.iocoder.mall.web.core.handler.GlobalExceptionHandler;
 import cn.iocoder.mall.web.core.handler.GlobalResponseBodyHandler;
 import cn.iocoder.mall.web.core.interceptor.AccessLogInterceptor;
+import cn.iocoder.mall.web.core.servlet.CorsFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -40,7 +39,7 @@ public class CommonWebAutoConfiguration implements WebMvcConfigurer {
     // ========== 拦截器相关 ==========
 
     @Bean
-    @ConditionalOnClass(name = {"cn.iocoder.mall.system.rpc.api.systemlog.SystemLogRPC", "org.apache.dubbo.config.annotation.Reference"})
+    @ConditionalOnClass(name = {"cn.iocoder.mall.systemservice.rpc.systemlog.SystemLogRPC", "org.apache.dubbo.config.annotation.Reference"})
     @ConditionalOnMissingBean(AccessLogInterceptor.class)
     public AccessLogInterceptor accessLogInterceptor() {
         return new AccessLogInterceptor();
@@ -49,8 +48,7 @@ public class CommonWebAutoConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         try {
-            registry.addInterceptor(this.accessLogInterceptor())
-                    .addPathPatterns(CommonMallConstants.ROOT_PATH_ADMIN + "/**", CommonMallConstants.ROOT_PATH_USER + "/**");
+            registry.addInterceptor(this.accessLogInterceptor());
             logger.info("[addInterceptors][加载 AccessLogInterceptor 拦截器完成]");
         } catch (NoSuchBeanDefinitionException e) {
             logger.warn("[addInterceptors][无法获取 AccessLogInterceptor 拦截器，因此不启动 AccessLog 的记录]");

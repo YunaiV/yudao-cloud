@@ -1,6 +1,6 @@
-package cn.iocoder.mall.system.biz.dao.system;
+package cn.iocoder.mall.systemservice.dal.mysql.mapper.systemlog;
 
-import cn.iocoder.mall.system.biz.dataobject.systemlog.ExceptionLogDO;
+import cn.iocoder.mall.systemservice.dal.mysql.dataobject.systemlog.ExceptionLogDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 

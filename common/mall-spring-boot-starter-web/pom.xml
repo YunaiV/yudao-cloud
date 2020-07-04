@@ -15,7 +15,7 @@
         <!-- Mall 相关 -->
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
-            <artifactId>system-rpc-api</artifactId>
+            <artifactId>system-service-api</artifactId>
             <version>1.0-SNAPSHOT</version>
             <optional>true</optional>
         </dependency>

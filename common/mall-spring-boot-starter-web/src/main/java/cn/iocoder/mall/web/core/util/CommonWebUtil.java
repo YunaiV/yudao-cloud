@@ -8,12 +8,20 @@ import java.util.Date;
 
 public class CommonWebUtil {
 
-    public static Integer getAccountId(ServletRequest request) {
+    public static Integer getUserId(ServletRequest request) {
         return (Integer) request.getAttribute(CommonMallConstants.REQUEST_ATTR_USER_ID_KEY);
     }
 
-    public static void setAccountId(ServletRequest request, Integer userId) {
+    public static void setUserId(ServletRequest request, Integer userId) {
         request.setAttribute(CommonMallConstants.REQUEST_ATTR_USER_ID_KEY, userId);
+    }
+
+    public static Integer getUserType(ServletRequest request) {
+        return (Integer) request.getAttribute(CommonMallConstants.REQUEST_ATTR_USER_TYPE_KEY);
+    }
+
+    public static void setUserType(ServletRequest request, Integer userType) {
+        request.setAttribute(CommonMallConstants.REQUEST_ATTR_USER_TYPE_KEY, userType);
     }
 
     public static CommonResult getCommonResult(ServletRequest request) {

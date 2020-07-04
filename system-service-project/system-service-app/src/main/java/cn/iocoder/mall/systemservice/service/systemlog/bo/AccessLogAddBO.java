@@ -1,5 +1,6 @@
-package cn.iocoder.mall.system.rpc.request.systemlog;
+package cn.iocoder.mall.systemservice.service.systemlog.bo;
 
+import cn.iocoder.common.framework.enums.UserTypeEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -8,25 +9,26 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 访问日志添加 Request
+ * 访问日志添加 BO
  */
 @Data
 @Accessors(chain = true)
-public class AccessLogAddRequest implements Serializable {
+public class AccessLogAddBO implements Serializable {
 
-    /**
-     * 用户编号 - 空
-     */
-    public static final Integer ACCOUNT_ID_NULL = 0;
-
-    /**
-     * 链路追踪编号
-     */
-    private String traceId;
     /**
      * 账号编号
      */
-    private Integer accountId;
+    private Integer userId;
+    /**
+     * 用户类型
+     *
+     * 枚举 {@link UserTypeEnum}
+     */
+    private Integer userType;
+    /**
+     * 链路编号
+     */
+    private String traceId;
     @NotNull(message = "应用名不能为空")
     private String applicationName;
     @NotNull(message = "访问地址不能为空")

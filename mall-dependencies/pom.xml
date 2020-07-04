@@ -17,7 +17,6 @@
 
     <!-- 属性 -->
     <properties>
-        <!-- TODO Spring Boot && Spring Cloud && Spring Cloud Alibaba -->
         <spring.boot.version>2.2.4.RELEASE</spring.boot.version>
         <spring.cloud.version>Hoxton.SR1</spring.cloud.version>
         <spring.cloud.alibaba.version>2.2.1.RELEASE</spring.cloud.alibaba.version>

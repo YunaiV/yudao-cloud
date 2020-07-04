@@ -28,3 +28,5 @@ dubbo:
       version: 1.0.0
     AdminRpc:
       version: 1.0.0
+    SystemLogRPC:
+      version: 1.0.0

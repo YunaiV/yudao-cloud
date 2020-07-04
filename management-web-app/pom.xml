@@ -28,8 +28,8 @@
     <dependencies>
         <!-- Web 相关 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>mall-spring-boot-starter-web</artifactId>
         </dependency>
 
         <!-- RPC 相关 -->

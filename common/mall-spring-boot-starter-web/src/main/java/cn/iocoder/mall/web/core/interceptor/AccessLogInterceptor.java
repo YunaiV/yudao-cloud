@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.util.Assert;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,9 +59,12 @@ public class AccessLogInterceptor extends HandlerInterceptorAdapter {
         accessLog.setUserType(CommonWebUtil.getUserType(request));
         // 设置访问结果
         CommonResult result = CommonWebUtil.getCommonResult(request);
-        Assert.isTrue(result != null, "result 必须非空");
-        accessLog.setErrorCode(result.getCode())
-                .setErrorMessage(result.getMessage());
+        if (result != null) {
+            accessLog.setErrorCode(result.getCode()).setErrorMessage(result.getMessage());
+        } else {
+            // 在访问非 onemall 系统提供的 API 时，会存在没有 CommonResult 的情况。例如说，Swagger 提供的接口
+            accessLog.setErrorCode(0).setErrorMessage("");
+        }
         // 设置其它字段
         accessLog.setTraceId(MallUtils.getTraceId())
                 .setApplicationName(applicationName)

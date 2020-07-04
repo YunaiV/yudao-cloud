@@ -30,3 +30,10 @@ dubbo:
       version: 1.0.0
     SystemLogRPC:
       version: 1.0.0
+
+# Swagger 配置项
+swagger:
+  title: 管理后台
+  description: 提供管理员管理的所有功能
+  version: 1.0.0
+  base-package: cn.iocoder.mall.managementweb.controller

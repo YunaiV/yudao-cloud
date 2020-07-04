@@ -1,13 +1,12 @@
 package cn.iocoder.mall.system.biz.service.user;
 
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.system.biz.bo.user.UserAuthenticateBO;
 import cn.iocoder.mall.system.biz.bo.user.UserBO;
-import cn.iocoder.mall.system.biz.dto.oatuh2.OAuth2MobileCodeAuthenticateDTO;
 import cn.iocoder.mall.system.biz.dto.user.UserPageDTO;
 import cn.iocoder.mall.system.biz.dto.user.UserUpdateDTO;
 import cn.iocoder.mall.system.biz.dto.user.UserUpdateStatusDTO;
 import org.springframework.validation.annotation.Validated;
+
 import javax.validation.Valid;
 
 /**
@@ -15,10 +14,6 @@ import javax.validation.Valid;
  */
 @Validated
 public interface UserService {
-
-    UserAuthenticateBO authenticate(OAuth2MobileCodeAuthenticateDTO authenticateDTO);
-
-    UserBO getUserByAccountId(Integer accountId);
 
     /**
      * 根据条件分页获取用户列表

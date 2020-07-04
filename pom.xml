@@ -29,6 +29,8 @@
         <module>user-service-project</module>
         <module>user-web-app</module>
         <module>system-service-project</module>
+        <module>management-web-app</module>
+        <module>shop-web-app</module>
     </modules>
     <packaging>pom</packaging>
 

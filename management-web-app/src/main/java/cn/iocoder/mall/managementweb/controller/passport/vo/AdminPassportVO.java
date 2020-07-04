@@ -1,4 +1,4 @@
-package cn.iocoder.mall.userweb.controller.passport.vo;
+package cn.iocoder.mall.managementweb.controller.passport.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,10 +7,10 @@ import lombok.experimental.Accessors;
 
 import java.util.Date;
 
-@ApiModel("用户通信证信息 VO")
+@ApiModel("管理员通信证信息 VO")
 @Data
 @Accessors(chain = true)
-public class UserPassportVO {
+public class AdminPassportVO {
 
     @ApiModel("认证信息")
     @Data
@@ -26,24 +26,22 @@ public class UserPassportVO {
 
     }
 
-    @ApiModel("用户信息")
+    @ApiModel("管理员信息")
     @Data
     @Accessors(chain = true)
-    public static class User {
+    public static class Admin {
 
         @ApiModelProperty(value = "用户编号", required = true, example = "1")
         private Integer id;
-        @ApiModelProperty(value = "用户昵称", required = true, example = "小王")
-        private String nickname;
-        @ApiModelProperty(value = "用户头像", required = true, example = "http://www.iocoder.cn/image")
-        private String avatar;
+        @ApiModelProperty(value = "真实姓名", required = true, example = "小王")
+        private String name;
 
     }
 
     /**
-     * 用户信息
+     * 管理员信息
      */
-    private User user;
+    private Admin admin;
     /**
      * 认证信息
      */

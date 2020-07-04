@@ -11,19 +11,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdminServiceImpl implements AdminService {
 
-    @Autowired
-    private AdminMapper adminMapper;
-
-    @Override
-    public AdminBO getAdmin(Integer id) {
-        return AdminConvert.INSTANCE.convert(adminMapper.selectById(id));
-    }
-
-    @Override
-    public AdminBO getAdminByAccountId(Integer accountId) {
-        return AdminConvert.INSTANCE.convert(adminMapper.selectByAccountId(accountId));
-    }
-
     @Override
     public PageResult<AdminBO> getAdminPage(AdminPageDTO pageDTO) {
         return AdminConvert.INSTANCE.convertPage(adminMapper.selectPage(pageDTO));

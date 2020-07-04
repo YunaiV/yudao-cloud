@@ -1,0 +1,30 @@
+# 服务器的配置项
+server:
+  port: 18083
+  servlet:
+    context-path: /management-api/
+
+spring:
+  # Application 的配置项
+  application:
+    name: management-web
+  # Profile 的配置项
+  profiles:
+    active: local
+
+# Dubbo 配置项
+dubbo:
+  # Spring Cloud Alibaba Dubbo 专属配置
+  cloud:
+    subscribed-services: 'user-service, system-service' # 设置订阅的应用列表，默认为 * 订阅所有应用
+  # Dubbo 服务消费者的配置
+  consumer:
+    timeout: 10000
+    UserSmsCodeRpc:
+      version: 1.0.0
+    UserRpc:
+      version: 1.0.0
+    OAuth2Rpc:
+      version: 1.0.0
+    AdminRpc:
+      version: 1.0.0

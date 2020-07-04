@@ -6,6 +6,7 @@ import cn.iocoder.mall.userweb.controller.passport.dto.UserPassportLoginBySmsDTO
 import cn.iocoder.mall.userweb.controller.passport.dto.UserPassportSendSmsCodeDTO;
 import cn.iocoder.mall.userweb.controller.passport.vo.UserPassportVO;
 import cn.iocoder.mall.userweb.manager.passport.UserPassportManager;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
 
+@Api(tags = "用户 Passport API")
 @RestController
 @RequestMapping("/passport")
 public class UserPassportController {

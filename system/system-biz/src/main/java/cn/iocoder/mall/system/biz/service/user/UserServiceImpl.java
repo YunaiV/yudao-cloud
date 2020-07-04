@@ -27,30 +27,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
-    private OAuth2Service oAuth2Service;
-
-    @Override
-    @Transactional
-    public UserAuthenticateBO authenticate(OAuth2MobileCodeAuthenticateDTO authenticateDTO) {
-        // 执行认证
-        OAuth2AuthenticateBO accessTokenBO = oAuth2Service.authenticate(authenticateDTO);
-        // 获得用户
-        UserDO userDO = userMapper.selectById(accessTokenBO.getAccountId());
-        if (userDO == null) {
-            userDO = this.creatUser(accessTokenBO.getAccountId());
-        }
-        UserBO userBO = UserConvert.INSTANCE.convert(userDO);
-        // 拼装返回
-        return UserConvert.INSTANCE.convert(userBO, accessTokenBO);
-    }
-
-    @Override
-    public UserBO getUserByAccountId(Integer accountId) {
-        UserDO userDO = userMapper.selectById(accountId);
-        return UserConvert.INSTANCE.convert(userDO);
-    }
-
     /**
      * 根据条件分页获取用户列表
      * @param userPageDTO
@@ -107,14 +83,6 @@ public class UserServiceImpl implements UserService {
         userMapper.updateById(updateStatusDO);
         // TODO 伟帆 操作日志
         return true;
-    }
-
-    private UserDO creatUser(Integer accountId) {
-        UserDO user = new UserDO();
-        user.setAccountId(accountId);
-        user.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
-        userMapper.insert(user);
-        return user;
     }
 
 }

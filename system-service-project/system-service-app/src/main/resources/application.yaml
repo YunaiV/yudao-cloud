@@ -35,3 +35,5 @@ dubbo:
     filter: -exception
     OAuth2Rpc:
       version: 1.0.0
+    AdminRpc:
+      version: 1.0.0

@@ -1,6 +1,6 @@
 package cn.iocoder.mall.product.api;
 
-import cn.iocoder.common.framework.constant.CommonStatusEnum;
+import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.validator.InEnum;
 import cn.iocoder.mall.product.api.bo.ProductCategoryBO;
 import cn.iocoder.mall.product.api.dto.ProductCategoryAddDTO;

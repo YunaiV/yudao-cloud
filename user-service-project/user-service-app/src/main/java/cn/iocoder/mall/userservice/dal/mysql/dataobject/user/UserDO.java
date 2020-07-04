@@ -1,6 +1,6 @@
 package cn.iocoder.mall.userservice.dal.mysql.dataobject.user;
 
-import cn.iocoder.common.framework.constant.CommonStatusEnum;
+import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.mall.mybatis.dataobject.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

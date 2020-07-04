@@ -1,10 +1,14 @@
 package cn.iocoder.mall.userservice.service.user.bo;
 
-import cn.iocoder.common.framework.constant.CommonStatusEnum;
+import cn.iocoder.common.framework.enums.CommonStatusEnum;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 用户信息
  */
+@Data
+@Accessors(chain = true)
 public class UserBO {
 
     /**

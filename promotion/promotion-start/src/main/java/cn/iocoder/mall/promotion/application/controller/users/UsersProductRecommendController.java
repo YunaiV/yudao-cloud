@@ -1,6 +1,6 @@
 package cn.iocoder.mall.promotion.application.controller.users;
 
-import cn.iocoder.common.framework.constant.CommonStatusEnum;
+import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.api.ProductSpuService;
 import cn.iocoder.mall.product.api.bo.ProductSpuBO;

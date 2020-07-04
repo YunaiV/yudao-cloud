@@ -1,6 +1,6 @@
 package cn.iocoder.mall.promotion.biz.service;
 
-import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
+import cn.iocoder.common.framework.enums.SysErrorCodeEnum;
 import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.StringUtil;

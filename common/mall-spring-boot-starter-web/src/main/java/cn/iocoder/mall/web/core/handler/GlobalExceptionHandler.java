@@ -1,6 +1,6 @@
 package cn.iocoder.mall.web.core.handler;
 
-import cn.iocoder.common.framework.constant.SysErrorCodeEnum;
+import cn.iocoder.common.framework.enums.SysErrorCodeEnum;
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.common.framework.util.ExceptionUtil;
 import cn.iocoder.common.framework.util.HttpUtil;

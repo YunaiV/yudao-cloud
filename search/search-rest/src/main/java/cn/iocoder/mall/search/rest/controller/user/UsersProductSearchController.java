@@ -1,6 +1,6 @@
 package cn.iocoder.mall.search.rest.controller.user;
 
-import cn.iocoder.common.framework.constant.MallConstants;
+import cn.iocoder.common.framework.enums.MallConstants;
 import cn.iocoder.common.framework.util.StringUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.SortingField;

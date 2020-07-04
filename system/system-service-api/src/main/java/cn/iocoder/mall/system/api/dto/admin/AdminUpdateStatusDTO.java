@@ -1,6 +1,6 @@
 package cn.iocoder.mall.system.api.dto.admin;
 
-import cn.iocoder.common.framework.constant.CommonStatusEnum;
+import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.validator.InEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

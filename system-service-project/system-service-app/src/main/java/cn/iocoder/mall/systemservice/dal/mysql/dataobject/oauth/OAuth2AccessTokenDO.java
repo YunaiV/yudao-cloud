@@ -1,7 +1,7 @@
-package cn.iocoder.mall.system.biz.dataobject.oauth2;
+package cn.iocoder.mall.systemservice.dal.mysql.dataobject.oauth;
 
+import cn.iocoder.common.framework.enums.UserTypeEnum;
 import cn.iocoder.mall.mybatis.dataobject.BaseDO;
-import cn.iocoder.mall.system.biz.dataobject.account.AccountDO;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -13,6 +13,9 @@ import java.util.Date;
 
 /**
  * OAuth2 访问令牌
+ *
+ * idx_userId 索引：对应 {@link #userId} 字段
+ * idx_refreshToken 索引：对应 {@link #refreshToken} 字段
  */
 @TableName("oauth2_access_token")
 @Data
@@ -26,24 +29,28 @@ public class OAuth2AccessTokenDO extends BaseDO {
     @TableId(type = IdType.INPUT)
     private String id;
     /**
+     * 用户编号
+     */
+    private Integer userId;
+    /**
+     * 用户类型
+     *
+     * 枚举 {@link UserTypeEnum}
+     */
+    private Integer userType;
+    /**
      * 刷新令牌
      *
      * 关联 {@link OAuth2RefreshTokenDO#getId()}
      */
     private String refreshToken;
     /**
-     * 账号编号
-     *
-     * 关联 {@link AccountDO#getId()}
-     */
-    private Integer accountId;
-    /**
      * 过期时间
      */
     private Date expiresTime;
     /**
-     * 是否有效
+     * 创建 IP
      */
-    private Boolean valid;
+    private String createIp;
 
 }

@@ -1,6 +1,6 @@
 package cn.iocoder.mall.order.rest.controller.comment;
 
-import cn.iocoder.common.framework.constant.MallConstants;
+import cn.iocoder.common.framework.enums.MallConstants;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

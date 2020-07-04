@@ -1,4 +1,4 @@
-package cn.iocoder.common.framework.constant;
+package cn.iocoder.common.framework.enums;
 
 import cn.iocoder.common.framework.core.IntArrayValuable;
 
@@ -17,11 +17,11 @@ public enum CommonStatusEnum implements IntArrayValuable {
     /**
      * 状态值
      */
-    private Integer value;
+    private final Integer value;
     /**
      * 状态名
      */
-    private String name;
+    private final String name;
 
     CommonStatusEnum(Integer value, String name) {
         this.value = value;
@@ -32,27 +32,8 @@ public enum CommonStatusEnum implements IntArrayValuable {
         return value;
     }
 
-    public CommonStatusEnum setValue(Integer value) {
-        this.value = value;
-        return this;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public CommonStatusEnum setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    @Deprecated
-    public static boolean isValid(Integer status) {
-        if (status == null) {
-            return false;
-        }
-        return ENABLE.value.equals(status)
-                || DISABLE.value.equals(status);
     }
 
     @Override

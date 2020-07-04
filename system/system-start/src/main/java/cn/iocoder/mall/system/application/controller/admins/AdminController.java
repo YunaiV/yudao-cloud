@@ -1,6 +1,6 @@
 package cn.iocoder.mall.system.application.controller.admins;
 
-import cn.iocoder.common.framework.constant.MallConstants;
+import cn.iocoder.common.framework.enums.MallConstants;
 import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;

@@ -28,10 +28,6 @@ public class UserPassportVO {
          */
         private String refreshToken;
         /**
-         * 账号编号
-         */
-        private Integer accountId;
-        /**
          * 过期时间
          */
         private Date expiresTime;

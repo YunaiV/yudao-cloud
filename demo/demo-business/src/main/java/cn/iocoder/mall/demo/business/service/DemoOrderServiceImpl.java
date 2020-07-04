@@ -1,6 +1,6 @@
 package cn.iocoder.mall.demo.business.service;
 
-import cn.iocoder.common.framework.constant.DeletedStatusEnum;
+import cn.iocoder.common.framework.enums.DeletedStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.mall.demo.business.api.DemoOrderService;
 import cn.iocoder.mall.demo.business.api.DemoProductService;

@@ -1,4 +1,4 @@
-package cn.iocoder.common.framework.constant;
+package cn.iocoder.common.framework.enums;
 
 import cn.iocoder.common.framework.core.IntArrayValuable;
 
@@ -17,11 +17,11 @@ public enum UserTypeEnum implements IntArrayValuable {
     /**
      * 类型
      */
-    private Integer value;
+    private final Integer value;
     /**
      * 类型名
      */
-    private String name;
+    private final String name;
 
     UserTypeEnum(Integer value, String name) {
         this.value = value;
@@ -32,18 +32,8 @@ public enum UserTypeEnum implements IntArrayValuable {
         return value;
     }
 
-    public UserTypeEnum setValue(Integer value) {
-        this.value = value;
-        return this;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public UserTypeEnum setName(String name) {
-        this.name = name;
-        return this;
     }
 
     @Override

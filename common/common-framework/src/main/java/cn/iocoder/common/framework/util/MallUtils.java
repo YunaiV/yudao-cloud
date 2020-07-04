@@ -1,6 +1,6 @@
 package cn.iocoder.common.framework.util;
 
-import cn.iocoder.common.framework.constant.MallConstants;
+import cn.iocoder.common.framework.enums.MallConstants;
 import cn.iocoder.common.framework.vo.CommonResult;
 import org.apache.skywalking.apm.toolkit.trace.TraceContext;
 

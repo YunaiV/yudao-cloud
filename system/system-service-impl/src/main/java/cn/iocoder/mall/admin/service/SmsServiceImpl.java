@@ -1,6 +1,6 @@
 package cn.iocoder.mall.admin.service;
 
-import cn.iocoder.common.framework.constant.DeletedStatusEnum;
+import cn.iocoder.common.framework.enums.DeletedStatusEnum;
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.mall.system.api.SmsService;
 import cn.iocoder.mall.system.api.bo.sms.PageSmsSignBO;

@@ -1,12 +1,11 @@
 package cn.iocoder.mall.system.biz.service.account;
 
-import cn.iocoder.common.framework.constant.CommonStatusEnum;
+import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.mall.system.biz.bo.account.AccountBO;
 import cn.iocoder.mall.system.biz.convert.account.AccountConvert;
 import cn.iocoder.mall.system.biz.dao.account.AccountMapper;
 import cn.iocoder.mall.system.biz.dataobject.account.AccountDO;
 import cn.iocoder.mall.system.biz.dto.account.AccountCreateDTO;
-import cn.iocoder.mall.system.biz.service.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

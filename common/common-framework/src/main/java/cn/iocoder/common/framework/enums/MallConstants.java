@@ -1,4 +1,4 @@
-package cn.iocoder.common.framework.constant;
+package cn.iocoder.common.framework.enums;
 
 /**
  * Mall 全局枚举

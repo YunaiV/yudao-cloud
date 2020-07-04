@@ -35,7 +35,7 @@ public class ProductRecommendDO extends DeletableDO {
     /**
      * 状态
      *
-     * {@link cn.iocoder.common.framework.constant.CommonStatusEnum}
+     * {@link cn.iocoder.common.framework.enums.CommonStatusEnum}
      */
     private Integer status;
     /**

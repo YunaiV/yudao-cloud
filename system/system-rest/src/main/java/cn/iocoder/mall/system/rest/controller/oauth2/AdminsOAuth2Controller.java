@@ -1,6 +1,6 @@
 package cn.iocoder.mall.system.rest.controller.oauth2;
 
-import cn.iocoder.common.framework.constant.MallConstants;
+import cn.iocoder.common.framework.enums.MallConstants;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.security.core.annotation.RequiresNone;

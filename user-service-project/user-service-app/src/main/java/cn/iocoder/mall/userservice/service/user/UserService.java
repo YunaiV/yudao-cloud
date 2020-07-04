@@ -1,6 +1,6 @@
 package cn.iocoder.mall.userservice.service.user;
 
-import cn.iocoder.common.framework.constant.CommonStatusEnum;
+import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.util.DigestUtils;
 import cn.iocoder.common.framework.util.StringUtils;
 import cn.iocoder.mall.userservice.convert.user.UserConvert;

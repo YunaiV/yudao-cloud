@@ -1,6 +1,6 @@
 package cn.iocoder.mall.order.biz.service;
 
-import cn.iocoder.common.framework.constant.CommonStatusEnum;
+import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.mall.order.api.CartService;
 import cn.iocoder.mall.order.api.bo.CalcOrderPriceBO;

@@ -1,6 +1,6 @@
 package cn.iocoder.mall.system.rest.controller.admin;
 
-import cn.iocoder.common.framework.constant.MallConstants;
+import cn.iocoder.common.framework.enums.MallConstants;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.system.biz.bo.user.UserBO;

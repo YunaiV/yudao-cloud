@@ -1,6 +1,6 @@
 package cn.iocoder.mall.promotion.biz.service.banner;
 
-import cn.iocoder.common.framework.constant.CommonStatusEnum;
+import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;

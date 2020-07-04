@@ -1,8 +1,8 @@
 package cn.iocoder.mall.admin.service;
 
-import cn.iocoder.common.framework.constant.CommonStatusEnum;
-import cn.iocoder.common.framework.constant.DeletedStatusEnum;
-import cn.iocoder.common.framework.constant.UserTypeEnum;
+import cn.iocoder.common.framework.enums.CommonStatusEnum;
+import cn.iocoder.common.framework.enums.DeletedStatusEnum;
+import cn.iocoder.common.framework.enums.UserTypeEnum;
 import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.PageResult;

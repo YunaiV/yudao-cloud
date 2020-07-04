@@ -1,6 +1,6 @@
 package cn.iocoder.mall.system.rest.controller.oauth2;
 
-import cn.iocoder.common.framework.constant.MallConstants;
+import cn.iocoder.common.framework.enums.MallConstants;
 import cn.iocoder.mall.system.biz.service.oauth2.OAuth2MobileCodeService;
 import cn.iocoder.mall.system.biz.service.oauth2.OAuth2Service;
 import cn.iocoder.mall.system.biz.service.user.UserService;

@@ -1,6 +1,6 @@
 package cn.iocoder.mall.product.biz.service.attr;
 
-import cn.iocoder.common.framework.constant.CommonStatusEnum;
+import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.validator.InEnum;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.product.biz.bo.attr.ProductAttrBO;

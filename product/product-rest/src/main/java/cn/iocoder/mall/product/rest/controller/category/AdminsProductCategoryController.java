@@ -1,6 +1,6 @@
 package cn.iocoder.mall.product.rest.controller.category;
 
-import cn.iocoder.common.framework.constant.MallConstants;
+import cn.iocoder.common.framework.enums.MallConstants;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.product.biz.bo.category.ProductCategoryBO;
 import cn.iocoder.mall.product.biz.dto.category.ProductCategoryAddDTO;

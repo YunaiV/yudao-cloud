@@ -1,4 +1,4 @@
-package cn.iocoder.common.framework.constant;
+package cn.iocoder.common.framework.enums;
 
 /**
  * 错误码枚举类

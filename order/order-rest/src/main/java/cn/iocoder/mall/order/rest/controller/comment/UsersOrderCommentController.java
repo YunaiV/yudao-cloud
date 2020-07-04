@@ -1,6 +1,6 @@
 package cn.iocoder.mall.order.rest.controller.comment;
 
-import cn.iocoder.common.framework.constant.MallConstants;
+import cn.iocoder.common.framework.enums.MallConstants;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.order.biz.dto.comment.OrderCommentPageDTO;

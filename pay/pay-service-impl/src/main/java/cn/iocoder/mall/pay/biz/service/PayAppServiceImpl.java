@@ -1,6 +1,6 @@
 package cn.iocoder.mall.pay.biz.service;
 
-import cn.iocoder.common.framework.constant.CommonStatusEnum;
+import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.mall.pay.api.constant.PayErrorCodeEnum;
 import cn.iocoder.mall.pay.biz.dao.PayAppMapper;

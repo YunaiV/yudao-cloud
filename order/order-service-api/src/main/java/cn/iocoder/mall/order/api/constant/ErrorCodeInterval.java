@@ -1,6 +1,6 @@
 package cn.iocoder.mall.order.api.constant;
 
-import cn.iocoder.common.framework.constant.ModuleErrorCodeInterval;
+import cn.iocoder.common.framework.enums.ModuleErrorCodeInterval;
 
 /**
  * 错误码区间

@@ -1,12 +1,16 @@
 package cn.iocoder.mall.userservice.rpc.user.vo;
 
-import cn.iocoder.common.framework.constant.CommonStatusEnum;
+import cn.iocoder.common.framework.enums.CommonStatusEnum;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
 /**
  * 用户响应
  */
+@Data
+@Accessors(chain = true)
 public class UserVO implements Serializable {
 
     /**

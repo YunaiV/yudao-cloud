@@ -15,4 +15,12 @@ public class DigestUtils {
         return BCrypt.hashpw(key, salt);
     }
 
+    // TODO 稍后移到单元测试
+    public static void main(String[] args) {
+        String salt = genBcryptSalt();
+        String password = "buzhidao";
+        System.out.println(salt);
+        System.out.println(bcrypt(password, salt));
+    }
+
 }

@@ -1,10 +1,10 @@
 import {stringify} from '@/utils/request.qs';
 import request from '@/utils/request';
 
-// ========== OAuth2 模块 ==========
+// ========== Passport 模块 ==========
 
-export async function oauth2UsernameAuthenticate(params) {
-  return request(`/system-api/admins/oauth2/username-authenticate?${stringify(params)}`, {
+export async function passportLogin(params) {
+  return request(`/management-api/passport/login?${stringify(params)}`, {
     method: 'POST',
     body: {},
   });

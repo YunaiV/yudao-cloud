@@ -1,8 +1,7 @@
-package cn.iocoder.mall.system.biz.dataobject.admin;
+package cn.iocoder.mall.systemservice.dal.mysql.dataobject.admin;
 
-import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
-import cn.iocoder.mall.system.biz.dataobject.account.AccountDO;
-import cn.iocoder.mall.system.biz.enums.admin.AdminStatusEnum;
+import cn.iocoder.mall.mybatis.dataobject.BaseDO;
+import cn.iocoder.mall.systemservice.enums.admin.AdminStatusEnum;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,18 +14,12 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class AdminDO extends DeletableDO {
+public class AdminDO extends BaseDO {
 
     /**
      * 管理员编号
      */
     private Integer id;
-    /**
-     * 账号编号
-     *
-     * 关联 {@link AccountDO#getId()}
-     */
-    private Integer accountId;
     /**
      * 真实名字
      */
@@ -43,5 +36,18 @@ public class AdminDO extends DeletableDO {
      * 枚举 {@link AdminStatusEnum}
      */
     private Integer status;
+
+    /**
+     * 登陆账号
+     */
+    private String username;
+    /**
+     * 经过加密的密码串
+     */
+    private String password;
+    /**
+     * {@link #password} 的盐
+     */
+    private String passwordSalt;
 
 }

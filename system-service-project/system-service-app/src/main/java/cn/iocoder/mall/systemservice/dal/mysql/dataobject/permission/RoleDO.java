@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.biz.dataobject.authorization;
+package cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission;
 
 import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
 import cn.iocoder.mall.system.biz.enums.authorization.RoleCodeEnum;

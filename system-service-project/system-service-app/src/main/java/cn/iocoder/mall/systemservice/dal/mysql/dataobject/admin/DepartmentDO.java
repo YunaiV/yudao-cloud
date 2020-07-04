@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.biz.dataobject.admin;
+package cn.iocoder.mall.systemservice.dal.mysql.dataobject.admin;
 
 import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -29,6 +29,8 @@ public class DepartmentDO extends DeletableDO {
     private Integer sort;
     /**
      * 父级部门编号
+     *
+     * 外键 {@link #id}
      */
     private Integer pid;
 

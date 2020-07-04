@@ -1,6 +1,6 @@
-package cn.iocoder.mall.system.biz.dao.authorization;
+package cn.iocoder.mall.systemservice.dal.mysql.mapper.permission;
 
-import cn.iocoder.mall.system.biz.dataobject.authorization.AccountRoleDO;
+import cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission.AccountRoleDO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface AccountRoleMapper extends BaseMapper<AccountRoleDO> {
 
-    default List<AccountRoleDO> selectByAccountId( Integer accountId) {
+    default List<AccountRoleDO> selectByAccountId(Integer accountId) {
         return selectList(new QueryWrapper<AccountRoleDO>().eq("account_id", accountId));
     }
 

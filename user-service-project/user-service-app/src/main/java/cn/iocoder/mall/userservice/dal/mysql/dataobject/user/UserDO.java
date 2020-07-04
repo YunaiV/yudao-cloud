@@ -36,6 +36,7 @@ public class UserDO extends BaseDO {
      * 枚举 {@link CommonStatusEnum}
      */
     private Integer status;
+
     /**
      * 手机
      */

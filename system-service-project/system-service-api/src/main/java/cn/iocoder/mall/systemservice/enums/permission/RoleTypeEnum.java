@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.biz.enums.authorization;
+package cn.iocoder.mall.systemservice.enums.permission;
 
 public enum RoleTypeEnum {
 

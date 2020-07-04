@@ -1,9 +1,12 @@
-package cn.iocoder.mall.system.biz.enums.admin;
+package cn.iocoder.mall.systemservice.enums.admin;
 
 import cn.iocoder.common.framework.core.IntArrayValuable;
 
 import java.util.Arrays;
 
+/**
+ * 管理员的状态枚举
+ */
 public enum AdminStatusEnum implements IntArrayValuable {
 
     ACTIVE(1, "在职"),

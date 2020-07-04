@@ -1,6 +1,6 @@
-package cn.iocoder.mall.system.biz.dao.authorization;
+package cn.iocoder.mall.systemservice.dal.mysql.mapper.permission;
 
-import cn.iocoder.mall.system.biz.dataobject.authorization.RoleResourceDO;
+import cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission.RoleResourceDO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;

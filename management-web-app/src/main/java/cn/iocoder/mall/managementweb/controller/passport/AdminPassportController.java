@@ -5,6 +5,7 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.managementweb.controller.passport.dto.AdminPassportLoginDTO;
 import cn.iocoder.mall.managementweb.controller.passport.vo.AdminPassportVO;
 import cn.iocoder.mall.managementweb.manager.admin.AdminPassportManager;
+import cn.iocoder.security.annotations.RequiresNone;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,9 @@ public class AdminPassportController {
     @Autowired
     private AdminPassportManager adminPassportManager;
 
-    @PostMapping("/login")
     @ApiOperation("账号密码登陆")
-//    @RequiresNone TODO 晚点加上
+    @PostMapping("/login")
+    @RequiresNone
     public CommonResult<AdminPassportVO> login(AdminPassportLoginDTO loginDTO,
                                                HttpServletRequest request) {
         return success(adminPassportManager.login(loginDTO, HttpUtil.getIp(request)));

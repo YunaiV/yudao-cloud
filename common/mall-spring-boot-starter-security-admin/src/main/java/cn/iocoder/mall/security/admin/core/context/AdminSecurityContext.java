@@ -1,4 +1,4 @@
-package cn.iocoder.mall.security.core.context;
+package cn.iocoder.mall.security.admin.core.context;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -14,9 +14,5 @@ public class AdminSecurityContext {
      * 管理员编号
      */
     private Integer adminId;
-    /**
-     * 账号编号
-     */
-    private Integer accountId;
 
 }

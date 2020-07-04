@@ -37,6 +37,11 @@
             <artifactId>mall-spring-boot-starter-swagger</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>mall-spring-boot-starter-security-admin</artifactId>
+        </dependency>
+
         <!-- RPC 相关 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

@@ -1,4 +1,4 @@
-package cn.iocoder.mall.security.core.context;
+package cn.iocoder.mall.security.admin.core.context;
 
 /**
  * {@link AdminSecurityContext} Holder
@@ -29,10 +29,6 @@ public class AdminSecurityContextHolder {
 
     public static Integer getAdminId() {
         return getContext().getAdminId();
-    }
-
-    public static Integer getAccountId() {
-        return getContext().getAccountId();
     }
 
 }

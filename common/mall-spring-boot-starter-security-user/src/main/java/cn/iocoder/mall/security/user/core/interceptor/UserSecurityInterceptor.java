@@ -29,6 +29,13 @@ public class UserSecurityInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         // 获得访问令牌
+        Integer userId = this.obtainUserId(request);
+        // 校验认证
+        this.checkAuthentication((HandlerMethod) handler, userId);
+        return true;
+    }
+
+    private Integer obtainUserId(HttpServletRequest request) {
         String accessToken = HttpUtil.obtainAuthorization(request);
         Integer userId = null;
         if (accessToken != null) {
@@ -47,9 +54,7 @@ public class UserSecurityInterceptor extends HandlerInterceptorAdapter {
             UserSecurityContext userSecurityContext = new UserSecurityContext().setUserId(userId);
             UserSecurityContextHolder.setContext(userSecurityContext);
         }
-        // 校验认证
-        this.checkAuthentication((HandlerMethod) handler, userId);
-        return true;
+        return userId;
     }
 
     private void checkAuthentication(HandlerMethod handlerMethod, Integer userId) {

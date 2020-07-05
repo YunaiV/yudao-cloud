@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.rest.response.admin;
+package cn.iocoder.mall.managementweb.controller.admin.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

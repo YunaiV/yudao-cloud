@@ -50,56 +50,6 @@ public class AdminController {
     @Autowired
     private DeptmentService deptmentService;
 
-    // =========== 管理员管理 API ===========
-    //TODO 目前需要增加搜索所有子部门的用户
-    @GetMapping("/page")
-    @RequiresPermissions("system.admin.page")
-    @ApiOperation(value = "管理员分页")
-    public CommonResult<PageResult<AdminVO>> page(AdminPageDTO adminPageDTO) {
-        PageResult<AdminBO> page = adminService.getAdminPage(adminPageDTO);
-        PageResult<AdminVO> resultPage = AdminConvert.INSTANCE.convertAdminVOPage(page);
-        // 拼接结果
-        if (!resultPage.getList().isEmpty()) {
-            // 查询角色数组
-            Map<Integer, Collection<RoleBO>> roleMap = adminService.getAdminRolesMap(CollectionUtil.convertList(resultPage.getList(), AdminBO::getId));
-            resultPage.getList().forEach(admin -> admin.setRoles(AdminConvert.INSTANCE.convertAdminVORoleList(roleMap.get(admin.getId()))));
 
-            // 查询对应部门
-            List<DeptmentBO> deptmentBOS =  deptmentService.getAllDeptments();
-            Map<Integer, String> deptNameMap = deptmentBOS.stream().collect(Collectors.toMap(d->d.getId(), d->d.getName()));
-            //管理员所在部门被删后，变成未分配状态
-            deptNameMap.put(0, "未分配");
-            resultPage.getList().forEach(admin->{
-                admin.setDeptment(new AdminVO.Deptment(admin.getDeptmentId(), deptNameMap.get(admin.getDeptmentId())));
-            });
-        }
-
-        return success(resultPage);
-    }
-
-    @PostMapping("/add")
-    @ApiOperation(value = "创建管理员")
-    public CommonResult<AdminBO> add(AdminAddDTO adminAddDTO) {
-        return success(adminService.addAdmin(AdminSecurityContextHolder.getContext().getAdminId(), adminAddDTO));
-    }
-
-    @PostMapping("/update")
-    @ApiOperation(value = "更新管理员")
-    public CommonResult<Boolean> update(AdminUpdateDTO adminUpdateDTO) {
-        return success(adminService.updateAdmin(AdminSecurityContextHolder.getContext().getAdminId(), adminUpdateDTO));
-    }
-
-    @PostMapping("/update_status")
-    @ApiOperation(value = "更新管理员状态")
-    public CommonResult<Boolean> updateStatus(AdminUpdateStatusDTO adminUpdateStatusDTO) {
-        return success(adminService.updateAdminStatus(AdminSecurityContextHolder.getContext().getAdminId(), adminUpdateStatusDTO));
-    }
-
-    @PostMapping("/delete")
-    @ApiOperation(value = "删除管理员")
-    @ApiImplicitParam(name = "id", value = "管理员编号", required = true, example = "1")
-    public CommonResult<Boolean> delete(@RequestParam("id") Integer id) {
-        return success(adminService.deleteAdmin(AdminSecurityContextHolder.getContext().getAdminId(), id));
-    }
 
 }

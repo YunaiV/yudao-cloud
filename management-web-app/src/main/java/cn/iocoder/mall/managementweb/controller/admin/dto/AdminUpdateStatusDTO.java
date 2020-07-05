@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.api.dto.admin;
+package cn.iocoder.mall.managementweb.controller.admin.dto;
 
 import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.validator.InEnum;

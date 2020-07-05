@@ -80,6 +80,12 @@ public class OAuth2Service {
         return OAuth2Convert.INSTANCE.convert(oauth2AccessTokenDO);
     }
 
+    @Transactional
+    public void removeToken(Integer userId, Integer userType) {
+        oauth2AccessTokenMapper.deleteByUserIdAndUserType(userId, userType);
+        oauth2RefreshTokenMapper.deleteByUserIdAndUserType(userId, userType);
+    }
+
     private OAuth2AccessTokenDO createOAuth2AccessToken(OAuth2RefreshTokenDO refreshTokenDO, String createIp) {
         OAuth2AccessTokenDO accessToken = new OAuth2AccessTokenDO()
                 .setId(generateAccessToken())

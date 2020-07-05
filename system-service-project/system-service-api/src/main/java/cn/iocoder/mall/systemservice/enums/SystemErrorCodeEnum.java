@@ -26,12 +26,12 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable<Syste
     ADMIN_NOT_FOUND(1002002000, "管理员不存在"),
     ADMIN_PASSWORD_ERROR(1002002001, "密码不正确"),
     ADMIN_IS_DISABLE(1002002002, "账号被禁用"),
-//    ADMIN_USERNAME_EXISTS(1002002002, "账号已经存在"),
-//    ADMIN_STATUS_EQUALS(1002002003, "账号已经是该状态"),
+    ADMIN_USERNAME_EXISTS(1002002002, "账号已经存在"),
+    ADMIN_STATUS_EQUALS(1002002003, "账号已经是该状态"),
 //    ADMIN_DELETE_ONLY_DISABLE(1002002004, "只有关闭的账号才可以删除"),
-//    ADMIN_ADMIN_STATUS_CAN_NOT_UPDATE(1002002005, "管理员的账号状态不允许变更"),
+    ADMIN_ADMIN_STATUS_CAN_NOT_UPDATE(1002002005, "管理员的账号状态不允许变更"),
 //    ADMIN_ASSIGN_ROLE_NOT_EXISTS(1002002006, "分配员工角色时，有角色不存在"),
-//    ADMIN_ADMIN_CAN_NOT_UPDATE(1002002008, "管理员的账号不允许变更"),
+    ADMIN_ADMIN_CAN_NOT_UPDATE(1002002008, "管理员的账号不允许变更"),
 
     // ========== 资源模块 1002003000 ==========
     RESOURCE_NAME_DUPLICATE(1002003000, "已经存在该名字的资源"),

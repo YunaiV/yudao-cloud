@@ -4,7 +4,7 @@ import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.managementweb.controller.passport.dto.AdminPassportLoginDTO;
 import cn.iocoder.mall.managementweb.controller.passport.vo.AdminPassportVO;
-import cn.iocoder.mall.managementweb.manager.admin.AdminPassportManager;
+import cn.iocoder.mall.managementweb.manager.passport.AdminPassportManager;
 import cn.iocoder.security.annotations.RequiresNone;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

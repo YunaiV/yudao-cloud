@@ -7,8 +7,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
+
 /**
  * 管理员实体
+ *
+ * uk_username 索引：基于 {@link #username} 字段
  */
 @TableName(value = "admin")
 @Data
@@ -49,5 +53,14 @@ public class AdminDO extends BaseDO {
      * {@link #password} 的盐
      */
     private String passwordSalt;
+
+    /**
+     * 创建管理员编号
+     */
+    private String createAdminId;
+    /**
+     * 创建 IP
+     */
+    private Date createIp;
 
 }

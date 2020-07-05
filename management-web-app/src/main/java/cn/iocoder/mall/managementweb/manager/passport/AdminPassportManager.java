@@ -1,4 +1,4 @@
-package cn.iocoder.mall.managementweb.manager.admin;
+package cn.iocoder.mall.managementweb.manager.passport;
 
 import cn.iocoder.common.framework.enums.UserTypeEnum;
 import cn.iocoder.common.framework.vo.CommonResult;

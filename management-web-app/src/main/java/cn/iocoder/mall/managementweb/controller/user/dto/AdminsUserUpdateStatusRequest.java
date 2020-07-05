@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.rest.request.admin;
+package cn.iocoder.mall.managementweb.controller.user.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -24,4 +24,5 @@ public class AdminsUserUpdateStatusRequest {
     @ApiModelProperty(name = "status", value = "用户状态。1 - 开启；2 - 禁用", required = true, example = "1")
     @NotNull(message = "用户状态不能为空")
     private Integer status;
+
 }

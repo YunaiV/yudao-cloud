@@ -1,10 +1,12 @@
-package cn.iocoder.mall.system.biz.enums.errorcode;
+package cn.iocoder.mall.systemservice.enums.errorcode;
 
 /**
- * 错误码枚举，内置错误码是在  枚举中
+ * 错误码的类型枚举
+ *
  * @author ding
  */
 public enum ErrorCodeTypeEnum {
+
     /**
      * 内置错误码
      */
@@ -23,4 +25,5 @@ public enum ErrorCodeTypeEnum {
     public Integer getType() {
         return type;
     }
+
 }

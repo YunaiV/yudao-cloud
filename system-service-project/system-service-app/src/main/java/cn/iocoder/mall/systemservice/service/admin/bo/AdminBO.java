@@ -5,6 +5,8 @@ import cn.iocoder.mall.systemservice.enums.admin.AdminStatusEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
+
 /**
  * 管理员信息 BO
  */
@@ -37,5 +39,10 @@ public class AdminBO {
      * 登陆账号
      */
     private String username;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 管理员 DO
@@ -36,5 +37,10 @@ public class AdminVO implements Serializable {
      * 登陆账号
      */
     private String username;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 
 }

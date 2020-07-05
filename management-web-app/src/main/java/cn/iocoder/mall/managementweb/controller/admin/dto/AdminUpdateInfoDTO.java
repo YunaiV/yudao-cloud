@@ -30,10 +30,10 @@ public class AdminUpdateInfoDTO {
     @Length(min = 4, max = 16, message = "密码长度为 4-16 位")
     private String password;
 
-    @ApiModelProperty(value = "昵称", required = true, example = "小王")
-    @NotEmpty(message = "昵称不能为空")
-    @Length(max = 10, message = "昵称长度最大为 10 位")
-    private String nickname;
+    @ApiModelProperty(value = "真实名字", required = true, example = "小王")
+    @NotEmpty(message = "真实名字不能为空")
+    @Length(max = 10, message = "真实名字长度最大为 10 位")
+    private String name;
 
     @ApiModelProperty(value = "部门编号", required = true, example = "1")
     @NotNull(message = "部门不能为空")

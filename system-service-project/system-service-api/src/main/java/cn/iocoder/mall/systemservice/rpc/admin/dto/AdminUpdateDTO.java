@@ -2,7 +2,6 @@ package cn.iocoder.mall.systemservice.rpc.admin.dto;
 
 import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.validator.InEnum;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
@@ -24,15 +23,13 @@ public class AdminUpdateDTO implements Serializable {
     @NotNull(message = "管理员编号不能为空")
     private Integer id;
     /**
-     * 昵称
+     * 真实名字
      */
-    @ApiModelProperty(value = "昵称", required = true, example = "小王")
-    @Length(max = 10, message = "昵称长度最大为 10 位")
-    private String nickname;
+    @Length(max = 10, message = "真实名字长度最大为 10 位")
+    private String name;
     /**
      * 部门编号
      */
-    @ApiModelProperty(value = "部门编号", required = true, example = "1")
     private Integer departmentId;
     /**
      * 状态
@@ -48,7 +45,6 @@ public class AdminUpdateDTO implements Serializable {
     /**
      * 密码
      */
-    @ApiModelProperty(value = "密码", required = true, example = "buzhidao")
     @Length(min = 4, max = 16, message = "密码长度为 4-16 位")
     private String password;
 

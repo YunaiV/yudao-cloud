@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
-
 /**
  * 管理员实体
  *
@@ -56,11 +54,13 @@ public class AdminDO extends BaseDO {
 
     /**
      * 创建管理员编号
+     *
+     * 外键 {@link AdminDO#id}
      */
-    private String createAdminId;
+    private Integer createAdminId;
     /**
      * 创建 IP
      */
-    private Date createIp;
+    private String createIp;
 
 }

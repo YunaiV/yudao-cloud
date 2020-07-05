@@ -8,10 +8,10 @@ import lombok.experimental.Accessors;
 import java.util.Date;
 import java.util.List;
 
-@ApiModel("管理员 - 管理员模块 - 管理员分页信息 Response")
+@ApiModel(value = "分页时，管理员的信息    VO")
 @Data
 @Accessors(chain = true)
-public class AdminsAdminPageResponse {
+public class AdminPageItemVO {
 
     @ApiModel("角色")
     @Data
@@ -39,19 +39,6 @@ public class AdminsAdminPageResponse {
 
     }
 
-    @ApiModel("账号")
-    @Data
-    @Accessors(chain = true)
-    public static class Account {
-
-        @ApiModelProperty(value = "账号编号", required = true, example = "1")
-        private Integer id;
-
-        @ApiModelProperty(value = "登陆账号", required = true, example = "15601691300")
-        private String username;
-
-    }
-
     @ApiModelProperty(value = "管理员编号", required = true, example = "1")
     private Integer id;
     @ApiModelProperty(value = "真实名字", required = true, example = "小王")
@@ -60,17 +47,13 @@ public class AdminsAdminPageResponse {
     private Date createTime;
     @ApiModelProperty(value = "在职状态", required = true, example = "1", notes = "见 AdminStatusEnum 枚举")
     private Integer status;
-
-    /**
-     * 账号
-     */
-    private Account account;
+    @ApiModelProperty(value = "登陆账号", required = true, example = "15601691300")
+    private String username;
 
     /**
      * 角色列表
      */
     private List<Role> roles;
-
     /**
      * 所在部门
      */

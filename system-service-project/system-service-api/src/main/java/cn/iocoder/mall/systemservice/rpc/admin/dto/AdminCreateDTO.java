@@ -8,7 +8,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 管理员添加 BO
@@ -20,9 +19,9 @@ public class AdminCreateDTO implements Serializable {
     /**
      * 昵称
      */
-    @NotEmpty(message = "昵称不能为空")
-    @Length(max = 10, message = "昵称长度最大为 10 位")
-    private String nickname;
+    @NotEmpty(message = "真实名字不能为空")
+    @Length(max = 10, message = "真实名字长度最大为 10 位")
+    private String name;
     /**
      * 部门编号
      */
@@ -47,11 +46,11 @@ public class AdminCreateDTO implements Serializable {
      * 创建管理员编号
      */
     @NotNull(message = "创建管理员编号不能为空")
-    private String createAdminId;
+    private Integer createAdminId;
     /**
      * 创建 IP
      */
     @NotNull(message = "创建 IP 不能为空")
-    private Date createIp;
+    private String createIp;
 
 }

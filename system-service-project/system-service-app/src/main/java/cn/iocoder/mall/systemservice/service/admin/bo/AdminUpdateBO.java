@@ -24,8 +24,8 @@ public class AdminUpdateBO {
     /**
      * 昵称
      */
-    @Length(max = 10, message = "昵称长度最大为 10 位")
-    private String nickname;
+    @Length(max = 10, message = "真实名字长度最大为 10 位")
+    private String name;
     /**
      * 部门编号
      */

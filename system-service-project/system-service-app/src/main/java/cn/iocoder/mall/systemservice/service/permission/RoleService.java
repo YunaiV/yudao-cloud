@@ -42,6 +42,7 @@ public class RoleService {
         checkDuplicateRole(createBO.getName(), createBO.getCode(), null);
         // 插入到数据库
         RoleDO roleDO = RoleConvert.INSTANCE.convert(createBO);
+        roleDO.setType(RoleTypeEnum.CUSTOM.getType());
         roleMapper.insert(roleDO);
         // 返回
         return RoleConvert.INSTANCE.convert(roleDO);

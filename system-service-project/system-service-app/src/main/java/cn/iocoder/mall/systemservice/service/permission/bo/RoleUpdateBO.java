@@ -1,4 +1,4 @@
-package cn.iocoder.mall.system.biz.dto.authorization;
+package cn.iocoder.mall.systemservice.service.permission.bo;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -7,21 +7,22 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
- * 角色模块 - 修改角色 DTO
+ * 角色更新 BO
  */
 @Data
 @Accessors(chain = true)
-public class RoleUpdateDTO {
+public class RoleUpdateBO {
 
-    @NotNull(message = "管理员编号不能为空")
-    private Integer adminId;
-
+    /**
+     * 角色编号
+     */
     @NotNull(message = "角色编号不能为空")
     private Integer id;
-
-    @NotEmpty(message = "角色名字不能为空")
+    /**
+     * 角色名
+     */
+    @NotEmpty(message = "角色名不能为空")
     private String name;
-
     /**
      * 角色编码
      */

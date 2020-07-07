@@ -18,10 +18,10 @@ public interface AdminMapper extends BaseMapper<AdminDO> {
         );
     }
 
-    default IPage<AdminDO> selectPage(AdminPageBO adminPageBO) {
-        return selectPage(new Page<>(adminPageBO.getPageNo(), adminPageBO.getPageSize()),
-                new QueryWrapperX<AdminDO>().likeIfPresent("name", adminPageBO.getName())
-                        .eqIfPresent("department_id", adminPageBO.getDepartmentId()));
+    default IPage<AdminDO> selectPage(AdminPageBO pageBO) {
+        return selectPage(new Page<>(pageBO.getPageNo(), pageBO.getPageSize()),
+                new QueryWrapperX<AdminDO>().likeIfPresent("name", pageBO.getName())
+                        .eqIfPresent("department_id", pageBO.getDepartmentId()));
     }
 
 }

@@ -1,6 +1,7 @@
 package cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission;
 
 import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
+import cn.iocoder.mall.systemservice.dal.mysql.dataobject.admin.AdminDO;
 import cn.iocoder.mall.systemservice.enums.permission.ResourceTypeEnum;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -63,5 +64,12 @@ public class ResourceDO extends DeletableDO {
      * 目前当且仅当资源类型为 {@link ResourceTypeEnum#MENU} 时，才会生效
      */
     private String icon;
+
+    /**
+     * 创建管理员编号
+     *
+     * 外键 {@link AdminDO#getId()}
+     */
+    private Integer createAdminId;
 
 }

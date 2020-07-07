@@ -16,15 +16,7 @@ public interface ResourceConvert {
 
     ResourceConvert INSTANCE = Mappers.getMapper(ResourceConvert.class);
 
-    ResourceBO convert(ResourceDO bean);
-
     @Mapping(source = "bean", target = "node")
     ResourceTreeNodeBO convertTreeNode(ResourceDO bean);
-
-    List<ResourceBO> convertList(List<ResourceDO> beans);
-
-    ResourceDO convert(ResourceAddDTO bean);
-
-    ResourceDO convert(ResourceUpdateDTO bean);
 
 }

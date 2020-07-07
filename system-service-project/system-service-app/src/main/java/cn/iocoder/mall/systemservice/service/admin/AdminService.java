@@ -25,6 +25,14 @@ public class AdminService {
     @Autowired
     private AdminMapper adminMapper;
 
+    /**
+     * 校验登陆的账号密码是否正确
+     *
+     * @param username 账号
+     * @param password 密码
+     * @param ip 登陆 IP
+     * @return 管理员信息
+     */
     public AdminBO verifyPassword(String username, String password, String ip) {
         AdminDO adminDO = adminMapper.selectByUsername(username);
         if (adminDO == null) {

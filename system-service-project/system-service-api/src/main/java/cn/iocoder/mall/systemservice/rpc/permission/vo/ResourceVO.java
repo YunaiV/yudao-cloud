@@ -1,16 +1,17 @@
-package cn.iocoder.mall.system.biz.bo.authorization;
+package cn.iocoder.mall.systemservice.rpc.permission.vo;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 授权模块 - 资源信息 BO
- */
+* 资源 VO
+*/
 @Data
 @Accessors(chain = true)
-public class ResourceBO {
+public class ResourceVO implements Serializable {
 
     /**
      * 资源编号
@@ -45,7 +46,7 @@ public class ResourceBO {
      */
     private String icon;
     /**
-     * 创建时间
+     * 添加时间
      */
     private Date createTime;
 

@@ -7,6 +7,7 @@ import cn.iocoder.mall.managementweb.controller.permission.dto.RolePageDTO;
 import cn.iocoder.mall.managementweb.controller.permission.dto.RoleUpdateDTO;
 import cn.iocoder.mall.managementweb.controller.permission.vo.RoleVO;
 import cn.iocoder.mall.managementweb.manager.permission.RoleManager;
+import cn.iocoder.mall.security.admin.core.context.AdminSecurityContextHolder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -34,7 +35,7 @@ public class RoleController {
     @PostMapping("/create")
     @ApiOperation("创建角色")
     public CommonResult<Integer> createRole(@Valid RoleCreateDTO createDTO) {
-        return success(roleManager.createRole(createDTO));
+        return success(roleManager.createRole(createDTO, AdminSecurityContextHolder.getAdminId()));
     }
 
     @PostMapping("/update")
@@ -65,7 +66,7 @@ public class RoleController {
         return success(roleManager.listRole(roleIds));
     }
 
-    @GetMapping("/list")
+    @GetMapping("/page")
     @ApiOperation("获得角色分页")
     public CommonResult<PageResult<RoleVO>> pageRole(RolePageDTO pageDTO) {
         return success(roleManager.pageRole(pageDTO));

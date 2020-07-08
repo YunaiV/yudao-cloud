@@ -41,3 +41,5 @@ dubbo:
       version: 1.0.0
     ResourceRpc:
       version: 1.0.0
+    RoleRpc:
+      version: 1.0.0

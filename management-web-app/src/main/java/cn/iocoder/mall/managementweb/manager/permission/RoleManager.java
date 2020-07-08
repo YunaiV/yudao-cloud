@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class RoleManager {
 
-    @Reference(version = "$ {dubbo.consumer.RoleRpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.RoleRpc.version}", validation = "false")
     private RoleRpc roleRpc;
 
     /**
@@ -28,8 +28,8 @@ public class RoleManager {
     * @param createDTO 创建角色 DTO
     * @return 角色
     */
-    public Integer createRole(RoleCreateDTO createDTO) {
-        CommonResult<Integer> createRoleResult = roleRpc.createRole(RoleConvert.INSTANCE.convert(createDTO));
+    public Integer createRole(RoleCreateDTO createDTO, Integer createAdminId) {
+        CommonResult<Integer> createRoleResult = roleRpc.createRole(RoleConvert.INSTANCE.convert(createDTO).setCreateAdminId(createAdminId));
         createRoleResult.checkError();
         return createRoleResult.getData();
     }

@@ -70,7 +70,7 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable<Syste
     // ========== 授权模块 1002008000 ==========
     AUTHORIZATION_PERMISSION_DENY(1002008001, "没有该操作权限"),
     AUTHORIZATION_DEMO_PERMISSION_DENY(1002008002, "演示账号，暂不允许写操作。欢迎加入我们的交流群：http://t.cn/EKEr5WE"),
-    AUTHORIZATION_ROLE_ASSIGN_RESOURCE_NOT_EXISTS(1002004001, "分配角色资源时，有资源不存在"),
+    AUTHORIZATION_ROLE_ASSIGN_RESOURCE_NOT_EXISTS(1002008004, "分配角色资源时，有资源不存在"),
 
     // ========== 错误码模块 1002009000 ==========
     ERROR_CODE_NOT_EXISTS(1002009000, "错误码不存在"),

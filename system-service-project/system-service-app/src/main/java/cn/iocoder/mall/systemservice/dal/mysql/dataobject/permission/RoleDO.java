@@ -37,5 +37,9 @@ public class RoleDO extends DeletableDO {
      * 关联 {@link RoleTypeEnum}
      */
     private Integer type;
+    /**
+     * 创建管理员编号
+     */
+    private Integer createAdminId;
 
 }

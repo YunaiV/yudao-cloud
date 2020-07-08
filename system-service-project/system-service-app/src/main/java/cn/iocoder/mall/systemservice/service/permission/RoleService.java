@@ -1,10 +1,14 @@
 package cn.iocoder.mall.systemservice.service.permission;
 
+import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.systemservice.convert.permission.RoleConvert;
+import cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission.AdminRoleDO;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission.RoleDO;
+import cn.iocoder.mall.systemservice.dal.mysql.mapper.permission.AdminRoleMapper;
 import cn.iocoder.mall.systemservice.dal.mysql.mapper.permission.RoleMapper;
+import cn.iocoder.mall.systemservice.enums.permission.RoleCodeEnum;
 import cn.iocoder.mall.systemservice.enums.permission.RoleTypeEnum;
 import cn.iocoder.mall.systemservice.service.permission.bo.RoleBO;
 import cn.iocoder.mall.systemservice.service.permission.bo.RoleCreateBO;
@@ -17,7 +21,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.*;
 
@@ -30,6 +36,8 @@ public class RoleService {
 
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private AdminRoleMapper adminRoleMapper;
 
     /**
     * 创建角色
@@ -149,6 +157,33 @@ public class RoleService {
         if (role != null && !role.getId().equals(id)) {
             throw ServiceExceptionUtil.exception(ROLE_CODE_DUPLICATE, name);
         }
+    }
+
+    /**
+     * 获得管理员拥有的角色编号列表
+     *
+     * @param adminId 管理员编号
+     * @return 角色编号列表
+     */
+    public Set<Integer> listAdminRoleIds(Integer adminId) {
+        List<AdminRoleDO> adminRoleDOs = adminRoleMapper.selectByAdminId(adminId);
+        return CollectionUtils.convertSet(adminRoleDOs, AdminRoleDO::getRoleId);
+    }
+
+    /**
+     * 判断角色是否有超级管理员
+     *
+     * @param roleIds 角色编号列表
+     * @return 是否有超级管理员
+     */
+    public boolean hasSuperAdmin(Collection<Integer> roleIds) {
+        List<RoleDO> roleDOs = roleMapper.selectBatchIds(roleIds);
+        for (RoleDO roleDO : roleDOs) {
+            if (RoleCodeEnum.SUPER_ADMIN.getCode().equals(roleDO.getCode())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 /**
 * 角色 Manager
@@ -82,6 +83,16 @@ public class RoleManager {
     public PageResult<RoleVO> pageRole(RolePageDTO pageDTO) {
         PageResult<RoleBO> pageResultBO = roleService.pageRole(RoleConvert.INSTANCE.convert(pageDTO));
         return RoleConvert.INSTANCE.convertPage(pageResultBO);
+    }
+
+    /**
+     * 获得管理员拥有的角色编号列表
+     *
+     * @param adminId 管理员编号
+     * @return 角色编号列表
+     */
+    public Set<Integer> listAdminRoleIds(Integer adminId) {
+        return roleService.listAdminRoleIds(adminId);
     }
 
 }

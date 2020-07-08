@@ -1,9 +1,12 @@
 package cn.iocoder.mall.systemservice.service.permission;
 
+import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.mall.systemservice.convert.permission.ResourceConvert;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission.ResourceDO;
+import cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission.RoleResourceDO;
 import cn.iocoder.mall.systemservice.dal.mysql.mapper.permission.ResourceMapper;
+import cn.iocoder.mall.systemservice.dal.mysql.mapper.permission.RoleResourceMapper;
 import cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum;
 import cn.iocoder.mall.systemservice.enums.permission.ResourceIdEnum;
 import cn.iocoder.mall.systemservice.enums.permission.ResourceTypeEnum;
@@ -15,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.*;
@@ -28,6 +33,8 @@ public class ResourceService {
 
     @Autowired
     private ResourceMapper resourceMapper;
+    @Autowired
+    private RoleResourceMapper roleResourceMapper;
 
     /**
      * 创建资源
@@ -109,6 +116,34 @@ public class ResourceService {
      */
     public List<ResourceBO> listResource(List<Integer> resourceIds) {
         List<ResourceDO> resourceDOs = resourceMapper.selectBatchIds(resourceIds);
+        return ResourceConvert.INSTANCE.convertList(resourceDOs);
+    }
+
+    /**
+     * 获得指定类型的资源列表
+     *
+     * @param type 资源类型，允许空
+     * @return 资源列表
+     */
+    public List<ResourceBO> listResourceByType(Integer type) {
+        List<ResourceDO> resourceDOs = resourceMapper.selectListByType(type);
+        return ResourceConvert.INSTANCE.convertList(resourceDOs);
+    }
+
+    /**
+     * 获得角色拥有的资源列表
+     *
+     * @param roleIds 角色编号
+     * @param type 资源类型，允许空
+     * @return 资源列表
+     */
+    public List<ResourceBO> listRoleResourceByType(Collection<Integer> roleIds, Integer type) {
+        List<RoleResourceDO> roleResourceDOs = roleResourceMapper.selectListByRoleIds(roleIds);
+        if (CollectionUtils.isEmpty(roleResourceDOs)) {
+            return Collections.emptyList();
+        }
+        List<ResourceDO> resourceDOs = resourceMapper.selectListByIdsAndType(
+                CollectionUtils.convertSet(roleResourceDOs, RoleResourceDO::getResourceId), type);
         return ResourceConvert.INSTANCE.convertList(resourceDOs);
     }
 

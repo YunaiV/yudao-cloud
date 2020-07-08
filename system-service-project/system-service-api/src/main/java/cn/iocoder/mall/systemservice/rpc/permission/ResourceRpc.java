@@ -5,6 +5,8 @@ import cn.iocoder.mall.systemservice.rpc.permission.dto.ResourceCreateDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.ResourceUpdateDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO;
 
+import javax.validation.constraints.NotNull;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -49,5 +51,14 @@ public interface ResourceRpc {
     * @return 资源列表
     */
     CommonResult<List<ResourceVO>> listResource(List<Integer> resourceIds);
+
+    /**
+     * 获得指定角色的资源列表
+     *
+     * @param roleIds 角色编号列表
+     * @param type 资源类型
+     * @return 资源列表
+     */
+    CommonResult<List<ResourceVO>> listRoleResource(@NotNull(message = "角色编号列表不能为空") Collection<Integer> roleIds, Integer type);
 
 }

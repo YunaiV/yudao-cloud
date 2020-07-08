@@ -138,7 +138,7 @@ export default function request(url, option) {
   // 将登陆的 accessToken 放到 header
   const loginToken = getLoginToken();
   if (loginToken && loginToken.accessToken
-    && url.indexOf('/system-api/admins/oauth2/username-authenticate') === -1) { // TODO 芋艿，临时这么加，可能不是很优雅
+    && url.indexOf('/management-api/passport/login') === -1) { // TODO 芋艿，临时这么加，可能不是很优雅
     const headers = {
       ...newOptions.headers,
       Authorization: `Bearer ${loginToken.accessToken}`,

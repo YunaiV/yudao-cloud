@@ -1,7 +1,7 @@
 package cn.iocoder.mall.security.admin.core.interceptor;
 
 import cn.iocoder.common.framework.enums.UserTypeEnum;
-import cn.iocoder.common.framework.util.CollectionUtil;
+import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
@@ -73,7 +73,7 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
             return;
         }
         String[] permissions = requiresPermissions.value();
-        if (CollectionUtil.isEmpty(permissions)) {
+        if (CollectionUtils.isEmpty(permissions)) {
             return;
         }
         // 权限验证 TODO 待完成

@@ -38,34 +38,4 @@ public class AdminsResourceController {
         return CommonResult.success(AdminsResourceConvert.INSTANCE.convertList(resourceTreeNodeBOs));
     }
 
-    @PostMapping("/add")
-    @ApiOperation(value = "创建资源", notes = "例如说，菜单资源，按钮资源")
-    @RequiresPermissions("system:resource:add")
-    public CommonResult<Integer> add(AdminsResourceAddRequest request) {
-        ResourceAddDTO addDTO = AdminsResourceConvert.INSTANCE.convert(request)
-                .setAdminId(AdminSecurityContextHolder.getAdminId());
-        return CommonResult.success(resourceService.addResource(addDTO));
-    }
-
-    @PostMapping("/update")
-    @ApiOperation(value = "更新资源")
-    @RequiresPermissions("system:resource:update")
-    public CommonResult<Boolean> update(AdminsResourceUpdateRequest request) {
-        ResourceUpdateDTO updateDTO = AdminsResourceConvert.INSTANCE.convert(request)
-                .setAdminId(AdminSecurityContextHolder.getAdminId());
-        resourceService.updateResource(updateDTO);
-        return CommonResult.success(true);
-    }
-
-    @PostMapping("/delete")
-    @ApiOperation(value = "删除资源")
-    @ApiImplicitParam(name = "id", value = "资源编号", required = true, example = "1")
-    @RequiresPermissions("system:resource:delete")
-    public CommonResult<Boolean> delete(@RequestParam("id") Integer id) {
-        ResourceDeleteDTO deleteDTO = new ResourceDeleteDTO().setId(id)
-                .setAdminId(AdminSecurityContextHolder.getAdminId());
-        resourceService.deleteResource(deleteDTO);
-        return CommonResult.success(true);
-    }
-
 }

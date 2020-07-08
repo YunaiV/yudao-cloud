@@ -11,6 +11,7 @@ import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Set;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
 
@@ -53,6 +54,11 @@ public class RoleRpcImpl implements RoleRpc {
     @Override
     public CommonResult<PageResult<RoleVO>> pageRole(RolePageDTO pageDTO) {
         return success(roleManager.pageRole(pageDTO));
+    }
+
+    @Override
+    public CommonResult<Set<Integer>> listAdminRoleIds(Integer adminId) {
+        return success(roleManager.listAdminRoleIds(adminId));
     }
 
 }

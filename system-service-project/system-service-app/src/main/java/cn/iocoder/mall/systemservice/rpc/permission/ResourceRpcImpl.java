@@ -8,6 +8,7 @@ import cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collection;
 import java.util.List;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
@@ -46,6 +47,11 @@ public class ResourceRpcImpl implements ResourceRpc {
     @Override
     public CommonResult<List<ResourceVO>> listResource(List<Integer> resourceIds) {
         return success(resourceManager.listResource(resourceIds));
+    }
+
+    @Override
+    public CommonResult<List<ResourceVO>> listRoleResource(Collection<Integer> roleIds, Integer type) {
+        return success(resourceManager.listRoleResource(roleIds, type));
     }
 
 }

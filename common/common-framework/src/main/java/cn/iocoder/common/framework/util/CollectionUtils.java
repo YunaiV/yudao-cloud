@@ -1,12 +1,10 @@
 package cn.iocoder.common.framework.util;
 
-import org.springframework.util.CollectionUtils;
-
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class CollectionUtil {
+public class CollectionUtils {
 
     public static boolean isEmpty(Collection collection) {
         return collection == null || collection.isEmpty();
@@ -43,12 +41,11 @@ public class CollectionUtil {
 
     // 暂时没想好名字，先以 2 结尾噶
     public static <T, K, V> Map<K, Set<V>> convertMultiMap2(List<T> from, Function<T, K> keyFunc, Function<T, V> valueFunc) {
-        return from.stream().collect(Collectors.groupingBy(keyFunc,
-                Collectors.mapping(valueFunc, Collectors.toSet())));
+        return from.stream().collect(Collectors.groupingBy(keyFunc, Collectors.mapping(valueFunc, Collectors.toSet())));
     }
 
     public static boolean containsAny(Collection<?> source, Collection<?> candidates) {
-        return CollectionUtils.containsAny(source, candidates);
+        return org.springframework.util.CollectionUtils.containsAny(source, candidates);
     }
 
 }

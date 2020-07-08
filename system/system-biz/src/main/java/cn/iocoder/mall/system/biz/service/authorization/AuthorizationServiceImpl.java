@@ -122,18 +122,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             return Collections.emptyList();
         }
         Set<Integer> roleIds = CollectionUtil.convertSet(accountRoleDOs, AccountRoleDO::getRoleId);
-        // 判断是否为超管。若是超管，默认有所有权限
-        if (roleService.hasSuperAdmin(roleIds)) {
-            return resourceService.getResourceTree(new ResourceGetTreeDTO().setType(getResourcesByAccountIdDTO.getType()));
-        }
-        // 查询角色拥有的资源关联数据
-        List<RoleResourceDO> roleResourceDOs = roleResourceMapper.selectListByRoleIds(roleIds);
-        if (CollectionUtil.isEmpty(roleResourceDOs)) {
-            return Collections.emptyList();
-        }
-        Set<Integer> resourceIds = CollectionUtil.convertSet(roleResourceDOs, RoleResourceDO::getResourceId);
-        // 查询对应资源树
-        return resourceService.getResourceTree(new ResourceGetTreeDTO().setIds(resourceIds).setType(getResourcesByAccountIdDTO.getType()));
+
     }
 
     @Override

@@ -8,6 +8,7 @@ import cn.iocoder.mall.systemservice.rpc.permission.vo.RoleCreateDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO;
 
 import java.util.List;
+import java.util.Set;
 
 /**
 * 角色 Rpc 接口
@@ -52,7 +53,6 @@ public interface RoleRpc {
     */
     CommonResult<List<RoleVO>> listRole(List<Integer> roleIds);
 
-
     /**
     * 获得角色分页
     *
@@ -60,4 +60,13 @@ public interface RoleRpc {
     * @return 角色分页结果
     */
     CommonResult<PageResult<RoleVO>> pageRole(RolePageDTO pageDTO);
+
+    /**
+     * 获得管理员拥有的角色编号列表
+     *
+     * @param adminId 管理员编号
+     * @return 角色编号列表
+     */
+    CommonResult<Set<Integer>> listAdminRoleIds(Integer adminId);
+
 }

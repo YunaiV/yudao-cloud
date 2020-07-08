@@ -16,6 +16,16 @@ public interface ResourceMapper extends BaseMapper<ResourceDO> {
         return selectOne(new QueryWrapper<ResourceDO>().eq("permission", permission));
     }
 
+    /**
+     * 查询指定类型的资源列表
+     *
+     * @param type 资源类型，允许空
+     * @return 资源列表
+     */
+    default List<ResourceDO> selectListByType(Integer type) {
+        return selectList(new QueryWrapperX<ResourceDO>().eqIfPresent("type", type));
+    }
+
     default ResourceDO selectByPidAndName(Integer pid, String name) {
         return selectOne(new QueryWrapperX<ResourceDO>().eqIfPresent("pid", pid)
             .eqIfPresent("name", name));

@@ -5,10 +5,12 @@ import cn.iocoder.mall.systemservice.rpc.permission.dto.ResourceCreateDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.ResourceUpdateDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO;
 import cn.iocoder.mall.systemservice.service.permission.ResourceService;
+import cn.iocoder.mall.systemservice.service.permission.RoleService;
 import cn.iocoder.mall.systemservice.service.permission.bo.ResourceBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,6 +21,8 @@ public class ResourceManager {
 
     @Autowired
     private ResourceService resourceService;
+    @Autowired
+    private RoleService roleService;
 
     /**
     * 创建资源
@@ -68,6 +72,24 @@ public class ResourceManager {
      */
     public List<ResourceVO> listResource(List<Integer> resourceIds) {
         List<ResourceBO> resourceBOs = resourceService.listResource(resourceIds);
+        return ResourceConvert.INSTANCE.convertList02(resourceBOs);
+    }
+
+    /**
+     * 获得指定角色的资源列表
+     *
+     * @param roleIds 角色编号列表
+     * @param type 资源类型，允许空
+     * @return 资源列表
+     */
+    public List<ResourceVO> listRoleResource(Collection<Integer> roleIds, Integer type) {
+        List<ResourceBO> resourceBOs;
+        // 判断是否为超管。若是超管，默认有所有权限
+        if (roleService.hasSuperAdmin(roleIds)) {
+            resourceBOs = resourceService.listResourceByType(type);
+        } else {
+            resourceBOs = resourceService.listRoleResourceByType(roleIds, type);
+        }
         return ResourceConvert.INSTANCE.convertList02(resourceBOs);
     }
 

@@ -12,12 +12,6 @@ export async function passportLogin(params) {
 
 // ========== Authorization 模块 ==========
 
-export async function authorizationMenuResourceTree() {
-  return request('/system-api/admins/authorization/menu-resource-tree', {
-    method: 'GET',
-  });
-}
-
 export async function authorizationResourcePermissions(params) {
   return request(`/system-api/admins/authorization/resource-permissions`, {
     method: 'GET',
@@ -40,26 +34,32 @@ export async function authorizationRoleAssignResource(params) {
 // ========== Resource 模块 ==========
 
 export async function resourceTree(params) {
-  return request(`/system-api/admins/resource/tree`, {
+  return request(`/management-api/resource/tree`, {
     method: 'GET',
   });
 }
 
-export async function resourceAdd(params) {
-  return request(`/system-api/admins/resource/add?${stringify(params)}`, {
+export async function resourceCreate(params) {
+  return request(`/management-api/resource/create?${stringify(params)}`, {
     method: 'POST',
   });
 }
 
 export async function resourceUpdate(params) {
-  return request(`/system-api/admins/resource/update?${stringify(params)}`, {
+  return request(`/management-api/resource/update?${stringify(params)}`, {
     method: 'POST',
   });
 }
 
 export async function resourceDelete(params) {
-  return request(`/system-api/admins/resource/delete?${stringify(params)}`, {
+  return request(`/management-api/resource/delete?${stringify(params)}`, {
     method: 'POST',
+  });
+}
+
+export async function resourceTreeAdminMenu() {
+  return request('/management-api/resource/tree-admin-menu', {
+    method: 'GET',
   });
 }
 

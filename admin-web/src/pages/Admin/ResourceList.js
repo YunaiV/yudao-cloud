@@ -215,7 +215,7 @@ class ResourceList extends PureComponent {
         dispatch({
           type: 'resourceList/delete',
           payload: {
-            id: row.id,
+            resourceId: row.id,
           },
         });
       },

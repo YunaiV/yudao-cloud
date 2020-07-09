@@ -3,7 +3,7 @@ import isEqual from 'lodash/isEqual';
 import { formatMessage } from 'umi/locale';
 import Authorized from '@/utils/Authorized';
 import { menu } from '../defaultSettings';
-import { authorizationMenuResourceTree, authorizationResourcePermissions } from '../services/system';
+import { resourceTreeAdminMenu, authorizationResourcePermissions } from '../services/system';
 
 const { check } = Authorized;
 
@@ -191,7 +191,7 @@ export default {
 
   effects: {
     *getMenuData({ payload }, { put, call }) {
-      const { data } = yield call(authorizationMenuResourceTree);
+      const { data } = yield call(resourceTreeAdminMenu);
       const { routes, authority } = payload;
 
       // authority 已经不适用

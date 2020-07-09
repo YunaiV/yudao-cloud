@@ -25,7 +25,7 @@ public class AdminRoleDO extends DeletableDO {
      *
      * 关联 {@link AdminDO#getId()}
      */
-    private Integer accountId;
+    private Integer adminId;
     /**
      * 角色编号
      *

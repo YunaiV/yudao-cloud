@@ -3,6 +3,8 @@ package cn.iocoder.mall.managementweb.controller.permission;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.managementweb.controller.permission.dto.ResourceCreateDTO;
 import cn.iocoder.mall.managementweb.controller.permission.dto.ResourceUpdateDTO;
+import cn.iocoder.mall.managementweb.controller.permission.vo.AdminMenuTreeNodeVO;
+import cn.iocoder.mall.managementweb.controller.permission.vo.ResourceTreeNodeVO;
 import cn.iocoder.mall.managementweb.controller.permission.vo.ResourceVO;
 import cn.iocoder.mall.managementweb.manager.permission.ResourceManager;
 import cn.iocoder.mall.security.admin.core.context.AdminSecurityContextHolder;
@@ -60,8 +62,20 @@ public class ResourceController {
     @GetMapping("/list")
     @ApiOperation("获得资源列表")
     @ApiImplicitParam(name = "resourceId", value = "资源编号列表", required = true)
-    public CommonResult<List<ResourceVO>> getResources(@RequestParam("resourceIds") List<Integer> resourceIds) {
+    public CommonResult<List<ResourceVO>> listResource(@RequestParam("resourceIds") List<Integer> resourceIds) {
         return success(resourceManager.listResource(resourceIds));
+    }
+
+    @GetMapping("/tree")
+    @ApiOperation("获得资源树")
+    public CommonResult<List<ResourceTreeNodeVO>> treeResource() {
+        return success(resourceManager.treeResource());
+    }
+
+    @GetMapping("/tree-admin-menu")
+    @ApiOperation("获得当前登陆的管理员的菜单树")
+    public CommonResult<List<AdminMenuTreeNodeVO>> treeAdminMenu() {
+        return success(resourceManager.treeAdminMenu(AdminSecurityContextHolder.getAdminId()));
     }
 
 }

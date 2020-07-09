@@ -29,5 +29,14 @@ GET {{baseUrl}}/resource/list?resourceIds=61,63
 Content-Type: application/x-www-form-urlencoded
 Authorization: Bearer {{accessToken}}
 
-###
+### /resource/tree 成功
+GET {{baseUrl}}/resource/tree
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
 
+### /resource/tree-admin-menu 成功
+GET {{baseUrl}}/resource/tree-admin-menu
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+###

@@ -5,6 +5,7 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.managementweb.controller.permission.dto.ResourceCreateDTO;
 import cn.iocoder.mall.managementweb.controller.permission.dto.ResourceUpdateDTO;
 import cn.iocoder.mall.managementweb.controller.permission.vo.AdminMenuTreeNodeVO;
+import cn.iocoder.mall.managementweb.controller.permission.vo.ResourceTreeNodeVO;
 import cn.iocoder.mall.managementweb.controller.permission.vo.ResourceVO;
 import cn.iocoder.mall.managementweb.convert.permission.ResourceConvert;
 import cn.iocoder.mall.systemservice.enums.permission.ResourceIdEnum;
@@ -87,6 +88,19 @@ public class ResourceManager {
     }
 
     /**
+     * 获得资源树结构
+     *
+     * @return 资源树结构
+     */
+    public List<ResourceTreeNodeVO> treeResource() {
+        // 获得资源全列表
+        CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO>> listResourceResult = resourceRpc.listResource();
+        listResourceResult.checkError();
+        // 构建菜单树
+        return this.buildResourceTree(listResourceResult.getData());
+    }
+
+    /**
      * 获得管理员的菜单树
      *
      * @param adminId 管理员编号
@@ -107,33 +121,47 @@ public class ResourceManager {
         return this.buildAdminMenuTree(resourceVOResult.getData());
     }
 
+    /**
+     * 构建菜单树
+     *
+     * @param resourceVOs 资源（都是菜单）列表
+     * @return 菜单树
+     */
     private List<AdminMenuTreeNodeVO> buildAdminMenuTree(List<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO> resourceVOs) {
+        List<ResourceTreeNodeVO> treeNodeVOS = this.buildResourceTree(resourceVOs);
+        // 虽然多了一层转换，但是可维护性更好。
+        return ResourceConvert.INSTANCE.convert(treeNodeVOS);
+    }
+
+    /**
+     * 构建资源树
+     *
+     * @param resourceVOs 资源列表
+     * @return 资源树
+     */
+    private List<ResourceTreeNodeVO> buildResourceTree(List<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO> resourceVOs) {
         // 排序，保证菜单的有序性
         resourceVOs.sort(Comparator.comparing(cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO::getSort));
         // 构建菜单树
         // 使用 LinkedHashMap 的原因，是为了排序 。实际也可以用 Stream API ，就是太丑了。
-        Map<Integer, AdminMenuTreeNodeVO> treeNodeMap = new LinkedHashMap<>();
+        Map<Integer, ResourceTreeNodeVO> treeNodeMap = new LinkedHashMap<>();
         resourceVOs.forEach(resourceVO -> treeNodeMap.put(resourceVO.getId(), ResourceConvert.INSTANCE.convertTreeNode(resourceVO)));
         // 处理父子关系
-        treeNodeMap.values().stream()
-                .filter(node -> !node.getPid().equals(ResourceIdEnum.ROOT.getId()))
-                .forEach((childNode) -> {
-                    // 获得父节点
-                    AdminMenuTreeNodeVO parentNode = treeNodeMap.get(childNode.getPid());
-                    if (parentNode == null) {
-                        log.error("[getResourceTree][resource({}) 找不到父资源({})]", childNode.getId(), childNode.getPid());
-                        return;
-                    }
-                    if (parentNode.getChildren() == null) { // 初始化 children 数组
-                        parentNode.setChildren(new ArrayList<>());
-                    }
-                    // 将自己添加到父节点中
-                    parentNode.getChildren().add(childNode);
-                });
+        treeNodeMap.values().stream().filter(node -> !node.getPid().equals(ResourceIdEnum.ROOT.getId())).forEach((childNode) -> {
+            // 获得父节点
+            ResourceTreeNodeVO parentNode = treeNodeMap.get(childNode.getPid());
+            if (parentNode == null) {
+                log.error("[buildResourceTree][resource({}) 找不到父资源({})]", childNode.getId(), childNode.getPid());
+                return;
+            }
+            // 将自己添加到父节点中
+            if (parentNode.getChildren() == null) {
+                parentNode.setChildren(new ArrayList<>());
+            }
+            parentNode.getChildren().add(childNode);
+        });
         // 获得到所有的根节点
-        return treeNodeMap.values().stream()
-                .filter(node -> node.getPid().equals(ResourceIdEnum.ROOT.getId()))
-                .collect(Collectors.toList());
+        return treeNodeMap.values().stream().filter(node -> node.getPid().equals(ResourceIdEnum.ROOT.getId())).collect(Collectors.toList());
     }
 
 }

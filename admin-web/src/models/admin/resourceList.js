@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { resourceTree, resourceAdd, resourceUpdate, resourceDelete } from '../../services/system';
+import { resourceTree, resourceCreate, resourceUpdate, resourceDelete } from '../../services/system';
 
 const buildSelectTree = list => {
   return list.map(item => {
@@ -27,7 +27,7 @@ export default {
   effects: {
     *add({ payload }, { call, put }) {
       const { callback, body } = payload;
-      const response = yield call(resourceAdd, body);
+      const response = yield call(resourceCreate, body);
       if (callback) {
         callback(response);
       }

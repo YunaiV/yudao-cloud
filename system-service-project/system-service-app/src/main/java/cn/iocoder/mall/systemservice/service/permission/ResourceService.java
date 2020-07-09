@@ -120,6 +120,16 @@ public class ResourceService {
     }
 
     /**
+     * 获得资源树结构
+     *
+     * @return 资源树结构
+     */
+    public List<ResourceBO> listResource() {
+        List<ResourceDO> resourceDOs = resourceMapper.selectList(null);
+        return ResourceConvert.INSTANCE.convertList(resourceDOs);
+    }
+
+    /**
      * 获得指定类型的资源列表
      *
      * @param type 资源类型，允许空

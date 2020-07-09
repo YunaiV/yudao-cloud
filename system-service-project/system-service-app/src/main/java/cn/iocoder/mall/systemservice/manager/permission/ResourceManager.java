@@ -65,6 +65,16 @@ public class ResourceManager {
     }
 
     /**
+     * 获得资源全列表
+     *
+     * @return 资源列表
+     */
+    public List<ResourceVO> listResource() {
+        List<ResourceBO> resourceBOs = resourceService.listResource();
+        return ResourceConvert.INSTANCE.convertList02(resourceBOs);
+    }
+
+    /**
      * 获得资源列表
      *
      * @param resourceIds 资源编号列表

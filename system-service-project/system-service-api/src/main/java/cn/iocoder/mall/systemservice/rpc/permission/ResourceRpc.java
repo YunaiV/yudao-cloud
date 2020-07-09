@@ -45,6 +45,13 @@ public interface ResourceRpc {
     CommonResult<ResourceVO> getResource(Integer resourceId);
 
     /**
+     * 获得资源全列表
+     *
+     * @return 资源列表
+     */
+    CommonResult<List<ResourceVO>> listResource();
+
+    /**
     * 获得资源列表
     *
     * @param resourceIds 资源编号列表

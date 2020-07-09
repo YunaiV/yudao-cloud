@@ -66,25 +66,25 @@ export async function resourceTreeAdminMenu() {
 // ========== Role 模块 ==========
 
 export async function rolePage(params) {
-  return request(`/system-api/admins/role/page?${stringify(params)}`);
+  return request(`/management-api/role/page?${stringify(params)}`);
 }
 
 export async function roleDelete(params) {
-  return request(`/system-api/admins/role/delete?${stringify(params)}`, {
+  return request(`/management-api/role/delete?${stringify(params)}`, {
     method: 'POST',
     body: {},
   });
 }
 
-export async function roleAdd(params) {
-  return request(`/system-api/admins/role/add?${stringify(params)}`, {
+export async function roleCreate(params) {
+  return request(`/management-api/role/create?${stringify(params)}`, {
     method: 'POST',
     body: {},
   });
 }
 
 export async function roleUpdate(params) {
-  return request(`/system-api/admins/role/update?${stringify(params)}`, {
+  return request(`/management-api/role/update?${stringify(params)}`, {
     method: 'POST',
     body: {},
   });
@@ -93,7 +93,7 @@ export async function roleUpdate(params) {
 // ========== Admin 模块 ==========
 
 export async function adminPage(params) {
-  return request(`/system-api/admins/admin/page?${stringify(params)}`, {
+  return request(`/management-api/admin/page?${stringify(params)}`, {
     method: 'GET',
   });
 }

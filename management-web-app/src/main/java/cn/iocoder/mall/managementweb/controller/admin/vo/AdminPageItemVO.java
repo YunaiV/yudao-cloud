@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 import java.util.Date;
 import java.util.List;
 
-@ApiModel(value = "分页时，管理员的信息    VO")
+@ApiModel(value = "分页时，管理员的信息 VO")
 @Data
 @Accessors(chain = true)
 public class AdminPageItemVO {

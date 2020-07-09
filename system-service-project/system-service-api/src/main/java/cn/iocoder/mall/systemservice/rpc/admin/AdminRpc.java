@@ -21,4 +21,6 @@ public interface AdminRpc {
 
     CommonResult<PageResult<AdminVO>> pageAdmin(AdminPageDTO pageDTO);
 
+    CommonResult<AdminVO> getAdmin(Integer adminId);
+
 }

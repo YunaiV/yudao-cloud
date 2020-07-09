@@ -26,4 +26,6 @@ public interface AdminConvert {
 
     PageResult<AdminPageItemVO> convert(PageResult<AdminVO> pageResultData);
 
+    cn.iocoder.mall.managementweb.controller.admin.vo.AdminVO convert(AdminVO bean);
+
 }

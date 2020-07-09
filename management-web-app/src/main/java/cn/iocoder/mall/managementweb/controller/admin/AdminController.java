@@ -8,6 +8,7 @@ import cn.iocoder.mall.managementweb.controller.admin.dto.AdminPageDTO;
 import cn.iocoder.mall.managementweb.controller.admin.dto.AdminUpdateInfoDTO;
 import cn.iocoder.mall.managementweb.controller.admin.dto.AdminUpdateStatusDTO;
 import cn.iocoder.mall.managementweb.controller.admin.vo.AdminPageItemVO;
+import cn.iocoder.mall.managementweb.controller.admin.vo.AdminVO;
 import cn.iocoder.mall.managementweb.manager.admin.AdminManager;
 import cn.iocoder.mall.security.admin.core.context.AdminSecurityContextHolder;
 import cn.iocoder.security.annotations.RequiresPermissions;
@@ -61,6 +62,14 @@ public class AdminController {
     public CommonResult<Boolean> updateUserStatus(AdminUpdateStatusDTO updateStatusDTO) {
         adminManager.updateAdminStatus(updateStatusDTO);
         return success(true);
+    }
+
+    // =========== 当前管理员 API ===========
+
+    @GetMapping("/info")
+    @ApiOperation(value = "更新管理员状态")
+    public CommonResult<AdminVO> info() {
+        return success(adminManager.getAdmin(AdminSecurityContextHolder.getAdminId()));
     }
 
 }

@@ -41,4 +41,9 @@ public class AdminRpcImpl implements AdminRpc {
         return success(adminManager.pageAdmin(pageDTO));
     }
 
+    @Override
+    public CommonResult<AdminVO> getAdmin(Integer adminId) {
+        return success(adminManager.getAdmin(adminId));
+    }
+
 }

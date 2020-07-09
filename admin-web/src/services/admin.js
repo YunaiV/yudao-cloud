@@ -3,12 +3,6 @@ import request from '@/utils/request';
 
 // admin
 
-export async function queryAdmin(params) {
-  return request(`/admin-api/admins/admin/page?${stringify(params)}`, {
-    method: 'GET',
-  });
-}
-
 export async function addAdmin(params) {
   return request(`/admin-api/admins/admin/add?${stringify(params)}`, {
     method: 'POST',

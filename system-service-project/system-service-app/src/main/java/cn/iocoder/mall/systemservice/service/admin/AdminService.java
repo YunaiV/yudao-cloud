@@ -36,7 +36,7 @@ public class AdminService {
     public AdminBO verifyPassword(String username, String password, String ip) {
         AdminDO adminDO = adminMapper.selectByUsername(username);
         if (adminDO == null) {
-            throw ServiceExceptionUtil.exception(ADMIN_NOT_FOUND);
+            throw ServiceExceptionUtil.exception(ADMIN_USERNAME_NOT_EXISTS);
         }
         // 校验密码是否正确
         String encodedPassword = DigestUtils.bcrypt(password, adminDO.getPasswordSalt());
@@ -112,6 +112,11 @@ public class AdminService {
             updateAdmin.setPassword(password).setPasswordSalt(passwordSalt);
         }
         adminMapper.updateById(updateAdmin);
+    }
+
+    public AdminBO getAdmin(Integer adminId) {
+        AdminDO adminDO = adminMapper.selectById(adminId);
+        return AdminConvert.INSTANCE.convert(adminDO);
     }
 
 //

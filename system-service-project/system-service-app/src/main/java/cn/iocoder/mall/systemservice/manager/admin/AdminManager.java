@@ -52,4 +52,8 @@ public class AdminManager {
         return AdminConvert.INSTANCE.convert(adminPage);
     }
 
+    public AdminVO getAdmin(Integer adminId) {
+        AdminBO adminBO = adminService.getAdmin(adminId);
+        return AdminConvert.INSTANCE.convert(adminBO);
+    }
 }

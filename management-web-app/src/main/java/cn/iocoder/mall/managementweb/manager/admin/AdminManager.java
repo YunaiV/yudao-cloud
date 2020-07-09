@@ -7,9 +7,9 @@ import cn.iocoder.mall.managementweb.controller.admin.dto.AdminPageDTO;
 import cn.iocoder.mall.managementweb.controller.admin.dto.AdminUpdateInfoDTO;
 import cn.iocoder.mall.managementweb.controller.admin.dto.AdminUpdateStatusDTO;
 import cn.iocoder.mall.managementweb.controller.admin.vo.AdminPageItemVO;
+import cn.iocoder.mall.managementweb.controller.admin.vo.AdminVO;
 import cn.iocoder.mall.managementweb.convert.admin.AdminConvert;
 import cn.iocoder.mall.systemservice.rpc.admin.AdminRpc;
-import cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,8 @@ public class AdminManager {
     private AdminRpc adminRpc;
 
     public PageResult<AdminPageItemVO> pageAdmin(AdminPageDTO pageDTO) {
-        CommonResult<PageResult<AdminVO>> pageResult = adminRpc.pageAdmin(AdminConvert.INSTANCE.convert(pageDTO));
+        CommonResult<PageResult<cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO>> pageResult =
+                adminRpc.pageAdmin(AdminConvert.INSTANCE.convert(pageDTO));
         pageResult.checkError();
         // 转换结果
         PageResult<AdminPageItemVO> adminPageVO = AdminConvert.INSTANCE.convert(pageResult.getData());
@@ -57,6 +58,12 @@ public class AdminManager {
     public void updateAdminStatus(AdminUpdateStatusDTO updateStatusDTO) {
         CommonResult<Boolean> updateAdminResult = adminRpc.updateAdmin(AdminConvert.INSTANCE.convert(updateStatusDTO));
         updateAdminResult.checkError();
+    }
+
+    public AdminVO getAdmin(Integer adminId) {
+        CommonResult<cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO> getAdminResult = adminRpc.getAdmin(adminId);
+        getAdminResult.checkError();
+        return AdminConvert.INSTANCE.convert(getAdminResult.getData());
     }
 
 }

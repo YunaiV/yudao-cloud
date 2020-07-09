@@ -7,7 +7,7 @@ import {
 } from '../../services/system';
 import {
   rolePage,
-  roleAdd,
+  roleCreate,
   roleUpdate,
   roleDelete,
 } from '../../services/system';
@@ -30,7 +30,7 @@ export default {
   effects: {
     *add({ payload }, { call, put }) {
       const { callback, body, queryParams } = payload;
-      const response = yield call(roleAdd, body);
+      const response = yield call(roleCreate, body);
       if (callback) {
         callback(response);
       }

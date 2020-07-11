@@ -49,6 +49,10 @@ public class ResourceCreateDTO implements Serializable {
      * 菜单图标
      */
     private String icon;
+    /**
+     * 前端界面
+     */
+    private String view;
 
     /**
      * 创建管理员编号

@@ -50,5 +50,9 @@ public class ResourceUpdateBO {
      * 菜单图标
      */
     private String icon;
+    /**
+     * 前端界面
+     */
+    private String view;
 
 }

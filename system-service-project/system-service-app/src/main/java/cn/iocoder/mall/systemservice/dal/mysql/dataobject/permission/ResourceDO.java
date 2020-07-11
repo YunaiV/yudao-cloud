@@ -64,6 +64,13 @@ public class ResourceDO extends DeletableDO {
      * 目前当且仅当资源类型为 {@link ResourceTypeEnum#MENU} 时，才会生效
      */
     private String icon;
+    /**
+     * 前端界面
+     * 例如说，vue 框架下的 component 对应的 view 页面。
+     *
+     * 目前当且仅当资源类型为 {@link ResourceTypeEnum#MENU} 时，才会生效
+     */
+    private String view;
 
     /**
      * 创建管理员编号

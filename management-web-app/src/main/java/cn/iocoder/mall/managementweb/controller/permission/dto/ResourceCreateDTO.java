@@ -32,5 +32,7 @@ public class ResourceCreateDTO {
     private String route;
     @ApiModelProperty(value = "菜单图标", example = "add")
     private String icon;
+    @ApiModelProperty(value = "前端界面", example = "@/views/example/edit")
+    private String view;
 
 }

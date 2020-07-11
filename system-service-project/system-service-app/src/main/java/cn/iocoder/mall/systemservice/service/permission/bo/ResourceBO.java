@@ -42,6 +42,10 @@ public class ResourceBO {
      */
     private String icon;
     /**
+     * 前端界面
+     */
+    private String view;
+    /**
      * 添加时间
      */
     private Date createTime;

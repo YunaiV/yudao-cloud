@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
 
@@ -72,10 +73,18 @@ public class ResourceController {
         return success(resourceManager.treeResource());
     }
 
+    // =========== 当前管理员相关 API ===========
+
     @GetMapping("/tree-admin-menu")
     @ApiOperation("获得当前登陆的管理员的菜单树")
     public CommonResult<List<AdminMenuTreeNodeVO>> treeAdminMenu() {
         return success(resourceManager.treeAdminMenu(AdminSecurityContextHolder.getAdminId()));
+    }
+
+    @GetMapping("/list-admin-permission")
+    @ApiOperation("获得当前登陆的管理员的权限列表")
+    public CommonResult<Set<String>> listAdminPermission() {
+        return success(resourceManager.listAdminPermission(AdminSecurityContextHolder.getAdminId()));
     }
 
 }

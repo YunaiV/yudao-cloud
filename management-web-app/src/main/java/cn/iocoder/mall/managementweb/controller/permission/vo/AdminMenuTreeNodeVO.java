@@ -20,6 +20,8 @@ public class AdminMenuTreeNodeVO {
     private String route;
     @ApiModelProperty(value = "菜单图标", required = true, example = "user")
     private String icon;
+    @ApiModelProperty(value = "前端界面", example = "@/views/example/edit")
+    private String view;
     @ApiModelProperty(value = "父级资源编号", required = true, example = "1", notes = "如果无父资源，则值为 0")
     private Integer pid;
 

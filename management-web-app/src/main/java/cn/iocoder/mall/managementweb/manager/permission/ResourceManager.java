@@ -111,9 +111,9 @@ public class ResourceManager {
         CommonResult<Set<Integer>> listAdminRoleIdsResult = roleRpc.listAdminRoleIds(adminId);
         listAdminRoleIdsResult.checkError();
         if (CollectionUtils.isEmpty(listAdminRoleIdsResult.getData())) {
-            return null;
+            return Collections.emptyList();
         }
-        // 获得角色拥有的资源列表
+        // 获得角色拥有的资源（菜单）列表
         CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO>> resourceVOResult = resourceRpc.listRoleResource(
                 listAdminRoleIdsResult.getData(), ResourceTypeEnum.MENU.getType());
         resourceVOResult.checkError();
@@ -162,6 +162,26 @@ public class ResourceManager {
         });
         // 获得到所有的根节点
         return treeNodeMap.values().stream().filter(node -> node.getPid().equals(ResourceIdEnum.ROOT.getId())).collect(Collectors.toList());
+    }
+
+    /**
+     * 获得指定管理员的权限列表
+     *
+     * @param adminId 管理员编号
+     * @return 权限列表
+     */
+    public Set<String> listAdminPermission(Integer adminId) {
+        // 获得管理员拥有的角色编号列表
+        CommonResult<Set<Integer>> listAdminRoleIdsResult = roleRpc.listAdminRoleIds(adminId);
+        listAdminRoleIdsResult.checkError();
+        if (CollectionUtils.isEmpty(listAdminRoleIdsResult.getData())) {
+            return Collections.emptySet();
+        }
+        // 获得角色拥有的资源列表
+        CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO>> resourceVOResult = resourceRpc.listRoleResource(
+                listAdminRoleIdsResult.getData(), null);
+        resourceVOResult.checkError();
+        return CollectionUtils.convertSet(resourceVOResult.getData(), cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO::getPermission);
     }
 
 }

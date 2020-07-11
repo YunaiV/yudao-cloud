@@ -32,8 +32,6 @@ public class AdminController {
     @Autowired
     private AdminManager adminManager;
 
-    // =========== 管理员管理 API ===========
-
     @ApiOperation(value = "管理员分页")
     @GetMapping("/page")
     @RequiresPermissions("system.admin.page")

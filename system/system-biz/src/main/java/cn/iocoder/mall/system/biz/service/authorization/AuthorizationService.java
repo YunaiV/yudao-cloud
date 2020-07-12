@@ -58,10 +58,5 @@ public interface AuthorizationService {
      */
     Set<Integer> getRoleResources(AuthorizationGetRoleResourcesDTO getRoleResourcesDTO);
 
-    /**
-     * 给指定权限授予权限。如果更新失败，则抛出 {@link ServiceException} 异常
-     *
-     * @param assignRoleResourceDTO 授予权限 DTO
-     */
-    void assignRoleResource(AuthorizationAssignRoleResourceDTO assignRoleResourceDTO);
+
 }

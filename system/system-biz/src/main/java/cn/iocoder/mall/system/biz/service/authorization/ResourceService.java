@@ -20,12 +20,4 @@ public interface ResourceService {
 
     int countResource(ResourceCountDTO countDTO);
 
-    /**
-     * 获得资源树
-     *
-     * @param getTreeDTO 查询条件
-     * @return 资源树
-     */
-    List<ResourceTreeNodeBO> getResourceTree(ResourceGetTreeDTO getTreeDTO);
-
 }

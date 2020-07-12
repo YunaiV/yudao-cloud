@@ -42,7 +42,7 @@ public class PassportController {
 
     @GetMapping("/info")
     @ApiOperation(value = "获得当前管理员信息")
-    public CommonResult<PassportAdminVO> info() {
+    public CommonResult<PassportAdminVO> getInfo() {
         return success(passportManager.getAdmin(AdminSecurityContextHolder.getAdminId()));
     }
 

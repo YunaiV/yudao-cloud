@@ -55,13 +55,14 @@ public class RoleController {
 
     @GetMapping("/get")
     @ApiOperation("获得角色")
+    @ApiImplicitParam(name = "roleId", value = "角色编号", required = true)
     public CommonResult<RoleVO> getRole(@RequestParam("roleId") Integer roleId) {
         return success(roleManager.getRole(roleId));
     }
 
     @GetMapping("/list")
     @ApiOperation("获得角色列表")
-    @ApiImplicitParam(name = "roleId", value = "角色编号列表", required = true)
+    @ApiImplicitParam(name = "roleIds", value = "角色编号列表", required = true)
     public CommonResult<List<RoleVO>> getRoles(@RequestParam("roleIds") List<Integer> roleIds) {
         return success(roleManager.listRole(roleIds));
     }

@@ -28,9 +28,6 @@ public class ResourceServiceImpl implements ResourceService {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
-    @Autowired
-    private ResourceMapper resourceMapper;
-
     @Override
     public List<ResourceBO> getResourcesByPermissions(Collection<String> permissions) {
         List<ResourceDO> resourceDOs = resourceMapper.selectListByPermissions(permissions);
@@ -43,17 +40,6 @@ public class ResourceServiceImpl implements ResourceService {
         return ResourceConvert.INSTANCE.convertList(resourceDOs);
     }
 
-    @Override
-    public int countResource(ResourceCountDTO countDTO) {
-        return resourceMapper.selectCountByIdsAndType(countDTO.getIds(), countDTO.getType());
-    }
 
-    @Override
-    public List<ResourceTreeNodeBO> getResourceTree(ResourceGetTreeDTO getTreeDTO) {
-        // 获得对应的资源列表
-        List<ResourceDO> resourceDOs = resourceMapper.selectListByIdsAndType(getTreeDTO.getIds(), getTreeDTO.getType());
-        // 拼装成树
-
-    }
 
 }

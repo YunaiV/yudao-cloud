@@ -1,6 +1,6 @@
 package cn.iocoder.mall.managementweb.convert.permission;
 
-import cn.iocoder.mall.managementweb.controller.permission.vo.AdminMenuTreeNodeVO;
+import cn.iocoder.mall.managementweb.controller.passport.vo.PassportAdminMenuTreeNodeVO;
 import cn.iocoder.mall.managementweb.controller.permission.vo.ResourceTreeNodeVO;
 import cn.iocoder.mall.managementweb.controller.permission.vo.ResourceVO;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.ResourceCreateDTO;
@@ -25,6 +25,6 @@ public interface ResourceConvert {
 
     ResourceTreeNodeVO convertTreeNode(cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO bean);
 
-    List<AdminMenuTreeNodeVO> convert(List<ResourceTreeNodeVO> list);
+    List<PassportAdminMenuTreeNodeVO> convert(List<ResourceTreeNodeVO> list);
 
 }

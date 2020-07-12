@@ -27,6 +27,10 @@ public class AdminDO extends BaseDO {
      */
     private String name;
     /**
+     * 头像
+     */
+    private String avatar;
+    /**
      * 部门编号
      *
      * 关联 {@link DepartmentDO#getId()}

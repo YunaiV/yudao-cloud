@@ -1,4 +1,4 @@
-package cn.iocoder.mall.managementweb.controller.permission.vo;
+package cn.iocoder.mall.managementweb.controller.passport.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,7 +10,7 @@ import java.util.List;
 @ApiModel(value = "管理员拥有的菜单树", description = "一般用于首页菜单")
 @Data
 @Accessors(chain = true)
-public class AdminMenuTreeNodeVO {
+public class PassportAdminMenuTreeNodeVO {
 
     @ApiModelProperty(value = "菜单编号", required = true, example = "1")
     private Integer id;
@@ -28,6 +28,6 @@ public class AdminMenuTreeNodeVO {
     /**
      * 子节点数组
      */
-    private List<AdminMenuTreeNodeVO> children;
+    private List<PassportAdminMenuTreeNodeVO> children;
 
 }

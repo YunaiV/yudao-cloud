@@ -34,14 +34,4 @@ GET {{baseUrl}}/resource/tree
 Content-Type: application/x-www-form-urlencoded
 Authorization: Bearer {{accessToken}}
 
-### /resource/tree-admin-menu 成功
-GET {{baseUrl}}/resource/tree-admin-menu
-Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer {{accessToken}}
-
-### /resource/list-admin-permission 成功
-GET {{baseUrl}}/resource/list-admin-permission
-Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer {{accessToken}}
-
 ###

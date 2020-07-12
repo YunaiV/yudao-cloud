@@ -1,15 +1,12 @@
 package cn.iocoder.mall.managementweb.manager.permission;
 
-import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.managementweb.controller.permission.dto.ResourceCreateDTO;
 import cn.iocoder.mall.managementweb.controller.permission.dto.ResourceUpdateDTO;
-import cn.iocoder.mall.managementweb.controller.permission.vo.AdminMenuTreeNodeVO;
 import cn.iocoder.mall.managementweb.controller.permission.vo.ResourceTreeNodeVO;
 import cn.iocoder.mall.managementweb.controller.permission.vo.ResourceVO;
 import cn.iocoder.mall.managementweb.convert.permission.ResourceConvert;
 import cn.iocoder.mall.systemservice.enums.permission.ResourceIdEnum;
-import cn.iocoder.mall.systemservice.enums.permission.ResourceTypeEnum;
 import cn.iocoder.mall.systemservice.rpc.permission.ResourceRpc;
 import cn.iocoder.mall.systemservice.rpc.permission.RoleRpc;
 import lombok.extern.slf4j.Slf4j;
@@ -97,40 +94,7 @@ public class ResourceManager {
         CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO>> listResourceResult = resourceRpc.listResource();
         listResourceResult.checkError();
         // 构建菜单树
-        return this.buildResourceTree(listResourceResult.getData());
-    }
-
-    /**
-     * 获得管理员的菜单树
-     *
-     * @param adminId 管理员编号
-     * @return 菜单树
-     */
-    public List<AdminMenuTreeNodeVO> treeAdminMenu(Integer adminId) {
-        // 获得管理员拥有的角色编号列表
-        CommonResult<Set<Integer>> listAdminRoleIdsResult = roleRpc.listAdminRoleIds(adminId);
-        listAdminRoleIdsResult.checkError();
-        if (CollectionUtils.isEmpty(listAdminRoleIdsResult.getData())) {
-            return Collections.emptyList();
-        }
-        // 获得角色拥有的资源（菜单）列表
-        CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO>> resourceVOResult = resourceRpc.listRoleResource(
-                listAdminRoleIdsResult.getData(), ResourceTypeEnum.MENU.getType());
-        resourceVOResult.checkError();
-        // 构建菜单树
-        return this.buildAdminMenuTree(resourceVOResult.getData());
-    }
-
-    /**
-     * 构建菜单树
-     *
-     * @param resourceVOs 资源（都是菜单）列表
-     * @return 菜单树
-     */
-    private List<AdminMenuTreeNodeVO> buildAdminMenuTree(List<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO> resourceVOs) {
-        List<ResourceTreeNodeVO> treeNodeVOS = this.buildResourceTree(resourceVOs);
-        // 虽然多了一层转换，但是可维护性更好。
-        return ResourceConvert.INSTANCE.convert(treeNodeVOS);
+        return buildResourceTree(listResourceResult.getData());
     }
 
     /**
@@ -139,7 +103,7 @@ public class ResourceManager {
      * @param resourceVOs 资源列表
      * @return 资源树
      */
-    private List<ResourceTreeNodeVO> buildResourceTree(List<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO> resourceVOs) {
+    public static List<ResourceTreeNodeVO> buildResourceTree(List<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO> resourceVOs) {
         // 排序，保证菜单的有序性
         resourceVOs.sort(Comparator.comparing(cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO::getSort));
         // 构建菜单树
@@ -162,26 +126,6 @@ public class ResourceManager {
         });
         // 获得到所有的根节点
         return treeNodeMap.values().stream().filter(node -> node.getPid().equals(ResourceIdEnum.ROOT.getId())).collect(Collectors.toList());
-    }
-
-    /**
-     * 获得指定管理员的权限列表
-     *
-     * @param adminId 管理员编号
-     * @return 权限列表
-     */
-    public Set<String> listAdminPermission(Integer adminId) {
-        // 获得管理员拥有的角色编号列表
-        CommonResult<Set<Integer>> listAdminRoleIdsResult = roleRpc.listAdminRoleIds(adminId);
-        listAdminRoleIdsResult.checkError();
-        if (CollectionUtils.isEmpty(listAdminRoleIdsResult.getData())) {
-            return Collections.emptySet();
-        }
-        // 获得角色拥有的资源列表
-        CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO>> resourceVOResult = resourceRpc.listRoleResource(
-                listAdminRoleIdsResult.getData(), null);
-        resourceVOResult.checkError();
-        return CollectionUtils.convertSet(resourceVOResult.getData(), cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO::getPermission);
     }
 
 }

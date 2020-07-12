@@ -13,7 +13,7 @@ import java.io.Serializable;
 @ApiModel("管理登录 DTO")
 @Data
 @Accessors(chain = true)
-public class AdminPassportLoginDTO implements Serializable {
+public class PassportLoginDTO implements Serializable {
 
     @ApiModelProperty(value = "用户名", required = true, example = "yudaoyuanma")
     @NotEmpty(message = "登陆账号不能为空")

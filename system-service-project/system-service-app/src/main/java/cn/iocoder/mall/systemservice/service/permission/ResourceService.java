@@ -217,10 +217,11 @@ public class ResourceService {
      * @param resource 资源
      */
     private void initResourceProperty(ResourceDO resource) {
-        // 初始化资源为按钮类型时，无需 route 和 icon 属性
+        // 资源为按钮类型时，无需 route、icon、view 属性，进行置空
         if (ResourceTypeEnum.BUTTON.getType().equals(resource.getType())) {
             resource.setRoute(null);
             resource.setIcon(null);
+            resource.setView(null);
         }
     }
 

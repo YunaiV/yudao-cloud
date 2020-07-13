@@ -1,6 +1,7 @@
 package cn.iocoder.mall.managementweb.controller.permission;
 
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.managementweb.controller.permission.dto.PermissionAssignRoleResourceDTO;
 import cn.iocoder.mall.managementweb.manager.permission.PermissionManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -8,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,7 +36,10 @@ public class PermissionController {
         return success(permissionManager.listRoleResource(roleId));
     }
 
-    public CommonResult<Boolean> assignRoleResource() {
+    @PostMapping("/assign-role-resource")
+    @ApiOperation("赋予角色资源")
+    public CommonResult<Boolean> assignRoleResource(PermissionAssignRoleResourceDTO assignRoleResourceDTO) {
+        permissionManager.assignRoleResource(assignRoleResourceDTO);
         return success(true);
     }
 

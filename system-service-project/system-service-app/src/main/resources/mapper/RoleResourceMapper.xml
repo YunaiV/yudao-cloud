@@ -3,7 +3,7 @@
 <mapper namespace="cn.iocoder.mall.systemservice.dal.mysql.mapper.permission.RoleResourceMapper">
 
     <insert id="insertList">
-        INSERT INTO role_resource (
+        INSERT INTO permission_role_resource (
           resource_id, role_id, create_time, deleted
         ) VALUES
         <foreach collection="roleResources" item="roleResource" separator=",">

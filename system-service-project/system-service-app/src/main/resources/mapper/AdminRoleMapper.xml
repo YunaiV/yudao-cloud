@@ -3,11 +3,11 @@
 <mapper namespace="cn.iocoder.mall.systemservice.dal.mysql.mapper.permission.AdminRoleMapper">
 
     <insert id="insertList">
-        INSERT INTO account_role (
-          account_id, role_id, create_time, deleted
+        INSERT INTO permission_admin_role (
+          admin_id, role_id, create_time, deleted
         ) VALUES
-        <foreach collection="accountRoleDOs" item="accountRole" separator=",">
-            (#{accountRole.accountId}, #{accountRole.roleId}, #{accountRole.createTime}, #{accountRole.deleted})
+        <foreach collection="adminRoleDOs" item="adminRole" separator=",">
+            (#{adminRole.adminId}, #{adminRole.roleId}, #{adminRole.createTime}, #{adminRole.deleted})
         </foreach>
     </insert>
 

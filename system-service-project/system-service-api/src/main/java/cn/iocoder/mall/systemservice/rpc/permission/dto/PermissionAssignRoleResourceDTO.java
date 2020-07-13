@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Set;
  */
 @Data
 @Accessors(chain = true)
-public class PermissionAssignRoleResourceDTO {
+public class PermissionAssignRoleResourceDTO implements Serializable {
 
     /**
      * 角色编号

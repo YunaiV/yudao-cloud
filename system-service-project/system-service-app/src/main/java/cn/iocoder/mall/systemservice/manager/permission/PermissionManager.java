@@ -1,6 +1,7 @@
 package cn.iocoder.mall.systemservice.manager.permission;
 
 import cn.iocoder.common.framework.util.CollectionUtils;
+import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionAssignAdminRoleDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionAssignRoleResourceDTO;
 import cn.iocoder.mall.systemservice.service.permission.PermissionService;
 import cn.iocoder.mall.systemservice.service.permission.ResourceService;
@@ -31,13 +32,13 @@ public class PermissionManager {
      * @param roleId 角色编号
      * @return 资源编号列表
      */
-    public Set<Integer> listRoleResourceId(Integer roleId) {
+    public Set<Integer> listRoleResourceIds(Integer roleId) {
         // 超级管理员，拥有所有资源
         if (roleService.hasSuperAdmin(Collections.singleton(roleId))) {
-            return CollectionUtils.convertSet(resourceService.listResource(), ResourceBO::getId);
+            return CollectionUtils.convertSet(resourceService.listResources(), ResourceBO::getId);
         }
         // 非超级管理员，查询拥有资源
-        return permissionService.listRoleResourceId(roleId);
+        return permissionService.listRoleResourceIds(roleId);
     }
 
     /**
@@ -48,5 +49,25 @@ public class PermissionManager {
     public void assignRoleResource(PermissionAssignRoleResourceDTO assignResourceDTO) {
         permissionService.assignRoleResource(assignResourceDTO.getRoleId(), assignResourceDTO.getResourceIds());
     }
+
+    /**
+     * 获得管理员拥有的角色编号列表
+     *
+     * @param adminId 管理员编号
+     * @return 角色编号列表
+     */
+    public Set<Integer> listAdminRoleIds(Integer adminId) {
+        return permissionService.listAdminRoleIds(adminId);
+    }
+
+    /**
+     * 赋予管理员角色
+     *
+     * @param assignAdminRoleDTO 赋予管理员角色 DTO
+     */
+    public void assignAdminRole(PermissionAssignAdminRoleDTO assignAdminRoleDTO) {
+        permissionService.assignAdminRole(assignAdminRoleDTO.getAdminId(), assignAdminRoleDTO.getRoleIds());
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package cn.iocoder.mall.managementweb.controller.permission;
 
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.managementweb.controller.permission.dto.PermissionAssignAdminRoleDTO;
 import cn.iocoder.mall.managementweb.controller.permission.dto.PermissionAssignRoleResourceDTO;
 import cn.iocoder.mall.managementweb.manager.permission.PermissionManager;
 import io.swagger.annotations.Api;
@@ -29,17 +30,31 @@ public class PermissionController {
     @Autowired
     private PermissionManager permissionManager;
 
-    @GetMapping("/list-role-resource")
+    @GetMapping("/list-role-resources")
     @ApiOperation("获得角色拥有的资源编号")
     @ApiImplicitParam(name = "roleId", value = "角色编号", required = true)
-    public CommonResult<Set<Integer>> listRoleResource(Integer roleId) {
-        return success(permissionManager.listRoleResource(roleId));
+    public CommonResult<Set<Integer>> listRoleResources(Integer roleId) {
+        return success(permissionManager.listRoleResources(roleId));
     }
 
     @PostMapping("/assign-role-resource")
     @ApiOperation("赋予角色资源")
     public CommonResult<Boolean> assignRoleResource(PermissionAssignRoleResourceDTO assignRoleResourceDTO) {
         permissionManager.assignRoleResource(assignRoleResourceDTO);
+        return success(true);
+    }
+
+    @GetMapping("/list-admin-roles")
+    @ApiOperation("获得管理员拥有的角色编号列表")
+    @ApiImplicitParam(name = "adminId", value = "管理员编号", required = true)
+    public CommonResult<Set<Integer>> listAdminRoles(Integer adminId) {
+        return success(permissionManager.listAdminRoles(adminId));
+    }
+
+    @PostMapping("/assign-admin-role")
+    @ApiOperation("赋予用户角色")
+    public CommonResult<Boolean> assignAdminRole(PermissionAssignAdminRoleDTO assignAdminRoleDTO) {
+        permissionManager.assignAdminRole(assignAdminRoleDTO);
         return success(true);
     }
 

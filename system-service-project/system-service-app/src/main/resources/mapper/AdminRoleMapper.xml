@@ -4,10 +4,10 @@
 
     <insert id="insertList">
         INSERT INTO permission_admin_role (
-          admin_id, role_id, create_time, deleted
+          admin_id, role_id
         ) VALUES
         <foreach collection="adminRoleDOs" item="adminRole" separator=",">
-            (#{adminRole.adminId}, #{adminRole.roleId}, #{adminRole.createTime}, #{adminRole.deleted})
+            (#{adminRole.adminId}, #{adminRole.roleId})
         </foreach>
     </insert>
 

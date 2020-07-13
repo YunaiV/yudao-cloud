@@ -114,7 +114,7 @@ public class ResourceService {
      * @param resourceIds 资源编号列表
      * @return 资源列表
      */
-    public List<ResourceBO> listResource(List<Integer> resourceIds) {
+    public List<ResourceBO> listResources(List<Integer> resourceIds) {
         List<ResourceDO> resourceDOs = resourceMapper.selectBatchIds(resourceIds);
         return ResourceConvert.INSTANCE.convertList(resourceDOs);
     }
@@ -124,7 +124,7 @@ public class ResourceService {
      *
      * @return 资源树结构
      */
-    public List<ResourceBO> listResource() {
+    public List<ResourceBO> listResources() {
         List<ResourceDO> resourceDOs = resourceMapper.selectList(null);
         return ResourceConvert.INSTANCE.convertList(resourceDOs);
     }
@@ -135,7 +135,7 @@ public class ResourceService {
      * @param type 资源类型，允许空
      * @return 资源列表
      */
-    public List<ResourceBO> listResourceByType(Integer type) {
+    public List<ResourceBO> listResourcesByType(Integer type) {
         List<ResourceDO> resourceDOs = resourceMapper.selectListByType(type);
         return ResourceConvert.INSTANCE.convertList(resourceDOs);
     }
@@ -147,7 +147,7 @@ public class ResourceService {
      * @param type 资源类型，允许空
      * @return 资源列表
      */
-    public List<ResourceBO> listRoleResourceByType(Collection<Integer> roleIds, Integer type) {
+    public List<ResourceBO> listRoleResourcesByType(Collection<Integer> roleIds, Integer type) {
         List<RoleResourceDO> roleResourceDOs = roleResourceMapper.selectListByRoleIds(roleIds);
         if (CollectionUtils.isEmpty(roleResourceDOs)) {
             return Collections.emptyList();

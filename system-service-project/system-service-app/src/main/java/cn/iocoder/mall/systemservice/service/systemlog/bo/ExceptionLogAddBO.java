@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,7 +12,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-public class ExceptionLogAddBO implements Serializable {
+public class ExceptionLogAddBO {
 
     /**
      * 账号编号

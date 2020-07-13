@@ -60,11 +60,17 @@ public class RoleController {
         return success(roleManager.getRole(roleId));
     }
 
+    @GetMapping("/list-all")
+    @ApiOperation("获得所有角色列表")
+    public CommonResult<List<RoleVO>> listAllRoles() {
+        return success(roleManager.listAllRoles());
+    }
+
     @GetMapping("/list")
     @ApiOperation("获得角色列表")
     @ApiImplicitParam(name = "roleIds", value = "角色编号列表", required = true)
-    public CommonResult<List<RoleVO>> getRoles(@RequestParam("roleIds") List<Integer> roleIds) {
-        return success(roleManager.listRole(roleIds));
+    public CommonResult<List<RoleVO>> listRoles(@RequestParam("roleIds") List<Integer> roleIds) {
+        return success(roleManager.listRoles(roleIds));
     }
 
     @GetMapping("/page")

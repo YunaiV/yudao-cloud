@@ -33,7 +33,7 @@ public class AdminController {
 
     @ApiOperation(value = "管理员分页")
     @GetMapping("/page")
-    @RequiresPermissions("system.admin.page")
+    @RequiresPermissions("system:page")
     public CommonResult<PageResult<AdminPageItemVO>> page(AdminPageDTO adminPageDTO) {
         return success(adminManager.pageAdmin(adminPageDTO));
     }

@@ -11,10 +11,10 @@ import java.util.Set;
 @Data
 public class PermissionAssignRoleResourceDTO {
 
-    @ApiModelProperty(value = "角色名", required = true, example = "管理员")
+    @ApiModelProperty(value = "角色名", required = true, example = "1")
     @NotNull(message = "角色编号不能为空")
     private Integer roleId;
-    @ApiModelProperty(value = "资源编号列表", required = true, example = "1,3,5")
+    @ApiModelProperty(value = "资源编号列表", example = "1,3,5")
     private Set<Integer> resourceIds;
 
 }

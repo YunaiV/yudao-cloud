@@ -69,8 +69,8 @@ public class ResourceManager {
      *
      * @return 资源列表
      */
-    public List<ResourceVO> listResource() {
-        List<ResourceBO> resourceBOs = resourceService.listResource();
+    public List<ResourceVO> listResources() {
+        List<ResourceBO> resourceBOs = resourceService.listResources();
         return ResourceConvert.INSTANCE.convertList02(resourceBOs);
     }
 
@@ -80,8 +80,8 @@ public class ResourceManager {
      * @param resourceIds 资源编号列表
      * @return 资源列表
      */
-    public List<ResourceVO> listResource(List<Integer> resourceIds) {
-        List<ResourceBO> resourceBOs = resourceService.listResource(resourceIds);
+    public List<ResourceVO> listResources(List<Integer> resourceIds) {
+        List<ResourceBO> resourceBOs = resourceService.listResources(resourceIds);
         return ResourceConvert.INSTANCE.convertList02(resourceBOs);
     }
 
@@ -92,13 +92,13 @@ public class ResourceManager {
      * @param type 资源类型，允许空
      * @return 资源列表
      */
-    public List<ResourceVO> listRoleResource(Collection<Integer> roleIds, Integer type) {
+    public List<ResourceVO> listRoleResources(Collection<Integer> roleIds, Integer type) {
         List<ResourceBO> resourceBOs;
         // 判断是否为超管。若是超管，默认有所有权限
         if (roleService.hasSuperAdmin(roleIds)) {
-            resourceBOs = resourceService.listResourceByType(type);
+            resourceBOs = resourceService.listResourcesByType(type);
         } else {
-            resourceBOs = resourceService.listRoleResourceByType(roleIds, type);
+            resourceBOs = resourceService.listRoleResourcesByType(roleIds, type);
         }
         return ResourceConvert.INSTANCE.convertList02(resourceBOs);
     }

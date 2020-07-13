@@ -30,7 +30,7 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable<Syste
     ADMIN_STATUS_EQUALS(1002002003, "账号已经是该状态"),
 //    ADMIN_DELETE_ONLY_DISABLE(1002002004, "只有关闭的账号才可以删除"),
     ADMIN_ADMIN_STATUS_CAN_NOT_UPDATE(1002002005, "管理员的账号状态不允许变更"),
-//    ADMIN_ASSIGN_ROLE_NOT_EXISTS(1002002006, "分配员工角色时，有角色不存在"),
+    ADMIN_ASSIGN_ROLE_NOT_EXISTS(1002002006, "分配员工角色时，有角色不存在"),
     ADMIN_ADMIN_CAN_NOT_UPDATE(1002002008, "管理员的账号不允许变更"),
     ADMIN_USERNAME_NOT_EXISTS(1002002008, "账号不存在"),
 

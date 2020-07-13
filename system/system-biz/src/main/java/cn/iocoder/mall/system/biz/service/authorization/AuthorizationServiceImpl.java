@@ -73,62 +73,6 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         }
     }
 
-    @Override
-    public List<ResourceBO> getResourcesByAccountId(AuthorizationGetResourcesByAccountIdDTO getResourcesByAccountIdDTO) {
-        // 查询管理员拥有的角色关联数据
-        List<AccountRoleDO> accountRoleDOs = accountRoleMapper.selectByAccountId(getResourcesByAccountIdDTO.getAccountId());
-        if (CollectionUtil.isEmpty(accountRoleDOs)) {
-            return Collections.emptyList();
-        }
-        Set<Integer> roleIds = CollectionUtil.convertSet(accountRoleDOs, AccountRoleDO::getRoleId);
-        // 判断是否为超管。若是超管，默认有所有权限
-        if (roleService.hasSuperAdmin(roleIds)) {
-            return resourceService.getResources(new ResourceGetListDTO().setType(getResourcesByAccountIdDTO.getType()));
-        }
-        // 查询角色拥有的资源关联数据
-        List<RoleResourceDO> roleResourceDOs = roleResourceMapper.selectListByRoleIds(roleIds);
-        if (CollectionUtil.isEmpty(roleResourceDOs)) {
-            return Collections.emptyList();
-        }
-        Set<Integer> resourceIds = CollectionUtil.convertSet(roleResourceDOs, RoleResourceDO::getResourceId);
-        // 查询对应资源列表
-        return resourceService.getResources(new ResourceGetListDTO().setIds(resourceIds).setType(getResourcesByAccountIdDTO.getType()));
-    }
-
-    @Override
-    public Map<Integer, Set<RoleBO>> getRoleMapByAccountIds(AuthorizationGetRoleMapByAccountIdsDTO getRoleMapByAccountIdsDTO) {
-        return null;
-    }
-
-//    @Override
-//    public Map<Integer, Set<RoleBO>> getRoleIdMapByAccountIds(AuthorizationGetRoleMapByAccountIdsDTO getRoleMapByAccountIdsDTO) {
-//        // 查询管理员拥有的角色关联数据
-//        List<AccountRoleDO> accountRoleDOs = accountRoleMapper.selectListByAccountIds(getRoleMapByAccountIdsDTO.getAccountIds());
-//        if (CollectionUtil.isEmpty(accountRoleDOs)) {
-//            return Collections.emptyMap();
-//        }
-//        // 构建结果
-//        Map<Integer, Set<Integer>> accountRoleMap = CollectionUtil.convertMultiMap2(accountRoleDOs,
-//                AccountRoleDO::getAccountId, AccountRoleDO::getRoleId);
-//        getRoleMapByAccountIdsDTO.getAccountIds().forEach(accountId -> accountRoleMap.putIfAbsent(accountId, Collections.emptySet()));
-//        return accountRoleMap;
-//    }
-
-    @Override
-    public Set<Integer> getRoleResources(AuthorizationGetRoleResourcesDTO getRoleResourcesDTO) {
-        Set<Integer> roleIds = Collections.singleton(getRoleResourcesDTO.getRoleId());
-        // 判断是否为超管。若是超管，默认有所有权限
-        if (roleService.hasSuperAdmin(roleIds)) {
-            return CollectionUtil.convertSet(resourceService.getResources(new ResourceGetListDTO()), ResourceBO::getId);
-        }
-        // 查询角色拥有的资源关联数据
-        List<RoleResourceDO> roleResourceDOs = roleResourceMapper.selectListByRoleIds(roleIds);
-        if (CollectionUtil.isEmpty(roleResourceDOs)) {
-            return Collections.emptySet();
-        }
-        return CollectionUtil.convertSet(roleResourceDOs, RoleResourceDO::getResourceId);
-    }
-
     @EventListener
     public void handleResourceDeleteEvent(ResourceDeleteEvent event) {
         roleResourceMapper.deleteByResourceId(event.getId());

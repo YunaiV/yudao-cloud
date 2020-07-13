@@ -64,12 +64,22 @@ public class RoleManager {
     }
 
     /**
+     * 获得所有角色
+     *
+     * @return 角色列表
+     */
+    public List<RoleVO> listAllRoles() {
+        List<RoleBO> roleBOs = roleService.listAllRole();
+        return RoleConvert.INSTANCE.convertList02(roleBOs);
+    }
+
+    /**
     * 获得角色列表
     *
     * @param roleIds 角色编号列表
     * @return 角色列表
     */
-    public List<RoleVO> listRole(List<Integer> roleIds) {
+    public List<RoleVO> listRoles(List<Integer> roleIds) {
         List<RoleBO> roleBOs = roleService.listRole(roleIds);
         return RoleConvert.INSTANCE.convertList02(roleBOs);
     }

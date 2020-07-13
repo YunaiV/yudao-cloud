@@ -61,8 +61,8 @@ public class ResourceController {
     @GetMapping("/list")
     @ApiOperation("获得资源列表")
     @ApiImplicitParam(name = "resourceId", value = "资源编号列表", required = true)
-    public CommonResult<List<ResourceVO>> listResource(@RequestParam("resourceIds") List<Integer> resourceIds) {
-        return success(resourceManager.listResource(resourceIds));
+    public CommonResult<List<ResourceVO>> listResources(@RequestParam("resourceIds") List<Integer> resourceIds) {
+        return success(resourceManager.listResources(resourceIds));
     }
 
     @GetMapping("/tree")

@@ -46,17 +46,17 @@ public class ResourceRpcImpl implements ResourceRpc {
 
     @Override
     public CommonResult<List<ResourceVO>> listResource() {
-        return success(resourceManager.listResource());
+        return success(resourceManager.listResources());
     }
 
     @Override
     public CommonResult<List<ResourceVO>> listResource(List<Integer> resourceIds) {
-        return success(resourceManager.listResource(resourceIds));
+        return success(resourceManager.listResources(resourceIds));
     }
 
     @Override
     public CommonResult<List<ResourceVO>> listRoleResource(Collection<Integer> roleIds, Integer type) {
-        return success(resourceManager.listRoleResource(roleIds, type));
+        return success(resourceManager.listRoleResources(roleIds, type));
     }
 
 }

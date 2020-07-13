@@ -47,8 +47,13 @@ public class RoleRpcImpl implements RoleRpc {
     }
 
     @Override
-    public CommonResult<List<RoleVO>> listRole(List<Integer> roleIds) {
-        return success(roleManager.listRole(roleIds));
+    public CommonResult<List<RoleVO>> listAllRoles() {
+        return success(roleManager.listAllRoles());
+    }
+
+    @Override
+    public CommonResult<List<RoleVO>> listRoles(List<Integer> roleIds) {
+        return success(roleManager.listRoles(roleIds));
     }
 
     @Override

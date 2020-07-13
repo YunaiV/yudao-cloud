@@ -46,12 +46,19 @@ public interface RoleRpc {
     CommonResult<RoleVO> getRole(Integer roleId);
 
     /**
+     * 获得所有角色
+     *
+     * @return 角色列表
+     */
+    CommonResult<List<RoleVO>> listAllRoles();
+
+    /**
     * 获得角色列表
     *
     * @param roleIds 角色编号列表
     * @return 角色列表
     */
-    CommonResult<List<RoleVO>> listRole(List<Integer> roleIds);
+    CommonResult<List<RoleVO>> listRoles(List<Integer> roleIds);
 
     /**
     * 获得角色分页

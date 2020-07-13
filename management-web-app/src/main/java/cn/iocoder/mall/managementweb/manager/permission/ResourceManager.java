@@ -79,7 +79,7 @@ public class ResourceManager {
     * @param resourceIds 资源编号列表
     * @return 资源列表
     */
-    public List<ResourceVO> listResource(List<Integer> resourceIds) {
+    public List<ResourceVO> listResources(List<Integer> resourceIds) {
         CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO>> listResourceResult = resourceRpc.listResource(resourceIds);
         return ResourceConvert.INSTANCE.convertList(listResourceResult.getData());
     }

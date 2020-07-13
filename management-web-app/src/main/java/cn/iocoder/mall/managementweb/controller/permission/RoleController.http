@@ -24,6 +24,11 @@ GET {{baseUrl}}/role/get?roleId=13
 Content-Type: application/x-www-form-urlencoded
 Authorization: Bearer {{accessToken}}
 
+### /role/list-all 成功
+GET {{baseUrl}}/role/list-all
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
 ### /role/list 成功
 GET {{baseUrl}}/role/list?roleIds=1,13
 Content-Type: application/x-www-form-urlencoded

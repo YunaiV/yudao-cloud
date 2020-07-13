@@ -42,45 +42,6 @@ public class AdminsAuthorizationController {
     @Autowired
     private RoleService roleService;
 
-    @GetMapping("/menu-resource-tree")
-    @ApiOperation(value = "获得当前账号的菜单资源树", notes = "以树结构返回")
-    public CommonResult<List<AdminsAuthorizationMenuTreeResponse>> menuResourceTree() {
-        List<ResourceTreeNodeBO> resourceTreeNodeBOs = authorizationService.getResourceTreeByAccountId(new AuthorizationGetResourcesByAccountIdDTO()
-                .setAccountId(AdminSecurityContextHolder.getAccountId()).setType(ResourceTypeEnum.MENU.getType()));
-        return CommonResult.success(AdminsAuthorizationConvert.INSTANCE.convertList(resourceTreeNodeBOs));
-    }
-
-    @GetMapping("/resource-permissions")
-    @ApiOperation(value = "获得当前账号的资源权限列表")
-    public CommonResult<Set<String>> resourcePermissions() {
-        List<ResourceBO> resources = authorizationService.getResourcesByAccountId(new AuthorizationGetResourcesByAccountIdDTO()
-                .setAccountId(AdminSecurityContextHolder.getAccountId()));
-        return CommonResult.success(resources.stream().map(ResourceBO::getRoute).collect(Collectors.toSet()));
-    }
-
-    @GetMapping("/role_resource_tree")
-    @ApiOperation(value = "获得角色拥有的菜单权限", notes = "以树结构返回。注意，返回的资源树是完整的结构，会标记每个资源节点是否被角色所拥有")
-    @ApiImplicitParam(name = "roleId", value = "角色编号", required = true, example = "1")
-    @RequiresPermissions("system:authorization:assign_role_resource")
-    public CommonResult<List<AdminsAuthorizationRoleResourceTreeResponse>> roleResourceTree(@RequestParam("roleId") Integer roleId) {
-        // 1. 获得完整的资源树
-        List<ResourceTreeNodeBO> resourceTreeNodeBOs = resourceService.getResourceTree(new ResourceGetTreeDTO());
-        // 2. 获得角色拥有的子树
-        Set<Integer> roleResourceIds = authorizationService.getRoleResources(new AuthorizationGetRoleResourcesDTO().setRoleId(roleId));
-        // 3. 拼接，返回结果
-        return CommonResult.success(AdminsAuthorizationConvert.INSTANCE.convertList(resourceTreeNodeBOs, roleResourceIds));
-    }
-
-    @PostMapping("/assign_role_resource")
-    @ApiOperation(value = "分配角色资源")
-    @RequiresPermissions("system:authorization:assign_role_resource")
-    public CommonResult<Boolean> assignRoleResource(AdminsAuthorizationAssignRoleResourceRequest request) {
-        AuthorizationAssignRoleResourceDTO authorizationAssignRoleResourceDTO = AdminsAuthorizationConvert.INSTANCE.convert(request)
-                .setAdminId(AdminSecurityContextHolder.getAdminId());
-        authorizationService.assignRoleResource(authorizationAssignRoleResourceDTO);
-        return CommonResult.success(true);
-    }
-
 //    @GetMapping("/role_list")
 //    @ApiOperation(value = "指定账号拥有的角色列表")
 //    @ApiImplicitParam(name = "accountId", value = "账号编号", required = true, example = "1")

@@ -67,13 +67,24 @@ public class RoleManager {
     }
 
     /**
+     * 获得所有角色
+     *
+     * @return 角色列表
+     */
+    public List<RoleVO> listAllRoles() {
+        CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO>> listRoleResult = roleRpc.listAllRoles();
+        listRoleResult.checkError();
+        return RoleConvert.INSTANCE.convertList(listRoleResult.getData());
+    }
+
+    /**
     * 获得角色列表
     *
     * @param roleIds 角色编号列表
     * @return 角色列表
     */
-    public List<RoleVO> listRole(List<Integer> roleIds) {
-        CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO>> listRoleResult = roleRpc.listRole(roleIds);
+    public List<RoleVO> listRoles(List<Integer> roleIds) {
+        CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO>> listRoleResult = roleRpc.listRoles(roleIds);
         listRoleResult.checkError();
         return RoleConvert.INSTANCE.convertList(listRoleResult.getData());
     }

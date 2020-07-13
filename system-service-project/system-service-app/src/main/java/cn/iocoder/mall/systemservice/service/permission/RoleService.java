@@ -111,6 +111,16 @@ public class RoleService {
     }
 
     /**
+     * 获得所有角色
+     *
+     * @return 角色列表
+     */
+    public List<RoleBO> listAllRole() {
+        List<RoleDO> roleDOs = roleMapper.selectList(null);
+        return RoleConvert.INSTANCE.convertList(roleDOs);
+    }
+
+    /**
     * 获得角色列表
     *
     * @param roleIds 角色编号列表

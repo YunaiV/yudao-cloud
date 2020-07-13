@@ -5,6 +5,7 @@ import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.admin.AdminDO;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission.AdminRoleDO;
+import cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission.ResourceDO;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission.RoleDO;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission.RoleResourceDO;
 import cn.iocoder.mall.systemservice.dal.mysql.mapper.admin.AdminMapper;
@@ -12,11 +13,14 @@ import cn.iocoder.mall.systemservice.dal.mysql.mapper.permission.AdminRoleMapper
 import cn.iocoder.mall.systemservice.dal.mysql.mapper.permission.ResourceMapper;
 import cn.iocoder.mall.systemservice.dal.mysql.mapper.permission.RoleMapper;
 import cn.iocoder.mall.systemservice.dal.mysql.mapper.permission.RoleResourceMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,6 +30,7 @@ import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.*;
  * 权限 Service
  */
 @Service
+@Slf4j
 public class PermissionService {
 
     @Autowired
@@ -120,6 +125,28 @@ public class PermissionService {
     public Set<Integer> listAdminRoleIds(Integer adminId) {
         List<AdminRoleDO> adminRoleDOs = adminRoleMapper.selectListByAdminId(adminId);
         return CollectionUtils.convertSet(adminRoleDOs, AdminRoleDO::getRoleId);
+    }
+
+    public void checkPermission(Collection<Integer> roleIds, Collection<String> permissions) {
+        // 查询权限对应资源
+        List<ResourceDO> resourceBOs = resourceMapper.selectListByPermissions(permissions);
+        if (CollectionUtil.isEmpty(resourceBOs)) { // 无对应资源，则认为无需权限验证
+            log.warn("[checkPermission][permission({}) 未配置对应资源]", permissions);
+            return;
+        }
+        Set<Integer> permissionIds = CollectionUtils.convertSet(resourceBOs, ResourceDO::getId);
+        // 权限验证
+        List<RoleResourceDO> roleResourceDOs = roleResourceMapper.selectListByResourceIds(permissionIds);
+        if (CollectionUtil.isEmpty(roleResourceDOs)) { // 资源未授予任何角色，必然权限验证不通过
+            throw ServiceExceptionUtil.exception(AUTHORIZATION_PERMISSION_DENY);
+        }
+        Map<Integer, List<Integer>> resourceRoleMap = CollectionUtils.convertMultiMap(roleResourceDOs,
+                RoleResourceDO::getResourceId, RoleResourceDO::getRoleId);
+        for (Map.Entry<Integer, List<Integer>> entry : resourceRoleMap.entrySet()) {
+            if (!CollectionUtil.containsAny(roleIds, entry.getValue())) { // 所以有任一不满足，就验证失败，抛出异常
+                throw ServiceExceptionUtil.exception(AUTHORIZATION_PERMISSION_DENY);
+            }
+        }
     }
 
 }

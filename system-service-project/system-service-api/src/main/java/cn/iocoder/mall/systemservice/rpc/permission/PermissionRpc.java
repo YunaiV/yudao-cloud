@@ -3,6 +3,7 @@ package cn.iocoder.mall.systemservice.rpc.permission;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionAssignAdminRoleDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionAssignRoleResourceDTO;
+import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionCheckDTO;
 
 import java.util.Set;
 
@@ -42,5 +43,15 @@ public interface PermissionRpc {
      * @return 成功
      */
     CommonResult<Boolean> assignAdminRole(PermissionAssignAdminRoleDTO assignAdminRoleDTO);
+
+    /**
+     * 校验管理员是否拥有指定权限。
+     *
+     * 如果没有，则抛出 {@link cn.iocoder.common.framework.exception.ServiceException} 异常
+     *
+     * @param checkDTO 校验权限 DTO
+     * @return 成功
+     */
+    CommonResult<Boolean> checkPermission(PermissionCheckDTO checkDTO);
 
 }

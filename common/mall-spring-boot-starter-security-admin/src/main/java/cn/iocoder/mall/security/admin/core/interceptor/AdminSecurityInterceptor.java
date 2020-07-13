@@ -10,6 +10,8 @@ import cn.iocoder.mall.security.admin.core.context.AdminSecurityContextHolder;
 import cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum;
 import cn.iocoder.mall.systemservice.rpc.oauth.OAuth2Rpc;
 import cn.iocoder.mall.systemservice.rpc.oauth.vo.OAuth2AccessTokenVO;
+import cn.iocoder.mall.systemservice.rpc.permission.PermissionRpc;
+import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionCheckDTO;
 import cn.iocoder.mall.web.core.util.CommonWebUtil;
 import cn.iocoder.security.annotations.RequiresNone;
 import cn.iocoder.security.annotations.RequiresPermissions;
@@ -20,12 +22,16 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.Arrays;
+
 import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.OAUTH_USER_TYPE_ERROR;
 
 public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
 
     @Reference(validation = "true", version = "${dubbo.consumer.OAuth2Rpc.version}")
     private OAuth2Rpc oauth2Rpc;
+    @Reference(validation = "true", version = "${dubbo.consumer.PermissionRpc.version}")
+    private PermissionRpc permissionRpc;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -67,7 +73,7 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
         }
     }
 
-    private void checkPermission(HandlerMethod handlerMethod, Integer accountId) {
+    private void checkPermission(HandlerMethod handlerMethod, Integer adminId) {
         RequiresPermissions requiresPermissions = handlerMethod.getMethodAnnotation(RequiresPermissions.class);
         if (requiresPermissions == null) {
             return;
@@ -76,13 +82,9 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
         if (CollectionUtils.isEmpty(permissions)) {
             return;
         }
-        // 权限验证 TODO 待完成
-//        AuthorizationCheckPermissionsRequest authorizationCheckPermissionsRequest = new AuthorizationCheckPermissionsRequest()
-//                .setAccountId(accountId).setPermissions(Arrays.asList(permissions));
-//        CommonResult<Boolean> authorizationCheckPermissionsResult = authorizationRPC.checkPermissions(authorizationCheckPermissionsRequest);
-//        if (authorizationCheckPermissionsResult.isError()) { // TODO 有一个问题点，假设 token 认证失败，但是该 url 是无需认证的，是不是一样能够执行过去？
-//            throw ServiceExceptionUtil.exception(authorizationCheckPermissionsResult);
-//        }
+        // 权限验证
+        permissionRpc.checkPermission(new PermissionCheckDTO().setAdminId(adminId).setPermissions(Arrays.asList(permissions)))
+                .checkError();
     }
 
     @Override

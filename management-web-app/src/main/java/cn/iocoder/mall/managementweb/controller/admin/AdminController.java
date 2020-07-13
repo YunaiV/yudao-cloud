@@ -33,21 +33,21 @@ public class AdminController {
 
     @ApiOperation(value = "管理员分页")
     @GetMapping("/page")
-    @RequiresPermissions("system:page")
+    @RequiresPermissions("system:admin:page")
     public CommonResult<PageResult<AdminPageItemVO>> page(AdminPageDTO adminPageDTO) {
         return success(adminManager.pageAdmin(adminPageDTO));
     }
 
     @ApiOperation(value = "创建管理员")
     @PostMapping("/create")
-    @RequiresPermissions("admin:create")
+    @RequiresPermissions("system:admin:create")
     public CommonResult<Integer> createAdmin(AdminCreateDTO createDTO, HttpServletRequest request) {
         return success(adminManager.createAdmin(createDTO, AdminSecurityContextHolder.getAdminId(), HttpUtil.getIp(request)));
     }
 
     @PostMapping("/update")
     @ApiOperation(value = "更新管理员")
-    @RequiresPermissions("admin:update")
+    @RequiresPermissions("system:admin:update")
     public CommonResult<Boolean> updateAdmin(AdminUpdateInfoDTO updateInfoDTO) {
         adminManager.updateAdmin(updateInfoDTO);
         return success(true);
@@ -55,7 +55,7 @@ public class AdminController {
 
     @PostMapping("/update-status")
     @ApiOperation(value = "更新管理员状态")
-    @RequiresPermissions("admin:update-status")
+    @RequiresPermissions("system:admin:update-status")
     public CommonResult<Boolean> updateUserStatus(AdminUpdateStatusDTO updateStatusDTO) {
         adminManager.updateAdminStatus(updateStatusDTO);
         return success(true);

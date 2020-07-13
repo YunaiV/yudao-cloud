@@ -4,6 +4,7 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.systemservice.manager.permission.PermissionManager;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionAssignAdminRoleDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionAssignRoleResourceDTO;
+import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionCheckDTO;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -39,6 +40,12 @@ public class PermissionRpcImpl implements PermissionRpc {
     @Override
     public CommonResult<Boolean> assignAdminRole(PermissionAssignAdminRoleDTO assignAdminRoleDTO) {
         permissionManager.assignAdminRole(assignAdminRoleDTO);
+        return success(true);
+    }
+
+    @Override
+    public CommonResult<Boolean> checkPermission(PermissionCheckDTO checkDTO) {
+        permissionManager.checkPermission(checkDTO);
         return success(true);
     }
 

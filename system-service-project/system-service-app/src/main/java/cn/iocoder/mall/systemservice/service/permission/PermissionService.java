@@ -18,10 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.*;
@@ -125,6 +122,21 @@ public class PermissionService {
     public Set<Integer> listAdminRoleIds(Integer adminId) {
         List<AdminRoleDO> adminRoleDOs = adminRoleMapper.selectListByAdminId(adminId);
         return CollectionUtils.convertSet(adminRoleDOs, AdminRoleDO::getRoleId);
+    }
+
+    /**
+     * 获得每个管理员拥有的角色编号
+     * 返回的结果，key 为管理员编号
+     *
+     * @param adminIds 管理员编号列表
+     * @return 每个管理员拥有的角色编号
+     */
+    public Map<Integer, Set<Integer>> mapAdminRoleIds(Collection<Integer> adminIds) {
+        List<AdminRoleDO> adminRoleDOs = adminRoleMapper.selectListByAdminIds(adminIds);
+        if (CollectionUtils.isEmpty(adminRoleDOs)) {
+            return Collections.emptyMap();
+        }
+        return  CollectionUtils.convertMultiMap2(adminRoleDOs, AdminRoleDO::getAdminId, AdminRoleDO::getRoleId);
     }
 
     public void checkPermission(Collection<Integer> roleIds, Collection<String> permissions) {

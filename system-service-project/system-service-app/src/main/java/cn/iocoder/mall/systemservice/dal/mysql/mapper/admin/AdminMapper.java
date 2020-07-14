@@ -18,6 +18,12 @@ public interface AdminMapper extends BaseMapper<AdminDO> {
         );
     }
 
+    default Integer selectCountByDepartmentId(Integer departmentId) {
+        return selectCount(new QueryWrapper<AdminDO>()
+                .eq("department_id", departmentId)
+        );
+    }
+
     default IPage<AdminDO> selectPage(AdminPageBO pageBO) {
         return selectPage(new Page<>(pageBO.getPageNo(), pageBO.getPageSize()),
                 new QueryWrapperX<AdminDO>().likeIfPresent("name", pageBO.getName())

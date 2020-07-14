@@ -7,6 +7,7 @@ import cn.iocoder.mall.systemservice.rpc.permission.dto.RoleUpdateDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.vo.RoleCreateDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -58,7 +59,7 @@ public interface RoleRpc {
     * @param roleIds 角色编号列表
     * @return 角色列表
     */
-    CommonResult<List<RoleVO>> listRoles(List<Integer> roleIds);
+    CommonResult<List<RoleVO>> listRoles(Collection<Integer> roleIds);
 
     /**
     * 获得角色分页

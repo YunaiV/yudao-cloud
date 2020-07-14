@@ -22,6 +22,7 @@ Authorization: Bearer {{accessToken}}
 ### /passport/list-admin-permission 成功
 GET {{baseUrl}}/passport/list-admin-permission
 Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer {{accessToken}}
+#Authorization: Bearer {{accessToken}}
+Authorization: Bearer 36dce986276b4d6c8f9f4f3b89b22810
 
 ###

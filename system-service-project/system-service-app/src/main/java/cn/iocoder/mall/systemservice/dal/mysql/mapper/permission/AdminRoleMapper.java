@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -17,6 +18,10 @@ public interface AdminRoleMapper extends BaseMapper<AdminRoleDO> {
 
     default List<AdminRoleDO> selectListByAdminId(Integer adminId) {
         return selectList(new QueryWrapper<AdminRoleDO>().eq("admin_id", adminId));
+    }
+
+    default List<AdminRoleDO> selectListByAdminIds(Collection<Integer> adminIds) {
+        return selectList(new QueryWrapper<AdminRoleDO>().in("admin_id", adminIds));
     }
 
     default int deleteByAdminId(Integer adminId) {

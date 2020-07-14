@@ -1,5 +1,6 @@
 package cn.iocoder.mall.managementweb.manager.admin;
 
+import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.managementweb.controller.admin.dto.AdminCreateDTO;
@@ -10,37 +11,85 @@ import cn.iocoder.mall.managementweb.controller.admin.vo.AdminPageItemVO;
 import cn.iocoder.mall.managementweb.controller.admin.vo.AdminVO;
 import cn.iocoder.mall.managementweb.convert.admin.AdminConvert;
 import cn.iocoder.mall.systemservice.rpc.admin.AdminRpc;
+import cn.iocoder.mall.systemservice.rpc.admin.DepartmentRpc;
+import cn.iocoder.mall.systemservice.rpc.admin.vo.DepartmentVO;
+import cn.iocoder.mall.systemservice.rpc.permission.PermissionRpc;
+import cn.iocoder.mall.systemservice.rpc.permission.RoleRpc;
+import cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 @Service
 public class AdminManager {
 
     @Reference(version = "${dubbo.consumer.AdminRpc.version}", validation = "false")
     private AdminRpc adminRpc;
+    @Reference(version = "${dubbo.consumer.RoleRpc.version}", validation = "false")
+    private RoleRpc roleRpc;
+    @Reference(version = "${dubbo.consumer.DepartmentRpc.version}", validation = "false")
+    private DepartmentRpc departmentRpc;
+    @Reference(version = "${dubbo.consumer.PermissionRpc.version}", validation = "false")
+    private PermissionRpc permissionRpc;
 
     public PageResult<AdminPageItemVO> pageAdmin(AdminPageDTO pageDTO) {
         CommonResult<PageResult<cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO>> pageResult =
                 adminRpc.pageAdmin(AdminConvert.INSTANCE.convert(pageDTO));
         pageResult.checkError();
         // 转换结果
-        PageResult<AdminPageItemVO> adminPageVO = AdminConvert.INSTANCE.convert(pageResult.getData());
+        PageResult<AdminPageItemVO> adminPageVO = new PageResult<>();
+        adminPageVO.setTotal(pageResult.getData().getTotal());
+        adminPageVO.setList(new ArrayList<>(pageResult.getData().getList().size()));
         // 拼接结果
-//        if (!resultPage.getList().isEmpty()) {
-//            // 查询角色数组
-//            Map<Integer, Collection<RoleBO>> roleMap = adminService.getAdminRolesMap(CollectionUtil.convertList(resultPage.getList(), AdminBO::getId));
-//            resultPage.getList().forEach(admin -> admin.setRoles(AdminConvert.INSTANCE.convertAdminVORoleList(roleMap.get(admin.getId()))));
-//
-//            // 查询对应部门
-//            List<DeptmentBO> deptmentBOS =  deptmentService.getAllDeptments();
-//            Map<Integer, String> deptNameMap = deptmentBOS.stream().collect(Collectors.toMap(d->d.getId(), d->d.getName()));
-//            //管理员所在部门被删后，变成未分配状态
-//            deptNameMap.put(0, "未分配");
-//            resultPage.getList().forEach(admin->{
-//                admin.setDeptment(new AdminVO.Deptment(admin.getDeptmentId(), deptNameMap.get(admin.getDeptmentId())));
-//            });
-//        }
+        if (!pageResult.getData().getList().isEmpty()) {
+            // 查询角色数组
+            Map<Integer, List<RoleVO>> adminRoleMap = this.listAdminRoles(CollectionUtils.convertList(pageResult.getData().getList(),
+                    cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO::getId));
+            // 查询部门
+            CommonResult<List<DepartmentVO>> listDepartmentsResult = departmentRpc.listDepartments(
+                    CollectionUtils.convertSet(pageResult.getData().getList(),
+                    cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO::getDepartmentId));
+            listDepartmentsResult.checkError();
+            Map<Integer, DepartmentVO> departmentMap = CollectionUtils.convertMap(listDepartmentsResult.getData(), DepartmentVO::getId);
+            // 拼接数据
+            for (cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO adminVO : pageResult.getData().getList()) {
+                AdminPageItemVO adminPageItemVO = AdminConvert.INSTANCE.convert02(adminVO);
+                adminPageVO.getList().add(adminPageItemVO);
+                // 拼接部门
+                adminPageItemVO.setDepartment(AdminConvert.INSTANCE.convert(departmentMap.get(adminVO.getDepartmentId())));
+                // 拼接角色
+                adminPageItemVO.setRoles( AdminConvert.INSTANCE.convert(adminRoleMap.get(adminVO.getId())));
+            }
+        } else {
+            adminPageVO.setList(Collections.emptyList());
+        }
         return adminPageVO;
+    }
+
+    private Map<Integer, List<RoleVO>> listAdminRoles(List<Integer> adminIds) {
+        // 获得管理员拥有的角色
+        CommonResult<Map<Integer, Set<Integer>>> mapAdminRoleIdsResult = permissionRpc.mapAdminRoleIds(adminIds);
+        mapAdminRoleIdsResult.checkError();
+        // 获得角色列表
+        Set<Integer> roleIds = new HashSet<>();
+        mapAdminRoleIdsResult.getData().values().forEach(roleIds::addAll);
+        CommonResult<List<RoleVO>> listRolesResult = roleRpc.listRoles(roleIds);
+        listRolesResult.checkError();
+        Map<Integer, RoleVO> roleVOMap = CollectionUtils.convertMap(listRolesResult.getData(), RoleVO::getId);
+        // 拼接结果
+        Map<Integer, List<RoleVO>> adminRoleVOMap = new HashMap<>();
+        mapAdminRoleIdsResult.getData().forEach((adminId, adminRoleIds) -> {
+            List<RoleVO> roleVOs = new ArrayList<>(adminRoleIds.size());
+            adminRoleIds.forEach(roleId -> {
+                RoleVO roleVO = roleVOMap.get(roleId);
+                if (roleVO != null) {
+                    roleVOs.add(roleVO);
+                }
+            });
+            adminRoleVOMap.put(adminId, roleVOs);
+        });
+        return adminRoleVOMap;
     }
 
     public Integer createAdmin(AdminCreateDTO createDTO, Integer createAdminId, String createIp) {

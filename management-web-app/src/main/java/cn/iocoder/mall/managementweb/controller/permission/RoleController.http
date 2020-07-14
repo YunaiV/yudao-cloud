@@ -2,6 +2,7 @@
 POST {{baseUrl}}/role/create
 Content-Type: application/x-www-form-urlencoded
 Authorization: Bearer {{accessToken}}
+#Authorization: Bearer 9d250d9b6c034a6c88bf4034cdf1d4cc
 
 name=测试角色
 

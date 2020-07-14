@@ -8,8 +8,12 @@ import cn.iocoder.mall.systemservice.rpc.admin.dto.AdminCreateDTO;
 import cn.iocoder.mall.systemservice.rpc.admin.dto.AdminPageDTO;
 import cn.iocoder.mall.systemservice.rpc.admin.dto.AdminUpdateDTO;
 import cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO;
+import cn.iocoder.mall.systemservice.rpc.admin.vo.DepartmentVO;
+import cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 @Mapper
 public interface AdminConvert {
@@ -27,5 +31,9 @@ public interface AdminConvert {
     PageResult<AdminPageItemVO> convert(PageResult<AdminVO> pageResultData);
 
     cn.iocoder.mall.managementweb.controller.admin.vo.AdminVO convert(AdminVO bean);
+
+    AdminPageItemVO convert02(AdminVO adminVO);
+    AdminPageItemVO.Department convert(DepartmentVO bean);
+    List<AdminPageItemVO.Role> convert(List<RoleVO> list);
 
 }

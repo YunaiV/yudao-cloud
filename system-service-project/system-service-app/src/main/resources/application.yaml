@@ -45,3 +45,5 @@ dubbo:
       version: 1.0.0
     PermissionRpc:
       version: 1.0.0
+    DepartmentRpc:
+      version: 1.0.0

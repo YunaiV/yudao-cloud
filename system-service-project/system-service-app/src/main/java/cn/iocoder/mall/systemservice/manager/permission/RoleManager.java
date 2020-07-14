@@ -11,6 +11,7 @@ import cn.iocoder.mall.systemservice.service.permission.bo.RoleBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -79,7 +80,7 @@ public class RoleManager {
     * @param roleIds 角色编号列表
     * @return 角色列表
     */
-    public List<RoleVO> listRoles(List<Integer> roleIds) {
+    public List<RoleVO> listRoles(Collection<Integer> roleIds) {
         List<RoleBO> roleBOs = roleService.listRole(roleIds);
         return RoleConvert.INSTANCE.convertList02(roleBOs);
     }

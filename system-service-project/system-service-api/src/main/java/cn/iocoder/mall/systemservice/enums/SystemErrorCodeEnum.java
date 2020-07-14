@@ -62,11 +62,12 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable<Syste
     SMS_NOT_SEND_CLIENT(1002006030, "短信没有发送的client"),
 
     // ========== 部门模块 1002007000 ==========
-//    DEPT_SAME_LEVEL_NAME_EXITS(1002007001,"当前级别部门名字已存在"),
-//    DEPT_PARENT_NOT_EXITS(1002007002,"父级部门不存在"),
-//    DEPT_NOT_EXITS(1002007003, "当前部门不存在"),
-//    DEPT_EXITS_CHILDREN(1002007004, "当前部门存在子部门"),
-//    DEPT_PARENT_NOT_LEGAL(1002007005, "父级部门不合法"),
+    DEPARTMENT_NAME_DUPLICATE(1002007001, "已经存在该名字的部门"),
+    DEPARTMENT_PARENT_NOT_EXITS(1002007002,"父级部门不存在"),
+    DEPARTMENT_NOT_FOUND(1002007003, "当前部门不存在"),
+    DEPARTMENT_EXITS_CHILDREN(1002007004, "存在子部门，无法删除"),
+    DEPARTMENT_PARENT_ERROR(1002007005, "不能设置自己为父资源"),
+    DEPARTMENT_EXISTS_ADMIN(1002007006, "部门中存在员工，无法删除"),
 
     // ========== 授权模块 1002008000 ==========
     AUTHORIZATION_PERMISSION_DENY(1002008001, "没有该操作权限"),

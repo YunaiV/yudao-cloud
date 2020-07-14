@@ -8,6 +8,8 @@ import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionCheckDTO;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
@@ -35,6 +37,11 @@ public class PermissionRpcImpl implements PermissionRpc {
     @Override
     public CommonResult<Set<Integer>> listAdminRoleIds(Integer adminId) {
         return success(permissionManager.listAdminRoleIds(adminId));
+    }
+
+    @Override
+    public CommonResult<Map<Integer, Set<Integer>>> mapAdminRoleIds(Collection<Integer> adminIds) {
+        return success(permissionManager.mapAdminRoleIds(adminIds));
     }
 
     @Override

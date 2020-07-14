@@ -5,6 +5,8 @@ import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionAssignAdminRol
 import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionAssignRoleResourceDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionCheckDTO;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -35,6 +37,15 @@ public interface PermissionRpc {
      * @return 资源编号列表
      */
     CommonResult<Set<Integer>> listAdminRoleIds(Integer adminId);
+
+    /**
+     * 获得每个管理员拥有的角色编号
+     * 返回的结果，key 为管理员编号
+     *
+     * @param adminIds 管理员编号列表
+     * @return 每个管理员拥有的角色编号
+     */
+    CommonResult<Map<Integer, Set<Integer>>> mapAdminRoleIds(Collection<Integer> adminIds);
 
     /**
      * 赋予管理员角色

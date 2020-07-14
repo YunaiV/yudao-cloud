@@ -10,6 +10,7 @@ import cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -52,7 +53,7 @@ public class RoleRpcImpl implements RoleRpc {
     }
 
     @Override
-    public CommonResult<List<RoleVO>> listRoles(List<Integer> roleIds) {
+    public CommonResult<List<RoleVO>> listRoles(Collection<Integer> roleIds) {
         return success(roleManager.listRoles(roleIds));
     }
 

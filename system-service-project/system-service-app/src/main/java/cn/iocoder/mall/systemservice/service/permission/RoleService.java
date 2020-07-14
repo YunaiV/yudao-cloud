@@ -8,6 +8,7 @@ import cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission.AdminRoleDO
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission.RoleDO;
 import cn.iocoder.mall.systemservice.dal.mysql.mapper.permission.AdminRoleMapper;
 import cn.iocoder.mall.systemservice.dal.mysql.mapper.permission.RoleMapper;
+import cn.iocoder.mall.systemservice.dal.mysql.mapper.permission.RoleResourceMapper;
 import cn.iocoder.mall.systemservice.enums.permission.RoleCodeEnum;
 import cn.iocoder.mall.systemservice.enums.permission.RoleTypeEnum;
 import cn.iocoder.mall.systemservice.service.permission.bo.RoleBO;
@@ -38,6 +39,8 @@ public class RoleService {
     private RoleMapper roleMapper;
     @Autowired
     private AdminRoleMapper adminRoleMapper;
+    @Autowired
+    private RoleResourceMapper roleResourceMapper;
 
     /**
     * 创建角色
@@ -95,8 +98,10 @@ public class RoleService {
         }
         // 标记删除
         roleMapper.deleteById(roleId);
-//        // 发布角色删除事件，方便清理关联表 TODO 芋艿，需要实现
-//        eventPublisher.publishEvent(new ResourceDeleteEvent(this, roleDeleteDTO.getId()));
+        // 标记删除 RoleResource
+        roleResourceMapper.deleteByRoleId(roleId);
+        // 标记删除 AdminRole
+        adminRoleMapper.deleteByRoleId(roleId);
     }
 
     /**
@@ -126,7 +131,7 @@ public class RoleService {
     * @param roleIds 角色编号列表
     * @return 角色列表
     */
-    public List<RoleBO> listRole(List<Integer> roleIds) {
+    public List<RoleBO> listRole(Collection<Integer> roleIds) {
         List<RoleDO> roleDOs = roleMapper.selectBatchIds(roleIds);
         return RoleConvert.INSTANCE.convertList(roleDOs);
     }

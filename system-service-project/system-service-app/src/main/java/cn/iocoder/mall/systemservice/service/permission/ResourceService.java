@@ -95,6 +95,8 @@ public class ResourceService {
         }
         // 标记删除
         resourceMapper.deleteById(resourceId);
+        // 删除授予给角色的权限
+        roleResourceMapper.deleteByResourceId(resourceId);
     }
 
     /**
@@ -160,7 +162,7 @@ public class ResourceService {
     /**
      * 校验父资源是否合法
      *
-     * 1. 不能舌质红自己为父资源
+     * 1. 不能设置自己为父资源
      * 2. 父资源不存在
      * 3. 父资源必须是 {@link ResourceTypeEnum#MENU} 菜单类型
      *

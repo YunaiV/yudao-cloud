@@ -13,7 +13,9 @@ import cn.iocoder.mall.systemservice.service.permission.bo.ResourceBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 
 import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.AUTHORIZATION_PERMISSION_DENY;
@@ -63,6 +65,17 @@ public class PermissionManager {
      */
     public Set<Integer> listAdminRoleIds(Integer adminId) {
         return permissionService.listAdminRoleIds(adminId);
+    }
+
+    /**
+     * 获得每个管理员拥有的角色编号
+     * 返回的结果，key 为管理员编号
+     *
+     * @param adminIds 管理员编号列表
+     * @return 每个管理员拥有的角色编号
+     */
+    public Map<Integer, Set<Integer>> mapAdminRoleIds(Collection<Integer> adminIds) {
+        return permissionService.mapAdminRoleIds(adminIds);
     }
 
     /**

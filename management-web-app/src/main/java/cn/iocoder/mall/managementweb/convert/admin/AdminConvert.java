@@ -11,6 +11,7 @@ import cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO;
 import cn.iocoder.mall.systemservice.rpc.admin.vo.DepartmentVO;
 import cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public interface AdminConvert {
 
     AdminUpdateDTO convert(AdminUpdateInfoDTO bean);
 
+    @Mapping(source = "adminId", target = "id")
     AdminUpdateDTO convert(AdminUpdateStatusDTO bean);
 
     AdminPageDTO convert(cn.iocoder.mall.managementweb.controller.admin.dto.AdminPageDTO bean);

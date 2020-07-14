@@ -16,7 +16,7 @@ public class AdminUpdateStatusDTO {
 
     @ApiModelProperty(value = "管理员编号", required = true, example = "1")
     @NotNull(message = "管理员编号不能为空")
-    private Integer id;
+    private Integer adminId;
 
     @ApiModelProperty(value = "状态", required = true, example = "1", notes = "见 CommonStatusEnum 枚举")
     @NotNull(message = "状态不能为空")

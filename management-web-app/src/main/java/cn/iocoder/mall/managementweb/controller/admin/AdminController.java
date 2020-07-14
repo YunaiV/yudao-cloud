@@ -56,7 +56,7 @@ public class AdminController {
     @PostMapping("/update-status")
     @ApiOperation(value = "更新管理员状态")
     @RequiresPermissions("system:admin:update-status")
-    public CommonResult<Boolean> updateUserStatus(AdminUpdateStatusDTO updateStatusDTO) {
+    public CommonResult<Boolean> updateAdminStatus(AdminUpdateStatusDTO updateStatusDTO) {
         adminManager.updateAdminStatus(updateStatusDTO);
         return success(true);
     }

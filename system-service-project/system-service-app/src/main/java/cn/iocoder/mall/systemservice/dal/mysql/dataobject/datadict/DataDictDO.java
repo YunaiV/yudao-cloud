@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  *      value：1 男
  *      value：2 女
  */
-@TableName("data_dict")
+@TableName("system_data_dict")
 @Data
 @Accessors(chain = true)
 public class DataDictDO extends DeletableDO {

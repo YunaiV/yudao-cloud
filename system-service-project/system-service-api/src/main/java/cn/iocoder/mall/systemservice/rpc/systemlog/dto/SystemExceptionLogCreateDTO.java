@@ -9,11 +9,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 异常日志添加 DTO
+ * 系统异常日志添加 DTO
  */
 @Data
 @Accessors(chain = true)
-public class ExceptionLogAddDTO implements Serializable {
+public class SystemExceptionLogCreateDTO implements Serializable {
 
     /**
      * 账号编号

@@ -6,8 +6,8 @@ import cn.iocoder.common.framework.util.ExceptionUtil;
 import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.util.MallUtils;
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.systemservice.rpc.systemlog.SystemLogRPC;
-import cn.iocoder.mall.systemservice.rpc.systemlog.dto.ExceptionLogAddDTO;
+import cn.iocoder.mall.systemservice.rpc.systemlog.SystemExceptionLogRpc;
+import cn.iocoder.mall.systemservice.rpc.systemlog.dto.SystemExceptionLogCreateDTO;
 import cn.iocoder.mall.web.core.util.CommonWebUtil;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -44,8 +44,8 @@ public class GlobalExceptionHandler {
     private String applicationName;
 
     // TODO 目前存在一个问题，如果未引入 system-rpc-api 依赖，GlobalExceptionHandler 会报类不存在。未来封装出 Repository 解决该问题
-    @Reference(validation = "true", version = "${dubbo.consumer.SystemLogRPC.version}")
-    private SystemLogRPC systemLogRPC;
+    @Reference(validation = "true", version = "${dubbo.consumer.SystemExceptionLogRpc.version}")
+    private SystemExceptionLogRpc systemExceptionLogRpc;
 
     // 逻辑异常
     @ExceptionHandler(value = ServiceException.class)
@@ -76,7 +76,7 @@ public class GlobalExceptionHandler {
     public CommonResult exceptionHandler(HttpServletRequest req, Exception e) {
         logger.error("[exceptionHandler]", e);
         // 插入异常日志
-        ExceptionLogAddDTO exceptionLog = new ExceptionLogAddDTO();
+        SystemExceptionLogCreateDTO exceptionLog = new SystemExceptionLogCreateDTO();
         try {
             // 增加异常计数 metrics TODO 暂时去掉
 //            EXCEPTION_COUNTER.increment();
@@ -91,7 +91,7 @@ public class GlobalExceptionHandler {
         return CommonResult.error(SysErrorCodeEnum.SYS_ERROR.getCode(), SysErrorCodeEnum.SYS_ERROR.getMessage());
     }
 
-    private void initExceptionLog(ExceptionLogAddDTO exceptionLog, HttpServletRequest request,  Exception e) {
+    private void initExceptionLog(SystemExceptionLogCreateDTO exceptionLog, HttpServletRequest request, Exception e) {
         // 设置账号编号
         exceptionLog.setUserId(CommonWebUtil.getUserId(request));
         exceptionLog.setUserType(CommonWebUtil.getUserType(request));
@@ -119,9 +119,9 @@ public class GlobalExceptionHandler {
     }
 
     @Async
-    public void addExceptionLog(ExceptionLogAddDTO exceptionLog) {
+    public void addExceptionLog(SystemExceptionLogCreateDTO exceptionLog) {
         try {
-            systemLogRPC.addExceptionLog(exceptionLog);
+            systemExceptionLogRpc.createSystemExceptionLog(exceptionLog);
         } catch (Throwable th) {
             logger.error("[addAccessLog][插入异常日志({}) 发生异常({})", JSON.toJSONString(exceptionLog), ExceptionUtils.getRootCauseMessage(th));
         }

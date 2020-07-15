@@ -21,7 +21,7 @@ public class DataDictManager {
 
     private static final Comparator<cn.iocoder.mall.systemservice.rpc.datadict.vo.DataDictVO> COMPARATOR_ENUM_VALUE_SORT = (o1, o2) -> {
         int cmp = o1.getEnumValue().compareTo(o2.getEnumValue());
-        if (cmp == 0) {
+        if (cmp != 0) {
             return cmp;
         }
         return o1.getSort().compareTo(o2.getSort());

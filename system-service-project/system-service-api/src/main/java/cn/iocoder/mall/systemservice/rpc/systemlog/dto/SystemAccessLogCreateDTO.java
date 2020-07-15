@@ -1,4 +1,4 @@
-package cn.iocoder.mall.systemservice.service.systemlog.bo;
+package cn.iocoder.mall.systemservice.rpc.systemlog.dto;
 
 import cn.iocoder.common.framework.enums.UserTypeEnum;
 import lombok.Data;
@@ -9,11 +9,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 访问日志添加 BO
+ * 系统访问日志添加 DTO
  */
 @Data
 @Accessors(chain = true)
-public class AccessLogAddBO implements Serializable {
+public class SystemAccessLogCreateDTO implements Serializable {
 
     /**
      * 账号编号

@@ -11,13 +11,17 @@ import lombok.experimental.Accessors;
 import java.util.Date;
 
 /**
- * 访问日志 DO
+ * 系统访问日志 DO
+ *
+ * 记录用户、管理员对 API 接口的调用
+ *
+ * TODO 优化点：考虑到架构简单，暂时记录到 MySQL。因为访问日志容易比较大，所以建议未来存储到 ES 中，同时能够提供更丰富的检索能力
  */
 @TableName("system_access_log")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class AccessLogDO extends BaseDO {
+public class SystemAccessLogDO extends BaseDO {
 
     /**
      * 编号

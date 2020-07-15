@@ -48,7 +48,7 @@ public class CommonWebAutoConfiguration implements WebMvcConfigurer {
     // ========== 拦截器相关 ==========
 
     @Bean
-    @ConditionalOnClass(name = {"cn.iocoder.mall.systemservice.rpc.systemlog.SystemLogRPC", "org.apache.dubbo.config.annotation.Reference"})
+    @ConditionalOnClass(name = {"cn.iocoder.mall.systemservice.rpc.systemlog.SystemExceptionLogRpc", "org.apache.dubbo.config.annotation.Reference"})
     @ConditionalOnMissingBean(AccessLogInterceptor.class)
     public AccessLogInterceptor accessLogInterceptor() {
         return new AccessLogInterceptor();

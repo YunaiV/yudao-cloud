@@ -37,8 +37,6 @@ dubbo:
       version: 1.0.0
     AdminRpc:
       version: 1.0.0
-    SystemLogRPC:
-      version: 1.0.0
     ResourceRpc:
       version: 1.0.0
     RoleRpc:
@@ -48,4 +46,8 @@ dubbo:
     DepartmentRpc:
       version: 1.0.0
     DataDictRpc:
+      version: 1.0.0
+    SystemExceptionLogRpc:
+      version: 1.0.0
+    SystemAccessLogRpc:
       version: 1.0.0

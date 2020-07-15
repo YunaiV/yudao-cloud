@@ -33,8 +33,11 @@ public class ServiceExceptionUtil {
     public interface Enumerable<V extends Enum> {
 
         int getCode();
+
         String getMessage();
+
         int getGroup();
+
     }
 
     /**

@@ -8,11 +8,11 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
- * 异常日志添加 BO
+ * 访问日志添加 BO
  */
 @Data
 @Accessors(chain = true)
-public class ExceptionLogAddBO {
+public class SystemAccessLogCreateBO {
 
     /**
      * 账号编号
@@ -40,23 +40,15 @@ public class ExceptionLogAddBO {
     private String userAgent;
     @NotNull(message = "ip 不能为空")
     private String ip;
-    @NotNull(message = "异常时间不能为空")
-    private Date exceptionTime;
-    @NotNull(message = "异常名不能为空")
-    private String exceptionName;
-    @NotNull(message = "异常发生的类全名不能为空")
-    private String exceptionClassName;
-    @NotNull(message = "异常发生的类文件不能为空")
-    private String exceptionFileName;
-    @NotNull(message = "异常发生的方法名不能为空")
-    private String exceptionMethodName;
-    @NotNull(message = "异常发生的方法所在行不能为空")
-    private Integer exceptionLineNumber;
-    @NotNull(message = "异常的栈轨迹不能为空")
-    private String exceptionStackTrace;
-    @NotNull(message = "异常导致的根消息不能为空")
-    private String exceptionRootCauseMessage;
-    @NotNull(message = "异常导致的消息不能为空")
-    private String exceptionMessage;
+    @NotNull(message = "请求时间不能为空")
+    private Date startTime;
+    @NotNull(message = "响应时长不能为空")
+    private Integer responseTime;
+    @NotNull(message = "错误码不能为空")
+    private Integer errorCode;
+    /**
+     * 错误提示
+     */
+    private String errorMessage;
 
 }

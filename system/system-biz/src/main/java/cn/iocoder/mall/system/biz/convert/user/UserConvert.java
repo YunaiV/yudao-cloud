@@ -18,10 +18,6 @@ public interface UserConvert {
 
     UserConvert INSTANCE = Mappers.getMapper(UserConvert.class);
 
-    @Mapping(source = "userBO", target = "user")
-    @Mapping(source = "accessTokenBO", target = "token")
-    UserAuthenticateBO convert(UserBO userBO, OAuth2AuthenticateBO accessTokenBO);
-
     UserBO convert(UserDO bean);
 
     /**

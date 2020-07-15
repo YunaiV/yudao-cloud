@@ -1,0 +1,7 @@
+### /system-access-log/page 成功
+GET {{baseUrl}}/system-access-log/page?pageNo=1&pageSize=10
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+###
+

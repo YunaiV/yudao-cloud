@@ -10,13 +10,13 @@ import lombok.experimental.Accessors;
 import java.util.Date;
 
 /**
- * 异常日志 DO
+ * 系统异常日志 DO
  */
 @TableName("system_exception_log")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class ExceptionLogDO extends BaseDO {
+public class SystemExceptionLogDO extends BaseDO {
 
     /**
      * 编号

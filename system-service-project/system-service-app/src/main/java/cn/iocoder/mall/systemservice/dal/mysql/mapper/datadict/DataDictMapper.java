@@ -13,16 +13,16 @@ public interface DataDictMapper extends BaseMapper<DataDictDO> {
 
     default DataDictDO selectByEnumValueAndValue(String enumValue, String value) {
         return selectOne(new QueryWrapper<DataDictDO>()
-                .eq("enumValue", enumValue).eq("value", value));
+                .eq("enum_value", enumValue).eq("value", value));
     }
 
     default List<DataDictDO> selectByEnumValueAndValues(String enumValue, Collection<String> values) {
         return selectList(new QueryWrapper<DataDictDO>()
-                .eq("enumValue", enumValue).in("value", values));
+                .eq("enum_value", enumValue).in("value", values));
     }
 
     default List<DataDictDO> selectByEnumValue(String enumValue) {
-        return selectList(new QueryWrapper<DataDictDO>().eq("enumValue", enumValue));
+        return selectList(new QueryWrapper<DataDictDO>().eq("enum_value", enumValue));
     }
 
 }

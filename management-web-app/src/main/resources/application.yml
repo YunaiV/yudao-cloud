@@ -38,6 +38,8 @@ dubbo:
       version: 1.0.0
     DepartmentRpc:
       version: 1.0.0
+    DataDictRpc:
+      version: 1.0.0
 
 # Swagger 配置项
 swagger:

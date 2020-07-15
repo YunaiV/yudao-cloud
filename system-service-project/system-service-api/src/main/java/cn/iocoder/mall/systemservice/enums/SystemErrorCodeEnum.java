@@ -50,8 +50,8 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable<Syste
     ROLE_CAN_NOT_DELETE_SYSTEM_TYPE_ROLE(1002004005, "不能删除类型为系统内置的角色"),
 
     // ========== 数据字典模块 1002005000 ==========
-//    DATA_DICT_EXISTS(1002005000, "该数据字典已经存在"),
-//    DATA_DICT_NOT_EXISTS(1002005001, "该数据字典不存在"),
+    DATA_DICT_EXISTS(1002005000, "该数据字典已经存在"),
+    DATA_DICT_NOT_EXISTS(1002005001, "该数据字典不存在"),
 
     // ========== 短信模板 1002006000 ==========
     SMS_PLATFORM_FAIL(1002006000, "短信平台调用失败【具体错误会动态替换】"),

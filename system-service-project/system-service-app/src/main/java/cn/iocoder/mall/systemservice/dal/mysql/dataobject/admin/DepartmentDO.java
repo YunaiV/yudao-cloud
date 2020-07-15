@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 /**
  * 部门实体
  */
-@TableName(value = "department")
+@TableName(value = "admin_department")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)

@@ -69,15 +69,20 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable<Syste
     DEPARTMENT_PARENT_ERROR(1002007005, "不能设置自己为父资源"),
     DEPARTMENT_EXISTS_ADMIN(1002007006, "部门中存在员工，无法删除"),
 
-    // ========== 授权模块 1002008000 ==========
-    AUTHORIZATION_PERMISSION_DENY(1002008001, "没有该操作权限"),
-    AUTHORIZATION_DEMO_PERMISSION_DENY(1002008002, "演示账号，暂不允许写操作。欢迎加入我们的交流群：http://t.cn/EKEr5WE"),
-    AUTHORIZATION_ROLE_ASSIGN_RESOURCE_NOT_EXISTS(1002008004, "分配角色资源时，有资源不存在"),
+    // ========== 权限模块 1002008000 ==========
+    PERMISSION_DENY(1002008001, "没有该操作权限"),
+    PERMISSION_DEMO_PERMISSION_DENY(1002008002, "演示账号，暂不允许写操作。欢迎加入我们的交流群：http://t.cn/EKEr5WE"),
+    PERMISSION_ROLE_ASSIGN_RESOURCE_NOT_EXISTS(1002008004, "分配角色资源时，有资源不存在"),
 
     // ========== 错误码模块 1002009000 ==========
     ERROR_CODE_NOT_EXISTS(1002009000, "错误码不存在"),
     ERROR_CODE_DUPLICATE(1002009001, "已经存在编码为【{}}】的错误码"),
     ERROR_CAN_NOT_UPDATE_SYSTEM_TYPE_ERROR(1002004003, "不能修改类型为系统内置的错误码"),
+
+    // ========== 系统异常日志模块 1002010000 ==========
+    SYSTEM_EXCEPTION_LOG_NOT_FOUND(1002010000, "系统异常日志不存在"),
+    SYSTEM_EXCEPTION_LOG_PROCESSED(1002010001, "系统异常日志已处理"),
+
     ;
 
 

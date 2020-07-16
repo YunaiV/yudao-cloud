@@ -5,9 +5,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@ApiModel("系统访问日志分页 DTO")
+@ApiModel("系统异常日志分页 DTO")
 @Data
-public class SystemAccessLogPageDTO extends PageParam {
+public class SystemExceptionLogPageDTO extends PageParam {
 
     @ApiModelProperty(value = "用户编号", example = "1")
     private Integer userId;
@@ -15,5 +15,7 @@ public class SystemAccessLogPageDTO extends PageParam {
     private Integer userType;
     @ApiModelProperty(value = "应用名", example = "xxx-service-application")
     private String applicationName;
+    @ApiModelProperty(value = "处理状态", notes = "对应 SystemExceptionLogProcessStatusEnum 枚举类", example = "1")
+    private Integer processStatus;
 
 }

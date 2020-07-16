@@ -1,24 +1,16 @@
-package cn.iocoder.mall.systemservice.dal.mysql.dataobject.systemlog;
+package cn.iocoder.mall.systemservice.service.systemlog.bo;
 
-import cn.iocoder.common.framework.enums.UserTypeEnum;
-import cn.iocoder.mall.mybatis.dataobject.BaseDO;
-import cn.iocoder.mall.systemservice.dal.mysql.dataobject.admin.AdminDO;
-import cn.iocoder.mall.systemservice.enums.systemlog.SystemExceptionLogProcessStatusEnum;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
 
 /**
- * 系统异常日志 DO
- */
-@TableName("system_exception_log")
+* 系统异常日志 BO
+*/
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class SystemExceptionLogDO extends BaseDO {
+public class SystemExceptionLogBO {
 
     /**
      * 编号
@@ -30,8 +22,6 @@ public class SystemExceptionLogDO extends BaseDO {
     private Integer userId;
     /**
      * 用户类型
-     *
-     * 枚举 {@link UserTypeEnum}
      */
     private Integer userType;
     /**
@@ -118,11 +108,8 @@ public class SystemExceptionLogDO extends BaseDO {
      * {@link StackTraceElement#getLineNumber()}
      */
     private Integer exceptionLineNumber;
-
     /**
      * 处理状态
-     *
-     * 外键 {@link SystemExceptionLogProcessStatusEnum}
      */
     private Integer processStatus;
     /**
@@ -131,9 +118,11 @@ public class SystemExceptionLogDO extends BaseDO {
     private Date processTime;
     /**
      * 处理管理员编号
-     *
-     * 外键 {@link AdminDO#getId()}
      */
     private Integer processAdminId;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 
 }

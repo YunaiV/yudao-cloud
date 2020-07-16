@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
-import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.AUTHORIZATION_PERMISSION_DENY;
+import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.PERMISSION_DENY;
 
 /**
  * 权限 Manager
@@ -98,7 +98,7 @@ public class PermissionManager {
         // 查询管理员拥有的角色关联数据
         Set<Integer> roleIds = permissionService.listAdminRoleIds(checkDTO.getAdminId());
         if (CollectionUtil.isEmpty(roleIds)) { // 如果没有角色，默认无法访问
-            throw ServiceExceptionUtil.exception(AUTHORIZATION_PERMISSION_DENY);
+            throw ServiceExceptionUtil.exception(PERMISSION_DENY);
         }
         // 判断是否为超管。若是超管，默认有所有权限
         if (roleService.hasSuperAdmin(roleIds)) {

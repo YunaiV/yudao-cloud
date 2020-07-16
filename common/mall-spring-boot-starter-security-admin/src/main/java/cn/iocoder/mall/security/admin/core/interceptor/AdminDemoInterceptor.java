@@ -22,7 +22,7 @@ public class AdminDemoInterceptor extends HandlerInterceptorAdapter {
         // 当 Admin 编号等于 0 时，约定为演示账号
         if (Objects.equals(AdminSecurityContextHolder.getAdminId(), 0)
             && request.getMethod().equalsIgnoreCase(HttpMethod.POST.toString())) {
-            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.AUTHORIZATION_DEMO_PERMISSION_DENY);
+            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.PERMISSION_DEMO_PERMISSION_DENY);
         }
         return true;
     }

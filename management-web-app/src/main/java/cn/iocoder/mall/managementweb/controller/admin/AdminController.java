@@ -14,18 +14,21 @@ import cn.iocoder.security.annotations.RequiresPermissions;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
 
 @Api("管理员 API")
 @RestController
 @RequestMapping("/admin")
+@Validated
 public class AdminController {
 
     @Autowired
@@ -56,7 +59,7 @@ public class AdminController {
     @PostMapping("/update-status")
     @ApiOperation(value = "更新管理员状态")
     @RequiresPermissions("system:admin:update-status")
-    public CommonResult<Boolean> updateAdminStatus(AdminUpdateStatusDTO updateStatusDTO) {
+    public CommonResult<Boolean> updateAdminStatus(@Valid AdminUpdateStatusDTO updateStatusDTO) {
         adminManager.updateAdminStatus(updateStatusDTO);
         return success(true);
     }

@@ -8,13 +8,13 @@ import java.util.*;
 @Data
 public class SystemExceptionLogVO {
 
-    @ApiModelProperty(value = "编号", required = true)
+    @ApiModelProperty(value = "编号", required = true, example = "1")
     private Integer id;
-    @ApiModelProperty(value = "用户编号")
+    @ApiModelProperty(value = "用户编号", example = "1024")
     private Integer userId;
-    @ApiModelProperty(value = "用户类型")
+    @ApiModelProperty(value = "用户类型", example = "1")
     private Integer userType;
-    @ApiModelProperty(value = "链路追踪编", required = true)
+    @ApiModelProperty(value = "链路追踪编号", example = "89aca178-a370-411c-ae02-3f0d672be4ab")
     private String traceId;
     @ApiModelProperty(value = "应用名", required = true, example = "user-shop-application")
     private String applicationName;

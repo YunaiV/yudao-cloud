@@ -18,10 +18,13 @@ import cn.iocoder.mall.systemservice.rpc.permission.RoleRpc;
 import cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.*;
 
 @Service
+@Validated
 public class AdminManager {
 
     @Reference(version = "${dubbo.consumer.AdminRpc.version}", validation = "false")
@@ -104,7 +107,7 @@ public class AdminManager {
         updateAdminResult.checkError();
     }
 
-    public void updateAdminStatus(AdminUpdateStatusDTO updateStatusDTO) {
+    public void updateAdminStatus(@Valid AdminUpdateStatusDTO updateStatusDTO) {
         CommonResult<Boolean> updateAdminResult = adminRpc.updateAdmin(AdminConvert.INSTANCE.convert(updateStatusDTO));
         updateAdminResult.checkError();
     }

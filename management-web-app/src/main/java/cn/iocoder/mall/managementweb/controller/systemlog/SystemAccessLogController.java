@@ -5,6 +5,7 @@ import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.managementweb.controller.systemlog.dto.SystemAccessLogPageDTO;
 import cn.iocoder.mall.managementweb.controller.systemlog.vo.SystemAccessLogVO;
 import cn.iocoder.mall.managementweb.manager.systemlog.SystemAccessLogManager;
+import cn.iocoder.security.annotations.RequiresPermissions;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ public class SystemAccessLogController {
 
     @GetMapping("/page")
     @ApiOperation("获得系统访问日志分页")
+    @RequiresPermissions("system:system-access-log:page")
     public CommonResult<PageResult<SystemAccessLogVO>> pageSystemAccessLog(SystemAccessLogPageDTO pageDTO) {
         return success(systemAccessLogManager.pageSystemAccessLog(pageDTO));
     }

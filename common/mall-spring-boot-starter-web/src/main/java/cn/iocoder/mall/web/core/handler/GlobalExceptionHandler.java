@@ -1,6 +1,6 @@
 package cn.iocoder.mall.web.core.handler;
 
-import cn.iocoder.common.framework.enums.SysErrorCodeEnum;
+import cn.iocoder.common.framework.enums.GlobalErrorCodeEnum;
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.common.framework.util.ExceptionUtil;
 import cn.iocoder.common.framework.util.HttpUtil;
@@ -17,11 +17,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.Date;
 
@@ -47,33 +54,107 @@ public class GlobalExceptionHandler {
     @Reference(validation = "true", version = "${dubbo.consumer.SystemExceptionLogRpc.version}")
     private SystemExceptionLogRpc systemExceptionLogRpc;
 
-    // 逻辑异常
+    /**
+     * 处理 SpringMVC 请求参数缺失
+     *
+     * 例如说，接口上设置了 @RequestParam("xx") 参数，结果并未传递 xx 参数
+     */
+    @ExceptionHandler(value = MissingServletRequestParameterException.class)
+    public CommonResult missingServletRequestParameterExceptionHandler(MissingServletRequestParameterException ex) {
+        logger.warn("[missingServletRequestParameterExceptionHandler]", ex);
+        return CommonResult.error(GlobalErrorCodeEnum.BAD_REQUEST.getCode(),
+                String.format("请求参数缺失:%s", ex.getParameterName()));
+    }
+
+    /**
+     * 处理 SpringMVC 请求参数类型错误
+     *
+     * 例如说，接口上设置了 @RequestParam("xx") 参数为 Integer，结果传递 xx 参数类型为 String
+     */
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public CommonResult methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException ex) {
+        logger.warn("[missingServletRequestParameterExceptionHandler]", ex);
+        return CommonResult.error(GlobalErrorCodeEnum.BAD_REQUEST.getCode(),
+                String.format("请求参数类型错误:%s", ex.getMessage()));
+    }
+
+    /**
+     * 处理 SpringMVC 参数校验不正确
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public CommonResult methodArgumentNotValidExceptionExceptionHandler(MethodArgumentNotValidException ex) {
+        logger.warn("[methodArgumentNotValidExceptionExceptionHandler]", ex);
+        FieldError fieldError = ex.getBindingResult().getFieldError();
+        assert fieldError != null; // 断言，避免告警
+        return CommonResult.error(GlobalErrorCodeEnum.BAD_REQUEST.getCode(),
+                String.format("请求参数不正确:%s", fieldError.getDefaultMessage()));
+    }
+
+    /**
+     * 处理 SpringMVC 参数绑定不正确，本质上也是通过 Validator 校验
+     */
+    @ExceptionHandler(BindException.class)
+    public CommonResult bindExceptionHandler(BindException ex) {
+        logger.warn("[handleBindException]", ex);
+        FieldError fieldError = ex.getFieldError();
+        assert fieldError != null; // 断言，避免告警
+        return CommonResult.error(GlobalErrorCodeEnum.BAD_REQUEST.getCode(),
+                String.format("请求参数不正确:%s", fieldError.getDefaultMessage()));
+    }
+
+    /**
+     * 处理 Validator 校验不通过产生的异常
+     */
+    @ExceptionHandler(value = ConstraintViolationException.class)
+    public CommonResult constraintViolationExceptionHandler(ConstraintViolationException ex) {
+        logger.warn("[constraintViolationExceptionHandler]", ex);
+        ConstraintViolation<?> constraintViolation = ex.getConstraintViolations().iterator().next();
+        return CommonResult.error(GlobalErrorCodeEnum.BAD_REQUEST.getCode(),
+                String.format("请求参数不正确:%s", constraintViolation.getMessage()));
+    }
+
+    /**
+     * 处理 SpringMVC 请求地址不存在
+     *
+     * 注意，它需要设置如下两个配置项：
+     * 1. spring.mvc.throw-exception-if-no-handler-found 为 true
+     * 2. spring.mvc.static-path-pattern 为 /statics/**
+     */
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public CommonResult noHandlerFoundExceptionHandler(NoHandlerFoundException ex) {
+        logger.warn("[noHandlerFoundExceptionHandler]", ex);
+        return CommonResult.error(GlobalErrorCodeEnum.NOT_FOUND.getCode(),
+                String.format("请求地址不存在:%s", ex.getRequestURL()));
+    }
+
+    /**
+     * 处理 SpringMVC 请求方法不正确
+     *
+     * 例如说，A 接口的方法为 GET 方式，结果请求方法为 POST 方式，导致不匹配
+     */
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public CommonResult httpRequestMethodNotSupportedExceptionHandler(HttpRequestMethodNotSupportedException ex) {
+        logger.warn("[httpRequestMethodNotSupportedExceptionHandler]", ex);
+        return CommonResult.error(GlobalErrorCodeEnum.METHOD_NOT_ALLOWED.getCode(),
+                String.format("请求方法不正确:%s", ex.getMessage()));
+    }
+
+    /**
+     * 处理业务异常 ServiceException
+     *
+     * 例如说，商品库存不足，用户手机号已存在。
+     */
     @ExceptionHandler(value = ServiceException.class)
     public CommonResult serviceExceptionHandler(ServiceException ex) {
         logger.debug("[serviceExceptionHandler]", ex);
         return CommonResult.error(ex.getCode(), ex.getMessage());
     }
 
-    // Spring MVC 参数不正确
-    @ExceptionHandler(value = MissingServletRequestParameterException.class)
-    public CommonResult missingServletRequestParameterExceptionHandler(MissingServletRequestParameterException ex) {
-        logger.warn("[missingServletRequestParameterExceptionHandler]", ex);
-        return CommonResult.error(SysErrorCodeEnum.MISSING_REQUEST_PARAM_ERROR.getCode(), SysErrorCodeEnum.MISSING_REQUEST_PARAM_ERROR.getMessage() + ":" + ex.getMessage());
-    }
-
-    @ExceptionHandler(value = ConstraintViolationException.class)
-    public CommonResult constraintViolationExceptionHandler(ConstraintViolationException ex) {
-        logger.info("[constraintViolationExceptionHandler]", ex);
-        // TODO 芋艿，后续要想一个更好的方式。
-        // 拼接详细报错
-        StringBuilder detailMessage = new StringBuilder("\n\n详细错误如下：");
-        ex.getConstraintViolations().forEach(constraintViolation -> detailMessage.append("\n").append(constraintViolation.getMessage()));
-        return CommonResult.error(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(),
-                SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getMessage() + detailMessage.toString());
-    }
-
+    /**
+     * 处理系统异常，兜底处理所有的一切
+     */
     @ExceptionHandler(value = Exception.class)
-    public CommonResult exceptionHandler(HttpServletRequest req, Exception e) {
+    public CommonResult exceptionHandler(HttpServletRequest req, Throwable e) {
         logger.error("[exceptionHandler]", e);
         // 插入异常日志
         SystemExceptionLogCreateDTO exceptionLog = new SystemExceptionLogCreateDTO();
@@ -88,10 +169,10 @@ public class GlobalExceptionHandler {
             logger.error("[exceptionHandler][插入访问日志({}) 发生异常({})", JSON.toJSONString(exceptionLog), ExceptionUtils.getRootCauseMessage(th));
         }
         // 返回 ERROR CommonResult
-        return CommonResult.error(SysErrorCodeEnum.SYS_ERROR.getCode(), SysErrorCodeEnum.SYS_ERROR.getMessage());
+        return CommonResult.error(GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getCode(), GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getMessage());
     }
 
-    private void initExceptionLog(SystemExceptionLogCreateDTO exceptionLog, HttpServletRequest request, Exception e) {
+    private void initExceptionLog(SystemExceptionLogCreateDTO exceptionLog, HttpServletRequest request, Throwable e) {
         // 设置账号编号
         exceptionLog.setUserId(CommonWebUtil.getUserId(request));
         exceptionLog.setUserType(CommonWebUtil.getUserType(request));

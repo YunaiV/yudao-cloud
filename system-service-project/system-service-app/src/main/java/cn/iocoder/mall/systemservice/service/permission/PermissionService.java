@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static cn.iocoder.common.framework.enums.GlobalErrorCodeEnum.FORBIDDEN;
 import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.*;
 
 /**
@@ -150,13 +151,13 @@ public class PermissionService {
         // 权限验证
         List<RoleResourceDO> roleResourceDOs = roleResourceMapper.selectListByResourceIds(permissionIds);
         if (CollectionUtil.isEmpty(roleResourceDOs)) { // 资源未授予任何角色，必然权限验证不通过
-            throw ServiceExceptionUtil.exception(PERMISSION_DENY);
+            throw ServiceExceptionUtil.exception(FORBIDDEN);
         }
         Map<Integer, List<Integer>> resourceRoleMap = CollectionUtils.convertMultiMap(roleResourceDOs,
                 RoleResourceDO::getResourceId, RoleResourceDO::getRoleId);
         for (Map.Entry<Integer, List<Integer>> entry : resourceRoleMap.entrySet()) {
             if (!CollectionUtil.containsAny(roleIds, entry.getValue())) { // 所以有任一不满足，就验证失败，抛出异常
-                throw ServiceExceptionUtil.exception(PERMISSION_DENY);
+                throw ServiceExceptionUtil.exception(FORBIDDEN);
             }
         }
     }

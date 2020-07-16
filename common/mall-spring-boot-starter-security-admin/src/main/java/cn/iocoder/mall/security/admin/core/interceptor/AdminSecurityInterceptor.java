@@ -1,5 +1,6 @@
 package cn.iocoder.mall.security.admin.core.interceptor;
 
+import cn.iocoder.common.framework.enums.GlobalErrorCodeEnum;
 import cn.iocoder.common.framework.enums.UserTypeEnum;
 import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.util.HttpUtil;
@@ -7,7 +8,6 @@ import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.security.admin.core.context.AdminSecurityContext;
 import cn.iocoder.mall.security.admin.core.context.AdminSecurityContextHolder;
-import cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum;
 import cn.iocoder.mall.systemservice.rpc.oauth.OAuth2Rpc;
 import cn.iocoder.mall.systemservice.rpc.oauth.vo.OAuth2AccessTokenVO;
 import cn.iocoder.mall.systemservice.rpc.permission.PermissionRpc;
@@ -21,7 +21,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.Arrays;
 
 import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.OAUTH_USER_TYPE_ERROR;
@@ -69,7 +68,7 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
     private void checkAuthentication(HandlerMethod handlerMethod, Integer adminId) {
         boolean requiresAuthenticate = !handlerMethod.hasMethodAnnotation(RequiresNone.class); // 对于 ADMIN 来说，默认需登录
         if (requiresAuthenticate && adminId == null) {
-            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.OAUTH2_NOT_AUTHENTICATION);
+            throw ServiceExceptionUtil.exception(GlobalErrorCodeEnum.UNAUTHORIZED);
         }
     }
 

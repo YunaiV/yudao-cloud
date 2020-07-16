@@ -10,6 +10,7 @@ import cn.iocoder.mall.systemservice.service.systemlog.bo.SystemExceptionLogCrea
 import cn.iocoder.mall.systemservice.service.systemlog.bo.SystemExceptionLogPageBO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
@@ -21,6 +22,7 @@ public interface SystemExceptionLogConvert {
 
     SystemExceptionLogCreateBO convert(SystemExceptionLogCreateDTO bean);
 
+    @Mapping(source = "records", target = "list")
     PageResult<SystemExceptionLogBO> convertPage(IPage<SystemExceptionLogDO> page);
 
     SystemExceptionLogBO convert(SystemExceptionLogDO bean);

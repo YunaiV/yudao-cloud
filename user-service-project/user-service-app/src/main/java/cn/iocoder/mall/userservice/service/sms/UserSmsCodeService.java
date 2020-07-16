@@ -1,20 +1,21 @@
 package cn.iocoder.mall.userservice.service.sms;
 
-import cn.iocoder.common.framework.enums.SysErrorCodeEnum;
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
-import cn.iocoder.common.framework.util.ValidationUtil;
+import cn.iocoder.common.framework.validator.Mobile;
 import cn.iocoder.mall.userservice.dal.mysql.dataobject.sms.UserSmsCodeDO;
 import cn.iocoder.mall.userservice.dal.mysql.mapper.sms.UserSmsCodeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Date;
 
 import static cn.iocoder.mall.userservice.enums.UserErrorCodeEnum.*;
 
 @Service
+@Validated
 public class UserSmsCodeService {
 
     /**
@@ -46,10 +47,7 @@ public class UserSmsCodeService {
      * @param ip IP
      * @return 短信验证码
      */
-    public String createSmsCode(String mobile, Integer scene, String ip) {
-        if (!ValidationUtil.isMobile(mobile)) {
-            throw ServiceExceptionUtil.exception(SysErrorCodeEnum.VALIDATION_REQUEST_PARAM_ERROR.getCode(), "手机格式不正确"); // TODO 有点搓
-        }
+    public String createSmsCode(@Mobile String mobile, Integer scene, String ip) {
         // 校验是否可以发送验证码，不用筛选场景
         UserSmsCodeDO lastUserSmsCodeDO = userSmsCodeMapper.selectLastByMobile(mobile, null);
         if (lastUserSmsCodeDO != null) {

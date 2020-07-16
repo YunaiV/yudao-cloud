@@ -17,8 +17,8 @@ public interface SystemExceptionLogMapper extends BaseMapper<SystemExceptionLogD
                         .eqIfPresent("user_id", pageBO.getUserId())
                         .eqIfPresent("user_type", pageBO.getUserType())
                         .eqIfPresent("application_name", pageBO.getApplicationName())
-                        .eqIfPresent("processStatus", pageBO.getProcessStatus())
-                        .orderByDesc("start_time"));
+                        .eqIfPresent("process_status", pageBO.getProcessStatus())
+                        .orderByDesc("exception_time"));
     }
 
 }

@@ -11,6 +11,10 @@ spring:
   # Profile 的配置项
   profiles:
     active: local
+  # SpringMVC 配置项
+  mvc:
+    throw-exception-if-no-handler-found: true # 匹配不到路径时，抛出 NoHandlerFoundException 异常
+    static-path-pattern: /statics/** # 静态资源的路径
 
 # Dubbo 配置项
 dubbo:

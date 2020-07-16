@@ -1,5 +1,6 @@
 package cn.iocoder.common.framework.vo;
 
+import cn.iocoder.common.framework.enums.GlobalErrorCodeEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.util.Assert;
@@ -13,7 +14,7 @@ import java.io.Serializable;
  */
 public final class CommonResult<T> implements Serializable {
 
-    private static final Integer CODE_SUCCESS = 0;
+    private static final Integer CODE_SUCCESS = GlobalErrorCodeEnum.SUCCESS.getCode();
 
     /**
      * 错误码

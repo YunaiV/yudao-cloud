@@ -8,7 +8,7 @@ import java.util.*;
 @Data
 public class SystemAccessLogVO {
 
-    @ApiModelProperty(value = "编号", required = true)
+    @ApiModelProperty(value = "编号", required = true, example = "1")
     private Integer id;
     @ApiModelProperty(value = "用户编号", example = "1024")
     private Integer userId;

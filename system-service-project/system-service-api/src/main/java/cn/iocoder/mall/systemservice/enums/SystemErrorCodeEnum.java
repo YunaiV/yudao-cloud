@@ -15,7 +15,6 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable<Syste
     OAUTH2_ACCESS_TOKEN_NOT_FOUND(1001001001, "访问令牌不存在"),
     OAUTH2_ACCESS_TOKEN_TOKEN_EXPIRED(1001001002, "访问令牌已过期"),
     OAUTH2_ACCESS_TOKEN_INVALID(1001001003, "访问令牌已失效"),
-    OAUTH2_NOT_AUTHENTICATION(1001001004, "账号未登录"),
     OAUTH2_REFRESH_TOKEN_NOT_FOUND(1001001005, "刷新令牌不存在"),
     OAUTH_REFRESH_TOKEN_EXPIRED(1001001006, "访问令牌已过期"),
     OAUTH_REFRESH_TOKEN_INVALID(1001001007, "刷新令牌已失效"),
@@ -70,7 +69,6 @@ public enum SystemErrorCodeEnum implements ServiceExceptionUtil.Enumerable<Syste
     DEPARTMENT_EXISTS_ADMIN(1002007006, "部门中存在员工，无法删除"),
 
     // ========== 权限模块 1002008000 ==========
-    PERMISSION_DENY(1002008001, "没有该操作权限"),
     PERMISSION_DEMO_PERMISSION_DENY(1002008002, "演示账号，暂不允许写操作。欢迎加入我们的交流群：http://t.cn/EKEr5WE"),
     PERMISSION_ROLE_ASSIGN_RESOURCE_NOT_EXISTS(1002008004, "分配角色资源时，有资源不存在"),
 

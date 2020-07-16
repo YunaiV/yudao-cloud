@@ -1,12 +1,12 @@
 package cn.iocoder.mall.security.user.core.interceptor;
 
+import cn.iocoder.common.framework.enums.GlobalErrorCodeEnum;
 import cn.iocoder.common.framework.enums.UserTypeEnum;
 import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.security.user.core.context.UserSecurityContext;
 import cn.iocoder.mall.security.user.core.context.UserSecurityContextHolder;
-import cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum;
 import cn.iocoder.mall.systemservice.rpc.oauth.OAuth2Rpc;
 import cn.iocoder.mall.systemservice.rpc.oauth.vo.OAuth2AccessTokenVO;
 import cn.iocoder.mall.web.core.util.CommonWebUtil;
@@ -64,7 +64,7 @@ public class UserSecurityInterceptor extends HandlerInterceptorAdapter {
             requiresAuthenticate = true;
         }
         if (requiresAuthenticate && userId == null) {
-            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.OAUTH2_NOT_AUTHENTICATION);
+            throw ServiceExceptionUtil.exception(GlobalErrorCodeEnum.UNAUTHORIZED);
         }
     }
 

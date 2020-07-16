@@ -19,15 +19,11 @@ import java.util.List;
 @Service
 public class DataDictManager {
 
-    private static final Comparator<cn.iocoder.mall.systemservice.rpc.datadict.vo.DataDictVO> COMPARATOR_ENUM_VALUE_SORT = (o1, o2) -> {
-        int cmp = o1.getEnumValue().compareTo(o2.getEnumValue());
-        if (cmp != 0) {
-            return cmp;
-        }
-        return o1.getSort().compareTo(o2.getSort());
-    };
+    private static final Comparator<cn.iocoder.mall.systemservice.rpc.datadict.vo.DataDictVO> COMPARATOR_ENUM_VALUE_SORT = Comparator
+            .comparing(cn.iocoder.mall.systemservice.rpc.datadict.vo.DataDictVO::getEnumValue)
+            .thenComparingInt(cn.iocoder.mall.systemservice.rpc.datadict.vo.DataDictVO::getSort);
 
-    @Reference(version = "${dubbo.consumer.DataDictRpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.DataDictRpc.version}")
     private DataDictRpc dataDictRpc;
 
     /**

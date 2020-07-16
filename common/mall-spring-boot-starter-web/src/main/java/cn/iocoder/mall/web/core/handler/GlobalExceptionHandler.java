@@ -51,7 +51,7 @@ public class GlobalExceptionHandler {
     private String applicationName;
 
     // TODO 目前存在一个问题，如果未引入 system-rpc-api 依赖，GlobalExceptionHandler 会报类不存在。未来封装出 Repository 解决该问题
-    @Reference(validation = "true", version = "${dubbo.consumer.SystemExceptionLogRpc.version}")
+    @Reference(version = "${dubbo.consumer.SystemExceptionLogRpc.version}")
     private SystemExceptionLogRpc systemExceptionLogRpc;
 
     /**
@@ -199,6 +199,7 @@ public class GlobalExceptionHandler {
                 .setExceptionTime(new Date());
     }
 
+    // TODO 优化点：后续可以增加事件
     @Async
     public void addExceptionLog(SystemExceptionLogCreateDTO exceptionLog) {
         try {

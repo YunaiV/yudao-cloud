@@ -26,7 +26,7 @@ public class AccessLogInterceptor extends HandlerInterceptorAdapter {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Reference(validation = "false", version = "${dubbo.consumer.SystemAccessLogRpc.version}")
+    @Reference(version = "${dubbo.consumer.SystemAccessLogRpc.version}")
     private SystemAccessLogRpc systemAccessLogRpc;
 
     @Value("${spring.application.name}")
@@ -77,6 +77,7 @@ public class AccessLogInterceptor extends HandlerInterceptorAdapter {
                 .setResponseTime((int) (System.currentTimeMillis() - accessLog.getStartTime().getTime())); // 默认响应时间设为 0
     }
 
+    // TODO 优化点：后续可以增加事件
     @Async // 异步入库
     public void addAccessLog(SystemAccessLogCreateDTO accessLog) {
         try {

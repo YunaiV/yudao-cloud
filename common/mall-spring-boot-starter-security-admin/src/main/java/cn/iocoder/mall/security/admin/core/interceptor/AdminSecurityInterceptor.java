@@ -27,9 +27,9 @@ import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.OAUTH_USER
 
 public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
 
-    @Reference(validation = "true", version = "${dubbo.consumer.OAuth2Rpc.version}")
+    @Reference(version = "${dubbo.consumer.OAuth2Rpc.version}")
     private OAuth2Rpc oauth2Rpc;
-    @Reference(validation = "true", version = "${dubbo.consumer.PermissionRpc.version}")
+    @Reference(version = "${dubbo.consumer.PermissionRpc.version}")
     private PermissionRpc permissionRpc;
 
     @Override

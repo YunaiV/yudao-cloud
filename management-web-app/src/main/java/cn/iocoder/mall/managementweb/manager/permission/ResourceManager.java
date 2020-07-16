@@ -23,9 +23,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ResourceManager {
 
-    @Reference(version = "${dubbo.consumer.ResourceRpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.ResourceRpc.version}")
     private ResourceRpc resourceRpc;
-    @Reference(version = "${dubbo.consumer.RoleRpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.RoleRpc.version}")
     private RoleRpc roleRpc;
 
     /**

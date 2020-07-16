@@ -19,9 +19,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class SystemExceptionLogManager {
 
-    @Reference(version = "${dubbo.consumer.SystemExceptionLogRpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.SystemExceptionLogRpc.version}")
     private SystemExceptionLogRpc systemExceptionLogRpc;
-    @Reference(version = "${dubbo.consumer.AdminRpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.AdminRpc.version}")
     private AdminRpc adminRpc;
 
     /**

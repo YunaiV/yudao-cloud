@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class RoleManager {
 
-    @Reference(version = "${dubbo.consumer.RoleRpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.RoleRpc.version}")
     private RoleRpc roleRpc;
 
     /**

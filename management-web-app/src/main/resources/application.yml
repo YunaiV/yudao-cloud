@@ -24,6 +24,7 @@ dubbo:
   # Dubbo 服务消费者的配置
   consumer:
     timeout: 10000
+    validation: true # 开启 Consumer 参数校验
     UserSmsCodeRpc:
       version: 1.0.0
     UserRpc:

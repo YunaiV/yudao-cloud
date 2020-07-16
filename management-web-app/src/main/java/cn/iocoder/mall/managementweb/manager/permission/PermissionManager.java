@@ -16,7 +16,7 @@ import java.util.Set;
 @Service
 public class PermissionManager {
 
-    @Reference(version = "${dubbo.consumer.PermissionRpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.PermissionRpc.version}")
     private PermissionRpc permissionRpc;
 
     /**

@@ -30,13 +30,13 @@ import java.util.Set;
 @Service
 public class PassportManager {
 
-    @Reference(version = "${dubbo.consumer.AdminRpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.AdminRpc.version}")
     private AdminRpc adminRpc;
-    @Reference(version = "${dubbo.consumer.OAuth2Rpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.OAuth2Rpc.version}")
     private OAuth2Rpc oauth2Rpc;
-    @Reference(version = "${dubbo.consumer.RoleRpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.RoleRpc.version}")
     private RoleRpc roleRpc;
-    @Reference(version = "${dubbo.consumer.ResourceRpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.ResourceRpc.version}")
     private ResourceRpc resourceRpc;
 
     public PassportAccessTokenVO login(PassportLoginDTO loginDTO, String ip) {

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SystemAccessLogManager {
 
-    @Reference(version = "${dubbo.consumer.SystemAccessLogRpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.SystemAccessLogRpc.version}")
     private SystemAccessLogRpc systemAccessLogRpc;
 
     /**

@@ -27,13 +27,13 @@ import java.util.*;
 @Validated
 public class AdminManager {
 
-    @Reference(version = "${dubbo.consumer.AdminRpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.AdminRpc.version}")
     private AdminRpc adminRpc;
-    @Reference(version = "${dubbo.consumer.RoleRpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.RoleRpc.version}")
     private RoleRpc roleRpc;
-    @Reference(version = "${dubbo.consumer.DepartmentRpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.DepartmentRpc.version}")
     private DepartmentRpc departmentRpc;
-    @Reference(version = "${dubbo.consumer.PermissionRpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.PermissionRpc.version}")
     private PermissionRpc permissionRpc;
 
     public PageResult<AdminPageItemVO> pageAdmin(AdminPageDTO pageDTO) {

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class DepartmentManager {
 
-    @Reference(version = "${dubbo.consumer.DepartmentRpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.DepartmentRpc.version}")
     private DepartmentRpc departmentRpc;
 
     /**

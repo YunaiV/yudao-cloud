@@ -29,47 +29,29 @@ public class DubboProviderExceptionFilter implements Filter, Filter.Listener {
             try {
                 // 转换异常
                 Throwable exception = appResponse.getException();
+                // 1. 参数校验异常
                 if (exception instanceof ConstraintViolationException) {
                     exception = this.constraintViolationExceptionHandler((ConstraintViolationException) exception);
+                // 2. 非 ServiceException 业务异常，转换成 ServiceException 业务异常，避免可能存在的反序列化问题
+                } if (!(exception instanceof ServiceException)) {
+                    exception = this.defaultExceptionHandler(exception, invocation);
                 }
+                assert exception != null;
+                ServiceException serviceException = (ServiceException) exception;
                 // 根据不同的方法 schema 返回结果
-                // 第一种情况，则根据返回参数类型是否是 CommonResult 的情况，则将 ServiceException 转换成 CommonResult
+                // 第一种情况，返回参数类型是 CommonResult 的情况，则将 ServiceException 转换成 CommonResult
                 if (isReturnCommonResult(invocation)) {
                     // 清空异常
                     appResponse.setException(null);
                     // 设置结果
                     CommonResult exceptionResult = new CommonResult();
+                    exceptionResult.setCode(serviceException.getCode());
+                    exceptionResult.setMessage(serviceException.getMessage());
+                    exceptionResult.setDetailMessage(serviceException.getDetailMessage());
                     appResponse.setValue(exceptionResult);
-                    // 处理非 ServiceException 业务异常，转换成 ServiceException 业务异常
-                    if (!(exception instanceof ServiceException)) {
-                        logger.error("[onResponse][service({}) method({}) params({}) 执行异常]",
-                                invocation.getServiceName(), invocation.getServiceName(), invocation.getArguments(), exception);
-                        //
-                    }
-                }
-
-                // 1. 处理 ServiceException 异常的情况
-                if (exception instanceof ServiceException) {
-                    ServiceException serviceException = (ServiceException) exception;
-                    // 则根据返回参数类型是否是 CommonResult 的情况，则将 ServiceException 转换成 CommonResult
-                    if (isReturnCommonResult(invocation)) {
-                        // 通用返回
-                        CommonResult exceptionResult = new CommonResult();
-                        exceptionResult.setCode(serviceException.getCode());
-                        exceptionResult.setMessage(serviceException.getMessage());
-                        appResponse.setValue(exceptionResult);
-                        // 清空异常
-                        appResponse.setException(null);
-                    // 如果不是 CommonResult 的情况，则将 ServiceException 转换成 DubboInvokeException 避免可能存在的反序列化问题
-                    } else {
-                        RpcContext context = RpcContext.getContext();
-                        appResponse.setException(new DubboInvokeException(exception.getMessage(), context.getLocalHost(), context.getLocalHostName()));
-                    }
-                // 2. 处理非 ServiceException 异常的情况
+                // 第二种情况，未包装成 CommonResult 的情况，则直接抛出 ServiceException 异常
                 } else {
-                    RpcContext context = RpcContext.getContext();
-                    appResponse.setException(new DubboInvokeException(exception.getMessage(), context.getLocalHost(), context.getLocalHostName()));
-
+                    appResponse.setException(serviceException);
                 }
             } catch (Throwable e) {
                 logger.warn("Fail to ExceptionFilter when called by " + RpcContext.getContext().getRemoteHost() + ". service: " + invoker.getInterface().getName() + ", method: " + invocation.getMethodName() + ", exception: " + e.getClass().getName() + ": " + e.getMessage(), e);
@@ -109,8 +91,20 @@ public class DubboProviderExceptionFilter implements Filter, Filter.Listener {
                 String.format("请求参数不正确:%s", constraintViolation.getMessage()));
     }
 
-    private ServiceException defaultExceptionHandler() {
+    /**
+     * 处理系统异常，兜底处理所有的一切
+     */
+    private ServiceException defaultExceptionHandler(Throwable exception, Invocation invocation) {
+        logger.error("[defaultExceptionHandler][service({}) method({}) params({}) 执行异常]",
+                invocation.getServiceName(), invocation.getServiceName(), invocation.getArguments(), exception);
+        return ServiceExceptionUtil.exception0(GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getCode(),
+                GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getMessage())
+                .setDetailMessage(this.buildDetailMessage(exception, invocation));
+    }
 
+    private String buildDetailMessage(Throwable exception, Invocation invocation) {
+        return String.format("Service(%s) Method(%s) 发生异常(%s)",
+                invocation.getServiceName(), invocation.getMethodName(), ExceptionUtil.getRootCauseMessage(exception));
     }
 
 }

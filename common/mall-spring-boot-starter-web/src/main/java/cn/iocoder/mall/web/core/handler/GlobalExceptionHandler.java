@@ -155,7 +155,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public CommonResult defaultExceptionHandler(HttpServletRequest req, Throwable e) {
-        logger.error("[exceptionHandler]", e);
+        logger.error("[defaultExceptionHandler]", e);
         // 插入异常日志
         SystemExceptionLogCreateDTO exceptionLog = new SystemExceptionLogCreateDTO();
         try {
@@ -166,7 +166,7 @@ public class GlobalExceptionHandler {
             // 执行插入 exceptionLog
             addExceptionLog(exceptionLog);
         } catch (Throwable th) {
-            logger.error("[exceptionHandler][插入访问日志({}) 发生异常({})", JSON.toJSONString(exceptionLog), ExceptionUtils.getRootCauseMessage(th));
+            logger.error("[defaultExceptionHandler][插入访问日志({}) 发生异常({})", JSON.toJSONString(exceptionLog), ExceptionUtils.getRootCauseMessage(th));
         }
         // 返回 ERROR CommonResult
         return CommonResult.error(GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getCode(), GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getMessage());

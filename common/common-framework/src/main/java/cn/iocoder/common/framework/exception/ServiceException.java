@@ -1,5 +1,7 @@
 package cn.iocoder.common.framework.exception;
 
+import cn.iocoder.common.framework.vo.CommonResult;
+
 /**
  * 服务异常
  *
@@ -33,6 +35,12 @@ public final class ServiceException extends RuntimeException {
      * 错误码
      */
     private final Integer code;
+    /**
+     * 错误明细，内部调试错误
+     *
+     * 和 {@link CommonResult#getDetailMessage()} 一致的设计
+     */
+    private String detailMessage;
 
     public ServiceException(Integer code, String message) {
         super(message);
@@ -43,6 +51,13 @@ public final class ServiceException extends RuntimeException {
         return code;
     }
 
+    public String getDetailMessage() {
+        return detailMessage;
+    }
 
+    public ServiceException setDetailMessage(String detailMessage) {
+        this.detailMessage = detailMessage;
+        return this;
+    }
 
 }

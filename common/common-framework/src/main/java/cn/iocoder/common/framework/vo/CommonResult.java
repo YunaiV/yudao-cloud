@@ -2,7 +2,7 @@ package cn.iocoder.common.framework.vo;
 
 import cn.iocoder.common.framework.enums.GlobalErrorCodeEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.alibaba.fastjson.annotation.JSONField;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -95,12 +95,12 @@ public final class CommonResult<T> implements Serializable {
         return this;
     }
 
-    @JsonIgnore
+    @JSONField(serialize = false) // 避免序列化
     public boolean isSuccess() {
         return CODE_SUCCESS.equals(code);
     }
 
-    @JsonIgnore
+    @JSONField(serialize = false) // 避免序列化
     public boolean isError() {
         return !isSuccess();
     }

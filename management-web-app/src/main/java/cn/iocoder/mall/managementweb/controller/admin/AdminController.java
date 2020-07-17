@@ -25,7 +25,7 @@ import javax.validation.Valid;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
 
-@Api("管理员 API")
+@Api(tags = "管理员 API")
 @RestController
 @RequestMapping("/admin")
 @Validated

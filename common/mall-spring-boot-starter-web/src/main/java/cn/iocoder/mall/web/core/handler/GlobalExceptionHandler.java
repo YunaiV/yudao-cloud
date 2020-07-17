@@ -154,7 +154,7 @@ public class GlobalExceptionHandler {
      * 处理系统异常，兜底处理所有的一切
      */
     @ExceptionHandler(value = Exception.class)
-    public CommonResult exceptionHandler(HttpServletRequest req, Throwable e) {
+    public CommonResult defaultExceptionHandler(HttpServletRequest req, Throwable e) {
         logger.error("[exceptionHandler]", e);
         // 插入异常日志
         SystemExceptionLogCreateDTO exceptionLog = new SystemExceptionLogCreateDTO();

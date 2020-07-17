@@ -16,7 +16,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 /**
 * 部门 Rpc 实现类
 */
-@Service(version = "${dubbo.provider.DepartmentRpc.version}", validation = "false")
+@Service(version = "${dubbo.provider.DepartmentRpc.version}")
 public class DepartmentRpcImpl implements DepartmentRpc {
 
     @Autowired

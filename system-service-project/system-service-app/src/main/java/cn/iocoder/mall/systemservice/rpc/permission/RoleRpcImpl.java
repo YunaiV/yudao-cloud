@@ -19,7 +19,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 /**
 * 角色 Rpc 实现类
 */
-@Service(version = "${dubbo.provider.RoleRpc.version}", validation = "false")
+@Service(version = "${dubbo.provider.RoleRpc.version}")
 public class RoleRpcImpl implements RoleRpc {
 
     @Autowired

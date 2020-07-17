@@ -15,7 +15,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 /**
 * 数据字典 Rpc 实现类
 */
-@Service(version = "${dubbo.provider.DataDictRpc.version}", validation = "false")
+@Service(version = "${dubbo.provider.DataDictRpc.version}")
 public class DataDictRpcImpl implements DataDictRpc {
 
     @Autowired

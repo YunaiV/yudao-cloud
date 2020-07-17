@@ -16,7 +16,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 /**
 * 资源 Rpc 实现类
 */
-@Service(version = "${dubbo.provider.ResourceRpc.version}", validation = "false")
+@Service(version = "${dubbo.provider.ResourceRpc.version}")
 public class ResourceRpcImpl implements ResourceRpc {
 
     @Autowired

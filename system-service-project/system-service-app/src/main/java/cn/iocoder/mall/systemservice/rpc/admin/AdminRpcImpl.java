@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
 
-@Service(version = "${dubbo.provider.AdminRpc.version}", validation = "false")
+@Service(version = "${dubbo.provider.AdminRpc.version}")
 public class AdminRpcImpl implements AdminRpc {
 
     @Autowired

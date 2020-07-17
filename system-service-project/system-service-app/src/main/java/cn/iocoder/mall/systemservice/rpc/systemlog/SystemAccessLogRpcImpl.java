@@ -14,7 +14,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 /**
 * 系统访问日志 Rpc 实现类
 */
-@Service(version = "${dubbo.provider.SystemAccessLogRpc.version}", validation = "false")
+@Service(version = "${dubbo.provider.SystemAccessLogRpc.version}")
 public class SystemAccessLogRpcImpl implements SystemAccessLogRpc {
 
     @Autowired

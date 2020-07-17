@@ -35,7 +35,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <springboot.version>2.2.4.RELEASE</springboot.version>
+        <springboot.version>2.2.5.RELEASE</springboot.version>
         <spring-boot-admin-starter-client.version>2.2.2</spring-boot-admin-starter-client.version>
 <!--        <com.alibab.dubbo.version>2.6.5</com.alibab.dubbo.version>-->
         <dubbo.version>2.7.4.1</dubbo.version>

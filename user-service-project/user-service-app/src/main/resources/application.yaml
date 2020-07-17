@@ -33,6 +33,7 @@ dubbo:
   # Dubbo 服务提供者的配置
   provider:
     filter: -exception
+    validation: true # 开启 Provider 参数校验
     UserRpc:
       version: 1.0.0
     UserSmsCodeRpc:

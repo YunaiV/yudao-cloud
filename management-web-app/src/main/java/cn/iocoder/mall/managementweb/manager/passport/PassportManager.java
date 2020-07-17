@@ -41,6 +41,7 @@ public class PassportManager {
 
     public PassportAccessTokenVO login(PassportLoginDTO loginDTO, String ip) {
         // 校验管理员密码
+//        CommonResult<AdminVO> verifyPasswordResult = adminRpc.verifyPassword(AdminPassportConvert.INSTANCE.convert(loginDTO).setIp(ip));
         CommonResult<AdminVO> verifyPasswordResult = adminRpc.verifyPassword(AdminPassportConvert.INSTANCE.convert(loginDTO).setIp(ip));
         verifyPasswordResult.checkError();
         // 创建访问令牌

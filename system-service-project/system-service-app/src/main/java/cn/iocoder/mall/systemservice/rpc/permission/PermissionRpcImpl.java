@@ -17,7 +17,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 /**
  * 权限 Rpc 实现类
  */
-@Service(version = "${dubbo.provider.PermissionRpc.version}", validation = "false")
+@Service(version = "${dubbo.provider.PermissionRpc.version}")
 public class PermissionRpcImpl implements PermissionRpc {
 
     @Autowired

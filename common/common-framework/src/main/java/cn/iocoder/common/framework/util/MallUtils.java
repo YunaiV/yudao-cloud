@@ -16,10 +16,13 @@ public class MallUtils {
      * @return 链路追踪编号
      */
     public static String getTraceId() {
-        String traceId = TraceContext.traceId();
-        if (StringUtils.hasText(traceId)) {
-            return traceId;
-        }
+        // 通过 SkyWalking 获取链路编号
+        try {
+            String traceId = TraceContext.traceId();
+            if (StringUtils.hasText(traceId)) {
+                return traceId;
+            }
+        } catch (Throwable ignore) {}
         // TODO 芋艿 多次调用会问题
         return UUID.randomUUID().toString();
     }

@@ -141,4 +141,14 @@ public final class CommonResult<T> implements Serializable {
         throw new ServiceException(code, message).setDetailMessage(detailMessage);
     }
 
+    public static <T> CommonResult<T> error(ServiceException serviceException) {
+        return error(serviceException.getCode(), serviceException.getMessage(),
+                serviceException.getDetailMessage());
+    }
+
+    public static <T> CommonResult<T> error(GlobalException globalException) {
+        return error(globalException.getCode(), globalException.getMessage(),
+                globalException.getDetailMessage());
+    }
+
 }

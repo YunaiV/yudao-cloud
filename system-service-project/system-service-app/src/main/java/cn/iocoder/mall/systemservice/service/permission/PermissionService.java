@@ -158,7 +158,7 @@ public class PermissionService {
                 RoleResourceDO::getResourceId, RoleResourceDO::getRoleId);
         for (Map.Entry<Integer, List<Integer>> entry : resourceRoleMap.entrySet()) {
             if (!CollectionUtil.containsAny(roleIds, entry.getValue())) { // 所以有任一不满足，就验证失败，抛出异常
-                throw ServiceExceptionUtil.exception(FORBIDDEN);
+                throw new GlobalException(FORBIDDEN);
             }
         }
     }

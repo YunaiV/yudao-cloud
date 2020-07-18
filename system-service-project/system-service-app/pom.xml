@@ -13,8 +13,8 @@
     <dependencies>
         <!-- RPC 相关 -->
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-dubbo</artifactId>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>mall-spring-boot-starter-dubbo</artifactId>
         </dependency>
 
         <dependency>

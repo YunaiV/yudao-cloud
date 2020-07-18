@@ -1,5 +1,6 @@
 package cn.iocoder.mall.web.core.handler;
 
+import cn.iocoder.common.framework.exception.GlobalException;
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.common.framework.exception.enums.GlobalErrorCodeConstants;
 import cn.iocoder.common.framework.util.ExceptionUtil;
@@ -148,16 +149,37 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = ServiceException.class)
     public CommonResult serviceExceptionHandler(ServiceException ex) {
-        logger.debug("[serviceExceptionHandler]", ex);
+        logger.info("[serviceExceptionHandler]", ex);
         return CommonResult.error(ex.getCode(), ex.getMessage());
+    }
+
+    /**
+     * 处理全局异常 ServiceException
+     *
+     * 例如说，Dubbo 请求超时，调用的 Dubbo 服务系统异常
+     */
+    @ExceptionHandler(value = GlobalException.class)
+    public CommonResult globalExceptionHandler(HttpServletRequest req, GlobalException ex) {
+        logger.error("[globalExceptionHandler]", ex);
+        // 插入异常日志
+        this.createExceptionLog(req, ex);
+        // 返回 ERROR CommonResult
+        return CommonResult.error(ex);
     }
 
     /**
      * 处理系统异常，兜底处理所有的一切
      */
     @ExceptionHandler(value = Exception.class)
-    public CommonResult defaultExceptionHandler(HttpServletRequest req, Throwable e) {
-        logger.error("[defaultExceptionHandler]", e);
+    public CommonResult defaultExceptionHandler(HttpServletRequest req, Throwable ex) {
+        logger.error("[defaultExceptionHandler]", ex);
+        // 插入异常日志
+        this.createExceptionLog(req, ex);
+        // 返回 ERROR CommonResult
+        return CommonResult.error(INTERNAL_SERVER_ERROR.getCode(), INTERNAL_SERVER_ERROR.getMessage());
+    }
+
+    public void createExceptionLog(HttpServletRequest req, Throwable e) {
         // 插入异常日志
         SystemExceptionLogCreateDTO exceptionLog = new SystemExceptionLogCreateDTO();
         try {
@@ -166,12 +188,20 @@ public class GlobalExceptionHandler {
             // 初始化 exceptionLog
             initExceptionLog(exceptionLog, req, e);
             // 执行插入 exceptionLog
-            addExceptionLog(exceptionLog);
+            createExceptionLog(exceptionLog);
         } catch (Throwable th) {
-            logger.error("[defaultExceptionHandler][插入访问日志({}) 发生异常({})", JSON.toJSONString(exceptionLog), ExceptionUtils.getRootCauseMessage(th));
+            logger.error("[createExceptionLog][插入访问日志({}) 发生异常({})", JSON.toJSONString(exceptionLog), ExceptionUtils.getRootCauseMessage(th));
         }
-        // 返回 ERROR CommonResult
-        return CommonResult.error(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(), GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getMessage());
+    }
+
+    // TODO 优化点：后续可以增加事件
+    @Async
+    public void createExceptionLog(SystemExceptionLogCreateDTO exceptionLog) {
+        try {
+            systemExceptionLogRpc.createSystemExceptionLog(exceptionLog);
+        } catch (Throwable th) {
+            logger.error("[addAccessLog][插入异常日志({}) 发生异常({})", JSON.toJSONString(exceptionLog), ExceptionUtils.getRootCauseMessage(th));
+        }
     }
 
     private void initExceptionLog(SystemExceptionLogCreateDTO exceptionLog, HttpServletRequest request, Throwable e) {
@@ -199,16 +229,6 @@ public class GlobalExceptionHandler {
                 .setUserAgent(HttpUtil.getUserAgent(request))
                 .setIp(HttpUtil.getIp(request))
                 .setExceptionTime(new Date());
-    }
-
-    // TODO 优化点：后续可以增加事件
-    @Async
-    public void addExceptionLog(SystemExceptionLogCreateDTO exceptionLog) {
-        try {
-            systemExceptionLogRpc.createSystemExceptionLog(exceptionLog);
-        } catch (Throwable th) {
-            logger.error("[addAccessLog][插入异常日志({}) 发生异常({})", JSON.toJSONString(exceptionLog), ExceptionUtils.getRootCauseMessage(th));
-        }
     }
 
 }

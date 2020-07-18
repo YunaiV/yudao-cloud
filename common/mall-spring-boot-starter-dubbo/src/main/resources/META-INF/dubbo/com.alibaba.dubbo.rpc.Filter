@@ -1,1 +1,1 @@
-dubboExceptionFilter=cn.iocoder.common.framework.dubbo.DubboExceptionFilter
+dubboExceptionFilter=cn.iocoder.mall.dubbo.core.filter.DubboProviderExceptionFilter

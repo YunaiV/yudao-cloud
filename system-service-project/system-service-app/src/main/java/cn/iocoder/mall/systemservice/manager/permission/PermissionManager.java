@@ -1,8 +1,8 @@
 package cn.iocoder.mall.systemservice.manager.permission;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.iocoder.common.framework.exception.GlobalException;
 import cn.iocoder.common.framework.util.CollectionUtils;
-import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionAssignAdminRoleDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionAssignRoleResourceDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionCheckDTO;
@@ -98,7 +98,7 @@ public class PermissionManager {
         // 查询管理员拥有的角色关联数据
         Set<Integer> roleIds = permissionService.listAdminRoleIds(checkDTO.getAdminId());
         if (CollectionUtil.isEmpty(roleIds)) { // 如果没有角色，默认无法访问
-            throw ServiceExceptionUtil.exception(FORBIDDEN);
+            throw new GlobalException(FORBIDDEN);
         }
         // 判断是否为超管。若是超管，默认有所有权限
         if (roleService.hasSuperAdmin(roleIds)) {

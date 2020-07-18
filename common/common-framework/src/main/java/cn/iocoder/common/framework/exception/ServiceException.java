@@ -1,9 +1,10 @@
 package cn.iocoder.common.framework.exception;
 
+import cn.iocoder.common.framework.exception.enums.ServiceErrorCodeRange;
 import cn.iocoder.common.framework.vo.CommonResult;
 
 /**
- * 服务异常
+ * 业务逻辑异常 Exception
  *
  * 参考 https://www.kancloud.cn/onebase/ob/484204 文章
  *
@@ -32,7 +33,9 @@ import cn.iocoder.common.framework.vo.CommonResult;
 public final class ServiceException extends RuntimeException {
 
     /**
-     * 错误码
+     * 业务错误码
+     *
+     * @see ServiceErrorCodeRange
      */
     private final Integer code;
     /**

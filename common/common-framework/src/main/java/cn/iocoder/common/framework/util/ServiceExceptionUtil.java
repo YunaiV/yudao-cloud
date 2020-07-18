@@ -52,9 +52,12 @@ public class ServiceExceptionUtil {
     public static void put(Integer code, String message) {
         ServiceExceptionUtil.messages.put(code, message);
     }
+
     public static void delete(Integer code, String message) {
         ServiceExceptionUtil.messages.remove(code, message);
     }
+
+    // ========== 和 CommonResult 的集成 ==========
 
     public static <T> CommonResult<T> error(Enumerable enumerable) {
         return error(enumerable.getCode());
@@ -72,6 +75,8 @@ public class ServiceExceptionUtil {
         String message = doFormat(code, messages.get(code), params);
         return CommonResult.error(code, message);
     }
+
+    // ========== 和 ServiceException 的集成 ==========
 
     public static ServiceException exception(Enumerable enumerable) {
         String messagePattern = messages.getOrDefault(enumerable.getCode(), enumerable.getMessage());

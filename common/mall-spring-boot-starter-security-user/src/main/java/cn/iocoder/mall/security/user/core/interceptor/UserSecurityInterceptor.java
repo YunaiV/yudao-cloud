@@ -1,6 +1,6 @@
 package cn.iocoder.mall.security.user.core.interceptor;
 
-import cn.iocoder.common.framework.enums.GlobalErrorCodeEnum;
+import cn.iocoder.common.framework.exception.enums.GlobalErrorCodeEnum;
 import cn.iocoder.common.framework.enums.UserTypeEnum;
 import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;

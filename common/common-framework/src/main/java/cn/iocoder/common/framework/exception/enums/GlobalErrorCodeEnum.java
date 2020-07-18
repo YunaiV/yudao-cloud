@@ -1,10 +1,10 @@
-package cn.iocoder.common.framework.enums;
+package cn.iocoder.common.framework.exception.enums;
 
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 
 /**
  * 全局错误码枚举
- * 1-999 系统异常编码保留
+ * 0-999 系统异常编码保留
  *
  * 一般情况下，{@link GlobalErrorCodeEnum#getCode()} ()} 使用 HTTP 响应状态码 https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status
  * 虽然说，HTTP 响应状态码作为业务使用表达能力偏弱，但是使用在系统层面还是非常不错的

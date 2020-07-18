@@ -1,39 +1,10 @@
 package cn.iocoder.common.framework.util;
 
-import cn.iocoder.common.framework.enums.MallConstants;
-import cn.iocoder.common.framework.vo.CommonResult;
 import org.apache.skywalking.apm.toolkit.trace.TraceContext;
 
-import javax.servlet.ServletRequest;
 import java.util.UUID;
 
 public class MallUtils {
-
-    public static Integer getUserId(ServletRequest request) {
-        return (Integer) request.getAttribute(MallConstants.REQUEST_ATTR_USER_ID_KEY);
-    }
-
-    public static void setUserId(ServletRequest request, Integer userId) {
-        request.setAttribute(MallConstants.REQUEST_ATTR_USER_ID_KEY, userId);
-    }
-
-    public static Integer getUserType(ServletRequest request) {
-        return (Integer) request.getAttribute(MallConstants.REQUEST_ATTR_USER_TYPE_KEY);
-    }
-
-    public static void setUserType(ServletRequest request, Integer userType) {
-        request.setAttribute(MallConstants.REQUEST_ATTR_USER_TYPE_KEY, userType);
-    }
-
-    @Deprecated
-    public static CommonResult getCommonResult(ServletRequest request) {
-        return (CommonResult) request.getAttribute(MallConstants.REQUEST_ATTR_COMMON_RESULT);
-    }
-
-    @Deprecated
-    public static void setCommonResult(ServletRequest request, CommonResult result) {
-        request.setAttribute(MallConstants.REQUEST_ATTR_COMMON_RESULT, result);
-    }
 
     /**
      * 获得链路追踪编号

@@ -1,6 +1,6 @@
 package cn.iocoder.mall.dubbo.core.filter;
 
-import cn.iocoder.common.framework.enums.GlobalErrorCodeEnum;
+import cn.iocoder.common.framework.exception.enums.GlobalErrorCodeEnum;
 import cn.iocoder.common.framework.exception.ServiceException;
 import cn.iocoder.common.framework.util.ExceptionUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;

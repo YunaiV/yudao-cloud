@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
-import static cn.iocoder.common.framework.enums.GlobalErrorCodeEnum.FORBIDDEN;
+import static cn.iocoder.common.framework.exception.enums.GlobalErrorCodeEnum.FORBIDDEN;
 
 /**
  * 权限 Manager

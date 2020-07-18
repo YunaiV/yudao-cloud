@@ -1,6 +1,7 @@
 package cn.iocoder.common.framework.vo;
 
-import cn.iocoder.common.framework.enums.GlobalErrorCodeEnum;
+import cn.iocoder.common.framework.exception.ErrorCode;
+import cn.iocoder.common.framework.exception.enums.GlobalErrorCodeEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import com.alibaba.fastjson.annotation.JSONField;
 import org.springframework.util.Assert;
@@ -18,6 +19,8 @@ public final class CommonResult<T> implements Serializable {
 
     /**
      * 错误码
+     *
+     * @see ErrorCode#getCode()
      */
     private Integer code;
     /**
@@ -26,6 +29,8 @@ public final class CommonResult<T> implements Serializable {
     private T data;
     /**
      * 错误提示，用户可阅读
+     *
+     * @see ErrorCode#getMsg()
      */
     private String message;
     /**

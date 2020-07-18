@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static cn.iocoder.common.framework.enums.GlobalErrorCodeEnum.FORBIDDEN;
+import static cn.iocoder.common.framework.exception.enums.GlobalErrorCodeEnum.FORBIDDEN;
 import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.*;
 
 /**

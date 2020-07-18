@@ -160,9 +160,15 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = GlobalException.class)
     public CommonResult globalExceptionHandler(HttpServletRequest req, GlobalException ex) {
-        logger.error("[globalExceptionHandler]", ex);
-        // 插入异常日志
-        this.createExceptionLog(req, ex);
+        // 系统异常时，才打印异常日志
+        if (INTERNAL_SERVER_ERROR.getCode().equals(ex.getCode())) {
+            logger.error("[globalExceptionHandler]", ex);
+            // 插入异常日志
+            this.createExceptionLog(req, ex);
+        // 普通全局异常，打印 info 日志即可
+        } else {
+            logger.info("[globalExceptionHandler]", ex);
+        }
         // 返回 ERROR CommonResult
         return CommonResult.error(ex);
     }

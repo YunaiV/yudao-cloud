@@ -1,6 +1,6 @@
 package cn.iocoder.mall.order.biz.dataobject;
 
-import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
+import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
 import lombok.Data;

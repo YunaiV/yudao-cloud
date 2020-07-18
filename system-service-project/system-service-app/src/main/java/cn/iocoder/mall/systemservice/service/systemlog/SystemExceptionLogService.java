@@ -13,8 +13,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.SYSTEM_EXCEPTION_LOG_NOT_FOUND;
-import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.SYSTEM_EXCEPTION_LOG_PROCESSED;
+import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeConstants.SYSTEM_EXCEPTION_LOG_NOT_FOUND;
+import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeConstants.SYSTEM_EXCEPTION_LOG_PROCESSED;
 
 /**
  * 系统异常日志 Service

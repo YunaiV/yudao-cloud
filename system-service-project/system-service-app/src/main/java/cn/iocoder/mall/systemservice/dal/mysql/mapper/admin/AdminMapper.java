@@ -1,6 +1,6 @@
 package cn.iocoder.mall.systemservice.dal.mysql.mapper.admin;
 
-import cn.iocoder.mall.mybatis.query.QueryWrapperX;
+import cn.iocoder.mall.mybatis.core.query.QueryWrapperX;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.admin.AdminDO;
 import cn.iocoder.mall.systemservice.service.admin.bo.AdminPageBO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

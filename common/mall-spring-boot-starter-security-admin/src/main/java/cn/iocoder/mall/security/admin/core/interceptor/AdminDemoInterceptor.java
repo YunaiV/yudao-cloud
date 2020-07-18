@@ -2,7 +2,7 @@ package cn.iocoder.mall.security.admin.core.interceptor;
 
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.mall.security.admin.core.context.AdminSecurityContextHolder;
-import cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum;
+import cn.iocoder.mall.systemservice.enums.SystemErrorCodeConstants;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -22,7 +22,7 @@ public class AdminDemoInterceptor extends HandlerInterceptorAdapter {
         // 当 Admin 编号等于 0 时，约定为演示账号
         if (Objects.equals(AdminSecurityContextHolder.getAdminId(), 0)
             && request.getMethod().equalsIgnoreCase(HttpMethod.POST.toString())) {
-            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.PERMISSION_DEMO_PERMISSION_DENY);
+            throw ServiceExceptionUtil.exception(SystemErrorCodeConstants.PERMISSION_DEMO_PERMISSION_DENY);
         }
         return true;
     }

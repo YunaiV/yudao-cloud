@@ -1,7 +1,7 @@
 package cn.iocoder.mall.security.admin.core.interceptor;
 
-import cn.iocoder.common.framework.exception.enums.GlobalErrorCodeEnum;
 import cn.iocoder.common.framework.enums.UserTypeEnum;
+import cn.iocoder.common.framework.exception.GlobalException;
 import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
@@ -23,7 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
-import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.OAUTH_USER_TYPE_ERROR;
+import static cn.iocoder.common.framework.exception.enums.GlobalErrorCodeConstants.UNAUTHORIZED;
+import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeConstants.OAUTH_USER_TYPE_ERROR;
 
 public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
 
@@ -68,7 +69,7 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
     private void checkAuthentication(HandlerMethod handlerMethod, Integer adminId) {
         boolean requiresAuthenticate = !handlerMethod.hasMethodAnnotation(RequiresNone.class); // 对于 ADMIN 来说，默认需登录
         if (requiresAuthenticate && adminId == null) {
-            throw ServiceExceptionUtil.exception(GlobalErrorCodeEnum.UNAUTHORIZED);
+            throw new GlobalException(UNAUTHORIZED);
         }
     }
 

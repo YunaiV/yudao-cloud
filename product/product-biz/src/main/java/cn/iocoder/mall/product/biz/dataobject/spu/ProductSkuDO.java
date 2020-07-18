@@ -1,6 +1,6 @@
 package cn.iocoder.mall.product.biz.dataobject.spu;
 
-import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
+import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
 import cn.iocoder.mall.product.biz.dataobject.attr.ProductAttrDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

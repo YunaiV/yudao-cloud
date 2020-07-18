@@ -2,7 +2,7 @@ package cn.iocoder.mall.system.biz.service.errorcode;
 
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
+import cn.iocoder.mall.mybatis.core.enums.DeletedStatusEnum;
 import cn.iocoder.mall.system.biz.bo.errorcode.ErrorCodeBO;
 import cn.iocoder.mall.system.biz.convert.errorcode.ErrorCodeConvert;
 import cn.iocoder.mall.system.biz.dao.errorcode.ErrorCodeMapper;

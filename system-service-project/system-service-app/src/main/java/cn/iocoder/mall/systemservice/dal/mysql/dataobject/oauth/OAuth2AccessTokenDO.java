@@ -1,7 +1,7 @@
 package cn.iocoder.mall.systemservice.dal.mysql.dataobject.oauth;
 
 import cn.iocoder.common.framework.enums.UserTypeEnum;
-import cn.iocoder.mall.mybatis.dataobject.BaseDO;
+import cn.iocoder.mall.mybatis.core.dataobject.BaseDO;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;

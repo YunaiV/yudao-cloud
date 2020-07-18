@@ -1,6 +1,6 @@
 package cn.iocoder.mall.user.biz.dataobject.user;
 
-import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
+import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

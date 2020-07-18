@@ -1,4 +1,4 @@
-package cn.iocoder.mall.mybatis.type;
+package cn.iocoder.mall.mybatis.core.type;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.ibatis.type.BaseTypeHandler;

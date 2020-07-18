@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
 
-import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.*;
+import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeConstants.*;
 
 /**
 * 部门 Service

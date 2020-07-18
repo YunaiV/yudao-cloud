@@ -7,7 +7,7 @@ import cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission.ResourceDO;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission.RoleResourceDO;
 import cn.iocoder.mall.systemservice.dal.mysql.mapper.permission.ResourceMapper;
 import cn.iocoder.mall.systemservice.dal.mysql.mapper.permission.RoleResourceMapper;
-import cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum;
+import cn.iocoder.mall.systemservice.enums.SystemErrorCodeConstants;
 import cn.iocoder.mall.systemservice.enums.permission.ResourceIdEnum;
 import cn.iocoder.mall.systemservice.enums.permission.ResourceTypeEnum;
 import cn.iocoder.mall.systemservice.service.permission.bo.ResourceBO;
@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.*;
+import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeConstants.*;
 
 /**
 * 资源 Service
@@ -83,11 +83,11 @@ public class ResourceService {
     public void deleteResource(Integer resourceId) {
         // 校验更新的资源是否存在
         if (resourceMapper.selectById(resourceId) == null) {
-            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.RESOURCE_NOT_EXISTS);
+            throw ServiceExceptionUtil.exception(SystemErrorCodeConstants.RESOURCE_NOT_EXISTS);
         }
         // 校验是否还有子资源
         if (resourceMapper.selectCountByPid(resourceId) > 0) {
-            throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.RESOURCE_EXISTS_CHILDREN);
+            throw ServiceExceptionUtil.exception(SystemErrorCodeConstants.RESOURCE_EXISTS_CHILDREN);
         }
         // 校验删除的资源是否存在
         if (resourceMapper.selectById(resourceId) == null) {

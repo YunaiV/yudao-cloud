@@ -1,6 +1,6 @@
 package cn.iocoder.mall.userservice.dal.mysql.mapper.sms;
 
-import cn.iocoder.mall.mybatis.query.QueryWrapperX;
+import cn.iocoder.mall.mybatis.core.query.QueryWrapperX;
 import cn.iocoder.mall.userservice.dal.mysql.dataobject.sms.UserSmsCodeDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;

@@ -3,7 +3,7 @@ package cn.iocoder.mall.promotion.biz.service.banner;
 import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
+import cn.iocoder.mall.mybatis.core.enums.DeletedStatusEnum;
 import cn.iocoder.mall.promotion.biz.api.enums.PromotionErrorCodeEnum;
 import cn.iocoder.mall.promotion.biz.bo.banner.BannerListBO;
 import cn.iocoder.mall.promotion.biz.bo.banner.BannerListOnReleaseBO;

@@ -1,6 +1,6 @@
 package cn.iocoder.mall.systemservice.dal.mysql.mapper.admin;
 
-import cn.iocoder.mall.mybatis.query.QueryWrapperX;
+import cn.iocoder.mall.mybatis.core.query.QueryWrapperX;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.admin.DepartmentDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;

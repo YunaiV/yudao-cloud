@@ -3,7 +3,7 @@ package cn.iocoder.mall.product.biz.service.attr;
 import cn.iocoder.common.framework.util.CollectionUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
+import cn.iocoder.mall.mybatis.core.enums.DeletedStatusEnum;
 import cn.iocoder.mall.product.biz.bo.attr.ProductAttrBO;
 import cn.iocoder.mall.product.biz.bo.attr.ProductAttrSimpleWithValueBO;
 import cn.iocoder.mall.product.biz.bo.attr.ProductAttrValueBO;

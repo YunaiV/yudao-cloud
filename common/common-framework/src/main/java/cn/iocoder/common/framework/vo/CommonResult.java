@@ -1,8 +1,9 @@
 package cn.iocoder.common.framework.vo;
 
 import cn.iocoder.common.framework.exception.ErrorCode;
-import cn.iocoder.common.framework.exception.enums.GlobalErrorCodeEnum;
-import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.exception.GlobalException;
+import cn.iocoder.common.framework.exception.ServiceException;
+import cn.iocoder.common.framework.exception.enums.GlobalErrorCodeConstants;
 import com.alibaba.fastjson.annotation.JSONField;
 import org.springframework.util.Assert;
 
@@ -14,8 +15,6 @@ import java.io.Serializable;
  * @param <T> 数据泛型
  */
 public final class CommonResult<T> implements Serializable {
-
-    private static final Integer CODE_SUCCESS = GlobalErrorCodeEnum.SUCCESS.getCode();
 
     /**
      * 错误码
@@ -30,7 +29,7 @@ public final class CommonResult<T> implements Serializable {
     /**
      * 错误提示，用户可阅读
      *
-     * @see ErrorCode#getMsg()
+     * @see ErrorCode#getMessage() ()
      */
     private String message;
     /**
@@ -48,20 +47,25 @@ public final class CommonResult<T> implements Serializable {
      * @return 新的 CommonResult 对象
      */
     public static <T> CommonResult<T> error(CommonResult<?> result) {
-        return error(result.getCode(), result.getMessage());
+        return error(result.getCode(), result.getMessage(), result.detailMessage);
     }
 
     public static <T> CommonResult<T> error(Integer code, String message) {
-        Assert.isTrue(!CODE_SUCCESS.equals(code), "code 必须是错误的！");
+        return error(code, message, null);
+    }
+
+    public static <T> CommonResult<T> error(Integer code, String message, String detailMessage) {
+        Assert.isTrue(!GlobalErrorCodeConstants.SUCCESS.getCode().equals(code), "code 必须是错误的！");
         CommonResult<T> result = new CommonResult<>();
         result.code = code;
         result.message = message;
+        result.detailMessage = detailMessage;
         return result;
     }
 
     public static <T> CommonResult<T> success(T data) {
         CommonResult<T> result = new CommonResult<>();
-        result.code = CODE_SUCCESS;
+        result.code = GlobalErrorCodeConstants.SUCCESS.getCode();
         result.data = data;
         result.message = "";
         return result;
@@ -102,7 +106,7 @@ public final class CommonResult<T> implements Serializable {
 
     @JSONField(serialize = false) // 避免序列化
     public boolean isSuccess() {
-        return CODE_SUCCESS.equals(code);
+        return GlobalErrorCodeConstants.SUCCESS.getCode().equals(code);
     }
 
     @JSONField(serialize = false) // 避免序列化
@@ -110,23 +114,31 @@ public final class CommonResult<T> implements Serializable {
         return !isSuccess();
     }
 
-    /**
-     * 判断是否有异常。如果有，则抛出 {@link cn.iocoder.common.framework.exception.ServiceException} 异常
-     */
-    public void checkError() {
-        if (isSuccess()) {
-            return;
-        }
-        throw ServiceExceptionUtil.exception0(code, message);
-    }
-
     @Override
     public String toString() {
         return "CommonResult{" +
                 "code=" + code +
-                ", message='" + message + '\'' +
                 ", data=" + data +
+                ", message='" + message + '\'' +
+                ", detailMessage='" + detailMessage + '\'' +
                 '}';
+    }
+
+    // ========= 和 Exception 异常体系集成 =========
+
+    /**
+     * 判断是否有异常。如果有，则抛出 {@link GlobalException} 或 {@link ServiceException} 异常
+     */
+    public void checkError() throws GlobalException, ServiceException {
+        if (isSuccess()) {
+            return;
+        }
+        // 全局异常
+        if (GlobalErrorCodeConstants.isMatch(code)) {
+            throw new GlobalException(code, message).setDetailMessage(detailMessage);
+        }
+        // 业务异常
+        throw new ServiceException(code, message).setDetailMessage(detailMessage);
     }
 
 }

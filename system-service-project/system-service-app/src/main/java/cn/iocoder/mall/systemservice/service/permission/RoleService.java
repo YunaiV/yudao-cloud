@@ -26,7 +26,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.*;
+import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeConstants.*;
 
 /**
 * 角色 Service

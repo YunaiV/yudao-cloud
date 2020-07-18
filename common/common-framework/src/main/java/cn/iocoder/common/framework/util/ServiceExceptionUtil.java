@@ -1,10 +1,9 @@
 package cn.iocoder.common.framework.util;
 
+import cn.iocoder.common.framework.exception.ErrorCode;
 import cn.iocoder.common.framework.exception.ServiceException;
-import cn.iocoder.common.framework.vo.CommonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,19 +27,6 @@ public class ServiceExceptionUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceExceptionUtil.class);
 
     /**
-     * 错误枚举的接口
-     */
-    public interface Enumerable<V extends Enum> {
-
-        int getCode();
-
-        String getMessage();
-
-        int getGroup();
-
-    }
-
-    /**
      * 错误码提示模板
      */
     private static ConcurrentMap<Integer, String> messages = new ConcurrentHashMap<>();
@@ -57,35 +43,16 @@ public class ServiceExceptionUtil {
         ServiceExceptionUtil.messages.remove(code, message);
     }
 
-    // ========== 和 CommonResult 的集成 ==========
-
-    public static <T> CommonResult<T> error(Enumerable enumerable) {
-        return error(enumerable.getCode());
-    }
-
-    public static <T> CommonResult<T> error(Enumerable enumerable, Object... params) {
-        return error(enumerable.getCode(), params);
-    }
-
-    public static <T> CommonResult<T> error(Integer code) {
-        return CommonResult.error(code, messages.get(code));
-    }
-
-    public static <T> CommonResult<T> error(Integer code, Object... params) {
-        String message = doFormat(code, messages.get(code), params);
-        return CommonResult.error(code, message);
-    }
-
     // ========== 和 ServiceException 的集成 ==========
 
-    public static ServiceException exception(Enumerable enumerable) {
-        String messagePattern = messages.getOrDefault(enumerable.getCode(), enumerable.getMessage());
-        return exception0(enumerable.getCode(), messagePattern);
+    public static ServiceException exception(ErrorCode errorCode) {
+        String messagePattern = messages.getOrDefault(errorCode.getCode(), errorCode.getMessage());
+        return exception0(errorCode.getCode(), messagePattern);
     }
 
-    public static ServiceException exception(Enumerable enumerable, Object... params) {
-        String messagePattern = messages.getOrDefault(enumerable.getCode(), enumerable.getMessage());
-        return exception0(enumerable.getCode(), messagePattern, params);
+    public static ServiceException exception(ErrorCode errorCode, Object... params) {
+        String messagePattern = messages.getOrDefault(errorCode.getCode(), errorCode.getMessage());
+        return exception0(errorCode.getCode(), messagePattern, params);
     }
 
     /**
@@ -114,10 +81,7 @@ public class ServiceExceptionUtil {
         return new ServiceException(code, message);
     }
 
-    public static ServiceException exception(CommonResult result) {
-        Assert.isTrue(result.isError(), "结果必须是错误的");
-        return new ServiceException(result.getCode(), result.getMessage());
-    }
+    // ========== 格式化方法 ==========
 
     /**
      * 将错误编号对应的消息使用 params 进行格式化。

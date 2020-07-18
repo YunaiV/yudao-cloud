@@ -1,4 +1,4 @@
-package cn.iocoder.mall.mybatis.dataobject;
+package cn.iocoder.mall.mybatis.core.dataobject;
 
 import java.io.Serializable;
 import java.util.Date;

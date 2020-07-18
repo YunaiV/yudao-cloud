@@ -1,6 +1,7 @@
 package cn.iocoder.mall.systemservice.service.permission;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.iocoder.common.framework.exception.GlobalException;
 import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.admin.AdminDO;
@@ -21,8 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static cn.iocoder.common.framework.exception.enums.GlobalErrorCodeEnum.FORBIDDEN;
-import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.*;
+import static cn.iocoder.common.framework.exception.enums.GlobalErrorCodeConstants.FORBIDDEN;
+import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeConstants.*;
 
 /**
  * 权限 Service
@@ -151,7 +152,7 @@ public class PermissionService {
         // 权限验证
         List<RoleResourceDO> roleResourceDOs = roleResourceMapper.selectListByResourceIds(permissionIds);
         if (CollectionUtil.isEmpty(roleResourceDOs)) { // 资源未授予任何角色，必然权限验证不通过
-            throw ServiceExceptionUtil.exception(FORBIDDEN);
+            throw new GlobalException(FORBIDDEN);
         }
         Map<Integer, List<Integer>> resourceRoleMap = CollectionUtils.convertMultiMap(roleResourceDOs,
                 RoleResourceDO::getResourceId, RoleResourceDO::getRoleId);

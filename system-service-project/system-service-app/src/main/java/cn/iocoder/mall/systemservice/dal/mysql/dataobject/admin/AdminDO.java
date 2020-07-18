@@ -1,6 +1,6 @@
 package cn.iocoder.mall.systemservice.dal.mysql.dataobject.admin;
 
-import cn.iocoder.mall.mybatis.dataobject.BaseDO;
+import cn.iocoder.mall.mybatis.core.dataobject.BaseDO;
 import cn.iocoder.mall.systemservice.enums.admin.AdminStatusEnum;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

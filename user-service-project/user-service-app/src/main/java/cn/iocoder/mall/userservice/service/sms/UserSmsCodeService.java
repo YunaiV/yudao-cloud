@@ -12,7 +12,7 @@ import org.springframework.validation.annotation.Validated;
 
 import java.util.Date;
 
-import static cn.iocoder.mall.userservice.enums.UserErrorCodeEnum.*;
+import static cn.iocoder.mall.userservice.enums.UserErrorCodeConstants.*;
 
 @Service
 @Validated

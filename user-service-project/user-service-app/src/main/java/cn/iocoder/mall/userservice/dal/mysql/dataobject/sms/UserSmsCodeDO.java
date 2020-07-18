@@ -1,6 +1,6 @@
 package cn.iocoder.mall.userservice.dal.mysql.dataobject.sms;
 
-import cn.iocoder.mall.mybatis.dataobject.BaseDO;
+import cn.iocoder.mall.mybatis.core.dataobject.BaseDO;
 import cn.iocoder.mall.userservice.enums.sms.UserSmsSceneEnum;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

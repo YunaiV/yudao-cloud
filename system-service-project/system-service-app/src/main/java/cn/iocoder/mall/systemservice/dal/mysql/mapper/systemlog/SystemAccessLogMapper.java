@@ -1,6 +1,6 @@
 package cn.iocoder.mall.systemservice.dal.mysql.mapper.systemlog;
 
-import cn.iocoder.mall.mybatis.query.QueryWrapperX;
+import cn.iocoder.mall.mybatis.core.query.QueryWrapperX;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.systemlog.SystemAccessLogDO;
 import cn.iocoder.mall.systemservice.service.systemlog.bo.SystemAccessLogPageBO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

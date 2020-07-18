@@ -2,7 +2,7 @@ package cn.iocoder.mall.systemservice.dal.mysql.dataobject.systemlog;
 
 import cn.iocoder.common.framework.enums.UserTypeEnum;
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.mybatis.dataobject.BaseDO;
+import cn.iocoder.mall.mybatis.core.dataobject.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,7 +1,7 @@
 package cn.iocoder.mall.web.core.handler;
 
-import cn.iocoder.common.framework.exception.enums.GlobalErrorCodeEnum;
 import cn.iocoder.common.framework.exception.ServiceException;
+import cn.iocoder.common.framework.exception.enums.GlobalErrorCodeConstants;
 import cn.iocoder.common.framework.util.ExceptionUtil;
 import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.util.MallUtils;
@@ -31,6 +31,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.Date;
+
+import static cn.iocoder.common.framework.exception.enums.GlobalErrorCodeConstants.*;
 
 /**
  * 全局异常处理器，将 Exception 翻译成 CommonResult + 对应的异常编号
@@ -62,7 +64,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
     public CommonResult missingServletRequestParameterExceptionHandler(MissingServletRequestParameterException ex) {
         logger.warn("[missingServletRequestParameterExceptionHandler]", ex);
-        return CommonResult.error(GlobalErrorCodeEnum.BAD_REQUEST.getCode(),
+        return CommonResult.error(BAD_REQUEST.getCode(),
                 String.format("请求参数缺失:%s", ex.getParameterName()));
     }
 
@@ -74,7 +76,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public CommonResult methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException ex) {
         logger.warn("[missingServletRequestParameterExceptionHandler]", ex);
-        return CommonResult.error(GlobalErrorCodeEnum.BAD_REQUEST.getCode(),
+        return CommonResult.error(BAD_REQUEST.getCode(),
                 String.format("请求参数类型错误:%s", ex.getMessage()));
     }
 
@@ -86,7 +88,7 @@ public class GlobalExceptionHandler {
         logger.warn("[methodArgumentNotValidExceptionExceptionHandler]", ex);
         FieldError fieldError = ex.getBindingResult().getFieldError();
         assert fieldError != null; // 断言，避免告警
-        return CommonResult.error(GlobalErrorCodeEnum.BAD_REQUEST.getCode(),
+        return CommonResult.error(BAD_REQUEST.getCode(),
                 String.format("请求参数不正确:%s", fieldError.getDefaultMessage()));
     }
 
@@ -98,7 +100,7 @@ public class GlobalExceptionHandler {
         logger.warn("[handleBindException]", ex);
         FieldError fieldError = ex.getFieldError();
         assert fieldError != null; // 断言，避免告警
-        return CommonResult.error(GlobalErrorCodeEnum.BAD_REQUEST.getCode(),
+        return CommonResult.error(BAD_REQUEST.getCode(),
                 String.format("请求参数不正确:%s", fieldError.getDefaultMessage()));
     }
 
@@ -109,7 +111,7 @@ public class GlobalExceptionHandler {
     public CommonResult constraintViolationExceptionHandler(ConstraintViolationException ex) {
         logger.warn("[constraintViolationExceptionHandler]", ex);
         ConstraintViolation<?> constraintViolation = ex.getConstraintViolations().iterator().next();
-        return CommonResult.error(GlobalErrorCodeEnum.BAD_REQUEST.getCode(),
+        return CommonResult.error(BAD_REQUEST.getCode(),
                 String.format("请求参数不正确:%s", constraintViolation.getMessage()));
     }
 
@@ -123,7 +125,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoHandlerFoundException.class)
     public CommonResult noHandlerFoundExceptionHandler(NoHandlerFoundException ex) {
         logger.warn("[noHandlerFoundExceptionHandler]", ex);
-        return CommonResult.error(GlobalErrorCodeEnum.NOT_FOUND.getCode(),
+        return CommonResult.error(GlobalErrorCodeConstants.NOT_FOUND.getCode(),
                 String.format("请求地址不存在:%s", ex.getRequestURL()));
     }
 
@@ -135,7 +137,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public CommonResult httpRequestMethodNotSupportedExceptionHandler(HttpRequestMethodNotSupportedException ex) {
         logger.warn("[httpRequestMethodNotSupportedExceptionHandler]", ex);
-        return CommonResult.error(GlobalErrorCodeEnum.METHOD_NOT_ALLOWED.getCode(),
+        return CommonResult.error(GlobalErrorCodeConstants.METHOD_NOT_ALLOWED.getCode(),
                 String.format("请求方法不正确:%s", ex.getMessage()));
     }
 
@@ -169,7 +171,7 @@ public class GlobalExceptionHandler {
             logger.error("[defaultExceptionHandler][插入访问日志({}) 发生异常({})", JSON.toJSONString(exceptionLog), ExceptionUtils.getRootCauseMessage(th));
         }
         // 返回 ERROR CommonResult
-        return CommonResult.error(GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getCode(), GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getMessage());
+        return CommonResult.error(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(), GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getMessage());
     }
 
     private void initExceptionLog(SystemExceptionLogCreateDTO exceptionLog, HttpServletRequest request, Throwable e) {

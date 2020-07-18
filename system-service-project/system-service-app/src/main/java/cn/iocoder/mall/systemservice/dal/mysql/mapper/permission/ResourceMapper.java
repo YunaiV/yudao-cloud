@@ -1,6 +1,6 @@
 package cn.iocoder.mall.systemservice.dal.mysql.mapper.permission;
 
-import cn.iocoder.mall.mybatis.query.QueryWrapperX;
+import cn.iocoder.mall.mybatis.core.query.QueryWrapperX;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission.ResourceDO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;

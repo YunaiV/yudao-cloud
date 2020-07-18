@@ -17,7 +17,7 @@ import cn.iocoder.mall.systemservice.service.admin.bo.AdminUpdateBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.*;
+import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeConstants.*;
 
 @Service
 public class AdminService {

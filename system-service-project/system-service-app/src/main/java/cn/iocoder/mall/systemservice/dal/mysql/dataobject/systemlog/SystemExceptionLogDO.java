@@ -1,7 +1,7 @@
 package cn.iocoder.mall.systemservice.dal.mysql.dataobject.systemlog;
 
 import cn.iocoder.common.framework.enums.UserTypeEnum;
-import cn.iocoder.mall.mybatis.dataobject.BaseDO;
+import cn.iocoder.mall.mybatis.core.dataobject.BaseDO;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.admin.AdminDO;
 import cn.iocoder.mall.systemservice.enums.systemlog.SystemExceptionLogProcessStatusEnum;
 import com.baomidou.mybatisplus.annotation.TableName;

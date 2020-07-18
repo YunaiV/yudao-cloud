@@ -2,7 +2,6 @@ package cn.iocoder.mall.system.biz.service.user;
 
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
 import cn.iocoder.mall.system.biz.bo.ouath2.OAuth2AuthenticateBO;
 import cn.iocoder.mall.system.biz.bo.user.UserAuthenticateBO;
 import cn.iocoder.mall.system.biz.bo.user.UserBO;
@@ -17,7 +16,7 @@ import cn.iocoder.mall.system.biz.enums.user.UserStatusEnum;
 import cn.iocoder.mall.system.biz.service.oauth2.OAuth2Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Arrays;
 import static cn.iocoder.mall.system.biz.enums.SystemErrorCodeEnum.*;
 

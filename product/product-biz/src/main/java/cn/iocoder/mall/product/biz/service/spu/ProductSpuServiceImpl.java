@@ -2,7 +2,7 @@ package cn.iocoder.mall.product.biz.service.spu;
 
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.StringUtil;
-import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
+import cn.iocoder.mall.mybatis.core.enums.DeletedStatusEnum;
 import cn.iocoder.mall.product.biz.bo.product.ProductAttrAndValuePairBO;
 import cn.iocoder.mall.product.biz.bo.product.ProductSpuDetailBO;
 import cn.iocoder.mall.product.biz.convert.sku.ProductSpuConvert;

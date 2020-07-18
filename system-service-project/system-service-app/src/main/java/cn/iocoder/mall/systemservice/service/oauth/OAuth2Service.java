@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
-import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeEnum.*;
+import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeConstants.*;
 
 /**
  * OAuth2.0 Service

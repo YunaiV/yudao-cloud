@@ -1,6 +1,6 @@
 package cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission;
 
-import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
+import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.admin.AdminDO;
 import cn.iocoder.mall.systemservice.enums.permission.ResourceTypeEnum;
 import com.baomidou.mybatisplus.annotation.TableName;

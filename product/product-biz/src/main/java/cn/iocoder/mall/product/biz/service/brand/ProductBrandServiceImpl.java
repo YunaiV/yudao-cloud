@@ -2,7 +2,7 @@ package cn.iocoder.mall.product.biz.service.brand;
 
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
+import cn.iocoder.mall.mybatis.core.enums.DeletedStatusEnum;
 import cn.iocoder.mall.product.biz.bo.brand.ProductBrandBO;
 import cn.iocoder.mall.product.biz.convert.brand.ProductBrandConvert;
 import cn.iocoder.mall.product.biz.dao.brand.ProductBrandMapper;

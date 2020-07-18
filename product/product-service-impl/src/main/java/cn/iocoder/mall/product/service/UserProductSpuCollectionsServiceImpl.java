@@ -1,7 +1,7 @@
 package cn.iocoder.mall.product.service;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
+import cn.iocoder.mall.mybatis.core.enums.DeletedStatusEnum;
 import cn.iocoder.mall.product.api.UserProductSpuCollectionsService;
 import cn.iocoder.mall.product.api.bo.UserProductSpuCollectionsBO;
 import cn.iocoder.mall.product.api.bo.UserProductSpuCollectionsPageBO;

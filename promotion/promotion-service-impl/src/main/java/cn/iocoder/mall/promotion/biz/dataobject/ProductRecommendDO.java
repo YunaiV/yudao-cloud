@@ -1,7 +1,7 @@
 package cn.iocoder.mall.promotion.biz.dataobject;
 
 
-import cn.iocoder.mall.mybatis.dataobject.DeletableDO;
+import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
 import cn.iocoder.mall.promotion.api.constant.ProductRecommendTypeEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;

@@ -1,7 +1,7 @@
 package cn.iocoder.mall.user.biz.service.user;
 
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
-import cn.iocoder.mall.mybatis.enums.DeletedStatusEnum;
+import cn.iocoder.mall.mybatis.core.enums.DeletedStatusEnum;
 import cn.iocoder.mall.user.biz.bo.user.UserAddressBO;
 import cn.iocoder.mall.user.biz.convert.user.UserAddressConvert;
 import cn.iocoder.mall.user.biz.dao.user.UserAddressMapper;

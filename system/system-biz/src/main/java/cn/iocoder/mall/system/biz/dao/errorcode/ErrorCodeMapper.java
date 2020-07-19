@@ -36,10 +36,6 @@ public interface ErrorCodeMapper extends BaseMapper<ErrorCodeDO> {
         return selectList(new QueryWrapperX<ErrorCodeDO>().inIfPresent("id", ids));
     }
 
-    default ErrorCodeDO selectByMessage(String message) {
-        return selectOne(new QueryWrapperX<ErrorCodeDO>().eqIfPresent("message", message));
-    }
-
     default List<ErrorCodeDO> selectByGroup(Integer group) {
         return selectList(new QueryWrapperX<ErrorCodeDO>().eqIfPresent("group", group));
     }

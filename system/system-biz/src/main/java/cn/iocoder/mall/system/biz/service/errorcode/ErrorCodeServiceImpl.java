@@ -128,7 +128,6 @@ public class ErrorCodeServiceImpl extends ServiceImpl<ErrorCodeMapper, ErrorCode
         if (ErrorCodeTypeEnum.SYSTEM.getType().equals(errorCodeDO.getType())) {
             throw ServiceExceptionUtil.exception(SystemErrorCodeEnum.ERROR_CAN_NOT_UPDATE_SYSTEM_TYPE_ERROR);
         }
-        // TODO FROM 芋艿 to 鱿鱼丝：不能删除内置错误码
         // 更新到数据库，标记删除
         errorCodeMapper.deleteById(errorCodeDO.getId());
         ServiceExceptionUtil.delete(errorCodeDO.getCode(),errorCodeDO.getMessage());

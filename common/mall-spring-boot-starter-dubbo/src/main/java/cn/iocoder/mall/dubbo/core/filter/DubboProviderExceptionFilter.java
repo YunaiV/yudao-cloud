@@ -18,7 +18,7 @@ import java.lang.reflect.Type;
 import static cn.iocoder.common.framework.exception.enums.GlobalErrorCodeConstants.BAD_REQUEST;
 import static cn.iocoder.common.framework.exception.enums.GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR;
 
-@Activate(group = CommonConstants.PROVIDER)
+@Activate(group = CommonConstants.PROVIDER) // TODO 优化点：设置下顺序
 public class DubboProviderExceptionFilter implements Filter, Filter.Listener {
 
     private Logger logger = LoggerFactory.getLogger(DubboProviderExceptionFilter.class);
@@ -39,7 +39,7 @@ public class DubboProviderExceptionFilter implements Filter, Filter.Listener {
                     exception = this.constraintViolationExceptionHandler((ConstraintViolationException) exception);
                 // 1. ServiceException 业务异常，因为不会有序列化问题，所以无需处理
                 } else if (exception instanceof ServiceException) {
-                // 1.3 其它异常，转换成 ServiceException 业务异常，避免可能存在的反序列化问题
+                // 1.3 其它异常，转换成 GlobalException 全局异常，避免可能存在的反序列化问题
                 } else {
                     exception = this.defaultExceptionHandler(exception, invocation);
                     assert exception != null;

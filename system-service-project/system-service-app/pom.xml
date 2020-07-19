@@ -23,6 +23,11 @@
             <artifactId>system-service-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>mall-spring-boot-starter-system-error-code</artifactId> <!-- 错误码 -->
+        </dependency>
+
         <!-- Registry 和 Config 相关 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

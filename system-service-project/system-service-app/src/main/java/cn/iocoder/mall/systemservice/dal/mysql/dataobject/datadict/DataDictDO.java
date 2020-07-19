@@ -3,6 +3,7 @@ package cn.iocoder.mall.systemservice.dal.mysql.dataobject.datadict;
 import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
@@ -16,6 +17,7 @@ import lombok.experimental.Accessors;
  */
 @TableName("system_data_dict")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class DataDictDO extends DeletableDO {
 

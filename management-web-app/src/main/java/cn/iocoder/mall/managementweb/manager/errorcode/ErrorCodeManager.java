@@ -7,6 +7,7 @@ import cn.iocoder.mall.managementweb.controller.errorcode.dto.ErrorCodePageDTO;
 import cn.iocoder.mall.managementweb.controller.errorcode.dto.ErrorCodeUpdateDTO;
 import cn.iocoder.mall.managementweb.controller.errorcode.vo.ErrorCodeVO;
 import cn.iocoder.mall.managementweb.convert.errorcode.ErrorCodeConvert;
+import cn.iocoder.mall.systemservice.enums.errorcode.ErrorCodeTypeEnum;
 import cn.iocoder.mall.systemservice.rpc.errorcode.ErrorCodeRpc;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,8 @@ public class ErrorCodeManager {
     * @return 错误码
     */
     public Integer createErrorCode(ErrorCodeCreateDTO createDTO) {
-        CommonResult<Integer> createErrorCodeResult = errorCodeRpc.createErrorCode(ErrorCodeConvert.INSTANCE.convert(createDTO));
+        CommonResult<Integer> createErrorCodeResult = errorCodeRpc.createErrorCode(ErrorCodeConvert.INSTANCE.convert(createDTO)
+                .setType(ErrorCodeTypeEnum.MANUAL_OPERATION.getType()));
         createErrorCodeResult.checkError();
         return createErrorCodeResult.getData();
     }
@@ -40,7 +42,8 @@ public class ErrorCodeManager {
     * @param updateDTO 更新错误码 DTO
     */
     public void updateErrorCode(ErrorCodeUpdateDTO updateDTO) {
-        CommonResult<Boolean> updateErrorCodeResult = errorCodeRpc.updateErrorCode(ErrorCodeConvert.INSTANCE.convert(updateDTO));
+        CommonResult<Boolean> updateErrorCodeResult = errorCodeRpc.updateErrorCode(ErrorCodeConvert.INSTANCE.convert(updateDTO)
+                .setType(ErrorCodeTypeEnum.MANUAL_OPERATION.getType()));
         updateErrorCodeResult.checkError();
     }
 

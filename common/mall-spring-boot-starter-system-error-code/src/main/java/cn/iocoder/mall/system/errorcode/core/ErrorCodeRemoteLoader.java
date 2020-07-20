@@ -38,7 +38,7 @@ public class ErrorCodeRemoteLoader {
 
     @EventListener(ApplicationReadyEvent.class)
     public void loadErrorCodes() {
-        // 从 ErrorCodeRpc 加载 ErrorCode 错误码
+        // 从 ErrorCodeRpc 全量加载 ErrorCode 错误码
         CommonResult<List<ErrorCodeVO>> listErrorCodesResult = errorCodeRpc.listErrorCodes(group, null);
         listErrorCodesResult.checkError();
         logger.info("[loadErrorCodes][从 group({}) 全量加载到 {} 个 ErrorCode 错误码]", group, listErrorCodesResult.getData().size());
@@ -52,7 +52,8 @@ public class ErrorCodeRemoteLoader {
 
     @Scheduled(fixedDelay = REFRESH_ERROR_CODE_PERIOD, initialDelay = REFRESH_ERROR_CODE_PERIOD)
     public void refreshErrorCodes() {
-        // 从 ErrorCodeRpc 加载 ErrorCode 错误码
+        // 从 ErrorCodeRpc 增量加载 ErrorCode 错误码
+        // TODO 优化点：假设删除错误码的配置，会存在问题；
         CommonResult<List<ErrorCodeVO>> listErrorCodesResult = errorCodeRpc.listErrorCodes(group, maxUpdateTime);
         listErrorCodesResult.checkError();
         if (CollectionUtils.isEmpty(listErrorCodesResult.getData())) {

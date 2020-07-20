@@ -19,7 +19,7 @@ public enum ErrorCodeTypeEnum implements IntArrayValuable {
      */
     AUTO_GENERATION(1),
     /**
-     * 手动处理
+     * 手动编辑
      */
     MANUAL_OPERATION(2);
 

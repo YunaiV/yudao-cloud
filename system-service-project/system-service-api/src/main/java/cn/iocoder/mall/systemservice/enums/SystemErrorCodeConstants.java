@@ -25,13 +25,12 @@ public interface SystemErrorCodeConstants {
     ErrorCode ADMIN_NOT_FOUND = new ErrorCode(1002002000, "管理员不存在");
     ErrorCode ADMIN_PASSWORD_ERROR = new ErrorCode(1002002001, "密码不正确");
     ErrorCode ADMIN_IS_DISABLE = new ErrorCode(1002002002, "账号被禁用");
-    ErrorCode ADMIN_USERNAME_EXISTS = new ErrorCode(1002002002, "账号已经存在");
-    ErrorCode ADMIN_STATUS_EQUALS = new ErrorCode(1002002003, "账号已经是该状态");
-//   ErrorCode  ADMIN_DELETE_ONLY_DISABLE = new ErrorCode(1002002004, "只有关闭的账号才可以删除");
+    ErrorCode ADMIN_USERNAME_EXISTS = new ErrorCode(1002002003, "账号已经存在");
+    ErrorCode ADMIN_STATUS_EQUALS = new ErrorCode(1002002004, "账号已经是该状态");
     ErrorCode ADMIN_ADMIN_STATUS_CAN_NOT_UPDATE = new ErrorCode(1002002005, "管理员的账号状态不允许变更");
     ErrorCode ADMIN_ASSIGN_ROLE_NOT_EXISTS = new ErrorCode(1002002006, "分配员工角色时，有角色不存在");
     ErrorCode ADMIN_ADMIN_CAN_NOT_UPDATE = new ErrorCode(1002002008, "管理员的账号不允许变更");
-    ErrorCode ADMIN_USERNAME_NOT_EXISTS = new ErrorCode(1002002008, "账号不存在");
+    ErrorCode ADMIN_USERNAME_NOT_EXISTS = new ErrorCode(1002002009, "账号不存在");
 
     // ========== 资源模块 1002003000 ==========
     ErrorCode RESOURCE_NAME_DUPLICATE = new ErrorCode(1002003000, "已经存在该名字的资源");
@@ -49,8 +48,8 @@ public interface SystemErrorCodeConstants {
     ErrorCode ROLE_CAN_NOT_DELETE_SYSTEM_TYPE_ROLE = new ErrorCode(1002004005, "不能删除类型为系统内置的角色");
 
     // ========== 数据字典模块 1002005000 ==========
-    ErrorCode DATA_DICT_EXISTS = new ErrorCode(1002005000, "该数据字典已经存在");
-    ErrorCode DATA_DICT_NOT_EXISTS = new ErrorCode(1002005001, "该数据字典不存在");
+    ErrorCode DATA_DICT_EXISTS = new ErrorCode(1002005000, "数据字典已经存在");
+    ErrorCode DATA_DICT_NOT_EXISTS = new ErrorCode(1002005001, "数据字典不存在");
 
     // ========== 短信模板 1002006000 ==========
     ErrorCode SMS_PLATFORM_FAIL = new ErrorCode(1002006000, "短信平台调用失败【具体错误会动态替换】");

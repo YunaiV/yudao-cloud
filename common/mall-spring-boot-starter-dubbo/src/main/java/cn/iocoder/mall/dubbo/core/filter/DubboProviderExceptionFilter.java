@@ -97,6 +97,10 @@ public class DubboProviderExceptionFilter implements Filter, Filter.Listener {
     private GlobalException defaultExceptionHandler(Throwable exception, Invocation invocation) {
         logger.error("[defaultExceptionHandler][service({}) method({}) params({}) 执行异常]",
                 invocation.getServiceName(), invocation.getServiceName(), invocation.getArguments(), exception);
+        // 如果已经是 GlobalException 全局异常，直接返回即可
+        if (exception instanceof GlobalException) {
+            return (GlobalException) exception;
+        }
         return new GlobalException(INTERNAL_SERVER_ERROR)
                 .setDetailMessage(this.buildDetailMessage(exception, invocation));
     }

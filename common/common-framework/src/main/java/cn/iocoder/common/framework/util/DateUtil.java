@@ -133,4 +133,14 @@ public class DateUtil {
                 && now.getTime() <= endTime.getTime();
     }
 
+    public static Date max(Date a, Date b) {
+        if (a == null) {
+            return b;
+        }
+        if (b == null) {
+            return a;
+        }
+        return a.compareTo(b) > 0 ? a : b;
+    }
+
 }

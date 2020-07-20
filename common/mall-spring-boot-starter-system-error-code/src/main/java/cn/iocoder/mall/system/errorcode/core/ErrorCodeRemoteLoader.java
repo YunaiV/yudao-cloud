@@ -1,5 +1,7 @@
 package cn.iocoder.mall.system.errorcode.core;
 
+import cn.iocoder.common.framework.util.CollectionUtils;
+import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.systemservice.rpc.errorcode.ErrorCodeRpc;
@@ -44,32 +46,25 @@ public class ErrorCodeRemoteLoader {
         listErrorCodesResult.getData().forEach(errorCodeVO -> {
             ServiceExceptionUtil.put(errorCodeVO.getCode(), errorCodeVO.getMessage());
             // 记录下更新时间，方便增量更新
-            maxUpdateTime = max(maxUpdateTime, errorCodeVO.getUpdateTime());
+            maxUpdateTime = DateUtil.max(maxUpdateTime, errorCodeVO.getUpdateTime());
         });
     }
 
-    @Scheduled(fixedDelay = REFRESH_ERROR_CODE_PERIOD)
+    @Scheduled(fixedDelay = REFRESH_ERROR_CODE_PERIOD, initialDelay = REFRESH_ERROR_CODE_PERIOD)
     public void refreshErrorCodes() {
         // 从 ErrorCodeRpc 加载 ErrorCode 错误码
         CommonResult<List<ErrorCodeVO>> listErrorCodesResult = errorCodeRpc.listErrorCodes(group, maxUpdateTime);
         listErrorCodesResult.checkError();
+        if (CollectionUtils.isEmpty(listErrorCodesResult.getData())) {
+            return;
+        }
         logger.info("[refreshErrorCodes][从 group({}) 增量加载到 {} 个 ErrorCode 错误码]", group, listErrorCodesResult.getData().size());
         // 写入到 ServiceExceptionUtil 到
         listErrorCodesResult.getData().forEach(errorCodeVO -> {
             ServiceExceptionUtil.put(errorCodeVO.getCode(), errorCodeVO.getMessage());
             // 记录下更新时间，方便增量更新
-            maxUpdateTime = max(maxUpdateTime, errorCodeVO.getUpdateTime());
+            maxUpdateTime = DateUtil.max(maxUpdateTime, errorCodeVO.getUpdateTime());
         });
-    }
-
-    private static Date max(Date a, Date b) {
-        if (a == null) {
-            return b;
-        }
-        if (b == null) {
-            return a;
-        }
-        return a.compareTo(b) > 0 ? a : b;
     }
 
 }

@@ -31,4 +31,5 @@ public class DeletableDO extends BaseDO {
         this.deleted = deleted;
         return this;
     }
+
 }

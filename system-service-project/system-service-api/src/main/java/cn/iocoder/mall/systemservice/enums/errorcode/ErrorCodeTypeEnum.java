@@ -1,5 +1,9 @@
 package cn.iocoder.mall.systemservice.enums.errorcode;
 
+import cn.iocoder.common.framework.core.IntArrayValuable;
+
+import java.util.Arrays;
+
 /**
  * 错误码的类型枚举
  *
@@ -8,7 +12,7 @@ package cn.iocoder.mall.systemservice.enums.errorcode;
  *
  * @author ding
  */
-public enum ErrorCodeTypeEnum {
+public enum ErrorCodeTypeEnum implements IntArrayValuable {
 
     /**
      * 自动生成
@@ -19,6 +23,8 @@ public enum ErrorCodeTypeEnum {
      */
     MANUAL_OPERATION(2);
 
+    public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(ErrorCodeTypeEnum::getType).toArray();
+
     private final Integer type;
 
     ErrorCodeTypeEnum(Integer type) {
@@ -27,6 +33,11 @@ public enum ErrorCodeTypeEnum {
 
     public Integer getType() {
         return type;
+    }
+
+    @Override
+    public int[] array() {
+        return ARRAYS;
     }
 
 }

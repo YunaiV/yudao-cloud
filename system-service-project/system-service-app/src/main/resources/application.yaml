@@ -34,7 +34,6 @@ dubbo:
   provider:
     filter: -exception
     validation: true # 开启 Provider 参数校验
-    tag:
     OAuth2Rpc:
       version: 1.0.0
     AdminRpc:

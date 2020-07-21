@@ -1,11 +1,10 @@
 package cn.iocoder.mall.dubbo.core.web;
 
+import cn.iocoder.common.framework.util.OSUtils;
 import cn.iocoder.common.framework.util.StringUtils;
 import cn.iocoder.mall.dubbo.core.cluster.interceptor.DubboConsumerRouterTagClusterInterceptor;
 import cn.iocoder.mall.dubbo.core.filter.DubboProviderRouterTagFilter;
 import cn.iocoder.mall.dubbo.core.router.DubboRouterTagContextHolder;
-import org.apache.dubbo.common.constants.CommonConstants;
-import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,12 +21,18 @@ public class DubboRouterTagWebInterceptor implements HandlerInterceptor {
 
     private static final String HEADER_DUBBO_TAG = "dubbo-tag";
 
+    private static final String HOST_NAME_VALUE = "${HOSTNAME}";
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String tag = request.getHeader(HEADER_DUBBO_TAG);
         if (StringUtils.hasText(tag)) {
+            // 特殊逻辑，解决 IDEA Rest Client 不支持环境变量的读取，所以就服务器来做
+            if (HOST_NAME_VALUE.equals(tag)) {
+                tag = OSUtils.getHostName();
+            }
+            // 设置到 DubboRouterTagContextHolder 上下文
             DubboRouterTagContextHolder.setTag(tag);
-            RpcContext.getContext().setAttachment(CommonConstants.TAG_KEY, tag);
         }
         return true;
     }

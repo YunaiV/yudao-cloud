@@ -1,4 +1,4 @@
-package cn.iocoder.common.framework.util;
+package cn.iocoder.common.framework.exception.util;
 
 import cn.iocoder.common.framework.exception.ErrorCode;
 import cn.iocoder.common.framework.exception.ServiceException;

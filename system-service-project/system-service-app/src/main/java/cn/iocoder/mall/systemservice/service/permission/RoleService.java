@@ -1,7 +1,7 @@
 package cn.iocoder.mall.systemservice.service.permission;
 
 import cn.iocoder.common.framework.util.CollectionUtils;
-import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.systemservice.convert.permission.RoleConvert;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission.AdminRoleDO;

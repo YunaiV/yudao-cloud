@@ -1,6 +1,6 @@
 package cn.iocoder.mall.systemservice.service.oauth;
 
-import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.StringUtils;
 import cn.iocoder.mall.systemservice.convert.oauth.OAuth2Convert;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.oauth.OAuth2AccessTokenDO;

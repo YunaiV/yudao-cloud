@@ -1,6 +1,6 @@
 package cn.iocoder.mall.systemservice.service.datadict;
 
-import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.mall.systemservice.convert.datadict.DataDictConvert;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.datadict.DataDictDO;
 import cn.iocoder.mall.systemservice.dal.mysql.mapper.datadict.DataDictMapper;

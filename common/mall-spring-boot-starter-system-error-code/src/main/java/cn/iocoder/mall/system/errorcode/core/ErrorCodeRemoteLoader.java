@@ -2,7 +2,7 @@ package cn.iocoder.mall.system.errorcode.core;
 
 import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.util.DateUtil;
-import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.systemservice.rpc.errorcode.ErrorCodeRpc;
 import cn.iocoder.mall.systemservice.rpc.errorcode.vo.ErrorCodeVO;

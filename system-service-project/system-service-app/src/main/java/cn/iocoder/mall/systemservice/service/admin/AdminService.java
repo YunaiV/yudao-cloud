@@ -2,7 +2,7 @@ package cn.iocoder.mall.systemservice.service.admin;
 
 import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.util.DigestUtils;
-import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.StringUtils;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.systemservice.convert.admin.AdminConvert;

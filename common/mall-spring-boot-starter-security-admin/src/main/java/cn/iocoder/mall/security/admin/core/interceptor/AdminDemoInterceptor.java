@@ -1,6 +1,6 @@
 package cn.iocoder.mall.security.admin.core.interceptor;
 
-import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.mall.security.admin.core.context.AdminSecurityContextHolder;
 import cn.iocoder.mall.systemservice.enums.SystemErrorCodeConstants;
 import org.springframework.http.HttpMethod;

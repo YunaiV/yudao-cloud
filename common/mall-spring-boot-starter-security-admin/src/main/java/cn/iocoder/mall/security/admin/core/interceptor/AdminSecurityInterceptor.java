@@ -4,7 +4,7 @@ import cn.iocoder.common.framework.enums.UserTypeEnum;
 import cn.iocoder.common.framework.exception.GlobalException;
 import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.util.HttpUtil;
-import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.security.admin.core.context.AdminSecurityContext;
 import cn.iocoder.mall.security.admin.core.context.AdminSecurityContextHolder;

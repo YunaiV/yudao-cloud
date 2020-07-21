@@ -51,6 +51,7 @@ public class DubboProviderExceptionFilter implements Filter, Filter.Listener {
                     appResponse.setValue(CommonResult.error((ServiceException) exception));
                 // 2.2 如果是 GlobalException 全局异常，则直接抛出
                 } else {
+                    // TODO 优化点：尝试修改成 RpcException
                     appResponse.setException(exception);
                 }
             } catch (Throwable e) {

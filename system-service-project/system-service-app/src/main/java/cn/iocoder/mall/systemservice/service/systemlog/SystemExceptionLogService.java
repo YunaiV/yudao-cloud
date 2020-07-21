@@ -1,6 +1,6 @@
 package cn.iocoder.mall.systemservice.service.systemlog;
 
-import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.systemservice.convert.systemlog.SystemExceptionLogConvert;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.systemlog.SystemExceptionLogDO;

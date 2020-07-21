@@ -1,6 +1,6 @@
 package cn.iocoder.mall.user.biz.enums;
 
-import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 
 /**
  * 错误码枚举类

@@ -1,6 +1,6 @@
 package cn.iocoder.mall.userservice.config;
 
-import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.mall.userservice.enums.UserErrorCodeConstants;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;

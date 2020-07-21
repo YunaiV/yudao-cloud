@@ -1,7 +1,7 @@
 package cn.iocoder.mall.systemservice.service.errorcode;
 
 import cn.iocoder.common.framework.util.CollectionUtils;
-import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.systemservice.convert.errorcode.ErrorCodeConvert;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.errorcode.ErrorCodeDO;

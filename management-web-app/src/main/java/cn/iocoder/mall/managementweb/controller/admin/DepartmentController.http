@@ -2,7 +2,7 @@
 POST {{baseUrl}}/department/create
 Content-Type: application/x-www-form-urlencoded
 Authorization: Bearer {{accessToken}}
-dubbo-tag: yunai
+dubbo-tag: {{dubboTag}}
 
 name=测试部门&pid=0&sort=0
 

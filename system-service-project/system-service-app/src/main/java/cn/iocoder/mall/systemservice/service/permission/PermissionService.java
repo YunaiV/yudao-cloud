@@ -3,7 +3,7 @@ package cn.iocoder.mall.systemservice.service.permission;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.iocoder.common.framework.exception.GlobalException;
 import cn.iocoder.common.framework.util.CollectionUtils;
-import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.admin.AdminDO;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission.AdminRoleDO;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.permission.ResourceDO;

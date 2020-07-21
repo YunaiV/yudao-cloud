@@ -1,7 +1,7 @@
 package cn.iocoder.mall.userservice.service.sms;
 
 import cn.iocoder.common.framework.exception.ServiceException;
-import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.validator.Mobile;
 import cn.iocoder.mall.userservice.dal.mysql.dataobject.sms.UserSmsCodeDO;
 import cn.iocoder.mall.userservice.dal.mysql.mapper.sms.UserSmsCodeMapper;

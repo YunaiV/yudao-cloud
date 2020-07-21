@@ -1,6 +1,6 @@
 package cn.iocoder.mall.systemservice.service.admin;
 
-import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.mall.systemservice.convert.admin.DepartmentConvert;
 import cn.iocoder.mall.systemservice.dal.mysql.dataobject.admin.DepartmentDO;
 import cn.iocoder.mall.systemservice.dal.mysql.mapper.admin.AdminMapper;

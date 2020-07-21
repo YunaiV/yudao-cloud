@@ -3,7 +3,7 @@ package cn.iocoder.mall.security.user.core.interceptor;
 import cn.iocoder.common.framework.exception.enums.GlobalErrorCodeEnum;
 import cn.iocoder.common.framework.enums.UserTypeEnum;
 import cn.iocoder.common.framework.util.HttpUtil;
-import cn.iocoder.common.framework.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.security.user.core.context.UserSecurityContext;
 import cn.iocoder.mall.security.user.core.context.UserSecurityContextHolder;

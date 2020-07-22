@@ -1,0 +1,31 @@
+### /user/page 成功
+GET {{baseUrl}}/user/page?pageNo=1&pageSize=10
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+dubbo-tag: {{dubboTag}}
+
+### /user/update 成功
+POST {{baseUrl}}/user/update
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+dubbo-tag: {{dubboTag}}
+
+id=31&username=user02&password=buzhidao&name=测试管理员&departmentId=1
+
+### /user/update-status 成功
+POST {{baseUrl}}/user/update-status
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+dubbo-tag: {{dubboTag}}
+
+userId=243&status=2
+
+### /user/update-status 失败，参数缺失
+POST {{baseUrl}}/user/update-status
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+dubbo-tag: {{dubboTag}}
+
+userId=31
+
+###

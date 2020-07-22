@@ -4,6 +4,8 @@ import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
+
 /**
  * 用户信息
  */
@@ -41,5 +43,9 @@ public class UserBO {
      * {@link #password} 的盐
      */
     private String passwordSalt;
+    /**
+     * 注册时间
+     */
+    private Date createTime;
 
 }

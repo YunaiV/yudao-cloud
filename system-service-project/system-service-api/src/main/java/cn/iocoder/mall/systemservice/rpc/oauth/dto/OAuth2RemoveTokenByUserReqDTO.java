@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * OAuth2.0 移除用户令牌 Request DTO
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @Accessors(chain = true)
-public class OAuth2RemoveTokenByUserReqDTO {
+public class OAuth2RemoveTokenByUserReqDTO implements Serializable {
 
     /**
      * 用户编号

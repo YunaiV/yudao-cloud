@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 用户信息 Response DTO
@@ -35,5 +36,9 @@ public class UserRespDTO implements Serializable {
      * 枚举 {@link CommonStatusEnum}
      */
     private Integer status;
+    /**
+     * 注册时间
+     */
+    private Date createTime;
 
 }

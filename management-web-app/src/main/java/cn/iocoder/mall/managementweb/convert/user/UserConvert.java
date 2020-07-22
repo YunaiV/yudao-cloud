@@ -9,6 +9,7 @@ import cn.iocoder.mall.userservice.rpc.user.dto.UserPageReqDTO;
 import cn.iocoder.mall.userservice.rpc.user.dto.UserRespDTO;
 import cn.iocoder.mall.userservice.rpc.user.dto.UserUpdateReqDTO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public interface UserConvert {
 
     PageResult<UserRespVO> convertPage(PageResult<UserRespDTO> bean);
 
+    @Mapping(source = "userId", target = "id")
     UserUpdateReqDTO convert(UserUpdateStatusReqVO bean);
 
 }

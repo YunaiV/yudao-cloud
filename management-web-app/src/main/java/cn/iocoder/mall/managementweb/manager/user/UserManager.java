@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 public class UserManager {
 
-    @Reference(version = "$ {dubbo.consumer.UserRpc.version}", validation = "false")
+    @Reference(version = "${dubbo.consumer.UserRpc.version}", validation = "false")
     private UserRpc userRpc;
 
     /**

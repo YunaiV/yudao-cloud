@@ -1,5 +1,6 @@
 package cn.iocoder.mall.userservice.service.user.bo;
 
+import cn.iocoder.common.framework.validator.Mobile;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -24,6 +25,7 @@ public class UserCreateBO {
      * 手机
      */
     @NotNull(message = "手机号不能为空")
+    @Mobile
     private String mobile;
     /**
      * 原始密码，允许空

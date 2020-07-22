@@ -34,6 +34,12 @@
                 <version>1.0-SNAPSHOT</version>
             </dependency>
 
+            <dependency>
+                <groupId>cn.iocoder.mall</groupId>
+                <artifactId>system-service-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
             <!-- 自身项目 -->
             <dependency>
                 <groupId>cn.iocoder.mall</groupId>

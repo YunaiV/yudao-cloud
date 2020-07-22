@@ -24,7 +24,7 @@ public class DubboWebAutoConfiguration implements WebMvcConfigurer {
             registry.addInterceptor(new DubboRouterTagWebInterceptor()).order(-1000);
             logger.info("[addInterceptors][加载 DubboRouterTagWebInterceptor 拦截器完成]");
         } catch (NoSuchBeanDefinitionException e) {
-            logger.warn("[addInterceptors][无法获取 DubboRouterTagWebInterceptor 拦截器，无法使用 Dubbo 标签路由]");
+            logger.warn("[addInterceptors][无法获取 DubboRouterTagWebInterceptor 拦截器，无法使用基于 dubbo-tag 请求头进行 Dubbo 标签路由]");
         }
     }
 

@@ -9,7 +9,7 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.security.admin.core.context.AdminSecurityContext;
 import cn.iocoder.mall.security.admin.core.context.AdminSecurityContextHolder;
 import cn.iocoder.mall.systemservice.rpc.oauth.OAuth2Rpc;
-import cn.iocoder.mall.systemservice.rpc.oauth.vo.OAuth2AccessTokenVO;
+import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2AccessTokenRespDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.PermissionRpc;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionCheckDTO;
 import cn.iocoder.mall.web.core.util.CommonWebUtil;
@@ -48,7 +48,7 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
         String accessToken = HttpUtil.obtainAuthorization(request);
         Integer adminId = null;
         if (accessToken != null) {
-            CommonResult<OAuth2AccessTokenVO> checkAccessTokenResult = oauth2Rpc.checkAccessToken(accessToken);
+            CommonResult<OAuth2AccessTokenRespDTO> checkAccessTokenResult = oauth2Rpc.checkAccessToken(accessToken);
             checkAccessTokenResult.checkError();
             // 校验用户类型正确
             if (!UserTypeEnum.ADMIN.getValue().equals(checkAccessTokenResult.getData().getUserType())) {

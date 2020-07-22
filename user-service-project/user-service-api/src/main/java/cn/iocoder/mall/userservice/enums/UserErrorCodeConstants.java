@@ -24,7 +24,7 @@ public interface UserErrorCodeConstants {
 
     // ========== 用户信息模块 1004004100 ==========
     ErrorCode USER_NOT_EXISTS = new ErrorCode(1004004100, "用户不存在");
-    ErrorCode USER_STATUS_NOT_EXISTS = new ErrorCode(1004004101, "用户状态不存在");
     ErrorCode USER_STATUS_EQUALS = new ErrorCode(1004004101, "用户已经是该状态");
+    ErrorCode USER_MOBILE_EXISTS = new ErrorCode(1004004102, "手机号已经存在");
 
 }

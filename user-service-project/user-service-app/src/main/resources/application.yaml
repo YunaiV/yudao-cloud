@@ -38,3 +38,7 @@ dubbo:
       version: 1.0.0
     UserSmsCodeRpc:
       version: 1.0.0
+  # Dubbo 服务消费者的配置
+  consumer:
+    OAuth2Rpc:
+      versoin: 1.0.0

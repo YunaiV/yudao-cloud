@@ -1,14 +1,13 @@
 package cn.iocoder.mall.security.user.core.interceptor;
 
-import cn.iocoder.common.framework.exception.enums.GlobalErrorCodeEnum;
 import cn.iocoder.common.framework.enums.UserTypeEnum;
-import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.security.user.core.context.UserSecurityContext;
 import cn.iocoder.mall.security.user.core.context.UserSecurityContextHolder;
 import cn.iocoder.mall.systemservice.rpc.oauth.OAuth2Rpc;
-import cn.iocoder.mall.systemservice.rpc.oauth.vo.OAuth2AccessTokenVO;
+import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2AccessTokenRespDTO;
 import cn.iocoder.mall.web.core.util.CommonWebUtil;
 import cn.iocoder.security.annotations.RequiresAuthenticate;
 import cn.iocoder.security.annotations.RequiresPermissions;
@@ -19,6 +18,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static cn.iocoder.common.framework.exception.enums.GlobalErrorCodeConstants.UNAUTHORIZED;
 import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeConstants.OAUTH_USER_TYPE_ERROR;
 
 public class UserSecurityInterceptor extends HandlerInterceptorAdapter {
@@ -39,7 +39,7 @@ public class UserSecurityInterceptor extends HandlerInterceptorAdapter {
         String accessToken = HttpUtil.obtainAuthorization(request);
         Integer userId = null;
         if (accessToken != null) {
-            CommonResult<OAuth2AccessTokenVO> checkAccessTokenResult = oauth2Rpc.checkAccessToken(accessToken);
+            CommonResult<OAuth2AccessTokenRespDTO> checkAccessTokenResult = oauth2Rpc.checkAccessToken(accessToken);
             checkAccessTokenResult.checkError();
             // 校验用户类型正确
             if (!UserTypeEnum.USER.getValue().equals(checkAccessTokenResult.getData().getUserType())) {
@@ -64,7 +64,7 @@ public class UserSecurityInterceptor extends HandlerInterceptorAdapter {
             requiresAuthenticate = true;
         }
         if (requiresAuthenticate && userId == null) {
-            throw ServiceExceptionUtil.exception(GlobalErrorCodeEnum.UNAUTHORIZED);
+            throw ServiceExceptionUtil.exception(UNAUTHORIZED);
         }
     }
 

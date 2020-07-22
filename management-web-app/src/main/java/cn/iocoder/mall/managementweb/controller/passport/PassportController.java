@@ -46,12 +46,14 @@ public class PassportController {
         return success(passportManager.getAdmin(AdminSecurityContextHolder.getAdminId()));
     }
 
+    // TODO 优化点：迁移到 PermissionController
     @GetMapping("/tree-admin-menu")
     @ApiOperation("获得当前管理员的菜单树")
     public CommonResult<List<PassportAdminMenuTreeNodeVO>> treeAdminMenu() {
         return success(passportManager.treeAdminMenu(AdminSecurityContextHolder.getAdminId()));
     }
 
+    // TODO 优化点：迁移到 PermissionController
     @GetMapping("/list-admin-permission")
     @ApiOperation("获得当前管理员的权限列表")
     public CommonResult<Set<String>> listAdminPermission() {

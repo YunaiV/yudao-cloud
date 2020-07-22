@@ -81,34 +81,34 @@ public class AdminService {
         return DigestUtils.bcrypt(password, salt);
     }
 
-    public void updateAdmin(AdminUpdateBO updateDTO) {
+    public void updateAdmin(AdminUpdateBO updateBO) {
         // 校验账号存在
-        AdminDO admin = adminMapper.selectById(updateDTO.getId());
-        if (admin == null) {
+        AdminDO adminDO = adminMapper.selectById(updateBO.getId());
+        if (adminDO == null) {
             throw ServiceExceptionUtil.exception(ADMIN_NOT_FOUND);
         }
         // 校验是否为特殊账号，不允许编辑
-        if (AdminUsernameEnum.ADMIN.getUsername().equals(admin.getUsername())
-                || AdminUsernameEnum.DEMO.getUsername().equals(admin.getUsername())) {
+        if (AdminUsernameEnum.ADMIN.getUsername().equals(adminDO.getUsername())
+                || AdminUsernameEnum.DEMO.getUsername().equals(adminDO.getUsername())) {
             throw ServiceExceptionUtil.exception(ADMIN_ADMIN_CAN_NOT_UPDATE);
         }
         // 校验账号唯一
-        if (StringUtils.hasText(updateDTO.getUsername())) {
-            AdminDO usernameAdmin = adminMapper.selectByUsername(updateDTO.getUsername());
-            if (usernameAdmin != null && !usernameAdmin.getId().equals(updateDTO.getId())) {
+        if (StringUtils.hasText(updateBO.getUsername())) {
+            AdminDO usernameAdmin = adminMapper.selectByUsername(updateBO.getUsername());
+            if (usernameAdmin != null && !usernameAdmin.getId().equals(updateBO.getId())) {
                 throw ServiceExceptionUtil.exception(ADMIN_USERNAME_EXISTS);
             }
         }
         // 如果有更新状态，则校验是否已经是该状态
-        if (updateDTO.getStatus() != null && updateDTO.getStatus().equals(admin.getStatus())) {
+        if (updateBO.getStatus() != null && updateBO.getStatus().equals(adminDO.getStatus())) {
             throw ServiceExceptionUtil.exception(ADMIN_STATUS_EQUALS);
         }
         // 更新到数据库
-        AdminDO updateAdmin = AdminConvert.INSTANCE.convert(updateDTO);
+        AdminDO updateAdmin = AdminConvert.INSTANCE.convert(updateBO);
         // 如果更新密码，需要特殊加密
-        if (StringUtils.hasText(updateDTO.getPassword())) {
+        if (StringUtils.hasText(updateBO.getPassword())) {
             String passwordSalt = genPasswordSalt();
-            String password = encodePassword(updateDTO.getPassword(), passwordSalt);
+            String password = encodePassword(updateBO.getPassword(), passwordSalt);
             updateAdmin.setPassword(password).setPasswordSalt(passwordSalt);
         }
         adminMapper.updateById(updateAdmin);
@@ -118,66 +118,5 @@ public class AdminService {
         AdminDO adminDO = adminMapper.selectById(adminId);
         return AdminConvert.INSTANCE.convert(adminDO);
     }
-
-//
-//    @Override
-//    public Map<Integer, Collection<RoleBO>> getAdminRolesMap(Collection<Integer> adminIds) {
-//        // 查询管理员拥有的角色关联数据
-//        List<AdminRoleDO> adminRoleList = adminRoleMapper.selectListByAdminIds(adminIds);
-//        if (adminRoleList.isEmpty()) {
-//            return Collections.emptyMap();
-//        }
-//        // 查询角色数据
-//        List<RoleBO> roleList = roleService.getRoleList(CollectionUtil.convertSet(adminRoleList, AdminRoleDO::getRoleId));
-//        Map<Integer, RoleBO> roleMap = CollectionUtil.convertMap(roleList, RoleBO::getId);
-//        // 拼接数据
-//        Multimap<Integer, RoleBO> result = ArrayListMultimap.create();
-//        adminRoleList.forEach(adminRole -> result.put(adminRole.getAdminId(), roleMap.get(adminRole.getRoleId())));
-//        return result.asMap();
-//    }
-//
-//    @Override
-//    public List<RoleBO> getRoleList(Integer adminId) {
-//        // 查询管理员拥有的角色关联数据
-//        List<AdminRoleDO> adminRoleList = adminRoleMapper.selectByAdminId(adminId);
-//        if (adminRoleList.isEmpty()) {
-//            return Collections.emptyList();
-//        }
-//        // 查询角色数据
-//        return roleService.getRoleList(CollectionUtil.convertSet(adminRoleList, AdminRoleDO::getRoleId));
-//    }
-//
-//    @Override
-//    @Transactional
-//    public Boolean assignAdminRole(Integer adminId, AdminAssignRoleDTO adminAssignRoleDTO) {
-//        // 校验账号存在
-//        AdminDO admin = adminMapper.selectById(adminAssignRoleDTO.getId());
-//        if (admin == null) {
-//            throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.ADMIN_USERNAME_NOT_REGISTERED.getCode());
-//        }
-//        // 校验是否有不存在的角色
-//        if (!CollectionUtil.isEmpty(adminAssignRoleDTO.getRoleIds())) {
-//            List<RoleDO> roles = roleService.getRoles(adminAssignRoleDTO.getRoleIds());
-//            if (roles.size() != adminAssignRoleDTO.getRoleIds().size()) {
-//                throw ServiceExceptionUtil.exception(AdminErrorCodeEnum.ADMIN_ASSIGN_ROLE_NOT_EXISTS.getCode());
-//            }
-//        }
-//        // TODO 芋艿，这里先简单实现。即方式是，删除老的分配的角色关系，然后添加新的分配的角色关系
-//        // 标记管理员角色源关系都为删除
-//        adminRoleMapper.deleteByAdminId(adminAssignRoleDTO.getId());
-//        // 创建 RoleResourceDO 数组，并插入到数据库
-//        if (!CollectionUtil.isEmpty(adminAssignRoleDTO.getRoleIds())) {
-//            List<AdminRoleDO> adminRoleDOs = adminAssignRoleDTO.getRoleIds().stream().map(roleId -> {
-//                AdminRoleDO roleResource = new AdminRoleDO().setAdminId(adminAssignRoleDTO.getId()).setRoleId(roleId);
-//                roleResource.setCreateTime(new Date());
-//                roleResource.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
-//                return roleResource;
-//            }).collect(Collectors.toList());
-//            adminRoleMapper.insertList(adminRoleDOs);
-//        }
-//        // TODO 插入操作日志
-//        // 返回成功
-//        return true;
-//    }
 
 }

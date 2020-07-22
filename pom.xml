@@ -18,7 +18,7 @@
 <!--        <module>order</module>-->
         <module>user</module>
         <module>common</module>
-        <module>system</module>
+<!--        <module>system</module>-->
 <!--        <module>ops</module>-->
 <!--        <module>pay</module>-->
 <!--        <module>promotion</module>-->

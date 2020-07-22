@@ -5,7 +5,7 @@ import cn.iocoder.mall.managementweb.controller.passport.vo.PassportAccessTokenV
 import cn.iocoder.mall.managementweb.controller.passport.vo.PassportAdminVO;
 import cn.iocoder.mall.systemservice.rpc.admin.dto.AdminVerifyPasswordDTO;
 import cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO;
-import cn.iocoder.mall.systemservice.rpc.oauth.vo.OAuth2AccessTokenVO;
+import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2AccessTokenRespDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -16,7 +16,7 @@ public interface AdminPassportConvert {
 
     AdminVerifyPasswordDTO convert(PassportLoginDTO bean);
 
-    PassportAccessTokenVO convert(OAuth2AccessTokenVO bean);
+    PassportAccessTokenVO convert(OAuth2AccessTokenRespDTO bean);
 
     PassportAdminVO convert(AdminVO bean);
 

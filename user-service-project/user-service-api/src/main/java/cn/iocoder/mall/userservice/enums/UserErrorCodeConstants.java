@@ -18,9 +18,8 @@ public interface UserErrorCodeConstants {
     ErrorCode USER_SMS_CODE_SEND_TOO_FAST = new ErrorCode(1001001205, "短信发送过于频率");
 
     // ========== 用户地址 ==========
-    ErrorCode USER_ADDRESS_NOT_EXISTENT = new ErrorCode(1001004000, "用户地址不存在!");
-    ErrorCode USER_ADDRESS_IS_DELETED = new ErrorCode(1001004001, "用户地址已被删除!");
-    ErrorCode USER_GET_ADDRESS_NOT_EXISTS = new ErrorCode(1001004002, "获取的地址不存在!");
+    ErrorCode USER_ADDRESS_NOT_FOUND = new ErrorCode(1001004000, "用户地址不存在!");
+    ErrorCode USER_GET_ADDRESS_NOT_EXISTS = new ErrorCode(1001004001, "获取的地址不存在!");
 
     // ========== 用户信息模块 1004004100 ==========
     ErrorCode USER_NOT_EXISTS = new ErrorCode(1004004100, "用户不存在");

@@ -7,7 +7,7 @@ import cn.iocoder.mall.userservice.rpc.sms.dto.UserVerifySmsCodeReqDTO;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Service(version = "${dubbo.provider.UserSmsCodeRpc.version}", validation = "false")
+@Service(version = "${dubbo.provider.UserSmsCodeRpc.version}")
 public class UserSmsCodeRpcImpl implements UserSmsCodeRpc {
 
     @Autowired

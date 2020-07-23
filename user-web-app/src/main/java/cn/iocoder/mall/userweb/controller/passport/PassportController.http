@@ -1,0 +1,13 @@
+### /passport/login-by-sms 成功
+POST {{user-api-base-url}}/passport/login-by-sms
+Content-Type: application/x-www-form-urlencoded
+
+mobile=15601691300&code=9999
+
+### /passport/send-sms-code 成功
+POST {{user-api-base-url}}/passport/send-sms-code
+Content-Type: application/x-www-form-urlencoded
+
+mobile=15601691300&scene=1
+
+###

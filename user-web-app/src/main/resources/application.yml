@@ -11,6 +11,10 @@ spring:
   # Profile 的配置项
   profiles:
     active: local
+  # SpringMVC 配置项
+  mvc:
+    throw-exception-if-no-handler-found: true # 匹配不到路径时，抛出 NoHandlerFoundException 异常
+    static-path-pattern: /doc.html # 静态资源的路径
 
 # Dubbo 配置项
 dubbo:
@@ -27,5 +31,14 @@ dubbo:
       version: 1.0.0
     OAuth2Rpc:
       version: 1.0.0
-    SystemLogRPC:
+    SystemAccessLogRpc:
       version: 1.0.0
+    SystemExceptionLogRpc:
+      version: 1.0.0
+
+# Swagger 配置项
+swagger:
+  title: 用户中心
+  description: 提供用户注册、登陆、信息等等 API
+  version: 1.0.0
+  base-package: cn.iocoder.mall.userweb.controller

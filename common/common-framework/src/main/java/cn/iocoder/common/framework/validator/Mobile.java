@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Constraint(
-        validatedBy = InEnumValidator.class
+        validatedBy = MobileValidator.class
 )
 public @interface Mobile {
 

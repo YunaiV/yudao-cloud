@@ -38,17 +38,9 @@ public class UserAddressDO extends DeletableDO {
      */
     private String mobile;
     /**
-     * 省份编号
+     * 地区编码
      */
-    private Integer provinceCode;
-    /**
-     * 城市编号
-     */
-    private Integer cityCode;
-    /**
-     * 区域编号
-     */
-    private Integer countyCode;
+    private Integer areaCode;
     /**
      * 收件详细地址
      */

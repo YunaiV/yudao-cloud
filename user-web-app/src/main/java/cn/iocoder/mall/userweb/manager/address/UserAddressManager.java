@@ -85,14 +85,11 @@ public class UserAddressManager {
     * 获得用户收件地址列表
     *
     * @param userId 用户编号
-    * @param userAddressIds 用户收件地址编号列表
     * @return 用户收件地址列表
     */
-    public List<UserAddressRespVO> listUserAddresses(Integer userId, List<Integer> userAddressIds) {
-        CommonResult<List<UserAddressRespDTO>> listUserAddressResult = userAddressRpc.listUserAddresses(userAddressIds);
+    public List<UserAddressRespVO> listUserAddresses(Integer userId) {
+        CommonResult<List<UserAddressRespDTO>> listUserAddressResult = userAddressRpc.listUserAddresses(userId, null);
         listUserAddressResult.checkError();
-        // 校验是否能够操作
-        listUserAddressResult.getData().forEach(userAddressRespDTO -> check(userId, userAddressRespDTO));
         return UserAddressConvert.INSTANCE.convertList(listUserAddressResult.getData());
     }
 

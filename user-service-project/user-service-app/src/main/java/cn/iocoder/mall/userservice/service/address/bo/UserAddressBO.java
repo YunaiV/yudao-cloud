@@ -29,17 +29,9 @@ public class UserAddressBO {
      */
     private String mobile;
     /**
-     * 省份编号
+     * 地区编码
      */
-    private Integer provinceCode;
-    /**
-     * 城市编号
-     */
-    private Integer cityCode;
-    /**
-     * 区域编号
-     */
-    private Integer countyCode;
+    private Integer areaCode;
     /**
      * 收件详细地址
      */
@@ -52,13 +44,5 @@ public class UserAddressBO {
      * 创建时间
      */
     private Date createTime;
-    /**
-     * 最后更新时间
-     */
-    private Date updateTime;
-    /**
-     * 删除状态
-     */
-    private Integer deleted;
 
 }

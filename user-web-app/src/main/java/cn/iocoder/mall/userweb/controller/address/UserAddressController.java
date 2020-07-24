@@ -23,7 +23,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 * 用户收件地址 Controller
 */
 @RestController
-@RequestMapping("/user_address")
+@RequestMapping("/user-address")
 @Api(tags = "用户收件地址")
 @Validated
 public class UserAddressController {
@@ -65,10 +65,9 @@ public class UserAddressController {
 
     @GetMapping("/list")
     @ApiOperation("获得用户收件地址列表")
-    @ApiImplicitParam(name = "userAddressIds", value = "用户收件地址编号列表", required = true)
     @RequiresPermissions
-    public CommonResult<List<UserAddressRespVO>> listUserAddresses(@RequestParam("userAddressIds") List<Integer> userAddressIds) {
-        return success(userAddressManager.listUserAddresses(UserSecurityContextHolder.getUserId(), userAddressIds));
+    public CommonResult<List<UserAddressRespVO>> listUserAddresses() {
+        return success(userAddressManager.listUserAddresses(UserSecurityContextHolder.getUserId()));
     }
 
 }

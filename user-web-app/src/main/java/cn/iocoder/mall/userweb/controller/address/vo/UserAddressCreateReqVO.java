@@ -19,15 +19,9 @@ public class UserAddressCreateReqVO {
     @ApiModelProperty(value = "手机号", required = true, example = "15601691300")
     @NotEmpty(message = "手机号不能为空")
     private String mobile;
-    @ApiModelProperty(value = "省份编号", required = true, example = "230000")
-    @NotNull(message = "省份编号不能为空")
-    private Integer provinceCode;
-    @ApiModelProperty(value = "城市编号", required = true, example = "469031")
-    @NotNull(message = "城市编号不能为空")
-    private Integer cityCode;
     @ApiModelProperty(value = "区域编号", required = true, example = "610632")
-    @NotNull(message = "区域编号不能为空")
-    private Integer countyCode;
+    @NotNull(message = "地区编码不能为空")
+    private Integer areaCode;
     @ApiModelProperty(value = "收件详细地址", required = true, example = "芋道源码 233 号 666 室")
     @NotEmpty(message = "收件详细地址不能为空")
     private String detailAddress;

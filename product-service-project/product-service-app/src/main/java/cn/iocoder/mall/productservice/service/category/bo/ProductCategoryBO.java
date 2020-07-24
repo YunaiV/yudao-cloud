@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 import java.util.Date;
 
 /**
-* 商品分类表 BO
+* 商品分类 BO
 */
 @Data
 @Accessors(chain = true)

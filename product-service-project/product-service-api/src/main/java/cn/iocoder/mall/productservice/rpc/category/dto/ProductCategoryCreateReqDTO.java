@@ -1,23 +1,21 @@
-package cn.iocoder.mall.productservice.service.category.bo;
+package cn.iocoder.mall.productservice.rpc.category.dto;
 
+import cn.iocoder.common.framework.enums.CommonStatusEnum;
+import cn.iocoder.common.framework.validator.InEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
-* 商品分类更新 BO
+* 商品分类创建 Request DTO
 */
 @Data
 @Accessors(chain = true)
-public class ProductCategoryUpdateBO {
+public class ProductCategoryCreateReqDTO implements Serializable {
 
-    /**
-     * 分类编号
-     */
-    @NotNull(message = "分类编号不能为空")
-    private Integer id;
     /**
      * 父分类编号
      */
@@ -45,6 +43,7 @@ public class ProductCategoryUpdateBO {
      * 状态
      */
     @NotNull(message = "状态不能为空")
+    @InEnum(value = CommonStatusEnum.class, message = "状态必须是 {value}")
     private Integer status;
 
 }

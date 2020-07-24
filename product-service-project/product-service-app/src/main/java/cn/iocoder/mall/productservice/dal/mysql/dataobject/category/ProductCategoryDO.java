@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
-* 商品分类表
+* 商品分类 DO
 */
 @TableName("product_category")
 @Data

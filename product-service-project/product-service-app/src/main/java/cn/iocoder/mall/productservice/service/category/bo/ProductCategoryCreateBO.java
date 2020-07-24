@@ -7,7 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
-* 商品分类表创建 BO
+* 商品分类创建 BO
 */
 @Data
 @Accessors(chain = true)

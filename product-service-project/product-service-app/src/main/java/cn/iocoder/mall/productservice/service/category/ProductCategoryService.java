@@ -7,6 +7,7 @@ import cn.iocoder.mall.productservice.dal.mysql.mapper.category.ProductCategoryM
 import cn.iocoder.mall.productservice.enums.category.ProductCategoryIdEnum;
 import cn.iocoder.mall.productservice.service.category.bo.ProductCategoryBO;
 import cn.iocoder.mall.productservice.service.category.bo.ProductCategoryCreateBO;
+import cn.iocoder.mall.productservice.service.category.bo.ProductCategoryListQueryBO;
 import cn.iocoder.mall.productservice.service.category.bo.ProductCategoryUpdateBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.List;
 import static cn.iocoder.mall.productservice.enums.ProductErrorCodeConstants.*;
 
 /**
-* 商品分类表 Service
+* 商品分类 Service
 */
 @Service
 @Validated
@@ -28,10 +29,10 @@ public class ProductCategoryService {
     private ProductCategoryMapper productCategoryMapper;
 
     /**
-    * 创建商品分类表
+    * 创建商品分类
     *
-    * @param createBO 创建商品分类表 BO
-    * @return 商品分类表
+    * @param createBO 创建商品分类 BO
+    * @return 商品分类
     */
     public ProductCategoryBO createProductCategory(@Valid ProductCategoryCreateBO createBO) {
         // 校验父分类
@@ -44,9 +45,9 @@ public class ProductCategoryService {
     }
 
     /**
-    * 更新商品分类表
+    * 更新商品分类
     *
-    * @param updateBO 更新商品分类表 BO
+    * @param updateBO 更新商品分类 BO
     */
     public void updateProductCategory(@Valid ProductCategoryUpdateBO updateBO) {
         // 校验父分类
@@ -55,7 +56,7 @@ public class ProductCategoryService {
         if (updateBO.getId().equals(updateBO.getPid())) {
             throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_PARENT_NOT_SELF);
         }
-        // 校验更新的商品分类表是否存在
+        // 校验更新的商品分类是否存在
         if (productCategoryMapper.selectById(updateBO.getId()) == null) {
             throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_NOT_EXISTS);
         }
@@ -65,12 +66,12 @@ public class ProductCategoryService {
     }
 
     /**
-    * 删除商品分类表
+    * 删除商品分类
     *
-    * @param productCategoryId 商品分类表编号
+    * @param productCategoryId 商品分类编号
     */
     public void deleteProductCategory(Integer productCategoryId) {
-        // 校验删除的商品分类表是否存在
+        // 校验删除的商品分类是否存在
         if (productCategoryMapper.selectById(productCategoryId) == null) {
             throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_NOT_EXISTS);
         }
@@ -85,10 +86,10 @@ public class ProductCategoryService {
     }
 
     /**
-    * 获得商品分类表
+    * 获得商品分类
     *
-    * @param productCategoryId 商品分类表编号
-    * @return 商品分类表
+    * @param productCategoryId 商品分类编号
+    * @return 商品分类
     */
     public ProductCategoryBO getProductCategory(Integer productCategoryId) {
         ProductCategoryDO productCategoryDO = productCategoryMapper.selectById(productCategoryId);
@@ -96,14 +97,24 @@ public class ProductCategoryService {
     }
 
     /**
-    * 获得商品分类表列表
+    * 获得商品分类列表
     *
-    * @param productCategoryIds 商品分类表编号列表
-    * @return 商品分类表列表
+    * @param productCategoryIds 商品分类编号列表
+    * @return 商品分类列表
     */
     public List<ProductCategoryBO> listProductCategories(List<Integer> productCategoryIds) {
         List<ProductCategoryDO> productCategoryDOs = productCategoryMapper.selectBatchIds(productCategoryIds);
         return ProductCategoryConvert.INSTANCE.convertList(productCategoryDOs);
+    }
+
+    /**
+     * 获得商品分类全列表
+     *
+     * @return 商品分类全列表
+     */
+    public List<ProductCategoryBO> listProductCategories(ProductCategoryListQueryBO listQueryBO) {
+        List<ProductCategoryDO> resourceDOs = productCategoryMapper.selectList(listQueryBO);
+        return ProductCategoryConvert.INSTANCE.convertList(resourceDOs);
     }
 
     private void validParent(Integer pid) {
@@ -119,11 +130,5 @@ public class ProductCategoryService {
             }
         }
     }
-
-//    @Override
-//    public List<ProductCategoryBO> getListByPid(Integer pid) {
-//        List<ProductCategoryDO> categoryList = productCategoryMapper.selectListByPidAndStatusOrderBySort(pid, ProductCategoryConstants.STATUS_ENABLE);
-//        return ProductCategoryConvert.INSTANCE.convertToBO(categoryList);
-//    }
 
 }

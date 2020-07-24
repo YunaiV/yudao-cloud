@@ -1,9 +1,9 @@
-package cn.iocoder.mall.systemservice.enums.permission;
+package cn.iocoder.mall.productservice.enums.category;
 
 /**
- * Resource 编号枚举
+ * 商品分类的编号枚举
  */
-public enum ResourceIdEnum {
+public enum ProductCategoryIdEnum {
 
     /**
      * 根节点
@@ -12,7 +12,7 @@ public enum ResourceIdEnum {
 
     private final Integer id;
 
-    ResourceIdEnum(Integer id) {
+    ProductCategoryIdEnum(Integer id) {
         this.id = id;
     }
 

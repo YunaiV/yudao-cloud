@@ -63,6 +63,13 @@ public class UserAddressController {
         return success(userAddressManager.getUserAddress(UserSecurityContextHolder.getUserId(), userAddressId));
     }
 
+    @GetMapping("/get-default")
+    @ApiOperation("获得默认的用户收件地址")
+    @RequiresPermissions
+    public CommonResult<UserAddressRespVO> getDefaultUserAddress() {
+        return success(userAddressManager.getDefaultUserAddress(UserSecurityContextHolder.getUserId()));
+    }
+
     @GetMapping("/list")
     @ApiOperation("获得用户收件地址列表")
     @RequiresPermissions

@@ -31,6 +31,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 import java.util.Date;
 
 import static cn.iocoder.common.framework.exception.enums.GlobalErrorCodeConstants.*;
@@ -162,7 +163,6 @@ public class GlobalExceptionHandler {
     public CommonResult globalExceptionHandler(HttpServletRequest req, GlobalException ex) {
         // 系统异常时，才打印异常日志
         if (INTERNAL_SERVER_ERROR.getCode().equals(ex.getCode())) {
-            logger.error("[globalExceptionHandler]", ex);
             // 插入异常日志
             this.createExceptionLog(req, ex);
         // 普通全局异常，打印 info 日志即可
@@ -171,6 +171,16 @@ public class GlobalExceptionHandler {
         }
         // 返回 ERROR CommonResult
         return CommonResult.error(ex);
+    }
+
+    /**
+     * 处理 Dubbo Consumer 本地参数校验时，抛出的 ValidationException 异常
+     */
+    @ExceptionHandler(value = ValidationException.class)
+    public CommonResult validationException(ValidationException ex) {
+        logger.warn("[constraintViolationExceptionHandler]", ex);
+        // 无法拼接明细的错误信息，因为 Dubbo Consumer 抛出 ValidationException 异常时，是直接的字符串信息，且人类不可读
+        return CommonResult.error(BAD_REQUEST.getCode(), "请求参数不正确");
     }
 
     /**

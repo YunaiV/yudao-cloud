@@ -21,6 +21,7 @@
             <!-- 系统服务 -->
             <groupId>cn.iocoder.mall</groupId>
             <artifactId>system-service-api</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>

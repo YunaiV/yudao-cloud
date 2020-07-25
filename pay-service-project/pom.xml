@@ -17,4 +17,25 @@
         <module>pay-service-app</module>
     </modules>
 
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- onemall 基础 bom 文件  -->
+            <dependency>
+                <groupId>cn.iocoder.mall</groupId>
+                <artifactId>mall-dependencies</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.iocoder.mall</groupId>
+                <artifactId>common-framework</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
 </project>

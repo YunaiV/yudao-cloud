@@ -1,6 +1,5 @@
-package cn.iocoder.mall.productservice.dal.mysql.dataobject.category;
+package cn.iocoder.mall.productservice.dal.mysql.dataobject.brand;
 
-import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -9,43 +8,33 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
-* 商品分类 DO
+* 商品品牌
 */
-@TableName("product_category")
+@TableName("product_brand")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class ProductCategoryDO extends DeletableDO {
+public class ProductBrandDO extends DeletableDO {
 
     /**
-     * 分类编号
+     * 品牌编号（主键）
      */
     @TableId
     private Integer id;
     /**
-     * 父分类编号
-     */
-    private Integer pid;
-    /**
-     * 分类名称
+     * 品牌名称
      */
     private String name;
     /**
-     * 分类描述
+     * 品牌描述
      */
     private String description;
     /**
-     * 分类图片
+     * 品牌名图片
      */
     private String picUrl;
     /**
-     * 分类排序
-     */
-    private Integer sort;
-    /**
      * 状态
-     *
-     * 枚举 {@link CommonStatusEnum}
      */
     private Integer status;
 

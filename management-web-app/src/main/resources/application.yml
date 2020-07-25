@@ -51,6 +51,8 @@ dubbo:
       version: 1.0.0
     ProductCategoryRpc:
       version: 1.0.0
+    ProductBrandRpc:
+      version: 1.0.0
 
 # Swagger 配置项
 swagger:

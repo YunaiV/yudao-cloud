@@ -12,10 +12,7 @@ public interface ProductErrorCodeConstants {
     // ========== PRODUCT CATEGORY 模块 ==========
     ErrorCode PRODUCT_CATEGORY_PARENT_NOT_EXISTS = new ErrorCode(1003001000, "父分类不存在");
     ErrorCode PRODUCT_CATEGORY_NOT_EXISTS = new ErrorCode(1003001001, "商品分类不存在");
-    ErrorCode PRODUCT_CATEGORY_STATUS_NOT_EXISTS = new ErrorCode(1003001001, "商品分类状态不存在");
     ErrorCode PRODUCT_CATEGORY_PARENT_NOT_SELF = new ErrorCode(1003001002, "不能设置自己为父分类");
-    ErrorCode PRODUCT_CATEGORY_STATUS_EQUALS = new ErrorCode(1002001003, "商品分类已经是该状态");
-    ErrorCode PRODUCT_CATEGORY_DELETE_ONLY_DISABLE = new ErrorCode(1002001004, "只有关闭的商品分类才可以删除");
     ErrorCode PRODUCT_CATEGORY_DELETE_ONLY_NO_CHILD = new ErrorCode(1002001004, "只有无子分类的商品分类才可以删除");
     ErrorCode PRODUCT_CATEGORY_MUST_ENABLE = new ErrorCode(1002001005, "只有开启的商品分类，才可以使用");
     ErrorCode PRODUCT_CATEGORY_PARENT_CAN_NOT_BE_LEVEL2 = new ErrorCode(1002001005, "父分类必须是一级分类");
@@ -36,6 +33,7 @@ public interface ProductErrorCodeConstants {
     ErrorCode PRODUCT_ATTR_VALUE_STATUS_EQUALS = new ErrorCode(1003003005, "商品规格值已经是该状态");
 
     // ========== PRODUCT BRAND模块 ==========
-    ErrorCode PRODUCT_BRAND_EXIST = new ErrorCode(1003004000,"品牌值已经存在");
+    ErrorCode PRODUCT_BRAND_NAME_EXIST = new ErrorCode(1003004000,"商品品牌的名字已经存在");
+    ErrorCode PRODUCT_BRAND_NOT_FOUND = new ErrorCode(1003004001, "商品品牌不粗糙你在");
 
 }

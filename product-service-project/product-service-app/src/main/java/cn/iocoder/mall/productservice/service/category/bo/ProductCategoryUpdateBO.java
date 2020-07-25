@@ -1,5 +1,7 @@
 package cn.iocoder.mall.productservice.service.category.bo;
 
+import cn.iocoder.common.framework.enums.CommonStatusEnum;
+import cn.iocoder.common.framework.validator.InEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -45,6 +47,7 @@ public class ProductCategoryUpdateBO {
      * 状态
      */
     @NotNull(message = "状态不能为空")
+    @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}")
     private Integer status;
 
 }

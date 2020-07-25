@@ -16,7 +16,7 @@ public class ProductCategoryRespVO {
     private Integer pid;
     @ApiModelProperty(value = "分类名称", required = true, example = "手机")
     private String name;
-    @ApiModelProperty(value = "分类描述", required = true, example = "这个商品很吊")
+    @ApiModelProperty(value = "分类描述", required = true, example = "这个商品分类很吊")
     private String description;
     @ApiModelProperty(value = "分类图片", notes = "一般情况下，只有根分类才有图片", example = "http://www.iocoder.cn/xx.jpg")
     private String picUrl;

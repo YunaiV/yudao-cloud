@@ -122,9 +122,9 @@ public class ResourceService {
     }
 
     /**
-     * 获得资源树结构
+     * 获得资源全列表
      *
-     * @return 资源树结构
+     * @return 资源全列表
      */
     public List<ResourceBO> listResources() {
         List<ResourceDO> resourceDOs = resourceMapper.selectList(null);

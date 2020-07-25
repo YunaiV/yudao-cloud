@@ -41,20 +41,10 @@ public class UserAddressUpdateReqDTO implements Serializable {
     @Mobile
     private String mobile;
     /**
-     * 省份编号
+     * 地区编码
      */
-    @NotNull(message = "省份编号不能为空")
-    private Integer provinceCode;
-    /**
-     * 城市编号
-     */
-    @NotNull(message = "城市编号不能为空")
-    private Integer cityCode;
-    /**
-     * 区域编号
-     */
-    @NotNull(message = "区域编号不能为空")
-    private Integer countyCode;
+    @NotNull(message = "地区编码不能为空")
+    private Integer areaCode;
     /**
      * 收件详细地址
      */

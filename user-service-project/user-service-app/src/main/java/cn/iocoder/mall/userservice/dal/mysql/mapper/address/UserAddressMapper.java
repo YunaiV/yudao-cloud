@@ -12,7 +12,7 @@ import java.util.List;
 public interface UserAddressMapper extends BaseMapper<UserAddressDO> {
 
     default List<UserAddressDO> selectListByUserIdAndType(Integer userId, @Nullable Integer type) {
-        return selectList(new QueryWrapperX<UserAddressDO>().eq("userId", userId)
+        return selectList(new QueryWrapperX<UserAddressDO>().eq("user_id", userId)
             .eqIfPresent("type", type));
     }
 

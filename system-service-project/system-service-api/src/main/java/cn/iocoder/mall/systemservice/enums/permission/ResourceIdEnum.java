@@ -3,7 +3,7 @@ package cn.iocoder.mall.systemservice.enums.permission;
 /**
  * Resource 编号枚举
  */
-public enum  ResourceIdEnum {
+public enum ResourceIdEnum {
 
     /**
      * 根节点

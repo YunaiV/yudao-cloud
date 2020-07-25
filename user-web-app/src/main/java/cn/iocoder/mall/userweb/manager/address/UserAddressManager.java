@@ -1,7 +1,9 @@
 package cn.iocoder.mall.userweb.manager.address;
 
 import cn.iocoder.common.framework.exception.GlobalException;
+import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.userservice.enums.address.UserAddressType;
 import cn.iocoder.mall.userservice.rpc.address.UserAddressRpc;
 import cn.iocoder.mall.userservice.rpc.address.dto.UserAddressRespDTO;
 import cn.iocoder.mall.userweb.controller.address.vo.UserAddressCreateReqVO;
@@ -48,7 +50,8 @@ public class UserAddressManager {
         // 校验是否能够操作
         check(userId, updateVO.getId());
         // 执行更新
-        CommonResult<Boolean> updateUserAddressResult = userAddressRpc.updateUserAddress(UserAddressConvert.INSTANCE.convert(updateVO));
+        CommonResult<Boolean> updateUserAddressResult = userAddressRpc.updateUserAddress(UserAddressConvert.INSTANCE.convert(updateVO)
+            .setUserId(userId));
         updateUserAddressResult.checkError();
     }
 
@@ -85,15 +88,25 @@ public class UserAddressManager {
     * 获得用户收件地址列表
     *
     * @param userId 用户编号
-    * @param userAddressIds 用户收件地址编号列表
     * @return 用户收件地址列表
     */
-    public List<UserAddressRespVO> listUserAddresses(Integer userId, List<Integer> userAddressIds) {
-        CommonResult<List<UserAddressRespDTO>> listUserAddressResult = userAddressRpc.listUserAddresses(userAddressIds);
+    public List<UserAddressRespVO> listUserAddresses(Integer userId) {
+        CommonResult<List<UserAddressRespDTO>> listUserAddressResult = userAddressRpc.listUserAddresses(userId, null);
         listUserAddressResult.checkError();
-        // 校验是否能够操作
-        listUserAddressResult.getData().forEach(userAddressRespDTO -> check(userId, userAddressRespDTO));
         return UserAddressConvert.INSTANCE.convertList(listUserAddressResult.getData());
+    }
+
+    /**
+     * 获得用户的默认收件地址
+     *
+     * @param userId 用户编号
+     * @return 用户收件地址
+     */
+    public UserAddressRespVO getDefaultUserAddress(Integer userId) {
+        CommonResult<List<UserAddressRespDTO>> listUserAddressResult = userAddressRpc.listUserAddresses(userId, UserAddressType.DEFAULT.getType());
+        listUserAddressResult.checkError();
+        return !CollectionUtils.isEmpty(listUserAddressResult.getData()) ?
+                UserAddressConvert.INSTANCE.convert(listUserAddressResult.getData().get(0)) : null;
     }
 
     /**

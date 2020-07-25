@@ -34,25 +34,7 @@ dubbo:
   provider:
     filter: -exception
     validation: true # 开启 Provider 参数校验
-    OAuth2Rpc:
-      version: 1.0.0
-    AdminRpc:
-      version: 1.0.0
-    ResourceRpc:
-      version: 1.0.0
-    RoleRpc:
-      version: 1.0.0
-    PermissionRpc:
-      version: 1.0.0
-    DepartmentRpc:
-      version: 1.0.0
-    DataDictRpc:
-      version: 1.0.0
-    ProductExceptionLogRpc:
-      version: 1.0.0
-    ProductAccessLogRpc:
-      version: 1.0.0
-    ErrorCodeRpc:
+    ProductCategoryRpc:
       version: 1.0.0
   # Dubbo 服务消费者的配置
   consumer:

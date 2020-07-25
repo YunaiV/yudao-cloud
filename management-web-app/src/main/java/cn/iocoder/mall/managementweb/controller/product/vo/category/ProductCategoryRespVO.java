@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.Date;
+
 @ApiModel("商品分类 Response VO")
 @Data
 public class ProductCategoryRespVO {
@@ -22,5 +24,7 @@ public class ProductCategoryRespVO {
     private Integer sort;
     @ApiModelProperty(value = "状态", required = true, example = "1", notes = "见 CommonStatusEnum 枚举")
     private Integer status;
+    @ApiModelProperty(value = "创建时间", required = true)
+    private Date createTime;
 
 }

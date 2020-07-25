@@ -1,0 +1,7 @@
+### /product-category/tree 成功
+GET {{baseUrl}}/product-category/tree
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+dubbo-tag: {{dubboTag}}
+
+###

@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 @ApiModel("商品分类 Response VO")
@@ -24,6 +25,8 @@ public class ProductCategoryTreeNodeRespVO {
     private Integer sort;
     @ApiModelProperty(value = "状态", required = true, example = "1", notes = "见 CommonStatusEnum 枚举")
     private Integer status;
+    @ApiModelProperty(value = "创建时间", required = true)
+    private Date createTime;
 
     /**
      * 子节点

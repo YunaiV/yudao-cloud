@@ -11,6 +11,7 @@ import org.apache.dubbo.rpc.cluster.router.tag.TagRouter;
 /**
  * 基于 Dubbo 标签路由规则(http://dubbo.apache.org/zh-cn/docs/user/demos/routing-rule.html)，实现如下功能：
  * 1. 本地开发调试时，在带有 Dubbo Tag 的情况下，优先调用指定 Tag 的服务提供者。这样，我们可以将本地启动的服务提供者打上相应的 Tag，即可优先调用本地；
+ *    并且，前端在调用开发环境上的 Dubbo 服务时，因为不带有 Dubbo Tag，所以不会调用到后端开发本地启动的 Dubbo 服务提供者；
  * 2. TODO 优化点：蓝绿发布、灰度发布
  *
  * 实现逻辑为：

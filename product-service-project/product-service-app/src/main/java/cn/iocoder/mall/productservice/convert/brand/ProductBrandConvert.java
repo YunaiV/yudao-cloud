@@ -12,6 +12,7 @@ import cn.iocoder.mall.productservice.service.brand.bo.ProductBrandPageBO;
 import cn.iocoder.mall.productservice.service.brand.bo.ProductBrandUpdateBO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public interface ProductBrandConvert {
 
     List<ProductBrandBO> convertList(List<ProductBrandDO> list);
 
+    @Mapping(source = "records", target = "list")
     PageResult<ProductBrandBO> convertPage(IPage<ProductBrandDO> page);
 
     ProductBrandCreateBO convert(ProductBrandCreateReqDTO bean);
@@ -42,4 +44,5 @@ public interface ProductBrandConvert {
     ProductBrandPageBO convert(ProductBrandPageReqDTO bean);
 
     PageResult<ProductBrandRespDTO> convertPage(PageResult<ProductBrandBO> page);
+
 }

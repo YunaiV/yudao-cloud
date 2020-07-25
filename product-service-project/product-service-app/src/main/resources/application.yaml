@@ -37,7 +37,7 @@ dubbo:
     ProductCategoryRpc:
       version: 1.0.0
     ProductBrandRpc:
-      verion: 1.0.0
+      version: 1.0.0
   # Dubbo 服务消费者的配置
   consumer:
     ErrorCodeRpc:

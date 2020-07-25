@@ -25,6 +25,10 @@ public class InEnumValidator implements ConstraintValidator<InEnum, Integer> {
 
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
+        // 为空时，默认不校验，即认为通过
+        if (value == null) {
+            return true;
+        }
         // 校验通过
         if (values.contains(value)) {
             return true;

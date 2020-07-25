@@ -17,7 +17,8 @@ public interface ProductCategoryMapper extends BaseMapper<ProductCategoryDO> {
     }
 
     default List<ProductCategoryDO> selectList(ProductCategoryListQueryBO listQueryBO) {
-        return selectList(new QueryWrapperX<ProductCategoryDO>().eqIfPresent("pid", listQueryBO.getPid()));
+        return selectList(new QueryWrapperX<ProductCategoryDO>().eqIfPresent("pid", listQueryBO.getPid())
+            .eqIfPresent("status", listQueryBO.getStatus()));
     }
 
 }

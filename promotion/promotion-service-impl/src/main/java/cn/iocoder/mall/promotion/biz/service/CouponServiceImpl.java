@@ -6,7 +6,7 @@ import cn.iocoder.common.framework.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.StringUtil;
 import cn.iocoder.mall.promotion.api.CouponService;
 import cn.iocoder.mall.promotion.api.bo.*;
-import cn.iocoder.mall.promotion.api.constant.*;
+import cn.iocoder.mall.promotion.api.enums.*;
 import cn.iocoder.mall.promotion.api.dto.*;
 import cn.iocoder.mall.promotion.biz.convert.CouponCardConvert;
 import cn.iocoder.mall.promotion.biz.convert.CouponTemplateConvert;

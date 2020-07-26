@@ -157,8 +157,8 @@ DROP TABLE IF EXISTS `promotion_activity`;
 CREATE TABLE `promotion_activity` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '活动编号',
   `title` varchar(50) NOT NULL DEFAULT '' COMMENT '活动标题',
-  `activity_type` tinyint(4) NOT NULL COMMENT '活动类型\n     *\n     * 参见 {@link cn.iocoder.mall.promotion.api.constant.PromotionActivityTypeEnum} 枚举',
-  `status` tinyint(4) NOT NULL DEFAULT '-1' COMMENT '活动状态\n     *\n     * 参见 {@link cn.iocoder.mall.promotion.api.constant.PromotionActivityStatusEnum} 枚举',
+  `activity_type` tinyint(4) NOT NULL COMMENT '活动类型\n     *\n     * 参见 {@link cn.iocoder.mall.promotion.api.enums.PromotionActivityTypeEnum} 枚举',
+  `status` tinyint(4) NOT NULL DEFAULT '-1' COMMENT '活动状态\n     *\n     * 参见 {@link cn.iocoder.mall.promotion.api.enums.PromotionActivityStatusEnum} 枚举',
   `start_time` datetime NOT NULL COMMENT '开始时间',
   `end_time` datetime NOT NULL COMMENT '结束时间',
   `invalid_time` datetime DEFAULT NULL COMMENT '失效时间',

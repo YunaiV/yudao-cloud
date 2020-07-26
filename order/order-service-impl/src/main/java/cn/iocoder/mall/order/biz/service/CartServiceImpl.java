@@ -19,7 +19,7 @@ import cn.iocoder.mall.promotion.api.CouponService;
 import cn.iocoder.mall.promotion.api.PromotionActivityService;
 import cn.iocoder.mall.promotion.api.bo.CouponCardDetailBO;
 import cn.iocoder.mall.promotion.api.bo.PromotionActivityBO;
-import cn.iocoder.mall.promotion.api.constant.*;
+import cn.iocoder.mall.promotion.api.enums.*;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

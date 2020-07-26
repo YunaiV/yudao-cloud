@@ -1,19 +1,17 @@
-package cn.iocoder.mall.promotion.biz.dataobject;
+package cn.iocoder.mall.promotion.api.rpc.coupon.dto;
 
-import cn.iocoder.mall.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 优惠劵（码）模板 DO
- *
- * 当用户领取时，会生成 {@link CouponCardDO} 优惠劵（码）。
+ * 优惠劵（码）模板 BO
  */
 @Data
 @Accessors(chain = true)
-public class CouponTemplateDO extends BaseDO {
+public class CouponTemplateBO implements Serializable {
 
     // ========== 基本信息 BEGIN ==========
     /**
@@ -36,38 +34,24 @@ public class CouponTemplateDO extends BaseDO {
      */
     private Integer type;
     /**
+     * 码类型
+     *
+     * 1-一卡一码（UNIQUE）
+     * 2-通用码（GENERAL）
+     *
+     * 【优惠码独有】 @see CouponCodeDO
+     */
+    private Integer codeType;
+    /**
      * 优惠码状态
      *
-     * {@link cn.iocoder.mall.promotion.api.enums.CouponTemplateStatusEnum}
+     * 1-开启中
+     * 2-禁用中
+     * 3-已过期
      *
      * 当优惠劵（码）开启中，可以手动操作，设置禁用中。
      */
     private Integer status;
-//    /**
-//     * 是否可分享领取链接
-//     */
-//    private Boolean isShare;
-//    /**
-//     * 设置为失效时间
-//     */
-//    private Date invalidTime;
-//    /**
-//     * 删除时间
-//     */
-//    private Date deleteTime;
-
-    // ========== 基本信息 END ==========
-
-    // ========== 领取规则 BEGIN ==========
-//    /**
-//     * 是否限制领用者的等级
-//     *
-//     * 0-不限制
-//     * 大于0-领用者必须是这个等级编号
-//     *
-//     * 【优惠劵独有】
-//     */
-//    private Integer needUserLevel;
     /**
      * 每人限领个数
      *
@@ -75,19 +59,12 @@ public class CouponTemplateDO extends BaseDO {
      */
     private Integer quota;
     /**
-     * 发行总量
+     * 发放总量
      */
     private Integer total;
     // ========== 领取规则 END ==========
 
     // ========== 使用规则 BEGIN ==========
-//    /**
-//     * 是否仅原价购买商品时可用
-//     *
-//     * true-是
-//     * false-否
-//     */
-//    private Boolean isForbidPreference;
     /**
      * 是否设置满多少金额可用，单位：分
      *
@@ -134,13 +111,6 @@ public class CouponTemplateDO extends BaseDO {
      * 领取日期-结束天数
      */
     private Integer fixedEndTerm;
-//    /**
-//     * 是否到期前4天发送提醒
-//     *
-//     * true-发送
-//     * false-不发送
-//     */
-//    private Boolean expireNotice;
     // ========== 使用规则 END ==========
 
     // ========== 使用效果 BEGIN ==========
@@ -158,26 +128,10 @@ public class CouponTemplateDO extends BaseDO {
      * 当 100% 为 100 ，则代表免费。
      */
     private Integer percentOff;
-//    /**
-//     * 是否是随机优惠券
-//     *
-//     * true-随机
-//     * false-不随机
-//     *
-//     * 【优惠劵独有】
-//     */
-//    private Boolean isRandom;
     /**
      * 优惠金额，单位：分
      */
-//  * 当 {@link #isRandom} 为 true 时，代表随机优惠金额的下限
     private Integer priceOff;
-//    /**
-//     * 优惠金额上限
-//     *
-//     * 【优惠劵独有】
-//     */
-//    private Integer valueRandomTo;
     /**
      * 折扣上限，仅在 {@link #preferentialType} 等于 2 时生效。
      *
@@ -187,34 +141,15 @@ public class CouponTemplateDO extends BaseDO {
     // ========== 使用效果 END ==========
 
     // ========== 统计信息 BEGIN ==========
-//    /**
-//     * 领取优惠券的人数
-//     */
-//    private Integer statFetchUserNum;
     /**
      * 领取优惠券的次数
      */
     private Integer statFetchNum;
-//    /**
-//     * 使用优惠券的次数
-//     */
-//    private Integer statUseNum;
     // ========== 统计信息 END ==========
 
-    // ========== 优惠码 BEGIN ==========
     /**
-     * 码类型
-     *
-     * 1-一卡一码（UNIQUE）
-     * 2-通用码（GENERAL）
-     *
-     * 【优惠码独有】 @see CouponCodeDO
+     * 创建时间
      */
-    private Integer codeType;
-    /**
-     * 通用码
-     */
-    private String commonCode;
-    // ========== 优惠码 BEGIN ==========
+    private Date createTime;
 
 }

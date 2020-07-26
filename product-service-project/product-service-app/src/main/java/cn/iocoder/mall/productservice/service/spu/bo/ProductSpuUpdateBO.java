@@ -48,7 +48,7 @@ public class ProductSpuUpdateBO {
      * 是否上架商品
      */
     @NotNull(message = "是否上架商品不能为空")
-    private Integer visible;
+    private Boolean visible;
     /**
      * 排序字段
      */

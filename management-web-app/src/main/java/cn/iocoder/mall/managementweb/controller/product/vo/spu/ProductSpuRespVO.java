@@ -19,9 +19,9 @@ public class ProductSpuRespVO {
     @ApiModelProperty(value = "分类编号", required = true)
     private Integer cid;
     @ApiModelProperty(value = "商品主图地址", required = true)
-    private String picUrls;
+    private List<String> picUrls;
     @ApiModelProperty(value = "是否上架商品", required = true)
-    private Integer visible;
+    private Boolean visible;
     @ApiModelProperty(value = "排序字段", required = true)
     private Integer sort;
     @ApiModelProperty(value = "价格", required = true)

@@ -40,7 +40,7 @@ public class ProductSpuBO {
     /**
      * 是否上架商品
      */
-    private Integer visible;
+    private Boolean visible;
     /**
      * 排序字段
      */

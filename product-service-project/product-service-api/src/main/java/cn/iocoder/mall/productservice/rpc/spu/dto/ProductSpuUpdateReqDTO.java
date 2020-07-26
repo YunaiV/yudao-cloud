@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ import java.util.List;
 */
 @Data
 @Accessors(chain = true)
-public class ProductSpuUpdateReqDTO {
+public class ProductSpuUpdateReqDTO implements Serializable {
 
     /**
      * 商品 SPU 编号
@@ -48,7 +49,7 @@ public class ProductSpuUpdateReqDTO {
      * 是否上架商品
      */
     @NotNull(message = "是否上架商品不能为空")
-    private Integer visible;
+    private Boolean visible;
     /**
      * 排序字段
      */

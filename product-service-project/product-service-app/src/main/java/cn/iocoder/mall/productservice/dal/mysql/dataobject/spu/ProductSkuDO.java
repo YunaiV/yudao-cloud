@@ -1,6 +1,7 @@
 package cn.iocoder.mall.productservice.dal.mysql.dataobject.spu;
 
 import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -8,6 +9,7 @@ import lombok.experimental.Accessors;
 /**
  * 商品 SKU
  */
+@TableName("product_sku")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)

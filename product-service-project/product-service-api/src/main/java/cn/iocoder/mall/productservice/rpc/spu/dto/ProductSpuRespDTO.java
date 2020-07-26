@@ -3,6 +3,7 @@ package cn.iocoder.mall.productservice.rpc.spu.dto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
 */
 @Data
 @Accessors(chain = true)
-public class ProductSpuRespDTO {
+public class ProductSpuRespDTO implements Serializable {
 
     /**
      * 商品 SPU 编号
@@ -40,7 +41,7 @@ public class ProductSpuRespDTO {
     /**
      * 是否上架商品
      */
-    private Integer visible;
+    private Boolean visible;
     /**
      * 排序字段
      */

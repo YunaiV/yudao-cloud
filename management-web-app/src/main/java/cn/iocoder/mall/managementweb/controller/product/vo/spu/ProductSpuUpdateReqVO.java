@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @ApiModel("商品 SPU更新 Request VO")
 @Data
@@ -28,10 +29,10 @@ public class ProductSpuUpdateReqVO {
     private Integer cid;
     @ApiModelProperty(value = "商品主图地址", required = true)
     @NotEmpty(message = "商品主图地址不能为空")
-    private String picUrls;
+    private List<String> picUrls;
     @ApiModelProperty(value = "是否上架商品", required = true)
     @NotNull(message = "是否上架商品不能为空")
-    private Integer visible;
+    private Boolean visible;
     @ApiModelProperty(value = "排序字段", required = true)
     @NotNull(message = "排序字段不能为空")
     private Integer sort;

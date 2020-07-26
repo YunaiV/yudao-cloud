@@ -23,7 +23,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 * 商品 SPU Controller
 */
 @RestController
-@RequestMapping("/product_spu")
+@RequestMapping("/product-spu")
 @Api(tags = "商品 SPU")
 @Validated
 public class ProductSpuController {

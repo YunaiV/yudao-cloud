@@ -1,5 +1,6 @@
 package cn.iocoder.mall.productservice.convert.spu;
 
+import cn.iocoder.common.framework.util.StringUtils;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.productservice.dal.mysql.dataobject.spu.ProductSpuDO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuCreateReqDTO;
@@ -12,6 +13,8 @@ import cn.iocoder.mall.productservice.service.spu.bo.ProductSpuPageBO;
 import cn.iocoder.mall.productservice.service.spu.bo.ProductSpuUpdateBO;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -21,14 +24,18 @@ public interface ProductSpuConvert {
 
     ProductSpuConvert INSTANCE = Mappers.getMapper(ProductSpuConvert.class);
 
+    @Mapping(source = "picUrls", target = "picUrls", qualifiedByName = "translatePicUrlsFromStringList")
     ProductSpuDO convert(ProductSpuCreateBO bean);
 
+    @Mapping(source = "picUrls", target = "picUrls", qualifiedByName = "translatePicUrlsFromString")
     ProductSpuBO convert(ProductSpuDO bean);
 
+    @Mapping(source = "picUrls", target = "picUrls", qualifiedByName = "translatePicUrlsFromStringList")
     ProductSpuDO convert(ProductSpuUpdateBO bean);
 
     List<ProductSpuBO> convertList(List<ProductSpuDO> list);
 
+    @Mapping(source = "records", target = "list")
 	PageResult<ProductSpuBO> convertPage(IPage<ProductSpuDO> page);
 
     ProductSpuCreateBO convert(ProductSpuCreateReqDTO bean);
@@ -42,5 +49,15 @@ public interface ProductSpuConvert {
     ProductSpuPageBO convert(ProductSpuPageReqDTO bean);
 
     PageResult<ProductSpuRespDTO> convertPage(PageResult<ProductSpuBO> page);
+
+    @Named("translatePicUrlsFromString")
+    default List<String> translatePicUrlsFromString(String picUrls) {
+        return StringUtils.split(picUrls, ",");
+    }
+
+    @Named("translatePicUrlsFromStringList")
+    default String translatePicUrlsFromString(List<String> picUrls) {
+        return StringUtils.join(picUrls, ",");
+    }
 
 }

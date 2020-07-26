@@ -1,7 +1,7 @@
 package cn.iocoder.mall.promotion.biz.config;
 
 import cn.iocoder.common.framework.util.ServiceExceptionUtil;
-import cn.iocoder.mall.promotion.api.constant.PromotionErrorCodeEnum;
+import cn.iocoder.mall.promotion.api.enums.PromotionErrorCodeEnum;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;

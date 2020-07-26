@@ -1,10 +1,10 @@
 package cn.iocoder.mall.promotion.biz.dao;
 
 import cn.iocoder.common.framework.util.DateUtil;
-import cn.iocoder.mall.promotion.api.constant.PreferentialTypeEnum;
-import cn.iocoder.mall.promotion.api.constant.PromotionActivityStatusEnum;
-import cn.iocoder.mall.promotion.api.constant.PromotionActivityTypeEnum;
-import cn.iocoder.mall.promotion.api.constant.RangeTypeEnum;
+import cn.iocoder.mall.promotion.api.enums.PreferentialTypeEnum;
+import cn.iocoder.mall.promotion.api.enums.PromotionActivityStatusEnum;
+import cn.iocoder.mall.promotion.api.enums.PromotionActivityTypeEnum;
+import cn.iocoder.mall.promotion.api.enums.RangeTypeEnum;
 import cn.iocoder.mall.promotion.biz.dataobject.PromotionActivityDO;
 import org.junit.Ignore;
 import org.junit.Test;

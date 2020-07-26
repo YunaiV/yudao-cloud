@@ -3,7 +3,7 @@ package cn.iocoder.mall.promotion.application.controller.admins;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.promotion.api.PromotionActivityService;
 import cn.iocoder.mall.promotion.api.bo.PromotionActivityPageBO;
-import cn.iocoder.mall.promotion.api.constant.PromotionActivityStatusEnum;
+import cn.iocoder.mall.promotion.api.enums.PromotionActivityStatusEnum;
 import cn.iocoder.mall.promotion.api.dto.PromotionActivityPageDTO;
 import io.swagger.annotations.Api;
 import org.apache.dubbo.config.annotation.Reference;

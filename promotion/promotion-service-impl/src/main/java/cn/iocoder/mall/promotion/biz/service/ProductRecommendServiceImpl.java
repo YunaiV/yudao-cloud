@@ -7,7 +7,7 @@ import cn.iocoder.mall.product.rpc.api.ProductSpuRpc;
 import cn.iocoder.mall.promotion.api.ProductRecommendService;
 import cn.iocoder.mall.promotion.api.bo.ProductRecommendBO;
 import cn.iocoder.mall.promotion.api.bo.ProductRecommendPageBO;
-import cn.iocoder.mall.promotion.api.constant.PromotionErrorCodeEnum;
+import cn.iocoder.mall.promotion.api.enums.PromotionErrorCodeEnum;
 import cn.iocoder.mall.promotion.api.dto.ProductRecommendAddDTO;
 import cn.iocoder.mall.promotion.api.dto.ProductRecommendPageDTO;
 import cn.iocoder.mall.promotion.api.dto.ProductRecommendUpdateDTO;

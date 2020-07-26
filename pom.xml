@@ -30,6 +30,7 @@
         <module>management-web-app</module>
         <module>shop-web-app</module>
         <module>product-service-project</module>
+        <module>promotion-service-project</module>
     </modules>
     <packaging>pom</packaging>
 

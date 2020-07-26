@@ -6,7 +6,7 @@ import cn.iocoder.mall.mybatis.core.enums.DeletedStatusEnum;
 import cn.iocoder.mall.promotion.api.BannerService;
 import cn.iocoder.mall.promotion.api.bo.BannerBO;
 import cn.iocoder.mall.promotion.api.bo.BannerPageBO;
-import cn.iocoder.mall.promotion.api.constant.PromotionErrorCodeEnum;
+import cn.iocoder.mall.promotion.api.enums.PromotionErrorCodeEnum;
 import cn.iocoder.mall.promotion.api.dto.BannerAddDTO;
 import cn.iocoder.mall.promotion.api.dto.BannerPageDTO;
 import cn.iocoder.mall.promotion.api.dto.BannerUpdateDTO;

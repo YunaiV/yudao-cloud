@@ -14,13 +14,10 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>product-application</module>
         <module>product-rpc-api</module>
         <module>product-rpc</module>
         <module>product-rest</module>
         <module>product-biz</module>
-        <module>product-biz-api</module>
-        <module>product-mq</module>
     </modules>
 
     <dependencyManagement>

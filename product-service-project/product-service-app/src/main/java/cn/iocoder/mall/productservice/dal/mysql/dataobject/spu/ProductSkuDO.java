@@ -1,13 +1,15 @@
-package cn.iocoder.mall.product.dataobject;
+package cn.iocoder.mall.productservice.dal.mysql.dataobject.spu;
 
 import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * 商品 SKU
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class ProductSkuDO extends DeletableDO {
 

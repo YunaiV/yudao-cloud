@@ -1,7 +1,8 @@
-package cn.iocoder.mall.product.dataobject;
+package cn.iocoder.mall.productservice.dal.mysql.dataobject.spu;
 
 import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
@@ -10,6 +11,7 @@ import lombok.experimental.Accessors;
  * TODO 芋艿，后面增加商品普通参数。例如说，正面材料，背面材料，屏幕尺寸。
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class ProductSpuDO extends DeletableDO {
 

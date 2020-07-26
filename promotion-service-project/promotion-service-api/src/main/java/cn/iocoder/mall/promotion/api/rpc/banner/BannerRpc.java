@@ -10,7 +10,7 @@ import cn.iocoder.mall.promotion.api.rpc.banner.dto.BannerUpdateReqDTO;
 
 import java.util.List;
 
-public interface BannerService {
+public interface BannerRpc {
 
     List<BannerRespDTO> getBannerListByStatus(Integer status);
 

@@ -3,7 +3,7 @@ package cn.iocoder.mall.promotion.api.rpc.activity.dto;
 import java.util.Collection;
 import java.util.List;
 
-public interface PromotionActivityService {
+public interface PromotionActivityRpc {
 
     List<PromotionActivityRespDTO> getPromotionActivityListBySpuId(Integer spuId,
                                                                    Collection<Integer> activityStatuses);

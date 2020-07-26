@@ -1,6 +1,6 @@
 package cn.iocoder.mall.promotion.api.rpc.coupon.dto;
 
-import cn.iocoder.mall.promotion.api.rpc.coupon.CouponService;
+import cn.iocoder.mall.promotion.api.rpc.coupon.CouponRpc;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 优惠劵商品 DTO
  *
- * 主要用于 {@link CouponService#getCouponCardList(Integer, List)}
+ * 主要用于 {@link CouponRpc#getCouponCardList(Integer, List)}
  */
 @Data
 @Accessors(chain = true)

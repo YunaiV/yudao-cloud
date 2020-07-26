@@ -12,9 +12,39 @@
     <artifactId>promotion-service-app</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>mall-spring-boot-starter-dubbo</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
             <artifactId>promotion-service-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>mall-spring-boot-starter-mybatis</artifactId>
         </dependency>
     </dependencies>
 

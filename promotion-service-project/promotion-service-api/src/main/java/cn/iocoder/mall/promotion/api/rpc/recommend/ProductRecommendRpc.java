@@ -6,7 +6,7 @@ import cn.iocoder.common.framework.validator.InEnum;
 
 import java.util.List;
 
-public interface ProductRecommendService {
+public interface ProductRecommendRpc {
 
     List<ProductRecommendRespDTO> getProductRecommendList(Integer type, Integer status);
 

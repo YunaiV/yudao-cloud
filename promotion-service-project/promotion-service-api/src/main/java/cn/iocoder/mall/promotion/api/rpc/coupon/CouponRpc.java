@@ -7,7 +7,7 @@ import cn.iocoder.mall.promotion.api.rpc.coupon.dto.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-public interface CouponService {
+public interface CouponRpc {
 
     // ========== 优惠劵（码）模板 ==========
 

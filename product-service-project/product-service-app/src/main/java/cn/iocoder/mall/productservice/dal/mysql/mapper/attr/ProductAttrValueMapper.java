@@ -1,6 +1,6 @@
-package cn.iocoder.mall.product.biz.dao.attr;
+package cn.iocoder.mall.productservice.dal.mysql.mapper.attr;
 
-import cn.iocoder.mall.product.biz.dataobject.attr.ProductAttrValueDO;
+import cn.iocoder.mall.productservice.dal.mysql.dataobject.attr.ProductAttrValueDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Repository;
 

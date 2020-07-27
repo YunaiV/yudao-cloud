@@ -1,7 +1,5 @@
-package cn.iocoder.mall.managementweb.controller.product.vo.spu;
+package cn.iocoder.mall.productservice.rpc.spu.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -9,18 +7,22 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 
-@ApiModel("商品 SPU 创建 Request VO")
+/**
+* 商品 SPU 和 SKU 创建 Request DTO
+*/
 @Data
-public class ProductSpuCreateReqVO {
+@Accessors(chain = true)
+public class ProductSpuAndSkuCreateReqDTO implements Serializable {
 
     /**
      * SKU 信息
      */
     @Data
     @Accessors(chain = true)
-    public static class Sku {
+    public static class Sku implements Serializable {
 
         /**
          * 规格值数组
@@ -42,22 +44,37 @@ public class ProductSpuCreateReqVO {
 
     }
 
-    @ApiModelProperty(value = "SPU 名字", required = true)
+    // ========== 基本信息 =========
+    /**
+     * SPU 名字
+     */
     @NotEmpty(message = "SPU 名字不能为空")
     private String name;
-    @ApiModelProperty(value = "卖点", required = true)
+    /**
+     * 卖点
+     */
     @NotEmpty(message = "卖点不能为空")
     private String sellPoint;
-    @ApiModelProperty(value = "描述", required = true)
+    /**
+     * 描述
+     */
     @NotEmpty(message = "描述不能为空")
     private String description;
-    @ApiModelProperty(value = "分类编号", required = true)
+    /**
+     * 分类编号
+     */
     @NotNull(message = "分类编号不能为空")
     private Integer cid;
-    @ApiModelProperty(value = "商品主图地址", required = true)
+    /**
+     * 商品主图地址
+     */
     @NotEmpty(message = "商品主图地址不能为空")
     private List<String> picUrls;
-    @ApiModelProperty(value = "是否上架商品", required = true)
+
+    // ========== 其他信息 =========
+    /**
+     * 是否上架商品
+     */
     @NotNull(message = "是否上架商品不能为空")
     private Boolean visible;
 

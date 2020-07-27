@@ -35,39 +35,6 @@ public class ProductAttrServiceImpl implements ProductAttrService {
     @Autowired
     private ProductAttrValueMapper productAttrValueMapper;
 
-    public List<ProductAttrAndValuePairBO> validProductAttrAndValue(Set<Integer> productAttrValueIds, boolean validStatus) {
-        // 首先，校验规格值
-        List<ProductAttrValueDO> attrValues = productAttrValueMapper.selectListByIds(productAttrValueIds);
-        if (attrValues.size() != productAttrValueIds.size()) {
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_ATTR_VALUE_NOT_EXIST.getCode());
-        }
-        if (validStatus) {
-            for (ProductAttrValueDO attrValue : attrValues) { // 同时，校验下状态
-                if (ProductAttrConstants.ATTR_STATUS_DISABLE.equals(attrValue.getStatus())) {
-                    throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_ATTR_VALUE_NOT_EXIST.getCode());
-                }
-            }
-        }
-        // 然后，校验规格
-        Set<Integer> attrIds = attrValues.stream().map(ProductAttrValueDO::getAttrId).collect(Collectors.toSet());
-        List<ProductAttrDO> attrs = productAttrMapper.selectListByIds(attrIds);
-        if (attrs.size() != attrIds.size()) {
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_ATTR_NOT_EXIST.getCode());
-        }
-        if (validStatus) {
-            for (ProductAttrDO attr : attrs) { // 同时，校验下状态
-                if (ProductAttrConstants.ATTR_VALUE_STATUS_DISABLE.equals(attr.getStatus())) {
-                    throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_ATTR_NOT_EXIST.getCode());
-                }
-            }
-        }
-        // 返回成功
-        Map<Integer, ProductAttrDO> attrMap = attrs.stream().collect(Collectors.toMap(ProductAttrDO::getId, productAttrDO -> productAttrDO)); // ProductAttrDO 的映射，方便查找。
-        return attrValues.stream().map(productAttrValueDO -> new ProductAttrAndValuePairBO()
-                .setAttrId(productAttrValueDO.getAttrId()).setAttrName(attrMap.get(productAttrValueDO.getAttrId()).getName())
-                .setAttrValueId(productAttrValueDO.getId()).setAttrValueName(productAttrValueDO.getName())).collect(Collectors.toList());
-    }
-
     @Override
     public ProductAttrPageBO getProductAttrPage(ProductAttrPageDTO productAttrPageDTO) {
         ProductAttrPageBO productAttrPageBO = new ProductAttrPageBO();

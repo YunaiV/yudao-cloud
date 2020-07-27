@@ -12,7 +12,8 @@ import org.springframework.stereotype.Repository;
 public interface ProductSpuMapper extends BaseMapper<ProductSpuDO> {
 
     default IPage<ProductSpuDO> selectPage(ProductSpuPageBO pageBO) {
-        QueryWrapperX<ProductSpuDO> query = new QueryWrapperX<ProductSpuDO>().likeIfPresent("name", pageBO.getName());
+        QueryWrapperX<ProductSpuDO> query = new QueryWrapperX<ProductSpuDO>().likeIfPresent("name", pageBO.getName())
+                .eqIfPresent("cid", pageBO.getCid()).eqIfPresent("visible", pageBO.getVisible());
         // 库存过滤
         if (pageBO.getHasQuantity() != null) {
             if (pageBO.getHasQuantity()) {

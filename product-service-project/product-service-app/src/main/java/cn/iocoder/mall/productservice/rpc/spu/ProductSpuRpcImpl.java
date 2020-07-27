@@ -3,7 +3,7 @@ package cn.iocoder.mall.productservice.rpc.spu;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.productservice.manager.spu.ProductSpuManager;
-import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuCreateReqDTO;
+import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuAndSkuCreateReqDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuPageReqDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuUpdateReqDTO;
@@ -24,7 +24,7 @@ public class ProductSpuRpcImpl implements ProductSpuRpc {
     private ProductSpuManager productSpuManager;
 
     @Override
-    public CommonResult<Integer> createProductSpu(ProductSpuCreateReqDTO createDTO) {
+    public CommonResult<Integer> createProductSpu(ProductSpuAndSkuCreateReqDTO createDTO) {
         return success(productSpuManager.createProductSpu(createDTO));
     }
 

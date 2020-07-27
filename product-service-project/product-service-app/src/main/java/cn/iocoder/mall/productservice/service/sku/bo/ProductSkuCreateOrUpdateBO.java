@@ -1,4 +1,4 @@
-package cn.iocoder.mall.product.biz.dto.sku;
+package cn.iocoder.mall.productservice.service.sku.bo;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -8,17 +8,19 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * 商品 Sku 添加 DTO
+ * 商品 SKU 创建或者修改 BO
+ *
+ * 注意，目前该对象是
  */
 @Data
 @Accessors(chain = true)
-public class ProductSkuAddOrUpdateDTO {
+public class ProductSkuCreateOrUpdateBO {
 
     /**
      * 规格值数组
      */
     @NotNull(message = "规格值数组不能为空")
-    private List<Integer> attrs;
+    private List<Integer> attrValueIds;
     /**
      * 价格，单位：分
      */

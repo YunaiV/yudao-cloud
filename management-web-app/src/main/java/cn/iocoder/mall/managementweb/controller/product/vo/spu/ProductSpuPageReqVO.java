@@ -11,23 +11,13 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class ProductSpuPageReqVO extends PageParam {
 
-    @ApiModelProperty(value = "SPU 名字", required = true)
+    @ApiModelProperty(value = "SPU 名字", notes = "模糊匹配", example = "艿艿")
     private String name;
-    @ApiModelProperty(value = "卖点", required = true)
-    private String sellPoint;
-    @ApiModelProperty(value = "描述", required = true)
-    private String description;
-    @ApiModelProperty(value = "分类编号", required = true)
+    @ApiModelProperty(value = "分类编号", example = "1024")
     private Integer cid;
-    @ApiModelProperty(value = "商品主图地址", required = true)
-    private String picUrls;
-    @ApiModelProperty(value = "是否上架商品", required = true)
-    private Integer visible;
-    @ApiModelProperty(value = "排序字段", required = true)
-    private Integer sort;
-    @ApiModelProperty(value = "价格", required = true)
-    private Integer price;
-    @ApiModelProperty(value = "库存数量", required = true)
-    private Integer quantity;
+    @ApiModelProperty(value = "是否上架商品", example = "true")
+    private Boolean visible;
+    @ApiModelProperty(value = "是否有库存", example = "true")
+    private Boolean hasQuantity;
 
 }

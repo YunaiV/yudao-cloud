@@ -22,8 +22,6 @@ public interface ProductSpuService {
      */
     List<ProductSpuDetailBO> getProductSpuDetailListForSync(Integer lastId, Integer limit);
 
-    ProductSpuPageBO getProductSpuPage(ProductSpuPageDTO productSpuPageDTO);
-
     List<ProductSpuBO> getProductSpuSearchList(ProductSpuSearchListDTO productSpuSearchListDTO);
 
     List<ProductSpuBO> getProductSpuList(Collection<Integer> ids);

@@ -18,15 +18,15 @@ public interface ProductErrorCodeConstants {
     ErrorCode PRODUCT_CATEGORY_PARENT_CAN_NOT_BE_LEVEL2 = new ErrorCode(1002001005, "父分类必须是一级分类");
 
     // ========== PRODUCT SPU + SKU 模块 ==========
-    ErrorCode PRODUCT_SKU_ATTR_CANT_NOT_DUPLICATE = new ErrorCode(1003002000, "一个 Sku 下，不能有重复的规格");
-    ErrorCode PRODUCT_SPU_ATTR_NUMBERS_MUST_BE_EQUALS = new ErrorCode(1003002001, "一个 Spu 下的每个 Sku ，其规格数必须一致");
-    ErrorCode PRODUCT_SPU_SKU__NOT_DUPLICATE = new ErrorCode(1003002002, "一个 Spu 下的每个 Sku ，必须不重复");
-    ErrorCode PRODUCT_SPU_NOT_EXISTS = new ErrorCode(1003002003, "Spu 不存在");
-    ErrorCode PRODUCT_SPU_CATEGORY_MUST_BE_LEVEL2 = new ErrorCode(1003002003, "Spu 只能添加在二级分类下");
+    ErrorCode PRODUCT_SKU_ATTR_CANT_NOT_DUPLICATE = new ErrorCode(1003002000, "一个 SKU 下，不能有重复的规格");
+    ErrorCode PRODUCT_SPU_ATTR_NUMBERS_MUST_BE_EQUALS = new ErrorCode(1003002001, "一个 Spu 下的每个 SKU ，其规格数必须一致");
+    ErrorCode PRODUCT_SPU_SKU_NOT_DUPLICATE = new ErrorCode(1003002002, "一个 SPU 下的每个 SKU ，必须不重复");
+    ErrorCode PRODUCT_SPU_NOT_EXISTS = new ErrorCode(1003002003, "SPU 不存在");
+    ErrorCode PRODUCT_SPU_CATEGORY_MUST_BE_LEVEL2 = new ErrorCode(1003002003, "SPU 只能添加在二级分类下");
 
     // ========== PRODUCT ATTR + ATTR_VALUE 模块 ==========
-    ErrorCode  PRODUCT_ATTR_VALUE_NOT_EXIST = new ErrorCode(1003003000, "商品属性值不存在");
-    ErrorCode PRODUCT_ATTR_NOT_EXIST = new ErrorCode(1003003001, "商品属性值不存在");
+    ErrorCode PRODUCT_ATTR_VALUE_NOT_EXIST = new ErrorCode(1003003000, "商品属性值不存在");
+    ErrorCode PRODUCT_ATTR_KEY_NOT_EXIST = new ErrorCode(1003003001, "商品属性值不存在");
     ErrorCode PRODUCT_ATTR_EXISTS = new ErrorCode(1003003002, "商品规格已经存在");
     ErrorCode PRODUCT_ATTR_STATUS_EQUALS = new ErrorCode(1003003003, "商品规格已经是该状态");
     ErrorCode PRODUCT_ATTR_VALUE_EXISTS = new ErrorCode(1003003004, "商品规格值已经存在");

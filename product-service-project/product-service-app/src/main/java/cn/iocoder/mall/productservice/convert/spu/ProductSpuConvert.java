@@ -3,7 +3,8 @@ package cn.iocoder.mall.productservice.convert.spu;
 import cn.iocoder.common.framework.util.StringUtils;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.productservice.dal.mysql.dataobject.spu.ProductSpuDO;
-import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuCreateReqDTO;
+import cn.iocoder.mall.productservice.service.sku.bo.ProductSkuCreateOrUpdateBO;
+import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuAndSkuCreateReqDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuPageReqDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuUpdateReqDTO;
@@ -38,7 +39,7 @@ public interface ProductSpuConvert {
     @Mapping(source = "records", target = "list")
 	PageResult<ProductSpuBO> convertPage(IPage<ProductSpuDO> page);
 
-    ProductSpuCreateBO convert(ProductSpuCreateReqDTO bean);
+    ProductSpuCreateBO convert(ProductSpuAndSkuCreateReqDTO bean);
 
     ProductSpuUpdateBO convert(ProductSpuUpdateReqDTO bean);
 
@@ -51,13 +52,15 @@ public interface ProductSpuConvert {
     PageResult<ProductSpuRespDTO> convertPage(PageResult<ProductSpuBO> page);
 
     @Named("translatePicUrlsFromString")
-    default List<String> translatePicUrlsFromString(String picUrls) {
+    default List<String> translatePicUrlsFromList(String picUrls) {
         return StringUtils.split(picUrls, ",");
     }
 
     @Named("translatePicUrlsFromStringList")
-    default String translatePicUrlsFromString(List<String> picUrls) {
+    default String translatePicUrlsFromList(List<String> picUrls) {
         return StringUtils.join(picUrls, ",");
     }
+
+    List<ProductSkuCreateOrUpdateBO> convert(List<ProductSpuAndSkuCreateReqDTO.Sku> list);
 
 }

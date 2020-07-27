@@ -2,7 +2,7 @@ package cn.iocoder.mall.productservice.rpc.spu;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuCreateReqDTO;
+import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuAndSkuCreateReqDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuPageReqDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuUpdateReqDTO;
@@ -20,7 +20,7 @@ public interface ProductSpuRpc {
     * @param createDTO 创建商品 SPU DTO
     * @return 商品 SPU编号
     */
-    CommonResult<Integer> createProductSpu(ProductSpuCreateReqDTO createDTO);
+    CommonResult<Integer> createProductSpu(ProductSpuAndSkuCreateReqDTO createDTO);
 
     /**
     * 更新商品 SPU

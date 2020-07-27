@@ -1,6 +1,8 @@
 package cn.iocoder.mall.productservice.dal.mysql.dataobject.spu;
 
+import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
+import cn.iocoder.mall.productservice.dal.mysql.dataobject.attr.ProductAttrValueDO;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,8 +31,7 @@ public class ProductSkuDO extends DeletableDO {
     /**
      * 状态
      *
-     * 1-正常
-     * 2-禁用
+     * 枚举 {@link CommonStatusEnum}
      */
     private Integer status;
     /**
@@ -38,7 +39,7 @@ public class ProductSkuDO extends DeletableDO {
      */
     private String picUrl;
     /**
-     * 规格值({@link ProductAttrDO})数组
+     * 规格值({@link ProductAttrValueDO#getId()})数组
      *
      * 数组，以逗号分隔
      */

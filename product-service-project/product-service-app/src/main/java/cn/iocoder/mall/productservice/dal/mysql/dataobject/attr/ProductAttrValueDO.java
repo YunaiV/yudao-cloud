@@ -1,13 +1,16 @@
-package cn.iocoder.mall.product.biz.dataobject.attr;
+package cn.iocoder.mall.productservice.dal.mysql.dataobject.attr;
 
+import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * Product 规格值
+ * 商品规格值 DO
  */
+@TableName("product_attr_value")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
@@ -27,9 +30,8 @@ public class ProductAttrValueDO extends DeletableDO {
     private String name;
     /**
      * 状态
-     * <p>
-     * 1-正常
-     * 2-禁用
+     *
+     * 枚举 {@link CommonStatusEnum}
      */
     private Integer status;
 

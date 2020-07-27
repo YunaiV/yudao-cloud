@@ -18,6 +18,14 @@ public class ProductSpuPageBO extends PageParam {
     */
     private String name;
     /**
+     * 分类编号
+     */
+    private Integer cid;
+    /**
+     * 是否可见
+     */
+    private Boolean visible;
+    /**
     * 是否有库存
     */
     private Boolean hasQuantity;

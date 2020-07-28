@@ -16,7 +16,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 /**
 * 商品分类 Rpc 实现类
 */
-@DubboService(version = "${dubbo.provider.ProductCategoryRpc.version}")
+@DubboService
 public class ProductCategoryRpcImpl implements ProductCategoryRpc {
 
     @Autowired

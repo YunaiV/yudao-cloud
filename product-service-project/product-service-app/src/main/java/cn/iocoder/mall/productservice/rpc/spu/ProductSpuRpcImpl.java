@@ -7,7 +7,7 @@ import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuAndSkuCreateReqDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuAndSkuUpdateReqDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuPageReqDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 /**
 * 商品 SPU Rpc 实现类
 */
-@Service(version = "${dubbo.provider.ProductSpuRpc.version}")
+@DubboService
 public class ProductSpuRpcImpl implements ProductSpuRpc {
 
     @Autowired

@@ -26,11 +26,9 @@ public interface ProductErrorCodeConstants {
 
     // ========== PRODUCT ATTR + ATTR_VALUE 模块 ==========
     ErrorCode PRODUCT_ATTR_VALUE_NOT_EXIST = new ErrorCode(1003003000, "商品属性值不存在");
-    ErrorCode PRODUCT_ATTR_KEY_NOT_EXIST = new ErrorCode(1003003001, "商品属性值不存在");
-    ErrorCode PRODUCT_ATTR_EXISTS = new ErrorCode(1003003002, "商品规格已经存在");
-    ErrorCode PRODUCT_ATTR_STATUS_EQUALS = new ErrorCode(1003003003, "商品规格已经是该状态");
+    ErrorCode PRODUCT_ATTR_KEY_NOT_EXIST = new ErrorCode(1003003001, "商品属性键不存在");
+    ErrorCode PRODUCT_ATTR_KEY_EXISTS = new ErrorCode(1003003002, "商品规格键已经存在");
     ErrorCode PRODUCT_ATTR_VALUE_EXISTS = new ErrorCode(1003003004, "商品规格值已经存在");
-    ErrorCode PRODUCT_ATTR_VALUE_STATUS_EQUALS = new ErrorCode(1003003005, "商品规格值已经是该状态");
 
     // ========== PRODUCT BRAND模块 ==========
     ErrorCode PRODUCT_BRAND_NAME_EXIST = new ErrorCode(1003004000,"商品品牌的名字已经存在");

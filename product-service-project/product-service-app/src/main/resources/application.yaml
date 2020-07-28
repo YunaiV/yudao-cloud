@@ -34,12 +34,7 @@ dubbo:
   provider:
     filter: -exception
     validation: true # 开启 Provider 参数校验
-    ProductCategoryRpc:
-      version: 1.0.0
-    ProductBrandRpc:
-      version: 1.0.0
-    ProductSpuRpc:
-      version: 1.0.0
+    version: 1.0.0 # 服务的版本号
   # Dubbo 服务消费者的配置
   consumer:
     ErrorCodeRpc:

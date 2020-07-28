@@ -7,7 +7,7 @@ import cn.iocoder.mall.productservice.rpc.brand.dto.ProductBrandCreateReqDTO;
 import cn.iocoder.mall.productservice.rpc.brand.dto.ProductBrandPageReqDTO;
 import cn.iocoder.mall.productservice.rpc.brand.dto.ProductBrandRespDTO;
 import cn.iocoder.mall.productservice.rpc.brand.dto.ProductBrandUpdateReqDTO;
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 /**
 * 商品品牌 Rpc 实现类
 */
-@Service(version = "${dubbo.provider.ProductBrandRpc.version}")
+@DubboService
 public class ProductBrandRpcImpl implements ProductBrandRpc {
 
     @Autowired

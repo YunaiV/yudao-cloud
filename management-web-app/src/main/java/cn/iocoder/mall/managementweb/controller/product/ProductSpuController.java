@@ -61,10 +61,14 @@ public class ProductSpuController {
     @GetMapping("/page")
     @ApiOperation("获得商品 SPU 分页")
     public CommonResult<PageResult<ProductSpuRespVO>> pageProductSpu(ProductSpuPageReqVO pageVO) {
-        //
-        //
-        //
+        // 全部：无搜索条件
+        // 在售中：visible = true && hasQuantity = true
+        // 已售罄：visible  = true && hasQuantity = false
+        // 仓库中：visible = false
         return success(productSpuManager.pageProductSpu(pageVO));
     }
+
+    // TODO 芋艿，删除功能暂时不做。主要原因是，关联的数据太多。删除带来的问题会比较大
+
 
 }

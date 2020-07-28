@@ -75,58 +75,6 @@ public class ProductAttrServiceImpl implements ProductAttrService {
     }
 
     @Override
-    public ProductAttrBO addProductAttr(Integer adminId, ProductAttrAddDTO productAttrAddDTO) {
-        // 校验规格名不重复
-        if (productAttrMapper.selectByName(productAttrAddDTO.getName()) != null) {
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_ATTR_EXISTS.getCode());
-        }
-        // 插入到数据库
-        ProductAttrDO productAttrDO = ProductAttrConvert.INSTANCE.convert(productAttrAddDTO)
-                .setStatus(ProductAttrConstants.ATTR_STATUS_ENABLE);
-        productAttrDO.setCreateTime(new Date());
-        productAttrDO.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
-        productAttrMapper.insert(productAttrDO);
-        // 返回成功
-        return ProductAttrConvert.INSTANCE.convert(productAttrDO);
-    }
-
-    @Override
-    public Boolean updateProductAttr(Integer adminId, ProductAttrUpdateDTO productAttrUpdateDTO) {
-        // 校验存在
-        if (productAttrMapper.selectById(productAttrUpdateDTO.getId()) == null) {
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_ATTR_NOT_EXIST.getCode());
-        }
-        // 校验规格名不重复
-        ProductAttrDO existsAttrDO = productAttrMapper.selectByName(productAttrUpdateDTO.getName());
-        if (existsAttrDO != null && !existsAttrDO.getId().equals(productAttrUpdateDTO.getId())) {
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_ATTR_EXISTS.getCode());
-        }
-        // 更新到数据库
-        ProductAttrDO updateProductAttr = ProductAttrConvert.INSTANCE.convert(productAttrUpdateDTO);
-        productAttrMapper.update(updateProductAttr);
-        // 返回成功
-        return true;
-    }
-
-    @Override
-    public Boolean updateProductAttrStatus(Integer adminId, Integer productAttrId, Integer status) {
-        // 校验存在
-        ProductAttrDO productAttrDO = productAttrMapper.selectById(productAttrId);
-        if (productAttrDO == null) {
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_ATTR_NOT_EXIST.getCode());
-        }
-        // 校验状态
-        if (productAttrDO.getStatus().equals(status)) {
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_ATTR_STATUS_EQUALS.getCode());
-        }
-        // 更新到数据库
-        ProductAttrDO updateProductAttr = new ProductAttrDO().setId(productAttrId).setStatus(status);
-        productAttrMapper.update(updateProductAttr);
-        // 返回成功
-        return true;
-    }
-
-    @Override
     public ProductAttrValueBO addProductAttrValue(Integer adminId, ProductAttrValueAddDTO productAttrValueAddDTO) {
         // 校验规格名不重复
         if (productAttrValueMapper.selectByAttrIdAndName(productAttrValueAddDTO.getAttrId(), productAttrValueAddDTO.getName()) != null) {

@@ -88,82 +88,11 @@ public class ProductSpuServiceImpl implements ProductSpuService {
 
     @Override
     public ProductSpuDetailBO addProductSpu(Integer adminId, ProductSpuAddDTO productSpuAddDTO) {
-        ProductSpuDetailBO productSpuDetailBO = addProductSpu0(adminId, productSpuAddDTO);
         // 如果新增生成，发送创建商品 Topic 消息
         // TODO 芋艿，先不考虑事务的问题。等后面的 fescar 一起搞
         sendProductUpdateMessage(productSpuDetailBO.getId());
         // 返回成功
         return productSpuDetailBO;
-    }
-
-    @Override
-    public void updateProductSpu(Integer adminId, ProductSpuUpdateDTO productSpuUpdateDTO) {
-        // 更新商品
-        updateProductSpu0(adminId, productSpuUpdateDTO);
-        // TODO 芋艿，先不考虑事务的问题。等后面的 fescar 一起搞
-        sendProductUpdateMessage(productSpuUpdateDTO.getId());
-    }
-
-    @SuppressWarnings("Duplicates")
-    @Transactional
-    public void updateProductSpu0(Integer adminId, ProductSpuUpdateDTO productSpuUpdateDTO) {
-        // 校验 Spu 是否存在
-        if (productSpuMapper.selectById(productSpuUpdateDTO.getId()) == null) {
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_SPU_NOT_EXISTS.getCode());
-        }
-        // 校验商品分类分类存在
-        ProductCategoryDO category = productCategoryService.validProductCategory(productSpuUpdateDTO.getCid());
-        if (ProductCategoryConstants.PID_ROOT.equals(category.getPid())) { // 商品只能添加到二级分类下
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_SPU_CATEGORY_MUST_BE_LEVEL2.getCode());
-        }
-        // 校验规格是否存在
-        Set<Integer> productAttrValueIds = new HashSet<>();
-        productSpuUpdateDTO.getSkus().forEach(productSkuAddDTO -> productAttrValueIds.addAll(productSkuAddDTO.getAttrs()));
-        List<ProductAttrAndValuePairBO> attrAndValuePairList = productAttrService.validProductAttrAndValue(productAttrValueIds,
-                true); // 读取规格时，需要考虑规格是否被禁用
-        // 校验 Sku 规格
-        validProductSku(productSpuUpdateDTO.getSkus(), attrAndValuePairList);
-        // 更新 Spu
-        ProductSpuDO updateSpu = ProductSpuConvert.INSTANCE.convert(productSpuUpdateDTO)
-                .setPicUrls(StringUtil.join(productSpuUpdateDTO.getPicUrls(), ","));
-        initSpuFromSkus(updateSpu, productSpuUpdateDTO.getSkus()); // 初始化 sku 相关信息到 spu 中
-        productSpuMapper.update(updateSpu);
-        // 修改 Sku
-        List<ProductSkuDO> existsSkus = productSkuMapper.selectListBySpuIdAndStatus(productSpuUpdateDTO.getId(), ProductSpuConstants.SKU_STATUS_ENABLE);
-        List<ProductSkuDO> insertSkus = new ArrayList<>(0); // 1、找不到，进行插入
-        List<Integer> deleteSkus = new ArrayList<>(0); // 2、多余的，删除
-        List<ProductSkuDO> updateSkus = new ArrayList<>(0); // 3、找的到，进行更新。
-        for (ProductSkuAddOrUpdateDTO skuUpdateDTO : productSpuUpdateDTO.getSkus()) {
-            ProductSkuDO existsSku = findProductSku(skuUpdateDTO.getAttrs(), existsSkus);
-            // 3、找的到，进行更新。
-            if (existsSku != null) {
-                // 移除
-                existsSkus.remove(existsSku);
-                // 创建 ProductSkuDO
-                updateSkus.add(ProductSpuConvert.INSTANCE.convert(skuUpdateDTO).setId(existsSku.getId()));
-                continue;
-            }
-            // 1、找不到，进行插入
-            ProductSkuDO insertSku = ProductSpuConvert.INSTANCE.convert(skuUpdateDTO)
-                    .setSpuId(productSpuUpdateDTO.getId()).setStatus(ProductSpuConstants.SKU_STATUS_ENABLE).setAttrs(StringUtil.join(skuUpdateDTO.getAttrs(), ","));
-            insertSku.setCreateTime(new Date());
-            insertSku.setDeleted(DeletedStatusEnum.DELETED_NO.getValue());
-            insertSkus.add(insertSku);
-        }
-        // 2、多余的，删除
-        if (!existsSkus.isEmpty()) {
-            deleteSkus.addAll(existsSkus.stream().map(ProductSkuDO::getId).collect(Collectors.toList()));
-        }
-        // 执行修改 Sku
-        if (!insertSkus.isEmpty()) {
-            productSkuMapper.insertList(insertSkus);
-        }
-        if (!updateSkus.isEmpty()) {
-            updateSkus.forEach(productSkuDO -> productSkuMapper.update(productSkuDO));
-        }
-        if (!deleteSkus.isEmpty()) {
-            productSkuMapper.updateToDeleted(deleteSkus);
-        }
     }
 
     @Override
@@ -179,21 +108,6 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         sendProductUpdateMessage(spuId);
         // 返回成功
         return true;
-    }
-
-    @Override
-    public ProductSpuPageBO getProductSpuPage(ProductSpuPageDTO productSpuPageDTO) {
-        ProductSpuPageBO productSpuPage = new ProductSpuPageBO();
-        // 查询分页数据
-        int offset = (productSpuPageDTO.getPageNo() - 1) * productSpuPageDTO.getPageSize();
-        productSpuPage.setList(ProductSpuConvert.INSTANCE.convert(productSpuMapper.selectListByNameLikeOrderBySortAsc(
-                productSpuPageDTO.getName(), productSpuPageDTO.getCid(), productSpuPageDTO.getHasQuantity(), productSpuPageDTO.getVisible(),
-            offset, productSpuPageDTO.getPageSize())));
-        // 查询分页总数
-        productSpuPage.setTotal(productSpuMapper.selectCountByNameLike(productSpuPageDTO.getName(), productSpuPageDTO.getCid(), productSpuPageDTO.getHasQuantity(),
-                productSpuPageDTO.getVisible()));
-        // 返回结果
-        return productSpuPage;
     }
 
     @Override
@@ -235,28 +149,6 @@ public class ProductSpuServiceImpl implements ProductSpuService {
                 false); // 读取规格时，不考虑规格是否被禁用
         // 返回成功
         return ProductSpuConvert.INSTANCE.convert3(skus, spus, attrAndValuePairList);
-    }
-
-    /**
-     * 获得 sku 数组中，指定规格的 sku
-     *
-     * @param attrs 指定规格
-     * @param skus sku 数组
-     * @return 符合条件的 sku
-     */
-    private ProductSkuDO findProductSku(Collection<Integer> attrs, List<ProductSkuDO> skus) {
-        if (CollectionUtil.isEmpty(skus)) {
-            return null;
-        }
-        // 创建成 Set ，方便后面比较
-        attrs = new HashSet<>(attrs);
-        for (ProductSkuDO sku : skus) {
-            Set<Integer> skuAttrs = StringUtil.split(sku.getAttrs(), ",").stream().map(Integer::parseInt).collect(Collectors.toSet());
-            if (attrs.equals(skuAttrs)) {
-                return sku;
-            }
-        }
-        return null;
     }
 
     private boolean sendProductUpdateMessage(Integer id) {

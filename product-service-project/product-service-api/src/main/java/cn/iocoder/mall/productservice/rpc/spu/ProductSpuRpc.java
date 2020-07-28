@@ -3,9 +3,9 @@ package cn.iocoder.mall.productservice.rpc.spu;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuAndSkuCreateReqDTO;
+import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuAndSkuUpdateReqDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuPageReqDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
-import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuUpdateReqDTO;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public interface ProductSpuRpc {
     *
     * @param updateDTO 更新商品 SPU DTO
     */
-    CommonResult<Boolean> updateProductSpu(ProductSpuUpdateReqDTO updateDTO);
+    CommonResult<Boolean> updateProductSpu(ProductSpuAndSkuUpdateReqDTO updateDTO);
 
     /**
     * 获得商品 SPU

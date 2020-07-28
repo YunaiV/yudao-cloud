@@ -1,22 +1,17 @@
 package cn.iocoder.mall.productservice.service.sku;
 
 import cn.iocoder.common.framework.enums.CommonStatusEnum;
-import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.util.CollectionUtils;
+import cn.iocoder.common.framework.util.StringUtils;
 import cn.iocoder.mall.productservice.convert.sku.ProductSkuConvert;
 import cn.iocoder.mall.productservice.dal.mysql.dataobject.spu.ProductSkuDO;
 import cn.iocoder.mall.productservice.dal.mysql.mapper.sku.ProductSkuMapper;
-import cn.iocoder.mall.productservice.service.attr.bo.ProductAttrKeyValueBO;
 import cn.iocoder.mall.productservice.service.sku.bo.ProductSkuCreateOrUpdateBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
-
-import static cn.iocoder.mall.productservice.enums.ProductErrorCodeConstants.*;
 
 @Service
 public class ProductSkuService {
@@ -24,8 +19,8 @@ public class ProductSkuService {
     @Autowired
     private ProductSkuMapper productSkuMapper;
 
-    public void createProductSkus(Integer spuId, List<ProductSkuCreateOrUpdateBO> createBOs) {
-        List<ProductSkuDO> skus = ProductSkuConvert.INSTANCE.convertList(createBOs);
+    public void createProductSkus(Integer spuId, List<ProductSkuCreateOrUpdateBO> createSkuBOs) {
+        List<ProductSkuDO> skus = ProductSkuConvert.INSTANCE.convertList(createSkuBOs);
         skus.forEach(sku -> {
             sku.setStatus(CommonStatusEnum.ENABLE.getValue());
             sku.setSpuId(spuId);
@@ -33,42 +28,64 @@ public class ProductSkuService {
         productSkuMapper.insertList(skus);
     }
 
-    public void updateProductSkus(Integer spuId, List<ProductSkuCreateOrUpdateBO> createBOs) {
-
+    public void updateProductSkus(Integer spuId, List<ProductSkuCreateOrUpdateBO> skuUpdateBOs) {
+        List<ProductSkuDO> existsSkus = productSkuMapper.selectListBySpuIdAndStatus(spuId,
+                CommonStatusEnum.ENABLE.getValue());
+        List<ProductSkuDO> insertSkus = new ArrayList<>(); // 1、找不到，进行插入
+        List<Integer> deleteSkus = new ArrayList<>(); // 2、多余的，删除
+        List<ProductSkuDO> updateSkus = new ArrayList<>(); // 3、找的到，进行更新。
+        for (ProductSkuCreateOrUpdateBO skuUpdateDTO : skuUpdateBOs) {
+            ProductSkuDO existsSku = findProductSku(skuUpdateDTO.getAttrValueIds(), existsSkus);
+            // 3、找的到，进行更新。
+            if (existsSku != null) {
+                // 移除
+                existsSkus.remove(existsSku);
+                // 创建 ProductSkuDO
+                updateSkus.add(ProductSkuConvert.INSTANCE.convert(skuUpdateDTO).setId(existsSku.getId()));
+                continue;
+            }
+            // 1、找不到，进行插入
+            ProductSkuDO insertSku = ProductSkuConvert.INSTANCE.convert(skuUpdateDTO)
+                    .setSpuId(spuId).setStatus(CommonStatusEnum.ENABLE.getValue());
+            insertSkus.add(insertSku);
+        }
+        // 2、多余的，删除
+        if (!existsSkus.isEmpty()) {
+            deleteSkus.addAll(existsSkus.stream().map(ProductSkuDO::getId).collect(Collectors.toList()));
+        }
+        // 执行修改 Sku
+        if (!insertSkus.isEmpty()) {
+            productSkuMapper.insertList(insertSkus);
+        }
+        if (!updateSkus.isEmpty()) {
+            updateSkus.forEach(productSkuDO -> productSkuMapper.updateById(productSkuDO));
+        }
+        if (!deleteSkus.isEmpty()) {
+            productSkuMapper.deleteBatchIds(deleteSkus);
+        }
     }
 
     /**
-     * 校验 sku 是否合法
+     * 获得 sku 数组中，指定规格的 sku
      *
-     * @param skuBOs 商品 SKU 添加信息
-     * @param attrKeyValueBOs 商品规格明细数组
+     * @param attrValueIds 指定规格 Value 的编号数组
+     * @param skus sku 数组
+     * @return 符合条件的 sku
      */
-    public void validProductSku(List<ProductSkuCreateOrUpdateBO> skuBOs, List<ProductAttrKeyValueBO> attrKeyValueBOs) {
-        // 创建 ProductAttrDetailBO 的映射。其中，KEY 为 ProductAttrDetailBO.attrValueId ，即规格值的编号
-        Map<Integer, ProductAttrKeyValueBO> productAttrDetailBOMap = attrKeyValueBOs.stream().collect(
-                Collectors.toMap(ProductAttrKeyValueBO::getAttrValueId, productAttrDetailBO -> productAttrDetailBO));
-        // 1. 先校验，一个 Sku 下，没有重复的规格。校验方式是，遍历每个 Sku ，看看是否有重复的规格 attrId
-        for (ProductSkuCreateOrUpdateBO sku : skuBOs) {
-            Set<Integer> attrIds = sku.getAttrValueIds().stream().map(attrValueId -> productAttrDetailBOMap.get(attrValueId).getAttrKeyId())
-                    .collect(Collectors.toSet());
-            if (attrIds.size() != sku.getAttrValueIds().size()) {
-                throw ServiceExceptionUtil.exception(PRODUCT_SKU_ATTR_CANT_NOT_DUPLICATE);
+    private ProductSkuDO findProductSku(Collection<Integer> attrValueIds, List<ProductSkuDO> skus) {
+        if (CollectionUtils.isEmpty(skus)) {
+            return null;
+        }
+        // 创建成 Set ，方便后面比较
+        attrValueIds = new HashSet<>(attrValueIds);
+        for (ProductSkuDO sku : skus) {
+            Set<Integer> skuAttrValueIds = StringUtils.split(sku.getAttrs(), ",")
+                    .stream().map(Integer::parseInt).collect(Collectors.toSet());
+            if (attrValueIds.equals(skuAttrValueIds)) {
+                return sku;
             }
         }
-        // 2. 再校验，每个 Sku 的规格值的数量，是一致的。
-        int attrValueIdsSize = skuBOs.get(0).getAttrValueIds().size();
-        for (int i = 1; i < skuBOs.size(); i++) {
-            if (attrValueIdsSize != skuBOs.get(i).getAttrValueIds().size()) {
-                throw ServiceExceptionUtil.exception(PRODUCT_SPU_ATTR_NUMBERS_MUST_BE_EQUALS);
-            }
-        }
-        // 3. 最后校验，每个 Sku 之间不是重复的
-        Set<Set<Integer>> skuAttrValues = new HashSet<>(); // 每个元素，都是一个 Sku 的 attrValueId 集合。这样，通过最外层的 Set ，判断是否有重复的.
-        for (ProductSkuCreateOrUpdateBO sku : skuBOs) {
-            if (!skuAttrValues.add(new HashSet<>(sku.getAttrValueIds()))) { // 添加失败，说明重复
-                throw ServiceExceptionUtil.exception(PRODUCT_SPU_SKU_NOT_DUPLICATE);
-            }
-        }
+        return null;
     }
 
 }

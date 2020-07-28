@@ -30,10 +30,6 @@ public interface ProductSpuService {
 
     List<ProductSkuDetailBO> getProductSkuDetailList(Collection<Integer> ids);
 
-    ProductSpuDetailBO addProductSpu(Integer adminId, ProductSpuAddDTO productSpuAddDTO);
-
-    void updateProductSpu(Integer adminId, ProductSpuUpdateDTO productSpuUpdateDTO);
-
     Boolean updateProductSpuSort(Integer adminId, Integer spuId, Integer sort);
 
 }

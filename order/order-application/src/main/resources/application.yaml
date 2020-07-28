@@ -1,7 +1,0 @@
-spring:
-  # Application 的配置项
-  application:
-    name: order-application
-  # Profile 的配置项
-  profiles:
-    active: local

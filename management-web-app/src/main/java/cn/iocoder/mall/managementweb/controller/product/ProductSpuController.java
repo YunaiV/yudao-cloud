@@ -46,14 +46,14 @@ public class ProductSpuController {
 
     @GetMapping("/get")
     @ApiOperation("获得商品 SPU")
-    @ApiImplicitParam(name = "productSpuId", value = "商品 SPU编号", required = true)
+    @ApiImplicitParam(name = "productSpuId", value = "商品 SPU 编号", required = true)
     public CommonResult<ProductSpuRespVO> getProductSpu(@RequestParam("productSpuId") Integer productSpuId) {
         return success(productSpuManager.getProductSpu(productSpuId));
     }
 
     @GetMapping("/list")
     @ApiOperation("获得商品 SPU 列表")
-    @ApiImplicitParam(name = "productSpuIds", value = "商品 SPU编号列表", required = true)
+    @ApiImplicitParam(name = "productSpuIds", value = "商品 SPU 编号列表", required = true)
     public CommonResult<List<ProductSpuRespVO>> listProductSpus(@RequestParam("productSpuIds") List<Integer> productSpuIds) {
         return success(productSpuManager.listProductSpus(productSpuIds));
     }

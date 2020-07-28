@@ -4,9 +4,9 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.productservice.manager.spu.ProductSpuManager;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuAndSkuCreateReqDTO;
+import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuAndSkuUpdateReqDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuPageReqDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
-import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuUpdateReqDTO;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,7 +29,7 @@ public class ProductSpuRpcImpl implements ProductSpuRpc {
     }
 
     @Override
-    public CommonResult<Boolean> updateProductSpu(ProductSpuUpdateReqDTO updateDTO) {
+    public CommonResult<Boolean> updateProductSpu(ProductSpuAndSkuUpdateReqDTO updateDTO) {
         productSpuManager.updateProductSpu(updateDTO);
         return success(true);
     }

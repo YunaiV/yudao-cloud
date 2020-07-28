@@ -18,7 +18,7 @@ public interface ProductSkuConvert {
     List<ProductSkuDO> convertList(List<ProductSkuCreateOrUpdateBO> list);
 
     @Mapping(source = "attrValueIds", target = "attrs", qualifiedByName = "translatePicUrlsFromStringList")
-    ProductSkuDO convertList(ProductSkuCreateOrUpdateBO bean);
+    ProductSkuDO convert(ProductSkuCreateOrUpdateBO skuUpdateDTO);
 
     @Named("translateAttrValueIdsFromString")
     default List<String> translateAttrValueIdsFromString(String attrValueIdsStar) {

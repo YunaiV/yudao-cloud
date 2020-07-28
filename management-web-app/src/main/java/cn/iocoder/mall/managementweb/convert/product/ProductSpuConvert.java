@@ -6,9 +6,9 @@ import cn.iocoder.mall.managementweb.controller.product.vo.spu.ProductSpuPageReq
 import cn.iocoder.mall.managementweb.controller.product.vo.spu.ProductSpuRespVO;
 import cn.iocoder.mall.managementweb.controller.product.vo.spu.ProductSpuUpdateReqVO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuAndSkuCreateReqDTO;
+import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuAndSkuUpdateReqDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuPageReqDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
-import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuUpdateReqDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -21,7 +21,7 @@ public interface ProductSpuConvert {
 
     ProductSpuAndSkuCreateReqDTO convert(ProductSpuCreateReqVO bean);
 
-    ProductSpuUpdateReqDTO convert(ProductSpuUpdateReqVO bean);
+    ProductSpuAndSkuUpdateReqDTO convert(ProductSpuUpdateReqVO bean);
 
     ProductSpuRespVO convert(ProductSpuRespDTO bean);
 

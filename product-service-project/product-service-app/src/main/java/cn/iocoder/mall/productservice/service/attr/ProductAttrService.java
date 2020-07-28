@@ -50,7 +50,7 @@ public class ProductAttrService {
             }
         }
         // 然后，校验规 Key
-        Set<Integer> attrKeyIds = CollectionUtils.convertSet(attrValues, ProductAttrValueDO::getAttrId);
+        Set<Integer> attrKeyIds = CollectionUtils.convertSet(attrValues, ProductAttrValueDO::getAttrKeyId);
         List<ProductAttrKeyDO> attrKeys = productAttrKeyMapper.selectBatchIds(attrKeyIds);
         if (attrKeys.size() != attrKeyIds.size()) {
             throw ServiceExceptionUtil.exception(PRODUCT_ATTR_KEY_NOT_EXIST);
@@ -66,7 +66,7 @@ public class ProductAttrService {
         Map<Integer, ProductAttrKeyDO> attrKeyMap = CollectionUtils.convertMap(attrKeys,
                 ProductAttrKeyDO::getId, attrKeyDO -> attrKeyDO); // ProductAttrDO 的映射，方便查找。
         return attrValues.stream().map(attrValueDO -> new ProductAttrKeyValueBO()
-                .setAttrKeyId(attrValueDO.getAttrId()).setAttrKeyName(attrKeyMap.get(attrValueDO.getAttrId()).getName())
+                .setAttrKeyId(attrValueDO.getAttrKeyId()).setAttrKeyName(attrKeyMap.get(attrValueDO.getAttrKeyId()).getName())
                 .setAttrValueId(attrValueDO.getId()).setAttrValueName(attrValueDO.getName()))
                 .collect(Collectors.toList());
     }
@@ -110,20 +110,6 @@ public class ProductAttrService {
     }
 
     /**
-     * 删除商品规格键
-     *
-     * @param productAttrKeyId 商品规格键编号
-     */
-    public void deleteProductAttrKey(Integer productAttrKeyId) {
-        // 校验删除的商品规格键是否存在
-        if (productAttrKeyMapper.selectById(productAttrKeyId) == null) {
-            throw ServiceExceptionUtil.exception(PRODUCT_ATTR_KEY_NOT_EXIST);
-        }
-        // 标记删除
-        productAttrKeyMapper.deleteById(productAttrKeyId);
-    }
-
-    /**
      * 获得商品规格键
      *
      * @param productAttrKeyId 商品规格键编号
@@ -154,6 +140,72 @@ public class ProductAttrService {
     public PageResult<ProductAttrKeyBO> pageProductAttrKey(ProductAttrKeyPageBO pageBO) {
         IPage<ProductAttrKeyDO> productAttrKeyDOPage = productAttrKeyMapper.selectPage(pageBO);
         return ProductAttrConvert.INSTANCE.convertPage(productAttrKeyDOPage);
+    }
+
+    /**
+     * 创建商品规格值
+     *
+     * @param createBO 创建商品规格值 BO
+     * @return 商品规格值
+     */
+    public ProductAttrValueBO createProductAttrValue(@Valid ProductAttrValueCreateBO createBO) {
+        // 校验规格键是否存在
+        if (productAttrKeyMapper.selectById(createBO.getAttrKeyId()) == null) {
+            throw ServiceExceptionUtil.exception(PRODUCT_ATTR_KEY_NOT_EXIST);
+        }
+        // 校验规格值的名字是否重复
+        if (productAttrValueMapper.selectByAttrKeyIdAndName(createBO.getAttrKeyId(), createBO.getName()) != null) {
+            throw ServiceExceptionUtil.exception(PRODUCT_ATTR_VALUE_EXISTS);
+        }
+        // 插入到数据库
+        ProductAttrValueDO productAttrValueDO = ProductAttrConvert.INSTANCE.convert(createBO);
+        productAttrValueMapper.insert(productAttrValueDO);
+        // 返回
+        return ProductAttrConvert.INSTANCE.convert(productAttrValueDO);
+    }
+
+    /**
+     * 更新商品规格值
+     *
+     * @param updateBO 更新商品规格值 BO
+     */
+    public void updateProductAttrValue(@Valid ProductAttrValueUpdateBO updateBO) {
+        // 校验更新的商品规格值是否存在
+        ProductAttrValueDO attrValueDO = productAttrValueMapper.selectById(updateBO.getId());
+        if (attrValueDO == null) {
+            throw ServiceExceptionUtil.exception(PRODUCT_ATTR_VALUE_NOT_EXIST);
+        }
+        // 校验规格值的名字是否重复
+        ProductAttrValueDO attrValueDOByName = productAttrValueMapper.selectByAttrKeyIdAndName(
+                attrValueDO.getAttrKeyId(), updateBO.getName());
+        if (attrValueDOByName != null && !attrValueDOByName.getId().equals(updateBO.getId())) {
+            throw ServiceExceptionUtil.exception(PRODUCT_ATTR_VALUE_EXISTS);
+        }
+        // 更新到数据库
+        ProductAttrValueDO updateObject = ProductAttrConvert.INSTANCE.convert(updateBO);
+        productAttrValueMapper.updateById(updateObject);
+    }
+
+    /**
+     * 获得商品规格值
+     *
+     * @param productAttrValueId 商品规格值编号
+     * @return 商品规格值
+     */
+    public ProductAttrValueBO getProductAttrValue(Integer productAttrValueId) {
+        ProductAttrValueDO productAttrValueDO = productAttrValueMapper.selectById(productAttrValueId);
+        return ProductAttrConvert.INSTANCE.convert(productAttrValueDO);
+    }
+
+    /**
+     * 获得商品规格值列表
+     *
+     * @param productAttrValueIds 商品规格值编号列表
+     * @return 商品规格值列表
+     */
+    public List<ProductAttrValueBO> listProductAttrValues(List<Integer> productAttrValueIds) {
+        List<ProductAttrValueDO> productAttrValueDOs = productAttrValueMapper.selectBatchIds(productAttrValueIds);
+        return ProductAttrConvert.INSTANCE.convertList03(productAttrValueDOs);
     }
 
 }

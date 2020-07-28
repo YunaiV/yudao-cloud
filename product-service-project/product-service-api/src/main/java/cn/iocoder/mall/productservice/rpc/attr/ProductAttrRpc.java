@@ -2,10 +2,7 @@ package cn.iocoder.mall.productservice.rpc.attr;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.productservice.rpc.attr.dto.ProductAttrKeyCreateReqDTO;
-import cn.iocoder.mall.productservice.rpc.attr.dto.ProductAttrKeyPageReqDTO;
-import cn.iocoder.mall.productservice.rpc.attr.dto.ProductAttrKeyRespDTO;
-import cn.iocoder.mall.productservice.rpc.attr.dto.ProductAttrKeyUpdateReqDTO;
+import cn.iocoder.mall.productservice.rpc.attr.dto.*;
 
 import java.util.List;
 
@@ -30,13 +27,6 @@ public interface ProductAttrRpc {
     CommonResult<Boolean> updateProductAttrKey(ProductAttrKeyUpdateReqDTO updateDTO);
 
     /**
-     * 删除商品规格键
-     *
-     * @param productAttrKeyId 商品规格键编号
-     */
-    CommonResult<Boolean> deleteProductAttrKey(Integer productAttrKeyId);
-
-    /**
      * 获得商品规格键
      *
      * @param productAttrKeyId 商品规格键编号
@@ -59,5 +49,36 @@ public interface ProductAttrRpc {
      * @return 商品规格键分页结果
      */
     CommonResult<PageResult<ProductAttrKeyRespDTO>> pageProductAttrKey(ProductAttrKeyPageReqDTO pageDTO);
+
+    /**
+     * 创建商品规格值
+     *
+     * @param createDTO 创建商品规格值 DTO
+     * @return 商品规格值编号
+     */
+    CommonResult<Integer> createProductAttrValue(ProductAttrValueCreateReqDTO createDTO);
+
+    /**
+     * 更新商品规格值
+     *
+     * @param updateDTO 更新商品规格值 DTO
+     */
+    CommonResult<Boolean> updateProductAttrValue(ProductAttrValueUpdateReqDTO updateDTO);
+
+    /**
+     * 获得商品规格值
+     *
+     * @param productAttrValueId 商品规格值编号
+     * @return 商品规格值
+     */
+    CommonResult<ProductAttrValueRespDTO> getProductAttrValue(Integer productAttrValueId);
+
+    /**
+     * 获得商品规格值列表
+     *
+     * @param productAttrValueIds 商品规格值编号列表
+     * @return 商品规格值列表
+     */
+    CommonResult<List<ProductAttrValueRespDTO>> listProductAttrValues(List<Integer> productAttrValueIds);
 
 }

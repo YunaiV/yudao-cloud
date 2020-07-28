@@ -2,13 +2,11 @@ package cn.iocoder.mall.managementweb.manager.product;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.managementweb.controller.product.vo.attr.ProductAttrKeyCreateReqVO;
-import cn.iocoder.mall.managementweb.controller.product.vo.attr.ProductAttrKeyPageReqVO;
-import cn.iocoder.mall.managementweb.controller.product.vo.attr.ProductAttrKeyRespVO;
-import cn.iocoder.mall.managementweb.controller.product.vo.attr.ProductAttrKeyUpdateReqVO;
-import cn.iocoder.mall.managementweb.convert.product.ProductAttrKeyConvert;
+import cn.iocoder.mall.managementweb.controller.product.vo.attr.*;
+import cn.iocoder.mall.managementweb.convert.product.ProductAttrConvert;
 import cn.iocoder.mall.productservice.rpc.attr.ProductAttrRpc;
 import cn.iocoder.mall.productservice.rpc.attr.dto.ProductAttrKeyRespDTO;
+import cn.iocoder.mall.productservice.rpc.attr.dto.ProductAttrValueRespDTO;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +29,7 @@ public class ProductAttrKeyManager {
     */
     public Integer createProductAttrKey(ProductAttrKeyCreateReqVO createVO) {
         CommonResult<Integer> createProductAttrKeyResult = productAttrKeyRpc.createProductAttrKey(
-                ProductAttrKeyConvert.INSTANCE.convert(createVO));
+                ProductAttrConvert.INSTANCE.convert(createVO));
         createProductAttrKeyResult.checkError();
         return createProductAttrKeyResult.getData();
     }
@@ -43,18 +41,8 @@ public class ProductAttrKeyManager {
     */
     public void updateProductAttrKey(ProductAttrKeyUpdateReqVO updateVO) {
         CommonResult<Boolean> updateProductAttrKeyResult = productAttrKeyRpc.updateProductAttrKey(
-                ProductAttrKeyConvert.INSTANCE.convert(updateVO));
+                ProductAttrConvert.INSTANCE.convert(updateVO));
         updateProductAttrKeyResult.checkError();
-    }
-
-    /**
-    * 删除商品规格键
-    *
-    * @param productAttrKeyId 商品规格键编号
-    */
-    public void deleteProductAttrKey(Integer productAttrKeyId) {
-        CommonResult<Boolean> deleteProductAttrKeyResult = productAttrKeyRpc.deleteProductAttrKey(productAttrKeyId);
-        deleteProductAttrKeyResult.checkError();
     }
 
     /**
@@ -66,7 +54,7 @@ public class ProductAttrKeyManager {
     public ProductAttrKeyRespVO getProductAttrKey(Integer productAttrKeyId) {
         CommonResult<ProductAttrKeyRespDTO> getProductAttrKeyResult = productAttrKeyRpc.getProductAttrKey(productAttrKeyId);
         getProductAttrKeyResult.checkError();
-        return ProductAttrKeyConvert.INSTANCE.convert(getProductAttrKeyResult.getData());
+        return ProductAttrConvert.INSTANCE.convert(getProductAttrKeyResult.getData());
     }
 
     /**
@@ -78,7 +66,7 @@ public class ProductAttrKeyManager {
     public List<ProductAttrKeyRespVO> listProductAttrKeys(List<Integer> productAttrKeyIds) {
         CommonResult<List<ProductAttrKeyRespDTO>> listProductAttrKeyResult = productAttrKeyRpc.listProductAttrKeys(productAttrKeyIds);
         listProductAttrKeyResult.checkError();
-        return ProductAttrKeyConvert.INSTANCE.convertList(listProductAttrKeyResult.getData());
+        return ProductAttrConvert.INSTANCE.convertList(listProductAttrKeyResult.getData());
     }
 
     /**
@@ -89,9 +77,57 @@ public class ProductAttrKeyManager {
     */
     public PageResult<ProductAttrKeyRespVO> pageProductAttrKey(ProductAttrKeyPageReqVO pageVO) {
         CommonResult<PageResult<ProductAttrKeyRespDTO>> pageProductAttrKeyResult = productAttrKeyRpc.pageProductAttrKey(
-                ProductAttrKeyConvert.INSTANCE.convert(pageVO));
+                ProductAttrConvert.INSTANCE.convert(pageVO));
         pageProductAttrKeyResult.checkError();
-        return ProductAttrKeyConvert.INSTANCE.convertPage(pageProductAttrKeyResult.getData());
+        return ProductAttrConvert.INSTANCE.convertPage(pageProductAttrKeyResult.getData());
+    }
+
+    /**
+     * 创建商品规格值
+     *
+     * @param createVO 创建商品规格值 VO
+     * @return 商品规格值
+     */
+    public Integer createProductAttrValue(ProductAttrValueCreateReqVO createVO) {
+        CommonResult<Integer> createProductAttrValueResult = productAttrKeyRpc.createProductAttrValue(
+                ProductAttrConvert.INSTANCE.convert(createVO));
+        createProductAttrValueResult.checkError();
+        return createProductAttrValueResult.getData();
+    }
+
+    /**
+     * 更新商品规格值
+     *
+     * @param updateVO 更新商品规格值 VO
+     */
+    public void updateProductAttrValue(ProductAttrValueUpdateReqVO updateVO) {
+        CommonResult<Boolean> updateProductAttrValueResult = productAttrKeyRpc.updateProductAttrValue(
+                ProductAttrConvert.INSTANCE.convert(updateVO));
+        updateProductAttrValueResult.checkError();
+    }
+
+    /**
+     * 获得商品规格值
+     *
+     * @param productAttrValueId 商品规格值编号
+     * @return 商品规格值
+     */
+    public ProductAttrValueRespVO getProductAttrValue(Integer productAttrValueId) {
+        CommonResult<ProductAttrValueRespDTO> getProductAttrValueResult = productAttrKeyRpc.getProductAttrValue(productAttrValueId);
+        getProductAttrValueResult.checkError();
+        return ProductAttrConvert.INSTANCE.convert(getProductAttrValueResult.getData());
+    }
+
+    /**
+     * 获得商品规格值列表
+     *
+     * @param productAttrValueIds 商品规格值编号列表
+     * @return 商品规格值列表
+     */
+    public List<ProductAttrValueRespVO> listProductAttrValues(List<Integer> productAttrValueIds) {
+        CommonResult<List<ProductAttrValueRespDTO>> listProductAttrValueResult = productAttrKeyRpc.listProductAttrValues(productAttrValueIds);
+        listProductAttrValueResult.checkError();
+        return ProductAttrConvert.INSTANCE.convertList02(listProductAttrValueResult.getData());
     }
 
 }

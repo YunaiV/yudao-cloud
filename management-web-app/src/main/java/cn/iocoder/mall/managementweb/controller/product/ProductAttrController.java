@@ -2,10 +2,7 @@ package cn.iocoder.mall.managementweb.controller.product;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.managementweb.controller.product.vo.attr.ProductAttrKeyCreateReqVO;
-import cn.iocoder.mall.managementweb.controller.product.vo.attr.ProductAttrKeyPageReqVO;
-import cn.iocoder.mall.managementweb.controller.product.vo.attr.ProductAttrKeyRespVO;
-import cn.iocoder.mall.managementweb.controller.product.vo.attr.ProductAttrKeyUpdateReqVO;
+import cn.iocoder.mall.managementweb.controller.product.vo.attr.*;
 import cn.iocoder.mall.managementweb.manager.product.ProductAttrKeyManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -24,7 +21,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
  */
 @RestController
 @RequestMapping("/product-attr/")
-@Api(tags = "商品规格键")
+@Api(tags = "商品规格")
 @Validated
 public class ProductAttrController {
 
@@ -62,6 +59,33 @@ public class ProductAttrController {
     @ApiOperation("获得商品规格键分页")
     public CommonResult<PageResult<ProductAttrKeyRespVO>> pageProductAttrKey(ProductAttrKeyPageReqVO pageVO) {
         return success(productAttrKeyManager.pageProductAttrKey(pageVO));
+    }
+
+    @PostMapping("/value/create")
+    @ApiOperation("创建商品规格值")
+    public CommonResult<Integer> createProductAttrValue(@Valid ProductAttrValueCreateReqVO createVO) {
+        return success(productAttrKeyManager.createProductAttrValue(createVO));
+    }
+
+    @PostMapping("/value/update")
+    @ApiOperation("更新商品规格值")
+    public CommonResult<Boolean> updateProductAttrValue(@Valid ProductAttrValueUpdateReqVO updateVO) {
+        productAttrKeyManager.updateProductAttrValue(updateVO);
+        return success(true);
+    }
+
+    @GetMapping("/value/get")
+    @ApiOperation("获得商品规格值")
+    @ApiImplicitParam(name = "productAttrValueId", value = "商品规格值编号", required = true)
+    public CommonResult<ProductAttrValueRespVO> getProductAttrValue(@RequestParam("productAttrValueId") Integer productAttrValueId) {
+        return success(productAttrKeyManager.getProductAttrValue(productAttrValueId));
+    }
+
+    @GetMapping("/value/list")
+    @ApiOperation("获得商品规格值列表")
+    @ApiImplicitParam(name = "productAttrValueIds", value = "商品规格值编号列表", required = true)
+    public CommonResult<List<ProductAttrValueRespVO>> listProductAttrValues(@RequestParam("productAttrValueIds") List<Integer> productAttrValueIds) {
+        return success(productAttrKeyManager.listProductAttrValues(productAttrValueIds));
     }
 
 }

@@ -2,14 +2,9 @@ package cn.iocoder.mall.productservice.convert.attr;
 
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.productservice.dal.mysql.dataobject.attr.ProductAttrKeyDO;
-import cn.iocoder.mall.productservice.rpc.attr.dto.ProductAttrKeyCreateReqDTO;
-import cn.iocoder.mall.productservice.rpc.attr.dto.ProductAttrKeyPageReqDTO;
-import cn.iocoder.mall.productservice.rpc.attr.dto.ProductAttrKeyRespDTO;
-import cn.iocoder.mall.productservice.rpc.attr.dto.ProductAttrKeyUpdateReqDTO;
-import cn.iocoder.mall.productservice.service.attr.bo.ProductAttrKeyBO;
-import cn.iocoder.mall.productservice.service.attr.bo.ProductAttrKeyCreateBO;
-import cn.iocoder.mall.productservice.service.attr.bo.ProductAttrKeyPageBO;
-import cn.iocoder.mall.productservice.service.attr.bo.ProductAttrKeyUpdateBO;
+import cn.iocoder.mall.productservice.dal.mysql.dataobject.attr.ProductAttrValueDO;
+import cn.iocoder.mall.productservice.rpc.attr.dto.*;
+import cn.iocoder.mall.productservice.service.attr.bo.*;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -42,5 +37,21 @@ public interface ProductAttrConvert {
     ProductAttrKeyPageBO convert(ProductAttrKeyPageReqDTO bean);
 
     PageResult<ProductAttrKeyRespDTO> convertPage(PageResult<ProductAttrKeyBO> page);
+
+    ProductAttrValueDO convert(ProductAttrValueCreateBO bean);
+
+    ProductAttrValueBO convert(ProductAttrValueDO bean);
+
+    ProductAttrValueDO convert(ProductAttrValueUpdateBO bean);
+
+    List<ProductAttrValueBO> convertList03(List<ProductAttrValueDO> list);
+
+    ProductAttrValueCreateBO convert(ProductAttrValueCreateReqDTO bean);
+
+    ProductAttrValueUpdateBO convert(ProductAttrValueUpdateReqDTO bean);
+
+    ProductAttrValueRespDTO convert(ProductAttrValueBO bean);
+
+    List<ProductAttrValueRespDTO> convertList04(List<ProductAttrValueBO> list);
 
 }

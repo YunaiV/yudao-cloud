@@ -21,11 +21,13 @@ public class ProductAttrValueDO extends DeletableDO {
      */
     private Integer id;
     /**
-     * 规格编号
+     * 规格键编号
+     *
+     * 外键 {@link ProductAttrKeyDO#getId()}
      */
-    private Integer attrId;
+    private Integer attrKeyId;
     /**
-     * 规格值
+     * 规格值名字
      */
     private String name;
     /**

@@ -10,21 +10,21 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * 商品规格键更新 Request DTO
+ * 商品规格值创建 Request DTO
  */
 @Data
 @Accessors(chain = true)
-public class ProductAttrKeyUpdateReqDTO implements Serializable {
+public class ProductAttrValueCreateReqDTO implements Serializable {
 
     /**
      * 规格键编号
      */
     @NotNull(message = "规格键编号不能为空")
-    private Integer id;
+    private Integer attrKeyId;
     /**
-     * 规格键名称
+     * 规格值名字
      */
-    @NotEmpty(message = "规格键名称不能为空")
+    @NotEmpty(message = "规格值名字不能为空")
     private String name;
     /**
      * 状态

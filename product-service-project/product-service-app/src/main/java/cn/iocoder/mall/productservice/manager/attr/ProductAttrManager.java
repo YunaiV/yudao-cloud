@@ -107,11 +107,11 @@ public class ProductAttrManager {
     /**
      * 获得商品规格值列表
      *
-     * @param productAttrValueIds 商品规格值编号列表
+     * @param queryDTO 商品规格值的列表查询条件 DTO
      * @return 商品规格值列表
      */
-    public List<ProductAttrValueRespDTO> listProductAttrValues(List<Integer> productAttrValueIds) {
-        List<ProductAttrValueBO> productAttrValueBOs = productAttrService.listProductAttrValues(productAttrValueIds);
+    public List<ProductAttrValueRespDTO> listProductAttrValues(ProductAttrValueListQueryRequestDTO queryDTO) {
+        List<ProductAttrValueBO> productAttrValueBOs = productAttrService.listProductAttrValues(ProductAttrConvert.INSTANCE.convert(queryDTO));
         return ProductAttrConvert.INSTANCE.convertList04(productAttrValueBOs);
     }
 

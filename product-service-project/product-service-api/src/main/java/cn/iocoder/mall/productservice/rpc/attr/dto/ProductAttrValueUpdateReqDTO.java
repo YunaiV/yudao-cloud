@@ -2,15 +2,12 @@ package cn.iocoder.mall.productservice.rpc.attr.dto;
 
 import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.validator.InEnum;
-import lombok.*;
-import lombok.experimental.*;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
-import io.swagger.annotations.*;
-
-import java.util.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-
-import javax.validation.constraints.*;
 
 /**
  * 商品规格值更新 Request DTO
@@ -24,11 +21,6 @@ public class ProductAttrValueUpdateReqDTO implements Serializable {
      */
     @NotNull(message = "规格值编号不能为空")
     private Integer id;
-    /**
-     * 规格键编号
-     */
-    @NotNull(message = "规格键编号不能为空")
-    private Integer attrKeyId;
     /**
      * 规格值名字
      */

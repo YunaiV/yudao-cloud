@@ -23,11 +23,4 @@ public interface ProductAttrService {
      */
     List<ProductAttrSimpleBO> getProductAttrList();
 
-    ProductAttrValueBO addProductAttrValue(Integer adminId, ProductAttrValueAddDTO productAttrValueAddDTO);
-
-    Boolean updateProductAttrValue(Integer adminId, ProductAttrValueUpdateDTO productAttrValueUpdateDTO);
-
-    Boolean updateProductAttrValueStatus(Integer adminId, Integer productAttrValueId,
-                                         @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}") Integer status);
-
 }

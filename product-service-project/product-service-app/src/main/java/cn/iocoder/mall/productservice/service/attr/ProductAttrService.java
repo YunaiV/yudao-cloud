@@ -200,11 +200,11 @@ public class ProductAttrService {
     /**
      * 获得商品规格值列表
      *
-     * @param productAttrValueIds 商品规格值编号列表
+     * @param queryBO 商品规格值的列表查询条件 BO
      * @return 商品规格值列表
      */
-    public List<ProductAttrValueBO> listProductAttrValues(List<Integer> productAttrValueIds) {
-        List<ProductAttrValueDO> productAttrValueDOs = productAttrValueMapper.selectBatchIds(productAttrValueIds);
+    public List<ProductAttrValueBO> listProductAttrValues(ProductAttrValueListQueryBO queryBO) {
+        List<ProductAttrValueDO> productAttrValueDOs = productAttrValueMapper.selectList(queryBO);
         return ProductAttrConvert.INSTANCE.convertList03(productAttrValueDOs);
     }
 

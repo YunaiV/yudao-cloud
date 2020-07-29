@@ -7,6 +7,7 @@ import cn.iocoder.mall.productservice.rpc.attr.dto.*;
 import cn.iocoder.mall.productservice.service.attr.bo.*;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -24,7 +25,8 @@ public interface ProductAttrConvert {
 
     List<ProductAttrKeyBO> convertList(List<ProductAttrKeyDO> list);
 
-	PageResult<ProductAttrKeyBO> convertPage(IPage<ProductAttrKeyDO> page);
+    @Mapping(source = "records", target = "list")
+    PageResult<ProductAttrKeyBO> convertPage(IPage<ProductAttrKeyDO> page);
 
     ProductAttrKeyCreateBO convert(ProductAttrKeyCreateReqDTO bean);
 
@@ -53,5 +55,7 @@ public interface ProductAttrConvert {
     ProductAttrValueRespDTO convert(ProductAttrValueBO bean);
 
     List<ProductAttrValueRespDTO> convertList04(List<ProductAttrValueBO> list);
+
+    ProductAttrValueListQueryBO convert(ProductAttrValueListQueryRequestDTO bean);
 
 }

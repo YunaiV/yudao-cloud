@@ -66,8 +66,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
     public CommonResult missingServletRequestParameterExceptionHandler(MissingServletRequestParameterException ex) {
         logger.warn("[missingServletRequestParameterExceptionHandler]", ex);
-        return CommonResult.error(BAD_REQUEST.getCode(),
-                String.format("请求参数缺失:%s", ex.getParameterName()));
+        return CommonResult.error(BAD_REQUEST.getCode(), String.format("请求参数缺失:%s", ex.getParameterName()))
+                .setDetailMessage(ExceptionUtil.getRootCauseMessage(ex));
     }
 
     /**
@@ -78,8 +78,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public CommonResult methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException ex) {
         logger.warn("[missingServletRequestParameterExceptionHandler]", ex);
-        return CommonResult.error(BAD_REQUEST.getCode(),
-                String.format("请求参数类型错误:%s", ex.getMessage()));
+        return CommonResult.error(BAD_REQUEST.getCode(), String.format("请求参数类型错误:%s", ex.getMessage()))
+                .setDetailMessage(ExceptionUtil.getRootCauseMessage(ex));
     }
 
     /**
@@ -90,8 +90,8 @@ public class GlobalExceptionHandler {
         logger.warn("[methodArgumentNotValidExceptionExceptionHandler]", ex);
         FieldError fieldError = ex.getBindingResult().getFieldError();
         assert fieldError != null; // 断言，避免告警
-        return CommonResult.error(BAD_REQUEST.getCode(),
-                String.format("请求参数不正确:%s", fieldError.getDefaultMessage()));
+        return CommonResult.error(BAD_REQUEST.getCode(), String.format("请求参数不正确:%s", fieldError.getDefaultMessage()))
+                .setDetailMessage(ExceptionUtil.getRootCauseMessage(ex));
     }
 
     /**
@@ -102,8 +102,8 @@ public class GlobalExceptionHandler {
         logger.warn("[handleBindException]", ex);
         FieldError fieldError = ex.getFieldError();
         assert fieldError != null; // 断言，避免告警
-        return CommonResult.error(BAD_REQUEST.getCode(),
-                String.format("请求参数不正确:%s", fieldError.getDefaultMessage()));
+        return CommonResult.error(BAD_REQUEST.getCode(), String.format("请求参数不正确:%s", fieldError.getDefaultMessage()))
+                .setDetailMessage(ExceptionUtil.getRootCauseMessage(ex));
     }
 
     /**
@@ -113,8 +113,8 @@ public class GlobalExceptionHandler {
     public CommonResult constraintViolationExceptionHandler(ConstraintViolationException ex) {
         logger.warn("[constraintViolationExceptionHandler]", ex);
         ConstraintViolation<?> constraintViolation = ex.getConstraintViolations().iterator().next();
-        return CommonResult.error(BAD_REQUEST.getCode(),
-                String.format("请求参数不正确:%s", constraintViolation.getMessage()));
+        return CommonResult.error(BAD_REQUEST.getCode(), String.format("请求参数不正确:%s", constraintViolation.getMessage()))
+                .setDetailMessage(ExceptionUtil.getRootCauseMessage(ex));
     }
 
     /**
@@ -127,8 +127,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoHandlerFoundException.class)
     public CommonResult noHandlerFoundExceptionHandler(NoHandlerFoundException ex) {
         logger.warn("[noHandlerFoundExceptionHandler]", ex);
-        return CommonResult.error(GlobalErrorCodeConstants.NOT_FOUND.getCode(),
-                String.format("请求地址不存在:%s", ex.getRequestURL()));
+        return CommonResult.error(GlobalErrorCodeConstants.NOT_FOUND.getCode(), String.format("请求地址不存在:%s", ex.getRequestURL()))
+                .setDetailMessage(ExceptionUtil.getRootCauseMessage(ex));
     }
 
     /**
@@ -139,8 +139,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public CommonResult httpRequestMethodNotSupportedExceptionHandler(HttpRequestMethodNotSupportedException ex) {
         logger.warn("[httpRequestMethodNotSupportedExceptionHandler]", ex);
-        return CommonResult.error(GlobalErrorCodeConstants.METHOD_NOT_ALLOWED.getCode(),
-                String.format("请求方法不正确:%s", ex.getMessage()));
+        return CommonResult.error(GlobalErrorCodeConstants.METHOD_NOT_ALLOWED.getCode(), String.format("请求方法不正确:%s", ex.getMessage()))
+                .setDetailMessage(ExceptionUtil.getRootCauseMessage(ex));
     }
 
     /**
@@ -180,7 +180,8 @@ public class GlobalExceptionHandler {
     public CommonResult validationException(ValidationException ex) {
         logger.warn("[constraintViolationExceptionHandler]", ex);
         // 无法拼接明细的错误信息，因为 Dubbo Consumer 抛出 ValidationException 异常时，是直接的字符串信息，且人类不可读
-        return CommonResult.error(BAD_REQUEST.getCode(), "请求参数不正确");
+        return CommonResult.error(BAD_REQUEST.getCode(), "请求参数不正确")
+                .setDetailMessage(ExceptionUtil.getRootCauseMessage(ex));
     }
 
     /**
@@ -192,7 +193,8 @@ public class GlobalExceptionHandler {
         // 插入异常日志
         this.createExceptionLog(req, ex);
         // 返回 ERROR CommonResult
-        return CommonResult.error(INTERNAL_SERVER_ERROR.getCode(), INTERNAL_SERVER_ERROR.getMessage());
+        return CommonResult.error(INTERNAL_SERVER_ERROR.getCode(), INTERNAL_SERVER_ERROR.getMessage())
+                .setDetailMessage(ExceptionUtil.getRootCauseMessage(ex));
     }
 
     public void createExceptionLog(HttpServletRequest req, Throwable e) {

@@ -121,11 +121,12 @@ public class ProductAttrKeyManager {
     /**
      * 获得商品规格值列表
      *
-     * @param productAttrValueIds 商品规格值编号列表
+     * @param queryReqVO 商品规格值的列表查询条件 VO
      * @return 商品规格值列表
      */
-    public List<ProductAttrValueRespVO> listProductAttrValues(List<Integer> productAttrValueIds) {
-        CommonResult<List<ProductAttrValueRespDTO>> listProductAttrValueResult = productAttrKeyRpc.listProductAttrValues(productAttrValueIds);
+    public List<ProductAttrValueRespVO> listProductAttrValues(ProductAttrValueListQueryReqVO queryReqVO) {
+        CommonResult<List<ProductAttrValueRespDTO>> listProductAttrValueResult = productAttrKeyRpc.listProductAttrValues(
+                ProductAttrConvert.INSTANCE.convert(queryReqVO));
         listProductAttrValueResult.checkError();
         return ProductAttrConvert.INSTANCE.convertList02(listProductAttrValueResult.getData());
     }

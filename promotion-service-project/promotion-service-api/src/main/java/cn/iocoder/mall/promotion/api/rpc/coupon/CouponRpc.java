@@ -11,9 +11,9 @@ public interface CouponRpc {
 
     // ========== 优惠劵（码）模板 ==========
 
-    CouponTemplateBO getCouponTemplate(Integer couponTemplateId);
+    CouponTemplateReqDTO getCouponTemplate(Integer couponTemplateId);
 
-    CouponTemplatePageBO getCouponTemplatePage(CouponTemplatePageReqDTO couponTemplatePageDTO);
+    CouponTemplatePageRespDTO getCouponTemplatePage(CouponTemplatePageReqDTO couponTemplatePageDTO);
 
     /**
      * 创建优惠码模板
@@ -21,7 +21,7 @@ public interface CouponRpc {
      * @param couponCodeTemplateAddDTO 优惠码模板添加 DTO
      * @return 优惠码模板
      */
-    CouponTemplateBO addCouponCodeTemplate(CouponCodeTemplateAddReqDTO couponCodeTemplateAddDTO);
+    CouponTemplateReqDTO addCouponCodeTemplate(CouponCodeTemplateAddReqDTO couponCodeTemplateAddDTO);
 
     /**
      * 创建优惠劵模板
@@ -29,7 +29,7 @@ public interface CouponRpc {
      * @param couponCardTemplateAddDTO 优惠码模板添加 DTO
      * @return 优惠劵模板
      */
-    CouponTemplateBO addCouponCardTemplate(CouponCardTemplateAddReqDTO couponCardTemplateAddDTO);
+    CouponTemplateReqDTO addCouponCardTemplate(CouponCardTemplateAddReqDTO couponCardTemplateAddDTO);
 
     /**
      * 更新优惠码模板
@@ -60,7 +60,7 @@ public interface CouponRpc {
 
     // ========== 优惠劵 ==========
 
-    CouponCardPageBO getCouponCardPage(CouponCardPageReqDTO couponCardPageDTO);
+    CouponCardPageRespDTO getCouponCardPage(CouponCardPageReqDTO couponCardPageDTO);
 
     /**
      * 基于优惠劵模板，领取优惠劵
@@ -69,7 +69,7 @@ public interface CouponRpc {
      * @param couponTemplateId 优惠劵模板
      * @return 优惠劵
      */
-    CouponCardBO addCouponCard(Integer userId, Integer couponTemplateId);
+    CouponCardReqDTO addCouponCard(Integer userId, Integer couponTemplateId);
 
     /**
      * 使用优惠劵下单
@@ -97,7 +97,7 @@ public interface CouponRpc {
      * @param couponCardId 优惠劵编号
      * @return 优惠劵
      */
-    CouponCardDetailBO getCouponCardDetail(Integer userId, Integer couponCardId);
+    CouponCardDetailRespDTO getCouponCardDetail(Integer userId, Integer couponCardId);
 
     /**
      * 获得用户所有优惠劵，并标明是否可用
@@ -119,6 +119,6 @@ public interface CouponRpc {
      * @param code   优惠码
      * @return 优惠劵
      */
-    CouponCardBO useCouponCode(Integer userId, String code);
+    CouponCardReqDTO useCouponCode(Integer userId, String code);
 
 }

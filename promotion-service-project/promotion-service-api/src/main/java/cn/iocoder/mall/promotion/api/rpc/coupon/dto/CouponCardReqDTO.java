@@ -11,7 +11,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-public class CouponCardBO implements Serializable {
+public class CouponCardReqDTO implements Serializable {
 
     // ========== 基本信息 BEGIN ==========
     /**

@@ -1,5 +1,6 @@
-package cn.iocoder.mall.promotion.api.rpc.coupon.dto;
+package cn.iocoder.mall.promotionservice.service.coupon.bo;
 
+import cn.iocoder.mall.promotion.api.rpc.coupon.dto.CouponCardReqDTO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -10,7 +11,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class CouponCardAvailableRespDTO extends CouponCardReqDTO {
+public class CouponCardAvailableBO extends CouponCardReqDTO {
 
     /**
      * 是否可用

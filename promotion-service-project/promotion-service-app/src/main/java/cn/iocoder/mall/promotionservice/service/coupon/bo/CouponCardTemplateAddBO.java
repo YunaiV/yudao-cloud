@@ -1,66 +1,50 @@
-package cn.iocoder.mall.promotion.api.rpc.coupon.dto;
+package cn.iocoder.mall.promotionservice.service.coupon.bo;
 
+import cn.iocoder.common.framework.validator.InEnum;
+import cn.iocoder.mall.promotion.api.enums.CouponTemplateDateTypeEnum;
+import cn.iocoder.mall.promotion.api.enums.PreferentialTypeEnum;
+import cn.iocoder.mall.promotion.api.enums.RangeTypeEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 优惠劵（码）模板 BO
+ * 优惠劵模板添加 DTO
  */
 @Data
 @Accessors(chain = true)
-public class CouponTemplateBO implements Serializable {
+public class CouponCardTemplateAddBO implements Serializable {
 
     // ========== 基本信息 BEGIN ==========
     /**
-     * 模板编号，自增唯一。
-     */
-    private Integer id;
-    /**
      * 标题
      */
+    @NotEmpty(message = "标题不能为空")
     private String title;
     /**
      * 使用说明
      */
     private String description;
-    /**
-     * 类型
-     *
-     * 1-优惠劵
-     * 2-优惠码
-     */
-    private Integer type;
-    /**
-     * 码类型
-     *
-     * 1-一卡一码（UNIQUE）
-     * 2-通用码（GENERAL）
-     *
-     * 【优惠码独有】 @see CouponCodeDO
-     */
-    private Integer codeType;
-    /**
-     * 优惠码状态
-     *
-     * 1-开启中
-     * 2-禁用中
-     * 3-已过期
-     *
-     * 当优惠劵（码）开启中，可以手动操作，设置禁用中。
-     */
-    private Integer status;
+    // ========== 基本信息 END ==========
+
+    // ========== 领取规则 BEGIN ==========
     /**
      * 每人限领个数
-     *
-     * null - 则表示不限制
      */
+    @NotNull(message = "每人限领个数不能为空")
+    @Min(value = 1, message = "每人限领个数最小为 {value}")
     private Integer quota;
     /**
      * 发放总量
      */
+    @NotNull(message = "发放总量不能为空")
+    @Min(value = 1, message = "每人限领个数最小为 {value}")
     private Integer total;
     // ========== 领取规则 END ==========
 
@@ -71,6 +55,8 @@ public class CouponTemplateBO implements Serializable {
      * 0-不限制
      * 大于0-多少金额可用
      */
+    @NotNull(message = "使用金额门槛不能为空")
+    @Min(value = 0L, message = "使用金额门槛最低为 {value}")
     private Integer priceAvailable;
     /**
      * 可用范围的类型
@@ -78,9 +64,11 @@ public class CouponTemplateBO implements Serializable {
      * 10-全部（ALL）：所有可用
      * 20-部分（PART）：部分商品可用，或指定商品可用
      * 21-部分（PART）：部分商品不可用，或指定商品可用
-     * 30-部分（PART）：部分分类可用，或指定商品可用
-     * 31-部分（PART）：部分分类不可用，或指定商品可用
+     * 30-部分（PART）：部分分类可用，或指定分类可用
+     * 31-部分（PART）：部分分类不可用，或指定分类可用
      */
+    @NotNull(message = "可用范围的类型不能为空")
+    @InEnum(value = RangeTypeEnum.class, message = "可用范围的类型必须在 {value}")
     private Integer rangeType;
     /**
      * 指定商品 / 分类列表，使用逗号分隔商品编号
@@ -90,8 +78,10 @@ public class CouponTemplateBO implements Serializable {
      * 生效日期类型
      *
      * 1-固定日期
-     * 2-领取日期：领到券 {@link #fixedStartTerm} 日开始 N 天内有效
+     * 2-领取日期：领到券 {@link #fixedEndTerm} 日开始 N 天内有效
      */
+    @NotNull(message = "生效日期类型不能为空")
+    @InEnum(value = CouponTemplateDateTypeEnum.class, message = "生效日期类型必须在 {value}")
     private Integer dateType;
     /**
      * 固定日期-生效开始时间
@@ -106,10 +96,12 @@ public class CouponTemplateBO implements Serializable {
      *
      * 例如，0-当天；1-次天
      */
-    private Integer fixedStartTerm;
+    @Min(value = 0L, message = "领取日期开始时间最小为 {value}")
+    private Integer fixedBeginTerm;
     /**
      * 领取日期-结束天数
      */
+    @Min(value = 1L, message = "领取日期结束时间最小为 {value}")
     private Integer fixedEndTerm;
     // ========== 使用规则 END ==========
 
@@ -120,36 +112,29 @@ public class CouponTemplateBO implements Serializable {
      * 1-代金卷
      * 2-折扣卷
      */
+    @NotNull(message = "优惠类型不能为空")
+    @InEnum(value = PreferentialTypeEnum.class, message = "优惠类型必须在 {value}")
     private Integer preferentialType;
+    /**
+     * 优惠金额，单位：分
+     */
+    @Min(value = 1, message = "优惠金额最小值为 {value}")
+    private Integer priceOff;
     /**
      * 折扣百分比。
      *
      * 例如，80% 为 80。
      * 当 100% 为 100 ，则代表免费。
      */
+    @Max(value = 100, message = "折扣比最大值为 {value}")
     private Integer percentOff;
-    /**
-     * 优惠金额，单位：分
-     */
-    private Integer priceOff;
     /**
      * 折扣上限，仅在 {@link #preferentialType} 等于 2 时生效。
      *
      * 例如，折扣上限为 20 元，当使用 8 折优惠券，订单金额为 1000 元时，最高只可折扣 20 元，而非 80  元。
      */
+    @Min(value = 1, message = "折扣上限最小值为 {value}")
     private Integer discountPriceLimit;
     // ========== 使用效果 END ==========
-
-    // ========== 统计信息 BEGIN ==========
-    /**
-     * 领取优惠券的次数
-     */
-    private Integer statFetchNum;
-    // ========== 统计信息 END ==========
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
 
 }

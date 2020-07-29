@@ -1,5 +1,6 @@
-package cn.iocoder.mall.promotion.api.rpc.coupon.dto;
+package cn.iocoder.mall.promotionservice.service.coupon.bo;
 
+import cn.iocoder.mall.promotion.api.rpc.coupon.dto.CouponCardReqDTO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -16,7 +17,7 @@ public class CouponCardPageBO implements Serializable {
     /**
      * 优惠劵数组
      */
-    private List<CouponCardBO> list;
+    private List<CouponCardReqDTO> list;
     /**
      * 总量
      */

@@ -1,20 +1,17 @@
-package cn.iocoder.mall.promotion.api.rpc.coupon.dto;
+package cn.iocoder.mall.promotionservice.service.coupon.bo;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
- * 优惠劵明细 BO 。
- *
- * 主要是，会带上 {@link CouponTemplateBO} 的信息
+ * 优惠劵 BO
  */
 @Data
 @Accessors(chain = true)
-public class CouponCardDetailBO implements Serializable {
+public class CouponCardBO implements Serializable {
 
     // ========== 基本信息 BEGIN ==========
     /**
@@ -99,18 +96,6 @@ public class CouponCardDetailBO implements Serializable {
 
     // ========== 使用情况 BEGIN ==========
     /**
-     * 是否使用
-     */
-    private Boolean used;
-    /**
-     * 使用订单号
-     */
-    private Integer usedOrderId;
-    /**
-     * 订单中优惠面值，单位：分
-     */
-    private Integer usedPrice;
-    /**
      * 使用时间
      */
     private Date usedTime;
@@ -123,21 +108,5 @@ public class CouponCardDetailBO implements Serializable {
      * 创建时间
      */
     private Date createTime;
-
-    // ========== FROM template 使用规则 BEGIN ==========
-    /**
-     * 可用范围的类型
-     *
-     * 10-全部（ALL）：所有可用
-     * 20-部分（PART）：部分商品可用，或指定商品可用
-     * 21-部分（PART）：部分商品不可用，或指定商品可用
-     * 30-部分（PART）：部分分类可用，或指定商品可用
-     * 31-部分（PART）：部分分类不可用，或指定商品可用
-     */
-    private Integer rangeType;
-    /**
-     * 指定商品 / 分类列表，使用逗号分隔商品编号
-     */
-    private List<Integer> rangeValues;
 
 }

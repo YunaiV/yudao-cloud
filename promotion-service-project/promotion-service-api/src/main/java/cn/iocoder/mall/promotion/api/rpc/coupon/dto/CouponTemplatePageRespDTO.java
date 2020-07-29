@@ -11,12 +11,12 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class CouponTemplatePageBO implements Serializable {
+public class CouponTemplatePageRespDTO implements Serializable {
 
     /**
      * 优惠劵（码）数组
      */
-    private List<CouponTemplateBO> list;
+    private List<CouponTemplateReqDTO> list;
     /**
      * 总量
      */

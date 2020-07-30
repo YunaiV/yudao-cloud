@@ -1,8 +1,12 @@
 package cn.iocoder.mall.productservice.convert.sku;
 
 import cn.iocoder.common.framework.util.StringUtils;
-import cn.iocoder.mall.productservice.dal.mysql.dataobject.spu.ProductSkuDO;
+import cn.iocoder.mall.productservice.dal.mysql.dataobject.sku.ProductSkuDO;
+import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuListQueryReqDTO;
+import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuRespDTO;
+import cn.iocoder.mall.productservice.service.sku.bo.ProductSkuBO;
 import cn.iocoder.mall.productservice.service.sku.bo.ProductSkuCreateOrUpdateBO;
+import cn.iocoder.mall.productservice.service.sku.bo.ProductSkuListQueryBO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -18,7 +22,18 @@ public interface ProductSkuConvert {
     List<ProductSkuDO> convertList(List<ProductSkuCreateOrUpdateBO> list);
 
     @Mapping(source = "attrValueIds", target = "attrs", qualifiedByName = "translatePicUrlsFromStringList")
-    ProductSkuDO convert(ProductSkuCreateOrUpdateBO skuUpdateDTO);
+    ProductSkuDO convert(ProductSkuCreateOrUpdateBO bean);
+
+    @Mapping(source = "attrs", target = "attrValueIds", qualifiedByName = "translateAttrValueIdsFromString")
+    ProductSkuBO convert(ProductSkuDO bean);
+
+    List<ProductSkuBO> convertList02(List<ProductSkuDO> list);
+
+    ProductSkuRespDTO convert(ProductSkuBO bean);
+
+    ProductSkuListQueryBO convert(ProductSkuListQueryReqDTO bean);
+
+    List<ProductSkuRespDTO> convertList03(List<ProductSkuBO> list);
 
     @Named("translateAttrValueIdsFromString")
     default List<String> translateAttrValueIdsFromString(String attrValueIdsStar) {

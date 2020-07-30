@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 商品 SKU 创建或者修改 BO
  *
- * 注意，目前该对象是
+ * 注意，目前该对象是搭配 {@link}
  */
 @Data
 @Accessors(chain = true)

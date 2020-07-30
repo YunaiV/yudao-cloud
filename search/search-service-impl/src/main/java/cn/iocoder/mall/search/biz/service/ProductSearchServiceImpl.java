@@ -46,13 +46,6 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     @Autowired
     private ElasticsearchTemplate elasticsearchTemplate; // 因为需要使用到聚合操作，只好引入 ElasticsearchTemplate 。
 
-    @Reference(validation = "true", version = "${dubbo.consumer.ProductSpuService.version}")
-    private ProductSpuService productSpuService;
-    @Reference(validation = "true", version = "${dubbo.consumer.ProductCategoryService.version}")
-    private ProductCategoryService productCategoryService;
-    @Reference(validation = "true", version = "${dubbo.consumer.CartService.version}")
-    private CartService cartService;
-
     @Override
     public Integer rebuild() {
         // TODO 芋艿，因为目前商品比较少，所以写的很粗暴。等未来重构

@@ -4,9 +4,11 @@ import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.util.StringUtils;
 import cn.iocoder.mall.productservice.convert.sku.ProductSkuConvert;
-import cn.iocoder.mall.productservice.dal.mysql.dataobject.spu.ProductSkuDO;
+import cn.iocoder.mall.productservice.dal.mysql.dataobject.sku.ProductSkuDO;
 import cn.iocoder.mall.productservice.dal.mysql.mapper.sku.ProductSkuMapper;
+import cn.iocoder.mall.productservice.service.sku.bo.ProductSkuBO;
 import cn.iocoder.mall.productservice.service.sku.bo.ProductSkuCreateOrUpdateBO;
+import cn.iocoder.mall.productservice.service.sku.bo.ProductSkuListQueryBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -86,6 +88,29 @@ public class ProductSkuService {
             }
         }
         return null;
+    }
+
+    /**
+     * 获得商品 SKU
+     *
+     * @param productSkuId 商品 SKU 编号
+     * @return 商品 SKU
+     */
+    public ProductSkuBO getProductSku(Integer productSkuId) {
+        ProductSkuDO productSkuDO = productSkuMapper.selectById(productSkuId);
+        return ProductSkuConvert.INSTANCE.convert(productSkuDO);
+    }
+
+    /**
+     * 获得商品 SKU 列表
+     *
+     * @param queryBO 商品 SKU 列表查询条件 BO
+     * @return 商品 SKU 列表
+     */
+    public List<ProductSkuBO> listProductSkus(ProductSkuListQueryBO queryBO) {
+        // TODO FROM 芋艿：可能要考虑下，是不是要必须传递条件
+        List<ProductSkuDO> productSkuDOs = productSkuMapper.selectList(queryBO);
+        return ProductSkuConvert.INSTANCE.convertList02(productSkuDOs);
     }
 
 }

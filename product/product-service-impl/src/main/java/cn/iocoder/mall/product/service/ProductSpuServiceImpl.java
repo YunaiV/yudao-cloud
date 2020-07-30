@@ -151,14 +151,4 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         return ProductSpuConvert.INSTANCE.convert3(skus, spus, attrAndValuePairList);
     }
 
-    private boolean sendProductUpdateMessage(Integer id) {
-        // 创建 Message 对象
-        ProductUpdateMessage message = new ProductUpdateMessage().setId(id);
-        // 创建 Spring Message 对象
-        Message<ProductUpdateMessage> springMessage = MessageBuilder.withPayload(message)
-                .build();
-        // 发送消息
-        return mqStreamProducer.productUpdateOutput().send(springMessage);
-    }
-
 }

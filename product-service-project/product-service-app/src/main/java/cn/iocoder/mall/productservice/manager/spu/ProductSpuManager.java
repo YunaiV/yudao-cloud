@@ -4,6 +4,7 @@ import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.productservice.convert.spu.ProductSpuConvert;
 import cn.iocoder.mall.productservice.enums.category.ProductCategoryIdEnum;
+import cn.iocoder.mall.productservice.mq.producer.ProductMQProducer;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuAndSkuCreateReqDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuAndSkuUpdateReqDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuPageReqDTO;
@@ -18,6 +19,7 @@ import cn.iocoder.mall.productservice.service.spu.ProductSpuService;
 import cn.iocoder.mall.productservice.service.spu.bo.ProductSpuBO;
 import cn.iocoder.mall.productservice.service.spu.bo.ProductSpuCreateBO;
 import cn.iocoder.mall.productservice.service.spu.bo.ProductSpuUpdateBO;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,14 +44,25 @@ public class ProductSpuManager {
     @Autowired
     private ProductAttrService productAttrService;
 
+    @Autowired
+    private ProductMQProducer productMQProducer;
+
     /**
     * 创建商品 SPU 和 SKU
     *
     * @param createDTO 创建商品 SPU 和 SKU DTO
     * @return 商品 SPU
     */
-    @Transactional
     public Integer createProductSpu(ProductSpuAndSkuCreateReqDTO createDTO) {
+        // 创建商品 SPU 和 SKU。注意，这里要调用 self() 方法，因为需要创建事务，否则会失效
+        Integer spuId = self().createProductSpu0(createDTO);
+        // 发送商品创建的 MQ 消息
+        productMQProducer.sendProductUpdateMessage(spuId);
+        return spuId;
+    }
+
+    @Transactional
+    public Integer createProductSpu0(ProductSpuAndSkuCreateReqDTO createDTO) {
         // 校验商品分类是否合法
         this.checkProductCategory(createDTO.getCid());
         // 创建商品 SKU 对象，并进行校验
@@ -71,6 +84,14 @@ public class ProductSpuManager {
     * @param updateDTO 更新商品 SPU DTO
     */
     public void updateProductSpu(ProductSpuAndSkuUpdateReqDTO updateDTO) {
+        // 更新商品 SPU 和 SKU。注意，这里要调用 self() 方法，因为需要创建事务，否则会失效
+        self().updateProductSpu0(updateDTO);
+        // 发送商品创建的 MQ 消息
+        productMQProducer.sendProductUpdateMessage(updateDTO.getId());
+    }
+
+    @Transactional
+    public void updateProductSpu0(ProductSpuAndSkuUpdateReqDTO updateDTO) {
         // 校验商品分类是否合法
         this.checkProductCategory(updateDTO.getCid());
         // 创建商品 SKU 对象，并进行校验
@@ -169,6 +190,10 @@ public class ProductSpuManager {
             }
         }
         return attrKeyValueBOs;
+    }
+
+    private ProductSpuManager self() {
+        return (ProductSpuManager) AopContext.currentProxy();
     }
 
 }

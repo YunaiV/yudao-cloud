@@ -68,8 +68,4 @@ public class AdminsProductSpuController {
         return success(ProductSpuConvert.INSTANCE.convert3(list));
     }
 
-    private <T> List<T> parseSkus(String skuStr, Class<T> clazz) {
-        return JSON.parseArray(skuStr, clazz);
-    }
-
 }

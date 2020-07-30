@@ -1,7 +1,8 @@
 package cn.iocoder.mall.productservice.dal.mysql.mapper.sku;
 
 import cn.iocoder.mall.mybatis.core.query.QueryWrapperX;
-import cn.iocoder.mall.productservice.dal.mysql.dataobject.spu.ProductSkuDO;
+import cn.iocoder.mall.productservice.dal.mysql.dataobject.sku.ProductSkuDO;
+import cn.iocoder.mall.productservice.service.sku.bo.ProductSkuListQueryBO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -17,5 +18,10 @@ public interface ProductSkuMapper extends BaseMapper<ProductSkuDO> {
     }
 
     void insertList(@Param("productSkuDOs") List<ProductSkuDO> productSkuDOs);
+
+    default List<ProductSkuDO> selectList(ProductSkuListQueryBO queryBO) {
+        return selectList(new QueryWrapperX<ProductSkuDO>().eqIfPresent("id", queryBO.getProductSkuId())
+                .eqIfPresent("spu_id", queryBO.getProductSpuId()));
+    }
 
 }

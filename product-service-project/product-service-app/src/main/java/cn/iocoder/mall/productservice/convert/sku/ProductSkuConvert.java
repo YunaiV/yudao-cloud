@@ -36,8 +36,8 @@ public interface ProductSkuConvert {
     List<ProductSkuRespDTO> convertList03(List<ProductSkuBO> list);
 
     @Named("translateAttrValueIdsFromString")
-    default List<String> translateAttrValueIdsFromString(String attrValueIdsStar) {
-        return StringUtils.split(attrValueIdsStar, ",");
+    default List<Integer> translateAttrValueIdsFromString(String attrValueIdsStar) {
+        return StringUtils.splitToInt(attrValueIdsStar, ",");
     }
 
     @Named("translateAttrValueIdsFromList")

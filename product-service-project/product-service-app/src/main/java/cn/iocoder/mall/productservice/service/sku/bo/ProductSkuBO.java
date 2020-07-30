@@ -1,10 +1,10 @@
 package cn.iocoder.mall.productservice.service.sku.bo;
 
-import cn.iocoder.mall.productservice.dal.mysql.dataobject.attr.ProductAttrValueDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 商品 SKU BO
@@ -33,11 +33,9 @@ public class ProductSkuBO {
      */
     private String picUrl;
     /**
-     * 规格值({@link ProductAttrValueDO})数组
-     *
-     * 数组，以逗号分隔
+     * 规格值编号数组
      */
-    private String attrs;
+    private List<Integer> attrValueIds;
     /**
      * 价格，单位：分
      */

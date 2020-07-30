@@ -32,6 +32,13 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <!-- 搜索服务 -->
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>search-service-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <!-- MQ 相关 -->
         <dependency>
             <groupId>cn.iocoder.mall</groupId>

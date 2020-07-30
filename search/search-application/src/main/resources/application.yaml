@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: search-application
-  # Profile 的配置项
-  profiles:
-    active: local

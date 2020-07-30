@@ -21,7 +21,7 @@ import java.util.List;
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
 @Repository
-public interface ProductRepository extends ElasticsearchRepository<ESProductDO, Integer> {
+public interface ESProductRepository extends ElasticsearchRepository<ESProductDO, Integer> {
 
     @Deprecated
     ESProductDO findByName(String name);

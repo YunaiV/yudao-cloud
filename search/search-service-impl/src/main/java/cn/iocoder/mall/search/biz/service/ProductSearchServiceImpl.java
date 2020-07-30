@@ -69,27 +69,6 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     }
 
     @Override
-    public Boolean save(Integer id) {
-        // 获得商品性情
-        ProductSpuDetailBO result = productSpuService.getProductSpuDetail(id);
-        // 存储到 ES 中
-        ESProductDO product = convert(result);
-        productRepository.save(product);
-        // 返回成功
-        return true;
-    }
-
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
-    private ESProductDO convert(ProductSpuDetailBO spu) {
-        // 获得最小价格的 SKU ，用于下面的价格计算
-        ProductSpuDetailBO.Sku sku = spu.getSkus().stream().min(Comparator.comparing(ProductSpuDetailBO.Sku::getPrice)).get();
-        // 价格计算
-        CalcSkuPriceBO calSkuPriceResult  = cartService.calcSkuPrice(sku.getId());
-        // 拼装结果
-        return ProductSearchConvert.INSTANCE.convert(spu, calSkuPriceResult);
-    }
-
-    @Override
     public ProductPageBO getSearchPage(ProductSearchPageDTO searchPageDTO) {
         checkSortFieldInvalid(searchPageDTO.getSorts());
         // 执行查询

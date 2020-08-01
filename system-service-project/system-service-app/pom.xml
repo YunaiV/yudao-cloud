@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>system-service-service</artifactId>
+    <artifactId>system-service-app</artifactId>
     <dependencies>
         <!-- RPC 相关 -->
         <dependency>
@@ -26,6 +26,12 @@
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
             <artifactId>mall-spring-boot-starter-system-error-code</artifactId> <!-- 错误码 -->
+        </dependency>
+
+        <!-- Web 相关 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId> <!-- 需要开启 Web 容器，因为 Actuator 需要使用到 -->
         </dependency>
 
         <!-- Registry 和 Config 相关 -->
@@ -48,6 +54,12 @@
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
             <artifactId>mall-spring-boot-starter-mybatis</artifactId>
+        </dependency>
+
+        <!-- 监控相关 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
         <!-- 工具类相关 -->

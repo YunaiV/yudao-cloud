@@ -14,7 +14,7 @@
     <artifactId>onemall</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>product</module>
+<!--        <module>product</module>-->
 <!--        <module>order</module>-->
         <module>common</module>
 <!--        <module>system</module>-->
@@ -30,7 +30,7 @@
         <module>management-web-app</module>
         <module>shop-web-app</module>
         <module>product-service-project</module>
-        <module>promotion-service-project</module>
+<!--        <module>promotion-service-project</module>-->
         <module>search-service-project</module>
     </modules>
     <packaging>pom</packaging>

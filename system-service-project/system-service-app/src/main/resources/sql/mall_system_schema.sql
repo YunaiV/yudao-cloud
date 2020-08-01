@@ -1,19 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : onemall-huawei
- Source Server Type    : MySQL
- Source Server Version : 50730
- Source Host           : 400-infra.server.iocoder.cn:3306
- Source Schema         : mall_system
-
- Target Server Type    : MySQL
- Target Server Version : 50730
- File Encoding         : 65001
-
- Date: 15/07/2020 20:59:37
-*/
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 

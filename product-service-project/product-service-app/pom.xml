@@ -85,4 +85,9 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <!-- 设置构建的 jar 包名 -->
+        <finalName>${project.artifactId}</finalName>
+    </build>
+
 </project>

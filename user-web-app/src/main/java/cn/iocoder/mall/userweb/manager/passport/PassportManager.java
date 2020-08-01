@@ -9,21 +9,21 @@ import cn.iocoder.mall.userservice.enums.sms.UserSmsSceneEnum;
 import cn.iocoder.mall.userservice.rpc.sms.UserSmsCodeRpc;
 import cn.iocoder.mall.userservice.rpc.user.UserRpc;
 import cn.iocoder.mall.userservice.rpc.user.dto.UserRespDTO;
+import cn.iocoder.mall.userweb.controller.passport.vo.PassportAccessTokenRespVO;
 import cn.iocoder.mall.userweb.controller.passport.vo.PassportLoginBySmsReqVO;
 import cn.iocoder.mall.userweb.controller.passport.vo.UserPassportSendSmsRespVO;
-import cn.iocoder.mall.userweb.controller.passport.vo.PassportAccessTokenRespVO;
 import cn.iocoder.mall.userweb.convert.passport.PassportConvert;
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserPassportManager {
+public class PassportManager {
 
-    @Reference(version = "${dubbo.consumer.UserSmsCodeRpc.version}", validation = "false")
+    @DubboReference(version = "${dubbo.consumer.UserSmsCodeRpc.version}", validation = "false")
     private UserSmsCodeRpc userSmsCodeRpc;
-    @Reference(version = "${dubbo.consumer.UserRpc.version}", validation = "false")
+    @DubboReference(version = "${dubbo.consumer.UserRpc.version}", validation = "false")
     private UserRpc userRpc;
-    @Reference(version = "${dubbo.consumer.OAuth2Rpc.version}", validation = "false")
+    @DubboReference(version = "${dubbo.consumer.OAuth2Rpc.version}", validation = "false")
     private OAuth2Rpc oauth2Rpc;
 
     public PassportAccessTokenRespVO loginBySms(PassportLoginBySmsReqVO loginBySmsDTO, String ip) {

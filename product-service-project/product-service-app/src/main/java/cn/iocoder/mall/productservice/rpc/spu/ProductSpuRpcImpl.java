@@ -49,4 +49,9 @@ public class ProductSpuRpcImpl implements ProductSpuRpc {
         return success(productSpuManager.pageProductSpu(pageDTO));
     }
 
+    @Override
+    public CommonResult<List<Integer>> listProductSpuIds(Integer limit, Integer lastSpuId) {
+        return success(productSpuManager.listProductSpuIds(limit, lastSpuId));
+    }
+
 }

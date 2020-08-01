@@ -46,11 +46,20 @@ public interface ProductSpuRpc {
     CommonResult<List<ProductSpuRespDTO>> listProductSpus(List<Integer> productSpuIds);
 
     /**
-    * 获得商品 SPU分页
+    * 获得商品 SPU 分页
     *
-    * @param pageDTO 商品 SPU分页查询
-    * @return 商品 SPU分页结果
+    * @param pageDTO 商品 SPU 分页查询
+    * @return 商品 SPU 分页结果
     */
     CommonResult<PageResult<ProductSpuRespDTO>> pageProductSpu(ProductSpuPageReqDTO pageDTO);
+
+    /**
+     * 顺序获得商品 SPU 编号数组
+     *
+     * @param limit 数量
+     * @param lastSpuId 最后一个商品 SPU 编号
+     * @return 商品 SPU 编号数组
+     */
+    CommonResult<List<Integer>> listProductSpuIds(Integer limit, Integer lastSpuId);
 
 }

@@ -3,9 +3,6 @@
 -- ----------------------------
 
 INSERT INTO `mall_system`.`admin`(`id`, `name`, `avatar`, `department_id`, `status`, `username`, `password`, `password_salt`, `create_admin_id`, `create_ip`, `create_time`, `update_time`) VALUES (1, '管理员', '', NULL, 1, 'admin', '$2a$10$5sSIO3fq77iVvrnv4XjXwugz4D91D4gxIe7ClQzKsPySNPEZcr6za', '$2a$10$5sSIO3fq77iVvrnv4XjXwu', 0, '', '2020-04-17 19:20:14', '2020-07-04 21:33:30');
-INSERT INTO `mall_system`.`admin`(`id`, `name`, `avatar`, `department_id`, `status`, `username`, `password`, `password_salt`, `create_admin_id`, `create_ip`, `create_time`, `update_time`) VALUES (31, '测试管理员', '', 1, 1, 'admin02', '$2a$10$YhC.E1RvO573BVa10E7Os.GwpID4iHyhh8HGdu7r2Klr0sFc9Pmd.', '$2a$10$YhC.E1RvO573BVa10E7Os.', 1, '127.0.0.1', '2020-07-05 21:34:45', '2020-07-05 23:14:26');
-INSERT INTO `mall_system`.`admin`(`id`, `name`, `avatar`, `department_id`, `status`, `username`, `password`, `password_salt`, `create_admin_id`, `create_ip`, `create_time`, `update_time`) VALUES (32, '测试员工1', NULL, 0, 1, 'test', '$2a$10$9d/OEH4PpoDmZUY3mb2cn.ADra1IHNnEwAvP1c/nPqNIWsIrPEss2', '$2a$10$9d/OEH4PpoDmZUY3mb2cn.', 1, '127.0.0.1', '2020-07-13 09:58:39', '2020-07-14 07:00:53');
-INSERT INTO `mall_system`.`admin`(`id`, `name`, `avatar`, `department_id`, `status`, `username`, `password`, `password_salt`, `create_admin_id`, `create_ip`, `create_time`, `update_time`) VALUES (33, '技术测试员工', NULL, 3, 1, 'test001', '$2a$10$lFiDPNXUEeFogIEg43CUmu/YjcCTXszQaOCffNhKXyGL3BWAiQi9W', '$2a$10$lFiDPNXUEeFogIEg43CUmu', 1, '127.0.0.1', '2020-07-14 16:32:15', '2020-07-15 14:39:28');
 
 -- ----------------------------
 -- Table data for admin_department
@@ -22,11 +19,21 @@ INSERT INTO `mall_system`.`admin_department`(`id`, `name`, `sort`, `pid`, `creat
 -- ----------------------------
 
 INSERT INTO `mall_system`.`permission_admin_role`(`id`, `admin_id`, `role_id`, `create_time`, `update_time`, `deleted`) VALUES (35, 1, 1, '2019-05-17 17:08:37', '2020-04-23 07:59:16', b'0');
-INSERT INTO `mall_system`.`permission_admin_role`(`id`, `admin_id`, `role_id`, `create_time`, `update_time`, `deleted`) VALUES (36, 32, 1, '2020-07-13 18:25:29', '2020-07-13 18:39:51', b'1');
-INSERT INTO `mall_system`.`permission_admin_role`(`id`, `admin_id`, `role_id`, `create_time`, `update_time`, `deleted`) VALUES (37, 32, 13, '2020-07-13 18:25:29', '2020-07-13 18:39:51', b'1');
-INSERT INTO `mall_system`.`permission_admin_role`(`id`, `admin_id`, `role_id`, `create_time`, `update_time`, `deleted`) VALUES (38, 32, 13, '2020-07-13 18:39:51', '2020-07-14 07:04:47', b'1');
-INSERT INTO `mall_system`.`permission_admin_role`(`id`, `admin_id`, `role_id`, `create_time`, `update_time`, `deleted`) VALUES (39, 32, 16, '2020-07-14 07:04:55', '2020-07-14 07:04:55', b'0');
 
+-- ----------------------------
+-- Table structure for oauth2_access_token
+-- ----------------------------
+
+INSERT INTO `mall_system`.`oauth2_access_token`(`id`, `user_id`, `user_type`, `refresh_token`, `expires_time`, `create_ip`, `create_time`, `update_time`, `deleted`) VALUES ('yudaoyuanma', 1, 2, '7fc104020a2f428abece37c2d3f91839', '2021-07-05 10:39:14', '127.0.0.1', '2020-07-05 22:51:13', '2020-07-07 17:15:10', b'0');
+INSERT INTO `mall_system`.`oauth2_access_token`(`id`, `user_id`, `user_type`, `refresh_token`, `expires_time`, `create_ip`, `create_time`, `update_time`, `deleted`) VALUES ('yunai', 243, 1, 'yunai_refresh', '2055-07-03 21:24:01', '127.0.0.1', '2020-07-04 09:36:04', '2020-07-24 11:08:46', b'0');
+
+-- ----------------------------
+-- Table structure for oauth2_refresh_token
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for permission_admin_role
+-- ----------------------------
 
 -- ----------------------------
 -- Table data for permission_resource
@@ -38,24 +45,24 @@ INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `typ
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (15, '权限列表', 'system:resource:tree', 1, 4, 13, 'resource-list', 'el-icon-s-operation', 'permission/resource/index', 0, '2019-03-10 03:59:56', '2020-07-14 13:25:55', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (16, '角色列表', 'system:role:page', 1, 3, 13, 'role-list', 'peoples', 'permission/role/index', 0, '2019-03-10 04:00:35', '2020-07-14 13:25:59', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (19, '数据字典', 'system:data-dict:list', 1, 5, 13, 'data-dict-list', 'el-icon-reading', 'datadict/index', 0, '2019-03-15 19:10:30', '2020-07-15 10:58:48', b'0');
-INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (20, '商品管理', NULL, 1, 4, 0, 'product', NULL, NULL, 0, '2019-03-15 19:53:09', '2020-07-10 12:24:52', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (20, '商品管理', '', 1, 4, 0, '/product', 'el-icon-potato-strips', NULL, 0, '2019-03-15 19:53:09', '2020-07-25 18:27:15', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (21, '商品列表', NULL, 1, 1, 20, 'product-spu-list', NULL, NULL, 0, '2019-03-15 19:55:22', '2020-07-10 12:24:49', b'0');
-INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (22, '展示类目', NULL, 1, 2, 20, 'product-category-list', NULL, NULL, 0, '2019-03-15 19:56:42', '2020-07-10 12:24:57', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (22, '展示类目', 'product:category:tree', 1, 2, 20, 'product-category-list', 'el-icon-lollipop', 'product/category/list', 0, '2019-03-15 19:56:42', '2020-07-25 18:24:16', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (23, '营销管理', NULL, 1, 7, 0, 'promotion', NULL, NULL, 0, '2019-03-30 22:42:13', '2020-07-10 12:25:00', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (24, '首页广告', NULL, 1, 1, 23, 'banner-list', NULL, NULL, 0, '2019-03-30 22:54:57', '2020-07-10 12:25:04', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (25, '商品推荐', NULL, 1, 2, 23, 'product-recommend-list', NULL, NULL, 0, '2019-04-01 13:17:28', '2020-07-10 12:25:09', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (26, '优惠劵', NULL, 1, 3, 23, 'coupon-card-template-list', NULL, NULL, 0, '2019-04-04 16:02:14', '2020-07-10 12:25:14', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (27, '订单管理', NULL, 1, 5, 0, 'order', NULL, NULL, 0, '2019-04-06 12:53:55', '2020-07-10 12:25:17', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (28, '订单管理', NULL, 1, 1, 27, 'order-list', NULL, NULL, 0, '2019-04-06 12:57:17', '2020-07-10 12:25:21', b'0');
-INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (29, '商品品牌', NULL, 1, 3, 20, 'product-brand-list', NULL, NULL, 0, '2019-04-09 17:58:36', '2020-07-10 12:25:25', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (29, '商品品牌', 'product:brand:page', 1, 3, 20, 'product-brand-list', 'el-icon-orange', 'product/brand/list', 0, '2019-04-09 17:58:36', '2020-07-25 23:40:02', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (30, '发布商品', NULL, 1, -99, 20, 'product-spu-add', NULL, NULL, 0, '2019-05-01 21:01:38', '2020-07-10 12:25:29', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (31, '概述', NULL, 1, 0, 0, '/home', NULL, NULL, 0, '2019-05-03 00:01:33', '2020-07-12 00:06:47', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (32, '数据分析', NULL, 1, 1, 0, '/statistic', NULL, NULL, 0, '2019-05-03 00:02:08', '2020-07-12 00:07:14', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (33, '店铺资产', '', 1, 2, 0, '/pay', 'money-collect', NULL, 0, '2019-05-03 00:02:57', '2020-07-12 00:25:41', b'0');
-INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (34, '会员管理', NULL, 1, 6, 0, 'member', NULL, NULL, 0, '2019-05-03 00:03:55', '2020-07-10 12:26:17', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (34, '会员管理', NULL, 1, 6, 0, '/member', NULL, NULL, 0, '2019-05-03 00:03:55', '2020-07-23 07:11:42', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (41, '限时折扣', NULL, 1, 24, 23, 'time-limit-discount-list', NULL, NULL, 0, '2019-05-07 22:34:30', '2020-07-10 12:26:12', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (42, '满减送', NULL, 1, 25, 23, 'full-privilege-list', NULL, NULL, 0, '2019-05-08 00:05:20', '2020-07-10 12:26:24', b'0');
-INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (43, '会员资料', NULL, 1, 1, 34, 'user-list', NULL, NULL, 0, '2019-05-08 11:11:22', '2020-07-10 12:26:21', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (43, '会员资料', NULL, 1, 1, 34, 'user-list', 'el-icon-user', 'user/user/index', 0, '2019-05-08 11:11:22', '2020-07-23 07:10:12', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (44, '支付单', NULL, 1, 1, 33, 'transaction-list', NULL, NULL, 0, '2019-05-08 14:17:15', '2020-07-10 12:25:47', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (45, '退款单', NULL, 1, 2, 33, 'refund-list', NULL, NULL, 0, '2019-05-08 16:58:05', '2020-07-10 12:25:51', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (46, '订单售后', NULL, 1, 1, 27, 'order-refunds', NULL, NULL, 0, '2019-05-09 19:57:23', '2020-07-10 12:25:57', b'0');
@@ -86,171 +93,42 @@ INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `typ
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (79, '新建部门', 'system:department:create', 2, 1, 78, NULL, NULL, NULL, 1, '2020-07-14 13:44:32', '2020-07-14 13:44:32', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (80, '修改部门', 'system:department:update', 2, 2, 78, NULL, NULL, NULL, 1, '2020-07-14 13:45:15', '2020-07-14 13:45:15', b'0');
 INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (81, '删除部门', 'system:department:delete', 2, 3, 78, NULL, NULL, NULL, 1, '2020-07-14 13:47:40', '2020-07-14 13:47:40', b'0');
-INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (82, '日志管理', NULL, 1, 9, 0, '/system-log', NULL, NULL, 1, '2020-07-15 17:44:33', '2020-07-15 17:44:53', b'0');
-INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (83, '访问日志', NULL, 1, 1, 82, 'system-access-log-list', NULL, 'system-log/system-access-log/index', 1, '2020-07-15 17:47:08', '2020-07-15 17:47:08', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (82, '日志管理', NULL, 1, 9, 0, '/system-log', 'el-icon-pear', NULL, 1, '2020-07-15 17:44:33', '2020-07-23 07:08:40', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (83, '访问日志', 'system:system-access-log:page', 1, 1, 82, 'system-access-log-list', 'el-icon-receiving', 'system-log/system-access-log/index', 1, '2020-07-15 17:47:08', '2020-07-16 14:31:10', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (84, '异常日志', 'system:system-exception-log:page', 1, 2, 82, 'system-exception-log-list', 'el-icon-collection', 'system-log/system-exception-log/index', 1, '2020-07-16 12:56:15', '2020-07-16 14:32:00', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (85, '处理异常', 'system:system-exception-log:process', 2, 1, 84, NULL, NULL, NULL, 1, '2020-07-16 14:32:42', '2020-07-16 14:32:42', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (86, '错误码', 'system:error-dict:page', 1, 6, 13, 'error-code-list', 'el-icon-picture-outline-round', 'errorCode/index.vue', 1, '2020-07-20 19:25:35', '2020-07-20 19:27:09', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (87, '新建错误码', 'system:error-code:create', 2, 1, 86, NULL, NULL, NULL, 1, '2020-07-20 20:27:47', '2020-07-20 20:27:47', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (88, '修改错误码', 'system:error-code:update', 2, 2, 86, NULL, NULL, NULL, 1, '2020-07-20 20:28:04', '2020-07-20 20:28:04', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (89, '删除错误码', 'system:error-code:delete', 2, 3, 86, NULL, NULL, NULL, 1, '2020-07-20 20:28:22', '2020-07-20 20:28:22', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (90, '会员地址', NULL, 1, 2, 34, 'user-address-list', NULL, NULL, 1, '2020-07-23 07:11:23', '2020-07-23 07:11:23', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (91, '新建类目', 'product:category:create', 2, 1, 22, NULL, NULL, NULL, 1, '2020-07-25 18:25:13', '2020-07-25 18:25:13', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (92, '修改类目', 'product:category:update', 2, 2, 22, NULL, NULL, NULL, 1, '2020-07-25 18:25:41', '2020-07-25 18:25:41', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (93, '删除类目', 'product:category:delete', 2, 3, 22, NULL, NULL, NULL, 1, '2020-07-25 18:26:02', '2020-07-25 18:26:02', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (94, '新建品牌', 'product:brand:create', 2, 1, 29, NULL, NULL, NULL, 1, '2020-07-25 23:40:47', '2020-07-25 23:40:47', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (95, '修改品牌', 'product:brand:update', 2, 2, 29, NULL, NULL, NULL, 1, '2020-07-25 23:41:01', '2020-07-25 23:41:01', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (96, '删除品牌', 'product:brand:delete', 2, 3, 29, NULL, NULL, NULL, 1, '2020-07-25 23:41:17', '2020-07-25 23:41:17', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (97, '商品规格', NULL, 1, 5, 20, 'product-attr-list', 'el-icon-dish', 'product/attr/list', 1, '2020-07-28 13:44:06', '2020-07-30 01:11:57', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (98, '规格键列表', 'product:attr-value:page', 2, 1, 97, NULL, NULL, NULL, 1, '2020-07-30 01:09:02', '2020-07-30 01:09:47', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (99, '新建规格键', 'product:attr-value:create', 2, 2, 97, NULL, NULL, NULL, 1, '2020-07-30 01:09:39', '2020-07-30 01:09:39', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (100, '修改规格键', 'product:attr-key:update', 2, 3, 97, NULL, NULL, NULL, 1, '2020-07-30 01:10:07', '2020-07-30 01:10:07', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (101, '规格值列表', 'product:attr-value:list', 2, 11, 97, NULL, NULL, NULL, 1, '2020-07-30 01:10:26', '2020-07-30 01:10:26', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (102, '新建规格值', 'product:attr-value:create', 2, 12, 97, NULL, NULL, NULL, 1, '2020-07-30 01:10:48', '2020-07-30 01:10:48', b'0');
+INSERT INTO `mall_system`.`permission_resource`(`id`, `name`, `permission`, `type`, `sort`, `pid`, `route`, `icon`, `view`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (103, '修改规格值', 'product:attr-value:update', 2, 13, 97, NULL, NULL, NULL, 1, '2020-07-30 01:11:04', '2020-07-30 01:11:04', b'0');
 
 -- ----------------------------
 -- Table data for permission_role
--- ----------------------------
+-- ---------------------------
 
 INSERT INTO `mall_system`.`permission_role`(`id`, `name`, `code`, `type`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (1, '超级管理员', 'SUPER_ADMIN', 1, 0, '2019-02-24 09:03:51', '2020-04-30 16:53:38', b'0');
-INSERT INTO `mall_system`.`permission_role`(`id`, `name`, `code`, `type`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (13, '测试角色001', 'TEST', 2, 1, '2020-04-27 20:56:14', '2020-07-08 10:41:10', b'0');
-INSERT INTO `mall_system`.`permission_role`(`id`, `name`, `code`, `type`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (14, 'test', NULL, 2, 1, '2020-07-08 09:51:38', '2020-07-08 09:54:05', b'1');
-INSERT INTO `mall_system`.`permission_role`(`id`, `name`, `code`, `type`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (15, '测试角色哈', '123', 2, 1, '2020-07-12 21:20:17', '2020-07-12 21:37:01', b'1');
-INSERT INTO `mall_system`.`permission_role`(`id`, `name`, `code`, `type`, `create_admin_id`, `create_time`, `update_time`, `deleted`) VALUES (16, '测试角色', NULL, 2, 32, '2020-07-14 07:04:20', '2020-07-14 07:04:20', b'0');
 
 -- ----------------------------
 -- Table data for permission_role_resource
 -- ----------------------------
 
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (666, 1, 13, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (667, 1, 14, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (668, 1, 15, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (669, 1, 16, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (670, 1, 20, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (671, 1, 21, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (672, 1, 22, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (673, 1, 23, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (674, 1, 24, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (675, 1, 25, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (676, 1, 26, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (677, 1, 27, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (678, 1, 28, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (679, 1, 29, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (680, 1, 30, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (681, 1, 31, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (682, 1, 32, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (683, 1, 33, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (684, 1, 34, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (685, 1, 41, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (686, 1, 42, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (687, 1, 43, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (688, 1, 44, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (689, 1, 45, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (690, 1, 46, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (691, 1, 47, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (692, 1, 51, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (693, 1, 52, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (694, 1, 53, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (695, 1, 19, '2019-06-11 15:02:42', '2019-06-11 15:02:41', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (696, 1, 58, '2019-06-11 15:02:42', '2020-04-27 15:56:30', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (743, 13, 52, '2020-04-28 20:55:18', '2020-07-13 09:20:04', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (744, 13, 52, '2020-07-12 20:23:00', '2020-07-13 09:23:02', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (745, 13, 53, '2020-07-12 20:23:00', '2020-07-13 09:23:02', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (746, 13, 52, '2020-07-12 20:23:02', '2020-07-13 09:23:03', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (747, 13, 53, '2020-07-12 20:23:02', '2020-07-13 09:23:03', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (748, 13, 52, '2020-07-12 20:23:03', '2020-07-13 09:23:03', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (749, 13, 53, '2020-07-12 20:23:03', '2020-07-13 09:23:03', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (750, 13, 52, '2020-07-12 20:23:04', '2020-07-13 09:23:04', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (751, 13, 53, '2020-07-12 20:23:04', '2020-07-13 09:23:04', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (752, 13, 52, '2020-07-12 20:23:05', '2020-07-13 09:23:05', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (753, 13, 53, '2020-07-12 20:23:05', '2020-07-13 09:23:05', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (754, 13, 52, '2020-07-12 20:23:06', '2020-07-13 09:23:06', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (755, 13, 53, '2020-07-12 20:23:06', '2020-07-13 09:23:06', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (756, 13, 52, '2020-07-12 20:23:06', '2020-07-13 09:23:11', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (757, 13, 53, '2020-07-12 20:23:06', '2020-07-13 09:23:11', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (758, 13, 52, '2020-07-12 20:23:12', '2020-07-13 09:23:12', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (759, 13, 53, '2020-07-12 20:23:12', '2020-07-13 09:23:12', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (760, 13, 52, '2020-07-12 20:23:12', '2020-07-13 09:23:12', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (761, 13, 53, '2020-07-12 20:23:12', '2020-07-13 09:23:12', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (762, 13, 52, '2020-07-12 20:23:13', '2020-07-13 09:23:13', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (763, 13, 53, '2020-07-12 20:23:13', '2020-07-13 09:23:13', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (764, 13, 52, '2020-07-12 20:23:14', '2020-07-13 09:23:14', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (765, 13, 53, '2020-07-12 20:23:14', '2020-07-13 09:23:14', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (766, 13, 52, '2020-07-12 20:23:14', '2020-07-13 09:23:14', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (767, 13, 53, '2020-07-12 20:23:14', '2020-07-13 09:23:14', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (768, 13, 52, '2020-07-12 20:23:14', '2020-07-13 09:25:22', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (769, 13, 53, '2020-07-12 20:23:14', '2020-07-13 09:25:22', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (770, 13, 52, '2020-07-12 20:25:23', '2020-07-13 09:25:32', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (771, 13, 53, '2020-07-12 20:25:23', '2020-07-13 09:25:32', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (772, 13, 51, '2020-07-12 20:25:32', '2020-07-13 09:25:32', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (773, 13, 52, '2020-07-12 20:25:32', '2020-07-13 09:25:32', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (774, 13, 53, '2020-07-12 20:25:32', '2020-07-13 09:25:32', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (775, 13, 70, '2020-07-12 20:25:32', '2020-07-13 09:25:32', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (776, 16, 47, '2020-07-14 07:14:21', '2020-07-14 07:56:55', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (777, 16, 75, '2020-07-14 07:56:55', '2020-07-14 08:02:12', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (778, 16, 76, '2020-07-14 07:56:55', '2020-07-14 08:02:12', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (779, 16, 14, '2020-07-14 07:56:55', '2020-07-14 08:02:12', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (780, 16, 62, '2020-07-14 07:56:55', '2020-07-14 08:02:12', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (781, 16, 47, '2020-07-14 07:56:55', '2020-07-14 08:02:12', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (782, 16, 48, '2020-07-14 08:02:12', '2020-07-14 08:05:39', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (783, 16, 49, '2020-07-14 08:02:12', '2020-07-14 08:05:39', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (784, 16, 50, '2020-07-14 08:02:12', '2020-07-14 08:05:39', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (785, 16, 19, '2020-07-14 08:02:12', '2020-07-14 08:05:39', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (786, 16, 55, '2020-07-14 08:02:12', '2020-07-14 08:05:39', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (787, 16, 59, '2020-07-14 08:02:12', '2020-07-14 08:05:39', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (788, 16, 47, '2020-07-14 08:02:12', '2020-07-14 08:05:39', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (789, 16, 13, '2020-07-14 08:05:40', '2020-07-14 08:33:33', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (790, 16, 15, '2020-07-14 08:05:40', '2020-07-14 08:33:33', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (791, 16, 13, '2020-07-14 08:34:03', '2020-07-14 08:34:21', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (792, 16, 13, '2020-07-14 08:34:21', '2020-07-14 08:34:39', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (793, 16, 15, '2020-07-14 08:34:21', '2020-07-14 08:34:39', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (794, 16, 13, '2020-07-14 08:34:39', '2020-07-14 08:34:50', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (795, 16, 13, '2020-07-14 08:34:50', '2020-07-14 08:36:09', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (796, 16, 15, '2020-07-14 08:34:50', '2020-07-14 08:36:09', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (797, 16, 13, '2020-07-14 08:36:09', '2020-07-14 08:47:07', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (798, 16, 15, '2020-07-14 08:36:09', '2020-07-14 08:47:07', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (799, 16, 56, '2020-07-14 08:47:07', '2020-07-14 08:47:29', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (800, 16, 57, '2020-07-14 08:47:07', '2020-07-14 08:47:29', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (801, 16, 13, '2020-07-14 08:47:07', '2020-07-14 08:47:29', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (802, 16, 15, '2020-07-14 08:47:07', '2020-07-14 08:47:29', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (803, 16, 56, '2020-07-14 08:47:29', '2020-07-14 09:10:23', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (804, 16, 13, '2020-07-14 08:47:29', '2020-07-14 09:10:23', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (805, 16, 15, '2020-07-14 08:47:29', '2020-07-14 09:10:23', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (806, 16, 75, '2020-07-14 09:10:23', '2020-07-14 09:16:32', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (807, 16, 76, '2020-07-14 09:10:23', '2020-07-14 09:16:32', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (808, 16, 77, '2020-07-14 09:10:23', '2020-07-14 09:16:32', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (809, 16, 13, '2020-07-14 09:10:23', '2020-07-14 09:16:32', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (810, 16, 47, '2020-07-14 09:10:23', '2020-07-14 09:16:32', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (811, 16, 16, '2020-07-14 09:10:23', '2020-07-14 09:16:32', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (812, 16, 48, '2020-07-14 09:10:23', '2020-07-14 09:16:32', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (813, 16, 49, '2020-07-14 09:10:23', '2020-07-14 09:16:32', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (814, 16, 50, '2020-07-14 09:10:23', '2020-07-14 09:16:32', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (815, 16, 55, '2020-07-14 09:10:23', '2020-07-14 09:16:32', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (816, 16, 56, '2020-07-14 09:10:23', '2020-07-14 09:16:32', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (817, 16, 57, '2020-07-14 09:10:23', '2020-07-14 09:16:32', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (818, 16, 59, '2020-07-14 09:10:23', '2020-07-14 09:16:32', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (819, 16, 60, '2020-07-14 09:10:23', '2020-07-14 09:16:32', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (820, 16, 62, '2020-07-14 09:10:23', '2020-07-14 09:16:32', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (821, 16, 48, '2020-07-14 09:16:32', '2020-07-14 09:16:46', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (822, 16, 49, '2020-07-14 09:16:32', '2020-07-14 09:16:46', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (823, 16, 50, '2020-07-14 09:16:32', '2020-07-14 09:16:46', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (824, 16, 55, '2020-07-14 09:16:32', '2020-07-14 09:16:46', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (825, 16, 56, '2020-07-14 09:16:32', '2020-07-14 09:16:46', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (826, 16, 57, '2020-07-14 09:16:32', '2020-07-14 09:16:46', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (827, 16, 75, '2020-07-14 09:16:32', '2020-07-14 09:16:46', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (828, 16, 76, '2020-07-14 09:16:32', '2020-07-14 09:16:46', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (829, 16, 60, '2020-07-14 09:16:32', '2020-07-14 09:16:46', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (830, 16, 77, '2020-07-14 09:16:32', '2020-07-14 09:16:46', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (831, 16, 62, '2020-07-14 09:16:32', '2020-07-14 09:16:46', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (832, 16, 47, '2020-07-14 09:16:32', '2020-07-14 09:16:46', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (833, 16, 60, '2020-07-14 09:16:46', '2020-07-14 09:18:01', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (834, 16, 77, '2020-07-14 09:16:46', '2020-07-14 09:18:01', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (835, 16, 59, '2020-07-14 09:18:01', '2020-07-14 09:18:29', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (836, 16, 60, '2020-07-14 09:18:01', '2020-07-14 09:18:29', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (837, 16, 77, '2020-07-14 09:18:01', '2020-07-14 09:18:29', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (838, 16, 75, '2020-07-14 09:18:29', '2020-07-14 09:19:50', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (839, 16, 59, '2020-07-14 09:18:29', '2020-07-14 09:19:50', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (840, 16, 76, '2020-07-14 09:18:29', '2020-07-14 09:19:50', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (841, 16, 60, '2020-07-14 09:18:29', '2020-07-14 09:19:50', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (842, 16, 77, '2020-07-14 09:18:29', '2020-07-14 09:19:50', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (843, 16, 62, '2020-07-14 09:18:29', '2020-07-14 09:19:50', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (844, 16, 47, '2020-07-14 09:18:29', '2020-07-14 09:19:50', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (845, 16, 59, '2020-07-14 09:19:50', '2020-07-14 09:19:58', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (846, 16, 60, '2020-07-14 09:19:50', '2020-07-14 09:19:58', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (847, 16, 77, '2020-07-14 09:19:50', '2020-07-14 09:19:58', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (848, 16, 59, '2020-07-14 09:19:58', '2020-07-14 09:20:02', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (849, 16, 60, '2020-07-14 09:19:58', '2020-07-14 09:20:02', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (850, 16, 77, '2020-07-14 09:19:58', '2020-07-14 09:20:02', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (851, 16, 59, '2020-07-14 09:20:02', '2020-07-14 09:21:21', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (852, 16, 60, '2020-07-14 09:20:02', '2020-07-14 09:21:21', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (853, 16, 77, '2020-07-14 09:20:02', '2020-07-14 09:21:21', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (854, 16, 47, '2020-07-14 09:20:02', '2020-07-14 09:21:21', b'1');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (855, 16, 75, '2020-07-14 09:21:21', '2020-07-14 09:21:21', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (856, 16, 59, '2020-07-14 09:21:21', '2020-07-14 09:21:21', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (857, 16, 60, '2020-07-14 09:21:21', '2020-07-14 09:21:21', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (858, 16, 77, '2020-07-14 09:21:21', '2020-07-14 09:21:21', b'0');
-INSERT INTO `mall_system`.`permission_role_resource`(`id`, `role_id`, `resource_id`, `create_time`, `update_time`, `deleted`) VALUES (859, 16, 47, '2020-07-14 09:21:21', '2020-07-14 09:21:21', b'0');
+-- ----------------------------
+-- Table structure for system_access_log
+-- ----------------------------
 
 -- ----------------------------
 -- Table data for system_data_dict
@@ -324,3 +202,16 @@ INSERT INTO `mall_system`.`system_data_dict`(`id`, `enum_value`, `value`, `displ
 INSERT INTO `mall_system`.`system_data_dict`(`id`, `enum_value`, `value`, `display_name`, `sort`, `memo`, `create_time`, `update_time`, `deleted`) VALUES (66, 'resource_type', '2', '按钮', 2, '资源类型 - 按钮', '2020-07-15 14:43:38', '2020-07-15 14:43:38', b'0');
 INSERT INTO `mall_system`.`system_data_dict`(`id`, `enum_value`, `value`, `display_name`, `sort`, `memo`, `create_time`, `update_time`, `deleted`) VALUES (67, 'role_type', '1', '内置角色', 1, '角色类型 - 内置角色', '2020-07-15 15:04:04', '2020-07-15 15:04:04', b'0');
 INSERT INTO `mall_system`.`system_data_dict`(`id`, `enum_value`, `value`, `display_name`, `sort`, `memo`, `create_time`, `update_time`, `deleted`) VALUES (68, 'role_type', '2', '自定义角色', 2, '角色类型 - 自定义角色', '2020-07-15 15:04:20', '2020-07-15 15:04:20', b'0');
+INSERT INTO `mall_system`.`system_data_dict`(`id`, `enum_value`, `value`, `display_name`, `sort`, `memo`, `create_time`, `update_time`, `deleted`) VALUES (69, 'system_exception_log_process_status', '0', '未处理', 1, '系统异常日志的处理状态 - 未处理', '2020-07-16 13:34:56', '2020-07-16 13:40:03', b'0');
+INSERT INTO `mall_system`.`system_data_dict`(`id`, `enum_value`, `value`, `display_name`, `sort`, `memo`, `create_time`, `update_time`, `deleted`) VALUES (70, 'system_exception_log_process_status', '1', '已处理', 2, '系统异常日志的处理状态 - 已处理', '2020-07-16 13:35:19', '2020-07-16 13:40:08', b'0');
+INSERT INTO `mall_system`.`system_data_dict`(`id`, `enum_value`, `value`, `display_name`, `sort`, `memo`, `create_time`, `update_time`, `deleted`) VALUES (71, 'system_exception_log_process_status', '2', '已忽略', 3, '系统异常日志的处理状态 - 已忽略', '2020-07-16 13:35:31', '2020-07-16 13:40:11', b'0');
+INSERT INTO `mall_system`.`system_data_dict`(`id`, `enum_value`, `value`, `display_name`, `sort`, `memo`, `create_time`, `update_time`, `deleted`) VALUES (72, 'error_code_type', '1', '自动生成', 1, '错误码的类型枚举 - 自动生成', '2020-07-20 19:49:23', '2020-07-20 19:50:45', b'0');
+INSERT INTO `mall_system`.`system_data_dict`(`id`, `enum_value`, `value`, `display_name`, `sort`, `memo`, `create_time`, `update_time`, `deleted`) VALUES (73, 'error_code_type', '2', '手动编辑', 2, '错误码的类型枚举 - 手动编辑', '2020-07-20 19:50:00', '2020-07-20 19:50:51', b'0');
+
+-- ----------------------------
+-- Table structure for system_error_code
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for system_exception_log
+-- ----------------------------

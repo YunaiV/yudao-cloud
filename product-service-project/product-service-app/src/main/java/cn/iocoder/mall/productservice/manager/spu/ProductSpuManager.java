@@ -47,6 +47,10 @@ public class ProductSpuManager {
     @Autowired
     private ProductMQProducer productMQProducer;
 
+    private static ProductSpuManager self() {
+        return (ProductSpuManager) AopContext.currentProxy();
+    }
+
     /**
     * 创建商品 SPU 和 SKU
     *
@@ -158,6 +162,17 @@ public class ProductSpuManager {
         return categoryBO;
     }
 
+    /**
+     * 顺序获得商品 SPU 编号数组
+     *
+     * @param limit 数量
+     * @param lastSpuId 最后一个商品 SPU 编号
+     * @return 商品 SPU 编号数组
+     */
+    public List<Integer> listProductSpuIds(Integer limit, Integer lastSpuId) {
+        return productAttrService.listProductSpuIds(limit, lastSpuId);
+    }
+
     private List<ProductAttrKeyValueBO> checkProductAttr(List<ProductSkuCreateOrUpdateBO> skuBOs) {
         // 第一步，校验 SKU 使用到的规格是否存在
         Set<Integer> attrValueIds = new HashSet<>();
@@ -190,10 +205,6 @@ public class ProductSpuManager {
             }
         }
         return attrKeyValueBOs;
-    }
-
-    private ProductSpuManager self() {
-        return (ProductSpuManager) AopContext.currentProxy();
     }
 
 }

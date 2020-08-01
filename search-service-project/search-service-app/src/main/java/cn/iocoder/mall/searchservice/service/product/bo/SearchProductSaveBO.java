@@ -1,17 +1,16 @@
-package cn.iocoder.mall.search.biz.bo;
+package cn.iocoder.mall.searchservice.service.product.bo;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
- * 商品 ES BO
+ * 搜索商品保存 BO
  */
 @Data
-@Accessors(chain = true)
-public class ProductBO implements Serializable {
+@Accessors
+public class SearchProductSaveBO {
 
     private Integer id;
 

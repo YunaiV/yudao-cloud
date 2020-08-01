@@ -69,26 +69,6 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     }
 
     @Override
-    public ProductPageBO getSearchPage(ProductSearchPageDTO searchPageDTO) {
-        checkSortFieldInvalid(searchPageDTO.getSorts());
-        // 执行查询
-        Page<ESProductDO> searchPage = productRepository.search(searchPageDTO.getCid(), searchPageDTO.getKeyword(),
-                searchPageDTO.getPageNo(), searchPageDTO.getPageSize(), searchPageDTO.getSorts());
-        // 转换结果
-        return new ProductPageBO()
-                .setList(ProductSearchConvert.INSTANCE.convert(searchPage.getContent()))
-                .setTotal((int) searchPage.getTotalElements());
-    }
-
-    private void checkSortFieldInvalid(List<SortingField> sorts) {
-        if (CollectionUtil.isEmpty(sorts)) {
-            return;
-        }
-        sorts.forEach(sortingField -> Assert.isTrue(ProductSearchPageDTO.SORT_FIELDS.contains(sortingField.getField()),
-                String.format("排序字段(%s) 不在允许范围内", sortingField.getField())));
-    }
-
-    @Override
     public ProductConditionBO getSearchCondition(ProductConditionDTO conditionDTO) {
         // 创建 ES 搜索条件
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();

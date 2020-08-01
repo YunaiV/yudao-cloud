@@ -31,15 +31,7 @@ import java.util.stream.Collectors;
 public class ProductSpuServiceImpl implements ProductSpuService {
 
     @Autowired
-    private ProductSpuMapper productSpuMapper;
-    @Autowired
-    private ProductSkuMapper productSkuMapper;
-    @Autowired
-    private ProductCategoryMapper productCategoryMapper;
-    @Autowired
     private ProductAttrService productAttrService;
-    @Autowired
-    private ProductCategoryService productCategoryService;
 
     @Override
     public ProductSpuDetailBO getProductSpuDetail(Integer spuId) {

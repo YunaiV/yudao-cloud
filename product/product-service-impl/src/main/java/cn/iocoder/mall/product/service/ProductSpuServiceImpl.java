@@ -42,9 +42,6 @@ public class ProductSpuServiceImpl implements ProductSpuService {
     @Autowired
     private ProductAttrServiceImpl productAttrService;
 
-    @Autowired
-    private MQStreamProducer mqStreamProducer;
-
 //    @Override
 //    public ProductSpuBO getProductSpuDetail(Integer id) {
 //        ProductSpuDO productSpuDO = productSpuMapper.selectById(id);
@@ -84,15 +81,6 @@ public class ProductSpuServiceImpl implements ProductSpuService {
         // 查询每个商品明细
         List<ProductSpuDetailBO> spus = spuIds.stream().map(id -> getProductSpuDetail(id)).collect(Collectors.toList()); // TODO 芋艿，此处相当于是 N 个查询，后续要优化。
         return spus;
-    }
-
-    @Override
-    public ProductSpuDetailBO addProductSpu(Integer adminId, ProductSpuAddDTO productSpuAddDTO) {
-        // 如果新增生成，发送创建商品 Topic 消息
-        // TODO 芋艿，先不考虑事务的问题。等后面的 fescar 一起搞
-        sendProductUpdateMessage(productSpuDetailBO.getId());
-        // 返回成功
-        return productSpuDetailBO;
     }
 
     @Override

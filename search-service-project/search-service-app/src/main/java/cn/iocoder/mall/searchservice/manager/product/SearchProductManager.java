@@ -11,7 +11,7 @@ import cn.iocoder.mall.productservice.rpc.spu.ProductSpuRpc;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
 import cn.iocoder.mall.searchservice.convert.product.SearchProductConvert;
 import cn.iocoder.mall.searchservice.service.product.SearchProductService;
-import cn.iocoder.mall.searchservice.service.product.bo.SearchProductCreateBO;
+import cn.iocoder.mall.searchservice.service.product.bo.SearchProductSaveBO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +62,7 @@ public class SearchProductManager {
             return false;
         }
         // 保存商品到 ES 中
-        SearchProductCreateBO searchProductCreateBO = SearchProductConvert.INSTANCE.convert(
+        SearchProductSaveBO searchProductCreateBO = SearchProductConvert.INSTANCE.convert(
                 productSpuResult.getData(), getProductCategoryResult.getData());
         ProductSkuRespDTO productSku = listProductSkusResult.getData().stream()
                 .min(Comparator.comparing(ProductSkuRespDTO::getPrice)).orElse(null);
@@ -72,7 +72,7 @@ public class SearchProductManager {
         searchProductCreateBO.setOriginalPrice(productSku.getPrice());
         searchProductCreateBO.setBuyPrice(productSku.getPrice());
         searchProductCreateBO.setQuantity(productSku.getQuantity());
-        searchProductService.createSearchProduct(searchProductCreateBO);
+        searchProductService.saveSearchProduct(searchProductCreateBO);
         return true;
     }
 

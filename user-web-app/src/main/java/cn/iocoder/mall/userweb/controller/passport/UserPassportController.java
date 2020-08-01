@@ -5,7 +5,7 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.userweb.controller.passport.vo.PassportLoginBySmsReqVO;
 import cn.iocoder.mall.userweb.controller.passport.vo.UserPassportSendSmsRespVO;
 import cn.iocoder.mall.userweb.controller.passport.vo.PassportAccessTokenRespVO;
-import cn.iocoder.mall.userweb.manager.passport.UserPassportManager;
+import cn.iocoder.mall.userweb.manager.passport.PassportManager;
 import cn.iocoder.security.annotations.RequiresNone;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,7 +24,7 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 public class UserPassportController {
 
     @Autowired
-    private UserPassportManager userPassportManager;
+    private PassportManager userPassportManager;
 
     @PostMapping("/login-by-sms")
     @ApiOperation("手机验证码登陆")

@@ -196,6 +196,22 @@ CREATE TABLE `system_data_dict` (
 ) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COMMENT='数据字典';
 
 -- ----------------------------
+-- Table structure for system_error_code
+-- ----------------------------
+CREATE TABLE `system_error_code` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '错误码编号',
+  `code` int(11) NOT NULL DEFAULT '0' COMMENT '错误码编码',
+  `message` varchar(255) NOT NULL DEFAULT '' COMMENT '错误码错误提示',
+  `type` tinyint(4) NOT NULL COMMENT '错误码类型',
+  `group` varchar(64) NOT NULL COMMENT '错误码分组',
+  `memo` varchar(255) DEFAULT NULL COMMENT '错误码备注',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=350 DEFAULT CHARSET=utf8mb4 COMMENT='错误码';
+
+-- ----------------------------
 -- Table structure for system_exception_log
 -- ----------------------------
 DROP TABLE IF EXISTS `system_exception_log`;

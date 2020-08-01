@@ -1,9 +1,9 @@
-package cn.iocoder.mall.security.admin.config;
+package cn.iocoder.mall.security.user.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties("mall.security.admin")
-public class AdminSecurityProperties {
+@ConfigurationProperties("mall.security.user")
+public class UserSecurityProperties {
 
     private static final String[] DEFAULT_IGNORE_PATHS = new String[]{
             // Swagger 相关
@@ -24,7 +24,7 @@ public class AdminSecurityProperties {
         return ignorePaths;
     }
 
-    public AdminSecurityProperties setIgnorePaths(String[] ignorePaths) {
+    public UserSecurityProperties setIgnorePaths(String[] ignorePaths) {
         this.ignorePaths = ignorePaths;
         return this;
     }
@@ -33,7 +33,7 @@ public class AdminSecurityProperties {
         return defaultIgnorePaths;
     }
 
-    public AdminSecurityProperties setDefaultIgnorePaths(String[] defaultIgnorePaths) {
+    public UserSecurityProperties setDefaultIgnorePaths(String[] defaultIgnorePaths) {
         this.defaultIgnorePaths = defaultIgnorePaths;
         return this;
     }

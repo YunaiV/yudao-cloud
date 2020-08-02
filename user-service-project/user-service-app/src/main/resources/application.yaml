@@ -44,3 +44,9 @@ dubbo:
   consumer:
     OAuth2Rpc:
       version: 1.0.0
+
+# Actuator 监控配置项
+management:
+  server.port: 38081 # 独立端口，避免被暴露出去
+  endpoints.web.exposure.include: '*' # 暴露所有监控端点
+server.port: ${management.server.port} # 设置使用 Actuator 的服务器端口，因为 RPC 服务不需要 Web 端口

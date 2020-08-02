@@ -30,6 +30,12 @@
             <artifactId>product-service-api</artifactId>
         </dependency>
 
+        <!-- Web 相关 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId> <!-- 需要开启 Web 容器，因为 Actuator 需要使用到 -->
+        </dependency>
+
         <!-- MQ 相关 -->
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
@@ -56,6 +62,12 @@
         <dependency>
             <groupId>cn.iocoder.mall</groupId>
             <artifactId>mall-spring-boot-starter-mybatis</artifactId>
+        </dependency>
+
+        <!-- 监控相关 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
         <!-- 工具类相关 -->
@@ -88,6 +100,13 @@
     <build>
         <!-- 设置构建的 jar 包名 -->
         <finalName>${project.artifactId}</finalName>
+        <!-- 使用 spring-boot-maven-plugin 插件打包 -->
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 
 </project>

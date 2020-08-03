@@ -208,18 +208,4 @@ public class ProductAttrService {
         return ProductAttrConvert.INSTANCE.convertList03(productAttrValueDOs);
     }
 
-    /**
-     * 顺序获得商品 SPU 编号数组
-     *
-     * 一般情况下，该接口我们用于提供顺序的 SPU 编号数组，以便调用方进一步根据自己需要获取商品信息
-     * 例如说，搜索服务会不断获取商品编号，重建该商品编号的索引
-     *
-     * @param limit 数量
-     * @param lastSpuId 最后一个商品 SPU 编号
-     * @return 商品 SPU 编号数组
-     */
-    public List<Integer> listProductSpuIds(Integer limit, Integer lastSpuId) {
-        return null;
-    }
-
 }

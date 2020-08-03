@@ -50,8 +50,8 @@ public class ProductSpuRpcImpl implements ProductSpuRpc {
     }
 
     @Override
-    public CommonResult<List<Integer>> listProductSpuIds(Integer limit, Integer lastSpuId) {
-        return success(productSpuManager.listProductSpuIds(limit, lastSpuId));
+    public CommonResult<List<Integer>> listProductSpuIds(Integer lastSpuId, Integer limit) {
+        return success(productSpuManager.listProductSpuIds(lastSpuId, limit));
     }
 
 }

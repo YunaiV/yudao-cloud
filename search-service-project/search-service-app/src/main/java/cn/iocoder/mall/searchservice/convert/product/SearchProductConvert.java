@@ -11,6 +11,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 @Mapper
 public interface SearchProductConvert {
 
@@ -30,8 +32,11 @@ public interface SearchProductConvert {
 
     ESProductDO convert(SearchProductSaveBO bean);
 
-    @Mapping(source = "content", target = "list")
-    @Mapping(source = "getTotalElements", target = "total")
-    PageResult<SearchProductBO> convert(Page<ESProductDO> searchPage);
+    List<SearchProductBO> convertList(List<ESProductDO> list);
+
+    default PageResult<SearchProductBO> convertPage(Page<ESProductDO> searchPage) {
+        return new PageResult<SearchProductBO>().setList(convertList(searchPage.getContent()))
+                .setTotal(searchPage.getTotalElements());
+    }
 
 }

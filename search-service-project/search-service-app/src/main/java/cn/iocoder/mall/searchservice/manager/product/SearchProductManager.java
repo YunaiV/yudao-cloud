@@ -24,6 +24,8 @@ import java.util.List;
 @Slf4j
 public class SearchProductManager {
 
+    private static final Integer REBUILD_FETCH_PER_SIZE = 100;
+
     @DubboReference(version = "${dubbo.consumer.ProductSpuRpc.version}")
     private ProductSpuRpc productSpuRpc;
     @DubboReference(version = "${dubbo.consumer.ProductSkuRpc.version}")
@@ -37,6 +39,40 @@ public class SearchProductManager {
     @Autowired
     private SearchProductService searchProductService;
 
+    /**
+     * 重建所有商品的 ES 索引
+     *
+     * @return 重建数量
+     */
+    public Integer rebuild() {
+        // TODO 芋艿，因为目前商品比较少，所以写的很粗暴。等未来重构
+        Integer lastId = null;
+        int rebuildCounts = 0;
+        while (true) {
+            // 从商品服务，增量获取商品列表编号
+            CommonResult<List<Integer>> listProductSpuIdsResult = productSpuRpc.listProductSpuIds(lastId, REBUILD_FETCH_PER_SIZE);
+            listProductSpuIdsResult.checkError();
+            List<Integer> spuIds = listProductSpuIdsResult.getData();
+            // 逐个重建索引到 ES 中
+            spuIds.forEach(this::saveProduct);
+            // 设置新的 lastId ，或者结束
+            rebuildCounts += listProductSpuIdsResult.getData().size();
+            if (spuIds.size() < REBUILD_FETCH_PER_SIZE) {
+                break;
+            } else {
+                lastId = spuIds.get(spuIds.size() - 1);
+            }
+        }
+        // 返回成功
+        return rebuildCounts;
+    }
+
+    /**
+     * 重建指定商品的 ES 索引
+     *
+     * @param id 商品 SPU 编号
+     * @return 是否重建成功
+     */
     public Boolean saveProduct(Integer id) {
         // 获得商品 SPU
         CommonResult<ProductSpuRespDTO> productSpuResult = productSpuRpc.getProductSpu(id);

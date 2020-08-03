@@ -1,4 +1,4 @@
 /**
- * 占位，避免包折叠
+ * 占位
  */
 package cn.iocoder.mall.searchservice.service;

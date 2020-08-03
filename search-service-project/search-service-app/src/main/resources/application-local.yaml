@@ -16,3 +16,6 @@ dubbo:
   # Dubbo 服务提供者的配置
   provider:
     tag: ${DUBBO_TAG} # Dubbo 路由分组
+  # Dubbo 服务消费者的配置
+  consumer:
+    tag: ${DUBBO_TAG} # Dubbo 路由分组

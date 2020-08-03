@@ -165,12 +165,12 @@ public class ProductSpuManager {
     /**
      * 顺序获得商品 SPU 编号数组
      *
-     * @param limit 数量
      * @param lastSpuId 最后一个商品 SPU 编号
+     * @param limit 数量
      * @return 商品 SPU 编号数组
      */
-    public List<Integer> listProductSpuIds(Integer limit, Integer lastSpuId) {
-        return productAttrService.listProductSpuIds(limit, lastSpuId);
+    public List<Integer> listProductSpuIds(Integer lastSpuId, Integer limit) {
+        return productSpuService.listProductSpuIds(lastSpuId, limit);
     }
 
     private List<ProductAttrKeyValueBO> checkProductAttr(List<ProductSkuCreateOrUpdateBO> skuBOs) {

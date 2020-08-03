@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ProductSpuMapper extends BaseMapper<ProductSpuDO> {
 
@@ -23,6 +25,11 @@ public interface ProductSpuMapper extends BaseMapper<ProductSpuDO> {
             }
         }
         return selectPage(new Page<>(pageBO.getPageNo(), pageBO.getPageSize()), query);
+    }
+
+    default List<ProductSpuDO> selectListByIdGt(Integer id, Integer limit) {
+        return selectList(new QueryWrapperX<ProductSpuDO>().gtIfPresent("id", id)
+                .orderByAsc("id").last("LIMIT " + limit));
     }
 
 }

@@ -56,10 +56,10 @@ public interface ProductSpuRpc {
     /**
      * 顺序获得商品 SPU 编号数组
      *
-     * @param limit 数量
      * @param lastSpuId 最后一个商品 SPU 编号
+     * @param limit 数量
      * @return 商品 SPU 编号数组
      */
-    CommonResult<List<Integer>> listProductSpuIds(Integer limit, Integer lastSpuId);
+    CommonResult<List<Integer>> listProductSpuIds(Integer lastSpuId, Integer limit);
 
 }

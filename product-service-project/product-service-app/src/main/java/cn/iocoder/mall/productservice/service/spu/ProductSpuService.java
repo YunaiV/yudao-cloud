@@ -1,6 +1,7 @@
 package cn.iocoder.mall.productservice.service.spu;
 
 import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
+import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.productservice.convert.spu.ProductSpuConvert;
 import cn.iocoder.mall.productservice.dal.mysql.dataobject.spu.ProductSpuDO;
@@ -89,6 +90,20 @@ public class ProductSpuService {
     public PageResult<ProductSpuBO> pageProductSpu(ProductSpuPageBO pageBO) {
         IPage<ProductSpuDO> productSpuDOPage = productSpuMapper.selectPage(pageBO);
         return ProductSpuConvert.INSTANCE.convertPage(productSpuDOPage);
+    }
+
+    /**
+     * 顺序获得商品 SPU 编号数组
+     *
+     * 一般情况下，该接口我们用于提供顺序的 SPU 编号数组，以便调用方进一步根据自己需要获取商品信息
+     * 例如说，搜索服务会不断获取商品编号，重建该商品编号的索引
+     *
+     * @param lastSpuId 最后一个商品 SPU 编号
+     * @param limit 数量
+     * @return 商品 SPU 编号数组
+     */
+    public List<Integer> listProductSpuIds(Integer lastSpuId, Integer limit) {
+        return CollectionUtils.convertList(productSpuMapper.selectListByIdGt(lastSpuId, limit), ProductSpuDO::getId);
     }
 
 }

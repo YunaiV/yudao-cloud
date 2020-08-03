@@ -7,6 +7,7 @@ import cn.iocoder.common.framework.vo.SortingField;
 import cn.iocoder.mall.searchservice.convert.product.SearchProductConvert;
 import cn.iocoder.mall.searchservice.dal.es.dataobject.ESProductDO;
 import cn.iocoder.mall.searchservice.dal.es.repository.ESProductRepository;
+import cn.iocoder.mall.searchservice.enums.product.SearchProductConditionFieldEnum;
 import cn.iocoder.mall.searchservice.enums.product.SearchProductPageQuerySortFieldEnum;
 import cn.iocoder.mall.searchservice.service.product.bo.SearchProductBO;
 import cn.iocoder.mall.searchservice.service.product.bo.SearchProductConditionBO;
@@ -47,7 +48,7 @@ public class SearchProductService {
         Page<ESProductDO> searchPage = productRepository.search(pageQueryBO.getCid(), pageQueryBO.getKeyword(),
                 pageQueryBO.getPageNo(), pageQueryBO.getPageSize(), pageQueryBO.getSorts());
         // 转换结果
-        return SearchProductConvert.INSTANCE.convert(searchPage);
+        return SearchProductConvert.INSTANCE.convertPage(searchPage);
     }
 
     private void checkSortFieldInvalid(List<SortingField> sorts) {
@@ -74,11 +75,11 @@ public class SearchProductService {
      * 在我们搜索商品时，需要获得关键字可选择的分类、品牌等等搜索条件，方便用户进一步检索
      *
      * @param keyword 关键字
-     * @param fields 需要返回的搜索条件。目前可传入的参数为
+     * @param fields 需要返回的搜索条件{@link SearchProductConditionFieldEnum}。目前可传入的参数为
      *               1. category ：商品分类，会返回商品分类编号
      * @return 搜索条件
      */
-    public SearchProductConditionBO getSearchCondition(String keyword, Collection<String> fields) {
+    public SearchProductConditionBO getSearchProductCondition(String keyword, Collection<String> fields) {
         // 创建 ES 搜索条件
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
         // 筛选

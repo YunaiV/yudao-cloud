@@ -1,12 +1,12 @@
-package cn.iocoder.mall.userweb.manager.product;
+package cn.iocoder.mall.shopweb.manager.product;
 
 import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.productservice.rpc.category.ProductCategoryRpc;
 import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryListQueryReqDTO;
 import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryRespDTO;
-import cn.iocoder.mall.userweb.controller.product.vo.category.ProductCategoryRespVO;
-import cn.iocoder.mall.userweb.convert.product.ProductCategoryConvert;
+import cn.iocoder.mall.shopweb.controller.product.vo.category.ProductCategoryRespVO;
+import cn.iocoder.mall.shopweb.convert.product.ProductCategoryConvert;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;

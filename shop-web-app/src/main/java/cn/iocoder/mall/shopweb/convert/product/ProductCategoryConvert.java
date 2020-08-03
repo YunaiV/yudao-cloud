@@ -1,7 +1,7 @@
-package cn.iocoder.mall.userweb.convert.product;
+package cn.iocoder.mall.shopweb.convert.product;
 
 import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryRespDTO;
-import cn.iocoder.mall.userweb.controller.product.vo.category.ProductCategoryRespVO;
+import cn.iocoder.mall.shopweb.controller.product.vo.category.ProductCategoryRespVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

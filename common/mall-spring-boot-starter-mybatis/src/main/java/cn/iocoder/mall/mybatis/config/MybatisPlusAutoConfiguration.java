@@ -1,4 +1,4 @@
-package cn.iocoder.mall.mybatis.core;
+package cn.iocoder.mall.mybatis.config;
 
 import cn.iocoder.mall.mybatis.core.injector.CustomSqlInject;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

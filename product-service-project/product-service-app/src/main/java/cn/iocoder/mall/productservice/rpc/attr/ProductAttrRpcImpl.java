@@ -63,7 +63,7 @@ public class ProductAttrRpcImpl implements ProductAttrRpc {
     }
 
     @Override
-    public CommonResult<List<ProductAttrValueRespDTO>> listProductAttrValues(ProductAttrValueListQueryRequestDTO queryDTO) {
+    public CommonResult<List<ProductAttrValueRespDTO>> listProductAttrValues(ProductAttrValueListQueryReqDTO queryDTO) {
         return success(productAttrManager.listProductAttrValues(queryDTO));
     }
 

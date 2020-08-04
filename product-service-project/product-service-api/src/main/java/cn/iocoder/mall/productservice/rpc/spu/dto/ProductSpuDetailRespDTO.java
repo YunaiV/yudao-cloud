@@ -1,5 +1,6 @@
-package cn.iocoder.mall.product.api.bo;
+package cn.iocoder.mall.productservice.rpc.spu.dto;
 
+import cn.iocoder.mall.productservice.rpc.attr.dto.ProductAttrKeyValueRespDTO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -7,12 +8,11 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 商品 Spu 明细 BO（包括 Sku 明细）
+ * 商品 SPU 明细 Response DTO
  */
 @Data
 @Accessors(chain = true)
-@Deprecated
-public class ProductSpuDetailBO implements Serializable {
+public class ProductSpuDetailRespDTO implements Serializable {
 
     /**
      * SPU 编号
@@ -70,7 +70,7 @@ public class ProductSpuDetailBO implements Serializable {
     private List<Sku> skus;
 
     /**
-     * 商品 Sku 明细 BO
+     * 商品 Sku 明细
      */
     @Data
     @Accessors(chain = true)
@@ -91,7 +91,7 @@ public class ProductSpuDetailBO implements Serializable {
         /**
          * 规格值数组
          */
-        private List<ProductAttrAndValuePairBO> attrs;
+        private List<ProductAttrKeyValueRespDTO> attrs;
         /**
          * 价格，单位：分
          */

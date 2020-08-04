@@ -79,6 +79,6 @@ public interface ProductAttrRpc {
      * @param queryDTO 商品规格值的列表查询条件 DTO
      * @return 商品规格值列表
      */
-    CommonResult<List<ProductAttrValueRespDTO>> listProductAttrValues(ProductAttrValueListQueryRequestDTO queryDTO);
+    CommonResult<List<ProductAttrValueRespDTO>> listProductAttrValues(ProductAttrValueListQueryReqDTO queryDTO);
 
 }

@@ -12,7 +12,6 @@ import java.util.List;
 
 public interface ProductAttrService {
 
-    ProductAttrPageBO getProductAttrPage(ProductAttrPageDTO productAttrPageDTO);
 
     /**
      * 获得规格属性数组

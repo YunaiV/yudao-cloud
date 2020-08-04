@@ -81,30 +81,7 @@ public interface ProductSpuConvert {
     })
     ProductSkuBO convert4(ProductSkuDO sku);
 
-    @Mappings({}) // TODO 芋艿，后续细看下 mapstruct 的 API ，优化这块
-    default ProductSpuDetailBO convert2(ProductSpuDO spu, List<ProductSkuDO> skus, List<ProductAttrAndValuePairBO> productAttrDetailBOs,
-                                        ProductCategoryDO category) {
-        // 创建并转换 ProductSpuDetailBO 对象
-        ProductSpuDetailBO spuDetail = this.convert2(spu).setPicUrls(StringUtil.split(spu.getPicUrls(), ","));
-        // 创建 ProductAttrDetailBO 的映射。其中，KEY 为 ProductAttrDetailBO.attrValueId ，即规格值的编号
-        Map<Integer, ProductAttrAndValuePairBO> productAttrDetailBOMap = productAttrDetailBOs.stream().collect(
-                Collectors.toMap(ProductAttrAndValuePairBO::getAttrValueId, productAttrDetailBO -> productAttrDetailBO));
-        // 创建并转换 ProductSpuDetailBO 数组
-        spuDetail.setSkus(new ArrayList<>());
-        skus.forEach(sku -> {
-            // 创建 ProductSpuDetailBO 对象
-            ProductSpuDetailBO.Sku skuDetail = ProductSpuConvert.this.convert2(sku)
-                    .setAttrs(new ArrayList<>());
-            spuDetail.getSkus().add(skuDetail);
-            // 设置 ProductSpuDetailBO 的 attrs 规格属性
-            List<String> attrs = StringUtil.split(sku.getAttrs(), ",");
-            attrs.forEach(attr -> skuDetail.getAttrs().add(productAttrDetailBOMap.get(Integer.valueOf(attr))));
-        });
-        // 设置分类名
-        spuDetail.setCategoryName(category.getName());
-        // 返回
-        return spuDetail;
-    }
+
 
     @Mappings({}) // TODO 芋艿，后续细看下 mapstruct 的 API ，优化这块
     default List<ProductSkuDetailBO> convert3(List<ProductSkuDO> skus, List<ProductSpuDO> spus, List<ProductAttrAndValuePairBO> productAttrDetailBOs) {

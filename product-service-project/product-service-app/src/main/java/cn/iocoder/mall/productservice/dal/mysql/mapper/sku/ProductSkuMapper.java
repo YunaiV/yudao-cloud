@@ -21,7 +21,8 @@ public interface ProductSkuMapper extends BaseMapper<ProductSkuDO> {
 
     default List<ProductSkuDO> selectList(ProductSkuListQueryBO queryBO) {
         return selectList(new QueryWrapperX<ProductSkuDO>().eqIfPresent("id", queryBO.getProductSkuId())
-                .eqIfPresent("spu_id", queryBO.getProductSpuId()));
+                .eqIfPresent("spu_id", queryBO.getProductSpuId())
+                .eqIfPresent("status", queryBO.getProductSkuStatus()));
     }
 
 }

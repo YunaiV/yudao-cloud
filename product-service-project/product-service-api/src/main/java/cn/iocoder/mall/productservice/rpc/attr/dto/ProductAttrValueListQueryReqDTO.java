@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class ProductAttrValueListQueryRequestDTO implements Serializable {
+public class ProductAttrValueListQueryReqDTO implements Serializable {
 
     /**
      * 商品规格值编号列表

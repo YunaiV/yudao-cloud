@@ -3,13 +3,11 @@ package cn.iocoder.mall.productservice.rpc.spu;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.productservice.manager.spu.ProductSpuManager;
-import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuAndSkuCreateReqDTO;
-import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuAndSkuUpdateReqDTO;
-import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuPageReqDTO;
-import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
+import cn.iocoder.mall.productservice.rpc.spu.dto.*;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collection;
 import java.util.List;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
@@ -52,6 +50,11 @@ public class ProductSpuRpcImpl implements ProductSpuRpc {
     @Override
     public CommonResult<List<Integer>> listProductSpuIds(Integer lastSpuId, Integer limit) {
         return success(productSpuManager.listProductSpuIds(lastSpuId, limit));
+    }
+
+    @Override
+    public CommonResult<ProductSpuDetailRespDTO> getProductSpuDetail(Integer productSpuId, Collection<String> fields) {
+        return success(productSpuManager.getProductSpuDetail(productSpuId, fields));
     }
 
 }

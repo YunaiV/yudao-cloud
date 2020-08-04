@@ -13,15 +13,6 @@ public interface ProductSpuService {
 
     ProductSpuDetailBO getProductSpuDetail(Integer id);
 
-    /**
-     * 增量获得商品列表，按照 lastId 递增获得
-     *
-     * @param lastId 最后查询的编号
-     * @param limit 大小
-     * @return 商品列表
-     */
-    List<ProductSpuDetailBO> getProductSpuDetailListForSync(Integer lastId, Integer limit);
-
     List<ProductSpuBO> getProductSpuSearchList(ProductSpuSearchListDTO productSpuSearchListDTO);
 
     List<ProductSpuBO> getProductSpuList(Collection<Integer> ids);

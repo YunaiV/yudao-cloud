@@ -56,6 +56,6 @@ public interface ProductAttrConvert {
 
     List<ProductAttrValueRespDTO> convertList04(List<ProductAttrValueBO> list);
 
-    ProductAttrValueListQueryBO convert(ProductAttrValueListQueryRequestDTO bean);
+    ProductAttrValueListQueryBO convert(ProductAttrValueListQueryReqDTO bean);
 
 }

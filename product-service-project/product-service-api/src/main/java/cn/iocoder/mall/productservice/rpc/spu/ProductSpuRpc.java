@@ -2,11 +2,9 @@ package cn.iocoder.mall.productservice.rpc.spu;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuAndSkuCreateReqDTO;
-import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuAndSkuUpdateReqDTO;
-import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuPageReqDTO;
-import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
+import cn.iocoder.mall.productservice.rpc.spu.dto.*;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -61,5 +59,7 @@ public interface ProductSpuRpc {
      * @return 商品 SPU 编号数组
      */
     CommonResult<List<Integer>> listProductSpuIds(Integer lastSpuId, Integer limit);
+
+    CommonResult<ProductSpuDetailRespDTO> getProductSpuDetail(Integer productSpuId, Collection<String> fields);
 
 }

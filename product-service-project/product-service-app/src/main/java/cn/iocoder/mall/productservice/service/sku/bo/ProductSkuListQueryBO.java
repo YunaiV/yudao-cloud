@@ -18,5 +18,9 @@ public class ProductSkuListQueryBO {
      * 商品 SPU 编号
      */
     private Integer productSpuId;
+    /**
+     * 商品 SKU 状态
+     */
+    private Integer productSkuStatus;
 
 }

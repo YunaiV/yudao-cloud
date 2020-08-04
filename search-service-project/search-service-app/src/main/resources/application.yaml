@@ -48,6 +48,12 @@ dubbo:
 rocketmq:
   name-server: 400-infra.server.iocoder.cn:9876
 
+# Actuator 监控配置项
+management:
+  server.port: 38083 # 独立端口，避免被暴露出去
+  endpoints.web.exposure.include: '*' # 暴露所有监控端点
+server.port: ${management.server.port} # 设置使用 Actuator 的服务器端口，因为 RPC 服务不需要 Web 端口
+
 # Mall 配置项
 mall:
   # 错误码配置项对应 ErrorCodeProperties 配置类

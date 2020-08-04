@@ -6,4 +6,8 @@ Content-Type: application/x-www-form-urlencoded
 GET {{shop-api-base-url}}/product-spu/search-condition?keyword=骚气
 Content-Type: application/x-www-form-urlencoded
 
+### /product-spu/get-detail 成功
+GET {{shop-api-base-url}}/product-spu/get-detail?id=63
+Content-Type: application/x-www-form-urlencoded
+
 ###

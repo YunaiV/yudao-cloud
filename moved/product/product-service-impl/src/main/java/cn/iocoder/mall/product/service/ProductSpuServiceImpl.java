@@ -50,27 +50,6 @@ public class ProductSpuServiceImpl implements ProductSpuService {
 //    }
 
     @Override
-    public ProductSpuDetailBO getProductSpuDetail(Integer id) {
-        // 校验商品 spu 存在
-        ProductSpuDO spu = productSpuMapper.selectById(id);
-        if (spu == null) {
-            throw ServiceExceptionUtil.exception(ProductErrorCodeEnum.PRODUCT_SPU_NOT_EXISTS.getCode());
-        }
-        // 获得商品分类分类
-        ProductCategoryDO category = productCategoryService.getProductCategory(spu.getCid());
-        Assert.notNull(category, String.format("分类编号(%d) 对应", spu.getCid()));
-        // 获得商品 sku 数组
-        List<ProductSkuDO> skus = productSkuMapper.selectListBySpuIdAndStatus(id, ProductSpuConstants.SKU_STATUS_ENABLE);
-        // 获得规格
-        Set<Integer> productAttrValueIds = new HashSet<>();
-        skus.forEach(sku -> productAttrValueIds.addAll(StringUtil.splitToInt(sku.getAttrs(), ",")));
-        List<ProductAttrAndValuePairBO> attrAndValuePairList = productAttrService.validProductAttrAndValue(productAttrValueIds,
-                false); // 读取规格时，不考虑规格是否被禁用
-        // 返回成功
-        return ProductSpuConvert.INSTANCE.convert2(spu, skus, attrAndValuePairList, category);
-    }
-
-    @Override
     public Boolean updateProductSpuSort(Integer adminId, Integer spuId, Integer sort) {
         // 校验 Spu 是否存在
         if (productSpuMapper.selectById(spuId) == null) {

@@ -1,9 +1,16 @@
 package cn.iocoder.mall.productservice.rpc.attr.dto;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+
 /**
  * 商品规格 KEY + VALUE 对的 Response DTO
  */
-public class ProductAttrKeyValueRespDTO {
+@Data
+@Accessors(chain = true)
+public class ProductAttrKeyValueRespDTO implements Serializable {
 
     /**
      * 规格 KEY 编号

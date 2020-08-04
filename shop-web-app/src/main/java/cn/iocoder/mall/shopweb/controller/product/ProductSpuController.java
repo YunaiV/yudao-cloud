@@ -42,7 +42,7 @@ public class ProductSpuController {
         return success(productSpuManager.getProductSpuSearchCondition(keyword));
     }
 
-    @GetMapping("/get_detail")
+    @GetMapping("/get-detail")
     @ApiOperation("获得商品 SPU 的明细，包括 SKU 等等信息")
     @ApiImplicitParam(name = "id", required = true, value = "商品 SPU 编号", example = "1024")
     public CommonResult<ProductSpuDetailRespVO> getProductSpuDetail(@RequestParam("id") Integer id) {

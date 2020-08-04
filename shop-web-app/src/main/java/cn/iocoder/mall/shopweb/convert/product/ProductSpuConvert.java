@@ -4,8 +4,10 @@ import cn.iocoder.common.framework.util.StringUtils;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.common.framework.vo.SortingField;
 import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryRespDTO;
+import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuDetailRespDTO;
 import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductPageReqDTO;
 import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductRespDTO;
+import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuDetailRespVO;
 import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuPageReqVO;
 import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuRespVO;
 import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuSearchConditionRespVO;
@@ -33,5 +35,7 @@ public interface ProductSpuConvert {
     PageResult<ProductSpuRespVO> convertPage(PageResult<SearchProductRespDTO> page);
 
     List<ProductSpuSearchConditionRespVO.Category> convertList(List<ProductCategoryRespDTO> list);
+
+    ProductSpuDetailRespVO convert(ProductSpuDetailRespDTO bean);
 
 }

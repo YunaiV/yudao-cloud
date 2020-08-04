@@ -2,6 +2,7 @@ package cn.iocoder.mall.shopweb.controller.product;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
+import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuDetailRespVO;
 import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuPageReqVO;
 import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuRespVO;
 import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuSearchConditionRespVO;
@@ -39,6 +40,13 @@ public class ProductSpuController {
     public CommonResult<ProductSpuSearchConditionRespVO> getProductSpuSearchCondition(
             @RequestParam(value = "keyword", required = false) String keyword) {
         return success(productSpuManager.getProductSpuSearchCondition(keyword));
+    }
+
+    @GetMapping("/get_detail")
+    @ApiOperation("获得商品 SPU 的明细，包括 SKU 等等信息")
+    @ApiImplicitParam(name = "id", required = true, value = "商品 SPU 编号", example = "1024")
+    public CommonResult<ProductSpuDetailRespVO> getProductSpuDetail(@RequestParam("id") Integer id) {
+        return success(productSpuManager.getProductSpuDetail(id));
     }
 
 }

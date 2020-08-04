@@ -12,7 +12,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class ProductSpuRespVO {
 
-    @ApiModelProperty(value = "SPU 编号", required = true)
+    @ApiModelProperty(value = "SPU 编号", required = true, example = "1")
     private Integer id;
 
     // ========== 基本信息 =========

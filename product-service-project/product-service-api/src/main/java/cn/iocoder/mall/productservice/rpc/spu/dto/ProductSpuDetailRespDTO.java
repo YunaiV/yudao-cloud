@@ -76,9 +76,6 @@ public class ProductSpuDetailRespDTO implements Serializable {
     @Accessors(chain = true)
     public static class Sku implements Serializable {
 
-        /**
-         * sku 编号
-         */
         private Integer id;
         /**
          * 商品编号

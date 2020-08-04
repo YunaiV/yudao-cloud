@@ -11,4 +11,5 @@ spring:
 dubbo:
   # Dubbo 注册中心
   registry:
-    address: spring-cloud://400-infra.server.iocoder.cn:8848 # 指定 Dubbo 服务注册中心的地址
+    #    address: spring-cloud://400-infra.server.iocoder.cn:8848 # 指定 Dubbo 服务注册中心的地址
+    address: nacos://400-infra.server.iocoder.cn:8848?namespace=dev # 指定 Dubbo 服务注册中心的地址

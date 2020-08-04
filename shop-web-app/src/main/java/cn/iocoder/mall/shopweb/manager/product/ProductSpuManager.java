@@ -3,13 +3,17 @@ package cn.iocoder.mall.shopweb.manager.product;
 import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
+import cn.iocoder.mall.productservice.enums.spu.ProductSpuDetailFieldEnum;
 import cn.iocoder.mall.productservice.rpc.category.ProductCategoryRpc;
 import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryRespDTO;
+import cn.iocoder.mall.productservice.rpc.spu.ProductSpuRpc;
+import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuDetailRespDTO;
 import cn.iocoder.mall.searchservice.enums.product.SearchProductConditionFieldEnum;
 import cn.iocoder.mall.searchservice.rpc.product.SearchProductRpc;
 import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductConditionReqDTO;
 import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductConditionRespDTO;
 import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductRespDTO;
+import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuDetailRespVO;
 import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuPageReqVO;
 import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuRespVO;
 import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuSearchConditionRespVO;
@@ -18,6 +22,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,6 +38,9 @@ public class ProductSpuManager {
 
     @DubboReference(version = "${dubbo.consumer.ProductCategoryRpc.version}")
     private ProductCategoryRpc productCategoryRpc;
+
+    @DubboReference(version = "${dubbo.consumer.ProductSpuRpc.version}")
+    private ProductSpuRpc productSpuRpc;
 
     public PageResult<ProductSpuRespVO> pageProductSpu(ProductSpuPageReqVO pageReqVO) {
         CommonResult<PageResult<SearchProductRespDTO>> pageResult =
@@ -58,6 +66,13 @@ public class ProductSpuManager {
             conditionRespVO.setCategories(ProductSpuConvert.INSTANCE.convertList(listProductCategoriesResult.getData()));
         }
         return conditionRespVO;
+    }
+
+    public ProductSpuDetailRespVO getProductSpuDetail(Integer id) {
+        CommonResult<ProductSpuDetailRespDTO> getProductSpuDetailResult = productSpuRpc.getProductSpuDetail(id,
+                Arrays.asList(ProductSpuDetailFieldEnum.SKU.getField(), ProductSpuDetailFieldEnum.ATTR.getField()));
+        getProductSpuDetailResult.checkError();
+        return ProductSpuConvert.INSTANCE.convert(getProductSpuDetailResult.getData());
     }
 
 }

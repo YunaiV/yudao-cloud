@@ -4,7 +4,10 @@ import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryRespDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
 import cn.iocoder.mall.searchservice.dal.es.dataobject.ESProductDO;
+import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductPageReqDTO;
+import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductRespDTO;
 import cn.iocoder.mall.searchservice.service.product.bo.SearchProductBO;
+import cn.iocoder.mall.searchservice.service.product.bo.SearchProductPageQueryBO;
 import cn.iocoder.mall.searchservice.service.product.bo.SearchProductSaveBO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -38,5 +41,9 @@ public interface SearchProductConvert {
         return new PageResult<SearchProductBO>().setList(convertList(searchPage.getContent()))
                 .setTotal(searchPage.getTotalElements());
     }
+
+    SearchProductPageQueryBO convert(SearchProductPageReqDTO bean);
+
+    PageResult<SearchProductRespDTO> convertPage(PageResult<SearchProductBO> pageResult);
 
 }

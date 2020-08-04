@@ -1,4 +1,4 @@
-package cn.iocoder.mall.searchservice.service.product.bo;
+package cn.iocoder.mall.searchservice.rpc.product.dto;
 
 import cn.iocoder.common.framework.vo.PageParam;
 import cn.iocoder.common.framework.vo.SortingField;
@@ -10,12 +10,12 @@ import lombok.experimental.Accessors;
 import java.util.List;
 
 /**
- * 商品检索分查询 BO
+ * 商品检索分页查询 Request DTO
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class SearchProductPageQueryBO extends PageParam {
+public class SearchProductPageReqDTO extends PageParam {
 
     /**
      * 分类编号

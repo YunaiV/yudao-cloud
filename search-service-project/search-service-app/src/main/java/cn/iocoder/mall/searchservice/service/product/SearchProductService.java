@@ -42,7 +42,7 @@ public class SearchProductService {
      * @param pageQueryBO 分页查询条件
      * @return 商品信息
      */
-    public PageResult<SearchProductBO> getSearchPage(SearchProductPageQueryBO pageQueryBO) {
+    public PageResult<SearchProductBO> pageSearchProduct(SearchProductPageQueryBO pageQueryBO) {
         checkSortFieldInvalid(pageQueryBO.getSorts());
         // 执行查询
         Page<ESProductDO> searchPage = productRepository.search(pageQueryBO.getCid(), pageQueryBO.getKeyword(),

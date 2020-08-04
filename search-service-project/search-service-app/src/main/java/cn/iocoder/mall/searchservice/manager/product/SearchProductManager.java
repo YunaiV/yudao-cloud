@@ -2,6 +2,7 @@ package cn.iocoder.mall.searchservice.manager.product;
 
 import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.productservice.rpc.category.ProductCategoryRpc;
 import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryRespDTO;
 import cn.iocoder.mall.productservice.rpc.sku.ProductSkuRpc;
@@ -10,7 +11,10 @@ import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuRespDTO;
 import cn.iocoder.mall.productservice.rpc.spu.ProductSpuRpc;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
 import cn.iocoder.mall.searchservice.convert.product.SearchProductConvert;
+import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductPageReqDTO;
+import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductRespDTO;
 import cn.iocoder.mall.searchservice.service.product.SearchProductService;
+import cn.iocoder.mall.searchservice.service.product.bo.SearchProductBO;
 import cn.iocoder.mall.searchservice.service.product.bo.SearchProductSaveBO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -38,6 +42,11 @@ public class SearchProductManager {
 
     @Autowired
     private SearchProductService searchProductService;
+
+    public PageResult<SearchProductRespDTO> pageSearchProduct(SearchProductPageReqDTO pageReqDTO) {
+        PageResult<SearchProductBO> pageResult = searchProductService.pageSearchProduct(SearchProductConvert.INSTANCE.convert(pageReqDTO));
+        return SearchProductConvert.INSTANCE.convertPage(pageResult);
+    }
 
     /**
      * 重建所有商品的 ES 索引

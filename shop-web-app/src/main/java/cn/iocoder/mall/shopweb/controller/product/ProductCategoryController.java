@@ -17,14 +17,10 @@ import java.util.List;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
 
-/**
-* 商品分类 Controller
-*/
+@Api(tags = "商品分类 API")
 @RestController
 @RequestMapping("/product-category")
-@Api(tags = "商品分类")
 @Validated
-// TODO 芋艿：稍后迁移到 shop-web-app 服务下
 public class ProductCategoryController {
 
     @Autowired

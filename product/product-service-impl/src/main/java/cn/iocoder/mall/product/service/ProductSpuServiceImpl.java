@@ -71,19 +71,6 @@ public class ProductSpuServiceImpl implements ProductSpuService {
     }
 
     @Override
-    public List<ProductSpuDetailBO> getProductSpuDetailListForSync(Integer lastId, Integer limit) {
-        // TODO 芋艿，这里目前是一个一个进行计算，后续需要优化下
-        // 查询下一批商品编号集合
-        List<Integer> spuIds = productSpuMapper.selectIdListByIdGt(lastId, limit);
-        if (spuIds.isEmpty()) {
-            return Collections.emptyList();
-        }
-        // 查询每个商品明细
-        List<ProductSpuDetailBO> spus = spuIds.stream().map(id -> getProductSpuDetail(id)).collect(Collectors.toList()); // TODO 芋艿，此处相当于是 N 个查询，后续要优化。
-        return spus;
-    }
-
-    @Override
     public Boolean updateProductSpuSort(Integer adminId, Integer spuId, Integer sort) {
         // 校验 Spu 是否存在
         if (productSpuMapper.selectById(spuId) == null) {

@@ -1,8 +1,8 @@
 # 服务器的配置项
 server:
-  port: 18083
+  port: 18084
   servlet:
-    context-path: /user-api/
+    context-path: /shop-api/
 
 spring:
   # Application 的配置项
@@ -25,8 +25,6 @@ dubbo:
   consumer:
     timeout: 10000
     validation: true # 开启 Consumer 的参数校验
-    UserSmsCodeRpc:
-      version: 1.0.0
     UserRpc:
       version: 1.0.0
     OAuth2Rpc:
@@ -35,9 +33,9 @@ dubbo:
       version: 1.0.0
     SystemExceptionLogRpc:
       version: 1.0.0
-    UserAddressRpc:
-      version: 1.0.0
     ProductCategoryRpc:
+      version: 1.0.0
+    SearchProductRpc:
       version: 1.0.0
 
 # Swagger 配置项

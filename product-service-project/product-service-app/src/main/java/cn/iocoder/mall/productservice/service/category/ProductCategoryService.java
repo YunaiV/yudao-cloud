@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
 
 import static cn.iocoder.mall.productservice.enums.ProductErrorCodeConstants.*;
@@ -102,7 +103,7 @@ public class ProductCategoryService {
     * @param productCategoryIds 商品分类编号列表
     * @return 商品分类列表
     */
-    public List<ProductCategoryBO> listProductCategories(List<Integer> productCategoryIds) {
+    public List<ProductCategoryBO> listProductCategories(Collection<Integer> productCategoryIds) {
         List<ProductCategoryDO> productCategoryDOs = productCategoryMapper.selectBatchIds(productCategoryIds);
         return ProductCategoryConvert.INSTANCE.convertList(productCategoryDOs);
     }

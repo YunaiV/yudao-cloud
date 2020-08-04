@@ -9,6 +9,7 @@ import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryUpdateReqD
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collection;
 import java.util.List;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
@@ -45,7 +46,7 @@ public class ProductCategoryRpcImpl implements ProductCategoryRpc {
     }
 
     @Override
-    public CommonResult<List<ProductCategoryRespDTO>> listProductCategories(List<Integer> productCategoryIds) {
+    public CommonResult<List<ProductCategoryRespDTO>> listProductCategories(Collection<Integer> productCategoryIds) {
         return success(productCategoryManager.listProductCategories(productCategoryIds));
     }
 

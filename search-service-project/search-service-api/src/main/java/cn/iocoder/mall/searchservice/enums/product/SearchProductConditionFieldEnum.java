@@ -16,4 +16,8 @@ public enum  SearchProductConditionFieldEnum {
         this.field = field;
     }
 
+    public String getField() {
+        return field;
+    }
+
 }

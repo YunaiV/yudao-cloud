@@ -11,10 +11,13 @@ import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuRespDTO;
 import cn.iocoder.mall.productservice.rpc.spu.ProductSpuRpc;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
 import cn.iocoder.mall.searchservice.convert.product.SearchProductConvert;
+import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductConditionReqDTO;
+import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductConditionRespDTO;
 import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductPageReqDTO;
 import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductRespDTO;
 import cn.iocoder.mall.searchservice.service.product.SearchProductService;
 import cn.iocoder.mall.searchservice.service.product.bo.SearchProductBO;
+import cn.iocoder.mall.searchservice.service.product.bo.SearchProductConditionBO;
 import cn.iocoder.mall.searchservice.service.product.bo.SearchProductSaveBO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -46,6 +49,12 @@ public class SearchProductManager {
     public PageResult<SearchProductRespDTO> pageSearchProduct(SearchProductPageReqDTO pageReqDTO) {
         PageResult<SearchProductBO> pageResult = searchProductService.pageSearchProduct(SearchProductConvert.INSTANCE.convert(pageReqDTO));
         return SearchProductConvert.INSTANCE.convertPage(pageResult);
+    }
+
+    public SearchProductConditionRespDTO getSearchProductCondition(SearchProductConditionReqDTO conditionReqDTO) {
+        SearchProductConditionBO conditionBO =
+                searchProductService.getSearchProductCondition(conditionReqDTO.getKeyword(), conditionReqDTO.getFields());
+        return SearchProductConvert.INSTANCE.convert(conditionBO);
     }
 
     /**

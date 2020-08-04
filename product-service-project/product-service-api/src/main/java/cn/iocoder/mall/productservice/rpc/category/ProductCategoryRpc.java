@@ -6,6 +6,7 @@ import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryListQueryR
 import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryRespDTO;
 import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryUpdateReqDTO;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -49,7 +50,7 @@ public interface ProductCategoryRpc {
     * @param productCategoryIds 商品分类编号列表
     * @return 商品分类列表
     */
-    CommonResult<List<ProductCategoryRespDTO>> listProductCategories(List<Integer> productCategoryIds);
+    CommonResult<List<ProductCategoryRespDTO>> listProductCategories(Collection<Integer> productCategoryIds);
 
     /**
      * 获得符合条件的商品分类列表

@@ -4,9 +4,11 @@ import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryRespDTO;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
 import cn.iocoder.mall.searchservice.dal.es.dataobject.ESProductDO;
+import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductConditionRespDTO;
 import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductPageReqDTO;
 import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductRespDTO;
 import cn.iocoder.mall.searchservice.service.product.bo.SearchProductBO;
+import cn.iocoder.mall.searchservice.service.product.bo.SearchProductConditionBO;
 import cn.iocoder.mall.searchservice.service.product.bo.SearchProductPageQueryBO;
 import cn.iocoder.mall.searchservice.service.product.bo.SearchProductSaveBO;
 import org.mapstruct.Mapper;
@@ -37,13 +39,15 @@ public interface SearchProductConvert {
 
     List<SearchProductBO> convertList(List<ESProductDO> list);
 
-    default PageResult<SearchProductBO> convertPage(Page<ESProductDO> searchPage) {
-        return new PageResult<SearchProductBO>().setList(convertList(searchPage.getContent()))
-                .setTotal(searchPage.getTotalElements());
+    default PageResult<SearchProductBO> convertPage(Page<ESProductDO> page) {
+        return new PageResult<SearchProductBO>().setList(convertList(page.getContent()))
+                .setTotal(page.getTotalElements());
     }
 
     SearchProductPageQueryBO convert(SearchProductPageReqDTO bean);
 
-    PageResult<SearchProductRespDTO> convertPage(PageResult<SearchProductBO> pageResult);
+    PageResult<SearchProductRespDTO> convertPage(PageResult<SearchProductBO> page);
+
+    SearchProductConditionRespDTO convert(SearchProductConditionBO bean);
 
 }

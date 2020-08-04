@@ -10,6 +10,7 @@ import cn.iocoder.mall.productservice.service.category.bo.ProductCategoryBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -67,7 +68,7 @@ public class ProductCategoryManager {
     * @param productCategoryIds 商品分类编号列表
     * @return 商品分类列表
     */
-    public List<ProductCategoryRespDTO> listProductCategories(List<Integer> productCategoryIds) {
+    public List<ProductCategoryRespDTO> listProductCategories(Collection<Integer> productCategoryIds) {
         List<ProductCategoryBO> productCategoryBOs = productCategoryService.listProductCategories(productCategoryIds);
         return ProductCategoryConvert.INSTANCE.convertList02(productCategoryBOs);
     }

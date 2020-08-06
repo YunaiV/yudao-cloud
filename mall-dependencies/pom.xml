@@ -55,6 +55,7 @@
         <!-- 监控相关 -->
         <skywalking.version>8.0.1</skywalking.version>
         <spring-boot-admin-starter-client.version>2.2.2</spring-boot-admin-starter-client.version>
+        <sentry.version>1.7.30</sentry.version>
         <!-- 工具类相关 -->
         <fastjson.version>1.2.56</fastjson.version>
         <hibernate-validator.version>6.0.16.Final</hibernate-validator.version>
@@ -275,6 +276,17 @@
                 <version>${spring-boot-admin-starter-client.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>io.sentry</groupId>
+                <artifactId>sentry-logback</artifactId>
+                <version>${sentry.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.sentry</groupId>
+                <artifactId>sentry-spring-boot-starter</artifactId>
+                <version>${sentry.version}</version>
+            </dependency>
+
             <!-- Test 相关 -->
 
             <!--- 日志相关 -->
@@ -350,6 +362,7 @@
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate-validator.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 

@@ -19,6 +19,7 @@
         <module>mall-security-annotations</module>
         <module>mall-spring-boot-starter-security-admin</module>
         <module>mall-spring-boot-starter-security-user</module>
+        <module>mall-spring-boot-starter-sentry</module>
         <module>mall-spring-boot-starter-mybatis</module>
         <module>mall-spring-boot-starter-dubbo</module>
         <module>mall-spring-boot-starter-system-error-code</module>

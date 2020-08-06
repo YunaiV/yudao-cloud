@@ -4,9 +4,6 @@ import cn.iocoder.mall.order.biz.dataobject.CartItemDO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.List;
-
 @Repository
 public interface CartMapper {
 //

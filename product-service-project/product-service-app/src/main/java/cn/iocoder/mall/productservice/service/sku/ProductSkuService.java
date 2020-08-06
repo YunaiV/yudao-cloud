@@ -11,6 +11,7 @@ import cn.iocoder.mall.productservice.service.sku.bo.ProductSkuCreateOrUpdateBO;
 import cn.iocoder.mall.productservice.service.sku.bo.ProductSkuListQueryBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ public class ProductSkuService {
         productSkuMapper.insertList(skus);
     }
 
+    @Transactional
     public void updateProductSkus(Integer spuId, List<ProductSkuCreateOrUpdateBO> skuUpdateBOs) {
         List<ProductSkuDO> existsSkus = productSkuMapper.selectListBySpuIdAndStatus(spuId,
                 CommonStatusEnum.ENABLE.getValue());

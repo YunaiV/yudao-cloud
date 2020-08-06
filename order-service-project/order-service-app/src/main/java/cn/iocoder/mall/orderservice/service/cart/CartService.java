@@ -6,6 +6,8 @@ import cn.iocoder.mall.orderservice.convert.cart.CartConvert;
 import cn.iocoder.mall.orderservice.dal.mysql.dataobject.cart.CartItemDO;
 import cn.iocoder.mall.orderservice.dal.mysql.mapper.cart.CartItemMapper;
 import cn.iocoder.mall.orderservice.service.cart.bo.CartItemAddBO;
+import cn.iocoder.mall.orderservice.service.cart.bo.CartItemBO;
+import cn.iocoder.mall.orderservice.service.cart.bo.CartItemListQueryBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -99,13 +101,35 @@ public class CartService {
      * @param userId 用户编号
      * @param skuIds 商品 SKU 编号的数组
      */
-    public void deleteList(Integer userId, List<Integer> skuIds) {
+    public void deleteCartItems(Integer userId, List<Integer> skuIds) {
         // 查询 CartItemDO 列表
         List<CartItemDO> itemDOs = cartItemMapper.selectListByUserIdAndSkuIds(userId, skuIds);
+        if (CollectionUtils.isEmpty(itemDOs)) {
+            return;
+        }
         // 批量标记删除
         cartItemMapper.deleteBatchIds(CollectionUtils.convertSet(itemDOs, CartItemDO::getId));
     }
 
+    /**
+     * 查询用户在购物车中的商品数量
+     *
+     * @param userId 用户编号
+     * @return 商品数量
+     */
+    public Integer sumCartItemQuantity(Integer userId) {
+        return cartItemMapper.selectSumQuantityByUserId(userId);
+    }
 
+    /**
+     * 查询用户在购物车种的商品列表
+     *
+     * @param queryBO 查询条件 BO
+     * @return 购物车中商品列表信息
+     */
+    public List<CartItemBO> listCartItems(CartItemListQueryBO queryBO) {
+        List<CartItemDO> cartItemDOs = cartItemMapper.selectList(queryBO);
+        return CartConvert.INSTANCE.convertList(cartItemDOs);
+    }
 
 }

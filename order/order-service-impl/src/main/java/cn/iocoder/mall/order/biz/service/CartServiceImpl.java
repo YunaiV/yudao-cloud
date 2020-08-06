@@ -46,17 +46,6 @@ public class CartServiceImpl implements CartService {
     private CartMapper cartMapper;
 
     @Override
-    public Integer count(Integer userId) {
-        return cartMapper.selectQuantitySumByUserIdAndStatus(userId, CartItemStatusEnum.ENABLE.getValue());
-    }
-
-    @Override
-    public List<CartItemBO> list(Integer userId, Boolean selected) {
-        List<CartItemDO> items = cartMapper.selectByUserIdAndStatusAndSelected(userId, CartItemStatusEnum.ENABLE.getValue(), selected);
-        return CartConvert.INSTANCE.convert(items);
-    }
-
-    @Override
     public CalcOrderPriceBO calcOrderPrice(CalcOrderPriceDTO calcOrderPriceDTO) {
         // TODO 芋艿，补充一些表单校验。例如说，需要传入用户编号。
         // 校验商品都存在

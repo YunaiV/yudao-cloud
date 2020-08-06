@@ -2,6 +2,7 @@ package cn.iocoder.mall.orderservice.dal.mysql.mapper.cart;
 
 import cn.iocoder.mall.mybatis.core.query.QueryWrapperX;
 import cn.iocoder.mall.orderservice.dal.mysql.dataobject.cart.CartItemDO;
+import cn.iocoder.mall.orderservice.service.cart.bo.CartItemListQueryBO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Repository
@@ -28,5 +30,19 @@ public interface CartItemMapper extends BaseMapper<CartItemDO> {
         // TODO 芋艿：batch update ，在 mybatis plus 做拓展，这里先临时处理
        ids.forEach(id -> updateById(updateObject.setId(id)));
    }
+
+    default Integer selectSumQuantityByUserId(Integer userId) {
+        // SQL sum 查询
+        List<Map<String, Object>> result = selectMaps(new QueryWrapper<CartItemDO>()
+                .select("SUM(quantity) AS sumQuantity")
+                .eq("user_id", userId));
+        // 获得数量
+        return (Integer) result.get(0).get("sumQuantity");
+    }
+
+    default List<CartItemDO> selectList(CartItemListQueryBO queryBO) {
+        return selectList(new QueryWrapperX<CartItemDO>().eq("user_id", queryBO.getUserId())
+            .eq("selected", queryBO.getSelected()));
+    }
 
 }

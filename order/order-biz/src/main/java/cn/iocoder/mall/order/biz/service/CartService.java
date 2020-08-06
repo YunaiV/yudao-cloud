@@ -3,27 +3,6 @@ package cn.iocoder.mall.order.biz.service;
 public interface CartService {
 
 
-//    Boolean deleteList(Integer userId, List<Integer> skuIds);
-//
-
-//
-//    /**
-//     * 查询用户在购物车中的商品数量
-//     *
-//     * @param userId 用户编号
-//     * @return 商品数量
-//     */
-//    Integer count(Integer userId);
-//
-//    /**
-//     * 显示买家购物车中的商品列表，并根据 selected 进行过滤。
-//     *
-//     * @param userId 用户编号
-//     * @param selected 是否选中。若为空，则不进行筛选
-//     * @return 购物车中商品列表信息
-//     */
-//    List<CartItemBO> list(Integer userId, @Nullable Boolean selected);
-//
 //    // ========== 购物车与订单相关的逻辑 ==========
 //
 //    /**

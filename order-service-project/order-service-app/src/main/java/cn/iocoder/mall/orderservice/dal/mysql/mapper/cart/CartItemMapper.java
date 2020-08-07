@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ public interface CartItemMapper extends BaseMapper<CartItemDO> {
                 .select("SUM(quantity) AS sumQuantity")
                 .eq("user_id", userId));
         // 获得数量
-        return (Integer) result.get(0).get("sumQuantity");
+        return ((BigDecimal) result.get(0).get("sumQuantity")).intValue();
     }
 
     default List<CartItemDO> selectList(CartItemListQueryBO queryBO) {

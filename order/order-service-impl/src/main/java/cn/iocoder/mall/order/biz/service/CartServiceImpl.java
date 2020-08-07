@@ -239,7 +239,7 @@ public class CartServiceImpl implements CartService {
         // 判断是否符合条件
         int originalTotal = items.stream().mapToInt(CalcOrderPriceBO.Item::getPresentTotal).sum(); // 此处，指的是以优惠劵视角的原价
         if (originalTotal == 0 || originalTotal < couponCard.getPriceAvailable()) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_NOT_MATCH.getCode()); // TODO 芋艿，这种情况，会出现错误码的提示，无法格式化出来。另外，这块的最佳实践，找人讨论下。
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_NOT_MATCH.getCode()); // TODO 芋艿，这种情况，会出现错误码的提示，无法格式化出来。另外，这块的最佳实践，找人讨论下。
         }
         // 计算价格
         // 获得到优惠信息，进行价格计算

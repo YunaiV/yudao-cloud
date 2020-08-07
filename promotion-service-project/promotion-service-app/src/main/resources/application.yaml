@@ -1,7 +1,7 @@
 spring:
   # Application 的配置项
   application:
-    name: order-service
+    name: promotion-service
   # Profile 的配置项
   profiles:
     active: local
@@ -16,7 +16,7 @@ mybatis-plus:
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
   mapper-locations: classpath*:mapper/*.xml
-  type-aliases-package: cn.iocoder.mall.orderservice.dal.mysql.dataobject
+  type-aliases-package: cn.iocoder.mall.promotionservice.dal.mysql.dataobject
 
 # Dubbo 配置项
 dubbo:
@@ -29,7 +29,7 @@ dubbo:
     port: -1
   # Dubbo 提供服务的扫描基础包
   scan:
-    base-packages: cn.iocoder.mall.orderservice.rpc
+    base-packages: cn.iocoder.mall.promotionservice.rpc
   # Dubbo 服务提供者的配置
   provider:
     filter: -exception
@@ -41,6 +41,8 @@ dubbo:
       version: 1.0.0
     ProductSkuRpc:
       version: 1.0.0
+    ProductSpuService:
+      version: 1.0.0
 
 # RocketMQ 配置项
 rocketmq:
@@ -50,7 +52,7 @@ rocketmq:
 
 # Actuator 监控配置项
 management:
-  server.port: 38084 # 独立端口，避免被暴露出去
+  server.port: 38085 # 独立端口，避免被暴露出去
   endpoints.web.exposure.include: '*' # 暴露所有监控端点
 server.port: ${management.server.port} # 设置使用 Actuator 的服务器端口，因为 RPC 服务不需要 Web 端口
 
@@ -59,4 +61,4 @@ mall:
   # 错误码配置项对应 ErrorCodeProperties 配置类
   error-code:
     group: ${spring.application.name}
-    constants-class: cn.iocoder.mall.orderservice.enums.OrderErrorCodeConstants
+    constants-class: cn.iocoder.mall.promotionservice.enums.PromotionErrorCodeConstants

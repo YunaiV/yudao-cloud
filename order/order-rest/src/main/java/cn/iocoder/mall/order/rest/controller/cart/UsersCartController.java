@@ -16,14 +16,7 @@ public class UsersCartController {
 //    @Reference(validation = "true", version = "${dubbo.consumer.CouponService.version}")
 //    private CouponService couponService;
 //
-//    @PostMapping("add")
-//    public CommonResult<Integer> add(@RequestParam("skuId") Integer skuId,
-//                                     @RequestParam("quantity") Integer quantity) {
-//        // 添加到购物车
-//        cartService.add(UserSecurityContextHolder.getContext().getUserId(), skuId, quantity);
-//        // 获得目前购物车商品总数量
-//        return success(cartService.count(UserSecurityContextHolder.getContext().getUserId()));
-//    }
+
 //
 //    @PostMapping("update_quantity")
 //    public CommonResult<UsersCartDetailVO> updateQuantity(@RequestParam("skuId") Integer skuId, // TODO 芋艿，先暂用这个 VO 。等促销活动出来后，做调整
@@ -43,11 +36,7 @@ public class UsersCartController {
 //        // 获得目前购物车明细
 //        return getCartDetail();
 //    }
-//
-//    @GetMapping("count")
-//    public CommonResult<Integer> count() {
-//        return success(cartService.count(UserSecurityContextHolder.getContext().getUserId()));
-//    }
+
 //
 //    @GetMapping("/list")
 //    public CommonResult<UsersCartDetailVO> list() { // TODO 芋艿，先暂用这个 VO 。等促销活动出来后，做调整

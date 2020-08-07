@@ -16,10 +16,8 @@
     <modules>
         <module>order</module>
         <module>common</module>
-<!--        <module>system</module>-->
 <!--        <module>ops</module>-->
 <!--        <module>pay</module>-->
-<!--        <module>promotion</module>-->
         <module>mall-dependencies</module>
         <module>user-service-project</module>
         <module>user-web-app</module>
@@ -28,7 +26,7 @@
         <module>management-web-app</module>
         <module>shop-web-app</module>
         <module>product-service-project</module>
-<!--        <module>promotion-service-project</module>-->
+        <module>promotion-service-project</module>
         <module>search-service-project</module>
         <module>order-service-project</module>
     </modules>

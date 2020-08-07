@@ -7,7 +7,7 @@ import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryListQueryR
 import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryRespDTO;
 import cn.iocoder.mall.shopweb.controller.product.vo.category.ProductCategoryRespVO;
 import cn.iocoder.mall.shopweb.convert.product.ProductCategoryConvert;
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -20,7 +20,7 @@ import java.util.List;
 @Validated
 public class ProductCategoryManager {
 
-    @Reference(version = "${dubbo.consumer.ProductCategoryRpc.version}")
+    @DubboReference(version = "${dubbo.consumer.ProductCategoryRpc.version}")
     private ProductCategoryRpc productCategoryRpc;
 
     public List<ProductCategoryRespVO> listProductCategories(Integer pid) {

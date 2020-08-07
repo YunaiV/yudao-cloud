@@ -3,24 +3,17 @@ package cn.iocoder.mall.promotionservice.service.banner;
 import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.mall.mybatis.core.enums.DeletedStatusEnum;
-import cn.iocoder.mall.promotion.api.enums.PromotionActivityTypeEnum;
-import cn.iocoder.mall.promotion.api.enums.PromotionErrorCodeEnum;
-import cn.iocoder.mall.promotion.api.enums.RangeTypeEnum;
+import cn.iocoder.mall.promotion.api.enums.PromotionErrorCodeConstants;
 import cn.iocoder.mall.promotion.api.rpc.banner.dto.BannerPageDTO;
-import cn.iocoder.mall.promotionservice.convert.activity.PromotionActivityConvert;
 import cn.iocoder.mall.promotionservice.convert.banner.BannerConvert;
-import cn.iocoder.mall.promotionservice.dal.mysql.dataobject.activity.PromotionActivityDO;
 import cn.iocoder.mall.promotionservice.dal.mysql.dataobject.banner.BannerDO;
-import cn.iocoder.mall.promotionservice.dal.mysql.mapper.activity.PromotionActivityMapper;
 import cn.iocoder.mall.promotionservice.dal.mysql.mapper.banner.BannerMapper;
-import cn.iocoder.mall.promotionservice.service.activity.bo.PromotionActivityPageBO;
 import cn.iocoder.mall.promotionservice.service.banner.bo.BannerAddBO;
 import cn.iocoder.mall.promotionservice.service.banner.bo.BannerBO;
 import cn.iocoder.mall.promotionservice.service.banner.bo.BannerPageBO;
 import cn.iocoder.mall.promotionservice.service.banner.bo.BannerUpdateBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.*;
@@ -61,7 +54,7 @@ public class BannerService {
     public Boolean updateBanner(Integer adminId, BannerUpdateBO bannerUpdateDTO) {
         // 校验 Banner 存在
         if (bannerMapper.selectById(bannerUpdateDTO.getId()) == null) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.BANNER_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.BANNER_NOT_EXISTS.getCode());
         }
         // 更新到数据库
         BannerDO updateBanner = BannerConvert.INSTANCE.convert(bannerUpdateDTO);
@@ -73,7 +66,7 @@ public class BannerService {
     public Boolean updateBannerStatus(Integer adminId, Integer bannerId, Integer status) {
         // 校验 Banner 存在
         if (bannerMapper.selectById(bannerId) == null) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.BANNER_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.BANNER_NOT_EXISTS.getCode());
         }
         // 更新到数据库
         BannerDO updateBanner = new BannerDO().setId(bannerId).setStatus(status);
@@ -85,7 +78,7 @@ public class BannerService {
     public Boolean deleteBanner(Integer adminId, Integer bannerId) {
         // 校验 Banner 存在
         if (bannerMapper.selectById(bannerId) == null) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.BANNER_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.BANNER_NOT_EXISTS.getCode());
         }
         // 更新到数据库
         BannerDO updateBanner = new BannerDO().setId(bannerId);

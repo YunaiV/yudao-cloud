@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  * 购物车添加购物项 Request DTO
  */
 @Data
-@Accessors
+@Accessors(chain = true)
 public class CartItemAddBO {
 
     /**

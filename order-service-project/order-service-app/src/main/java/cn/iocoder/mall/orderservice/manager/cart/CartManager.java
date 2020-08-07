@@ -38,7 +38,7 @@ public class CartManager {
         // 校验商品 SKU 是否合法
         ProductSkuRespDTO skuDTO = this.checkProductSku(addReqDTO.getSkuId());
         // 添加购物车项
-        cartService.addCartItem(CartConvert.INSTANCE.convert(addReqDTO), skuDTO.getQuantity());
+        cartService.addCartItem(CartConvert.INSTANCE.convert(addReqDTO).setSpuId(skuDTO.getSpuId()), skuDTO.getQuantity());
     }
 
     /**

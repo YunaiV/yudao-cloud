@@ -12,7 +12,6 @@ import cn.iocoder.mall.promotionservice.dal.mysql.mapper.coupon.CouponCardMapper
 import cn.iocoder.mall.promotionservice.dal.mysql.mapper.coupon.CouponTemplateMapper;
 import cn.iocoder.mall.promotionservice.service.coupon.bo.*;
 import cn.iocoder.common.framework.util.*;
-import io.netty.util.internal.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,15 +79,15 @@ public class CouponService {
         // 校验 CouponCardTemplate 存在
         CouponTemplateDO template = couponTemplateMapper.selectById(couponCardTemplateUpdateDTO.getId());
         if (template == null) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_TEMPLATE_NOT_EXISTS.getCode());
         }
         // 校验 CouponCardTemplate 是 CARD
         if (!CouponTemplateTypeEnum.CARD.getValue().equals(template.getType())) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_NOT_CARD.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_TEMPLATE_NOT_CARD.getCode());
         }
         // 校验发放数量不能减少
         if (couponCardTemplateUpdateDTO.getTotal() < template.getTotal()) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_TOTAL_CAN_NOT_REDUCE.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_TEMPLATE_TOTAL_CAN_NOT_REDUCE.getCode());
         }
         // 更新优惠劵模板到数据库
         CouponTemplateDO updateTemplateDO = CouponTemplateConvert.INSTANCE.convert(couponCardTemplateUpdateDTO);
@@ -101,7 +100,7 @@ public class CouponService {
         // 校验 CouponCardTemplate 存在
         CouponTemplateDO template = couponTemplateMapper.selectById(couponTemplateId);
         if (template == null) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_TEMPLATE_NOT_EXISTS.getCode());
         }
         // 更新到数据库
         CouponTemplateDO updateTemplateDO = new CouponTemplateDO().setId(couponTemplateId).setStatus(status);
@@ -173,28 +172,28 @@ public class CouponService {
         // 校验 CouponCardTemplate 存在
         CouponTemplateDO template = couponTemplateMapper.selectById(couponTemplateId);
         if (template == null) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_TEMPLATE_NOT_EXISTS.getCode());
         }
         // 校验 CouponCardTemplate 是 CARD
         if (!CouponTemplateTypeEnum.CARD.getValue().equals(template.getType())) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_NOT_CARD.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_TEMPLATE_NOT_CARD.getCode());
         }
         // 校验 CouponCardTemplate 状态是否开启
         if (!CouponTemplateStatusEnum.ENABLE.getValue().equals(template.getStatus())) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_STATUS_NOT_ENABLE.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_TEMPLATE_STATUS_NOT_ENABLE.getCode());
         }
         // 校验 CouponCardTemplate 是否到达可领取的上限
         if (template.getStatFetchNum() > template.getTotal()) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_TOTAL_NOT_ENOUGH.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_TEMPLATE_TOTAL_NOT_ENOUGH.getCode());
         }
         //  校验单人可领取优惠劵是否到达上限
         if (couponCardMapper.selectCountByUserIdAndTemplateId(userId, couponTemplateId) > template.getQuota()) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_CARD_ADD_EXCEED_QUOTA.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_TEMPLATE_CARD_ADD_EXCEED_QUOTA.getCode());
         }
         // 增加优惠劵已领取量
         int updateTemplateCount = couponTemplateMapper.updateStatFetchNumIncr(couponTemplateId);
         if (updateTemplateCount == 0) { // 超过 CouponCardTemplate 发放量
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_CARD_ADD_EXCEED_QUOTA.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_TEMPLATE_CARD_ADD_EXCEED_QUOTA.getCode());
         }
         // 创建优惠劵
         // 1. 基本信息 + 领取情况
@@ -222,22 +221,22 @@ public class CouponService {
         // 查询优惠劵
         CouponCardDO card = couponCardMapper.selectById(couponCardId);
         if (card == null) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_NOT_EXISTS.getCode());
         }
         if (!userId.equals(card.getUserId())) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_ERROR_USER.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_ERROR_USER.getCode());
         }
         if (!CouponCardStatusEnum.UNUSED.getValue().equals(card.getStatus())) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
         }
         if (DateUtil.isBetween(card.getValidStartTime(), card.getValidEndTime())) { // 为避免定时器没跑，实际优惠劵已经过期
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
         }
         // 更新优惠劵已使用
         int updateCount = couponCardMapper.updateByIdAndStatus(card.getId(), CouponCardStatusEnum.UNUSED.getValue(),
                 new CouponCardDO().setStatus(CouponCardStatusEnum.USED.getValue()).setUsedTime(new Date()));
         if (updateCount == 0) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
         }
         return true;
     }
@@ -246,19 +245,19 @@ public class CouponService {
         // 查询优惠劵
         CouponCardDO card = couponCardMapper.selectById(couponCardId);
         if (card == null) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_NOT_EXISTS.getCode());
         }
         if (!userId.equals(card.getUserId())) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_ERROR_USER.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_ERROR_USER.getCode());
         }
         if (!CouponCardStatusEnum.USED.getValue().equals(card.getStatus())) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_USED.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_STATUS_NOT_USED.getCode());
         }
         // 更新优惠劵已使用
         int updateCount = couponCardMapper.updateByIdAndStatus(card.getId(), CouponCardStatusEnum.USED.getValue(),
                 new CouponCardDO().setStatus(CouponCardStatusEnum.UNUSED.getValue())); // TODO 芋艿，usedTime 未设置空，后面处理。
         if (updateCount == 0) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_STATUS_NOT_USED.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_STATUS_NOT_USED.getCode());
         }
         // 有一点要注意，更新会未使用时，优惠劵可能已经过期了，直接让定时器跑过期，这里不做处理。
         return true;
@@ -268,15 +267,15 @@ public class CouponService {
         // 查询优惠劵
         CouponCardDO card = couponCardMapper.selectById(couponCardId);
         if (card == null) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_NOT_EXISTS.getCode());
         }
         if (!userId.equals(card.getUserId())) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_CARD_ERROR_USER.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_ERROR_USER.getCode());
         }
         // 查询优惠劵模板
         CouponTemplateDO template = couponTemplateMapper.selectById(card.getTemplateId());
         if (template == null) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeEnum.COUPON_TEMPLATE_NOT_EXISTS.getCode());
+            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_TEMPLATE_NOT_EXISTS.getCode());
         }
         // 拼接结果
         CouponCardDetailRespDTO detail = CouponCardConvert.INSTANCE.convert2(card);

@@ -62,7 +62,7 @@ public class AdminManager {
                 // 拼接部门
                 adminPageItemVO.setDepartment(AdminConvert.INSTANCE.convert(departmentMap.get(adminVO.getDepartmentId())));
                 // 拼接角色
-                adminPageItemVO.setRoles( AdminConvert.INSTANCE.convert(adminRoleMap.get(adminVO.getId())));
+                adminPageItemVO.setRoles( AdminConvert.INSTANCE.convertList(adminRoleMap.get(adminVO.getId())));
             }
         } else {
             adminPageVO.setList(Collections.emptyList());

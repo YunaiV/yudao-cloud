@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 促销伙伴 Response DTO
+ */
 @Data
 @Accessors(chain = true)
 public class PromotionActivityRespDTO implements Serializable {

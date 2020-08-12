@@ -1,19 +1,17 @@
-package cn.iocoder.mall.order.api.bo;
+package cn.iocoder.mall.promotion.api.rpc.price.dto;
 
-import cn.iocoder.mall.product.api.bo.ProductSkuDetailBO;
-import cn.iocoder.mall.promotion.api.bo.PromotionActivityBO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
- * 计算订单价格结果 BO
+ * 商品价格计算 Request DTO
  */
 @Data
 @Accessors(chain = true)
-@Deprecated
-public class CalcOrderPriceBO {
+public class PriceProductCalcRespDTO implements Serializable {
 
     /**
      * 商品分组数组
@@ -50,11 +48,11 @@ public class CalcOrderPriceBO {
     @Accessors(chain = true)
     public static class ItemGroup {
 
-        /**
-         * 优惠活动
-         */
-        // TODO 芋艿，目前只会有【满减送】的情况，未来有新的促销方式，可能需要改成数组
-        private PromotionActivityBO activity;
+//        /**
+//         * 优惠活动
+//         */
+//        // TODO 芋艿，目前只会有【满减送】的情况，未来有新的促销方式，可能需要改成数组
+//        private PromotionActivityBO activity;
         /**
          * 促销减少的金额
          *
@@ -77,20 +75,16 @@ public class CalcOrderPriceBO {
 
     @Data
     @Accessors(chain = true)
-    public static class Item extends ProductSkuDetailBO { // TODO 芋艿，此处先偷懒继承
+    public static class Item {
 
-        /**
-         * 是否选中
-         */
-        private Boolean selected;
         /**
          * 购买数量
          */
         private Integer buyQuantity;
-        /**
-         * 优惠活动
-         */
-        private PromotionActivityBO activity;
+//        /**
+//         * 优惠活动
+//         */
+//        private PromotionActivityBO activity;
         /**
          * 原始单价，单位：分。
          */

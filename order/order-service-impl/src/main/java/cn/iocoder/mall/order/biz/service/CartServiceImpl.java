@@ -47,25 +47,8 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CalcOrderPriceBO calcOrderPrice(CalcOrderPriceDTO calcOrderPriceDTO) {
-        // TODO 芋艿，补充一些表单校验。例如说，需要传入用户编号。
-        // 校验商品都存在
-        Map<Integer, CalcOrderPriceDTO.Item> calcOrderItemMap = calcOrderPriceDTO.getItems().stream()
-                .collect(Collectors.toMap(CalcOrderPriceDTO.Item::getSkuId, item -> item)); // KEY：skuId
-        List<ProductSkuDetailBO> skus = productSpuService.getProductSkuDetailList(calcOrderItemMap.keySet());
-        if (skus.size() != calcOrderPriceDTO.getItems().size()) {
-            throw ServiceExceptionUtil.exception(OrderErrorCodeEnum.ORDER_ITEM_SOME_NOT_EXISTS.getCode());
-        }
-        // TODO 库存相关
-        // 查询促销活动
-        List<PromotionActivityBO> activityList = promotionActivityService.getPromotionActivityListBySpuIds(
-                skus.stream().map(sku -> sku.getSpu().getId()).collect(Collectors.toSet()),
-                Collections.singletonList(PromotionActivityStatusEnum.RUN.getValue()));
-        // 拼装结果（主要是计算价格）
-        CalcOrderPriceBO calcOrderPriceBO = new CalcOrderPriceBO();
-        // 1. 创建初始的每一项的数组
-        List<CalcOrderPriceBO.Item> items = initCalcOrderPriceItems(skus, calcOrderItemMap);
         // 2. 计算【限时折扣】促销
-        modifyPriceByTimeLimitDiscount(items, activityList);
+
         // 3. 计算【满减送】促销
         List<CalcOrderPriceBO.ItemGroup> itemGroups = groupByFullPrivilege(items, activityList);
         calcOrderPriceBO.setItemGroups(itemGroups);
@@ -114,52 +97,7 @@ public class CartServiceImpl implements CartService {
                 .setOriginalPrice(sku.getPrice()).setBuyPrice(presentPrice);
     }
 
-    private List<CalcOrderPriceBO.Item> initCalcOrderPriceItems(List<ProductSkuDetailBO> skus,
-                                                                Map<Integer, CalcOrderPriceDTO.Item> calcOrderItemMap) {
-        List<CalcOrderPriceBO.Item> items = new ArrayList<>();
-        for (ProductSkuDetailBO sku : skus) {
-            CalcOrderPriceBO.Item item = CartConvert.INSTANCE.convert(sku);
-            items.add(item);
-            // 将是否选中，购物数量，复制到 item 中
-            CalcOrderPriceDTO.Item calcOrderItem = calcOrderItemMap.get(sku.getId());
-            item.setSelected(calcOrderItem.getSelected());
-            item.setBuyQuantity(calcOrderItem.getQuantity());
-            // 计算初始价格
-            item.setOriginPrice(sku.getPrice());
-            item.setBuyPrice(sku.getPrice());
-            item.setPresentPrice(sku.getPrice());
-            item.setBuyTotal(sku.getPrice() * calcOrderItem.getQuantity());
-            item.setDiscountTotal(0);
-            item.setPresentTotal(item.getBuyTotal());
-        }
-        return items;
-    }
 
-    private void modifyPriceByTimeLimitDiscount(List<CalcOrderPriceBO.Item> items, List<PromotionActivityBO> activityList) {
-        for (CalcOrderPriceBO.Item item : items) {
-            // 获得符合条件的限时折扣
-            PromotionActivityBO timeLimitedDiscount = activityList.stream()
-                    .filter(activity -> PromotionActivityTypeEnum.TIME_LIMITED_DISCOUNT.getValue().equals(activity.getActivityType())
-                            && activity.getTimeLimitedDiscount().getItems().stream().anyMatch(item0 -> item0.getSpuId().equals(item.getSpu().getId())))
-                    .findFirst().orElse(null);
-            if (timeLimitedDiscount == null) {
-                continue;
-            }
-            // 计算价格
-            ProductSkuBO sku = new ProductSkuBO().setId(item.getId()).setSpuId(item.getSpu().getId()).setPrice(item.getPrice());
-            Integer newPrice = calcSkuPriceByTimeLimitDiscount(sku, timeLimitedDiscount);
-            if (newPrice.equals(item.getPrice())) {
-                continue;
-            }
-            // 设置优惠
-            item.setActivity(timeLimitedDiscount);
-            // 设置价格
-            item.setBuyPrice(newPrice);
-            item.setBuyTotal(newPrice * item.getBuyQuantity());
-            item.setPresentTotal(item.getBuyTotal() - item.getDiscountTotal());
-            item.setPresentPrice(item.getPresentTotal() / item.getBuyQuantity());
-        }
-    }
 
     private List<CalcOrderPriceBO.ItemGroup> groupByFullPrivilege(List<CalcOrderPriceBO.Item> items, List<PromotionActivityBO> activityList) {
         List<CalcOrderPriceBO.ItemGroup> itemGroups = new ArrayList<>();

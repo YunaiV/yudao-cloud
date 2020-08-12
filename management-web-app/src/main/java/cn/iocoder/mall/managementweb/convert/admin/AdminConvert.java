@@ -36,6 +36,6 @@ public interface AdminConvert {
 
     AdminPageItemVO convert02(AdminVO adminVO);
     AdminPageItemVO.Department convert(DepartmentVO bean);
-    List<AdminPageItemVO.Role> convert(List<RoleVO> list);
+    List<AdminPageItemVO.Role> convertList(List<RoleVO> list);
 
 }

@@ -30,7 +30,6 @@ public enum OrderErrorCodeEnum {
 
     // order item
     ORDER_ITEM_ONLY_ONE(1008000200, "订单Item只有一个!"),
-    ORDER_ITEM_SOME_NOT_EXISTS(1008000201, "有不存在的商品!"),
 
     // 订单退货
     ORDER_RETURN_NO_RETURN_APPLY(1008000400, "未退货申请"),

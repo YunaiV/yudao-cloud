@@ -26,6 +26,8 @@ public interface PromotionActivityConvert {
     @Mappings({})
     List<PromotionActivityRespDTO> convertToRespDTO(List<PromotionActivityDO> activityList);
 
+    List<PromotionActivityRespDTO> convertList(List<PromotionActivityDO> list);
+
 //    @Mappings({})
 //    PromotionActivityDO convert(PromotionActivityAddDTO activityAddDTO);
 //

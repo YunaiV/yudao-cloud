@@ -1,8 +1,8 @@
 package cn.iocoder.mall.promotionservice.service.activity;
 
-import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.mall.promotion.api.enums.PromotionActivityTypeEnum;
 import cn.iocoder.mall.promotion.api.enums.RangeTypeEnum;
+import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityRespDTO;
 import cn.iocoder.mall.promotionservice.convert.activity.PromotionActivityConvert;
 import cn.iocoder.mall.promotionservice.dal.mysql.dataobject.activity.PromotionActivityDO;
 import cn.iocoder.mall.promotionservice.dal.mysql.mapper.activity.PromotionActivityMapper;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -26,11 +25,25 @@ public class PromotionActivityService {
     @Autowired
     private PromotionActivityMapper promotionActivityMapper;
 
-    public List<PromotionActivityDO> getPromotionActivityListBySpuId(Integer spuId, Collection<Integer> activityStatuses) {
-        return this.getPromotionActivityListBySpuIds(Collections.singleton(spuId), activityStatuses);
+    /**
+     * 获取指定商品
+     *
+     * @param spuId
+     * @param activityStatuses
+     * @return
+     */
+    public List<PromotionActivityRespDTO> listPromotionActivitiesBySpuId(Integer spuId, Collection<Integer> activityStatuses) {
+        return this.listPromotionActivitiesBySpuIds(Collections.singleton(spuId), activityStatuses);
     }
 
-    public List<PromotionActivityDO> getPromotionActivityListBySpuIds(Collection<Integer> spuIds, Collection<Integer> activityStatuses) {
+    /**
+     *
+     *
+     * @param spuIds
+     * @param activityStatuses
+     * @return
+     */
+    public List<PromotionActivityRespDTO> listPromotionActivitiesBySpuIds(Collection<Integer> spuIds, Collection<Integer> activityStatuses) {
         if (spuIds.isEmpty() || activityStatuses.isEmpty()) {
             return Collections.emptyList();
         }
@@ -64,7 +77,7 @@ public class PromotionActivityService {
             }
         }
         // 返回最终结果
-        return activityList;
+        return PromotionActivityConvert.INSTANCE.convertList(activityList);
     }
 
     public PromotionActivityPageBO getPromotionActivityPage(Integer pageNo,Integer pageSize,String title,Integer activityType,Collection<Integer> statuses) {

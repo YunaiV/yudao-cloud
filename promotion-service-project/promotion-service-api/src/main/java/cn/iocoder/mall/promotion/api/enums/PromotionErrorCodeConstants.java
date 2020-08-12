@@ -34,4 +34,7 @@ public interface PromotionErrorCodeConstants {
     ErrorCode COUPON_CARD_STATUS_NOT_UNUSED = new ErrorCode(1006003003, "优惠劵不处于待使用状态");
     ErrorCode COUPON_CARD_STATUS_NOT_USED = new ErrorCode( 1006003004, "优惠劵不处于已使用状态");
 
+    // ========== PRICE 模块 ==========
+    ErrorCode PRICE_PRODUCT_SKU_NOT_EXISTS = new ErrorCode(1006004000, "有不存在的商品！");
+
 }

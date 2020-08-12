@@ -1,8 +1,11 @@
 package cn.iocoder.mall.promotionservice.dal.mysql.dataobject.activity;
 
 import cn.iocoder.mall.mybatis.core.dataobject.BaseDO;
-import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
@@ -11,9 +14,11 @@ import java.util.List;
 /**
  * 促销活动 DO
  */
+@TableName(value = "promotion_activity", autoResultMap = true)
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class PromotionActivityDO extends DeletableDO {
+public class PromotionActivityDO extends BaseDO {
 
     /**
      * 活动编号
@@ -59,10 +64,12 @@ public class PromotionActivityDO extends DeletableDO {
     /**
      * 限制折扣字符串，使用 JSON 序列化成字符串存储
      */
+    @TableField(typeHandler = FastjsonTypeHandler.class)
     private TimeLimitedDiscount timeLimitedDiscount;
     /**
      * 满减送字符串，使用 JSON 序列化成字符串存储
      */
+    @TableField(typeHandler = FastjsonTypeHandler.class)
     private FullPrivilege fullPrivilege;
 
     /**

@@ -3,7 +3,7 @@ package cn.iocoder.mall.promotion.api.enums;
 /**
  * 促销活动状态枚举
  */
-public enum  PromotionActivityStatusEnum {
+public enum PromotionActivityStatusEnum {
 
     WAIT(10, "未开始"),
     RUN(20, "进行中"),

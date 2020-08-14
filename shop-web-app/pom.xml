@@ -73,6 +73,12 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <!-- 营销服务 -->
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>promotion-service-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <!-- 系统服务 -->
             <groupId>cn.iocoder.mall</groupId>
             <artifactId>system-service-api</artifactId>

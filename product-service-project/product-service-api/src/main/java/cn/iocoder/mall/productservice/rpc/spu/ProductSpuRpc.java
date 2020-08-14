@@ -41,7 +41,7 @@ public interface ProductSpuRpc {
     * @param productSpuIds 商品 SPU 编号列表
     * @return 商品 SPU 列表
     */
-    CommonResult<List<ProductSpuRespDTO>> listProductSpus(List<Integer> productSpuIds);
+    CommonResult<List<ProductSpuRespDTO>> listProductSpus(Collection<Integer> productSpuIds);
 
     /**
     * 获得商品 SPU 分页

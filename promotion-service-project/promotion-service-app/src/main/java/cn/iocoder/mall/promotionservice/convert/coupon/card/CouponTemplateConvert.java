@@ -1,12 +1,15 @@
-package cn.iocoder.mall.promotionservice.convert.coupon;
+package cn.iocoder.mall.promotionservice.convert.coupon.card;
 
+import cn.iocoder.common.framework.util.StringUtils;
 import cn.iocoder.mall.promotion.api.rpc.coupon.dto.*;
+import cn.iocoder.mall.promotion.api.rpc.coupon.dto.template.CouponTemplateRespDTO;
 import cn.iocoder.mall.promotionservice.dal.mysql.dataobject.coupon.CouponTemplateDO;
 import cn.iocoder.mall.promotionservice.service.coupon.bo.CouponCardTemplateAddBO;
 import cn.iocoder.mall.promotionservice.service.coupon.bo.CouponCardTemplateUpdateBO;
-import cn.iocoder.mall.promotionservice.service.coupon.bo.CouponTemplateBO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -18,9 +21,7 @@ public interface CouponTemplateConvert {
 
 //    @Mappings({})
 //    CouponTemplateBO convertToBO(CouponTemplateDO banner);
-//
-    @Mappings({})
-    List<CouponTemplateBO> convertToBO(List<CouponTemplateDO> templateList);
+
 
     List<CouponTemplateReqDTO> convertToDTO(List<CouponTemplateDO> templateList);
 
@@ -42,7 +43,12 @@ public interface CouponTemplateConvert {
     @Mappings({})
     CouponTemplateDO convert(CouponCardTemplateUpdateBO template);
 
-    @Mappings({})
-    CouponTemplateBO convert(CouponTemplateDO template);
+    @Mapping(source = "rangeValues", target = "rangeValues", qualifiedByName = "translateStringToIntList")
+    CouponTemplateRespDTO convert(CouponTemplateDO bean);
+
+    @Named("translateStringToIntList")
+    default List<Integer> translateStringToIntList(String str) {
+        return StringUtils.splitToInt(str, ",");
+    }
 
 }

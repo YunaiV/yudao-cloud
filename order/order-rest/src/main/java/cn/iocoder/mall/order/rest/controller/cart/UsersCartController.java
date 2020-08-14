@@ -38,10 +38,7 @@ public class UsersCartController {
 //    }
 
 //
-//    @GetMapping("/list")
-//    public CommonResult<UsersCartDetailVO> list() { // TODO 芋艿，先暂用这个 VO 。等促销活动出来后，做调整
-//        return getCartDetail();
-//    }
+
 //
 //    private CommonResult<UsersCartDetailVO> getCartDetail() {
 //        // 获得购物车中选中的

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
 
 import static cn.iocoder.mall.productservice.enums.ProductErrorCodeConstants.PRODUCT_SPU_NOT_EXISTS;
@@ -76,7 +77,7 @@ public class ProductSpuService {
     * @param productSpuIds 商品 SPU编号列表
     * @return 商品 SPU列表
     */
-    public List<ProductSpuBO> listProductSpus(List<Integer> productSpuIds) {
+    public List<ProductSpuBO> listProductSpus(Collection<Integer> productSpuIds) {
         List<ProductSpuDO> productSpuDOs = productSpuMapper.selectBatchIds(productSpuIds);
         return ProductSpuConvert.INSTANCE.convertList(productSpuDOs);
     }

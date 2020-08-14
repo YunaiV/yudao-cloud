@@ -5,7 +5,7 @@ import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.mall.promotion.api.enums.*;
 import cn.iocoder.mall.promotion.api.rpc.coupon.dto.*;
 import cn.iocoder.mall.promotionservice.convert.coupon.CouponCardConvert;
-import cn.iocoder.mall.promotionservice.convert.coupon.CouponTemplateConvert;
+import cn.iocoder.mall.promotionservice.convert.coupon.card.CouponTemplateConvert;
 import cn.iocoder.mall.promotionservice.dal.mysql.dataobject.coupon.CouponCardDO;
 import cn.iocoder.mall.promotionservice.dal.mysql.dataobject.coupon.CouponTemplateDO;
 import cn.iocoder.mall.promotionservice.dal.mysql.mapper.coupon.CouponCardMapper;
@@ -31,11 +31,6 @@ public class CouponService {
 
     // ========== 优惠劵（码）模板 ==========
 
-    public cn.iocoder.mall.promotionservice.service.coupon.bo.CouponTemplateBO getCouponTemplate(Integer couponTemplateId) {
-        CouponTemplateDO template = couponTemplateMapper.selectById(couponTemplateId);
-        return CouponTemplateConvert.INSTANCE.convert(template);
-    }
-
     public CouponTemplatePageRespDTO getCouponTemplatePage(CouponTemplatePageReqDTO couponTemplatePageDTO) {
         CouponTemplatePageRespDTO couponTemplatePageBO = new CouponTemplatePageRespDTO();
         // 查询分页数据
@@ -51,7 +46,7 @@ public class CouponService {
         return couponTemplatePageBO;
     }
 
-    public cn.iocoder.mall.promotionservice.service.coupon.bo.CouponTemplateBO addCouponCardTemplate(CouponCardTemplateAddBO couponCardTemplateAddDTO) {
+    public Integer addCouponCardTemplate(CouponCardTemplateAddBO couponCardTemplateAddDTO) {
         // 校验生效日期相关
         checkCouponTemplateDateType(couponCardTemplateAddDTO.getDateType(),
                 couponCardTemplateAddDTO.getValidStartTime(), couponCardTemplateAddDTO.getValidEndTime(),
@@ -68,7 +63,7 @@ public class CouponService {
         template.setCreateTime(new Date());
         couponTemplateMapper.insert(template);
         // 返回成功
-        return CouponTemplateConvert.INSTANCE.convert(template);
+        return template.getId();
     }
 
     public Boolean updateCouponCodeTemplate(CouponCodeTemplateUpdateBO couponCodeTemplateUpdateDTO) {

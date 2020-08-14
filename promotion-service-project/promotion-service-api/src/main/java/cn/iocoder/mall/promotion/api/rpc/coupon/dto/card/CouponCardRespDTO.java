@@ -1,4 +1,4 @@
-package cn.iocoder.mall.promotionservice.service.coupon.bo;
+package cn.iocoder.mall.promotion.api.rpc.coupon.dto.card;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -7,11 +7,11 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 优惠劵 BO
+ * 优惠劵 Response DTO
  */
 @Data
 @Accessors(chain = true)
-public class CouponCardBO implements Serializable {
+public class CouponCardRespDTO implements Serializable {
 
     // ========== 基本信息 BEGIN ==========
     /**
@@ -99,8 +99,6 @@ public class CouponCardBO implements Serializable {
      * 使用时间
      */
     private Date usedTime;
-
-    // TODO 芋艿，后续要加优惠劵的使用日志，因为下单后，可能会取消。
 
     // ========== 使用情况 END ==========
 

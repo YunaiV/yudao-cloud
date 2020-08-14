@@ -1,41 +1,22 @@
-package cn.iocoder.mall.promotion.api.rpc.price.dto;
+package cn.iocoder.mall.shopweb.controller.order.vo.cart;
 
-import cn.iocoder.mall.promotion.api.enums.PromotionActivityTypeEnum;
 import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityRespDTO;
+import cn.iocoder.mall.shopweb.controller.product.vo.attr.ProductAttrKeyValueRespVO;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
 import java.util.List;
 
-/**
- * 商品价格计算 Request DTO
- */
+@ApiModel(value = "用户的购物车明细 VO")
 @Data
 @Accessors(chain = true)
-public class PriceProductCalcRespDTO implements Serializable {
+public class CartDetailVO {
 
     /**
      * 商品分组数组
      */
     private List<ItemGroup> itemGroups;
-    /**
-     * 优惠劵编号
-     */
-    private Integer couponCardId;
-    /**
-     * 优惠劵减少的金额
-     *
-     * 1. 若未使用优惠劵，返回 null
-     * 2. 该金额，已经分摊到每个 Item 的 discountTotal ，需要注意。
-     */
-    private Integer couponCardDiscountTotal;
-    /**
-     * 邮费信息
-     *
-     * TODO 芋艿，暂时未弄
-     */
-    private Postage postage;
     /**
      * 费用
      */
@@ -52,12 +33,8 @@ public class PriceProductCalcRespDTO implements Serializable {
 
         /**
          * 优惠活动
-         *
-         * 目前会有满减送 {@link PromotionActivityTypeEnum#FULL_PRIVILEGE} 类型的活动
-         *
-         * // TODO 芋艿，目前只会有【满减送】的情况，未来有新的促销方式，可能需要改成数组
          */
-        private PromotionActivityRespDTO activity;
+        private PromotionActivityRespDTO activity; // TODO 芋艿，偷懒
         /**
          * 促销减少的金额
          *
@@ -68,42 +45,54 @@ public class PriceProductCalcRespDTO implements Serializable {
         /**
          * 商品数组
          */
-        private List<Item> items;
-//        /**
-//         * 费用
-//         *
-//         * TODO 芋艿，这里先偷懒，postageTotal 字段用不到。
-//         */
-//        private Fee fee; // 注释原因，不用这里了
+        private List<Sku> items;
 
     }
 
     @Data
     @Accessors(chain = true)
-    public static class Item {
+    public static class Sku {
 
+        // SKU 自带信息
         /**
-         * 商品 SPU 编号
+         * sku 编号
          */
-        private Integer spuId;
+        private Integer id;
         /**
-         * 商品 SKU 编号
+         * SPU 信息
          */
-        private Integer skuId;
+        private Spu spu;
         /**
-         * 商品 Category 编号
+         * 图片地址
          */
-        private Integer cid;
+        private String picURL;
+        /**
+         * 规格值数组
+         */
+        private List<ProductAttrKeyValueRespVO> attrs; // TODO 后面改下
+        /**
+         * 价格，单位：分
+         */
+        private Integer price;
+        /**
+         * 库存数量
+         */
+        private Integer quantity;
+
+        // 非 SKU 自带信息
+
         /**
          * 购买数量
          */
         private Integer buyQuantity;
         /**
-         * 优惠活动
-         *
-         * 目前会有限时折扣 {@link PromotionActivityTypeEnum#TIME_LIMITED_DISCOUNT} 类型的活动
+         * 是否选中
          */
-        private PromotionActivityRespDTO activity;
+        private Boolean selected;
+        /**
+         * 优惠活动
+         */
+        private PromotionActivityRespDTO activity; // TODO 芋艿，偷懒
         /**
          * 原始单价，单位：分。
          */
@@ -138,6 +127,35 @@ public class PriceProductCalcRespDTO implements Serializable {
 
     }
 
+    @Data
+    @Accessors(chain = true)
+    public static class Spu {
+
+        /**
+         * SPU 编号
+         */
+        private Integer id;
+
+        // ========== 基本信息 =========
+        /**
+         * SPU 名字
+         */
+        private String name;
+        /**
+         * 分类编号
+         */
+        private Integer cid;
+        /**
+         * 商品主图地址
+         *
+         * 数组，以逗号分隔
+         *
+         * 建议尺寸：800*800像素，你可以拖拽图片调整顺序，最多上传15张
+         */
+        private List<String> picUrls;
+
+    }
+
     /**
      * 费用（合计）
      */
@@ -156,7 +174,7 @@ public class PriceProductCalcRespDTO implements Serializable {
          */
         private Integer discountTotal;
         /**
-         * 邮费 TODO 芋艿，将  postage 改成 logistics
+         * 邮费
          */
         private Integer postageTotal;
         /**
@@ -175,10 +193,11 @@ public class PriceProductCalcRespDTO implements Serializable {
             this.postageTotal = postageTotal;
             this.presentTotal = presentTotal;
         }
+
     }
 
     /**
-     * 邮费信息
+     * 邮费信息 TODO 芋艿，未完成
      */
     @Data
     @Accessors(chain = true)

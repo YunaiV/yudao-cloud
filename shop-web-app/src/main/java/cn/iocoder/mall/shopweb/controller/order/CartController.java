@@ -2,6 +2,7 @@ package cn.iocoder.mall.shopweb.controller.order;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.security.user.core.context.UserSecurityContextHolder;
+import cn.iocoder.mall.shopweb.controller.order.vo.cart.CartDetailVO;
 import cn.iocoder.mall.shopweb.manager.order.cart.CartManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -38,6 +39,12 @@ public class CartController {
     @ApiOperation("查询用户在购物车中的商品数量")
     public CommonResult<Integer> sumCartItemQuantity() {
         return success(cartManager.sumCartItemQuantity(UserSecurityContextHolder.getUserId()));
+    }
+
+    @GetMapping("/get-detail")
+    @ApiOperation("查询用户的购物车的商品列表")
+    public CommonResult<CartDetailVO> getCartDetail() {
+        return success(cartManager.getCartDetail());
     }
 
 }

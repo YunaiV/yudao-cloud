@@ -1,14 +1,14 @@
 package cn.iocoder.mall.promotion.api.rpc.price;
 
-import lombok.Data;
-import lombok.experimental.Accessors;
-
-import javax.validation.constraints.NotNull;
-import java.util.List;
+import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcReqDTO;
+import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcRespDTO;
 
 /**
  * 价格 Rpc 接口，提供价格计算的功能
  */
-public class PriceRpc {
+public interface PriceRpc {
+
+    CommonResult<PriceProductCalcRespDTO> calcProductPrice(PriceProductCalcReqDTO calcReqDTO);
 
 }

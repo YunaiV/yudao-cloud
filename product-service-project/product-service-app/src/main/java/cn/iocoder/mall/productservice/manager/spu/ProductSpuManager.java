@@ -131,7 +131,7 @@ public class ProductSpuManager {
     * @param productSpuIds 商品 SPU编号列表
     * @return 商品 SPU列表
     */
-    public List<ProductSpuRespDTO> listProductSpus(List<Integer> productSpuIds) {
+    public List<ProductSpuRespDTO> listProductSpus(Collection<Integer> productSpuIds) {
         List<ProductSpuBO> productSpuBOs = productSpuService.listProductSpus(productSpuIds);
         return ProductSpuConvert.INSTANCE.convertList02(productSpuBOs);
     }

@@ -1,17 +1,18 @@
-package cn.iocoder.mall.promotionservice.service.coupon.bo;
+package cn.iocoder.mall.promotion.api.rpc.coupon.dto.template;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 优惠劵（码）模板 BO
  */
 @Data
 @Accessors(chain = true)
-public class CouponTemplateBO implements Serializable {
+public class CouponTemplateRespDTO implements Serializable {
 
     // ========== 基本信息 BEGIN ==========
     /**
@@ -85,7 +86,7 @@ public class CouponTemplateBO implements Serializable {
     /**
      * 指定商品 / 分类列表，使用逗号分隔商品编号
      */
-    private String rangeValues;
+    private List<Integer> rangeValues;
     /**
      * 生效日期类型
      *

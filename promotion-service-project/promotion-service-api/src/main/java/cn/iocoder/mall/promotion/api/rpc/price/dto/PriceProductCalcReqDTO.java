@@ -11,7 +11,7 @@ import java.util.List;
  * 商品价格计算 Request DTO
  */
 @Data
-@Accessors
+@Accessors(chain = true)
 public class PriceProductCalcReqDTO implements Serializable {
 
     /**

@@ -41,7 +41,7 @@ dubbo:
       version: 1.0.0
     ProductSkuRpc:
       version: 1.0.0
-    ProductSpuService:
+    ProductSpuRpc:
       version: 1.0.0
 
 # RocketMQ 配置项

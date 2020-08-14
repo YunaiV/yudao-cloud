@@ -38,7 +38,7 @@ public class ProductSpuRpcImpl implements ProductSpuRpc {
     }
 
     @Override
-    public CommonResult<List<ProductSpuRespDTO>> listProductSpus(List<Integer> productSpuIds) {
+    public CommonResult<List<ProductSpuRespDTO>> listProductSpus(Collection<Integer> productSpuIds) {
         return success(productSpuManager.listProductSpus(productSpuIds));
     }
 

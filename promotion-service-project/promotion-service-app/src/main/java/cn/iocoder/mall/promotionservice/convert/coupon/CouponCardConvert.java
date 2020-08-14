@@ -4,8 +4,6 @@ import cn.iocoder.mall.promotion.api.rpc.coupon.dto.CouponCardDetailRespDTO;
 import cn.iocoder.mall.promotion.api.rpc.coupon.dto.CouponCardReqDTO;
 import cn.iocoder.mall.promotionservice.dal.mysql.dataobject.coupon.CouponCardDO;
 import cn.iocoder.mall.promotionservice.service.coupon.bo.CouponCardAvailableBO;
-import cn.iocoder.mall.promotionservice.service.coupon.bo.CouponCardBO;
-import cn.iocoder.mall.promotionservice.service.coupon.bo.CouponCardDetailBO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -19,16 +17,12 @@ public interface CouponCardConvert {
 
 //    @Mappings({})
 //    CouponCardBO convertToBO(CouponCardDO banner);
-//
-    @Mappings({})
-    List<CouponCardBO> convertToBO(List<CouponCardDO> cardList);
+
+
 
     List<CouponCardReqDTO> convertToDTO(List<CouponCardDO> cardList);
 
     CouponCardReqDTO convertToSingleDTO(CouponCardDO card);
-
-    @Mappings({})
-    CouponCardBO convert(CouponCardDO card);
 
     @Mappings({})
     CouponCardDetailRespDTO convert2(CouponCardDO card);

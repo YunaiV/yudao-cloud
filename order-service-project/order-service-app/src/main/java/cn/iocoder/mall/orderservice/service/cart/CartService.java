@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
 
 import static cn.iocoder.mall.orderservice.enums.OrderErrorCodeConstants.CARD_ITEM_NOT_FOUND;
@@ -84,7 +85,7 @@ public class CartService {
      * @param skuIds 商品 SKU 编号数组
      * @param selected 是否选中
      */
-    public void updateCartItemSelected(Integer userId, List<Integer> skuIds, Boolean selected) {
+    public void updateCartItemSelected(Integer userId, Collection<Integer> skuIds, Boolean selected) {
         // 查询 CartItemDO 列表
         List<CartItemDO> itemDOs = cartItemMapper.selectListByUserIdAndSkuIds(userId, skuIds);
         if (skuIds.size() != itemDOs.size()) {

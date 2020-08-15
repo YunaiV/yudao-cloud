@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * 购物车更新是否选中 Request DTO
@@ -23,7 +23,7 @@ public class CartItemUpdateSelectedReqDTO implements Serializable {
      * 商品 SKU 编号列表
      */
     @NotNull(message = "商品 SKU 编号列表不能为空")
-    private List<Integer> skuIds;
+    private Collection<Integer> skuIds;
     /**
      * 是否选中
      */

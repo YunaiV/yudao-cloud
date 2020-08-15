@@ -20,8 +20,8 @@ public class PriceManagerTest {
     @Test
     public void testCalcProductPrice() {
         PriceProductCalcReqDTO calcReqDTO = new PriceProductCalcReqDTO();
-        PriceProductCalcReqDTO.Item item01 = new PriceProductCalcReqDTO.Item(33, 2); // 满足满减送的商品
-        PriceProductCalcReqDTO.Item item02 = new PriceProductCalcReqDTO.Item(34, 2); // 满足限时折扣的商品
+        PriceProductCalcReqDTO.Item item01 = new PriceProductCalcReqDTO.Item(33, 2, true); // 满足满减送的商品
+        PriceProductCalcReqDTO.Item item02 = new PriceProductCalcReqDTO.Item(34, 2, true); // 满足限时折扣的商品
         calcReqDTO.setItems(Arrays.asList(item01, item02));
         PriceProductCalcRespDTO calcRespDTO = priceManager.calcProductPrice(calcReqDTO);
         System.out.println(calcRespDTO);

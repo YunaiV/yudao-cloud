@@ -43,7 +43,7 @@ public interface CartItemMapper extends BaseMapper<CartItemDO> {
 
     default List<CartItemDO> selectList(CartItemListQueryBO queryBO) {
         return selectList(new QueryWrapperX<CartItemDO>().eq("user_id", queryBO.getUserId())
-            .eq("selected", queryBO.getSelected()));
+            .eqIfPresent("selected", queryBO.getSelected()));
     }
 
 }

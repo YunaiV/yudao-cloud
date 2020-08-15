@@ -80,9 +80,9 @@ public class PriceManager {
         int discountTotal = 0;
         int presentTotal = 0;
         for (PriceProductCalcRespDTO.ItemGroup itemGroup : calcRespDTO.getItemGroups()) {
-            buyTotal += itemGroup.getItems().stream().mapToInt(PriceProductCalcRespDTO.Item::getBuyTotal).sum();
-            discountTotal += itemGroup.getItems().stream().mapToInt(PriceProductCalcRespDTO.Item::getDiscountTotal).sum();
-            presentTotal += itemGroup.getItems().stream().mapToInt(PriceProductCalcRespDTO.Item::getPresentTotal).sum();
+            buyTotal += itemGroup.getItems().stream().mapToInt(item -> item.getSelected() ? item.getBuyTotal() : 0).sum();
+            discountTotal += itemGroup.getItems().stream().mapToInt(item -> item.getSelected() ? item.getDiscountTotal() : 0).sum();
+            presentTotal += itemGroup.getItems().stream().mapToInt(item -> item.getSelected() ? item.getPresentTotal() : 0).sum();
         }
         Assert.isTrue(buyTotal - discountTotal ==  presentTotal,
                 String.format("价格合计( %d - %d == %d )不正确", buyTotal, discountTotal, presentTotal));
@@ -106,6 +106,7 @@ public class PriceManager {
             PriceProductCalcReqDTO.Item calcOrderItem = calcProductItemDTOMap.get(sku.getId());
             item.setSpuId(sku.getSpuId()).setSkuId(sku.getId());
             item.setCid(spuIdCategoryIdMap.get(sku.getSpuId()));
+            item.setSelected(calcOrderItem.getSelected());
             item.setBuyQuantity(calcOrderItem.getQuantity());
             // 计算初始价格
             item.setOriginPrice(sku.getPrice());
@@ -235,7 +236,8 @@ public class PriceManager {
         Assert.isTrue(PromotionActivityTypeEnum.FULL_PRIVILEGE.getValue().equals(activity.getActivityType()),
                 "传入的必须的满减送活动必须是满减送");
         // 获得优惠信息
-        List<PriceProductCalcRespDTO.Item> items = itemGroup.getItems();
+        List<PriceProductCalcRespDTO.Item> items = itemGroup.getItems().stream().filter(PriceProductCalcRespDTO.Item::getSelected)
+                .collect(Collectors.toList());
         Integer itemCnt = items.stream().mapToInt(PriceProductCalcRespDTO.Item::getBuyQuantity).sum();
         Integer originalTotal = items.stream().mapToInt(PriceProductCalcRespDTO.Item::getPresentTotal).sum();
         List<PromotionActivityRespDTO.FullPrivilege.Privilege> privileges = activity.getFullPrivilege().getPrivileges().stream()

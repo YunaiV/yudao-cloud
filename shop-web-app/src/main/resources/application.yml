@@ -37,6 +37,8 @@ dubbo:
       version: 1.0.0
     ProductSpuRpc:
       version: 1.0.0
+    ProductSkuRpc:
+      version: 1.0.0
     SearchProductRpc:
       version: 1.0.0
     PriceRpc:

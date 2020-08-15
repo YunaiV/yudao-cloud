@@ -17,44 +17,8 @@ public class UsersCartController {
 //    private CouponService couponService;
 //
 
-//
-//    @PostMapping("update_quantity")
-//    public CommonResult<UsersCartDetailVO> updateQuantity(@RequestParam("skuId") Integer skuId, // TODO 芋艿，先暂用这个 VO 。等促销活动出来后，做调整
-//                                                          @RequestParam("quantity") Integer quantity) {
-//        // 添加到购物车
-//        cartService.updateQuantity(UserSecurityContextHolder.getContext().getUserId(),
-//                skuId, quantity);
-//        // 获得目前购物车明细
-//        return getCartDetail();
-//    }
-//
-//    @PostMapping("update_selected")
-//    public CommonResult<UsersCartDetailVO> updateSelected(@RequestParam("skuIds") Set<Integer> skuIds, // TODO 芋艿，先暂用这个 VO 。等促销活动出来后，做调整
-//                                                          @RequestParam("selected") Boolean selected) {
-//        // 添加到购物车
-//        cartService.updateSelected(UserSecurityContextHolder.getContext().getUserId(), skuIds, selected);
-//        // 获得目前购物车明细
-//        return getCartDetail();
-//    }
 
-//
 
-//
-//    private CommonResult<UsersCartDetailVO> getCartDetail() {
-//        // 获得购物车中选中的
-//        List<CartItemBO> cartItems = cartService.list(UserSecurityContextHolder.getContext().getUserId(), null);
-//        // 购物车为空时，构造空的 UsersOrderConfirmCreateVO 返回
-//        if (cartItems.isEmpty()) {
-//            UsersCartDetailVO result = new UsersCartDetailVO();
-//            result.setItemGroups(Collections.emptyList());
-//            result.setFee(new UsersCartDetailVO.Fee(0, 0, 0, 0));
-//            return success(result);
-//        }
-//        // 计算商品价格
-//        CalcOrderPriceBO calcOrder = list0(cartItems, null);
-//        // 执行数据拼装
-//        return success(CartConvert.INSTANCE.convert2(calcOrder));
-//    }
 //
 //    @GetMapping("/confirm_create_order")
 //    public CommonResult<UsersOrderConfirmCreateVO> getConfirmCreateOrder(@RequestParam(value = "couponCardId", required = false) Integer couponCardId) {

@@ -47,7 +47,7 @@ public class PriceProductCalcRespDTO implements Serializable {
      */
     @Data
     @Accessors(chain = true)
-    public static class ItemGroup {
+    public static class ItemGroup implements Serializable {
 
         /**
          * 优惠活动
@@ -79,7 +79,7 @@ public class PriceProductCalcRespDTO implements Serializable {
 
     @Data
     @Accessors(chain = true)
-    public static class Item {
+    public static class Item implements Serializable {
 
         /**
          * 商品 SPU 编号
@@ -149,7 +149,7 @@ public class PriceProductCalcRespDTO implements Serializable {
      */
     @Data
     @Accessors(chain = true)
-    public static class Fee {
+    public static class Fee implements Serializable {
 
         /**
          * 购买总价
@@ -188,7 +188,7 @@ public class PriceProductCalcRespDTO implements Serializable {
      */
     @Data
     @Accessors(chain = true)
-    public static class Postage {
+    public static class Postage implements Serializable {
 
         /**
          * 需要满足多少钱，可以包邮。单位：分

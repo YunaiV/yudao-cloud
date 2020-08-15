@@ -1,9 +1,11 @@
 package cn.iocoder.mall.shopweb.convert.order;
 
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuRespDTO;
+import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityRespDTO;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcRespDTO;
 import cn.iocoder.mall.shopweb.controller.order.vo.cart.CartDetailVO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
@@ -13,6 +15,7 @@ public interface CartConvert {
 
     CartDetailVO.Fee convert(PriceProductCalcRespDTO.Fee bean);
 
-    CartDetailVO.Sku convert(PriceProductCalcRespDTO.Item item, ProductSkuRespDTO sku);
+    @Mapping(source = "sku.id", target = "id")
+    CartDetailVO.Sku convert(PriceProductCalcRespDTO.Item item, ProductSkuRespDTO sku, PromotionActivityRespDTO activity);
 
 }

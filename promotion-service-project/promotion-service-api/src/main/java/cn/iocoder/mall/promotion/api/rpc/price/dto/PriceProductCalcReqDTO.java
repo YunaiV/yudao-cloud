@@ -36,7 +36,7 @@ public class PriceProductCalcReqDTO implements Serializable {
      */
     @Data
     @Accessors(chain = true)
-    public static class Item {
+    public static class Item implements Serializable {
 
         /**
          * SKU 编号

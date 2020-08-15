@@ -3,9 +3,7 @@ package cn.iocoder.mall.shopweb.manager.order.cart;
 import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.orderservice.rpc.cart.CartRpc;
-import cn.iocoder.mall.orderservice.rpc.cart.dto.CartItemAddReqDTO;
-import cn.iocoder.mall.orderservice.rpc.cart.dto.CartItemListReqDTO;
-import cn.iocoder.mall.orderservice.rpc.cart.dto.CartItemRespDTO;
+import cn.iocoder.mall.orderservice.rpc.cart.dto.*;
 import cn.iocoder.mall.productservice.enums.sku.ProductSkuDetailFieldEnum;
 import cn.iocoder.mall.productservice.rpc.sku.ProductSkuRpc;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuListQueryReqDTO;
@@ -65,6 +63,32 @@ public class CartManager {
     }
 
     /**
+     * 更新购物车商品数量
+     *
+     * @param userId 用户编号
+     * @param skuId 商品 SKU 编号
+     * @param quantity 数量
+     */
+    public void updateCartItemQuantity(Integer userId, Integer skuId, Integer quantity) {
+        CommonResult<Boolean> updateCartItemQuantityResult = cartRpc.updateCartItemQuantity(new CartItemUpdateQuantityReqDTO()
+            .setUserId(userId).setSkuId(skuId).setQuantity(quantity));
+        updateCartItemQuantityResult.checkError();
+    }
+
+    /**
+     * 更新购物车商品是否选中
+     *
+     * @param userId 用户编号
+     * @param skuIds 商品 SKU 编号数组
+     * @param selected 是否选中
+     */
+    public void updateCartItemSelected(Integer userId, Set<Integer> skuIds, Boolean selected) {
+        CommonResult<Boolean> updateCartItemSelectedResult = cartRpc.updateCartItemSelected(new CartItemUpdateSelectedReqDTO()
+            .setUserId(userId).setSkuIds(skuIds).setSelected(selected));
+        updateCartItemSelectedResult.checkError();
+    }
+
+    /**
      * 查询用户的购物车的商品列表
      *
      * @return 商品列表
@@ -94,7 +118,7 @@ public class CartManager {
         CartDetailVO cartDetailVO = new CartDetailVO();
         cartDetailVO.setFee(CartConvert.INSTANCE.convert(calcProductPriceResult.getData().getFee()));
         cartDetailVO.setItemGroups(new ArrayList<>());
-        calcProductPriceResult.getData().getItemGroups().forEach(itemGroupDTO -> {
+        for (PriceProductCalcRespDTO.ItemGroup itemGroupDTO : calcProductPriceResult.getData().getItemGroups()) {
             CartDetailVO.ItemGroup itemGroupVO = new CartDetailVO.ItemGroup();
             cartDetailVO.getItemGroups().add(itemGroupVO);
             // 活动信息
@@ -104,10 +128,9 @@ public class CartManager {
             }
             // 商品 SKU 信息
             itemGroupVO.setItems(new ArrayList<>());
-            itemGroupDTO.getItems().forEach(item -> {
-                itemGroupVO.getItems().add(CartConvert.INSTANCE.convert(item, productSkuMap.get(item.getSkuId())));
-            });
-        });
+            itemGroupDTO.getItems().forEach(item -> itemGroupVO.getItems().add(CartConvert.INSTANCE.convert(item,
+                    productSkuMap.get(item.getSkuId()), promotionActivityMap.get(item.getActivityId()))));
+        }
         return cartDetailVO;
     }
 
@@ -124,7 +147,7 @@ public class CartManager {
                 }
             });
         });
-        if (!CollectionUtils.isEmpty(activeIds)) {
+        if (CollectionUtils.isEmpty(activeIds)) {
             return Collections.emptyMap();
         }
         // 查询促销活动列表

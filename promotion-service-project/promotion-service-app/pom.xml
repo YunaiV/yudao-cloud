@@ -66,6 +66,12 @@
             <artifactId>mall-spring-boot-starter-mybatis</artifactId>
         </dependency>
 
+        <!-- 监控相关 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
         <!-- Test 相关 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

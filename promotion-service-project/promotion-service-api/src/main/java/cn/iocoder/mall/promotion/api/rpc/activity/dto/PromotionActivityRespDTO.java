@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 促销伙伴 Response DTO
+ * 促销活动 Response DTO
  */
 @Data
 @Accessors(chain = true)

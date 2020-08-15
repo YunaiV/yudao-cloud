@@ -6,15 +6,22 @@ import cn.iocoder.mall.orderservice.rpc.cart.CartRpc;
 import cn.iocoder.mall.orderservice.rpc.cart.dto.CartItemAddReqDTO;
 import cn.iocoder.mall.orderservice.rpc.cart.dto.CartItemListReqDTO;
 import cn.iocoder.mall.orderservice.rpc.cart.dto.CartItemRespDTO;
+import cn.iocoder.mall.productservice.enums.sku.ProductSkuDetailFieldEnum;
+import cn.iocoder.mall.productservice.rpc.sku.ProductSkuRpc;
+import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuListQueryReqDTO;
+import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuRespDTO;
+import cn.iocoder.mall.promotion.api.rpc.activity.PromotionActivityRpc;
+import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityListReqDTO;
+import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityRespDTO;
 import cn.iocoder.mall.promotion.api.rpc.price.PriceRpc;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcRespDTO;
 import cn.iocoder.mall.shopweb.controller.order.vo.cart.CartDetailVO;
+import cn.iocoder.mall.shopweb.convert.order.CartConvert;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -27,6 +34,10 @@ public class CartManager {
     private CartRpc cartRpc;
     @DubboReference(version = "${dubbo.consumer.PriceRpc.version}")
     private PriceRpc priceRpc;
+    @DubboReference(version = "${dubbo.consumer.PromotionActivityRpc.version}")
+    private PromotionActivityRpc promotionActivityRpc;
+    @DubboReference(version = "${dubbo.consumer.ProductSkuRpc.version}")
+    private ProductSkuRpc productSkuRpc;
 
     /**
      * 添加商品到购物车
@@ -72,14 +83,63 @@ public class CartManager {
         // 计算选中的商品价格
         CommonResult<PriceProductCalcRespDTO> calcProductPriceResult = priceRpc.calcProductPrice(new PriceProductCalcReqDTO().setUserId(userId)
                 .setItems(listCartItemsResult.getData().stream()
-                        .filter(CartItemRespDTO::getSelected)
-                        .map(cartItem -> new PriceProductCalcReqDTO.Item(cartItem.getSkuId(), cartItem.getQuantity()))
+                        .map(cartItem -> new PriceProductCalcReqDTO.Item(cartItem.getSkuId(), cartItem.getQuantity(), cartItem.getSelected()))
                         .collect(Collectors.toList())));
         calcProductPriceResult.checkError();
+        // 获得促销活动信息
+        Map<Integer, PromotionActivityRespDTO> promotionActivityMap = this.getPromotionActivityMap(calcProductPriceResult.getData());
+        // 获得商品 SKU 信息
+        Map<Integer, ProductSkuRespDTO> productSkuMap = this.getProductSkuMap(listCartItemsResult.getData());
         // 拼接结果
+        CartDetailVO cartDetailVO = new CartDetailVO();
+        cartDetailVO.setFee(CartConvert.INSTANCE.convert(calcProductPriceResult.getData().getFee()));
+        cartDetailVO.setItemGroups(new ArrayList<>());
+        calcProductPriceResult.getData().getItemGroups().forEach(itemGroupDTO -> {
+            CartDetailVO.ItemGroup itemGroupVO = new CartDetailVO.ItemGroup();
+            cartDetailVO.getItemGroups().add(itemGroupVO);
+            // 活动信息
+            if (itemGroupDTO.getActivityId() != null) {
+                itemGroupVO.setActivity(promotionActivityMap.get(itemGroupDTO.getActivityId()))
+                        .setActivityDiscountTotal(itemGroupDTO.getActivityDiscountTotal());
+            }
+            // 商品 SKU 信息
+            itemGroupVO.setItems(new ArrayList<>());
+            itemGroupDTO.getItems().forEach(item -> {
+                itemGroupVO.getItems().add(CartConvert.INSTANCE.convert(item, productSkuMap.get(item.getSkuId())));
+            });
+        });
+        return cartDetailVO;
+    }
 
-        // 执行数据拼装
-        return null;
+    private Map<Integer, PromotionActivityRespDTO> getPromotionActivityMap(PriceProductCalcRespDTO calcRespDTO) {
+        // 获得所有促销活动编号
+        Set<Integer> activeIds = new HashSet<>();
+        calcRespDTO.getItemGroups().forEach(itemGroup -> {
+            if (itemGroup.getActivityId() != null) {
+                activeIds.add(itemGroup.getActivityId());
+            }
+            itemGroup.getItems().forEach(item -> {
+                if (item.getActivityId() != null) {
+                    activeIds.add(item.getActivityId());
+                }
+            });
+        });
+        if (!CollectionUtils.isEmpty(activeIds)) {
+            return Collections.emptyMap();
+        }
+        // 查询促销活动列表
+        CommonResult<List<PromotionActivityRespDTO>> listPromotionActivitiesResult =
+                promotionActivityRpc.listPromotionActivities(new PromotionActivityListReqDTO().setActiveIds(activeIds));
+        listPromotionActivitiesResult.checkError();
+        return CollectionUtils.convertMap(listPromotionActivitiesResult.getData(), PromotionActivityRespDTO::getId);
+    }
+
+    private Map<Integer, ProductSkuRespDTO> getProductSkuMap(List<CartItemRespDTO> itemRespDTOs) {
+        CommonResult<List<ProductSkuRespDTO>> listProductSkusResult = productSkuRpc.listProductSkus(new ProductSkuListQueryReqDTO()
+            .setProductSkuIds(CollectionUtils.convertSet(itemRespDTOs, CartItemRespDTO::getSkuId))
+            .setFields(Arrays.asList(ProductSkuDetailFieldEnum.SPU.getField(), ProductSkuDetailFieldEnum.ATTR.getField())));
+        listProductSkusResult.checkError();
+        return CollectionUtils.convertMap(listProductSkusResult.getData(), ProductSkuRespDTO::getId);
     }
 
 }

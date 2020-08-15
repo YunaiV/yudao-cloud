@@ -44,7 +44,7 @@ public class CartController {
     @GetMapping("/get-detail")
     @ApiOperation("查询用户的购物车的商品列表")
     public CommonResult<CartDetailVO> getCartDetail() {
-        return success(cartManager.getCartDetail());
+        return success(cartManager.getCartDetail(UserSecurityContextHolder.getUserId()));
     }
 
 }

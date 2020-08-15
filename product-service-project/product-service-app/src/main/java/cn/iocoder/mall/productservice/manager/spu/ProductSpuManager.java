@@ -231,9 +231,9 @@ public class ProductSpuManager {
         // 获取商品 SKU 的规格数组
         List<ProductAttrKeyValueBO> attrBOs = Collections.emptyList();
         if (fields.contains(ProductSpuDetailFieldEnum.ATTR.getField()) && !CollectionUtils.isEmpty(skuBOs)) {
-            Set<Integer> productAttrValueIds = new HashSet<>();
-            skuBOs.forEach(sku -> productAttrValueIds.addAll(sku.getAttrValueIds()));
-            attrBOs = productAttrService.validProductAttr(productAttrValueIds, false); // 读取规格时，不考虑规格是否被禁用
+            Set<Integer> attrValueIds = new HashSet<>();
+            skuBOs.forEach(sku -> attrValueIds.addAll(sku.getAttrValueIds()));
+            attrBOs = productAttrService.validProductAttr(attrValueIds, false); // 读取规格时，不考虑规格是否被禁用
         }
         // 拼接最终返回
         return ProductSpuConvert.INSTANCE.convert(spuBO, skuBOs, attrBOs, categoryBO);

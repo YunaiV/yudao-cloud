@@ -1,5 +1,7 @@
 package cn.iocoder.mall.promotionservice.dal.mysql.mapper.activity;
 
+import cn.iocoder.mall.mybatis.core.query.QueryWrapperX;
+import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityListReqDTO;
 import cn.iocoder.mall.promotionservice.dal.mysql.dataobject.activity.PromotionActivityDO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -25,5 +27,9 @@ public interface PromotionActivityMapper extends BaseMapper<PromotionActivityDO>
     Integer selectCountByPage(@Param("title") String title,
                               @Param("activityType") Integer activityType,
                               @Param("statuses") Collection<Integer> statuses);
+
+    default List<PromotionActivityDO> selectList(PromotionActivityListReqDTO listReqDTO) {
+        return selectList(new QueryWrapperX<PromotionActivityDO>().inIfPresent("id", listReqDTO.getActiveIds()));
+    }
 
 }

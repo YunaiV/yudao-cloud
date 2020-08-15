@@ -13,7 +13,7 @@ import cn.iocoder.mall.promotionservice.dal.mysql.mapper.recommend.ProductRecomm
 import cn.iocoder.mall.promotionservice.service.recommend.bo.ProductRecommendAddBO;
 import cn.iocoder.mall.promotionservice.service.recommend.bo.ProductRecommendBO;
 import cn.iocoder.mall.promotionservice.service.recommend.bo.ProductRecommendUpdateBO;
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -25,7 +25,7 @@ import java.util.List;
 @Validated
 public class ProductRecommendService {
 
-    @Reference(validation = "true", version = "${dubbo.consumer.ProductSpuService.version}")
+    @DubboReference(validation = "true", version = "${dubbo.consumer.ProductSpuRpc.version}")
     private ProductSpuRpc productSpuRpc;
 
     @Autowired

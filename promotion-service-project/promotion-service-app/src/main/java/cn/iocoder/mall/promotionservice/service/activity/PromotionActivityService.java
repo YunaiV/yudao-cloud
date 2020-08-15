@@ -2,6 +2,7 @@ package cn.iocoder.mall.promotionservice.service.activity;
 
 import cn.iocoder.mall.promotion.api.enums.PromotionActivityTypeEnum;
 import cn.iocoder.mall.promotion.api.enums.RangeTypeEnum;
+import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityListReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityRespDTO;
 import cn.iocoder.mall.promotionservice.convert.activity.PromotionActivityConvert;
 import cn.iocoder.mall.promotionservice.dal.mysql.dataobject.activity.PromotionActivityDO;
@@ -25,24 +26,15 @@ public class PromotionActivityService {
     @Autowired
     private PromotionActivityMapper promotionActivityMapper;
 
-    /**
-     * 获取指定商品
-     *
-     * @param spuId
-     * @param activityStatuses
-     * @return
-     */
+    public List<PromotionActivityRespDTO> listPromotionActivities(PromotionActivityListReqDTO listReqDTO) {
+        List<PromotionActivityDO> activityList = promotionActivityMapper.selectList(listReqDTO);
+        return PromotionActivityConvert.INSTANCE.convertList(activityList);
+    }
+
     public List<PromotionActivityRespDTO> listPromotionActivitiesBySpuId(Integer spuId, Collection<Integer> activityStatuses) {
         return this.listPromotionActivitiesBySpuIds(Collections.singleton(spuId), activityStatuses);
     }
 
-    /**
-     *
-     *
-     * @param spuIds
-     * @param activityStatuses
-     * @return
-     */
     public List<PromotionActivityRespDTO> listPromotionActivitiesBySpuIds(Collection<Integer> spuIds, Collection<Integer> activityStatuses) {
         if (spuIds.isEmpty() || activityStatuses.isEmpty()) {
             return Collections.emptyList();

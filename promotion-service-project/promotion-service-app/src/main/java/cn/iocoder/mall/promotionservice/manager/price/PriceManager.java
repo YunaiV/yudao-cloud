@@ -134,7 +134,7 @@ public class PriceManager {
                 continue;
             }
             // 设置优惠
-            item.setActivity(timeLimitedDiscount);
+            item.setActivityId(timeLimitedDiscount.getId());
             // 设置价格
             item.setBuyPrice(newBuyPrice);
             item.setBuyTotal(newBuyPrice * item.getBuyQuantity());
@@ -186,7 +186,7 @@ public class PriceManager {
             for (PromotionActivityRespDTO fullPrivilege : fullPrivileges) {
                 // 创建 fullPrivilege 对应的分组
                 PriceProductCalcRespDTO.ItemGroup itemGroup = new PriceProductCalcRespDTO.ItemGroup()
-                        .setActivity(fullPrivilege)
+                        .setActivityId(fullPrivilege.getId())
                         .setItems(new ArrayList<>());
                 // 筛选商品到分组中
                 for (Iterator<PriceProductCalcRespDTO.Item> iterator = items.iterator(); iterator.hasNext(); ) {
@@ -208,8 +208,9 @@ public class PriceManager {
             itemGroups.add(new PriceProductCalcRespDTO.ItemGroup().setItems(items));
         }
         // 计算每个分组的价格
+        Map<Integer, PromotionActivityRespDTO> activityMap = CollectionUtils.convertMap(activityList, PromotionActivityRespDTO::getId);
         for (PriceProductCalcRespDTO.ItemGroup itemGroup : itemGroups) {
-            itemGroup.setActivityDiscountTotal(calcSkuPriceByFullPrivilege(itemGroup));
+            itemGroup.setActivityDiscountTotal(calcSkuPriceByFullPrivilege(itemGroup, activityMap.get(itemGroup.getActivityId())));
         }
         // 返回结果
         return itemGroups;
@@ -227,11 +228,10 @@ public class PriceManager {
         throw new IllegalArgumentException(String.format("促销活动(%s) 可用范围的类型是不正确", activity.toString()));
     }
 
-    private Integer calcSkuPriceByFullPrivilege(PriceProductCalcRespDTO.ItemGroup itemGroup) {
-        if (itemGroup.getActivity() == null) {
+    private Integer calcSkuPriceByFullPrivilege(PriceProductCalcRespDTO.ItemGroup itemGroup, PromotionActivityRespDTO activity) {
+        if (itemGroup.getActivityId() == null) {
             return null;
         }
-        PromotionActivityRespDTO activity = itemGroup.getActivity();
         Assert.isTrue(PromotionActivityTypeEnum.FULL_PRIVILEGE.getValue().equals(activity.getActivityType()),
                 "传入的必须的满减送活动必须是满减送");
         // 获得优惠信息
@@ -246,7 +246,8 @@ public class PriceManager {
                     if (MeetTypeEnum.QUANTITY.getValue().equals(privilege.getMeetType())) {
                         return itemCnt >= privilege.getMeetValue();
                     }
-                    throw new IllegalArgumentException(String.format("满减送活动(%s) 的匹配(%s)不正确", itemGroup.getActivity().toString(), privilege.toString()));
+                    throw new IllegalArgumentException(String.format("满减送活动(%s) 的匹配(%s)不正确",
+                            activity.toString(), privilege.toString()));
                 }).collect(Collectors.toList());
         // 获得不到优惠信息，返回原始价格
         if (privileges.isEmpty()) {

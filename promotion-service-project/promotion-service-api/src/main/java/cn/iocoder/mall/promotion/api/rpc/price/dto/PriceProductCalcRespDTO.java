@@ -1,7 +1,6 @@
 package cn.iocoder.mall.promotion.api.rpc.price.dto;
 
 import cn.iocoder.mall.promotion.api.enums.PromotionActivityTypeEnum;
-import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityRespDTO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -57,7 +56,7 @@ public class PriceProductCalcRespDTO implements Serializable {
          *
          * // TODO 芋艿，目前只会有【满减送】的情况，未来有新的促销方式，可能需要改成数组
          */
-        private PromotionActivityRespDTO activity;
+        private Integer activityId;
         /**
          * 促销减少的金额
          *
@@ -94,6 +93,13 @@ public class PriceProductCalcRespDTO implements Serializable {
          * 商品 Category 编号
          */
         private Integer cid;
+
+        // 非 SKU 自带信息
+
+        /**
+         * 是否选中
+         */
+        private Boolean selected;
         /**
          * 购买数量
          */
@@ -103,7 +109,7 @@ public class PriceProductCalcRespDTO implements Serializable {
          *
          * 目前会有限时折扣 {@link PromotionActivityTypeEnum#TIME_LIMITED_DISCOUNT} 类型的活动
          */
-        private PromotionActivityRespDTO activity;
+        private Integer activityId;
         /**
          * 原始单价，单位：分。
          */

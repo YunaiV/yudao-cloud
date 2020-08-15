@@ -63,21 +63,21 @@ public interface ProductSpuConvert {
 
     ProductAttrKeyValueRespDTO convert(ProductAttrKeyValueBO bean);
 
-    default ProductSpuDetailRespDTO convert(ProductSpuBO spuBO, List<ProductSkuBO> skuBOs, List<ProductAttrKeyValueBO> attrBOs,
-                                            ProductCategoryBO categoryBO) {
+    default ProductSpuDetailRespDTO convert(ProductSpuBO spuBO, List<ProductSkuBO> skuBOs,
+                                            List<ProductAttrKeyValueBO> attrBOs, ProductCategoryBO categoryBO) {
         // 创建并转换 ProductSpuDetailBO 对象
         ProductSpuDetailRespDTO spuDetailDTO = this.convert2(spuBO);
         // 创建 ProductAttrDetailBO 的映射。其中，KEY 为 ProductAttrDetailBO.attrValueId ，即规格值的编号
-        Map<Integer, ProductAttrKeyValueBO> productAttrDetailBOMap = attrBOs.stream().collect(
+        Map<Integer, ProductAttrKeyValueBO> attrDetailBOMap = attrBOs.stream().collect(
                 Collectors.toMap(ProductAttrKeyValueBO::getAttrValueId, attrBO -> attrBO));
         // 创建并转换 ProductSpuDetailBO 数组
         spuDetailDTO.setSkus(new ArrayList<>());
-        skuBOs.forEach(sku -> {
+        skuBOs.forEach(skuBO -> {
             // 创建 ProductSpuDetailBO 对象
-            ProductSpuDetailRespDTO.Sku skuDetail = convert(sku).setAttrs(new ArrayList<>());
+            ProductSpuDetailRespDTO.Sku skuDetail = convert(skuBO).setAttrs(new ArrayList<>());
             spuDetailDTO.getSkus().add(skuDetail);
             // 设置 ProductSpuDetailBO 的 attrs 规格属性
-            sku.getAttrValueIds().forEach(attrValueId -> skuDetail.getAttrs().add(convert(productAttrDetailBOMap.get(attrValueId))));
+            skuBO.getAttrValueIds().forEach(attrValueId -> skuDetail.getAttrs().add(convert(attrDetailBOMap.get(attrValueId))));
         });
         // 设置分类名
         spuDetailDTO.setCategoryName(categoryBO.getName());

@@ -1,5 +1,8 @@
 package cn.iocoder.mall.productservice.rpc.sku.dto;
 
+import cn.iocoder.mall.productservice.enums.sku.ProductSkuDetailFieldEnum;
+import cn.iocoder.mall.productservice.rpc.attr.dto.ProductAttrKeyValueRespDTO;
+import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -46,5 +49,19 @@ public class ProductSkuRespDTO implements Serializable {
      * 创建时间
      */
     private Date createTime;
+    /**
+     * 规格值数组
+     *
+     * 需要设置 {@link ProductSkuDetailFieldEnum#ATTR} 才返回
+     */
+    private List<ProductAttrKeyValueRespDTO> attrs;
+    /**
+     * 商品 SPU 信息
+     *
+     * 需要设置 {@link ProductSkuDetailFieldEnum#SPU} 才返回
+     *
+     * // TODO 芋艿，后续考虑怎么优化下，目前是内嵌了别的 dto
+     */
+    private ProductSpuRespDTO spu;
 
 }

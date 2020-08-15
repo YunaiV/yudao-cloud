@@ -41,18 +41,26 @@ public class PriceProductCalcReqDTO implements Serializable {
         /**
          * SKU 编号
          */
+        @NotNull(message = "商品 SKU 编号不能为空")
         private Integer skuId;
         /**
          * 数量
          */
+        @NotNull(message = "商品 SKU 数量不能为空")
         private Integer quantity;
+        /**
+         * 是否选中
+         */
+        @NotNull(message = "是否选中不能为空")
+        private Boolean selected;
 
         public Item() {
         }
 
-        public Item(Integer skuId, Integer quantity) {
+        public Item(Integer skuId, Integer quantity, Boolean selected) {
             this.skuId = skuId;
             this.quantity = quantity;
+            this.selected = selected;
         }
 
     }

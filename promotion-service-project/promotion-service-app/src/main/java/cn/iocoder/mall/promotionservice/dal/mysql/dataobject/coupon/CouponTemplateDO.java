@@ -1,7 +1,10 @@
 package cn.iocoder.mall.promotionservice.dal.mysql.dataobject.coupon;
 
 import cn.iocoder.mall.mybatis.core.dataobject.BaseDO;
+import cn.iocoder.mall.promotion.api.enums.coupon.template.CouponTemplateStatusEnum;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
@@ -11,7 +14,9 @@ import java.util.Date;
  *
  * 当用户领取时，会生成 {@link CouponCardDO} 优惠劵（码）。
  */
+@TableName("coupon_template")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class CouponTemplateDO extends BaseDO {
 
@@ -38,7 +43,7 @@ public class CouponTemplateDO extends BaseDO {
     /**
      * 优惠码状态
      *
-     * {@link cn.iocoder.mall.promotion.api.enums.CouponTemplateStatusEnum}
+     * {@link CouponTemplateStatusEnum}
      *
      * 当优惠劵（码）开启中，可以手动操作，设置禁用中。
      */

@@ -1,5 +1,7 @@
 package cn.iocoder.mall.promotion.api.rpc.activity.dto;
 
+import cn.iocoder.mall.promotion.api.enums.activity.PromotionActivityStatusEnum;
+import cn.iocoder.mall.promotion.api.enums.activity.PromotionActivityTypeEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -25,13 +27,13 @@ public class PromotionActivityRespDTO implements Serializable {
     /**
      * 活动类型
      *
-     * 参见 {@link cn.iocoder.mall.promotion.api.enums.PromotionActivityTypeEnum} 枚举
+     * 参见 {@link PromotionActivityTypeEnum} 枚举
      */
     private Integer activityType;
     /**
      * 活动状态
      *
-     * 参见 {@link cn.iocoder.mall.promotion.api.enums.PromotionActivityStatusEnum} 枚举
+     * 参见 {@link PromotionActivityStatusEnum} 枚举
      */
     private Integer status;
     /**

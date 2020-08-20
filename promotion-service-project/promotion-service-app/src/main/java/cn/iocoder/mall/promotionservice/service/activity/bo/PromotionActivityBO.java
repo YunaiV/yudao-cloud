@@ -1,5 +1,7 @@
 package cn.iocoder.mall.promotionservice.service.activity.bo;
 
+import cn.iocoder.mall.promotion.api.enums.activity.PromotionActivityStatusEnum;
+import cn.iocoder.mall.promotion.api.enums.activity.PromotionActivityTypeEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -22,13 +24,13 @@ public class PromotionActivityBO implements Serializable {
     /**
      * 活动类型
      *
-     * 参见 {@link cn.iocoder.mall.promotion.api.enums.PromotionActivityTypeEnum} 枚举
+     * 参见 {@link PromotionActivityTypeEnum} 枚举
      */
     private Integer activityType;
     /**
      * 活动状态
      *
-     * 参见 {@link cn.iocoder.mall.promotion.api.enums.PromotionActivityStatusEnum} 枚举
+     * 参见 {@link PromotionActivityStatusEnum} 枚举
      */
     private Integer status;
     /**

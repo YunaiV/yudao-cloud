@@ -3,7 +3,7 @@ package cn.iocoder.mall.shopweb.controller.order;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.security.user.core.context.UserSecurityContextHolder;
 import cn.iocoder.mall.shopweb.controller.order.vo.cart.CartDetailVO;
-import cn.iocoder.mall.shopweb.manager.order.cart.CartManager;
+import cn.iocoder.mall.shopweb.manager.order.CartManager;
 import cn.iocoder.security.annotations.RequiresAuthenticate;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

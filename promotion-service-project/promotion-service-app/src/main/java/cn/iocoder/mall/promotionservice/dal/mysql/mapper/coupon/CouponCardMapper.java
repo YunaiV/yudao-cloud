@@ -1,36 +1,38 @@
 package cn.iocoder.mall.promotionservice.dal.mysql.mapper.coupon;
 
+import cn.iocoder.mall.mybatis.core.query.QueryWrapperX;
+import cn.iocoder.mall.promotion.api.rpc.coupon.dto.card.CouponCardPageReqDTO;
 import cn.iocoder.mall.promotionservice.dal.mysql.dataobject.coupon.CouponCardDO;
-import org.apache.ibatis.annotations.Param;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface CouponCardMapper {
+public interface CouponCardMapper extends BaseMapper<CouponCardDO> {
 
-    CouponCardDO selectById(@Param("id") Integer id);
+    default List<CouponCardDO> selectListByUserIdAndStatus(Integer userId, Integer status) {
+        return selectList(new QueryWrapper<CouponCardDO>().eq("user_id", userId)
+                .eq("status", status));
+    }
 
-    List<CouponCardDO> selectListByUserIdAndStatus(@Param("userId") Integer userId,
-                                                   @Param("status") Integer status);
+    default int selectCountByUserIdAndTemplateId(Integer userId, Integer templateId) {
+        return selectCount(new QueryWrapper<CouponCardDO>().eq("user_id", userId)
+                .eq("template_id", templateId));
+    }
 
-    List<CouponCardDO> selectListByPage(@Param("userId") Integer userId,
-                                        @Param("status") Integer status,
-                                        @Param("offset") Integer offset,
-                                        @Param("limit") Integer limit);
+    default int updateByIdAndStatus(Integer id, Integer status, CouponCardDO updateObj) {
+        return update(updateObj, new QueryWrapper<CouponCardDO>().eq("id", id)
+                .eq("status", status));
+    }
 
-    Integer selectCountByPage(@Param("userId") Integer userId,
-                              @Param("status") Integer status);
-
-    int selectCountByUserIdAndTemplateId(@Param("userId") Integer userId,
-                                         @Param("templateId") Integer templateId);
-
-    void insert(CouponCardDO couponCardDO);
-
-    int update(CouponCardDO couponCardDO);
-
-    int updateByIdAndStatus(@Param("id") Integer id,
-                            @Param("status") Integer status,
-                            @Param("updateObj") CouponCardDO updateObj);
+    default IPage<CouponCardDO> selectPage(CouponCardPageReqDTO pageReqDTO) {
+        return selectPage(new Page<>(pageReqDTO.getPageNo(), pageReqDTO.getPageSize()),
+                new QueryWrapperX<CouponCardDO>().eqIfPresent("user_id", pageReqDTO.getUserId())
+                    .eqIfPresent("status", pageReqDTO.getStatus()));
+    }
 
 }

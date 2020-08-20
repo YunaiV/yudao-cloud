@@ -76,25 +76,7 @@ public class UsersOrderController {
 //        return createResult;
 //    }
 //
-//    @GetMapping("confirm_create_order")
-//    @RequiresLogin
-//    @ApiOperation("确认创建订单")
-//    public CommonResult<UsersOrderConfirmCreateVO> getConfirmCreateOrder(@RequestParam("skuId") Integer skuId,
-//                                                                         @RequestParam("quantity") Integer quantity,
-//                                                                         @RequestParam(value = "couponCardId", required = false) Integer couponCardId) {
-//        Integer userId = UserSecurityContextHolder.getContext().getUserId();
-//        // 创建 CalcOrderPriceDTO 对象，并执行价格计算
-//        CalcOrderPriceDTO calcOrderPriceDTO = new CalcOrderPriceDTO()
-//                .setUserId(userId)
-//                .setItems(Collections.singletonList(new CalcOrderPriceDTO.Item(skuId, quantity, true)))
-//                .setCouponCardId(couponCardId);
-//        CalcOrderPriceBO calcOrderPrice = cartService.calcOrderPrice(calcOrderPriceDTO);
-//        // 获得优惠劵
-//        List<CouponCardAvailableBO> couponCards = couponService.getCouponCardList(userId,
-//                CartConvert.INSTANCE.convertList(calcOrderPrice.getItemGroups()));
-//        // 执行数据拼装
-//        return success(CartConvert.INSTANCE.convert(calcOrderPrice).setCouponCards(couponCards));
-//    }
+
 //
 //    @PostMapping("confirm_receiving")
 //    @RequiresLogin

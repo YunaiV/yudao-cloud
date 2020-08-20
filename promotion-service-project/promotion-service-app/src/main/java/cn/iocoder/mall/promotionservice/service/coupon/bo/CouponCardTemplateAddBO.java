@@ -1,7 +1,7 @@
 package cn.iocoder.mall.promotionservice.service.coupon.bo;
 
 import cn.iocoder.common.framework.validator.InEnum;
-import cn.iocoder.mall.promotion.api.enums.CouponTemplateDateTypeEnum;
+import cn.iocoder.mall.promotion.api.enums.coupon.template.CouponTemplateDateTypeEnum;
 import cn.iocoder.mall.promotion.api.enums.PreferentialTypeEnum;
 import cn.iocoder.mall.promotion.api.enums.RangeTypeEnum;
 import lombok.Data;

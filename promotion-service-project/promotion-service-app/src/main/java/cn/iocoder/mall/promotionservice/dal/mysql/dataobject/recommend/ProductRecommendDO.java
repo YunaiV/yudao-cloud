@@ -2,7 +2,7 @@ package cn.iocoder.mall.promotionservice.dal.mysql.dataobject.recommend;
 
 
 import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
-import cn.iocoder.mall.promotion.api.enums.ProductRecommendTypeEnum;
+import cn.iocoder.mall.promotion.api.enums.recommend.ProductRecommendTypeEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

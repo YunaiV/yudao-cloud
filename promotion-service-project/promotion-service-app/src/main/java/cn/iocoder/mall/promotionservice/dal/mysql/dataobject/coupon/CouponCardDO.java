@@ -1,7 +1,9 @@
 package cn.iocoder.mall.promotionservice.dal.mysql.dataobject.coupon;
 
 import cn.iocoder.mall.mybatis.core.dataobject.BaseDO;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
@@ -9,7 +11,9 @@ import java.util.Date;
 /**
  * 优惠劵 DO
  */
+@TableName("coupon_card")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class CouponCardDO extends BaseDO {
 

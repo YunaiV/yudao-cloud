@@ -1,0 +1,5 @@
+### /product-spu/page 计算商品 SKU 价格
+GET {{shop-api-base-url}}/product-sku/cal-price?id=33
+Content-Type: application/x-www-form-urlencoded
+
+###

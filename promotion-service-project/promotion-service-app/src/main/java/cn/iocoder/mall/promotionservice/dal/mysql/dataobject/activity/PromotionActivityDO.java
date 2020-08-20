@@ -1,6 +1,8 @@
 package cn.iocoder.mall.promotionservice.dal.mysql.dataobject.activity;
 
 import cn.iocoder.mall.mybatis.core.dataobject.BaseDO;
+import cn.iocoder.mall.promotion.api.enums.activity.PromotionActivityStatusEnum;
+import cn.iocoder.mall.promotion.api.enums.activity.PromotionActivityTypeEnum;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
@@ -31,7 +33,7 @@ public class PromotionActivityDO extends BaseDO {
     /**
      * 活动类型
      *
-     * 参见 {@link cn.iocoder.mall.promotion.api.enums.PromotionActivityTypeEnum} 枚举
+     * 参见 {@link PromotionActivityTypeEnum} 枚举
      */
     private Integer activityType;
 //    /**
@@ -42,7 +44,7 @@ public class PromotionActivityDO extends BaseDO {
     /**
      * 活动状态
      *
-     * 参见 {@link cn.iocoder.mall.promotion.api.enums.PromotionActivityStatusEnum} 枚举
+     * 参见 {@link PromotionActivityStatusEnum} 枚举
      */
     private Integer status;
     /**

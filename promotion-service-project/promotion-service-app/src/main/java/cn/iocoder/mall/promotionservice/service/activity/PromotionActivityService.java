@@ -1,6 +1,6 @@
 package cn.iocoder.mall.promotionservice.service.activity;
 
-import cn.iocoder.mall.promotion.api.enums.PromotionActivityTypeEnum;
+import cn.iocoder.mall.promotion.api.enums.activity.PromotionActivityTypeEnum;
 import cn.iocoder.mall.promotion.api.enums.RangeTypeEnum;
 import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityListReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityRespDTO;

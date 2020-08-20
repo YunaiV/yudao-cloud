@@ -1,7 +1,7 @@
 package cn.iocoder.mall.promotionservice.service.recommend.bo;
 
 import cn.iocoder.common.framework.validator.InEnum;
-import cn.iocoder.mall.promotion.api.enums.ProductRecommendTypeEnum;
+import cn.iocoder.mall.promotion.api.enums.recommend.ProductRecommendTypeEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;

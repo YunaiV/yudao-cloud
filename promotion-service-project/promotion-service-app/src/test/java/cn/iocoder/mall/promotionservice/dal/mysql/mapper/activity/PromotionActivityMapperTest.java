@@ -1,6 +1,6 @@
 package cn.iocoder.mall.promotionservice.dal.mysql.mapper.activity;
 
-import cn.iocoder.mall.promotion.api.enums.PromotionActivityStatusEnum;
+import cn.iocoder.mall.promotion.api.enums.activity.PromotionActivityStatusEnum;
 import cn.iocoder.mall.promotionservice.dal.mysql.dataobject.activity.PromotionActivityDO;
 import org.junit.Test;
 import org.junit.runner.RunWith;

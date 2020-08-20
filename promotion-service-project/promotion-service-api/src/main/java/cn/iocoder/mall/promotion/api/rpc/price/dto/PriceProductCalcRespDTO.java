@@ -1,6 +1,6 @@
 package cn.iocoder.mall.promotion.api.rpc.price.dto;
 
-import cn.iocoder.mall.promotion.api.enums.PromotionActivityTypeEnum;
+import cn.iocoder.mall.promotion.api.enums.activity.PromotionActivityTypeEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

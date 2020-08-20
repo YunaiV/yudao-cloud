@@ -9,6 +9,8 @@ import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuRespDTO;
 import cn.iocoder.mall.productservice.rpc.spu.ProductSpuRpc;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
 import cn.iocoder.mall.promotion.api.enums.*;
+import cn.iocoder.mall.promotion.api.enums.activity.PromotionActivityStatusEnum;
+import cn.iocoder.mall.promotion.api.enums.activity.PromotionActivityTypeEnum;
 import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityRespDTO;
 import cn.iocoder.mall.promotion.api.rpc.coupon.dto.card.CouponCardRespDTO;
 import cn.iocoder.mall.promotion.api.rpc.coupon.dto.template.CouponTemplateRespDTO;

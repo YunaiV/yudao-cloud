@@ -1,11 +1,8 @@
 package cn.iocoder.mall.promotion.api.rpc.coupon;
 
 import cn.iocoder.common.framework.validator.InEnum;
-import cn.iocoder.mall.promotion.api.enums.CouponTemplateStatusEnum;
+import cn.iocoder.mall.promotion.api.enums.coupon.template.CouponTemplateStatusEnum;
 import cn.iocoder.mall.promotion.api.rpc.coupon.dto.*;
-
-import javax.validation.constraints.NotNull;
-import java.util.List;
 
 public interface CouponRpc {
 
@@ -57,68 +54,5 @@ public interface CouponRpc {
      */
     Boolean updateCouponTemplateStatus(Integer adminId, Integer couponTemplateId,
                                        @InEnum(value = CouponTemplateStatusEnum.class, message = "修改状态必须是 {value}") Integer status);
-
-    // ========== 优惠劵 ==========
-
-    CouponCardPageRespDTO getCouponCardPage(CouponCardPageReqDTO couponCardPageDTO);
-
-    /**
-     * 基于优惠劵模板，领取优惠劵
-     *
-     * @param userId           用户编号
-     * @param couponTemplateId 优惠劵模板
-     * @return 优惠劵
-     */
-    CouponCardReqDTO addCouponCard(Integer userId, Integer couponTemplateId);
-
-    /**
-     * 使用优惠劵下单
-     *
-     * @param userId       用户编号
-     * @param couponCardId 优惠劵编号
-     * @return 是否成功
-     */
-    Boolean useCouponCard(Integer userId,
-                        @NotNull(message = "优惠劵编号不能为空") Integer couponCardId);
-
-    /**
-     * 取消优惠劵的使用
-     *
-     * @param userId       用户编号
-     * @param couponCardId 优惠劵编号
-     * @return 是否成功
-     */
-    Boolean cancelUseCouponCard(Integer userId, Integer couponCardId);
-
-    /**
-     * 获得指定优惠劵
-     *
-     * @param userId       用户编号
-     * @param couponCardId 优惠劵编号
-     * @return 优惠劵
-     */
-    CouponCardDetailRespDTO getCouponCardDetail(Integer userId, Integer couponCardId);
-
-    /**
-     * 获得用户所有优惠劵，并标明是否可用
-     * <p>
-     * 注意，spus 是作为条件，判断优惠劵是否可用
-     *
-     * @param userId 用户编号
-     * @param spus   匹配的商品/分类
-     * @return 优惠劵列表
-     */
-    List<CouponCardAvailableRespDTO> getCouponCardList(Integer userId, List<CouponCardSpuRespDTO> spus);
-
-    // ========== 优惠码 ==========
-
-    /**
-     * 使用优惠码，兑换优惠劵
-     *
-     * @param userId 用户编号
-     * @param code   优惠码
-     * @return 优惠劵
-     */
-    CouponCardReqDTO useCouponCode(Integer userId, String code);
 
 }

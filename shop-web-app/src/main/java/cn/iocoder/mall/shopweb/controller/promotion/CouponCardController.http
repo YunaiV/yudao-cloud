@@ -1,0 +1,23 @@
+### /promotion/coupon-card/page 优惠劵分页（未使用）
+GET {{shop-api-base-url}}/promotion/coupon-card/page?pageNo=1&pageSize=10&status=1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{user-access-token}}
+
+### /promotion/coupon-card/page 优惠劵分页（已使用）
+GET {{shop-api-base-url}}/promotion/coupon-card/page?pageNo=1&pageSize=10&status=2
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{user-access-token}}
+
+### /promotion/coupon-card/page 优惠劵分页（已过期）
+GET {{shop-api-base-url}}/promotion/coupon-card/page?pageNo=1&pageSize=10&status=3
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{user-access-token}}
+
+### /promotion/coupon-card/create 用户领取优惠劵（成功）
+POST {{shop-api-base-url}}/promotion/coupon-card/create
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{user-access-token}}
+
+couponTemplateId=1
+
+###

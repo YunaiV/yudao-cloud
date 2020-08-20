@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 
 import java.util.List;
 
-@ApiModel(value = "用户的购物车明细 VO")
+@ApiModel(value = "用户的购物车明细 Response VO") // TODO 芋艿：swagger 文档完善
 @Data
 @Accessors(chain = true)
 public class CartDetailVO {

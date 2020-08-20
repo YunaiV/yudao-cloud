@@ -1,18 +1,14 @@
 package cn.iocoder.mall.promotionservice.dal.mysql.mapper.coupon;
 
 import cn.iocoder.mall.promotionservice.dal.mysql.dataobject.coupon.CouponTemplateDO;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.List;
 
 @Repository
-public interface CouponTemplateMapper {
-
-    CouponTemplateDO selectById(@Param("id") Integer id);
-
-    List<CouponTemplateDO> selectListByIds(@Param("ids") Collection<Integer> ids);
+public interface CouponTemplateMapper extends BaseMapper<CouponTemplateDO> {
 
     List<CouponTemplateDO> selectListByPage(@Param("type") Integer type,
                                             @Param("title") String title,
@@ -26,10 +22,14 @@ public interface CouponTemplateMapper {
                               @Param("status") Integer status,
                               @Param("preferentialType") Integer preferentialType);
 
-    void insert(CouponTemplateDO couponTemplate);
-
-    int update(CouponTemplateDO couponTemplate);
-
+    /**
+     * 更新优惠劵模板已领取的数量
+     *
+     * 如果超过领取上限，则返回 0
+     *
+     * @param id 优惠劵模板编号
+     * @return 更新数量
+     */
     int updateStatFetchNumIncr(@Param("id") Integer id);
 
 }

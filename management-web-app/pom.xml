@@ -66,6 +66,12 @@
             <artifactId>product-service-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <!-- 营销服务 -->
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>promotion-service-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
         <!-- Registry 和 Config 相关 -->
         <dependency>

@@ -6,7 +6,7 @@ import cn.iocoder.mall.managementweb.controller.systemlog.dto.SystemAccessLogPag
 import cn.iocoder.mall.managementweb.controller.systemlog.vo.SystemAccessLogVO;
 import cn.iocoder.mall.managementweb.convert.systemlog.SystemAccessLogConvert;
 import cn.iocoder.mall.systemservice.rpc.systemlog.SystemAccessLogRpc;
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SystemAccessLogManager {
 
-    @Reference(version = "${dubbo.consumer.SystemAccessLogRpc.version}")
+    @DubboReference(version = "${dubbo.consumer.SystemAccessLogRpc.version}")
     private SystemAccessLogRpc systemAccessLogRpc;
 
     /**

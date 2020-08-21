@@ -57,6 +57,8 @@ dubbo:
       version: 1.0.0
     ProductAttrRpc:
       version: 1.0.0
+    CouponTemplateRpc:
+      version: 1.0.0
 
 # Swagger 配置项
 swagger:

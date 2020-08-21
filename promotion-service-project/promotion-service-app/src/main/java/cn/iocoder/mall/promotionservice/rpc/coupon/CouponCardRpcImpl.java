@@ -4,7 +4,7 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.promotion.api.rpc.coupon.CouponCardRpc;
 import cn.iocoder.mall.promotion.api.rpc.coupon.dto.card.*;
-import cn.iocoder.mall.promotionservice.manager.coupon.card.CouponCardManager;
+import cn.iocoder.mall.promotionservice.manager.coupon.CouponCardManager;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -16,7 +16,7 @@ import cn.iocoder.mall.promotion.api.rpc.coupon.dto.card.CouponCardAvailableList
 import cn.iocoder.mall.promotion.api.rpc.coupon.dto.card.CouponCardAvailableRespDTO;
 import cn.iocoder.mall.promotion.api.rpc.coupon.dto.card.CouponCardPageReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.coupon.dto.card.CouponCardRespDTO;
-import cn.iocoder.mall.promotionservice.convert.coupon.card.CouponCardConvert;
+import cn.iocoder.mall.promotionservice.convert.coupon.CouponCardConvert;
 import cn.iocoder.mall.promotionservice.dal.mysql.dataobject.coupon.CouponCardDO;
 import cn.iocoder.mall.promotionservice.dal.mysql.dataobject.coupon.CouponTemplateDO;
 import cn.iocoder.mall.promotionservice.dal.mysql.mapper.coupon.CouponCardMapper;
@@ -42,6 +42,13 @@ public class CouponCardService {
     @Autowired
     private CouponTemplateMapper couponTemplateMapper;
 
+    /**
+     * 获得用户的优惠劵
+     *
+     * @param userId 用户编号
+     * @param couponCardId 优惠劵编号
+     * @return 优惠劵
+     */
     public CouponCardRespDTO getCouponCard(Integer userId, Integer couponCardId) {
         CouponCardDO card = couponCardMapper.selectById(couponCardId);
         if (card == null) {

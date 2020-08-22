@@ -1,10 +1,11 @@
 package cn.iocoder.mall.promotionservice.convert.activity;
 
+import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityRespDTO;
 import cn.iocoder.mall.promotionservice.dal.mysql.dataobject.activity.PromotionActivityDO;
-import cn.iocoder.mall.promotionservice.service.activity.bo.PromotionActivityBO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mappings;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -14,24 +15,9 @@ public interface PromotionActivityConvert {
 
     PromotionActivityConvert INSTANCE = Mappers.getMapper(PromotionActivityConvert.class);
 
-    @Mappings({})
-    PromotionActivityBO convertToBO(PromotionActivityDO activity);
-
-    @Mappings({})
-    List<PromotionActivityBO> convertToBO(List<PromotionActivityDO> activityList);
-
-    @Mappings({})
-    List<PromotionActivityDO> convertToDO(List<PromotionActivityBO> activityList);
-
-    @Mappings({})
-    List<PromotionActivityRespDTO> convertToRespDTO(List<PromotionActivityDO> activityList);
-
     List<PromotionActivityRespDTO> convertList(List<PromotionActivityDO> list);
 
-//    @Mappings({})
-//    PromotionActivityDO convert(PromotionActivityAddDTO activityAddDTO);
-//
-//    @Mappings({})
-//    PromotionActivityDO convert(PromotionActivityUpdateDTO activityUpdateDTO);
+    @Mapping(source = "records", target = "list")
+    PageResult<PromotionActivityRespDTO> convertPage(IPage<PromotionActivityDO> page);
 
 }

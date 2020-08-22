@@ -20,9 +20,6 @@ import javax.validation.Valid;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
 
-/**
- * 优惠劵模板 Controller
- */
 @RestController
 @RequestMapping("/promotion/coupon-template")
 @Api(tags = "优惠劵（码）模板 API")

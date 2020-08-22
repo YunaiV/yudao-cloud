@@ -52,6 +52,10 @@ public class PromotionActivityRespDTO implements Serializable {
      * 满减送
      */
     private FullPrivilege fullPrivilege;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 
     /**
      * 限时折扣

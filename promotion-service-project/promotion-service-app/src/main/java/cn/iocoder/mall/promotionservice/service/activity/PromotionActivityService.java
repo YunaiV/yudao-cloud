@@ -1,13 +1,15 @@
 package cn.iocoder.mall.promotionservice.service.activity;
 
-import cn.iocoder.mall.promotion.api.enums.activity.PromotionActivityTypeEnum;
+import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.promotion.api.enums.RangeTypeEnum;
+import cn.iocoder.mall.promotion.api.enums.activity.PromotionActivityTypeEnum;
 import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityListReqDTO;
+import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityPageReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityRespDTO;
 import cn.iocoder.mall.promotionservice.convert.activity.PromotionActivityConvert;
 import cn.iocoder.mall.promotionservice.dal.mysql.dataobject.activity.PromotionActivityDO;
 import cn.iocoder.mall.promotionservice.dal.mysql.mapper.activity.PromotionActivityMapper;
-import cn.iocoder.mall.promotionservice.service.activity.bo.PromotionActivityPageBO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -29,10 +31,6 @@ public class PromotionActivityService {
     public List<PromotionActivityRespDTO> listPromotionActivities(PromotionActivityListReqDTO listReqDTO) {
         List<PromotionActivityDO> activityList = promotionActivityMapper.selectList(listReqDTO);
         return PromotionActivityConvert.INSTANCE.convertList(activityList);
-    }
-
-    public List<PromotionActivityRespDTO> listPromotionActivitiesBySpuId(Integer spuId, Collection<Integer> activityStatuses) {
-        return this.listPromotionActivitiesBySpuIds(Collections.singleton(spuId), activityStatuses);
     }
 
     public List<PromotionActivityRespDTO> listPromotionActivitiesBySpuIds(Collection<Integer> spuIds, Collection<Integer> activityStatuses) {
@@ -72,16 +70,9 @@ public class PromotionActivityService {
         return PromotionActivityConvert.INSTANCE.convertList(activityList);
     }
 
-    public PromotionActivityPageBO getPromotionActivityPage(Integer pageNo,Integer pageSize,String title,Integer activityType,Collection<Integer> statuses) {
-        PromotionActivityPageBO promotionActivityPageBO = new PromotionActivityPageBO();
-        // 查询分页数据
-        int offset = (pageNo - 1) * pageSize;
-        promotionActivityPageBO.setList(PromotionActivityConvert.INSTANCE.convertToRespDTO(promotionActivityMapper.selectListByPage(
-                title, activityType,statuses, offset, pageSize)));
-        // 查询分页总数
-        promotionActivityPageBO.setTotal(promotionActivityMapper.selectCountByPage(
-                title,activityType,statuses));
-        return promotionActivityPageBO;
+    public PageResult<PromotionActivityRespDTO> pagePromotionActivity(PromotionActivityPageReqDTO pageReqDTO) {
+        IPage<PromotionActivityDO> promotionActivityPage = promotionActivityMapper.selectPage(pageReqDTO);
+        return PromotionActivityConvert.INSTANCE.convertPage(promotionActivityPage);
     }
 
     private boolean isSpuMatchTimeLimitDiscount(Integer spuId, PromotionActivityDO activity) {

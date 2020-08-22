@@ -1,7 +1,7 @@
 package cn.iocoder.mall.promotion.api.enums.activity;
 
 /**
- * 推广活动类型枚举
+ * 促销活动类型枚举
  */
 public enum PromotionActivityTypeEnum {
 

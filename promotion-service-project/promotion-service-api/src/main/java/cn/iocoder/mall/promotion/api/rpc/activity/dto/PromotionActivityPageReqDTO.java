@@ -1,24 +1,33 @@
 package cn.iocoder.mall.promotion.api.rpc.activity.dto;
 
+import cn.iocoder.common.framework.vo.PageParam;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
- * 促销活动分页 BO
+ * 促销活动分页 Request DTO
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class PromotionActivityPageReqDTO {
+public class PromotionActivityPageReqDTO extends PageParam {
 
     /**
-     * PromotionActivityBO 数组
+     * 标题
+     *
+     * 模糊匹配
      */
-    private List<PromotionActivityRespDTO> list;
+    private String title;
     /**
-     * 总量
+     * 活动类型
      */
-    private Integer total;
+    private Integer activityType;
+    /**
+     * 状态
+     */
+    private Collection<Integer> statuses;
 
 }

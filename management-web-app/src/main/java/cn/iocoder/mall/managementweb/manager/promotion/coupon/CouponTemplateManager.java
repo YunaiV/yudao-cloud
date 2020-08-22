@@ -38,11 +38,14 @@ public class CouponTemplateManager {
 
     // ========== 优惠劵模板 ==========
 
-    public Integer createCouponTemplateCard(CouponTemplateCardCreateReqVO createVO) {
-        return null;
+    public Integer createCouponCardTemplate(CouponTemplateCardCreateReqVO createVO) {
+        CommonResult<Integer> createCouponCardTemplateResult = couponTemplateRpc.createCouponCardTemplate(
+                CouponTemplateConvert.INSTANCE.convert(createVO));
+        createCouponCardTemplateResult.checkError();
+        return createCouponCardTemplateResult.getData();
     }
 
-    public void updateCouponTemplateCard(CouponTemplateCardUpdateReqVO updateVO) {
+    public void updateCouponCardTemplate(CouponTemplateCardUpdateReqVO updateVO) {
         CommonResult<Boolean> updateCouponCardTemplateResult = couponTemplateRpc.updateCouponCardTemplate(
                 CouponTemplateConvert.INSTANCE.convert(updateVO));
         updateCouponCardTemplateResult.checkError();

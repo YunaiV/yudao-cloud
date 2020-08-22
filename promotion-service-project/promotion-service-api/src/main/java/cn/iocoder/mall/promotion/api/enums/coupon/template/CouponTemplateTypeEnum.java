@@ -2,6 +2,9 @@ package cn.iocoder.mall.promotion.api.enums.coupon.template;
 
 import java.util.Arrays;
 
+/**
+ * 优惠劵（码）模板的类型的枚举
+ */
 public enum CouponTemplateTypeEnum {
 
     CARD(1, "优惠劵"),

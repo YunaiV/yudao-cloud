@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -52,8 +53,10 @@ public class CouponTemplateCardCreateReqVO {
     @InEnum(value = CouponTemplateDateTypeEnum.class, message = "生效日期类型必须在 {value}")
     private Integer dateType;
     @ApiModelProperty(value = "固定日期-生效开始时间", notes = "当 dateType 为固定日期时，非空")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date validStartTime;
     @ApiModelProperty(value = "固定日期-生效结束时间", notes = "当 dateType 为固定日期时，非空")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date validEndTime;
     @ApiModelProperty(value = "领取日期-开始天数", example = "0", notes = "例如，0-当天；1-次天")
     @Min(value = 0L, message = "领取日期开始时间最小为 {value}")

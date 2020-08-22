@@ -42,7 +42,7 @@ public class CouponTemplateController {
     }
 
     @PostMapping("/update-status")
-    @ApiOperation("更新优惠劵（码）模板")
+    @ApiOperation("更新优惠劵（码）模板的状态")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "优惠劵（码）模板编号", required = true, example = "1"),
             @ApiImplicitParam(name = "status", value = "状态。1 - 开启；2 - 禁用", required = true, example = "1"),
@@ -59,15 +59,15 @@ public class CouponTemplateController {
     @PostMapping("/create-card")
     @ApiOperation("创建优惠劵模板")
     @RequiresPermissions("promotion:coupon-template:create-card")
-    public CommonResult<Integer> createCouponTemplateCard(@Valid CouponTemplateCardCreateReqVO createVO) {
-        return success(couponTemplateManager.createCouponTemplateCard(createVO));
+    public CommonResult<Integer> createCouponCardTemplate(@Valid CouponTemplateCardCreateReqVO createVO) {
+        return success(couponTemplateManager.createCouponCardTemplate(createVO));
     }
 
     @PostMapping("/update-card")
     @ApiOperation("更新优惠劵模板")
     @RequiresPermissions("promotion:coupon-template:update-card")
-    public CommonResult<Boolean> updateCouponTemplateCard(@Valid CouponTemplateCardUpdateReqVO updateVO) {
-        couponTemplateManager.updateCouponTemplateCard(updateVO);
+    public CommonResult<Boolean> updateCouponCardTemplate(@Valid CouponTemplateCardUpdateReqVO updateVO) {
+        couponTemplateManager.updateCouponCardTemplate(updateVO);
         return success(true);
     }
 

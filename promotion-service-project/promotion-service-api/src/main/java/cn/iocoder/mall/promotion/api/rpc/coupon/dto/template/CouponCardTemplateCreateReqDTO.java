@@ -100,7 +100,7 @@ public class CouponCardTemplateCreateReqDTO implements Serializable {
      * 例如，0-当天；1-次天
      */
     @Min(value = 0L, message = "领取日期开始时间最小为 {value}")
-    private Integer fixedBeginTerm;
+    private Integer fixedStartTerm;
     /**
      * 领取日期-结束天数
      */

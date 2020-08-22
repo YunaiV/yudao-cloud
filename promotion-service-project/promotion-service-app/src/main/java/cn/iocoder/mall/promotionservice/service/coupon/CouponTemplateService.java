@@ -73,7 +73,7 @@ public class CouponTemplateService {
         couponTemplateMapper.updateById(updateTemplateDO);
     }
 
-    private Boolean checkCouponTemplateDateType(Integer dateType, Date validStartTime, Date validEndTime, Integer fixedBeginTerm, Integer fixedEndTerm) {
+    private Boolean checkCouponTemplateDateType(Integer dateType, Date validStartTime, Date validEndTime, Integer fixedStartTerm, Integer fixedEndTerm) {
         // TODO 芋艿：后续这种类型的校验，看看怎么优化到对象里
         if (CouponTemplateDateTypeEnum.FIXED_DATE.getValue().equals(dateType)) { // 固定日期
             if (validStartTime == null) {
@@ -86,7 +86,7 @@ public class CouponTemplateService {
                 throw ServiceExceptionUtil.exception(BAD_REQUEST, "生效开始时间不能大于生效结束时间");
             }
         } else if (CouponTemplateDateTypeEnum.FIXED_TERM.getValue().equals(dateType)) { // 领取日期
-            if (fixedBeginTerm == null) {
+            if (fixedStartTerm == null) {
                 throw ServiceExceptionUtil.exception(BAD_REQUEST, "领取日期开始时间不能为空");
             }
             if (fixedEndTerm == null) {
@@ -129,7 +129,7 @@ public class CouponTemplateService {
         // 校验生效日期相关
         checkCouponTemplateDateType(createReqDTO.getDateType(),
                 createReqDTO.getValidStartTime(), createReqDTO.getValidEndTime(),
-                createReqDTO.getFixedBeginTerm(), createReqDTO.getFixedEndTerm());
+                createReqDTO.getFixedStartTerm(), createReqDTO.getFixedEndTerm());
         // 校验优惠类型
         checkCouponTemplatePreferentialType(createReqDTO.getPreferentialType(), createReqDTO.getPercentOff(),
                 createReqDTO.getPriceOff(), createReqDTO.getPriceAvailable());

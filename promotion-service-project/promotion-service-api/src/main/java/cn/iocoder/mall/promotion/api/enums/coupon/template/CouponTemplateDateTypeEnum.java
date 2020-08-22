@@ -4,6 +4,9 @@ import cn.iocoder.common.framework.core.IntArrayValuable;
 
 import java.util.Arrays;
 
+/**
+ * 优惠劵（码）模板的时间类型的枚举
+ */
 public enum CouponTemplateDateTypeEnum implements IntArrayValuable {
 
     FIXED_DATE(1, "固定日期"),

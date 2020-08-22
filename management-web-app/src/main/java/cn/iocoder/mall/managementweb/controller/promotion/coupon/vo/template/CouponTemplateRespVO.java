@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
+import java.util.List;
 
 @ApiModel("优惠劵（码）模板 VO")
 @Data
@@ -44,7 +45,7 @@ public class CouponTemplateRespVO {
     @ApiModelProperty(value = "可用范围的类型", required = true, example = "10", notes = "参见 RangeTypeEnum 枚举")
     private Integer rangeType;
     @ApiModelProperty(value = "指定商品 / 分类列表，使用逗号分隔商品编号", example = "1,3,5")
-    private String rangeValues;
+    private List<Integer> rangeValues;
     @ApiModelProperty(value = "生效日期类型", example = "1", notes = "参见 CouponTemplateDateTypeEnum 枚举")
     private Integer dateType;
     @ApiModelProperty(value = "固定日期-生效开始时间", notes = "当 dateType 为固定日期时，非空")

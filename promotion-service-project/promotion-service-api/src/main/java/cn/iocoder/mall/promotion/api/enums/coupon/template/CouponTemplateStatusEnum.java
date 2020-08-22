@@ -4,6 +4,9 @@ import cn.iocoder.common.framework.core.IntArrayValuable;
 
 import java.util.Arrays;
 
+/**
+ * 优惠劵（码）模板的状态的枚举
+ */
 public enum CouponTemplateStatusEnum implements IntArrayValuable {
 
     ENABLE(1, "生效中"),

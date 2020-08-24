@@ -11,17 +11,12 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * 商品推荐更新 Request DTO
+ * 商品推荐创建 Request DTO
  */
 @Data
 @Accessors(chain = true)
-public class ProductRecommendUpdateReqDTO implements Serializable {
+public class ProductRecommendCreateReqDTO implements Serializable {
 
-    /**
-     * 编号
-     */
-    @NotNull(message = "编号不能为空")
-    private Integer id;
     /**
      * 推荐类型
      */

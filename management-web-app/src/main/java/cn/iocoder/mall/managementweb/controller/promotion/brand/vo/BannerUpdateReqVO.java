@@ -1,62 +1,42 @@
-package cn.iocoder.mall.promotion.api.rpc.banner.dto;
+package cn.iocoder.mall.managementweb.controller.promotion.brand.vo;
 
-import cn.iocoder.common.framework.enums.CommonStatusEnum;
-import cn.iocoder.common.framework.validator.InEnum;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
-/**
- * Banner 更新 Request DTO
- */
+@ApiModel("Banner 更新 Request VO")
 @Data
-@Accessors(chain = true)
-public class BannerUpdateReqDTO implements Serializable {
+public class BannerUpdateReqVO {
 
-    /**
-     * 编号
-     */
+    @ApiModelProperty(value = "Banner 编号", required = true, example = "1")
     @NotNull(message = "编号不能为空")
     private Integer id;
-    /**
-     * 标题
-     */
+    @ApiModelProperty(value = "标题",  required = true, example = "活动 A")
     @NotEmpty(message = "标题不能为空")
     @Length(min = 2, max = 32, message = "标题长度为 2-32 位")
     private String title;
-    /**
-     * 跳转链接
-     */
+    @ApiModelProperty(value = "跳转链接", required = true, example = "http://www.baidu.com")
     @NotEmpty(message = "跳转链接不能为空")
     @URL(message = "跳转链接格式不正确")
     @Length(max = 255, message = "跳转链接最大长度为 255 位")
     private String url;
-    /**
-     * 图片链接
-     */
-    @NotEmpty(message = "图片链接不能为空")
+    @ApiModelProperty(value = "跳转链接", required = true, example = "http://www.iocoder.cn/01.jpg")
+    @NotEmpty(message = "跳转链接不能为空")
     @URL(message = "图片链接格式不正确")
     @Length(max = 255, message = "图片链接最大长度为 255 位")
     private String picUrl;
-    /**
-     * 排序
-     */
+    @ApiModelProperty(value = "排序", required = true, example = "10")
     @NotNull(message = "排序不能为空")
     private Integer sort;
-    /**
-     * 状态
-     */
+    @ApiModelProperty(value = "状态", required = true, example = "1")
     @NotNull(message = "状态不能为空")
-    @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}")
     private Integer status;
-    /**
-     * 备注
-     */
+    @ApiModelProperty(value = "备注", example = "这个活动很牛逼")
     @Length(max = 255, message = "备注最大长度为 255 位")
     private String memo;
 

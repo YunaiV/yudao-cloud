@@ -1,24 +1,52 @@
-package cn.iocoder.mall.promotion.api.rpc.recommend.dto;
+package cn.iocoder.mall.promotion.api.rpc.recommend;
 
-import cn.iocoder.common.framework.enums.CommonStatusEnum;
-import cn.iocoder.common.framework.exception.ServiceException;
-import cn.iocoder.common.framework.validator.InEnum;
+import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.common.framework.vo.PageResult;
+import cn.iocoder.mall.promotion.api.rpc.recommend.dto.*;
 
 import java.util.List;
 
+/**
+ * 商品推荐 Rpc 接口
+ */
 public interface ProductRecommendRpc {
 
-    List<ProductRecommendRespDTO> getProductRecommendList(Integer type, Integer status);
+    /**
+     * 创建商品推荐
+     *
+     * @param createDTO 创建商品推荐 DTO
+     * @return 商品推荐编号
+     */
+    CommonResult<Integer> createProductRecommend(ProductRecommendCreateReqDTO createDTO);
 
-    ProductRecommendPageRespDTO getProductRecommendPage(ProductRecommendPageReqDTO productRecommendPageDTO);
+    /**
+     * 更新商品推荐
+     *
+     * @param updateDTO 更新商品推荐 DTO
+     */
+    CommonResult<Boolean> updateProductRecommend(ProductRecommendUpdateReqDTO updateDTO);
 
-    ProductRecommendRespDTO addProductRecommend(Integer adminId, ProductRecommendAddReqDTO productRecommendAddDTO) throws ServiceException;
+    /**
+     * 删除商品推荐
+     *
+     * @param productRecommendId 商品推荐编号
+     */
+    CommonResult<Boolean> deleteProductRecommend(Integer productRecommendId);
 
-    Boolean updateProductRecommend(Integer adminId, ProductRecommendUpdateReqDTO productRecommendUpdateDTO) throws ServiceException;
+    /**
+     * 获得商品推荐列表
+     *
+     * @param listReqDTO 商品推荐列表查询 DTO
+     * @return 商品推荐列表
+     */
+    CommonResult<List<ProductRecommendRespDTO>> listProductRecommends(ProductRecommendListReqDTO listReqDTO);
 
-    Boolean updateProductRecommendStatus(Integer adminId, Integer productRecommendId,
-                                         @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}") Integer status) throws ServiceException;
-
-    Boolean deleteProductRecommend(Integer adminId, Integer productRecommendId);
+    /**
+     * 获得商品推荐分页
+     *
+     * @param pageDTO 商品推荐分页查询
+     * @return 商品推荐分页结果
+     */
+    CommonResult<PageResult<ProductRecommendRespDTO>> pageProductRecommend(ProductRecommendPageReqDTO pageDTO);
 
 }

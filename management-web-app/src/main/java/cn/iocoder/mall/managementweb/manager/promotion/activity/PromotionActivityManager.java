@@ -3,7 +3,7 @@ package cn.iocoder.mall.managementweb.manager.promotion.activity;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.managementweb.controller.promotion.activity.vo.PromotionActivityPageReqVO;
-import cn.iocoder.mall.managementweb.convert.promotion.activity.PromotionActivityConvert;
+import cn.iocoder.mall.managementweb.convert.promotion.PromotionActivityConvert;
 import cn.iocoder.mall.promotion.api.rpc.activity.PromotionActivityRpc;
 import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityRespDTO;
 import org.apache.dubbo.config.annotation.DubboReference;

@@ -1,13 +1,17 @@
 package cn.iocoder.mall.promotionservice.dal.mysql.dataobject.banner;
 
 import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * Banner 广告页
  */
+@TableName("banner")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class BannerDO extends DeletableDO {
 

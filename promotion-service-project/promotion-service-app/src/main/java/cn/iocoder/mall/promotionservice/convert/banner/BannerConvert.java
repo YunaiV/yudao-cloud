@@ -1,11 +1,13 @@
 package cn.iocoder.mall.promotionservice.convert.banner;
 
+import cn.iocoder.common.framework.vo.PageResult;
+import cn.iocoder.mall.promotion.api.rpc.banner.dto.BannerCreateReqDTO;
+import cn.iocoder.mall.promotion.api.rpc.banner.dto.BannerRespDTO;
+import cn.iocoder.mall.promotion.api.rpc.banner.dto.BannerUpdateReqDTO;
 import cn.iocoder.mall.promotionservice.dal.mysql.dataobject.banner.BannerDO;
-import cn.iocoder.mall.promotionservice.service.banner.bo.BannerAddBO;
-import cn.iocoder.mall.promotionservice.service.banner.bo.BannerBO;
-import cn.iocoder.mall.promotionservice.service.banner.bo.BannerUpdateBO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mappings;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -15,16 +17,13 @@ public interface BannerConvert {
 
     BannerConvert INSTANCE = Mappers.getMapper(BannerConvert.class);
 
-    @Mappings({})
-    BannerBO convertToBO(BannerDO banner);
+    BannerDO convert(BannerCreateReqDTO bean);
 
-    @Mappings({})
-    List<BannerBO> convertToBO(List<BannerDO> bannerList);
+    BannerDO convert(BannerUpdateReqDTO bean);
 
-    @Mappings({})
-    BannerDO convert(BannerAddBO bannerAddDTO);
+    @Mapping(source = "records", target = "list")
+    PageResult<BannerRespDTO> convertPage(IPage<BannerDO> page);
 
-    @Mappings({})
-    BannerDO convert(BannerUpdateBO bannerUpdateDTO);
+    List<BannerRespDTO> convertList(List<BannerDO> list);
 
 }

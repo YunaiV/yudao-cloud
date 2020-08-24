@@ -1,12 +1,13 @@
 package cn.iocoder.mall.promotionservice.convert.recommend;
 
+import cn.iocoder.common.framework.vo.PageResult;
+import cn.iocoder.mall.promotion.api.rpc.recommend.dto.ProductRecommendCreateReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.recommend.dto.ProductRecommendRespDTO;
+import cn.iocoder.mall.promotion.api.rpc.recommend.dto.ProductRecommendUpdateReqDTO;
 import cn.iocoder.mall.promotionservice.dal.mysql.dataobject.recommend.ProductRecommendDO;
-import cn.iocoder.mall.promotionservice.service.recommend.bo.ProductRecommendAddBO;
-import cn.iocoder.mall.promotionservice.service.recommend.bo.ProductRecommendBO;
-import cn.iocoder.mall.promotionservice.service.recommend.bo.ProductRecommendUpdateBO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mappings;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -16,19 +17,13 @@ public interface ProductRecommendConvert {
 
     ProductRecommendConvert INSTANCE = Mappers.getMapper(ProductRecommendConvert.class);
 
-    @Mappings({})
-    ProductRecommendBO convertToBO(ProductRecommendDO recommend);
+    List<ProductRecommendRespDTO> convertList(List<ProductRecommendDO> list);
 
-    @Mappings({})
-    List<ProductRecommendBO> convertToBO(List<ProductRecommendDO> recommendList);
+    @Mapping(source = "records", target = "list")
+    PageResult<ProductRecommendRespDTO> convertPage(IPage<ProductRecommendDO> page);
 
-    @Mappings({})
-    List<ProductRecommendRespDTO> convertToDTO(List<ProductRecommendDO> recommendList);
+    ProductRecommendDO convert(ProductRecommendCreateReqDTO bean);
 
-    @Mappings({})
-    ProductRecommendDO convert(ProductRecommendAddBO recommendAddDTO);
-
-    @Mappings({})
-    ProductRecommendDO convert(ProductRecommendUpdateBO recommendUpdateDTO);
+    ProductRecommendDO convert(ProductRecommendUpdateReqDTO bean);
 
 }

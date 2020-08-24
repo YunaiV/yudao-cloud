@@ -1,28 +1,52 @@
 package cn.iocoder.mall.promotion.api.rpc.banner;
 
-import cn.iocoder.common.framework.enums.CommonStatusEnum;
-import cn.iocoder.common.framework.validator.InEnum;
-import cn.iocoder.mall.promotion.api.rpc.banner.dto.BannerRespDTO;
-import cn.iocoder.mall.promotion.api.rpc.banner.dto.BannerPageRespDTO;
-import cn.iocoder.mall.promotion.api.rpc.banner.dto.BannerAddReqDTO;
-import cn.iocoder.mall.promotion.api.rpc.banner.dto.BannerPageDTO;
-import cn.iocoder.mall.promotion.api.rpc.banner.dto.BannerUpdateReqDTO;
+import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.common.framework.vo.PageResult;
+import cn.iocoder.mall.promotion.api.rpc.banner.dto.*;
 
 import java.util.List;
 
+/**
+ * Banner Rpc 接口
+ */
 public interface BannerRpc {
 
-    List<BannerRespDTO> getBannerListByStatus(Integer status);
+    /**
+     * 创建 Banner
+     *
+     * @param createDTO 创建 Banner DTO
+     * @return  Banner 编号
+     */
+    CommonResult<Integer> createBanner(BannerCreateReqDTO createDTO);
 
-    BannerPageRespDTO getBannerPage(BannerPageDTO bannerPageDTO);
+    /**
+     * 更新 Banner
+     *
+     * @param updateDTO 更新 Banner DTO
+     */
+    CommonResult<Boolean> updateBanner(BannerUpdateReqDTO updateDTO);
 
-    BannerRespDTO addBanner(Integer adminId, BannerAddReqDTO bannerAddDTO);
+    /**
+     * 删除 Banner
+     *
+     * @param bannerId Banner 编号
+     */
+    CommonResult<Boolean> deleteBanner(Integer bannerId);
 
-    Boolean updateBanner(Integer adminId, BannerUpdateReqDTO bannerUpdateDTO);
+    /**
+     * 获得 Banner 列表
+     *
+     * @param listDTO Banner 列表查询 DTO
+     * @return  Banner 列表
+     */
+    CommonResult<List<BannerRespDTO>> listBanners(BannerListReqDTO listDTO);
 
-    Boolean updateBannerStatus(Integer adminId, Integer bannerId,
-                               @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}") Integer status);
-
-    Boolean deleteBanner(Integer adminId, Integer bannerId);
+    /**
+     * 获得 Banner 分页
+     *
+     * @param pageDTO Banner 分页查询
+     * @return Banner 分页结果
+     */
+    CommonResult<PageResult<BannerRespDTO>> pageBanner(BannerPageReqDTO pageDTO);
 
 }

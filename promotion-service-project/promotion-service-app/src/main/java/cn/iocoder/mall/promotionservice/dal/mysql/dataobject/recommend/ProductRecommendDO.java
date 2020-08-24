@@ -3,12 +3,14 @@ package cn.iocoder.mall.promotionservice.dal.mysql.dataobject.recommend;
 
 import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
 import cn.iocoder.mall.promotion.api.enums.recommend.ProductRecommendTypeEnum;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
  * 商品推荐 DO
  */
+@TableName("product_recommend")
 @Data
 @Accessors(chain = true)
 public class ProductRecommendDO extends DeletableDO {

@@ -93,17 +93,6 @@ public class AdminsProductRecommendController {
         return success(productRecommendService.updateProductRecommend(AdminSecurityContextHolder.getContext().getAdminId(), bannerUpdateDTO));
     }
 
-    @PostMapping("/update_status")
-    @ApiOperation(value = "更新商品推荐状态")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "商品推荐编号", required = true, example = "1"),
-            @ApiImplicitParam(name = "status", value = "状态。1 - 开启；2 - 禁用", required = true, example = "1"),
-    })
-    public CommonResult<Boolean> updateStatus(@RequestParam("id") Integer id,
-                                              @RequestParam("status") Integer status) {
-        return success(productRecommendService.updateProductRecommendStatus(AdminSecurityContextHolder.getContext().getAdminId(), id, status));
-    }
-
     @PostMapping("/delete")
     @ApiOperation(value = "删除商品推荐")
     @ApiImplicitParam(name = "id", value = "商品推荐编号", required = true, example = "1")

@@ -6,7 +6,7 @@ import cn.iocoder.mall.managementweb.controller.promotion.coupon.vo.template.Cou
 import cn.iocoder.mall.managementweb.controller.promotion.coupon.vo.template.CouponTemplateCardUpdateReqVO;
 import cn.iocoder.mall.managementweb.controller.promotion.coupon.vo.template.CouponTemplatePageReqVO;
 import cn.iocoder.mall.managementweb.controller.promotion.coupon.vo.template.CouponTemplateRespVO;
-import cn.iocoder.mall.managementweb.convert.promotion.coupon.CouponTemplateConvert;
+import cn.iocoder.mall.managementweb.convert.promotion.CouponTemplateConvert;
 import cn.iocoder.mall.promotion.api.rpc.coupon.CouponTemplateRpc;
 import cn.iocoder.mall.promotion.api.rpc.coupon.dto.template.CouponCardTemplateUpdateStatusReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.coupon.dto.template.CouponTemplateRespDTO;

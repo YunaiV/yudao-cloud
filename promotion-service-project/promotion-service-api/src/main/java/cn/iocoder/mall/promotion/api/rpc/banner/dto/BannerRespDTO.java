@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Banner BO
+ * Banner Response DTO
  */
 @Data
 @Accessors(chain = true)

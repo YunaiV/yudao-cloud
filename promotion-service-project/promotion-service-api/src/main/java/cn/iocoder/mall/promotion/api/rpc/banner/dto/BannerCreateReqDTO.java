@@ -12,17 +12,12 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * Banner 更新 Request DTO
+ * Banner 创建 Request DTO
  */
 @Data
 @Accessors(chain = true)
-public class BannerUpdateReqDTO implements Serializable {
+public class BannerCreateReqDTO implements Serializable {
 
-    /**
-     * 编号
-     */
-    @NotNull(message = "编号不能为空")
-    private Integer id;
     /**
      * 标题
      */

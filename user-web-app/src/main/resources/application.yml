@@ -44,3 +44,8 @@ swagger:
   description: 提供用户注册、登陆、信息等等 API
   version: 1.0.0
   base-package: cn.iocoder.mall.userweb.controller
+
+# Actuator 监控配置项
+management:
+  server.port: 38086 # 独立端口，避免被暴露出去
+  endpoints.web.exposure.include: '*' # 暴露所有监控端点

@@ -84,7 +84,8 @@ public class CommonWebAutoConfiguration implements WebMvcConfigurer {
         // 自定义 FastJson 配置
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
         fastJsonConfig.setCharset(Charset.defaultCharset()); // 设置字符集
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.DisableCircularReferenceDetect); // 剔除循环引用
+        fastJsonConfig.setSerializerFeatures(SerializerFeature.DisableCircularReferenceDetect, // 剔除循环引用
+                SerializerFeature.WriteNonStringKeyAsString); // 解决 Integer 作为 Key 时，转换为 String 类型，避免浏览器报错
         fastJsonHttpMessageConverter.setFastJsonConfig(fastJsonConfig);
         // 设置支持的 MediaType
         fastJsonHttpMessageConverter.setSupportedMediaTypes(Collections.singletonList(MediaType.APPLICATION_JSON));

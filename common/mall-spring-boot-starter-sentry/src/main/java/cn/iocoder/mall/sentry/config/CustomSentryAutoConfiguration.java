@@ -35,4 +35,5 @@ public class CustomSentryAutoConfiguration {
     public SentryExceptionResolver doNothingExceptionResolver() {
         return new DoNothingExceptionResolver();
     }
+
 }

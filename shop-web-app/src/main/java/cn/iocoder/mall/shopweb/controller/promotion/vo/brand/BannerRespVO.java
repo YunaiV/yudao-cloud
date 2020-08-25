@@ -1,14 +1,14 @@
-package cn.iocoder.mall.promotion.application.vo.users;
+package cn.iocoder.mall.shopweb.controller.promotion.vo.brand;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-@ApiModel("Banner VO")
+@ApiModel("Banner Response VO")
 @Data
 @Accessors(chain = true)
-public class UsersBannerVO {
+public class BannerRespVO {
 
     @ApiModelProperty(value = "跳转链接", required = true, example = "http://www.baidu.com")
     private String url;

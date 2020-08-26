@@ -60,3 +60,8 @@ swagger:
   description: 提供用户商城购物流程中的 API
   version: 1.0.0
   base-package: cn.iocoder.mall.shopweb.controller
+
+# Actuator 监控配置项
+management:
+  server.port: 38088 # 独立端口，避免被暴露出去
+  endpoints.web.exposure.include: '*' # 暴露所有监控端点

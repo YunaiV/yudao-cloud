@@ -25,6 +25,7 @@ dubbo:
   consumer:
     timeout: 10000
     validation: true # 开启 Consumer 的参数校验
+    check: false # 本地启动，不进行校验，不一定会使用到未启动的服务，嘿嘿~
     UserSmsCodeRpc:
       version: 1.0.0
     UserRpc:

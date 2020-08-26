@@ -12,13 +12,9 @@ import cn.iocoder.security.annotations.RequiresNone;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-
 import java.util.List;
 import java.util.Set;
 
@@ -44,6 +40,14 @@ public class PassportController {
     @ApiOperation(value = "获得当前管理员信息")
     public CommonResult<PassportAdminVO> getInfo() {
         return success(passportManager.getAdmin(AdminSecurityContextHolder.getAdminId()));
+    }
+
+    @PostMapping("/refresh-token")
+    @ApiOperation("刷新令牌")
+    @RequiresNone
+    public CommonResult<PassportAccessTokenVO> refreshToken(@RequestParam("refreshToken") String refreshToken,
+                                                            HttpServletRequest request) {
+        return success(passportManager.refreshToken(refreshToken, HttpUtil.getIp(request)));
     }
 
     // TODO 优化点：迁移到 PermissionController

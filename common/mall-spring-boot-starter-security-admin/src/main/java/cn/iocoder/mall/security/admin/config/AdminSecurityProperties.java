@@ -12,6 +12,11 @@ public class AdminSecurityProperties {
     };
 
     /**
+     * 演示模式 - 默认值（关闭）
+     */
+    private static final Boolean DEFAULT_DEMO = false;
+
+    /**
      * 自定义忽略 Path
      */
     private String[] ignorePaths = new String[0];
@@ -19,6 +24,10 @@ public class AdminSecurityProperties {
      * 默认忽略 Path
      */
     private String[] defaultIgnorePaths = DEFAULT_IGNORE_PATHS;
+    /**
+     * 是否开启演示模式
+     */
+    private Boolean demo = DEFAULT_DEMO;
 
     public String[] getIgnorePaths() {
         return ignorePaths;
@@ -35,6 +44,15 @@ public class AdminSecurityProperties {
 
     public AdminSecurityProperties setDefaultIgnorePaths(String[] defaultIgnorePaths) {
         this.defaultIgnorePaths = defaultIgnorePaths;
+        return this;
+    }
+
+    public Boolean getDemo() {
+        return demo;
+    }
+
+    public AdminSecurityProperties setDemo(Boolean demo) {
+        this.demo = demo;
         return this;
     }
 

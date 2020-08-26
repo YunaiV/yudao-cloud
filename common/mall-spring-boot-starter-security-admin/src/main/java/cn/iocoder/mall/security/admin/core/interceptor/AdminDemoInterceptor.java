@@ -19,8 +19,9 @@ public class AdminDemoInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        // 当 Admin 编号等于 0 时，约定为演示账号
-        if (Objects.equals(AdminSecurityContextHolder.getAdminId(), 0)
+        // 当 Admin 编号等于 1 时，约定为演示账号
+        // TODO 芋艿，后续去优化
+        if (Objects.equals(AdminSecurityContextHolder.getAdminId(), 1)
             && request.getMethod().equalsIgnoreCase(HttpMethod.POST.toString())) {
             throw ServiceExceptionUtil.exception(SystemErrorCodeConstants.PERMISSION_DEMO_PERMISSION_DENY);
         }

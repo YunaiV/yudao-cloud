@@ -49,10 +49,12 @@ public class AdminSecurityAutoConfiguration implements WebMvcConfigurer {
                 .excludePathPatterns(properties.getDefaultIgnorePaths());
         logger.info("[addInterceptors][加载 AdminSecurityInterceptor 拦截器完成]");
         // AdminDemoInterceptor 拦截器
-        registry.addInterceptor(this.adminDemoInterceptor())
-                .excludePathPatterns(properties.getIgnorePaths())
-                .excludePathPatterns(properties.getDefaultIgnorePaths());
-        logger.info("[addInterceptors][加载 AdminDemoInterceptor 拦截器完成]");
+        if (Boolean.TRUE.equals(properties.getDemo())) {
+            registry.addInterceptor(this.adminDemoInterceptor())
+                    .excludePathPatterns(properties.getIgnorePaths())
+                    .excludePathPatterns(properties.getDefaultIgnorePaths());
+            logger.info("[addInterceptors][加载 AdminDemoInterceptor 拦截器完成]");
+        }
     }
 
 }

@@ -5,6 +5,7 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.systemservice.rpc.oauth.OAuth2Rpc;
 import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2AccessTokenRespDTO;
 import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2CreateAccessTokenReqDTO;
+import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2RefreshAccessTokenReqDTO;
 import cn.iocoder.mall.userservice.enums.sms.UserSmsSceneEnum;
 import cn.iocoder.mall.userservice.rpc.sms.UserSmsCodeRpc;
 import cn.iocoder.mall.userservice.rpc.user.UserRpc;
@@ -48,6 +49,13 @@ public class PassportManager {
         CommonResult<Boolean> sendSmsCodeResult = userSmsCodeRpc.sendSmsCode(
                 PassportConvert.INSTANCE.convert(sendSmsCodeDTO).setIp(ip));
         sendSmsCodeResult.checkError();
+    }
+
+    public PassportAccessTokenRespVO refreshToken(String refreshToken, String ip) {
+        CommonResult<OAuth2AccessTokenRespDTO> refreshAccessTokenResult = oauth2Rpc.refreshAccessToken(
+                new OAuth2RefreshAccessTokenReqDTO().setRefreshToken(refreshToken).setCreateIp(ip));
+        refreshAccessTokenResult.checkError();
+        return PassportConvert.INSTANCE.convert(refreshAccessTokenResult.getData());
     }
 
 }

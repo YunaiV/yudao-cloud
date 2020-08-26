@@ -15,12 +15,13 @@ import cn.iocoder.mall.systemservice.enums.permission.ResourceTypeEnum;
 import cn.iocoder.mall.systemservice.rpc.admin.AdminRpc;
 import cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO;
 import cn.iocoder.mall.systemservice.rpc.oauth.OAuth2Rpc;
-import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2CreateAccessTokenReqDTO;
 import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2AccessTokenRespDTO;
+import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2CreateAccessTokenReqDTO;
+import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2RefreshAccessTokenReqDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.ResourceRpc;
 import cn.iocoder.mall.systemservice.rpc.permission.RoleRpc;
 import cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO;
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -30,13 +31,13 @@ import java.util.Set;
 @Service
 public class PassportManager {
 
-    @Reference(version = "${dubbo.consumer.AdminRpc.version}")
+    @DubboReference(version = "${dubbo.consumer.AdminRpc.version}")
     private AdminRpc adminRpc;
-    @Reference(version = "${dubbo.consumer.OAuth2Rpc.version}")
+    @DubboReference(version = "${dubbo.consumer.OAuth2Rpc.version}")
     private OAuth2Rpc oauth2Rpc;
-    @Reference(version = "${dubbo.consumer.RoleRpc.version}")
+    @DubboReference(version = "${dubbo.consumer.RoleRpc.version}")
     private RoleRpc roleRpc;
-    @Reference(version = "${dubbo.consumer.ResourceRpc.version}")
+    @DubboReference(version = "${dubbo.consumer.ResourceRpc.version}")
     private ResourceRpc resourceRpc;
 
     public PassportAccessTokenVO login(PassportLoginDTO loginDTO, String ip) {
@@ -57,6 +58,13 @@ public class PassportManager {
         CommonResult<AdminVO> getAdminResult = adminRpc.getAdmin(adminId);
         getAdminResult.checkError();
         return AdminPassportConvert.INSTANCE.convert(getAdminResult.getData());
+    }
+
+    public PassportAccessTokenVO refreshToken(String refreshToken, String ip) {
+        CommonResult<OAuth2AccessTokenRespDTO> refreshAccessTokenResult = oauth2Rpc.refreshAccessToken(
+                new OAuth2RefreshAccessTokenReqDTO().setRefreshToken(refreshToken).setCreateIp(ip));
+        refreshAccessTokenResult.checkError();
+        return AdminPassportConvert.INSTANCE.convert(refreshAccessTokenResult.getData());
     }
 
     /**

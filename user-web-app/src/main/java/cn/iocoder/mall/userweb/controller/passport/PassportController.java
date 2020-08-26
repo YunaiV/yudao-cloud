@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +43,14 @@ public class PassportController {
         passportManager.sendSmsCode(sendSmsCodeDTO, HttpUtil.getIp(request));
         // 返回成功
         return success(true);
+    }
+
+    @PostMapping("/refresh-token")
+    @ApiOperation("刷新令牌")
+    @RequiresNone
+    public CommonResult<PassportAccessTokenRespVO> refreshToken(@RequestParam("refreshToken") String refreshToken,
+                                                            HttpServletRequest request) {
+        return success(passportManager.refreshToken(refreshToken, HttpUtil.getIp(request)));
     }
 
 }

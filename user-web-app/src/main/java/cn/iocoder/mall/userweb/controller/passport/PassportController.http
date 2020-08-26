@@ -10,4 +10,10 @@ Content-Type: application/x-www-form-urlencoded
 
 mobile=15601691300&scene=1
 
+### /passport/refresh-token
+POST {{user-api-base-url}}/passport/refresh-token
+Content-Type: application/x-www-form-urlencoded
+
+refreshToken=77abd74e84e34cfc8aba9625317a14a3
+
 ###

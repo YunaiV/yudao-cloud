@@ -2,6 +2,7 @@ package cn.iocoder.mall.payservice.service.transaction;
 
 import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.PageResult;
+import cn.iocoder.mall.pay.api.constant.PayErrorCodeEnum;
 import cn.iocoder.mall.payservice.convert.transaction.TransactionConvert;
 import cn.iocoder.mall.payservice.dal.mysql.dataobject.transaction.TransactionDO;
 import cn.iocoder.mall.payservice.dal.mysql.mapper.transaction.TransactionMapper;
@@ -50,7 +51,7 @@ public class TransactionService {
     public void updateTransaction(@Valid TransactionUpdateBO updateBO) {
         // 校验更新的pay_transaction是否存在
         if (transactionMapper.selectById(updateBO.getId()) == null) {
-            throw ServiceExceptionUtil.exception(AuthErrorCodeConstants.TRANSACTION_NOT_FOUND);
+            throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_NOT_FOUND.getCode());
         }
         // 更新到数据库
         TransactionDO updateObject = TransactionConvert.INSTANCE.convert(updateBO);
@@ -65,7 +66,7 @@ public class TransactionService {
     public void deleteTransaction(Integer transactionId) {
         // 校验删除的pay_transaction是否存在
         if (transactionMapper.selectById(transactionId) == null) {
-            throw ServiceExceptionHelper.exception(AuthErrorCodeConstants.TRANSACTION_NOT_FOUND);
+            throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_NOT_FOUND.getCode());
         }
         // 标记删除
         transactionMapper.deleteById(transactionId);

@@ -1,11 +1,11 @@
 package cn.iocoder.mall.payservice.service.transaction.bo;
 
 import cn.iocoder.common.framework.vo.PageParam;
-import lombok.*;
-import lombok.experimental.*;
-import io.swagger.annotations.*;
-import java.util.*;
-import javax.validation.constraints.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+
+import java.util.Date;
 
 /**
 * pay_transaction分页 BO

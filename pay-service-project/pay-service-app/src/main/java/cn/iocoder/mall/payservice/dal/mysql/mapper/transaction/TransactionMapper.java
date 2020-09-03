@@ -2,6 +2,7 @@ package cn.iocoder.mall.payservice.dal.mysql.mapper.transaction;
 
 import cn.iocoder.mall.mybatis.core.query.QueryWrapperX;
 import cn.iocoder.mall.payservice.dal.mysql.dataobject.transaction.TransactionDO;
+import cn.iocoder.mall.payservice.service.transaction.bo.TransactionPageBO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 

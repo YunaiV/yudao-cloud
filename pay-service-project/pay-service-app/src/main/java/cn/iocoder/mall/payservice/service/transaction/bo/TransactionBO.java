@@ -2,7 +2,6 @@ package cn.iocoder.mall.payservice.service.transaction.bo;
 
 import lombok.*;
 import lombok.experimental.*;
-import io.swagger.annotations.*;
 import java.util.*;
 
 /**

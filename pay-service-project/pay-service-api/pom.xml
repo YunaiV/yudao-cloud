@@ -21,5 +21,9 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>common-framework</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -2,7 +2,7 @@ package cn.iocoder.mall.shopweb.controller.product;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.shopweb.controller.product.vo.category.ProductCategoryRespVO;
-import cn.iocoder.mall.shopweb.manager.product.ProductCategoryManager;
+import cn.iocoder.mall.shopweb.service.product.ProductCategoryManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

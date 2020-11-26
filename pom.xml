@@ -28,7 +28,7 @@
         <module>product-service-project</module>
         <module>promotion-service-project</module>
         <module>search-service-project</module>
-        <module>order-service-project</module>
+        <module>trade-service-project</module>
     </modules>
     <packaging>pom</packaging>
 

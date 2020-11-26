@@ -2,7 +2,7 @@ package cn.iocoder.mall.shopweb.controller.promotion;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuRespVO;
-import cn.iocoder.mall.shopweb.manager.promotion.ProductRecommendManager;
+import cn.iocoder.mall.shopweb.service.promotion.ProductRecommendManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

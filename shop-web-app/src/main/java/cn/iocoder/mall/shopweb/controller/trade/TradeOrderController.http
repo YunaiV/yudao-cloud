@@ -1,0 +1,18 @@
+### /trade-order/confirm-create-order-info 基于商品，确认创建订单
+GET {{shop-api-base-url}}/trade-order/confirm-create-order-info?skuId=33&quantity=1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{user-access-token}}
+
+### /trade-order/confirm-create-order-info-from-cart 基于购物车，确认创建订单
+GET {{shop-api-base-url}}/trade-order/confirm-create-order-info-from-cart
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{user-access-token}}
+
+### /trade-order/confirm-create-order-info-from-cart 基于商品，创建订单
+POST {{shop-api-base-url}}/trade-order/create
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{user-access-token}}
+
+userAddressId=19&remark=我是备注&orderItems[0].skuId=3&orderItems[0].quantity=1
+
+###

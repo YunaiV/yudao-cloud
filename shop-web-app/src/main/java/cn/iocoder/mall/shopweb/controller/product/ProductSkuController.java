@@ -3,7 +3,7 @@ package cn.iocoder.mall.shopweb.controller.product;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.security.user.core.context.UserSecurityContextHolder;
 import cn.iocoder.mall.shopweb.controller.product.vo.sku.ProductSkuCalcPriceRespVO;
-import cn.iocoder.mall.shopweb.manager.product.ProductSkuManager;
+import cn.iocoder.mall.shopweb.service.product.ProductSkuManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

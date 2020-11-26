@@ -6,7 +6,7 @@ import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuDetailRes
 import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuPageReqVO;
 import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuRespVO;
 import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuSearchConditionRespVO;
-import cn.iocoder.mall.shopweb.manager.product.ProductSpuManager;
+import cn.iocoder.mall.shopweb.service.product.ProductSpuManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

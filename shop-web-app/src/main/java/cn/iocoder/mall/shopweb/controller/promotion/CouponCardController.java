@@ -5,7 +5,7 @@ import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.security.user.core.context.UserSecurityContextHolder;
 import cn.iocoder.mall.shopweb.controller.promotion.vo.coupon.card.CouponCardPageReqVO;
 import cn.iocoder.mall.shopweb.controller.promotion.vo.coupon.card.CouponCardRespVO;
-import cn.iocoder.mall.shopweb.manager.promotion.CouponCardManager;
+import cn.iocoder.mall.shopweb.service.promotion.CouponCardManager;
 import cn.iocoder.security.annotations.RequiresAuthenticate;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

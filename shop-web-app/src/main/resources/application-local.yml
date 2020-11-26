@@ -6,6 +6,9 @@ spring:
       discovery:
         server-addr: 400-infra.server.iocoder.cn:8848 # Nacos 服务器地址
         namespace: dev # Nacos 命名空间
+  # Spring 主应用配置
+  main:
+    lazy-initialization: true # 开启延迟加载，保证本地开发的性能
 
 # Dubbo 配置项
 dubbo:

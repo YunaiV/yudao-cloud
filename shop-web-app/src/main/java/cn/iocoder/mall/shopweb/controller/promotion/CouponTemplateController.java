@@ -2,7 +2,7 @@ package cn.iocoder.mall.shopweb.controller.promotion;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.shopweb.controller.promotion.vo.coupon.template.CouponTemplateRespVO;
-import cn.iocoder.mall.shopweb.manager.promotion.CouponTemplateManager;
+import cn.iocoder.mall.shopweb.service.promotion.CouponTemplateManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

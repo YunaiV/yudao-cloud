@@ -2,7 +2,7 @@ package cn.iocoder.mall.shopweb.controller.promotion;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.shopweb.controller.promotion.vo.brand.BannerRespVO;
-import cn.iocoder.mall.shopweb.manager.promotion.BannerManager;
+import cn.iocoder.mall.shopweb.service.promotion.BannerManager;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

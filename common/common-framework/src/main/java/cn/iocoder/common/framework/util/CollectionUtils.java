@@ -48,4 +48,8 @@ public class CollectionUtils {
         return org.springframework.util.CollectionUtils.containsAny(source, candidates);
     }
 
+    public static <T> T getFirst(List<T> from) {
+        return !isEmpty(from) ? from.get(0) : null;
+    }
+
 }

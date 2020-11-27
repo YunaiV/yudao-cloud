@@ -1,10 +1,15 @@
 package cn.iocoder.mall.shopweb.convert.trade;
 
+import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.promotion.api.rpc.coupon.dto.card.CouponCardAvailableListReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcRespDTO;
 import cn.iocoder.mall.shopweb.controller.trade.vo.order.TradeOrderConfirmCreateInfoRespVO;
 import cn.iocoder.mall.shopweb.controller.trade.vo.order.TradeOrderCreateReqVO;
+import cn.iocoder.mall.shopweb.controller.trade.vo.order.TradeOrderPageReqVO;
+import cn.iocoder.mall.shopweb.controller.trade.vo.order.TradeOrderRespVO;
 import cn.iocoder.mall.tradeservice.rpc.order.dto.TradeOrderCreateReqDTO;
+import cn.iocoder.mall.tradeservice.rpc.order.dto.TradeOrderPageReqDTO;
+import cn.iocoder.mall.tradeservice.rpc.order.dto.TradeOrderRespDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -33,5 +38,11 @@ public interface TradeOrderConvert {
     }
 
     TradeOrderCreateReqDTO convert(TradeOrderCreateReqVO bean);
+
+    TradeOrderPageReqDTO convert(TradeOrderPageReqVO bean);
+
+    PageResult<TradeOrderRespVO> convertPage(PageResult<TradeOrderRespDTO> page);
+
+    TradeOrderRespVO convert(TradeOrderRespDTO bean);
 
 }

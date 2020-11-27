@@ -2,10 +2,9 @@ package cn.iocoder.mall.shopweb.controller.trade;
 
 import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.security.user.core.context.UserSecurityContextHolder;
-import cn.iocoder.mall.shopweb.controller.trade.vo.order.TradeOrderConfirmCreateInfoRespVO;
-import cn.iocoder.mall.shopweb.controller.trade.vo.order.TradeOrderCreateFromCartReqVO;
-import cn.iocoder.mall.shopweb.controller.trade.vo.order.TradeOrderCreateReqVO;
+import cn.iocoder.mall.shopweb.controller.trade.vo.order.*;
 import cn.iocoder.mall.shopweb.service.trade.TradeOrderService;
 import cn.iocoder.security.annotations.RequiresAuthenticate;
 import io.swagger.annotations.Api;
@@ -56,7 +55,7 @@ public class TradeOrderController {
     @PostMapping("create")
     @ApiOperation("基于商品，创建订单")
     @RequiresAuthenticate
-    public CommonResult<Integer> createTradeOrder(TradeOrderCreateReqVO createReqVO,
+    public CommonResult<Integer> createTradeOrder(@RequestBody TradeOrderCreateReqVO createReqVO,
                                                   HttpServletRequest servletRequest) {
         return success(tradeOrderService.createTradeOrder(UserSecurityContextHolder.getUserId(),
                 HttpUtil.getIp(servletRequest), createReqVO));
@@ -67,6 +66,19 @@ public class TradeOrderController {
     @RequiresAuthenticate
     public CommonResult<Integer> createTradeOrder(TradeOrderCreateFromCartReqVO createReqVO) {
         return null;
+    }
+
+    @GetMapping("/get")
+    @ApiOperation("获得交易订单")
+    @ApiImplicitParam(name = "tradeOrderId", value = "交易订单编号", required = true)
+    public CommonResult<TradeOrderRespVO> getTradeOrder(@RequestParam("tradeOrderId") Integer tradeOrderId) {
+        return success(tradeOrderService.getTradeOrder(tradeOrderId));
+    }
+
+    @GetMapping("/page")
+    @ApiOperation("获得订单交易分页")
+    public CommonResult<PageResult<TradeOrderRespVO>> pageTradeOrder(TradeOrderPageReqVO pageVO) {
+        return success(tradeOrderService.pageTradeOrder(UserSecurityContextHolder.getUserId(), pageVO));
     }
 
 }

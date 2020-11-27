@@ -16,38 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(description = "用户订单") // TODO FROM 芋艿 to 小范，description 已经废弃啦
 public class UsersOrderController {
 
-//    @Reference(validation = "true", version = "${dubbo.provider.OrderReturnService.version}")
-//    private OrderService orderService;
-//
-//    @Reference(validation = "true", version = "${dubbo.provider.CartService.version}")
-//    private CartService cartService;
-//
-//    @Reference(validation = "true", version = "${dubbo.consumer.DataDictService.version}")
-//    private DataDictService dataDictService;
-//
-//    @Reference(validation = "true", version = "${dubbo.consumer.CouponService.version}")
-//    private CouponService couponService;
-//
-//    @GetMapping("order_page")
-//    @RequiresLogin
-//    @ApiOperation("订单分页")
-//    public CommonResult<OrderPageBO> getOrderPage(@Validated OrderQueryDTO orderQueryDTO) {
-//        Integer userId = UserSecurityContextHolder.getContext().getUserId();
-//        orderQueryDTO.setUserId(userId);
-//        return orderService.getOrderPage(orderQueryDTO);
-//    }
-//
-//    @PostMapping("create_order")
-//    @RequiresLogin
-//    @ApiOperation("创建订单")
-//    public CommonResult<OrderCreateBO> createOrder(@RequestBody @Validated OrderCreatePO orderCreatePO,
-//                                                   HttpServletRequest request) {
-//        Integer userId = UserSecurityContextHolder.getContext().getUserId();
-//        OrderCreateDTO orderCreateDTO = OrderConvertAPP.INSTANCE.convert(orderCreatePO);
-//        orderCreateDTO.setUserId(userId).setIp(HttpUtil.getIp(request));
-//        return orderService.createOrder(orderCreateDTO);
-//    }
-//
+
 //    @PostMapping("create_order_from_cart")
 //    @RequiresLogin
 //    @ApiOperation("创建订单购物车")
@@ -84,22 +53,6 @@ public class UsersOrderController {
 //    public CommonResult confirmReceiving(@RequestParam("orderId") Integer orderId) {
 //        Integer userId = UserSecurityContextHolder.getContext().getUserId();
 //        return orderService.confirmReceiving(userId, orderId);
-//    }
-//
-//    @GetMapping("info")
-//    @RequiresLogin
-//    @ApiOperation("订单详情")
-//    public CommonResult<OrderInfoBO> orderInfo(@RequestParam("orderId") Integer orderId) {
-//        Integer userId = UserSecurityContextHolder.getContext().getUserId();
-//        CommonResult<OrderInfoBO> commonResult = orderService.info(userId, orderId);
-//
-//        OrderInfoBO orderInfoBO = commonResult.getData();
-//        if (orderInfoBO != null) {
-//            CommonResult<DataDictBO> dictResult = dataDictService
-//                    .getDataDict(DictKeyConstants.ORDER_STATUS, orderInfoBO.getStatus());
-//            orderInfoBO.setStatusText(dictResult.getData().getDisplayName());
-//        }
-//        return commonResult;
 //    }
 
 }

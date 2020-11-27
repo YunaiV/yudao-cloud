@@ -12,10 +12,20 @@
     <artifactId>pay-service-api</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>common-framework</artifactId>
+        </dependency>
+
         <!-- 工具类相关 -->
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

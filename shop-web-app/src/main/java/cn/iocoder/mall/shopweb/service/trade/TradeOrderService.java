@@ -4,13 +4,7 @@ import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.shopweb.client.trade.TradeOrderClient;
-import cn.iocoder.mall.shopweb.controller.trade.vo.order.TradeOrderConfirmCreateInfoRespVO;
-import cn.iocoder.mall.shopweb.controller.trade.vo.order.TradeOrderCreateReqVO;
-import cn.iocoder.mall.shopweb.convert.trade.TradeOrderConvert;
-import cn.iocoder.mall.tradeservice.rpc.cart.CartRpc;
-import cn.iocoder.mall.tradeservice.rpc.cart.dto.CartItemListReqDTO;
-import cn.iocoder.mall.tradeservice.rpc.cart.dto.CartItemRespDTO;
+import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.productservice.enums.sku.ProductSkuDetailFieldEnum;
 import cn.iocoder.mall.productservice.rpc.sku.ProductSkuRpc;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuListQueryReqDTO;
@@ -24,7 +18,19 @@ import cn.iocoder.mall.promotion.api.rpc.coupon.dto.card.CouponCardAvailableResp
 import cn.iocoder.mall.promotion.api.rpc.price.PriceRpc;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcRespDTO;
+import cn.iocoder.mall.shopweb.client.trade.TradeOrderClient;
+import cn.iocoder.mall.shopweb.controller.trade.vo.order.TradeOrderConfirmCreateInfoRespVO;
+import cn.iocoder.mall.shopweb.controller.trade.vo.order.TradeOrderCreateReqVO;
+import cn.iocoder.mall.shopweb.controller.trade.vo.order.TradeOrderPageReqVO;
+import cn.iocoder.mall.shopweb.controller.trade.vo.order.TradeOrderRespVO;
 import cn.iocoder.mall.shopweb.convert.trade.CartConvert;
+import cn.iocoder.mall.shopweb.convert.trade.TradeOrderConvert;
+import cn.iocoder.mall.tradeservice.enums.order.TradeOrderDetailFieldEnum;
+import cn.iocoder.mall.tradeservice.rpc.cart.CartRpc;
+import cn.iocoder.mall.tradeservice.rpc.cart.dto.CartItemListReqDTO;
+import cn.iocoder.mall.tradeservice.rpc.cart.dto.CartItemRespDTO;
+import cn.iocoder.mall.tradeservice.rpc.order.dto.TradeOrderPageReqDTO;
+import cn.iocoder.mall.tradeservice.rpc.order.dto.TradeOrderRespDTO;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -166,6 +172,32 @@ public class TradeOrderService {
     public Integer createTradeOrder(Integer userId, String ip, TradeOrderCreateReqVO createReqVO) {
         return tradeOrderClient.createTradeOrder(TradeOrderConvert.INSTANCE.convert(createReqVO)
             .setUserId(userId).setIp(ip));
+    }
+
+    /**
+     * 获得交易订单
+     *
+     * @param tradeOrderId 交易订单编号
+     * @return 交易订单
+     */
+    public TradeOrderRespVO getTradeOrder(Integer tradeOrderId) {
+        return TradeOrderConvert.INSTANCE.convert(tradeOrderClient.getTradeOrder(tradeOrderId,
+                TradeOrderDetailFieldEnum.ITEM.getField()));
+    }
+
+
+    /**
+     * 获得交易订单分页
+     *
+     * @param pageVO 订单交易分页查询
+     * @return 订单交易分页结果
+     */
+    public PageResult<TradeOrderRespVO> pageTradeOrder(Integer userId, TradeOrderPageReqVO pageVO) {
+        PageResult<TradeOrderRespDTO> pageTradeOrderResult = tradeOrderClient.pageTradeOrder(
+                TradeOrderConvert.INSTANCE.convert(pageVO).setUserId(userId)
+                    .setFields(Collections.singleton(TradeOrderDetailFieldEnum.ITEM.getField()))
+                    .setSorts(Collections.singletonList(TradeOrderPageReqDTO.ID_DESC)));
+        return TradeOrderConvert.INSTANCE.convertPage(pageTradeOrderResult);
     }
 
 }

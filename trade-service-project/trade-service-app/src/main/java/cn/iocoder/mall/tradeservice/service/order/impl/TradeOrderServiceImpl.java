@@ -4,6 +4,7 @@ import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.util.MathUtil;
+import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.productservice.enums.sku.ProductSkuDetailFieldEnum;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuRespDTO;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcReqDTO;
@@ -12,16 +13,21 @@ import cn.iocoder.mall.tradeservice.client.product.ProductSkuClient;
 import cn.iocoder.mall.tradeservice.client.promotion.CouponCardClient;
 import cn.iocoder.mall.tradeservice.client.promotion.PriceClient;
 import cn.iocoder.mall.tradeservice.client.user.UserAddressClient;
+import cn.iocoder.mall.tradeservice.convert.order.TradeOrderConvert;
 import cn.iocoder.mall.tradeservice.dal.mysql.dataobject.order.TradeOrderDO;
 import cn.iocoder.mall.tradeservice.dal.mysql.dataobject.order.TradeOrderItemDO;
 import cn.iocoder.mall.tradeservice.dal.mysql.mapper.order.TradeOrderItemMapper;
 import cn.iocoder.mall.tradeservice.dal.mysql.mapper.order.TradeOrderMapper;
 import cn.iocoder.mall.tradeservice.enums.logistics.LogisticsDeliveryTypeEnum;
 import cn.iocoder.mall.tradeservice.enums.order.TradeOrderAfterSaleStatusEnum;
+import cn.iocoder.mall.tradeservice.enums.order.TradeOrderDetailFieldEnum;
 import cn.iocoder.mall.tradeservice.enums.order.TradeOrderStatusEnum;
 import cn.iocoder.mall.tradeservice.rpc.order.dto.TradeOrderCreateReqDTO;
+import cn.iocoder.mall.tradeservice.rpc.order.dto.TradeOrderPageReqDTO;
+import cn.iocoder.mall.tradeservice.rpc.order.dto.TradeOrderRespDTO;
 import cn.iocoder.mall.tradeservice.service.order.TradeOrderService;
 import cn.iocoder.mall.userservice.rpc.address.dto.UserAddressRespDTO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,8 +35,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static cn.iocoder.mall.tradeservice.enums.OrderErrorCodeConstants.*;
-import static cn.iocoder.mall.userservice.enums.UserErrorCodeConstants.*;
+import static cn.iocoder.common.framework.util.CollectionUtils.convertSet;
+import static cn.iocoder.mall.tradeservice.enums.OrderErrorCodeConstants.ORDER_GET_GOODS_INFO_INCORRECT;
+import static cn.iocoder.mall.userservice.enums.UserErrorCodeConstants.USER_ADDRESS_NOT_FOUND;
 
 /**
  * 交易订单 Service 实现
@@ -66,7 +73,7 @@ public class TradeOrderServiceImpl implements TradeOrderService {
         }
         // 获得商品信息
         List<ProductSkuRespDTO> listProductSkus = productSkuClient.listProductSkus(
-                CollectionUtils.convertSet(createReqDTO.getOrderItems(), TradeOrderCreateReqDTO.OrderItem::getSkuId),
+                convertSet(createReqDTO.getOrderItems(), TradeOrderCreateReqDTO.OrderItem::getSkuId),
                 ProductSkuDetailFieldEnum.SPU.getField());
         if (listProductSkus.size() != createReqDTO.getOrderItems().size()) { // 校验获得的数量，是否匹配
             throw ServiceExceptionUtil.exception(ORDER_GET_GOODS_INFO_INCORRECT);
@@ -170,6 +177,45 @@ public class TradeOrderServiceImpl implements TradeOrderService {
         return DateUtil.format(new Date(), "yyyyMMddHHmmss") + // 时间序列
                 MathUtil.random(100000, 999999) // 随机。为什么是这个范围，因为偷懒
                 ;
+    }
+
+    @Override
+    public TradeOrderRespDTO getTradeOrder(Integer tradeOrderId, Collection<String> fields) {
+        // 查询交易订单
+        TradeOrderDO tradeOrderDO = tradeOrderMapper.selectById(tradeOrderId);
+        if (tradeOrderDO == null) {
+            return null;
+        }
+        TradeOrderRespDTO tradeOrderRespDTO = TradeOrderConvert.INSTANCE.convert(tradeOrderDO);
+        // 查询交易订单项
+        if (fields.contains(TradeOrderDetailFieldEnum.ITEM.getField())) {
+            List<TradeOrderItemDO> tradeOrderItemDOs = tradeOrderItemMapper.selectListByOrderIds(
+                    Collections.singleton(tradeOrderDO.getId()));
+            tradeOrderRespDTO.setOrderItems(TradeOrderConvert.INSTANCE.convertList(tradeOrderItemDOs));
+        }
+        // 返回
+        return tradeOrderRespDTO;
+    }
+
+    @Override
+    public PageResult<TradeOrderRespDTO> pageTradeOrder(TradeOrderPageReqDTO pageReqDTO) {
+        // 查询交易订单分页
+        IPage<TradeOrderDO> tradeOrderDOPage = tradeOrderMapper.selectPage(pageReqDTO);
+        PageResult<TradeOrderRespDTO> pageResult = TradeOrderConvert.INSTANCE.convertPage(tradeOrderDOPage);
+        if (CollectionUtils.isEmpty(pageResult.getList())) {
+            return pageResult;
+        }
+        // 查询交易订单项们
+        if (pageReqDTO.getFields().contains(TradeOrderDetailFieldEnum.ITEM.getField())) {
+            List<TradeOrderItemDO> tradeOrderItemDOs = tradeOrderItemMapper.selectListByOrderIds(
+                    convertSet(tradeOrderDOPage.getRecords(), TradeOrderDO::getId));
+            Map<Integer, List<TradeOrderItemDO>> tradeOrderItemDOMultiMap = CollectionUtils.convertMultiMap(
+                    tradeOrderItemDOs, TradeOrderItemDO::getOrderId);
+            pageResult.getList().forEach(tradeOrderRespDTO -> tradeOrderRespDTO.setOrderItems(
+                    TradeOrderConvert.INSTANCE.convertList(tradeOrderItemDOMultiMap.get(tradeOrderRespDTO.getId()))));
+        }
+        // 返回
+        return pageResult;
     }
 
 }

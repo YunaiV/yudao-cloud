@@ -12,6 +12,12 @@
     <artifactId>mall-spring-boot-starter-mybatis</artifactId>
 
     <dependencies>
+        <!-- 通用相关 -->
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>common-framework</artifactId>
+        </dependency>
+
         <!-- DB 相关 -->
         <dependency>
             <groupId>org.mybatis</groupId>

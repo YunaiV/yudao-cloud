@@ -16,8 +16,6 @@ public interface PayTransactionService {
 
     PayTransactionBO getTransaction(PayTransactionGetDTO payTransactionGetDTO);
 
-    PayTransactionBO createTransaction(PayTransactionCreateDTO payTransactionCreateDTO);
-
     PayTransactionSubmitBO submitTransaction(PayTransactionSubmitDTO payTransactionSubmitDTO);
 
     /**

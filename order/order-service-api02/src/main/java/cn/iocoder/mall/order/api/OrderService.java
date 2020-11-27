@@ -15,30 +15,6 @@ import java.util.List;
 public interface OrderService {
 
     /**
-     * 订单 page
-     *
-     * @param orderQueryDTO
-     * @return
-     */
-    CommonResult<OrderPageBO> getOrderPage(OrderQueryDTO orderQueryDTO);
-
-    /**
-     * 获取订单items
-     *
-     * @param orderId
-     * @return
-     */
-    CommonResult<List<OrderItemBO>> getOrderItems(Integer orderId);
-
-    /**
-     * 订单收件人信息
-     *
-     * @param orderId
-     * @return
-     */
-    CommonResult<OrderRecipientBO> getOrderRecipientBO(Integer orderId);
-
-    /**
      * 订单info
      *
      * @param userId
@@ -46,14 +22,6 @@ public interface OrderService {
      * @return
      */
     CommonResult<OrderInfoBO> info(Integer userId, Integer orderId);
-
-    /**
-     * 订单 - 创建
-     *
-     * @param orderCreateDTO
-     * @return
-     */
-    CommonResult<OrderCreateBO> createOrder(OrderCreateDTO orderCreateDTO);
 
     /**
      * 订单item - 更新

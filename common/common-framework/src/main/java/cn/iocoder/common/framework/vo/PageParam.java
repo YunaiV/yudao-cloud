@@ -39,8 +39,8 @@ public class PageParam implements Serializable {
         return this;
     }
 
-    public final int getOffset() {
-        return (pageNo - 1) * pageSize;
-    }
+//    public final int getOffset() {
+//        return (pageNo - 1) * pageSize;
+//    }
 
 }

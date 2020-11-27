@@ -35,6 +35,12 @@
                 <version>1.0-SNAPSHOT</version>
             </dependency>
 
+            <!-- 自身项目 -->
+            <dependency>
+                <groupId>cn.iocoder.mall</groupId>
+                <artifactId>pay-service-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

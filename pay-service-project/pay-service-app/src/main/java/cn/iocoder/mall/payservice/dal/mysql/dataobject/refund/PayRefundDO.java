@@ -22,6 +22,10 @@ public class PayRefundDO extends DeletableDO {
      */
     private Integer id;
     /**
+     * 用户编号
+     */
+    private Integer userId;
+    /**
      * 支付交易编号
      */
     private Integer transactionId;

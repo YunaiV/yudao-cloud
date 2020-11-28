@@ -18,6 +18,12 @@ import java.util.Date;
 public class PayTransactionCreateReqDTO implements Serializable {
 
     /**
+     * 用户编号
+     */
+    @NotNull(message = "用户编号不能为空")
+    private Integer userId;
+
+    /**
      * 应用编号
      */
     @NotEmpty(message = "应用编号不能为空")

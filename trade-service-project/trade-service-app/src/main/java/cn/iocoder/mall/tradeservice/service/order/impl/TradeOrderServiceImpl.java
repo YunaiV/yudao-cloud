@@ -171,7 +171,8 @@ public class TradeOrderServiceImpl implements TradeOrderService {
         String orderSubject = listProductSkus.get(0).getSpu().getName();
         Date expireTime = DateUtil.addDate(Calendar.MINUTE, tradeBizProperties.getPayExpireTime());
         Integer payTransactionId = payTransactionClient.createPayTransaction(
-                new PayTransactionCreateReqDTO().setCreateIp(createReqDTO.getIp()).setAppId(tradeBizProperties.getPayAppId())
+                new PayTransactionCreateReqDTO().setUserId(createReqDTO.getUserId())
+                        .setCreateIp(createReqDTO.getIp()).setAppId(tradeBizProperties.getPayAppId())
                         .setOrderId(tradeOrderDO.getId().toString()).setExpireTime(expireTime)
                         .setPrice(tradeOrderDO.getPresentPrice()).setOrderSubject(orderSubject)
                         .setOrderMemo("测试备注") // TODO 芋艿，后面补充

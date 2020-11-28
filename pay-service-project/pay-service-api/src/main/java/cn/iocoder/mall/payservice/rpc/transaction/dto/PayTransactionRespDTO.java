@@ -1,27 +1,20 @@
-package cn.iocoder.mall.payservice.dal.mysql.dataobject.transaction;
+package cn.iocoder.mall.payservice.rpc.transaction.dto;
 
-import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
 
 /**
-* 支付交易表
+* 支付交易 Response DTO
 */
-@TableName("pay_transaction")
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class PayTransactionDO extends DeletableDO {
+public class PayTransactionRespDTO {
 
     /**
      * 编号，自增
      */
-    @TableId
     private Integer id;
     /**
      * 用户编号
@@ -99,9 +92,5 @@ public class PayTransactionDO extends DeletableDO {
      * 创建时间
      */
     private Date createTime;
-    /**
-     * 最后更新时间
-     */
-    private Date updateTime;
 
 }

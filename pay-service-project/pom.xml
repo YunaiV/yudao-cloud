@@ -15,6 +15,7 @@
     <modules>
         <module>pay-service-api</module>
         <module>pay-service-app</module>
+        <module>pay-service-integration-test</module>
     </modules>
 
 

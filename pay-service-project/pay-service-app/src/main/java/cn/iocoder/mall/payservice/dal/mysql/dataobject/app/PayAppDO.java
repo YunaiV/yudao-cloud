@@ -1,6 +1,7 @@
 package cn.iocoder.mall.payservice.dal.mysql.dataobject.app;
 
 import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -10,6 +11,7 @@ import lombok.experimental.Accessors;
  *
  * 每个接入的业务都是一个应用，进行个性化的配置
  */
+@TableName("pay_app")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)

@@ -99,22 +99,7 @@ public class OrderServiceImpl implements OrderService {
         return CommonResult.success(orderInfoBO);
     }
 
-    private PayTransactionBO createPayTransaction(OrderDO order, List<OrderItemDO> orderItems, String ip) {
-        // TODO sin 支付订单 orderSubject 暂时取第一个子订单商品信息
-        String orderSubject = orderItems.get(0).getSkuName();
-        Date expireTime = DateUtil.addDate(Calendar.MINUTE, PAY_EXPIRE_TIME);
-        return payTransactionService.createTransaction(
-                new PayTransactionCreateDTO()
-                        .setCreateIp(ip)
-                        .setAppId(PayAppId.APP_ID_SHOP_ORDER)
-                        .setOrderId(order.getId().toString())
-                        .setExpireTime(expireTime)
-                        .setPrice(order.getPresentPrice())
-                        .setOrderSubject(orderSubject)
-                        .setOrderMemo("测试备注") // TODO 芋艿，后面补充
-                        .setOrderDescription("测试描述") // TODO 芋艿，后面补充
-        );
-    }
+
 
     @Override // TODO 芋艿，需要确认下这个方法的用途。因为涉及修改价格和数量。
     public CommonResult updateOrderItem(OrderItemUpdateDTO orderUpdateDTO) {

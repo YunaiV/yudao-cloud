@@ -5,14 +5,17 @@ import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.util.MathUtil;
 import cn.iocoder.common.framework.vo.PageResult;
+import cn.iocoder.mall.payservice.rpc.transaction.dto.PayTransactionCreateReqDTO;
 import cn.iocoder.mall.productservice.enums.sku.ProductSkuDetailFieldEnum;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuRespDTO;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcRespDTO;
+import cn.iocoder.mall.tradeservice.client.pay.PayTransactionClient;
 import cn.iocoder.mall.tradeservice.client.product.ProductSkuClient;
 import cn.iocoder.mall.tradeservice.client.promotion.CouponCardClient;
 import cn.iocoder.mall.tradeservice.client.promotion.PriceClient;
 import cn.iocoder.mall.tradeservice.client.user.UserAddressClient;
+import cn.iocoder.mall.tradeservice.config.TradeBizProperties;
 import cn.iocoder.mall.tradeservice.convert.order.TradeOrderConvert;
 import cn.iocoder.mall.tradeservice.dal.mysql.dataobject.order.TradeOrderDO;
 import cn.iocoder.mall.tradeservice.dal.mysql.dataobject.order.TradeOrderItemDO;
@@ -61,6 +64,11 @@ public class TradeOrderServiceImpl implements TradeOrderService {
     private PriceClient priceClient;
     @Autowired
     private CouponCardClient couponCardClient;
+    @Autowired
+    private PayTransactionClient payTransactionClient;
+
+    @Autowired
+    private TradeBizProperties tradeBizProperties;
 
     @Override
 //    @GlobalTransactional TODO 芋艿，使用 seata 实现分布式事务
@@ -92,15 +100,15 @@ public class TradeOrderServiceImpl implements TradeOrderService {
         }
 
         // 创建交易订单（本地事务）
-        Integer tradeOrderId = self.createTradeOrder0(createReqDTO, listProductSkus, priceProductCalcRespDTO, userAddressRespDTO);
+        TradeOrderDO tradeOrderDO = self.createTradeOrder0(createReqDTO, listProductSkus, priceProductCalcRespDTO, userAddressRespDTO);
 
         // 创建支付订单，对接支付服务
-        createPayTransaction();
-        return tradeOrderId;
+        createPayTransaction(tradeOrderDO, createReqDTO, listProductSkus);
+        return tradeOrderDO.getId();
     }
 
     @Transactional
-    public Integer createTradeOrder0(TradeOrderCreateReqDTO createReqDTO, List<ProductSkuRespDTO> listProductSkus,
+    public TradeOrderDO createTradeOrder0(TradeOrderCreateReqDTO createReqDTO, List<ProductSkuRespDTO> listProductSkus,
                                      PriceProductCalcRespDTO priceProductCalcRespDTO, UserAddressRespDTO userAddressRespDTO) {
         // 构建 TradeOrderDO 对象，并进行保存
         TradeOrderDO tradeOrderDO = new TradeOrderDO();
@@ -154,11 +162,24 @@ public class TradeOrderServiceImpl implements TradeOrderService {
         // 最终保存
         tradeOrderItemMapper.insertList(tradeOrderItemDOs);
 
-        return tradeOrderDO.getId();
+        return tradeOrderDO;
     }
 
-    private void createPayTransaction() {
+    private void createPayTransaction(TradeOrderDO tradeOrderDO, TradeOrderCreateReqDTO createReqDTO,
+                                      List<ProductSkuRespDTO> listProductSkus) {
+        // 创建支付单
+        String orderSubject = listProductSkus.get(0).getSpu().getName();
+        Date expireTime = DateUtil.addDate(Calendar.MINUTE, tradeBizProperties.getPayExpireTime());
+        Integer payTransactionId = payTransactionClient.createPayTransaction(
+                new PayTransactionCreateReqDTO().setCreateIp(createReqDTO.getIp()).setAppId(tradeBizProperties.getPayAppId())
+                        .setOrderId(tradeOrderDO.getId().toString()).setExpireTime(expireTime)
+                        .setPrice(tradeOrderDO.getPresentPrice()).setOrderSubject(orderSubject)
+                        .setOrderMemo("测试备注") // TODO 芋艿，后面补充
+                        .setOrderDescription("测试描述") // TODO 芋艿，后面补充
+        );
 
+        // 更新
+        tradeOrderMapper.updateById(new TradeOrderDO().setId(tradeOrderDO.getId()).setPayTransactionId(payTransactionId));
     }
 
     private String generateTradeOrderNo() {

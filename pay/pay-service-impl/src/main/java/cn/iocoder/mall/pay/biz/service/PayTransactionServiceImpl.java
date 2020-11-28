@@ -81,29 +81,6 @@ public class PayTransactionServiceImpl implements PayTransactionService {
 
     @Override
     @SuppressWarnings("Duplicates")
-    public PayTransactionBO createTransaction(PayTransactionCreateDTO payTransactionCreateDTO) {
-        // 校验 App
-        PayAppDO payAppDO = payAppService.validPayApp(payTransactionCreateDTO.getAppId());
-        // 插入 PayTransactionDO
-        PayTransactionDO payTransaction = payTransactionMapper.selectByAppIdAndOrderId(
-                payTransactionCreateDTO.getAppId(), payTransactionCreateDTO.getOrderId());
-        if (payTransaction != null) {
-            logger.warn("[createTransaction][appId({}) orderId({}) exists]", payTransactionCreateDTO.getAppId(),
-                    payTransactionCreateDTO.getOrderId()); // 理论来说，不会出现这个情况
-            // TODO 芋艿 可能要考虑，更新订单。例如说，业务线订单可以修改价格
-        } else {
-            payTransaction = PayTransactionConvert.INSTANCE.convert(payTransactionCreateDTO);
-            payTransaction.setStatus(PayTransactionStatusEnum.WAITING.getValue())
-                    .setNotifyUrl(payAppDO.getNotifyUrl());
-            payTransaction.setCreateTime(new Date());
-            payTransactionMapper.insert(payTransaction);
-        }
-        // 返回成功
-        return PayTransactionConvert.INSTANCE.convert(payTransaction);
-    }
-
-    @Override
-    @SuppressWarnings("Duplicates")
     public PayTransactionSubmitBO submitTransaction(PayTransactionSubmitDTO payTransactionSubmitDTO) {
         // TODO 校验支付渠道是否有效
         // 校验 App 是否有效

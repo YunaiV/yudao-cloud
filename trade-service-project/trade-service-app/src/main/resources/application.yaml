@@ -47,6 +47,8 @@ dubbo:
       version: 1.0.0
     CouponCardRpc:
       version: 1.0.0
+    PayTransactionRpc:
+      version: 1.0.0
 
 # RocketMQ 配置项
 rocketmq:
@@ -66,3 +68,8 @@ mall:
   error-code:
     group: ${spring.application.name}
     constants-class: cn.iocoder.mall.tradeservice.enums.OrderErrorCodeConstants
+
+# 业务配置
+biz:
+  pay-app-id: POd4RC6a
+  pay-expire-time: 120

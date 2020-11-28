@@ -1,4 +1,4 @@
-package cn.iocoder.mall.pay.api.constant;
+package cn.iocoder.mall.payservice.enums.transaction;
 
 /**
  * 支付交易状态枚举

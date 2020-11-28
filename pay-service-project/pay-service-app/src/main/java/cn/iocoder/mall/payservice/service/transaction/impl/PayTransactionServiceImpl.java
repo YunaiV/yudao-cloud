@@ -1,7 +1,14 @@
 package cn.iocoder.mall.payservice.service.transaction.impl;
 
+import cn.iocoder.mall.payservice.convert.transaction.PayTransactionConvert;
+import cn.iocoder.mall.payservice.dal.mysql.dataobject.transaction.PayTransactionDO;
 import cn.iocoder.mall.payservice.dal.mysql.mapper.transaction.PayTransactionMapper;
+import cn.iocoder.mall.payservice.enums.transaction.PayTransactionStatusEnum;
+import cn.iocoder.mall.payservice.rpc.app.dto.PayAppRespDTO;
+import cn.iocoder.mall.payservice.rpc.transaction.dto.PayTransactionCreateReqDTO;
+import cn.iocoder.mall.payservice.service.app.PayAppService;
 import cn.iocoder.mall.payservice.service.transaction.PayTransactionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -11,87 +18,36 @@ import org.springframework.validation.annotation.Validated;
 */
 @Service
 @Validated
+@Slf4j
 public class PayTransactionServiceImpl implements PayTransactionService {
 
     @Autowired
-    private PayTransactionMapper transactionMapper;
+    private PayTransactionMapper payTransactionMapper;
 
+    @Autowired
+    private PayAppService payAppService;
 
+    @Override
+    public Integer createPayTransaction(PayTransactionCreateReqDTO createReqDTO) {
+        // 校验 App
+        PayAppRespDTO payAppRespDTO = payAppService.validPayApp(createReqDTO.getAppId());
 
-//    /**
-//    * 创建pay_transaction
-//    *
-//    * @param createBO 创建pay_transaction BO
-//    * @return pay_transaction
-//    */
-//    public TransactionBO createTransaction(@Valid TransactionCreateBO createBO) {
-//        // 插入到数据库
-//        PayTransactionDO transactionDO = TransactionConvert.INSTANCE.convert(createBO);
-//        transactionMapper.insert(transactionDO);
-//        // 返回
-//        return TransactionConvert.INSTANCE.convert(transactionDO);
-//    }
-//
-//    /**
-//    * 更新pay_transaction
-//    *
-//    * @param updateBO 更新pay_transaction BO
-//    */
-//    public void updateTransaction(@Valid TransactionUpdateBO updateBO) {
-//        // 校验更新的pay_transaction是否存在
-//        if (transactionMapper.selectById(updateBO.getId()) == null) {
-//            throw ServiceExceptionUtil.exception(AuthErrorCodeConstants.TRANSACTION_NOT_FOUND);
-//        }
-//        // 更新到数据库
-//        PayTransactionDO updateObject = TransactionConvert.INSTANCE.convert(updateBO);
-//        transactionMapper.updateById(updateObject);
-//    }
-//
-//    /**
-//    * 删除pay_transaction
-//    *
-//    * @param transactionId pay_transaction编号
-//    */
-//    public void deleteTransaction(Integer transactionId) {
-//        // 校验删除的pay_transaction是否存在
-//        if (transactionMapper.selectById(transactionId) == null) {
-//            throw ServiceExceptionHelper.exception(AuthErrorCodeConstants.TRANSACTION_NOT_FOUND);
-//        }
-//        // 标记删除
-//        transactionMapper.deleteById(transactionId);
-//    }
-//
-//    /**
-//    * 获得pay_transaction
-//    *
-//    * @param transactionId pay_transaction编号
-//    * @return pay_transaction
-//    */
-//    public TransactionBO getTransaction(Integer transactionId) {
-//        PayTransactionDO transactionDO = transactionMapper.selectById(transactionId);
-//        return TransactionConvert.INSTANCE.convert(transactionDO);
-//    }
-//
-//    /**
-//    * 获得pay_transaction列表
-//    *
-//    * @param transactionIds pay_transaction编号列表
-//    * @return pay_transaction列表
-//    */
-//    public List<TransactionBO> listTransactions(List<Integer> transactionIds) {
-//        List<PayTransactionDO> transactionDOs = transactionMapper.selectBatchIds(transactionIds);
-//        return TransactionConvert.INSTANCE.convertList(transactionDOs);
-//    }
-//
-//    /**
-//    * 获得pay_transaction分页
-//    *
-//    * @param pageBO pay_transaction分页查询
-//    * @return pay_transaction分页结果
-//    */
-//    public PageResult<TransactionBO> pageTransaction(TransactionPageBO pageBO) {
-//        IPage<PayTransactionDO> transactionDOPage = transactionMapper.selectPage(pageBO);
-//        return TransactionConvert.INSTANCE.convertPage(transactionDOPage);
-//    }
+        // 查询对应的支付交易单是否已经存在。如果是，则直接返回
+        PayTransactionDO payTransaction = payTransactionMapper.selectByAppIdAndOrderId(
+                createReqDTO.getAppId(), createReqDTO.getOrderId());
+        if (payTransaction != null) {
+            log.warn("[createTransaction][appId({}) orderId({}) 已经存在对应的支付交易单({})]", createReqDTO.getAppId(),
+                    createReqDTO.getOrderId(), payTransaction.toString()); // 理论来说，不会出现这个情况
+            return payTransaction.getId();
+        }
+
+        // 创建支付交易单
+        payTransaction = PayTransactionConvert.INSTANCE.convert(createReqDTO)
+            .setStatus(PayTransactionStatusEnum.WAITING.getValue())
+            .setNotifyUrl(payAppRespDTO.getPayNotifyUrl());
+        payTransactionMapper.insert(payTransaction);
+        // 最终返回
+        return payTransaction.getId();
+    }
 
 }

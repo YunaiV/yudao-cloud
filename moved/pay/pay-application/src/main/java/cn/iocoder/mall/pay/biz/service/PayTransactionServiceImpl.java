@@ -38,26 +38,8 @@ import java.util.List;
 @org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.PayTransactionService.version}")
 public class PayTransactionServiceImpl implements PayTransactionService {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
-
-    @Autowired
-    private PayTransactionMapper payTransactionMapper;
-    @Autowired
-    private PayTransactionExtensionMapper payTransactionExtensionMapper;
-    @Autowired
-    private PayNotifyTaskMapper payTransactionNotifyTaskMapper;
-
-    @Autowired
-    private PayAppServiceImpl payAppService;
-    @Autowired
-    private PayNotifyServiceImpl payNotifyService;
-
     public PayTransactionDO getTransaction(Integer id) {
         return payTransactionMapper.selectById(id);
-    }
-
-    public PayTransactionDO getTransaction(String appId, String orderId) {
-        return payTransactionMapper.selectByAppIdAndOrderId(appId, orderId);
     }
 
     public int updateTransactionPriceTotalIncr(Integer id, Integer incr) {
@@ -66,17 +48,6 @@ public class PayTransactionServiceImpl implements PayTransactionService {
 
     public PayTransactionExtensionDO getPayTransactionExtension(Integer id) {
         return payTransactionExtensionMapper.selectById(id);
-    }
-
-    @Override
-    public PayTransactionBO getTransaction(PayTransactionGetDTO payTransactionGetDTO) {
-        PayTransactionDO payTransaction = payTransactionMapper.selectByAppIdAndOrderId(payTransactionGetDTO.getAppId(),
-                payTransactionGetDTO.getOrderId());
-        if (payTransaction == null) {
-            throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_NOT_FOUND.getCode());
-        }
-        // TODO 芋艿 userId 的校验
-        return PayTransactionConvert.INSTANCE.convert(payTransaction);
     }
 
     @Override

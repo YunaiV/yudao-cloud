@@ -1,13 +1,17 @@
-package cn.iocoder.mall.pay.biz.dataobject;
+package cn.iocoder.mall.payservice.dal.mysql.dataobject.transaction;
 
-import cn.iocoder.common.framework.dataobject.DeletableDO;
+import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * 交易扩展表
  */
+@TableName("pay_transaction_extension")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class PayTransactionExtensionDO extends DeletableDO {
 
@@ -42,7 +46,7 @@ public class PayTransactionExtensionDO extends DeletableDO {
     /**
      * 状态
      *
-     * @see cn.iocoder.mall.pay.api.constant.PayTransactionStatusEnum
+     * @see cn.iocoder.mall.payservice.enums.transaction.PayTransactionStatusEnum
      * 注意，只包含上述枚举的 WAITING 和 SUCCESS
      */
     private Integer status;

@@ -1,22 +1,36 @@
-package cn.iocoder.mall.pay.biz.dataobject;
+package cn.iocoder.mall.payservice.dal.mysql.dataobject.refund;
 
-import cn.iocoder.common.framework.dataobject.DeletableDO;
+import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
 
 /**
- * 支付交易 DO
+ * 退款单 DO
  */
+@TableName("pay_refund")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class PayTransactionDO extends DeletableDO {
+public class PayRefundDO extends DeletableDO {
 
     /**
      * 编号，自增
      */
     private Integer id;
+    /**
+     * 支付交易编号
+     */
+    private Integer transactionId;
+    /**
+     * 生成传输给第三方的退款号
+     *
+     * 唯一索引
+     */
+    private String refundCode;
     /**
      * 应用编号
      *
@@ -38,33 +52,21 @@ public class PayTransactionDO extends DeletableDO {
      */
     private String createIp;
     /**
-     * 订单商品名
-     */
-    private String orderSubject;
-    /**
-     * 订单商品描述
+     * 业务退款描述
      */
     private String orderDescription;
     /**
-     * 订单备注
-     */
-    private String orderMemo;
-    /**
-     * 支付金额，单位：分。
+     * 退款金额，单位：分。
      *
      * TODO 暂时不考虑货币类型。
      */
     private Integer price;
     /**
-     * 支付状态
+     * 退款状态
      *
-     * @see cn.iocoder.mall.pay.api.constant.PayTransactionStatusEnum
+     * @see cn.iocoder.mall.pay.api.constant.PayRefundStatus
      */
     private Integer status;
-    /**
-     * 交易过期时间
-     */
-    private Date expireTime;
     /**
      * 回调业务线完成时间
      */
@@ -73,24 +75,20 @@ public class PayTransactionDO extends DeletableDO {
      * 异步通知地址
      */
     private String notifyUrl;
-    // TODO return url
-
     /**
-     * 成功支付的交易拓展编号
+     * 扩展内容
      *
-     * @see PayTransactionExtensionDO#getId()
+     * 异步通知的时候填充回调的数据
      */
-    private Integer extensionId;
+    private String extensionData;
     /**
-     * 支付成功的支付渠道
-     *
-     * @see cn.iocoder.mall.pay.api.constant.PayChannelEnum
+     * 退款渠道
      */
-    private Integer payChannel;
+    private Integer refundChannel;
     /**
-     * 第三方支付成功的时间
+     * 第三方退款成功的时间
      */
-    private Date paymentTime;
+    private Date refundTime;
     /**
      * 收到第三方系统通知的时间
      *
@@ -101,12 +99,5 @@ public class PayTransactionDO extends DeletableDO {
      * 第三方的流水号
      */
     private String tradeNo;
-
-    // ========== 退款相关 ==========
-
-    /**
-     * 退款总金额
-     */
-    private Integer refundTotal;
 
 }

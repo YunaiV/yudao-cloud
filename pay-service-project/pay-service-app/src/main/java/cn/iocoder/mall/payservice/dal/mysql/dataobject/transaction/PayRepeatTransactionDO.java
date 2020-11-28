@@ -1,4 +1,4 @@
-package cn.iocoder.mall.pay.biz.dataobject;
+package cn.iocoder.mall.payservice.dal.mysql.dataobject.transaction;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

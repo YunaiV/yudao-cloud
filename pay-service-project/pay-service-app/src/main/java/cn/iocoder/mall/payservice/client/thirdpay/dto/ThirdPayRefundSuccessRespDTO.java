@@ -1,4 +1,4 @@
-package cn.iocoder.mall.pay.biz.client;
+package cn.iocoder.mall.payservice.client.thirdpay.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -6,11 +6,11 @@ import lombok.experimental.Accessors;
 import java.util.Date;
 
 /**
- * 交易退款成功结果
+ * 三方平台的交易退款成功 Response DTO
  */
 @Data
 @Accessors(chain = true)
-public class RefundSuccessBO {
+public class ThirdPayRefundSuccessRespDTO {
 
     /**
      * 生成传输给第三方的订单号

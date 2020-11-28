@@ -1,13 +1,18 @@
-package cn.iocoder.mall.pay.biz.client;
+package cn.iocoder.mall.payservice.client.thirdpay;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.pay.biz.dataobject.PayRefundDO;
-import cn.iocoder.mall.pay.biz.dataobject.PayTransactionDO;
-import cn.iocoder.mall.pay.biz.dataobject.PayTransactionExtensionDO;
+import cn.iocoder.mall.payservice.client.thirdpay.dto.ThirdPayRefundSuccessRespDTO;
+import cn.iocoder.mall.payservice.client.thirdpay.dto.ThirdPayTransactionSuccessRespDTO;
+import cn.iocoder.mall.payservice.dal.mysql.dataobject.refund.PayRefundDO;
+import cn.iocoder.mall.payservice.dal.mysql.dataobject.transaction.PayTransactionDO;
+import cn.iocoder.mall.payservice.dal.mysql.dataobject.transaction.PayTransactionExtensionDO;
 
 import java.util.Map;
 
-public abstract class AbstractPaySDK {
+/**
+ * 三方支付平台的 Client 抽象类
+ */
+public abstract class AbstractThirdPayClient {
 
     /**
      * 提交支付请求给支付平台，并返回请求结果
@@ -28,7 +33,7 @@ public abstract class AbstractPaySDK {
      * @return 解析结果
      */
     // TODO 芋艿，理论来说不会出现解析失败的情况，先返回这个参数列。等后面封装支付宝和微信支付的时候，在看看。
-    public abstract CommonResult<TransactionSuccessBO> parseTransactionSuccessParams(String params);
+    public abstract CommonResult<ThirdPayTransactionSuccessRespDTO> parseTransactionSuccessParams(String params);
 
     /**
      * 提交退款请求给支付平台，并返回请求结果
@@ -49,6 +54,6 @@ public abstract class AbstractPaySDK {
      * @return 解析结果
      */
     // TODO 芋艿，理论来说不会出现解析失败的情况，先返回这个参数列。等后面封装支付宝和微信支付的时候，在看看。
-    public abstract CommonResult<RefundSuccessBO> parseRefundSuccessParams(String params);
+    public abstract CommonResult<ThirdPayRefundSuccessRespDTO> parseRefundSuccessParams(String params);
 
 }

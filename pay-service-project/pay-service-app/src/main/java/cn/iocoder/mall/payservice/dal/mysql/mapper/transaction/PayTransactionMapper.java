@@ -13,6 +13,11 @@ public interface PayTransactionMapper extends BaseMapper<PayTransactionDO> {
 //            new QueryWrapperX<PayTransactionDO>());
 //    }
 
+    default int update(PayTransactionDO entity, Integer whereStatus) {
+        return update(entity, new QueryWrapper<PayTransactionDO>()
+                .eq("id", entity.getId()).eq("status", whereStatus));
+    }
+
     default PayTransactionDO selectByAppIdAndOrderId(String appId, String orderId) {
         return selectOne(new QueryWrapper<PayTransactionDO>().eq("app_id", appId)
                 .eq("order_id", orderId));

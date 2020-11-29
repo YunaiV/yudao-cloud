@@ -29,4 +29,10 @@ public class PayTransactionRpcImpl implements PayTransactionRpc {
         return success(payTransactionService.getPayTransaction(getReqDTO));
     }
 
+    @Override
+    public CommonResult<Boolean> updatePayTransactionSuccess(PayTransactionSuccessReqDTO successReqDTO) {
+        return success(payTransactionService.updateTransactionPaySuccess(successReqDTO.getPayChannel(),
+                successReqDTO.getParams()));
+    }
+
 }

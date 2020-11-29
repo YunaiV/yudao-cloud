@@ -1,4 +1,4 @@
-package cn.iocoder.mall.pay.api.message;
+package cn.iocoder.mall.payservice.mq.producer.message;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

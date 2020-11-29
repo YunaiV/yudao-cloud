@@ -51,63 +51,6 @@ public class PayTransactionServiceImpl implements PayTransactionService {
     }
 
     @Override
-    @Transactional
-    public Boolean updateTransactionPaySuccess(Integer payChannel, String params) {
-        // TODO 芋艿，记录回调日志
-        // 解析传入的参数，成 TransactionSuccessBO 对象
-        AbstractPaySDK paySDK = PaySDKFactory.getSDK(payChannel);
-        CommonResult<TransactionSuccessBO> paySuccessResult = paySDK.parseTransactionSuccessParams(params);
-        if (paySuccessResult.isError()) {
-            throw ServiceExceptionUtil.exception(paySuccessResult.getCode(), paySuccessResult.getMessage());
-        }
-        // TODO 芋艿，先最严格的校验。即使调用方重复调用，实际哪个订单已经被重复回调的支付，也返回 false 。也没问题，因为实际已经回调成功了。
-        // 1.1 查询 PayTransactionExtensionDO
-        PayTransactionExtensionDO extension = payTransactionExtensionMapper.selectByTransactionCode(paySuccessResult.getData().getTransactionCode());
-        if (extension == null) {
-            throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_EXTENSION_NOT_FOUND.getCode());
-        }
-        if (!PayTransactionStatusEnum.WAITING.getValue().equals(extension.getStatus())) { // 校验状态，必须是待支付
-            throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_EXTENSION_STATUS_IS_NOT_WAITING.getCode());
-        }
-        // 1.2 更新 PayTransactionExtensionDO
-        PayTransactionExtensionDO updatePayTransactionExtension = new PayTransactionExtensionDO()
-                .setId(extension.getId())
-                .setStatus(PayTransactionStatusEnum.SUCCESS.getValue())
-                .setExtensionData(params);
-        int updateCounts = payTransactionExtensionMapper.update(updatePayTransactionExtension, PayTransactionStatusEnum.WAITING.getValue());
-        if (updateCounts == 0) { // 校验状态，必须是待支付
-            throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_EXTENSION_STATUS_IS_NOT_WAITING.getCode());
-        }
-        logger.info("[updateTransactionPaySuccess][PayTransactionExtensionDO({}) 更新为已支付]", extension.getId());
-        // 2.1 判断 PayTransactionDO 是否处于待支付
-        PayTransactionDO transaction = payTransactionMapper.selectById(extension.getTransactionId());
-        if (transaction == null) {
-            throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_NOT_FOUND.getCode());
-        }
-        if (!PayTransactionStatusEnum.WAITING.getValue().equals(transaction.getStatus())) { // 校验状态，必须是待支付
-            throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_STATUS_IS_NOT_WAITING.getCode());
-        }
-        // 2.2 更新 PayTransactionDO
-        PayTransactionDO updatePayTransaction = new PayTransactionDO()
-                .setId(transaction.getId())
-                .setStatus(PayTransactionStatusEnum.SUCCESS.getValue())
-                .setExtensionId(extension.getId())
-                .setPayChannel(payChannel)
-                .setPaymentTime(paySuccessResult.getData().getPaymentTime())
-                .setNotifyTime(new Date())
-                .setTradeNo(paySuccessResult.getData().getTradeNo());
-        updateCounts = payTransactionMapper.update(updatePayTransaction, PayTransactionStatusEnum.WAITING.getValue());
-        if (updateCounts == 0) { // 校验状态，必须是待支付 TODO 这种类型，需要思考下。需要返回错误，但是又要保证事务回滚
-            throw ServiceExceptionUtil.exception(PayErrorCodeEnum.PAY_TRANSACTION_STATUS_IS_NOT_WAITING.getCode());
-        }
-        logger.info("[updateTransactionPaySuccess][PayTransactionDO({}) 更新为已支付]", transaction.getId());
-        // 3 新增 PayNotifyTaskDO 注释原因，参见 PayRefundSuccessConsumer 类。
-//        payNotifyService.addTransactionNotifyTask(transaction, extension);
-        // 返回结果
-        return true;
-    }
-
-    @Override
     public List<PayTransactionBO> getTransactionList(Collection<Integer> ids) {
         return PayTransactionConvert.INSTANCE.convertList(payTransactionMapper.selectListByIds(ids));
     }

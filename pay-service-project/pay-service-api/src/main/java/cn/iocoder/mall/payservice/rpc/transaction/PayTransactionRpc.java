@@ -32,4 +32,12 @@ public interface PayTransactionRpc {
      */
     CommonResult<PayTransactionRespDTO> getPayTransaction(PayTransactionGetReqDTO getReqDTO);
 
+    /**
+     * 更新交易支付成功
+     *
+     * @param successReqDTO 支付成功信息
+     * @return 是否成功
+     */
+    CommonResult<Boolean> updatePayTransactionSuccess(PayTransactionSuccessReqDTO successReqDTO);
+
 }

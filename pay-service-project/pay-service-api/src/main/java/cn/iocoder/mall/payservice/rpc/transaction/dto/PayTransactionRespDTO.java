@@ -3,6 +3,7 @@ package cn.iocoder.mall.payservice.rpc.transaction.dto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Date;
 */
 @Data
 @Accessors(chain = true)
-public class PayTransactionRespDTO {
+public class PayTransactionRespDTO implements Serializable {
 
     /**
      * 编号，自增

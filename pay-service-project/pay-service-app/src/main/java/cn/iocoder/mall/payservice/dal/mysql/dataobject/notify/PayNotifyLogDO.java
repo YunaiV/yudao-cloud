@@ -1,7 +1,10 @@
-package cn.iocoder.mall.pay.biz.dataobject;
+package cn.iocoder.mall.payservice.dal.mysql.dataobject.notify;
 
-import cn.iocoder.common.framework.dataobject.DeletableDO;
+import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
+import cn.iocoder.mall.payservice.enums.notify.PayNotifyStatusEnum;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
@@ -9,7 +12,9 @@ import lombok.experimental.Accessors;
  *
  * 通过该表，记录通知 App 时，产生的日志
  */
+@TableName("pay_notify_log")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class PayNotifyLogDO extends DeletableDO {
 
@@ -32,7 +37,7 @@ public class PayNotifyLogDO extends DeletableDO {
     /**
      * 状态
      *
-     * @see cn.iocoder.mall.pay.api.constant.PayTransactionNotifyStatusEnum
+     * 外键 {@link PayNotifyStatusEnum}
      */
     private Integer status;
 

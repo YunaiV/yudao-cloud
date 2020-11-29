@@ -31,6 +31,12 @@
             <artifactId>spring-boot-starter-web</artifactId> <!-- 需要开启 Web 容器，因为 Actuator 需要使用到 -->
         </dependency>
 
+        <!-- MQ 相关 -->
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>mall-spring-boot-starter-rocketmq</artifactId>
+        </dependency>
+
         <!-- Registry 和 Config 相关 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

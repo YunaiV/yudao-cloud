@@ -4,13 +4,14 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 /**
  * 支付交易获得 Request DTO
  */
 @Data
 @Accessors(chain = true)
-public class PayTransactionGetReqDTO {
+public class PayTransactionGetReqDTO implements Serializable {
 
     /**
      * 应用编号

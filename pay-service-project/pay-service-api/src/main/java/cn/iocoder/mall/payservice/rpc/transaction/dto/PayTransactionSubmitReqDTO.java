@@ -7,13 +7,14 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * 支付交易提交 Request VO
  */
 @Data
 @Accessors(chain = true)
-public class PayTransactionSubmitReqDTO {
+public class PayTransactionSubmitReqDTO implements Serializable {
 
     /**
      * 应用编号

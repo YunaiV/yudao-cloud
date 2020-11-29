@@ -1,8 +1,16 @@
-package cn.iocoder.mall.pay.biz.dataobject;
+package cn.iocoder.mall.payservice.dal.mysql.dataobject.notify;
 
-import cn.iocoder.common.framework.dataobject.DeletableDO;
-import cn.iocoder.mall.pay.biz.service.PayTransactionServiceImpl;
+import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
+import cn.iocoder.mall.payservice.dal.mysql.dataobject.transaction.PayTransactionDO;
+import cn.iocoder.mall.payservice.dal.mysql.dataobject.transaction.PayTransactionExtensionDO;
+import cn.iocoder.mall.payservice.enums.notify.PayNotifyStatusEnum;
+import cn.iocoder.mall.payservice.enums.notify.PayNotifyType;
+import cn.iocoder.mall.payservice.service.transaction.PayTransactionService;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.util.Date;
@@ -12,7 +20,9 @@ import java.util.Date;
  *
  * 目前包括支付通知、退款通知。
  */
+@TableName("pay_notify_task")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class PayNotifyTaskDO extends DeletableDO {
 
@@ -37,13 +47,13 @@ public class PayNotifyTaskDO extends DeletableDO {
     /**
      * 类型
      *
-     * @see cn.iocoder.mall.pay.api.constant.PayNotifyType
+     * 外键 {@link PayNotifyType}
      */
     private Integer type;
     /**
      * 通知状态
      *
-     * @see cn.iocoder.mall.pay.api.constant.PayTransactionNotifyStatusEnum
+     * 外键 {@link PayNotifyStatusEnum}
      */
     private Integer status;
     /**
@@ -55,7 +65,7 @@ public class PayNotifyTaskDO extends DeletableDO {
      *
      * 这个字段，需要结合 {@link #nextNotifyTime} 一起使用。
      *
-     * 1. 初始时，{@link PayTransactionServiceImpl#updateTransactionPaySuccess(Integer, String)}
+     * 1. 初始时，{@link PayTransactionService#updateTransactionPaySuccess(Integer, String)}
      *      nextNotifyTime 为当前时间 + 15 秒
      *      lastExecuteTime 为空
      *      并发送给 MQ ，执行执行
@@ -83,10 +93,12 @@ public class PayNotifyTaskDO extends DeletableDO {
     /**
      * 支付数据
      */
+    @TableField(typeHandler = FastjsonTypeHandler.class)
     private Transaction transaction;
     /**
      * 退款数据
      */
+    @TableField(typeHandler = FastjsonTypeHandler.class)
     private Refund refund;
 
     @Data

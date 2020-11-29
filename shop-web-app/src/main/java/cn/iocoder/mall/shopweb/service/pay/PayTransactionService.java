@@ -17,12 +17,16 @@ public class PayTransactionService {
 
     public PayTransactionSubmitRespVO submitPayTransaction(PayTransactionSubmitReqVO submitReqVO, String ip) {
         PayTransactionSubmitRespDTO submitPayTransaction = payTransactionClient.submitPayTransaction(
-                PayTransactionConvert.INSTANCE.convert(submitReqVO));
+                PayTransactionConvert.INSTANCE.convert(submitReqVO).setCreateIp(ip));
         return PayTransactionConvert.INSTANCE.convert(submitPayTransaction);
     }
 
     public PayTransactionRespVO getPayTransaction(Integer userId, String appId, String orderId) {
         return PayTransactionConvert.INSTANCE.convert(payTransactionClient.getPayTransaction(userId, appId, orderId));
+    }
+
+    public void updatePayTransactionSuccess(Integer payChannel, String params) {
+        payTransactionClient.updatePayTransactionSuccess(payChannel, params);
     }
 
 }

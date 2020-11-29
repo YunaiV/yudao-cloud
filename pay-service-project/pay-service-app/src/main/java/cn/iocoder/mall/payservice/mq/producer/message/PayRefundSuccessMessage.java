@@ -1,6 +1,7 @@
-package cn.iocoder.mall.pay.api.message;
+package cn.iocoder.mall.payservice.mq.producer.message;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
@@ -8,6 +9,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
+@EqualsAndHashCode(callSuper = true)
 public class PayRefundSuccessMessage extends AbstractPayNotifySuccessMessage {
 
     public static final String TOPIC = "PAY_REFUND_SUCCESS";

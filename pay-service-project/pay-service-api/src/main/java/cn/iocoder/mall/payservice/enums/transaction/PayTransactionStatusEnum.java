@@ -1,8 +1,11 @@
 package cn.iocoder.mall.payservice.enums.transaction;
 
+import lombok.Getter;
+
 /**
  * 支付交易状态枚举
  */
+@Getter
 public enum PayTransactionStatusEnum {
 
     WAITING(1, "等待支付"),
@@ -13,33 +16,15 @@ public enum PayTransactionStatusEnum {
     /**
      * 状态
      */
-    private Integer value;
+    private final Integer status;
     /**
      * 名字
      */
-    private String name;
+    private final String name;
 
-    PayTransactionStatusEnum(Integer value, String name) {
-        this.value = value;
+    PayTransactionStatusEnum(Integer status, String name) {
+        this.status = status;
         this.name = name;
-    }
-
-    public Integer getValue() {
-        return value;
-    }
-
-    public PayTransactionStatusEnum setValue(Integer value) {
-        this.value = value;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public PayTransactionStatusEnum setName(String name) {
-        this.name = name;
-        return this;
     }
 
 }

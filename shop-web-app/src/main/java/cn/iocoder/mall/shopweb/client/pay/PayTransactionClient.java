@@ -2,10 +2,7 @@ package cn.iocoder.mall.shopweb.client.pay;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.payservice.rpc.transaction.PayTransactionRpc;
-import cn.iocoder.mall.payservice.rpc.transaction.dto.PayTransactionGetReqDTO;
-import cn.iocoder.mall.payservice.rpc.transaction.dto.PayTransactionRespDTO;
-import cn.iocoder.mall.payservice.rpc.transaction.dto.PayTransactionSubmitReqDTO;
-import cn.iocoder.mall.payservice.rpc.transaction.dto.PayTransactionSubmitRespDTO;
+import cn.iocoder.mall.payservice.rpc.transaction.dto.*;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +30,12 @@ public class PayTransactionClient {
         CommonResult<PayTransactionSubmitRespDTO> submitPayTransactionResult = payTransactionRpc.submitPayTransaction(submitReqDTO);
         submitPayTransactionResult.checkError();
         return submitPayTransactionResult.getData();
+    }
+
+    public void updatePayTransactionSuccess(Integer payChannel, String params) {
+        CommonResult<Boolean> updatePayTransactionSuccessResult = payTransactionRpc.updatePayTransactionSuccess(
+                new PayTransactionSuccessReqDTO().setPayChannel(payChannel).setParams(params));
+        updatePayTransactionSuccessResult.checkError();
     }
 
 }

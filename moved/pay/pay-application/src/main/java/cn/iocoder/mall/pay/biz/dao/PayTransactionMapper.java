@@ -11,9 +11,6 @@ import java.util.List;
 @Repository
 public interface PayTransactionMapper {
 
-    int update(@Param("entity") PayTransactionDO entity,
-               @Param("whereStatus") Integer whereStatus);
-
     int updateForRefundTotal(@Param("id") Integer id,
                              @Param("refundTotalIncr") Integer refundTotalIncr);
 

@@ -1,6 +1,6 @@
-package cn.iocoder.mall.pay.biz.component;
+package cn.iocoder.mall.payservice.common.dubbo;
 
-import cn.iocoder.common.framework.util.StringUtil;
+import cn.iocoder.common.framework.util.StringUtils;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -48,7 +48,7 @@ public class DubboReferencePool {
 
     private ReferenceMeta createGenericService(String notifyUrl) {
         // 使用 # 号分隔，格式为 服务名#方法名#版本号
-        List<String> notifyUrlParts = StringUtil.split(notifyUrl, "#");
+        List<String> notifyUrlParts = StringUtils.split(notifyUrl, "#");
         // 创建 ApplicationConfig 对象
         ApplicationConfig application = new ApplicationConfig();
         application.setName(dubboApplicationName);

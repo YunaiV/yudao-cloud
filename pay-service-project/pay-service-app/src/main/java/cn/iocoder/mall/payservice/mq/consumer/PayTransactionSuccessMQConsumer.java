@@ -1,9 +1,9 @@
-package cn.iocoder.mall.pay.biz.mq;
+package cn.iocoder.mall.payservice.mq.consumer;
 
-import cn.iocoder.mall.pay.api.message.PayTransactionSuccessMessage;
-import cn.iocoder.mall.pay.biz.component.DubboReferencePool;
-import cn.iocoder.mall.pay.biz.dao.PayTransactionMapper;
-import cn.iocoder.mall.pay.biz.dataobject.PayTransactionDO;
+import cn.iocoder.mall.payservice.common.dubbo.DubboReferencePool;
+import cn.iocoder.mall.payservice.dal.mysql.dataobject.transaction.PayTransactionDO;
+import cn.iocoder.mall.payservice.dal.mysql.mapper.transaction.PayTransactionMapper;
+import cn.iocoder.mall.payservice.mq.producer.message.PayTransactionSuccessMessage;
 import org.apache.dubbo.rpc.service.GenericService;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
@@ -18,7 +18,7 @@ import java.util.Date;
         topic = PayTransactionSuccessMessage.TOPIC,
         consumerGroup = "pay-consumer-group-" + PayTransactionSuccessMessage.TOPIC
 )
-public class PayTransactionSuccessConsumer extends AbstractPayNotifySuccessConsumer<PayTransactionSuccessMessage>
+public class PayTransactionSuccessMQConsumer extends AbstractPayNotifySuccessMQConsumer<PayTransactionSuccessMessage>
         implements RocketMQListener<PayTransactionSuccessMessage> {
 
     @Autowired
@@ -39,7 +39,7 @@ public class PayTransactionSuccessConsumer extends AbstractPayNotifySuccessConsu
     @Override
     protected void afterInvokeSuccess(PayTransactionSuccessMessage message) {
         PayTransactionDO updateTransaction = new PayTransactionDO().setId(message.getTransactionId()).setFinishTime(new Date());
-        payTransactionMapper.update(updateTransaction, null);
+        payTransactionMapper.updateById(updateTransaction);
     }
 
 }

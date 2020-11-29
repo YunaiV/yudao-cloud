@@ -1,14 +1,14 @@
-package cn.iocoder.mall.pay.biz.mq;
+package cn.iocoder.mall.payservice.mq.consumer;
 
 import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.util.ExceptionUtil;
-import cn.iocoder.mall.pay.api.constant.PayTransactionNotifyStatusEnum;
-import cn.iocoder.mall.pay.api.message.AbstractPayNotifySuccessMessage;
-import cn.iocoder.mall.pay.biz.component.DubboReferencePool;
-import cn.iocoder.mall.pay.biz.dao.PayNotifyLogMapper;
-import cn.iocoder.mall.pay.biz.dao.PayNotifyTaskMapper;
-import cn.iocoder.mall.pay.biz.dataobject.PayNotifyLogDO;
-import cn.iocoder.mall.pay.biz.dataobject.PayNotifyTaskDO;
+import cn.iocoder.mall.payservice.common.dubbo.DubboReferencePool;
+import cn.iocoder.mall.payservice.dal.mysql.dataobject.notify.PayNotifyLogDO;
+import cn.iocoder.mall.payservice.dal.mysql.dataobject.notify.PayNotifyTaskDO;
+import cn.iocoder.mall.payservice.dal.mysql.mapper.notify.PayNotifyLogMapper;
+import cn.iocoder.mall.payservice.dal.mysql.mapper.notify.PayNotifyTaskMapper;
+import cn.iocoder.mall.payservice.enums.notify.PayNotifyStatusEnum;
+import cn.iocoder.mall.payservice.mq.producer.message.AbstractPayNotifySuccessMessage;
 import com.alibaba.fastjson.JSON;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Calendar;
 import java.util.Date;
 
-public abstract class AbstractPayNotifySuccessConsumer<T extends AbstractPayNotifySuccessMessage> implements RocketMQListener<T> {
+public abstract class AbstractPayNotifySuccessMQConsumer<T extends AbstractPayNotifySuccessMessage> implements RocketMQListener<T> {
 
     @Autowired
     private DubboReferencePool dubboReferencePool;
 
     @Autowired
-    private PayNotifyTaskMapper payTransactionNotifyTaskMapper;
+    private PayNotifyTaskMapper payNotifyTaskMapper;
     @Autowired
     private PayNotifyLogMapper payTransactionNotifyLogMapper;
 
@@ -39,25 +39,27 @@ public abstract class AbstractPayNotifySuccessConsumer<T extends AbstractPayNoti
                 .setLastExecuteTime(new Date())
                 .setNotifyTimes(message.getNotifyTimes() + 1);
         try {
+            // TODO 芋艿，这里要优化下，不要在事务里，进行 RPC 调用
             response = invoke(message, referenceMeta);
             if ("success".equals(response)) { // 情况一，请求成功且返回成功
                 // 更新通知成功
-                updateTask.setStatus(PayTransactionNotifyStatusEnum.SUCCESS.getValue());
-                payTransactionNotifyTaskMapper.update(updateTask);
+                updateTask.setStatus(PayNotifyStatusEnum.SUCCESS.getStatus());
+                payNotifyTaskMapper.updateById(updateTask);
                 // 需要更新支付交易单通知应用成功
                 afterInvokeSuccess(message);
             } else { // 情况二，请求成功且返回失败
                 // 更新通知请求成功，但是结果失败
-                handleFailure(updateTask, PayTransactionNotifyStatusEnum.REQUEST_SUCCESS.getValue());
-                payTransactionNotifyTaskMapper.update(updateTask);
+                handleFailure(updateTask, PayNotifyStatusEnum.REQUEST_SUCCESS.getStatus());
+                payNotifyTaskMapper.updateById(updateTask);
             }
         } catch (Throwable e) { // 请求失败
             // 更新通知请求失败
             response = ExceptionUtil.getRootCauseMessage(e);
-            handleFailure(updateTask, PayTransactionNotifyStatusEnum.REQUEST_FAILURE.getValue());
-            payTransactionNotifyTaskMapper.update(updateTask);
+            handleFailure(updateTask, PayNotifyStatusEnum.REQUEST_FAILURE.getStatus());
+            payNotifyTaskMapper.updateById(updateTask);
             // 抛出异常，回滚事务
-            throw e; // TODO 芋艿，此处不能抛出异常。因为，会导致 MQ + 定时任务多重试。此处的目标是，事务回滚 + 吃掉事务。另外，最后的 finally 的日志，要插入成功。
+            // TODO 芋艿，此处不能抛出异常。因为，会导致 MQ + 定时任务多重试。此处的目标是，事务回滚 + 吃掉事务。另外，最后的 finally 的日志，要插入成功。
+//            throw e;
         } finally {
             // 插入 PayTransactionNotifyLogDO 日志
             PayNotifyLogDO notifyLog = new PayNotifyLogDO().setNotifyId(message.getId())
@@ -68,7 +70,7 @@ public abstract class AbstractPayNotifySuccessConsumer<T extends AbstractPayNoti
 
     private void handleFailure(PayNotifyTaskDO updateTask, Integer defaultStatus) {
         if (updateTask.getNotifyTimes() >= PayNotifyTaskDO.NOTIFY_FREQUENCY.length) {
-            updateTask.setStatus(PayTransactionNotifyStatusEnum.FAILURE.getValue());
+            updateTask.setStatus(PayNotifyStatusEnum.FAILURE.getStatus());
         } else {
             updateTask.setNextNotifyTime(DateUtil.addDate(Calendar.SECOND, PayNotifyTaskDO.NOTIFY_FREQUENCY[updateTask.getNotifyTimes()]));
             updateTask.setStatus(defaultStatus);

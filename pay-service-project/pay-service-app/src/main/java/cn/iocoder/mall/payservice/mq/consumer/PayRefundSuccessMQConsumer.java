@@ -1,9 +1,9 @@
-package cn.iocoder.mall.pay.biz.mq;
+package cn.iocoder.mall.payservice.mq.consumer;
 
-import cn.iocoder.mall.pay.api.message.PayRefundSuccessMessage;
-import cn.iocoder.mall.pay.biz.component.DubboReferencePool;
-import cn.iocoder.mall.pay.biz.dao.PayRefundMapper;
-import cn.iocoder.mall.pay.biz.dataobject.PayRefundDO;
+import cn.iocoder.mall.payservice.common.dubbo.DubboReferencePool;
+import cn.iocoder.mall.payservice.dal.mysql.dataobject.refund.PayRefundDO;
+import cn.iocoder.mall.payservice.dal.mysql.mapper.refund.PayRefundMapper;
+import cn.iocoder.mall.payservice.mq.producer.message.PayRefundSuccessMessage;
 import org.apache.dubbo.rpc.service.GenericService;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
@@ -18,8 +18,7 @@ import java.util.Date;
         topic = PayRefundSuccessMessage.TOPIC,
         consumerGroup = "pay-consumer-group-" + PayRefundSuccessMessage.TOPIC
 )
-@Deprecated // 艿艿：突然发现，业务方实际无需回调。参考了 https://help.youzan.com/displaylist/detail_4_998 的文章。业务方，只要记录下退款单号，进行关联即可。
-public class PayRefundSuccessConsumer extends AbstractPayNotifySuccessConsumer<PayRefundSuccessMessage>
+public class PayRefundSuccessMQConsumer extends AbstractPayNotifySuccessMQConsumer<PayRefundSuccessMessage>
         implements RocketMQListener<PayRefundSuccessMessage> {
 
     @Autowired
@@ -40,7 +39,7 @@ public class PayRefundSuccessConsumer extends AbstractPayNotifySuccessConsumer<P
     @Override
     protected void afterInvokeSuccess(PayRefundSuccessMessage message) {
         PayRefundDO updateRefund = new PayRefundDO().setId(message.getRefundId()).setFinishTime(new Date());
-        payRefundMapper.update(updateRefund, null);
+        payRefundMapper.updateById(updateRefund);
     }
 
 }

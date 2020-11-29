@@ -1,6 +1,7 @@
 package cn.iocoder.mall.payservice.dal.mysql.dataobject.refund;
 
 import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
+import cn.iocoder.mall.payservice.enums.refund.PayRefundStatus;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -68,7 +69,7 @@ public class PayRefundDO extends DeletableDO {
     /**
      * 退款状态
      *
-     * @see cn.iocoder.mall.pay.api.constant.PayRefundStatus
+     * 外键 {@link PayRefundStatus}
      */
     private Integer status;
     /**

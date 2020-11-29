@@ -7,6 +7,42 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PayTransactionMapper extends BaseMapper<PayTransactionDO> {
+//
+//    UPDATE `transaction`
+//    SET refund_total = refund_total + ${refundTotalIncr}
+//    WHERE price >= refund_total + ${refundTotalIncr}
+//
+
+//    int updateForRefundTotal(@Param("id") Integer id,
+//                             @Param("refundTotalIncr") Integer refundTotalIncr);
+
+//                <if test="createBeginTime != null">
+//    AND create_time >= #{createBeginTime}
+//            </if>
+//            <if test="createEndTime != null">
+//    AND #{createEndTime} >= create_time
+//            </if>
+//            <if test="paymentBeginTime != null">
+//    AND payment_time >= #{paymentBeginTime}
+//            </if>
+//            <if test="paymentEndTime != null">
+//    AND #{paymentEndTime} >= payment_time
+//            </if>
+//            <if test="status != null">
+//    AND status = #{status}
+//            </if>
+//            <if test="hasRefund == true">
+//    AND refund_total > 0
+//            </if>
+//            <if test="hasRefund == false">
+//    AND refund_total = 0
+//            </if>
+//            <if test="payChannel != null">
+//    AND pay_channel = #{payChannel}
+//            </if>
+//            <if test="orderSubject != null">
+//    order_subject LIKE "%"#{orderSubject}"%"
+//            </if>
 
 //    default IPage<PayTransactionDO> selectPage(TransactionPageBO pageBO) {
 //        return selectPage(new Page<>(pageBO.getPageNo(), pageBO.getPageSize()),

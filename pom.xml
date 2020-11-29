@@ -17,7 +17,6 @@
         <module>common</module>
         <module>mall-dependencies</module>
         <module>user-service-project</module>
-        <module>user-web-app</module>
         <module>system-service-project</module>
         <module>pay-service-project</module>
         <module>management-web-app</module>

@@ -57,6 +57,10 @@ dubbo:
       version: 1.0.0
     PayTransactionRpc:
       version: 1.0.0
+    UserSmsCodeRpc:
+      version: 1.0.0
+    UserAddressRpc:
+      version: 1.0.0
 
 # Swagger 配置项
 swagger:

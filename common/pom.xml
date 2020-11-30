@@ -24,6 +24,7 @@
         <module>mall-spring-boot-starter-dubbo</module>
         <module>mall-spring-boot-starter-system-error-code</module>
         <module>mall-spring-boot-starter-rocketmq</module>
+        <module>mall-spring-boot-starter-xxl-job</module>
     </modules>
 
     <dependencyManagement>

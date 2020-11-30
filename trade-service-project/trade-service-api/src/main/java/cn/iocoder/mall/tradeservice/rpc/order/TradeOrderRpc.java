@@ -38,6 +38,17 @@ public interface TradeOrderRpc {
      */
     CommonResult<PageResult<TradeOrderRespDTO>> pageTradeOrder(TradeOrderPageReqDTO pageDTO);
 
+    // TODO 芋艿：需要重构成入参是 DTO，方便后续升级；返回是 CommonResult，用于返回失败的原因
 
+    /**
+     * 更新交易订单支付成功
+     *
+     * 目前用于对接 pay-service 支付服务，回调该交易订单在三方支付平台，支付成功
+     *
+     * @param tradeOrderId 交易订单编号
+     * @param payAmount 支付金额
+     * @return 成功
+     */
+    CommonResult<Boolean> updateTradeOrderPaySuccess(String tradeOrderId, Integer payAmount);
 
 }

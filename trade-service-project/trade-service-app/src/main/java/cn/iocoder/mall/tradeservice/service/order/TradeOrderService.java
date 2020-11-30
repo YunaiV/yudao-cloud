@@ -37,4 +37,12 @@ public interface TradeOrderService {
      */
     PageResult<TradeOrderRespDTO> pageTradeOrder(TradeOrderPageReqDTO pageReqDTO);
 
+    /**
+     * 更新交易订单支付成功
+     *
+     * @param tradeOrderId 交易订单编号
+     * @param payAmount 支付金额
+     */
+    void updateTradeOrderPaySuccess(Integer tradeOrderId, Integer payAmount);
+
 }

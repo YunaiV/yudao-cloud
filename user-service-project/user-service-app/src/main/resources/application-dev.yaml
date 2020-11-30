@@ -1,7 +1,7 @@
 spring:
   # 数据源配置项
   datasource:
-    url: jdbc:mysql://400-infra.server.iocoder.cn:3306/mall_user?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://400-infra.server.iocoder.cn:3306/mall_user?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=CTT
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: 3WLiVUBEwTbvAfsh

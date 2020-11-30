@@ -1,5 +1,6 @@
 package cn.iocoder.mall.payservice.mq.consumer;
 
+import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.payservice.common.dubbo.DubboReferencePool;
 import cn.iocoder.mall.payservice.dal.mysql.dataobject.transaction.PayTransactionDO;
 import cn.iocoder.mall.payservice.dal.mysql.mapper.transaction.PayTransactionMapper;
@@ -25,15 +26,22 @@ public class PayTransactionSuccessMQConsumer extends AbstractPayNotifySuccessMQC
     private PayTransactionMapper payTransactionMapper;
 
     @Override
-    protected String invoke(PayTransactionSuccessMessage message, DubboReferencePool.ReferenceMeta referenceMeta) {
+    public void onMessage(PayTransactionSuccessMessage message) {
+        super.execute(message);
+    }
+
+    @Override
+    protected CommonResult<Boolean> invoke(PayTransactionSuccessMessage message, DubboReferencePool.ReferenceMeta referenceMeta) {
         // 查询支付交易
         PayTransactionDO transaction = payTransactionMapper.selectById(message.getTransactionId());
         Assert.notNull(transaction, String.format("回调消息(%s) 订单交易不能为空", message.toString()));
         // 执行调用
         GenericService genericService = referenceMeta.getService();
         String methodName = referenceMeta.getMethodName();
-        return (String) genericService.$invoke(methodName, new String[]{String.class.getName(), Integer.class.getName()},
+        Object dubboResult = genericService.$invoke(methodName,
+                new String[]{String.class.getName(), Integer.class.getName()},
                 new Object[]{message.getOrderId(), transaction.getPrice()});
+        return parseDubboGenericResult(dubboResult);
     }
 
     @Override

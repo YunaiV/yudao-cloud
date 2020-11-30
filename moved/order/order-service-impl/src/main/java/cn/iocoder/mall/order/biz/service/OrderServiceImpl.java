@@ -327,31 +327,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String updatePaySuccess(String orderId, Integer payAmount) {
-        OrderDO order = orderMapper.selectById(Integer.valueOf(orderId));
-        if (order == null) { // 订单不存在
-            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_NOT_EXISTENT.getCode()).getMessage();
-        }
-        if (!order.getStatus().equals(OrderStatusEnum.WAITING_PAYMENT.getValue())) { // 状态不处于等待支付
-            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_STATUS_NOT_WAITING_PAYMENT.getCode()).getMessage();
-        }
-        if (!order.getPresentPrice().equals(payAmount)) { // 支付金额不正确
-            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_PAY_AMOUNT_ERROR.getCode()).getMessage();
-        }
-        // 更新 OrderDO 状态为已支付，等待发货
-        OrderDO updateOrderObj = new OrderDO()
-                .setStatus(OrderStatusEnum.WAIT_SHIPMENT.getValue())
-                .setPayAmount(payAmount)
-                .setPaymentTime(new Date());
-        int updateCount = orderMapper.updateByIdAndStatus(order.getId(), order.getStatus(), updateOrderObj);
-        if (updateCount <= 0) {
-            return ServiceExceptionUtil.error(OrderErrorCodeEnum.ORDER_STATUS_NOT_WAITING_PAYMENT.getCode()).getMessage();
-        }
-        // TODO FROM 芋艿 to 小范，把更新 OrderItem 给补全。
-        return "success";
-    }
-
-    @Override
     public CommonResult listenerConfirmGoods() {
         return null;
     }

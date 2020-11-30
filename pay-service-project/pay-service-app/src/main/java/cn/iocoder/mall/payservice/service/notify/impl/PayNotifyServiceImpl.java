@@ -39,8 +39,7 @@ public class PayNotifyServiceImpl implements PayNotifyService {
         payNotifyTaskMapper.insert(payNotifyTaskDO);
 
         // 发送 MQ 消息
-        payMQProducer.sendPayRefundNotifyTaskMessage(PayNotifyConvert.INSTANCE.convertRefund(payNotifyTaskDO),
-                refund.getId(), refund.getTransactionId(), refund.getOrderId());
+        sendNotifyMessage(payNotifyTaskDO);
     }
 
     @Override
@@ -54,14 +53,24 @@ public class PayNotifyServiceImpl implements PayNotifyService {
         payNotifyTaskMapper.insert(payNotifyTaskDO);
 
         // 发送 MQ 消息
-        payMQProducer.sendPayTransactionNotifyTaskMessage(PayNotifyConvert.INSTANCE.convertTransaction(payNotifyTaskDO),
-                transaction.getId(), transaction.getOrderId());
+        sendNotifyMessage(payNotifyTaskDO);
+    }
+
+    @Override
+    public void sendNotifyMessage(PayNotifyTaskDO notifyTask) {
+        if (PayNotifyType.TRANSACTION.getType().equals(notifyTask.getType())) {
+            payMQProducer.sendPayTransactionNotifyTaskMessage(PayNotifyConvert.INSTANCE.convertTransaction(notifyTask));
+        } else if (PayNotifyType.REFUND.getType().equals(notifyTask.getType())) {
+            payMQProducer.sendPayRefundNotifyTaskMessage(PayNotifyConvert.INSTANCE.convertRefund(notifyTask));
+        } else {
+            throw new IllegalArgumentException(String.format("通知任务(%s) 无法发送通知消息", notifyTask.toString()));
+        }
     }
 
     private PayNotifyTaskDO createBasePayNotifyTaskDO(String appId, String notifyUrl) {
         return new PayNotifyTaskDO()
                 .setAppId(appId)
-                .setStatus(PayNotifyStatusEnum.WAITING.getStatus())
+                .setStatus(PayNotifyStatusEnum.WAITING.getStatus()).setActive(true)
                 .setNotifyTimes(0).setMaxNotifyTimes(PayNotifyTaskDO.NOTIFY_FREQUENCY.length + 1)
                 .setNextNotifyTime(DateUtil.addDate(Calendar.SECOND, PayNotifyTaskDO.NOTIFY_FREQUENCY[0]))
                 .setNotifyUrl(notifyUrl);

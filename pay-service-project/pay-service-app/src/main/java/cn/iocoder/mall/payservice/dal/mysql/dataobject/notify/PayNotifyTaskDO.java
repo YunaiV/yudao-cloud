@@ -5,7 +5,6 @@ import cn.iocoder.mall.payservice.dal.mysql.dataobject.transaction.PayTransactio
 import cn.iocoder.mall.payservice.dal.mysql.dataobject.transaction.PayTransactionExtensionDO;
 import cn.iocoder.mall.payservice.enums.notify.PayNotifyStatusEnum;
 import cn.iocoder.mall.payservice.enums.notify.PayNotifyType;
-import cn.iocoder.mall.payservice.service.transaction.PayTransactionService;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.FastjsonTypeHandler;
@@ -57,24 +56,17 @@ public class PayNotifyTaskDO extends DeletableDO {
      */
     private Integer status;
     /**
+     * 是否激活中，即处于正在 MQ 异步通知中
+     *
+     * @see cn.iocoder.mall.payservice.job.notify.PayNotifyRetryJob
+     */
+    private Boolean active;
+    /**
      * 下一次通知时间
      */
     private Date nextNotifyTime;
     /**
      * 最后一次执行时间
-     *
-     * 这个字段，需要结合 {@link #nextNotifyTime} 一起使用。
-     *
-     * 1. 初始时，{@link PayTransactionService#updateTransactionPaySuccess(Integer, String)}
-     *      nextNotifyTime 为当前时间 + 15 秒
-     *      lastExecuteTime 为空
-     *      并发送给 MQ ，执行执行
-     *
-     * 2. MQ 消费时，更新 lastExecuteTime 为当时时间
-     *
-     * 3. 定时任务，扫描 nextNotifyTime < lastExecuteTime 的任务
-     *      nextNotifyTime 为当前时间 + N 秒。具体的 N ，由第几次通知决定
-     *      lastExecuteTime 为当前时间
      */
     private Date lastExecuteTime;
     /**

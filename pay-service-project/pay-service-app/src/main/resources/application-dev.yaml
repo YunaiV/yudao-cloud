@@ -1,7 +1,7 @@
 spring:
   # 数据源配置项
   datasource:
-    url: jdbc:mysql://400-infra.server.iocoder.cn:3306/mall_pay?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://400-infra.server.iocoder.cn:3306/mall_pay?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=CTT
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: 3WLiVUBEwTbvAfsh
@@ -19,3 +19,13 @@ dubbo:
   registry:
     #    address: spring-cloud://400-infra.server.iocoder.cn:8848 # 指定 Dubbo 服务注册中心的地址
     address: nacos://400-infra.server.iocoder.cn:8848?namespace=dev # 指定 Dubbo 服务注册中心的地址
+
+# XXL-Job 配置项
+xxl:
+  job:
+    admin:
+      addresses: http://127.0.0.1:9099/
+    executor:
+      appname: ${spring.application.name}
+      logpath: /data/applogs/xxl-job/
+    accessToken:

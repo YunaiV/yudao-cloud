@@ -20,4 +20,9 @@ public interface TradeOrderItemMapper extends BaseMapper<TradeOrderItemDO> {
         return selectList(new QueryWrapper<TradeOrderItemDO>().in("order_id", orderIds));
     }
 
+    default int updateListByOrderId(TradeOrderItemDO update, Integer orderId, Integer whereStatus) {
+        return update(update, new QueryWrapper<TradeOrderItemDO>().eq("order_id", orderId)
+            .eq("status", whereStatus));
+    }
+
 }

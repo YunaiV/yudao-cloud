@@ -46,9 +46,15 @@ public class DubboReferencePool {
     @Value("${dubbo.application.name}")
     private String dubboApplicationName;
 
+    public ReferenceMeta getReferenceMeta(String notifyUrl) {
+        DubboReferencePool.ReferenceMeta referenceMeta = referenceMetaCache.getUnchecked(notifyUrl);
+        Assert.notNull(referenceMeta, String.format("notifyUrl(%s) 不存在对应的 ReferenceMeta 对象", notifyUrl));
+        return referenceMeta;
+    }
+
     private ReferenceMeta createGenericService(String notifyUrl) {
         // 使用 # 号分隔，格式为 服务名#方法名#版本号
-        List<String> notifyUrlParts = StringUtils.split(notifyUrl, "#");
+        List<String> notifyUrlParts = this.parseNotifyUrl(notifyUrl);
         // 创建 ApplicationConfig 对象
         ApplicationConfig application = new ApplicationConfig();
         application.setName(dubboApplicationName);
@@ -69,10 +75,9 @@ public class DubboReferencePool {
         return new ReferenceMeta(reference, genericService, notifyUrlParts.get(1));
     }
 
-    public ReferenceMeta getReferenceMeta(String notifyUrl) {
-        DubboReferencePool.ReferenceMeta referenceMeta = referenceMetaCache.getUnchecked(notifyUrl);
-        Assert.notNull(referenceMeta, String.format("notifyUrl(%s) 不存在对应的 ReferenceMeta 对象", notifyUrl));
-        return referenceMeta;
+    // TODO 芋艿，后续重构成一个对象
+    private List<String> parseNotifyUrl(String notifyUrl) {
+        return StringUtils.split(notifyUrl, "#");
     }
 
 }

@@ -43,9 +43,9 @@
         <!-- RPC 相关 -->
         <dubbo.version>2.7.7</dubbo.version>
         <!-- MQ 相关 -->
-        <rocketmq-spring-boot-starter.version>2.1.0</rocketmq-spring-boot-starter.version>
+        <rocketmq-spring-boot-starter.version>2.1.1</rocketmq-spring-boot-starter.version>
         <!-- Job 相关 -->
-        <xxl-job.version>2.0.1</xxl-job.version>
+        <xxl-job.version>2.2.0</xxl-job.version>
         <!-- Transaction 相关 -->
         <seata.version>1.1.0</seata.version>
         <!-- 云服务相关 -->
@@ -247,6 +247,12 @@
                 <groupId>com.xuxueli</groupId>
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxl-job.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.iocoder.mall</groupId>
+                <artifactId>mall-spring-boot-starter-xxl-job</artifactId>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
 
             <!-- https://mvnrepository.com/artifact/com.alibaba.nacos/nacos-client -->

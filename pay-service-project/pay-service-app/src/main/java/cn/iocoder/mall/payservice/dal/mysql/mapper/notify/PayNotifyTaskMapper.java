@@ -16,16 +16,21 @@ public interface PayNotifyTaskMapper extends BaseMapper<PayNotifyTaskDO> {
      *
      * 1. status 非成功
      * 2. nextNotifyTime 小于当前时间
-     * 3. lastExecuteTime > nextNotifyTime
+     * 3. active 为 false 并未正在执行中
      *
      * @return PayTransactionNotifyTaskDO 数组
      */
     default List<PayNotifyTaskDO> selectListByNotify() {
         return selectList(new QueryWrapper<PayNotifyTaskDO>()
-                .in("status", PayNotifyStatusEnum.WAITING.getName(), PayNotifyStatusEnum.REQUEST_SUCCESS.getName(),
-                        PayNotifyStatusEnum.REQUEST_FAILURE.getName())
+                .in("status", PayNotifyStatusEnum.WAITING.getStatus(), PayNotifyStatusEnum.REQUEST_SUCCESS.getStatus(),
+                        PayNotifyStatusEnum.REQUEST_FAILURE.getStatus())
                 .le("next_notify_time", "NOW()")
-                .gt("last_execute_time", "next_notify_time"));
+                .eq("active", Boolean.FALSE));
+    }
+
+    default int update(PayNotifyTaskDO update, Integer whereNotifyTimes) {
+        return update(update, new QueryWrapper<PayNotifyTaskDO>()
+                .eq("id", update.getId()).eq("notify_times", whereNotifyTimes));
     }
 
 //

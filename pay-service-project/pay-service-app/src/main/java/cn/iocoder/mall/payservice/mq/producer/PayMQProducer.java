@@ -17,8 +17,7 @@ public class PayMQProducer {
     @Autowired
     private RocketMQTemplate template;
 
-    public void sendPayRefundNotifyTaskMessage(PayRefundSuccessMessage message, Integer refundId, Integer transactionId, String orderId) {
-        message.setRefundId(refundId).setTransactionId(transactionId).setOrderId(orderId);
+    public void sendPayRefundNotifyTaskMessage(PayRefundSuccessMessage message) {
         try {
             SendResult sendResult = template.syncSend(PayTransactionSuccessMessage.TOPIC, message);
             if (!SendStatus.SEND_OK.equals(sendResult.getSendStatus())) {
@@ -29,8 +28,7 @@ public class PayMQProducer {
         }
     }
 
-    public void sendPayTransactionNotifyTaskMessage(PayTransactionSuccessMessage message, Integer transactionId, String orderId) {
-        message.setTransactionId(transactionId).setOrderId(orderId);
+    public void sendPayTransactionNotifyTaskMessage(PayTransactionSuccessMessage message) {
         try {
             SendResult sendResult = template.syncSend(PayTransactionSuccessMessage.TOPIC, message);
             if (!SendStatus.SEND_OK.equals(sendResult.getSendStatus())) {

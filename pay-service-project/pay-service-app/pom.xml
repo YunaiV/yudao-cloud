@@ -37,6 +37,12 @@
             <artifactId>mall-spring-boot-starter-rocketmq</artifactId>
         </dependency>
 
+        <!-- Job 相关 -->
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>mall-spring-boot-starter-xxl-job</artifactId>
+        </dependency>
+
         <!-- Registry 和 Config 相关 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

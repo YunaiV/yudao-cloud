@@ -37,4 +37,10 @@ public class TradeOrderRpcImpl implements TradeOrderRpc {
         return success(tradeOrderService.pageTradeOrder(pageDTO));
     }
 
+    @Override
+    public CommonResult<Boolean> updateTradeOrderPaySuccess(String tradeOrderId, Integer payAmount) {
+        tradeOrderService.updateTradeOrderPaySuccess(Integer.valueOf(tradeOrderId), payAmount);
+        return success(true);
+    }
+
 }

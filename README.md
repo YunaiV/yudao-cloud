@@ -34,6 +34,12 @@
 >
 > 迫切希望，有前端能力不错的小伙伴，加入我们，一起来完善「芋道商城」。
 
+## 管理后台
+
+体验传送门：<http://dashboard.shop.iocoder.cn>
+
+![GIF 图-耐心等待](https://raw.githubusercontent.com/YunaiV/Blog/master/Mall/onemall-admin-min.gif)
+
 ## H5 商城
 
 体验传送门：<http://h5.shop.iocoder.cn>
@@ -41,14 +47,6 @@
 *2M 带宽小水管，访问略微有点慢*
 
 ![GIF 图-耐心等待](https://raw.githubusercontent.com/YunaiV/Blog/master/Mall/onemall-h5-min.gif)
-
-## 管理后台
-
-体验传送门：<http://dashboard.shop.iocoder.cn>
-
-*2M 带宽小水管，访问略微有点慢*
-
-![GIF 图-耐心等待](https://raw.githubusercontent.com/YunaiV/Blog/master/Mall/onemall-admin-min.gif)
 
 ## 其它演示
 
@@ -81,10 +79,10 @@
 
 **XXL-Job Console**
 
-* 地址：<http://job.shop.iocoder.cn>
-* 管理员账号：admin / 233666
+* 地址：<http://xxl-job.shop.iocoder.cn>
+* 管理员账号：admin / 123456
 
-> 教程：[《芋道 RocketMQ 安装部署》](http://www.iocoder.cn/XXL-JOB/install/?onemall)
+> 教程：[《芋道 XXL-Job 安装部署》](http://www.iocoder.cn/XXL-JOB/install/?onemall)
 
 **Sentinel Console**
 
@@ -107,33 +105,35 @@ TODO 此处应有一个架构图的装逼 JPG 图。
 
 | 模块 | 名称 | 端口 | |
 | --- | --- | --- | --- |
-| `admin-web` | 【前端】管理后台 | HTTP 8080 | |
-| `mobile-web` | 【前端】商城 H5 | HTTP 8000 | |
-| `system-application` | 管理员 HTTP 服务 | HTTP 18083 | [接口文档](http://api.shop.iocoder.cn/admin-api/doc.html) |
-| `user-application` | 用户 HTTP 服务 | HTTP 18082 | [接口文档](http://api.shop.iocoder.cn/user-api/doc.html) |
-| `product-application` | 商品 HTTP 服务 | HTTP 18081 | [接口文档](http://api.shop.iocoder.cn/product-api/doc.html) |
-| `pay-application` | 支付 HTTP 服务 | HTTP 18084 | [接口文档](http://api.shop.iocoder.cn/pay-api/doc.html) |
-| `promotion-application` | 促销 HTTP 服务 | HTTP 18085 | [接口文档](http://api.shop.iocoder.cn/promotion-api/doc.html) |
-| `search-application` | 搜索 HTTP 服务 | HTTP 18086 | [接口文档](http://api.shop.iocoder.cn/search-api/doc.html) |
-| `order-application` | 订单 HTTP 服务 | HTTP 18088 | [接口文档](http://api.shop.iocoder.cn/order-api/doc.html) |
+| [`admin-dashboard-vue`](https://github.com/YunaiV/onemall-web/tree/master/admin-dashboard-vue) | 【前端】管理后台 | HTTP 9527 | |
+| [`user-dashboard-vue`](https://github.com/YunaiV/onemall-web/tree/master/user-h5-vue) | 【前端】商城平台 | HTTP 8080 | |
+| | | |
+| | | |
+| `management-web-app`  | 【后端】管理平台 HTTP 服务 | HTTP 18083 | [接口文档](http://api-dashboard.shop.iocoder.cn/management-api/doc.html) |
+| `shop-web-app`  | 【后端】商城平台 HTTP 服务 | HTTP 18084 | [接口文档](http://api-h5.shop.iocoder.cn/shop-api/doc.html) |
+| | | |
+| | | |
+| `system-service-project` | 系统 RPC 服务 |  随机 |  
+| `user-service-project` | 用户 RPC 服务 | 随机 |  |
+| `promotion-service-project` | 营销 RPC 服务 | 随机 |  |
+| `pay-service-project` | 支付 RPC 服务 | 随机 |  |
+| `trade-service-project` | 交易 RPC 服务 | 随机 |  |
+| `product-service-project` | 商品 RPC 服务 | 随机 |  |
+| `search-service-project` | 搜索å RPC 服务 | 随机 |  |
 
 -------
 
 后端项目，目前的项目结构如下：
 
 ```Java
-[-] xxx
-  ├──[-] xxx-application // 提供对外 HTTP API 。
-  ├──[-] xxx-service-api // 提供 Dubbo 服务 API 。
-  ├──[-] xxx-service-impl // 提供 Dubbo 服务 Service 实现。
+[-] xxx-web-app // 提供对外 HTTP API。
+
+[-] xxx-service-project
+    ├──[-] xxx-service-api // 提供对内 RPC API 。
+    ├──[-] xxx-service-app // 提供对内 RPC 实现。
+    ├──[-] xxx-service-integration-test // 集成测试。
 ```
 
-考虑到大多数公司，无需拆分的特别细，并且过多 JVM 带来的服务器成本。所以目前的设定是：
-
-* `xxx-service-impl` 内嵌在 `xxx-application` 中运行。
-* MQ 消费者、定时器执行器，内嵌在 `xxx-service-impl` 中运行。
-
-也就是说，一个 `xxx-application` 启动后，该模块就完整启动了。
 
 ## 技术栈
 
@@ -165,8 +165,6 @@ TODO 此处应有一个架构图的装逼 JPG 图。
 
 ### 前端
 
-商城 H5 和管理后台，分别采用了 Vue 和 React ，基于其适合的场景考虑。具体的，可以看看 [《为什么 React 比 Vue 更适合大型应用？》](https://www.zhihu.com/question/314761485/answer/615318460) 的讨论。
-
 **商城 H5**
 
 | 框架 | 说明 |  版本 |
@@ -178,8 +176,8 @@ TODO 此处应有一个架构图的装逼 JPG 图。
 
 | 框架 | 说明 |  版本 |
 | --- | --- | --- |
-| [React](https://reactjs.org/) | JavaScript 框架  | 16.7.0 |
-| [Ant Design](https://ant.design/docs/react/introduce-cn) | React UI 组件库 | 3.13.0 |
+| [Vue](https://cn.vuejs.org/index.html) | JavaScript 框架 | 2.5.17 |
+| [Vue Element Admin](https://ant.design/docs/react/introduce-cn) | 后台前端解决方案 | - |
 
 ### 监控
 

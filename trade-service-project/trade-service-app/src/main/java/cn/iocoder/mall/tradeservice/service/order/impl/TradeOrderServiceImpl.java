@@ -39,7 +39,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static cn.iocoder.common.framework.util.CollectionUtils.convertSet;
-import static cn.iocoder.mall.tradeservice.enums.OrderErrorCodeConstants.ORDER_GET_GOODS_INFO_INCORRECT;
+import static cn.iocoder.mall.tradeservice.enums.OrderErrorCodeConstants.*;
 import static cn.iocoder.mall.userservice.enums.UserErrorCodeConstants.USER_ADDRESS_NOT_FOUND;
 
 /**
@@ -238,6 +238,42 @@ public class TradeOrderServiceImpl implements TradeOrderService {
         }
         // 返回
         return pageResult;
+    }
+
+
+    @Override
+    @Transactional
+    public void updateTradeOrderPaySuccess(Integer tradeOrderId, Integer payAmount) {
+//        if (true) {
+//            throw new IllegalArgumentException("测试失败的情况");
+//        }
+        // 校验交易订单，是否可以
+        TradeOrderDO tradeOrderDO = tradeOrderMapper.selectById(tradeOrderId);
+        if (tradeOrderDO == null) { // 订单不存在
+            throw ServiceExceptionUtil.exception(ORDER_NOT_EXISTENT);
+        }
+        if (!tradeOrderDO.getOrderStatus().equals(TradeOrderStatusEnum.WAITING_PAYMENT.getValue())) { // 状态不处于等待支付
+            throw ServiceExceptionUtil.exception(ORDER_STATUS_NOT_WAITING_PAYMENT);
+        }
+        if (!tradeOrderDO.getPresentPrice().equals(payAmount)) { // 支付金额不正确
+            throw ServiceExceptionUtil.exception(ORDER_PAY_AMOUNT_ERROR);
+        }
+
+        // 更新 TradeOrderDO 状态为已支付，等待发货
+        TradeOrderDO updateOrderObj = new TradeOrderDO().setId(tradeOrderId)
+                .setOrderStatus(TradeOrderStatusEnum.WAIT_SHIPMENT.getValue())
+                .setPayPrice(payAmount)
+                .setPayTime(new Date());
+        int updateCount = tradeOrderMapper.update(updateOrderObj, TradeOrderStatusEnum.WAITING_PAYMENT.getValue());
+        if (updateCount <= 0) {
+            throw ServiceExceptionUtil.exception(ORDER_STATUS_NOT_WAITING_PAYMENT);
+        }
+
+        // 更新 TradeOrderItemDO 状态为已支付，等待发货
+        TradeOrderItemDO updateOrderItemObj = new TradeOrderItemDO()
+                .setStatus(TradeOrderStatusEnum.WAIT_SHIPMENT.getValue());
+        tradeOrderItemMapper.updateListByOrderId(updateOrderItemObj, tradeOrderId,
+                TradeOrderStatusEnum.WAITING_PAYMENT.getValue());
     }
 
 }

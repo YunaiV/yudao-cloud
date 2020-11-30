@@ -1,0 +1,7 @@
+### /product-spu/page 成功（全部）
+GET {{baseUrl}}/pay/transaction/page?pageNo=1&pageSize=10
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+dubbo-tag: {{dubboTag}}
+
+###

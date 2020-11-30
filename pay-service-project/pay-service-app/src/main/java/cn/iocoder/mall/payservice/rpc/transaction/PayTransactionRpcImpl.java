@@ -1,6 +1,7 @@
 package cn.iocoder.mall.payservice.rpc.transaction;
 
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.payservice.rpc.transaction.dto.*;
 import cn.iocoder.mall.payservice.service.transaction.PayTransactionService;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -33,6 +34,11 @@ public class PayTransactionRpcImpl implements PayTransactionRpc {
     public CommonResult<Boolean> updatePayTransactionSuccess(PayTransactionSuccessReqDTO successReqDTO) {
         return success(payTransactionService.updateTransactionPaySuccess(successReqDTO.getPayChannel(),
                 successReqDTO.getParams()));
+    }
+
+    @Override
+    public CommonResult<PageResult<PayTransactionRespDTO>> pagePayTransaction(PayTransactionPageReqDTO pageReqDTO) {
+        return success(payTransactionService.pagePayTransaction(pageReqDTO));
     }
 
 }

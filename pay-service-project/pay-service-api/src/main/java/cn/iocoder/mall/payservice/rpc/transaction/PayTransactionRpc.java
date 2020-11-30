@@ -1,6 +1,7 @@
 package cn.iocoder.mall.payservice.rpc.transaction;
 
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.payservice.rpc.transaction.dto.*;
 
 /**
@@ -39,5 +40,13 @@ public interface PayTransactionRpc {
      * @return 是否成功
      */
     CommonResult<Boolean> updatePayTransactionSuccess(PayTransactionSuccessReqDTO successReqDTO);
+
+    /**
+     * 获得交易支付单分页
+     *
+     * @param pageReqDTO 分页条件
+     * @return 交易支付单分页
+     */
+    CommonResult<PageResult<PayTransactionRespDTO>> pagePayTransaction(PayTransactionPageReqDTO pageReqDTO);
 
 }

@@ -38,46 +38,4 @@ import java.util.List;
 @org.apache.dubbo.config.annotation.Service(validation = "true", version = "${dubbo.provider.PayTransactionService.version}")
 public class PayTransactionServiceImpl implements PayTransactionService {
 
-    public PayTransactionDO getTransaction(Integer id) {
-        return payTransactionMapper.selectById(id);
-    }
-
-    public int updateTransactionPriceTotalIncr(Integer id, Integer incr) {
-        return payTransactionMapper.updateForRefundTotal(id, incr);
-    }
-
-    public PayTransactionExtensionDO getPayTransactionExtension(Integer id) {
-        return payTransactionExtensionMapper.selectById(id);
-    }
-
-    @Override
-    public List<PayTransactionBO> getTransactionList(Collection<Integer> ids) {
-        return PayTransactionConvert.INSTANCE.convertList(payTransactionMapper.selectListByIds(ids));
-    }
-
-    @Override
-    public PayTransactionPageBO getTransactionPage(PayTransactionPageDTO payTransactionPageDTO) {
-        PayTransactionPageBO payTransactionPage = new PayTransactionPageBO();
-        // 查询分页数据
-        int offset = (payTransactionPageDTO.getPageNo() - 1) * payTransactionPageDTO.getPageSize();
-        payTransactionPage.setList(PayTransactionConvert.INSTANCE.convertList(payTransactionMapper.selectListByPage(
-                payTransactionPageDTO.getCreateBeginTime(), payTransactionPageDTO.getCreateEndTime(),
-                payTransactionPageDTO.getPaymentBeginTime(), payTransactionPageDTO.getPaymentEndTime(),
-                payTransactionPageDTO.getStatus(), payTransactionPageDTO.getHasRefund(),
-                payTransactionPageDTO.getPayChannel(), payTransactionPageDTO.getOrderSubject(),
-                offset, payTransactionPageDTO.getPageSize())));
-        // 查询分页总数
-        payTransactionPage.setTotal(payTransactionMapper.selectCountByPage(
-                payTransactionPageDTO.getCreateBeginTime(), payTransactionPageDTO.getCreateEndTime(),
-                payTransactionPageDTO.getPaymentBeginTime(), payTransactionPageDTO.getPaymentEndTime(),
-                payTransactionPageDTO.getStatus(), payTransactionPageDTO.getHasRefund(),
-                payTransactionPageDTO.getPayChannel(), payTransactionPageDTO.getOrderSubject()));
-        return payTransactionPage;
-    }
-
-    @Override // TODO 芋艿，后面去实现
-    public CommonResult cancelTransaction() {
-        return null;
-    }
-
 }

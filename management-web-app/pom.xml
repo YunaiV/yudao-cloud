@@ -72,6 +72,12 @@
             <artifactId>promotion-service-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <!-- 支付服务 -->
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>pay-service-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
         <!-- Registry 和 Config 相关 -->
         <dependency>

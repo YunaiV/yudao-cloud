@@ -79,6 +79,7 @@ public class PayTransactionDO extends DeletableDO {
      * 支付成功的支付渠道
      */
     private Integer payChannel;
+
     /**
      * 第三方支付成功的时间
      */
@@ -91,17 +92,12 @@ public class PayTransactionDO extends DeletableDO {
      * 第三方的流水号
      */
     private String tradeNo;
+
+    // ========== 退款相关 ==========
+
     /**
      * 退款总金额
      */
     private Integer refundTotal;
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-    /**
-     * 最后更新时间
-     */
-    private Date updateTime;
 
 }

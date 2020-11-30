@@ -4,6 +4,7 @@ import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.DateUtil;
 import cn.iocoder.common.framework.util.MathUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.payservice.client.thirdpay.AbstractThirdPayClient;
 import cn.iocoder.mall.payservice.client.thirdpay.ThirdPayClientFactory;
 import cn.iocoder.mall.payservice.client.thirdpay.dto.ThirdPayTransactionSuccessRespDTO;
@@ -18,6 +19,7 @@ import cn.iocoder.mall.payservice.rpc.transaction.dto.*;
 import cn.iocoder.mall.payservice.service.app.PayAppService;
 import cn.iocoder.mall.payservice.service.notify.PayNotifyService;
 import cn.iocoder.mall.payservice.service.transaction.PayTransactionService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -165,6 +167,17 @@ public class PayTransactionServiceImpl implements PayTransactionService {
         return true;
     }
 
+    @Override
+    public PageResult<PayTransactionRespDTO> pagePayTransaction(PayTransactionPageReqDTO pageReqDTO) {
+        IPage<PayTransactionDO> payTransactionDOPage = payTransactionMapper.selectPage(pageReqDTO);
+        return PayTransactionConvert.INSTANCE.convertPage(payTransactionDOPage);
+    }
+
+    @Override
+    public boolean updateTransactionPriceTotalIncr(Integer payTransactionId, Integer incr) {
+        return payTransactionMapper.updatePriceTotalIncr(payTransactionId, incr) > 0;
+    }
+
     private String generateTransactionCode() {
 //    wx
 //    2014
@@ -182,5 +195,7 @@ public class PayTransactionServiceImpl implements PayTransactionService {
                 MathUtil.random(100000, 999999) // 随机。为什么是这个范围，因为偷懒
                 ;
     }
+
+//    CommonResult cancelTransaction(); // TODO 1. params 2. result
 
 }

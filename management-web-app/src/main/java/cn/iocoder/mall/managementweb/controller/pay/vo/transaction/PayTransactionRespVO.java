@@ -1,20 +1,22 @@
-package cn.iocoder.mall.pay.api.bo.transaction;
+package cn.iocoder.mall.managementweb.controller.pay.vo.transaction;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
 import java.util.Date;
 
-@ApiModel("支付交易 BO")
+@ApiModel("支付交易单 Response VO")
 @Data
 @Accessors(chain = true)
-public class PayTransactionBO implements Serializable {
+public class PayTransactionRespVO {
 
     @ApiModelProperty(value = "交易编号", required = true, example = "POd4RC6a")
     private Integer id;
+
+    @ApiModelProperty(value = "用户编号", required = true, example = "1024")
+    private Integer userId;
 
     @ApiModelProperty(value = "应用编号", required = true, example = "POd4RC6a")
     private String appId;
@@ -43,45 +45,30 @@ public class PayTransactionBO implements Serializable {
     @ApiModelProperty(value = "交易过期时间", required = true)
     private Date expireTime;
 
-    /**
-     * 回调业务线完成时间
-     */
+    @ApiModelProperty(value = "回调业务线完成时间")
     private Date finishTime;
 
-    /**
-     * 成功支付的交易拓展编号
-     */
+    @ApiModelProperty(value = "成功支付的交易拓展编号", example = "1024")
     private Integer extensionId;
-    /**
-     * 支付成功的支付渠道
-     *
-     * @see cn.iocoder.mall.pay.api.constant.PayChannelEnum
-     */
+
+    @ApiModelProperty(value = "支付成功的支付渠道", example = "1", notes = "参见 PayChannelEnum 枚举")
     private Integer payChannel;
-    /**
-     * 第三方支付成功的时间
-     */
+
+    @ApiModelProperty(value = "第三方支付成功的时间")
     private Date paymentTime;
-    /**
-     * 收到第三方系统通知的时间
-     *
-     * 一般情况下，即第三方系统的异步通知
-     */
+
+    @ApiModelProperty(value = "收到第三方系统通知的时间")
     private Date notifyTime;
-    /**
-     * 第三方的流水号
-     */
+
+    @ApiModelProperty(value = "第三方的流水号", example = "11122233344444")
     private String tradeNo;
-    /**
-     * 创建时间
-     */
+
+    @ApiModelProperty(value = "添加时间", required = true)
     private Date createTime;
 
     // ========== 退款相关 ==========
 
-    /**
-     * 退款总金额
-     */
+    @ApiModelProperty(value = "退款总金额，单位：分", example = "100")
     private Integer refundTotal;
 
 }

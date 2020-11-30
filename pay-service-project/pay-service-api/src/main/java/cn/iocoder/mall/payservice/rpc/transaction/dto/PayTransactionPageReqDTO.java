@@ -1,17 +1,19 @@
-package cn.iocoder.mall.pay.api.dto.transaction;
+package cn.iocoder.mall.payservice.rpc.transaction.dto;
 
+import cn.iocoder.common.framework.vo.PageParam;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
- * 支付交易分页 DTO
+ * 支付交易分页 Request DTO
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class PayTransactionPageDTO {
+public class PayTransactionPageReqDTO extends PageParam {
 
     /**
      * 创建时间（开始）
@@ -47,10 +49,5 @@ public class PayTransactionPageDTO {
      * 模糊匹配
      */
     private String orderSubject;
-
-    @NotNull(message = "页码不能为空")
-    private Integer pageNo;
-    @NotNull(message = "每页条数不能为空")
-    private Integer pageSize;
 
 }

@@ -66,6 +66,8 @@ dubbo:
       version: 1.0.0
     ProductRecommendRpc:
       version: 1.0.0
+    PayTransactionRpc:
+      version: 1.0.0
 
 # Swagger 配置项
 swagger:

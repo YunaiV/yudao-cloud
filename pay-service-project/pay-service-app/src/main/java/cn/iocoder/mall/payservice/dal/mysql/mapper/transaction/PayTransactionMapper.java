@@ -1,53 +1,36 @@
 package cn.iocoder.mall.payservice.dal.mysql.mapper.transaction;
 
+import cn.iocoder.mall.mybatis.core.query.QueryWrapperX;
+import cn.iocoder.mall.mybatis.core.util.PageUtil;
 import cn.iocoder.mall.payservice.dal.mysql.dataobject.transaction.PayTransactionDO;
+import cn.iocoder.mall.payservice.rpc.transaction.dto.PayTransactionPageReqDTO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PayTransactionMapper extends BaseMapper<PayTransactionDO> {
-//
-//    UPDATE `transaction`
-//    SET refund_total = refund_total + ${refundTotalIncr}
-//    WHERE price >= refund_total + ${refundTotalIncr}
-//
 
-//    int updateForRefundTotal(@Param("id") Integer id,
-//                             @Param("refundTotalIncr") Integer refundTotalIncr);
 
-//                <if test="createBeginTime != null">
-//    AND create_time >= #{createBeginTime}
-//            </if>
-//            <if test="createEndTime != null">
-//    AND #{createEndTime} >= create_time
-//            </if>
-//            <if test="paymentBeginTime != null">
-//    AND payment_time >= #{paymentBeginTime}
-//            </if>
-//            <if test="paymentEndTime != null">
-//    AND #{paymentEndTime} >= payment_time
-//            </if>
-//            <if test="status != null">
-//    AND status = #{status}
-//            </if>
-//            <if test="hasRefund == true">
-//    AND refund_total > 0
-//            </if>
-//            <if test="hasRefund == false">
-//    AND refund_total = 0
-//            </if>
-//            <if test="payChannel != null">
-//    AND pay_channel = #{payChannel}
-//            </if>
-//            <if test="orderSubject != null">
-//    order_subject LIKE "%"#{orderSubject}"%"
-//            </if>
 
-//    default IPage<PayTransactionDO> selectPage(TransactionPageBO pageBO) {
-//        return selectPage(new Page<>(pageBO.getPageNo(), pageBO.getPageSize()),
-//            new QueryWrapperX<PayTransactionDO>());
-//    }
+    default IPage<PayTransactionDO> selectPage(PayTransactionPageReqDTO pageReqDTO) {
+        QueryWrapperX<PayTransactionDO> query = new QueryWrapperX<PayTransactionDO>()
+                .betweenIfPresent("create_time", pageReqDTO.getCreateBeginTime(), pageReqDTO.getPaymentEndTime())
+                .betweenIfPresent("payment_time", pageReqDTO.getPaymentBeginTime(), pageReqDTO.getPaymentEndTime())
+                .eqIfPresent("status", pageReqDTO.getStatus())
+                .eqIfPresent("payChannel", pageReqDTO.getPayChannel())
+                .likeIfPresent("order_subject", pageReqDTO.getOrderSubject());
+        if (pageReqDTO.getHasRefund() != null) {
+            if (pageReqDTO.getHasRefund()) {
+                query.gt("refund_total", 0);
+            } else {
+                query.eq("refund_total", 0);
+            }
+        }
+        return selectPage(PageUtil.build(pageReqDTO), query);
+    }
 
     default int update(PayTransactionDO entity, Integer whereStatus) {
         return update(entity, new QueryWrapper<PayTransactionDO>()
@@ -58,5 +41,7 @@ public interface PayTransactionMapper extends BaseMapper<PayTransactionDO> {
         return selectOne(new QueryWrapper<PayTransactionDO>().eq("app_id", appId)
                 .eq("order_id", orderId));
     }
+
+    int updatePriceTotalIncr(@Param("id") Integer id, @Param("refundTotalIncr") Integer refundTotalIncr);
 
 }

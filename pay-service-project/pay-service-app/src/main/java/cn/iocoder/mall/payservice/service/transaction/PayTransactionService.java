@@ -1,5 +1,6 @@
 package cn.iocoder.mall.payservice.service.transaction;
 
+import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.payservice.rpc.transaction.dto.*;
 
 /**
@@ -42,5 +43,22 @@ public interface PayTransactionService {
      * @return 是否支付成功
      */
     Boolean updateTransactionPaySuccess(Integer payChannel, String params);
+
+    /**
+     * 获得交易支付单分页
+     *
+     * @param pageReqDTO 分页条件
+     * @return 交易支付单分页
+     */
+    PageResult<PayTransactionRespDTO> pagePayTransaction(PayTransactionPageReqDTO pageReqDTO);
+
+    /**
+     * 增加交易支付单的退款总金额
+     *
+     * @param payTransactionId 支付交易单
+     * @param incr 新增的退款金额
+     * @return 是否增加成功
+     */
+    boolean updateTransactionPriceTotalIncr(Integer payTransactionId, Integer incr);
 
 }

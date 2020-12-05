@@ -40,6 +40,7 @@
         <mybatis.version>3.5.4</mybatis.version>
         <mybatis-plus.version>3.3.2</mybatis-plus.version>
         <spring-boot-starter-data-jest.version>3.2.5.RELEASE</spring-boot-starter-data-jest.version>
+        <redisson.version>3.13.6</redisson.version>
         <!-- RPC 相关 -->
         <dubbo.version>2.7.7</dubbo.version>
         <!-- MQ 相关 -->
@@ -146,8 +147,19 @@
             </dependency>
 
             <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>cn.iocoder.mall</groupId>
                 <artifactId>mall-spring-boot-starter-mybatis</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.iocoder.mall</groupId>
+                <artifactId>mall-spring-boot-starter-redis</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
 

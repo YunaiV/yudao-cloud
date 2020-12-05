@@ -1,10 +1,17 @@
 spring:
-  # 数据源配置项
+  # MySQL 配置项
   datasource:
     url: jdbc:mysql://400-infra.server.iocoder.cn:3306/mall_system?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=CTT
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: 3WLiVUBEwTbvAfsh
+
+  # Redis 配置
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+
   # Spring Cloud 配置项
   cloud:
     nacos:

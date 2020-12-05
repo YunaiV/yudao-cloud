@@ -56,6 +56,11 @@
             <artifactId>mall-spring-boot-starter-mybatis</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>mall-spring-boot-starter-redis</artifactId>
+        </dependency>
+
         <!-- 监控相关 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

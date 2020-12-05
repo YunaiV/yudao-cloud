@@ -6,6 +6,12 @@ spring:
     username: root
     password: 3WLiVUBEwTbvAfsh
 
+  # Redis 配置
+  redis:
+    host: 400-infra.server.iocoder.cn
+    port: 6379
+    database: 0
+
   # Spring Cloud 配置项
   cloud:
     nacos:

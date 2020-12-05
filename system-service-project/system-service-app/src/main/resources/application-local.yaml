@@ -8,7 +8,7 @@ spring:
 
   # Redis 配置
   redis:
-    host: 127.0.0.1
+    host: 400-infra.server.iocoder.cn
     port: 6379
     database: 0
 

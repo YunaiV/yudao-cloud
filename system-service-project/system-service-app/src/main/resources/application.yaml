@@ -35,6 +35,7 @@ dubbo:
   provider:
     filter: -exception
     validation: true # 开启 Provider 参数校验
+    version: 1.0.0 # 服务的版本号
     AdminRpc:
       version: 1.0.0
     ResourceRpc:

@@ -14,6 +14,7 @@
     <modules>
         <module>system-service-api</module>
         <module>system-service-app</module>
+        <module>system-service-integration-test</module>
     </modules>
 
     <dependencyManagement>

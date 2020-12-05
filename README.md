@@ -119,7 +119,7 @@ TODO 此处应有一个架构图的装逼 JPG 图。
 | `pay-service-project` | 支付 RPC 服务 | 随机 |  |
 | `trade-service-project` | 交易 RPC 服务 | 随机 |  |
 | `product-service-project` | 商品 RPC 服务 | 随机 |  |
-| `search-service-project` | 搜索å RPC 服务 | 随机 |  |
+| `search-service-project` | 搜索 RPC 服务 | 随机 |  |
 
 -------
 

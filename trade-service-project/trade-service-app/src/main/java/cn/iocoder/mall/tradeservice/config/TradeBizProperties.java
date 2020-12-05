@@ -7,6 +7,9 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * 交易服务的业务配置项
+ */
 @Component
 @ConfigurationProperties("biz")
 @Validated

@@ -35,8 +35,6 @@ dubbo:
   provider:
     filter: -exception
     validation: true # 开启 Provider 参数校验
-    OAuth2Rpc:
-      version: 1.0.0
     AdminRpc:
       version: 1.0.0
     ResourceRpc:
@@ -72,3 +70,8 @@ mall:
   error-code:
     group: ${spring.application.name}
     constants-class: cn.iocoder.mall.systemservice.enums.SystemErrorCodeConstants
+
+# 业务配置
+biz:
+  access-token-expire-time-millis: 2880000
+  refresh-token-expire-time-millis: 43200000

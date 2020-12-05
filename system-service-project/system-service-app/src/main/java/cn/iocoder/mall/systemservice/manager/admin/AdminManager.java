@@ -10,9 +10,10 @@ import cn.iocoder.mall.systemservice.rpc.admin.dto.AdminPageDTO;
 import cn.iocoder.mall.systemservice.rpc.admin.dto.AdminUpdateDTO;
 import cn.iocoder.mall.systemservice.rpc.admin.dto.AdminVerifyPasswordDTO;
 import cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO;
+import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2RemoveTokenByUserReqDTO;
 import cn.iocoder.mall.systemservice.service.admin.AdminService;
 import cn.iocoder.mall.systemservice.service.admin.bo.AdminBO;
-import cn.iocoder.mall.systemservice.service.oauth.OAuth2Service;
+import cn.iocoder.mall.systemservice.service.oauth.OAuth2ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +24,7 @@ public class AdminManager {
     @Autowired
     private AdminService adminService;
     @Autowired
-    private OAuth2Service oauth2Service;
+    private OAuth2ServiceImpl oauth2Service;
 
     public AdminVO verifyPassword(AdminVerifyPasswordDTO verifyPasswordDTO) {
         AdminBO adminBO = adminService.verifyPassword(verifyPasswordDTO.getUsername(),
@@ -43,7 +44,7 @@ public class AdminManager {
         // 如果修改密码，或者禁用管理员
         if (StringUtils.hasText(updateDTO.getPassword())
             || AdminStatusEnum.INACTIVE.getStatus().equals(updateDTO.getStatus())) {
-            oauth2Service.removeToken(updateDTO.getId(), UserTypeEnum.ADMIN.getValue());
+            oauth2Service.removeToken(new OAuth2RemoveTokenByUserReqDTO().setUserId(updateDTO.getId()).setUserType(UserTypeEnum.ADMIN.getValue()));
         }
     }
 

@@ -1,0 +1,11 @@
+### /permission/list 成功
+GET {{baseUrl}}/permission/list-role-resource?roleId=1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+### /permission/list-admin-roles 成功
+GET {{baseUrl}}/permission/list-admin-roles?adminId=1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+###

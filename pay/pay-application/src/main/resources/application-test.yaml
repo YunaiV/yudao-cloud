@@ -1,6 +1,0 @@
-swagger:
-  enable: true
-  title: 支付子系统
-  description: 支付子系统
-  version: 1.0.0
-  base-package: cn.iocoder.mall.pay.application.controller

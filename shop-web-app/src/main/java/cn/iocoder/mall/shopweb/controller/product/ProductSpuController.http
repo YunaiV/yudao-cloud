@@ -1,0 +1,13 @@
+### /product-spu/page 成功（全部）
+GET {{shop-api-base-url}}/product-spu/page?pageNo=1&pageSize=10&keyword=骚气
+Content-Type: application/x-www-form-urlencoded
+
+### /product-spu/search-condition 成功
+GET {{shop-api-base-url}}/product-spu/search-condition?keyword=骚气
+Content-Type: application/x-www-form-urlencoded
+
+### /product-spu/get-detail 成功
+GET {{shop-api-base-url}}/product-spu/get-detail?id=63
+Content-Type: application/x-www-form-urlencoded
+
+###

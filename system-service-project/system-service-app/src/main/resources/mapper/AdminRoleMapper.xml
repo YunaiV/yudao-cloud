@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iocoder.mall.systemservice.dal.mysql.mapper.permission.AdminRoleMapper">
+
+    <insert id="insertList">
+        INSERT INTO permission_admin_role (
+          admin_id, role_id
+        ) VALUES
+        <foreach collection="adminRoleDOs" item="adminRole" separator=",">
+            (#{adminRole.adminId}, #{adminRole.roleId})
+        </foreach>
+    </insert>
+
+</mapper>

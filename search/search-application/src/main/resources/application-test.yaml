@@ -1,6 +1,0 @@
-swagger:
-  enable: true
-  title: 搜索子系统
-  description: 搜索子系统
-  version: 1.0.0
-  base-package: cn.iocoder.mall.search.application.controller

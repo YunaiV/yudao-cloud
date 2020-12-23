@@ -1,0 +1,41 @@
+### /admin/page 成功
+GET {{baseUrl}}/admin/page?pageNo=1&pageSize=10
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+### /admin/create 成功
+POST {{baseUrl}}/admin/create
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+username=admin02&password=buzhidao&name=测试管理员&departmentId=1
+
+### /admin/update 成功
+POST {{baseUrl}}/admin/update
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+id=31&username=admin02&password=buzhidao&name=测试管理员&departmentId=1
+
+### /admin/update-status 成功
+POST {{baseUrl}}/admin/update-status
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+adminId=31&status=1
+
+### /admin/update-status 失败，参数缺失
+POST {{baseUrl}}/admin/update-status
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+adminId=31
+
+### admin/update-status 失败，地址不存在
+GET {{baseUrl}}/admin/update-status---
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+adminId=31&status=sss
+
+###

@@ -1,0 +1,34 @@
+### /passport/login 成功
+POST {{baseUrl}}/passport/login
+Content-Type: application/x-www-form-urlencoded
+
+username=admin&password=buzhidao
+
+### /passport/login 密码不正确
+POST {{baseUrl}}/passport/login
+Content-Type: application/x-www-form-urlencoded
+
+username=admin&password=1024
+
+### /passport/login 少传参数
+POST {{baseUrl}}/passport/login
+Content-Type: application/x-www-form-urlencoded
+
+username=admin
+
+### /passport/info 成功
+GET {{baseUrl}}/passport/info
+Authorization: Bearer {{accessToken}}
+
+### /passport/tree-admin-menu 成功
+GET {{baseUrl}}/passport/tree-admin-menu
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+### /passport/list-admin-permission 成功
+GET {{baseUrl}}/passport/list-admin-permission
+Content-Type: application/x-www-form-urlencoded
+#Authorization: Bearer {{accessToken}}
+Authorization: Bearer 36dce986276b4d6c8f9f4f3b89b22810
+
+###

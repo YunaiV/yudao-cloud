@@ -1,0 +1,75 @@
+# 服务器的配置项
+server:
+  port: 18084
+  servlet:
+    context-path: /shop-api/
+
+spring:
+  # Application 的配置项
+  application:
+    name: shop-web
+  # Profile 的配置项
+  profiles:
+    active: local
+  # SpringMVC 配置项
+  mvc:
+    throw-exception-if-no-handler-found: true # 匹配不到路径时，抛出 NoHandlerFoundException 异常
+    static-path-pattern: /doc.html # 静态资源的路径
+
+# Dubbo 配置项
+dubbo:
+  # Spring Cloud Alibaba Dubbo 专属配置
+  cloud:
+    subscribed-services: 'user-service,system-service' # 设置订阅的应用列表，默认为 * 订阅所有应用
+  # Dubbo 服务消费者的配置
+  consumer:
+    timeout: 10000
+    validation: true # 开启 Consumer 的参数校验
+    UserRpc:
+      version: 1.0.0
+    OAuth2Rpc:
+      version: 1.0.0
+    SystemAccessLogRpc:
+      version: 1.0.0
+    SystemExceptionLogRpc:
+      version: 1.0.0
+    ProductCategoryRpc:
+      version: 1.0.0
+    ProductSpuRpc:
+      version: 1.0.0
+    ProductSkuRpc:
+      version: 1.0.0
+    SearchProductRpc:
+      version: 1.0.0
+    PriceRpc:
+      version: 1.0.0
+    PromotionActivityRpc:
+      version: 1.0.0
+    CouponCardRpc:
+      version: 1.0.0
+    CouponTemplateRpc:
+      version: 1.0.0
+    BannerRpc:
+      version: 1.0.0
+    ProductRecommendRpc:
+      version: 1.0.0
+    TradeOrderRpc:
+      version: 1.0.0
+    PayTransactionRpc:
+      version: 1.0.0
+    UserSmsCodeRpc:
+      version: 1.0.0
+    UserAddressRpc:
+      version: 1.0.0
+
+# Swagger 配置项
+swagger:
+  title: 商城中心
+  description: 提供用户商城购物流程中的 API
+  version: 1.0.0
+  base-package: cn.iocoder.mall.shopweb.controller
+
+# Actuator 监控配置项
+management:
+  server.port: 38088 # 独立端口，避免被暴露出去
+  endpoints.web.exposure.include: '*' # 暴露所有监控端点

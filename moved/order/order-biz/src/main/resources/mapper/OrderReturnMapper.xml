@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iocoder.mall.order.biz.dao.order.OrderReturnMapper">
+
+    <sql id="FIELDS">
+        id,
+        service_number,
+        order_id,
+        order_no,
+        order_logistics_id,
+        refund_price,
+        reason,
+        `describe`,
+        approval_time,
+        refuse_time,
+        logistics_time,
+        receiver_time,
+        closing_time,
+        service_type,
+        status,
+        create_time,
+        update_time
+    </sql>
+
+    <!--
+        插入数据
+    -->
+    <insert id="insert" parameterType="OrderReturnDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO `order_return` (
+         service_number, order_id, order_no, order_logistics_id,
+         refund_price, reason, `describe`,
+         approval_time, refuse_time, logistics_time, receiver_time, closing_time,
+         service_type, status,
+         create_time, update_time)
+        VALUES (
+        #{serviceNumber}, #{orderId}, #{orderNo}, #{orderLogisticsId},
+        ${refundPrice}, #{reason}, #{describe},
+        #{approvalTime}, #{refuse_time}, #{logisticsTime}, #{receiverTime}, #{closingTime},
+        #{serviceType}, #{status}, #{createTime}, #{updateTime})
+    </insert>
+
+    <!--
+        更新 - 可更新的字段
+    -->
+    <sql id="updateFieldSql">
+        <set>
+            <if test="orderLogisticsId != null">
+                , order_logistics_id = #{orderLogisticsId}
+            </if>
+            <if test="refundPrice != null">
+                , refund_price = #{refundPrice}
+            </if>
+            <if test="reason != null">
+                , reason = #{reason}
+            </if>
+            <if test="describe != null">
+                , `describe` = #{describe}
+            </if>
+            <if test="approvalTime != null">
+                , approval_time = #{approvalTime}
+            </if>
+            <if test="refuseTime != null">
+                , refuse_time = #{refuseTime}
+            </if>
+            <if test="logisticsTime != null">
+                , logistics_time = #{logisticsTime}
+            </if>
+            <if test="receiverTime != null">
+                , receiver_time = #{receiverTime}
+            </if>
+            <if test="closingTime != null">
+                , closing_time = #{closingTime}
+            </if>
+            <if test="serviceType != null">
+                , service_type = #{serviceType}
+            </if>
+            <if test="status != null">
+                , status = #{status}
+            </if>
+            <if test="createTime != null">
+                , create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                , update_time = #{updateTime}
+            </if>
+        </set>
+    </sql>
+
+    <!--
+        更新 - 根据 id 更新
+    -->
+    <update id="updateById" parameterType="OrderReturnDO">
+        UPDATE `order_return`
+        <include refid="updateFieldSql"/>
+        WHERE id = #{id}
+    </update>
+
+    <!--
+        查询 - 根据id 查询
+    -->
+    <select id="selectByOrderId" resultType="cn.iocoder.mall.order.biz.dataobject.OrderReturnDO">
+        SELECT
+        <include refid="FIELDS"/>
+        FROM `order_return`
+        WHERE order_id = #{orderId}
+        LIMIT 1
+    </select>
+
+    <!--
+        列表查询 - where
+    -->
+    <sql id="selectListWhere">
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        <if test="serviceNumber != null">
+            AND service_number = #{serviceNumber}
+        </if>
+        <if test="orderId != null">
+            AND order_id = #{orderId}
+        </if>
+        <if test="orderId != null">
+            AND order_no = #{orderNo}
+        </if>
+        <if test="startCreateTime != null and endCreateTime != null">
+            AND create_time &gt;= #{startCreateTime}
+            AND create_time &lt;= #{endCreateTime}
+        </if>
+    </sql>
+
+    <!--
+        列表查询 - count
+    -->
+    <select id="selectListCount" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*)
+        FROM `order_return`
+        WHERE 1 = 1
+        <include refid="selectListWhere" />
+    </select>
+
+
+    <!--
+        列表查询 - queryDTO
+    -->
+    <select id="selectList" resultType="cn.iocoder.mall.order.biz.dataobject.OrderReturnDO">
+        SELECT
+        <include refid="FIELDS"/>
+        FROM `order_return`
+        WHERE 1 = 1
+        <include refid="selectListWhere" />
+        <bind name="limitIndex" value="pageSize * (index - 1)"/>
+        LIMIT #{limitIndex}, #{pageSize}
+    </select>
+
+    <!--
+        查询 - 根据 id 查询
+    -->
+    <select id="selectById" resultType="cn.iocoder.mall.order.biz.dataobject.OrderReturnDO">
+        SELECT
+        <include refid="FIELDS"/>
+        FROM `order_return`
+        WHERE id = #{id}
+    </select>
+</mapper>

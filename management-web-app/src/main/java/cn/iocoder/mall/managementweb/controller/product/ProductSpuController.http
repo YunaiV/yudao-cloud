@@ -1,0 +1,51 @@
+### /product-spu/page 成功（全部）
+GET {{baseUrl}}/product-spu/page?pageNo=1&pageSize=10
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+### /product-spu/page 成功（有库存 + 上架）
+GET {{baseUrl}}/product-spu/page?pageNo=1&pageSize=10&hasQuantity=true&visible=true
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+### /product-spu/page 成功（无库存 + 下架）
+GET {{baseUrl}}/product-spu/page?pageNo=1&pageSize=10&hasQuantity=false&visible=false
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+### /product-spu/create 成功
+POST {{baseUrl}}/product-spu/create
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+name=测试商品标题&description=测试商品描述&cid=637&sellPoint=丑&picUrls=1,2,3&visible=true
+&skus[0].price=1&skus[0].quantity=100&skus[0].attrValueIds=1,3
+&skus[1].price=2&skus[1].quantity=50&skus[1].attrValueIds=2,4
+
+### /product-spu/create 失败（规格不存在）
+POST {{baseUrl}}/product-spu/create
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+name=测试商品标题&description=测试商品描述&cid=637&sellPoint=丑&picUrls=1,2,3&visible=true
+&skus[0].price=1&skus[0].quantity=100&skus[0].attrValueIds=1,0
+
+### /product-spu/create 失败（规格数量不匹配）
+POST {{baseUrl}}/product-spu/create
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+name=测试商品标题&description=测试商品描述&cid=637&sellPoint=丑&picUrls=1,2,3&visible=true
+&skus[0].price=1&skus[0].quantity=100&skus[0].attrValueIds=1,3
+&skus[1].price=2&skus[1].quantity=50&skus[1].attrValueIds=1,2,4
+
+### /product-spu/update 成功
+POST {{baseUrl}}/product-spu/update
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+id=59&name=测试商品标题&description=测试商品描述&cid=637&sellPoint=丑&picUrls=1,2,3&visible=true
+&skus[0].price=1&skus[0].quantity=100&skus[0].attrValueIds=1,3
+&skus[1].price=2&skus[1].quantity=50&skus[1].attrValueIds=2,4
+
+###

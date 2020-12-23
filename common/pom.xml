@@ -14,8 +14,30 @@
     <modules>
         <module>common-framework</module>
         <module>mall-spring-boot</module>
-        <module>common-dependencies</module>
+        <module>mall-spring-boot-starter-swagger</module>
+        <module>mall-spring-boot-starter-web</module>
+        <module>mall-security-annotations</module>
+        <module>mall-spring-boot-starter-security-admin</module>
+        <module>mall-spring-boot-starter-security-user</module>
+        <module>mall-spring-boot-starter-sentry</module>
+        <module>mall-spring-boot-starter-mybatis</module>
+        <module>mall-spring-boot-starter-dubbo</module>
+        <module>mall-spring-boot-starter-system-error-code</module>
+        <module>mall-spring-boot-starter-rocketmq</module>
+        <module>mall-spring-boot-starter-xxl-job</module>
+        <module>mall-spring-boot-starter-redis</module>
     </modules>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cn.iocoder.mall</groupId>
+                <artifactId>mall-dependencies</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

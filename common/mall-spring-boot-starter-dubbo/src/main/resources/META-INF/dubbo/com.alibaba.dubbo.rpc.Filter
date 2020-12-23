@@ -1,0 +1,2 @@
+dubboExceptionFilter=cn.iocoder.mall.dubbo.core.filter.DubboProviderExceptionFilter
+dubboProviderRouterTagFilter=cn.iocoder.mall.dubbo.core.filter.DubboProviderRouterTagFilter

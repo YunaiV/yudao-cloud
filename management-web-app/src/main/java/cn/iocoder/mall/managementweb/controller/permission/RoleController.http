@@ -1,0 +1,44 @@
+### /role/create 成功
+POST {{baseUrl}}/role/create
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+#Authorization: Bearer 9d250d9b6c034a6c88bf4034cdf1d4cc
+
+name=测试角色
+
+### /role/update 成功
+POST {{baseUrl}}/role/update
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+id=14&name=test
+
+### /resource/delete 成功
+POST {{baseUrl}}/role/delete
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+roleId=14
+
+### /role/get 成功
+GET {{baseUrl}}/role/get?roleId=13
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+### /role/list-all 成功
+GET {{baseUrl}}/role/list-all
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+### /role/list 成功
+GET {{baseUrl}}/role/list?roleIds=1,13
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+### /role/page 成功
+GET {{baseUrl}}/role/page?pageNo=1&pageSize=10
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+###
+

@@ -1,0 +1,74 @@
+spring:
+  # Application 的配置项
+  application:
+    name: system-service
+  # Profile 的配置项
+  profiles:
+    active: local
+
+
+# MyBatis Plus 配置项
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true # 虽然默认为 true ，但是还是显示去指定下。
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: cn.iocoder.mall.systemservice.dal.mysql.dataobject
+
+# Dubbo 配置项
+dubbo:
+  # Spring Cloud Alibaba Dubbo 专属配置
+  cloud:
+    subscribed-services: '' # 设置订阅的应用列表，默认为 * 订阅所有应用
+  # Dubbo 提供者的协议
+  protocol:
+    name: dubbo
+    port: -1
+  # Dubbo 提供服务的扫描基础包
+  scan:
+    base-packages: cn.iocoder.mall.systemservice.rpc
+  # Dubbo 服务提供者的配置
+  provider:
+    filter: -exception
+    validation: true # 开启 Provider 参数校验
+    OAuth2Rpc:
+      version: 1.0.0
+    AdminRpc:
+      version: 1.0.0
+    ResourceRpc:
+      version: 1.0.0
+    RoleRpc:
+      version: 1.0.0
+    PermissionRpc:
+      version: 1.0.0
+    DepartmentRpc:
+      version: 1.0.0
+    DataDictRpc:
+      version: 1.0.0
+    SystemExceptionLogRpc:
+      version: 1.0.0
+    SystemAccessLogRpc:
+      version: 1.0.0
+    ErrorCodeRpc:
+      version: 1.0.0
+  # Dubbo 服务消费者的配置
+  consumer:
+    ErrorCodeRpc:
+      version: 1.0.0
+
+# Actuator 监控配置项
+management:
+  server.port: 38080 # 独立端口，避免被暴露出去
+  endpoints.web.exposure.include: '*' # 暴露所有监控端点
+server.port: ${management.server.port} # 设置使用 Actuator 的服务器端口，因为 RPC 服务不需要 Web 端口
+
+# Mall 配置项
+mall:
+  # 错误码配置项对应 ErrorCodeProperties 配置类
+  error-code:
+    group: ${spring.application.name}
+    constants-class: cn.iocoder.mall.systemservice.enums.SystemErrorCodeConstants

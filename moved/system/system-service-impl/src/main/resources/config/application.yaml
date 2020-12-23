@@ -1,0 +1,73 @@
+spring:
+  # datasource
+  datasource:
+    url: jdbc:mysql://s1.iocoder.cn:3306/mall_admin?useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 3WLiVUBEwTbvAfsh
+
+  # Spring Cloud 配置项
+  cloud:
+    nacos:
+      # Spring Cloud Nacos Discovery 配置项
+      discovery:
+        server-addr: s1.iocoder.cn:8848 # Nacos 服务器地址
+
+# mybatis-plus
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true # 虽然默认为 true ，但是还是显示去指定下。
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: cn.iocoder.mall.admin.dataobject
+
+# sms
+sms:
+  yunPian:
+    apiKey:
+  aliYun:
+    accessKeyId:
+    accessSecret:
+
+# Dubbo 配置项
+dubbo:
+  # Dubbo 注册中心
+  registry:
+    address: spring-cloud://s1.iocoder.cn:8848 # 指定 Dubbo 服务注册中心的地址
+  # Spring Cloud Alibaba Dubbo 专属配置
+  cloud:
+    subscribed-services: '' # 设置订阅的应用列表，默认为 * 订阅所有应用
+  # Dubbo 提供者的协议
+  protocol:
+    name: dubbo
+    port: -1
+  # Dubbo 提供服务的扫描基础包
+  scan:
+    base-packages: cn.iocoder.mall.admin.service
+  # Dubbo 服务提供者的配置
+  provider:
+    filter: -exception
+    AdminAccessLogService:
+      version: 1.0.0
+    AdminService:
+      version: 1.0.0
+    DataDictService:
+      version: 1.0.0
+    OAuth2Service:
+      version: 1.0.0
+    ResourceService:
+      version: 1.0.0
+    RoleService:
+      version: 1.0.0
+    SmsService:
+      version: 1.0.0
+
+# logging
+logging:
+  level:
+    # dao 开启 debug 模式 mybatis 输入 sql
+    cn.iocoder.mall.admin.dao: debug

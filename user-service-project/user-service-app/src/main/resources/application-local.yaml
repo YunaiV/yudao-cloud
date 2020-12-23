@@ -1,0 +1,24 @@
+spring:
+  # 数据源配置项
+  datasource:
+    url: jdbc:mysql://400-infra.server.iocoder.cn:3306/mall_user?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=CTT
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 3WLiVUBEwTbvAfsh
+  # Spring Cloud 配置项
+  cloud:
+    nacos:
+      # Spring Cloud Nacos Discovery 配置项
+      discovery:
+        server-addr: 400-infra.server.iocoder.cn:8848 # Nacos 服务器地址
+        namespace: dev # Nacos 命名空间
+
+# Dubbo 配置项
+dubbo:
+  # Dubbo 注册中心
+  registry:
+#    address: spring-cloud://400-infra.server.iocoder.cn:8848 # 指定 Dubbo 服务注册中心的地址
+    address: nacos://400-infra.server.iocoder.cn:8848?namespace=dev # 指定 Dubbo 服务注册中心的地址
+  # Dubbo 服务提供者的配置
+  provider:
+    tag: ${DUBBO_TAG} # Dubbo 路由分组

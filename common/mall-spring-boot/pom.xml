@@ -18,18 +18,6 @@
             <artifactId>common-framework</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>cn.iocoder.mall</groupId>
-            <artifactId>system-sdk</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>cn.iocoder.mall</groupId>
-            <artifactId>user-sdk</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <optional>true</optional>
-        </dependency>
 
         <!-- Spring 核心 -->
         <dependency>
@@ -46,17 +34,6 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>swagger-bootstrap-ui</artifactId>
             <optional>true</optional>
         </dependency>
 

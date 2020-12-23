@@ -1,0 +1,39 @@
+### /department/create 成功
+POST {{baseUrl}}/department/create
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+dubbo-tag: {{dubboTag}}
+
+name=测试部门&pid=0&sort=0
+
+### /department/update 成功
+POST {{baseUrl}}/department/update
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+id=1&name=测试部门&pid=0&sort=0
+
+### /resource/delete 成功
+POST {{baseUrl}}/department/delete
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+id=1
+
+### /department/get 成功
+GET {{baseUrl}}/department/get?departmentId=1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+### /department/list 成功
+GET {{baseUrl}}/department/list?departmentIds=1,13
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+### /department/tree 成功
+GET {{baseUrl}}/department/tree
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+###
+

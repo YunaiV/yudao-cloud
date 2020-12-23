@@ -1,5 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cn.iocoder.mall.spring.boot.web.AdminMVCAutoConfiguration, \
-  cn.iocoder.mall.spring.boot.web.UserMVCAutoConfiguration, \
-  cn.iocoder.mall.spring.boot.swagger.SwaggerAutoConfiguration, \
   cn.iocoder.mall.spring.boot.metrics.MetricsAutoConfiguration

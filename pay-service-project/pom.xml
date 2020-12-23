@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>onemall</artifactId>
+        <groupId>cn.iocoder.mall</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>pay-service-project</artifactId>
+    <packaging>pom</packaging>
+    <description>支付相关服务</description>
+    <modules>
+        <module>pay-service-api</module>
+        <module>pay-service-app</module>
+        <module>pay-service-integration-test</module>
+    </modules>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- onemall 基础 bom 文件  -->
+            <dependency>
+                <groupId>cn.iocoder.mall</groupId>
+                <artifactId>mall-dependencies</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.iocoder.mall</groupId>
+                <artifactId>common-framework</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <!-- 自身项目 -->
+            <dependency>
+                <groupId>cn.iocoder.mall</groupId>
+                <artifactId>pay-service-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

@@ -1,0 +1,19 @@
+### /passport/login-by-sms 成功
+POST {{shop-api-base-url}}/passport/login-by-sms
+Content-Type: application/x-www-form-urlencoded
+
+mobile=15601691300&code=9999
+
+### /passport/send-sms-code 成功
+POST {{shop-api-base-url}}/passport/send-sms-code
+Content-Type: application/x-www-form-urlencoded
+
+mobile=15601691300&scene=1
+
+### /passport/refresh-token
+POST {{shop-api-base-url}}/passport/refresh-token
+Content-Type: application/x-www-form-urlencoded
+
+refreshToken=77abd74e84e34cfc8aba9625317a14a3
+
+###

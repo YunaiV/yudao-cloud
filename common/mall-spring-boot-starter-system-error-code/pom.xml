@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>common</artifactId>
+        <groupId>cn.iocoder.mall</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>mall-spring-boot-starter-system-error-code</artifactId>
+    <description>
+        错误码 ErrorCode 的自动配置功能，提供如下功能：
+        1. 远程读取：项目启动时，从 system-service 服务，读取数据库中的 ErrorCode 错误码，实现错误码的提水可配置；
+        2. 自动更新：管理员在管理后台修数据库中的 ErrorCode 错误码时，项目自动从 system-service 服务加载最新的 ErrorCode 错误码；
+        3. 自动写入：项目启动时，将项目本地的错误码写到 system-service 服务中，方便管理员在管理后台编辑；
+    </description>
+
+    <dependencies>
+        <!-- Mall 相关 -->
+        <dependency>
+            <groupId>cn.iocoder.mall</groupId>
+            <artifactId>system-service-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Spring 核心 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- RPC 相关 -->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

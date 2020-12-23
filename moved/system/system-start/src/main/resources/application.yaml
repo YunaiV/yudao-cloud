@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: admin-application
+
+  # Spring Cloud 配置项
+  cloud:
+    # Spring Cloud Sentinel 配置项
+    sentinel:
+      transport:
+        dashboard: s1.iocoder.cn:12088 # Sentinel Dashboard 服务地址
+      eager: true # 项目启动时，直接连接到 Sentinel
+
+# server
+server:
+  port: 18083
+  servlet:
+    context-path: /admin-api/
+
+admins:
+  security:
+    ignore_urls: /admin-api/admins/passport/login, /admin-api/admins/file/get-qiniu-token
+
+# qiniu
+qiniu:
+  access-key: YldfyUC7OewoWM63TPYTairqnq8GMJvNek9EGoID
+  secret-key: zZ7Q8wwZRyaklVvkyLmVydA4WygOBqtc_gTYzalS
+  bucket: onemall
+
+swagger:
+  enable: true # 暂时不去掉
+  title: 管理员子系统
+  description: 管理员子系统
+  version: 1.0.0
+  base-package: cn.iocoder.mall.admin.application.controller

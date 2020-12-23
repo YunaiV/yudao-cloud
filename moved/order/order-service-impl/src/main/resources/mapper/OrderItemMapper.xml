@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iocoder.mall.order.biz.dao.order.OrderItemMapper">
+
+    <sql id="FIELDS">
+        id, order_id, order_no, sku_id, sku_name, sku_image, order_logistics_id,
+        quantity, origin_price, buy_price, present_price, buy_total, discount_total, present_total,
+        payment_time, delivery_time, receiver_time, closing_time,
+        has_return_exchange, delivery_type, status,
+        create_time, update_time, deleted
+    </sql>
+
+    <!--
+        插入数据
+    -->
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO `order_item` (
+            order_id, order_no, sku_id, sku_name, sku_image, order_logistics_id,
+            quantity, origin_price, buy_price, present_price, buy_total, discount_total, present_total,
+            payment_time, delivery_time, receiver_time, closing_time,
+            has_return_exchange, delivery_type, status,
+            create_time, update_time, deleted
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.orderId}, #{item.orderNo}, #{item.skuId}, #{item.skuName}, #{item.skuImage}, #{item.orderLogisticsId},
+            #{item.quantity}, #{item.originPrice}, #{item.buyPrice}, #{item.presentPrice}, #{item.buyTotal}, #{item.discountTotal}, #{item.presentTotal},
+            #{item.paymentTime}, #{item.deliveryTime}, #{item.receiverTime}, #{item.closingTime},
+            #{item.hasReturnExchange}, #{item.deliveryType}, #{item.status},
+            #{item.createTime}, #{item.updateTime}, #{item.deleted})
+        </foreach>
+    </insert>
+
+    <!--
+        更新 - 可更新的字段
+    -->
+    <sql id="updateFieldSql" >
+        <set>
+            <if test="orderItemDO.orderId != null">
+                , order_id = #{orderItemDO.orderId}
+            </if>
+            <if test="orderItemDO.orderNo != null">
+                , order_no = #{orderItemDO.orderNo}
+            </if>
+            <if test="orderItemDO.orderLogisticsId != null">
+                , order_logistics_id = #{orderItemDO.orderLogisticsId}
+            </if>
+            <if test="orderItemDO.skuId != null">
+                , sku_id = #{orderItemDO.skuId}
+            </if>
+            <if test="orderItemDO.skuName != null">
+                , sku_name = #{orderItemDO.skuName}
+            </if>
+            <if test="orderItemDO.skuImage != null">
+                , sku_image = #{orderItemDO.skuImage}
+            </if>
+            <if test="orderItemDO.quantity != null">
+                , quantity = #{orderItemDO.quantity}
+            </if>
+            <!-- TODO 芋艿 需要改 -->
+<!--            <if test="orderItemDO.price != null">-->
+<!--                , price = #{orderItemDO.price}-->
+<!--            </if>-->
+<!--            <if test="orderItemDO.payAmount != null">-->
+<!--                , pay_amount = #{orderItemDO.payAmount}-->
+<!--            </if>-->
+
+            <if test="orderItemDO.paymentTime != null">
+                , payment_time = #{orderItemDO.paymentTime}
+            </if>
+            <if test="orderItemDO.deliveryTime != null">
+                , delivery_time = #{orderItemDO.deliveryTime}
+            </if>
+            <if test="orderItemDO.receiverTime != null">
+                , receiver_time = #{orderItemDO.receiverTime}
+            </if>
+            <if test="orderItemDO.closingTime != null">
+                , closing_time = #{orderItemDO.closingTime}
+            </if>
+
+            <if test="orderItemDO.hasReturnExchange != null">
+                , has_return_exchange = #{orderItemDO.hasReturnExchange}
+            </if>
+            <if test="orderItemDO.status != null">
+                , status = #{orderItemDO.status}
+            </if>
+            <if test="orderItemDO.deliveryType != null">
+                , delivery_type = #{orderItemDO.deliveryType}
+            </if>
+            <if test="orderItemDO.deleted != null">
+                , `deleted` = #{orderItemDO.deleted}
+            </if>
+            <if test="orderItemDO.createTime != null">
+                , create_time = #{orderItemDO.createTime}
+            </if>
+            <if test="orderItemDO.updateTime != null">
+                , update_time = #{orderItemDO.updateTime}
+            </if>
+        </set>
+    </sql>
+
+    <!--
+        更新 - 根据 id 更新
+    -->
+    <update id="updateById" parameterType="OrderDO">
+        UPDATE `order_item`
+        <include refid="updateFieldSql" />
+        WHERE id = #{orderItemDO.id}
+    </update>
+
+    <!--
+       更新 - 根据 ids 更新
+   -->
+    <update id="updateByIds">
+        UPDATE `order_item`
+        <include refid="updateFieldSql" />
+        WHERE id IN
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+          #{id}
+        </foreach>
+    </update>
+
+    <!--
+        更新 - 根据 orderId
+    -->
+    <update id="updateByOrderId">
+        UPDATE `order_item`
+        <include refid="updateFieldSql" />
+        WHERE order_id = #{orderId}
+    </update>
+
+    <!--
+        获取 - 根据 ids 查询
+    -->
+    <select id="selectByIds" resultType="cn.iocoder.mall.order.biz.dataobject.OrderItemDO">
+        SELECT
+        <include refid="FIELDS" />
+        FROM order_item
+        WHERE `id` IN
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <!--
+        查询 - 根据 orderId 下的 item
+    -->
+    <select id="selectByDeletedAndOrderId" resultType="cn.iocoder.mall.order.biz.dataobject.OrderItemDO">
+        SELECT * FROM `order_item`
+        WHERE 1=1
+        <if test="deleted != null">
+            AND deleted = #{deleted}
+        </if>
+        <if test="orderId != null">
+          AND order_id = #{orderId}
+        </if>
+    </select>
+
+    <!--
+        查询 - 根据 orderIds 和 status
+    -->
+    <select id="selectByDeletedAndOrderIds" resultType="cn.iocoder.mall.order.biz.dataobject.OrderItemDO">
+        SELECT
+        <include refid="FIELDS" />
+        FROM `order_item`
+        WHERE `deleted` = #{deleted}
+        AND `order_id`
+        IN
+        <foreach collection="orderIds" item="orderId" open="(" close=")" separator=",">
+          #{orderId}
+        </foreach>
+    </select>
+</mapper>

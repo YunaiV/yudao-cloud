@@ -1,0 +1,12 @@
+# 服务器的配置项
+server:
+  port: 18083
+  servlet:
+    context-path: /system-api/
+
+# Swagger 配置项
+swagger:
+  title: 管理员子系统
+  description: 管理员子系统
+  version: 1.0.0
+  base-package: cn.iocoder.mall.system.rest.controller

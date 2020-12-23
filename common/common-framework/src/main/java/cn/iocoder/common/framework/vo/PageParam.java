@@ -6,9 +6,10 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @ApiModel("分页参数")
-public class PageParam {
+public class PageParam implements Serializable {
 
     @ApiModelProperty(value = "页码，从 1 开始", required = true,example = "1")
     @NotNull(message = "页码不能为空")
@@ -38,8 +39,8 @@ public class PageParam {
         return this;
     }
 
-    public final int getOffset() {
-        return (pageNo - 1) * pageSize;
-    }
+//    public final int getOffset() {
+//        return (pageNo - 1) * pageSize;
+//    }
 
 }

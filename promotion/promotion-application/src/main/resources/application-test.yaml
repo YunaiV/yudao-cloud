@@ -1,6 +1,0 @@
-swagger:
-  enable: false
-  title: 营销子系统
-  description: 营销子系统
-  version: 1.0.0
-  base-package: cn.iocoder.mall.promotion.application.controller

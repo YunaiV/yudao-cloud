@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.iocoder.mall.dubbo.config.DubboWebAutoConfiguration
+
+org.springframework.boot.env.EnvironmentPostProcessor=\
+    cn.iocoder.mall.dubbo.config.DubboEnvironmentPostProcessor

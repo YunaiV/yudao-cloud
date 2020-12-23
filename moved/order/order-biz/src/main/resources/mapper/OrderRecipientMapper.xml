@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.iocoder.mall.order.biz.dao.order.OrderRecipientMapper">
+
+    <sql id="FIELDS">
+        id, order_id, `area_no`, `name`, mobile, address, `type`,
+        create_time, update_time
+    </sql>
+
+    <!--
+        插入数据
+    -->
+    <insert id="insert" parameterType="OrderRecipientDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO `order_recipient` (
+            order_id, `area_no`, `name`, mobile, address,
+            `type`, create_time, update_time
+        ) VALUES (
+            #{orderId}, #{areaNo}, #{name}, #{mobile}, #{address},
+            #{type}, #{createTime,jdbcType=TIMESTAMP} , #{updateTime}
+        )
+    </insert>
+
+    <!--
+        查询 - 根据 orderId
+    -->
+    <select id="selectByOrderId" resultType="cn.iocoder.mall.order.biz.dataobject.OrderRecipientDO">
+        SELECT
+        <include refid="FIELDS" />
+        FROM `order_recipient`
+        WHERE order_id = #{orderId}
+    </select>
+
+    <!--
+        查询 - 根据 orderIds
+    -->
+    <select id="selectByOrderIds" resultType="cn.iocoder.mall.order.biz.dataobject.OrderRecipientDO">
+        SELECT
+        <include refid="FIELDS" />
+        FROM `order_recipient`
+        WHERE order_id IN
+        <foreach collection="orderIds" item="orderId" separator="," open="(" close=")">
+            #{orderId}
+        </foreach>
+    </select>
+
+</mapper>

@@ -1,0 +1,37 @@
+### /resource/create 成功
+POST {{baseUrl}}/resource/create
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+name=测试菜单&permission=resource:add&type=1&sort=1&pid=0&route=/resource/list&icon=test
+
+### /admin/update 成功
+POST {{baseUrl}}/resource/update
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+id=61&name=测试菜单2&permission=resource:add&type=1&sort=1&pid=0&route=/resource/list&icon=test
+
+### /resource/delete 成功
+POST {{baseUrl}}/resource/delete
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+resourceId=61
+
+### /resource/get 成功
+GET {{baseUrl}}/resource/get?resourceId=61
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+### /resource/list 成功
+GET {{baseUrl}}/resource/list?resourceIds=61,63
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+### /resource/tree 成功
+GET {{baseUrl}}/resource/tree
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{accessToken}}
+
+###

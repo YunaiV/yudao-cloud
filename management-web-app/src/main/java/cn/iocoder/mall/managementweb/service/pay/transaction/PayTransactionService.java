@@ -6,13 +6,18 @@ import cn.iocoder.mall.managementweb.controller.pay.vo.transaction.PayTransactio
 import cn.iocoder.mall.managementweb.controller.pay.vo.transaction.PayTransactionRespVO;
 import cn.iocoder.mall.managementweb.convert.pay.transaction.PayTransactionConvert;
 import cn.iocoder.mall.payservice.rpc.transaction.dto.PayTransactionRespDTO;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class PayTransactionService {
 
-    @Autowired
+    @Resource
     private PayTransactionClient payTransactionClient;
 
     public PageResult<PayTransactionRespVO> pagePayTransaction(PayTransactionPageReqVO pageReqVO) {

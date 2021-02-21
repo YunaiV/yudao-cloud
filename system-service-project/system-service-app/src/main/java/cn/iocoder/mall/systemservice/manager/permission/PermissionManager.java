@@ -7,7 +7,7 @@ import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionAssignAdminRol
 import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionAssignRoleResourceDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionCheckDTO;
 import cn.iocoder.mall.systemservice.service.permission.PermissionService;
-import cn.iocoder.mall.systemservice.service.permission.ResourceService;
+import cn.iocoder.mall.systemservice.service.permission.ResourceServiceImpl;
 import cn.iocoder.mall.systemservice.service.permission.RoleService;
 import cn.iocoder.mall.systemservice.service.permission.bo.ResourceBO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class PermissionManager {
     @Autowired
     private RoleService roleService;
     @Autowired
-    private ResourceService resourceService;
+    private ResourceServiceImpl resourceService;
 
     /**
      * 获得角色拥有的资源编号

@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentMap;
  * 目的在于，格式化异常信息提示。
  * 考虑到 String.format 在参数不正确时会报错，因此使用 {} 作为占位符，并使用 {@link #doFormat(int, String, Object...)} 方法来格式化
  *
- * 因为 {@link #messages} 里面默认是没有异常信息提示的模板的，所以需要使用方自己初始化进去。目前想到的有几种方式：
+ * 因为 {@link #MESSAGES} 里面默认是没有异常信息提示的模板的，所以需要使用方自己初始化进去。目前想到的有几种方式：
  *
  * 1. 异常提示信息，写在枚举类中，例如说，cn.iocoder.oceans.user.api.constants.ErrorCodeEnum 类 + ServiceExceptionConfiguration
  * 2. 异常提示信息，写在 .properties 等等配置文件
@@ -29,29 +29,29 @@ public class ServiceExceptionUtil {
     /**
      * 错误码提示模板
      */
-    private static ConcurrentMap<Integer, String> messages = new ConcurrentHashMap<>();
+    private static final ConcurrentMap<Integer, String> MESSAGES = new ConcurrentHashMap<>();
 
     public static void putAll(Map<Integer, String> messages) {
-        ServiceExceptionUtil.messages.putAll(messages);
+        ServiceExceptionUtil.MESSAGES.putAll(messages);
     }
 
     public static void put(Integer code, String message) {
-        ServiceExceptionUtil.messages.put(code, message);
+        ServiceExceptionUtil.MESSAGES.put(code, message);
     }
 
     public static void delete(Integer code, String message) {
-        ServiceExceptionUtil.messages.remove(code, message);
+        ServiceExceptionUtil.MESSAGES.remove(code, message);
     }
 
     // ========== 和 ServiceException 的集成 ==========
 
     public static ServiceException exception(ErrorCode errorCode) {
-        String messagePattern = messages.getOrDefault(errorCode.getCode(), errorCode.getMessage());
+        String messagePattern = MESSAGES.getOrDefault(errorCode.getCode(), errorCode.getMessage());
         return exception0(errorCode.getCode(), messagePattern);
     }
 
     public static ServiceException exception(ErrorCode errorCode, Object... params) {
-        String messagePattern = messages.getOrDefault(errorCode.getCode(), errorCode.getMessage());
+        String messagePattern = MESSAGES.getOrDefault(errorCode.getCode(), errorCode.getMessage());
         return exception0(errorCode.getCode(), messagePattern, params);
     }
 
@@ -62,7 +62,7 @@ public class ServiceExceptionUtil {
      * @return 异常
      */
     public static ServiceException exception(Integer code) {
-        return exception0(code, messages.get(code));
+        return exception0(code, MESSAGES.get(code));
     }
 
     /**
@@ -73,7 +73,7 @@ public class ServiceExceptionUtil {
      * @return 异常
      */
     public static ServiceException exception(Integer code, Object... params) {
-        return exception0(code, messages.get(code), params);
+        return exception0(code, MESSAGES.get(code), params);
     }
 
     public static ServiceException exception0(Integer code, String messagePattern, Object... params) {

@@ -37,7 +37,7 @@ public class RedisKeyDefine {
      *
      * 如果是使用分布式锁，设置为 {@link java.util.concurrent.locks.Lock} 类型
      */
-    private final Class valueType;
+    private final Class<?> valueType;
     /**
      * 过期时间
      *
@@ -45,7 +45,7 @@ public class RedisKeyDefine {
      */
     private final Duration timeout;
 
-    public RedisKeyDefine(String keyTemplate, KeyTypeEnum keyType, Class valueType, Duration timeout) {
+    public RedisKeyDefine(String keyTemplate, KeyTypeEnum keyType, Class<?> valueType, Duration timeout) {
         this.keyTemplate = keyTemplate;
         this.keyType = keyType;
         this.valueType = valueType;
@@ -60,7 +60,7 @@ public class RedisKeyDefine {
         return keyType;
     }
 
-    public Class getValueType() {
+    public Class<?> getValueType() {
         return valueType;
     }
 

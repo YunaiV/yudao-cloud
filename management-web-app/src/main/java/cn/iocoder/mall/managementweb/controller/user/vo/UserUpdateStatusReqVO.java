@@ -15,6 +15,7 @@ public class UserUpdateStatusReqVO {
     @ApiModelProperty(value = "用户编号", required = true)
     @NotNull(message = "用户编号不能为空")
     private Integer userId;
+
     @ApiModelProperty(value = "状态", required = true, example = "1", notes = "见 CommonStatusEnum 枚举")
     @NotNull(message = "状态不能为空")
     @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}")

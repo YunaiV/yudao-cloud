@@ -4,7 +4,7 @@ import cn.iocoder.mall.systemservice.convert.permission.ResourceConvert;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.ResourceCreateDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.ResourceUpdateDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO;
-import cn.iocoder.mall.systemservice.service.permission.ResourceService;
+import cn.iocoder.mall.systemservice.service.permission.ResourceServiceImpl;
 import cn.iocoder.mall.systemservice.service.permission.RoleService;
 import cn.iocoder.mall.systemservice.service.permission.bo.ResourceBO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import java.util.List;
 public class ResourceManager {
 
     @Autowired
-    private ResourceService resourceService;
+    private ResourceServiceImpl resourceService;
     @Autowired
     private RoleService roleService;
 

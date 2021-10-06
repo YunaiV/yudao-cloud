@@ -7,9 +7,11 @@ import cn.iocoder.mall.managementweb.controller.product.vo.spu.ProductSpuPageReq
 import cn.iocoder.mall.managementweb.controller.product.vo.spu.ProductSpuRespVO;
 import cn.iocoder.mall.managementweb.controller.product.vo.spu.ProductSpuUpdateReqVO;
 import cn.iocoder.mall.managementweb.convert.product.ProductSpuConvert;
+import cn.iocoder.mall.managementweb.feign.ProductSpuFeign;
 import cn.iocoder.mall.productservice.rpc.spu.ProductSpuRpc;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +24,9 @@ public class ProductSpuManager {
 
     @DubboReference(version = "${dubbo.consumer.ProductSpuRpc.version}")
     private ProductSpuRpc productSpuRpc;
+
+    @Autowired
+    private ProductSpuFeign productSpuFeign;
 
     /**
     * 创建商品 SPU
@@ -52,7 +57,7 @@ public class ProductSpuManager {
     * @return 商品 SPU
     */
     public ProductSpuRespVO getProductSpu(Integer productSpuId) {
-        CommonResult<ProductSpuRespDTO> getProductSpuResult = productSpuRpc.getProductSpu(productSpuId);
+        CommonResult<ProductSpuRespDTO> getProductSpuResult = productSpuFeign.getProductSpu(productSpuId);
         getProductSpuResult.checkError();
         return ProductSpuConvert.INSTANCE.convert(getProductSpuResult.getData());
     }

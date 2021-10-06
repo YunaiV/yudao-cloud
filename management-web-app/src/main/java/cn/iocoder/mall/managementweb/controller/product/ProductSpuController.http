@@ -49,3 +49,11 @@ id=59&name=测试商品标题&description=测试商品描述&cid=637&sellPoint=�
 &skus[1].price=2&skus[1].quantity=50&skus[1].attrValueIds=2,4
 
 ###
+
+### /product-spu/get
+GET http://127.0.0.1:18083/management-api/product-spu/get?productSpuId=32
+Content-Type: application/x-www-form-urlencoded
+Authorization:Bearer yudaoyuanma
+
+###
+

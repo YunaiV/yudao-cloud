@@ -9,12 +9,12 @@ spring:
   data:
     elasticsearch:
       cluster-name: elasticsearch
-      cluster-nodes: 400-infra.server.iocoder.cn:9300
+      cluster-nodes: localhost:9300
       repositories:
         enable: true
   elasticsearch:
     rest:
-      uris: 400-infra.server.iocoder.cn:9200
+      uris: localhost:9200
 
 # Dubbo 配置项
 dubbo:
@@ -46,7 +46,7 @@ dubbo:
 
 # RocketMQ 配置项
 rocketmq:
-  name-server: 400-infra.server.iocoder.cn:9876
+  name-server: localhost:9876
 
 # Actuator 监控配置项
 management:

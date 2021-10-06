@@ -15,7 +15,7 @@ public class DubboGenericInvokerTest {
         application.setName("api-generic-consumer");
 
         RegistryConfig registry = new RegistryConfig();
-        registry.setAddress("nacos://400-infra.server.iocoder.cn:8848?namespace=dev");
+        registry.setAddress("nacos://localhost:8848?namespace=dev");
 
         application.setRegistry(registry);
 

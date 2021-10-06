@@ -1,0 +1,4 @@
+### /product/spu/get 获得商品 SPU
+GET http://localhost:38082/product/spu/get?productSpuId=32
+###
+

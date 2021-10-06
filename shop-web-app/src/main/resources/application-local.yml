@@ -4,7 +4,7 @@ spring:
     nacos:
       # Spring Cloud Nacos Discovery 配置项
       discovery:
-        server-addr: 400-infra.server.iocoder.cn:8848 # Nacos 服务器地址
+        server-addr: localhost:8848 # Nacos 服务器地址
         namespace: dev # Nacos 命名空间
   # Spring 主应用配置
   main:
@@ -14,5 +14,5 @@ spring:
 dubbo:
   # Dubbo 注册中心
   registry:
-    #    address: spring-cloud://400-infra.server.iocoder.cn:8848 # 指定 Dubbo 服务注册中心的地址
-    address: nacos://400-infra.server.iocoder.cn:8848?namespace=dev # 指定 Dubbo 服务注册中心的地址
+    #    address: spring-cloud://localhost:8848 # 指定 Dubbo 服务注册中心的地址
+    address: nacos://localhost:8848?namespace=dev # 指定 Dubbo 服务注册中心的地址

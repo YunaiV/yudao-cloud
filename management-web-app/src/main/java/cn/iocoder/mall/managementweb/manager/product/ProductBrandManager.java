@@ -7,9 +7,9 @@ import cn.iocoder.mall.managementweb.controller.product.vo.brand.ProductBrandPag
 import cn.iocoder.mall.managementweb.controller.product.vo.brand.ProductBrandRespVO;
 import cn.iocoder.mall.managementweb.controller.product.vo.brand.ProductBrandUpdateReqVO;
 import cn.iocoder.mall.managementweb.convert.product.ProductBrandConvert;
-import cn.iocoder.mall.productservice.rpc.brand.ProductBrandRpc;
+import cn.iocoder.mall.productservice.rpc.brand.ProductBrandFeign;
 import cn.iocoder.mall.productservice.rpc.brand.dto.ProductBrandRespDTO;
-import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,9 +20,8 @@ import java.util.List;
 @Service
 public class ProductBrandManager {
 
-    @Reference(version = "${dubbo.consumer.ProductBrandRpc.version}")
-    private ProductBrandRpc productBrandRpc;
-
+    @Autowired
+    ProductBrandFeign productBrandFeign;
     /**
     * 创建商品品牌
     *
@@ -30,7 +29,7 @@ public class ProductBrandManager {
     * @return 商品品牌
     */
     public Integer createProductBrand(ProductBrandCreateReqVO createVO) {
-        CommonResult<Integer> createProductBrandResult = productBrandRpc.createProductBrand(ProductBrandConvert.INSTANCE.convert(createVO));
+        CommonResult<Integer> createProductBrandResult = productBrandFeign.createProductBrand(ProductBrandConvert.INSTANCE.convert(createVO));
         createProductBrandResult.checkError();
         return createProductBrandResult.getData();
     }
@@ -41,7 +40,7 @@ public class ProductBrandManager {
     * @param updateVO 更新商品品牌 VO
     */
     public void updateProductBrand(ProductBrandUpdateReqVO updateVO) {
-        CommonResult<Boolean> updateProductBrandResult = productBrandRpc.updateProductBrand(ProductBrandConvert.INSTANCE.convert(updateVO));
+        CommonResult<Boolean> updateProductBrandResult = productBrandFeign.updateProductBrand(ProductBrandConvert.INSTANCE.convert(updateVO));
         updateProductBrandResult.checkError();
     }
 
@@ -51,7 +50,7 @@ public class ProductBrandManager {
     * @param productBrandId 商品品牌编号
     */
     public void deleteProductBrand(Integer productBrandId) {
-        CommonResult<Boolean> deleteProductBrandResult = productBrandRpc.deleteProductBrand(productBrandId);
+        CommonResult<Boolean> deleteProductBrandResult = productBrandFeign.deleteProductBrand(productBrandId);
         deleteProductBrandResult.checkError();
     }
 
@@ -62,7 +61,7 @@ public class ProductBrandManager {
     * @return 商品品牌
     */
     public ProductBrandRespVO getProductBrand(Integer productBrandId) {
-        CommonResult<ProductBrandRespDTO> getProductBrandResult = productBrandRpc.getProductBrand(productBrandId);
+        CommonResult<ProductBrandRespDTO> getProductBrandResult = productBrandFeign.getProductBrand(productBrandId);
         getProductBrandResult.checkError();
         return ProductBrandConvert.INSTANCE.convert(getProductBrandResult.getData());
     }
@@ -74,7 +73,7 @@ public class ProductBrandManager {
     * @return 商品品牌列表
     */
     public List<ProductBrandRespVO> listProductBrands(List<Integer> productBrandIds) {
-        CommonResult<List<ProductBrandRespDTO>> listProductBrandResult = productBrandRpc.listProductBrands(productBrandIds);
+        CommonResult<List<ProductBrandRespDTO>> listProductBrandResult = productBrandFeign.listProductBrands(productBrandIds);
         listProductBrandResult.checkError();
         return ProductBrandConvert.INSTANCE.convertList(listProductBrandResult.getData());
     }
@@ -86,7 +85,7 @@ public class ProductBrandManager {
     * @return 商品品牌分页结果
     */
     public PageResult<ProductBrandRespVO> pageProductBrand(ProductBrandPageReqVO pageVO) {
-        CommonResult<PageResult<ProductBrandRespDTO>> pageProductBrandResult = productBrandRpc.pageProductBrand(ProductBrandConvert.INSTANCE.convert(pageVO));
+        CommonResult<PageResult<ProductBrandRespDTO>> pageProductBrandResult = productBrandFeign.pageProductBrand(ProductBrandConvert.INSTANCE.convert(pageVO));
         pageProductBrandResult.checkError();
         return ProductBrandConvert.INSTANCE.convertPage(pageProductBrandResult.getData());
     }

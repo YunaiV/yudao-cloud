@@ -4,7 +4,7 @@ import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.productservice.enums.spu.ProductSpuDetailFieldEnum;
-import cn.iocoder.mall.productservice.rpc.category.ProductCategoryRpc;
+import cn.iocoder.mall.productservice.rpc.category.ProductCategoryFeign;
 import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryRespDTO;
 import cn.iocoder.mall.productservice.rpc.spu.ProductSpuFeign;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuDetailRespDTO;
@@ -37,9 +37,9 @@ public class ProductSpuManager {
     @DubboReference(version = "${dubbo.consumer.SearchProductRpc.version}")
     private SearchProductRpc searchProductRpc;
 
-    @DubboReference(version = "${dubbo.consumer.ProductCategoryRpc.version}")
-    private ProductCategoryRpc productCategoryRpc;
 
+    @Autowired
+    private ProductCategoryFeign productCategoryFeign;
     @Autowired
     private ProductSpuFeign productSpuFeign;
 
@@ -62,7 +62,7 @@ public class ProductSpuManager {
             conditionRespVO.setCategories(Collections.emptyList());
         } else {
             CommonResult<List<ProductCategoryRespDTO>> listProductCategoriesResult =
-                    productCategoryRpc.listProductCategories(getSearchProductConditionResult.getData().getCids());
+                    productCategoryFeign.listProductCategoriesByIds(getSearchProductConditionResult.getData().getCids());
             listProductCategoriesResult.checkError();
             conditionRespVO.setCategories(ProductSpuConvert.INSTANCE.convertList(listProductCategoriesResult.getData()));
         }

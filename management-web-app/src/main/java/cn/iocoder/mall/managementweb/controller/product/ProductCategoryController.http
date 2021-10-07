@@ -1,7 +1,15 @@
 ### /product-category/tree 成功
-GET {{baseUrl}}/product-category/tree
+GET http://127.0.0.1:18083/management-api/product-category/tree
 Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer {{accessToken}}
-dubbo-tag: {{dubboTag}}
+Authorization: Bearer yudaoyuanma
+
+###
+
+POST http://127.0.0.1:18083/management-api/product-category/create
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer yudaoyuanma
+
+pid=0&name=美食&description=吃喝拉撒&sort=7&status=1
+
 
 ###

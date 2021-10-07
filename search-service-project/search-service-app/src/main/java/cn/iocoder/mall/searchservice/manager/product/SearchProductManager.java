@@ -3,7 +3,7 @@ package cn.iocoder.mall.searchservice.manager.product;
 import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.productservice.rpc.category.ProductCategoryRpc;
+import cn.iocoder.mall.productservice.rpc.category.ProductCategoryFeign;
 import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryRespDTO;
 import cn.iocoder.mall.productservice.rpc.sku.ProductSkuRpc;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuListQueryReqDTO;
@@ -35,9 +35,9 @@ public class SearchProductManager {
 
     @DubboReference(version = "${dubbo.consumer.ProductSkuRpc.version}")
     private ProductSkuRpc productSkuRpc;
-    @DubboReference(version = "${dubbo.consumer.ProductCategoryRpc.version}")
-    private ProductCategoryRpc productCategoryRpc;
 
+    @Autowired
+    private ProductCategoryFeign productCategoryFeign;
     @Autowired
     private ProductSpuFeign productSpuFeign;
 
@@ -110,7 +110,7 @@ public class SearchProductManager {
         }
         // 获得商品分类
         CommonResult<ProductCategoryRespDTO> getProductCategoryResult =
-                productCategoryRpc.getProductCategory(productSpuResult.getData().getCid());
+                productCategoryFeign.getProductCategory(productSpuResult.getData().getCid());
         getProductCategoryResult.checkError();
         if (getProductCategoryResult.getData() == null) {
             log.error("[saveProduct][商品 SPU({}) 的分类({}) 不存在]", id, productSpuResult.getData().getCid());

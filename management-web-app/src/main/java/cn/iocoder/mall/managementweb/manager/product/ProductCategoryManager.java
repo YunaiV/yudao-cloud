@@ -6,11 +6,11 @@ import cn.iocoder.mall.managementweb.controller.product.vo.category.ProductCateg
 import cn.iocoder.mall.managementweb.controller.product.vo.category.ProductCategoryUpdateReqVO;
 import cn.iocoder.mall.managementweb.convert.product.ProductCategoryConvert;
 import cn.iocoder.mall.productservice.enums.category.ProductCategoryIdEnum;
-import cn.iocoder.mall.productservice.rpc.category.ProductCategoryRpc;
+import cn.iocoder.mall.productservice.rpc.category.ProductCategoryFeign;
 import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryListQueryReqDTO;
 import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryRespDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -22,10 +22,10 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class ProductCategoryManager {
+ 
 
-    @Reference(version = "${dubbo.consumer.ProductCategoryRpc.version}")
-    private ProductCategoryRpc productCategoryRpc;
-
+    @Autowired
+    private ProductCategoryFeign productCategoryFeign;
     /**
     * 创建商品分类表
     *
@@ -33,7 +33,7 @@ public class ProductCategoryManager {
     * @return 商品分类表
     */
     public Integer createProductCategory(ProductCategoryCreateReqVO createVO) {
-        CommonResult<Integer> createProductCategoryResult = productCategoryRpc.createProductCategory(ProductCategoryConvert.INSTANCE.convert(createVO));
+        CommonResult<Integer> createProductCategoryResult = productCategoryFeign.createProductCategory(ProductCategoryConvert.INSTANCE.convert(createVO));
         createProductCategoryResult.checkError();
         return createProductCategoryResult.getData();
     }
@@ -44,7 +44,7 @@ public class ProductCategoryManager {
     * @param updateVO 更新商品分类表 VO
     */
     public void updateProductCategory(ProductCategoryUpdateReqVO updateVO) {
-        CommonResult<Boolean> updateProductCategoryResult = productCategoryRpc.updateProductCategory(ProductCategoryConvert.INSTANCE.convert(updateVO));
+        CommonResult<Boolean> updateProductCategoryResult = productCategoryFeign.updateProductCategory(ProductCategoryConvert.INSTANCE.convert(updateVO));
         updateProductCategoryResult.checkError();
     }
 
@@ -54,7 +54,7 @@ public class ProductCategoryManager {
     * @param productCategoryId 商品分类表编号
     */
     public void deleteProductCategory(Integer productCategoryId) {
-        CommonResult<Boolean> deleteProductCategoryResult = productCategoryRpc.deleteProductCategory(productCategoryId);
+        CommonResult<Boolean> deleteProductCategoryResult = productCategoryFeign.deleteProductCategory(productCategoryId);
         deleteProductCategoryResult.checkError();
     }
 
@@ -65,7 +65,7 @@ public class ProductCategoryManager {
      */
     public List<ProductCategoryTreeNodeRespVO> treeProductCategory() {
         // 获得商品分类全列表
-        CommonResult<List<ProductCategoryRespDTO>> listProductCategories = productCategoryRpc.listProductCategories(new ProductCategoryListQueryReqDTO());
+        CommonResult<List<ProductCategoryRespDTO>> listProductCategories = productCategoryFeign.listProductCategories(new ProductCategoryListQueryReqDTO());
         listProductCategories.checkError();
         // 构建菜单树
         return buildProductCategoryTree(listProductCategories.getData());

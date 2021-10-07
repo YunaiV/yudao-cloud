@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages = {"cn.iocoder.mall.productservice.rpc.spu"})
+@EnableFeignClients(basePackages = {"cn.iocoder.mall.productservice.rpc"})
 public class PromotionServiceApplication {
 
     public static void main(String[] args) {

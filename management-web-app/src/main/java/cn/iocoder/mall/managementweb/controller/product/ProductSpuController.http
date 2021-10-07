@@ -1,7 +1,7 @@
 ### /product-spu/page 成功（全部）
-GET {{baseUrl}}/product-spu/page?pageNo=1&pageSize=10
+GET http://127.0.0.1:18083/management-api/product-spu/page?pageNo=1&pageSize=100
 Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer {{accessToken}}
+Authorization: Bearer yudaoyuanma
 
 ### /product-spu/page 成功（有库存 + 上架）
 GET {{baseUrl}}/product-spu/page?pageNo=1&pageSize=10&hasQuantity=true&visible=true
@@ -14,11 +14,11 @@ Content-Type: application/x-www-form-urlencoded
 Authorization: Bearer {{accessToken}}
 
 ### /product-spu/create 成功
-POST {{baseUrl}}/product-spu/create
+POST http://127.0.0.1:18083/management-api/product-spu/create
 Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer {{accessToken}}
+Authorization: Bearer yudaoyuanma
 
-name=测试商品标题&description=测试商品描述&cid=637&sellPoint=丑&picUrls=1,2,3&visible=true
+name=新商品&description=新商品描述&cid=637&sellPoint=丑&picUrls=1,2,3&visible=true
 &skus[0].price=1&skus[0].quantity=100&skus[0].attrValueIds=1,3
 &skus[1].price=2&skus[1].quantity=50&skus[1].attrValueIds=2,4
 
@@ -40,11 +40,11 @@ name=测试商品标题&description=测试商品描述&cid=637&sellPoint=丑&pic
 &skus[1].price=2&skus[1].quantity=50&skus[1].attrValueIds=1,2,4
 
 ### /product-spu/update 成功
-POST {{baseUrl}}/product-spu/update
+POST http://127.0.0.1:18083/management-api/product-spu/update
 Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer {{accessToken}}
+Authorization: Bearer yudaoyuanma
 
-id=59&name=测试商品标题&description=测试商品描述&cid=637&sellPoint=丑&picUrls=1,2,3&visible=true
+id=64&name=新商品测试&description=新商品测试&cid=637&sellPoint=丑&picUrls=1,2,3&visible=true
 &skus[0].price=1&skus[0].quantity=100&skus[0].attrValueIds=1,3
 &skus[1].price=2&skus[1].quantity=50&skus[1].attrValueIds=2,4
 
@@ -57,3 +57,9 @@ Authorization:Bearer yudaoyuanma
 
 ###
 
+### /product-spu/get
+GET http://127.0.0.1:18083/management-api/product-spu/list?productSpuIds=32,33,34
+Content-Type: application/x-www-form-urlencoded
+Authorization:Bearer yudaoyuanma
+
+###

@@ -3,11 +3,10 @@ package cn.iocoder.mall.promotionservice.manager.recommend;
 import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.productservice.rpc.spu.ProductSpuRpc;
+import cn.iocoder.mall.productservice.rpc.spu.ProductSpuFeign;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
 import cn.iocoder.mall.promotion.api.rpc.recommend.dto.*;
 import cn.iocoder.mall.promotionservice.service.recommend.ProductRecommendService;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -23,8 +22,8 @@ import static cn.iocoder.mall.promotion.api.enums.PromotionErrorCodeConstants.PR
 @Validated
 public class ProductRecommendManager {
 
-    @DubboReference(validation = "true", version = "${dubbo.consumer.ProductSpuRpc.version}")
-    private ProductSpuRpc productSpuRpc;
+    @Autowired
+    private ProductSpuFeign productSpuFeign;
 
     @Autowired
     private ProductRecommendService productRecommendService;
@@ -56,7 +55,7 @@ public class ProductRecommendManager {
     }
 
     private void checkProductSpu(Integer productSpuId) {
-        CommonResult<ProductSpuRespDTO> getProductSpuResult = productSpuRpc.getProductSpu(productSpuId);
+        CommonResult<ProductSpuRespDTO> getProductSpuResult = productSpuFeign.getProductSpu(productSpuId);
         getProductSpuResult.checkError();
         if (getProductSpuResult.getData() == null) {
             throw ServiceExceptionUtil.exception(PRODUCT_RECOMMEND_PRODUCT_NOT_EXISTS);

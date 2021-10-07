@@ -6,9 +6,11 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.productservice.rpc.sku.ProductSkuRpc;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuListQueryReqDTO;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuRespDTO;
-import cn.iocoder.mall.productservice.rpc.spu.ProductSpuRpc;
+import cn.iocoder.mall.productservice.rpc.spu.ProductSpuFeign;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
-import cn.iocoder.mall.promotion.api.enums.*;
+import cn.iocoder.mall.promotion.api.enums.MeetTypeEnum;
+import cn.iocoder.mall.promotion.api.enums.PreferentialTypeEnum;
+import cn.iocoder.mall.promotion.api.enums.RangeTypeEnum;
 import cn.iocoder.mall.promotion.api.enums.activity.PromotionActivityStatusEnum;
 import cn.iocoder.mall.promotion.api.enums.activity.PromotionActivityTypeEnum;
 import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityRespDTO;
@@ -36,8 +38,8 @@ public class PriceManager {
 
     @DubboReference(version = "${dubbo.consumer.ProductSkuRpc.version}")
     private ProductSkuRpc productSkuRpc;
-    @DubboReference(version = "${dubbo.consumer.ProductSpuRpc.version}")
-    private ProductSpuRpc productSpuRpc;
+    @Autowired
+    private ProductSpuFeign productSpuFeign;
 
     @Autowired
     private PromotionActivityService promotionActivityService;
@@ -95,7 +97,7 @@ public class PriceManager {
     private List<PriceProductCalcRespDTO.Item> initCalcOrderPriceItems(List<ProductSkuRespDTO> skus,
                                                                        Map<Integer, PriceProductCalcReqDTO.Item> calcProductItemDTOMap) {
         // 获得商品分类 Map
-        CommonResult<List<ProductSpuRespDTO>> listProductSpusResult = productSpuRpc.listProductSpus(CollectionUtils.convertSet(skus, ProductSkuRespDTO::getSpuId));
+        CommonResult<List<ProductSpuRespDTO>> listProductSpusResult = productSpuFeign.listProductSpus(CollectionUtils.convertSet(skus, ProductSkuRespDTO::getSpuId));
         listProductSpusResult.checkError();
         Map<Integer, Integer> spuIdCategoryIdMap = CollectionUtils.convertMap(listProductSpusResult.getData(), // SPU 编号与 Category 编号的映射
                 ProductSpuRespDTO::getId, ProductSpuRespDTO::getCid);

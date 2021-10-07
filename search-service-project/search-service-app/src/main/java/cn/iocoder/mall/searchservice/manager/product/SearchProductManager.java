@@ -8,7 +8,7 @@ import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryRespDTO;
 import cn.iocoder.mall.productservice.rpc.sku.ProductSkuRpc;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuListQueryReqDTO;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuRespDTO;
-import cn.iocoder.mall.productservice.rpc.spu.ProductSpuRpc;
+import cn.iocoder.mall.productservice.rpc.spu.ProductSpuFeign;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
 import cn.iocoder.mall.searchservice.convert.product.SearchProductConvert;
 import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductConditionReqDTO;
@@ -33,12 +33,13 @@ public class SearchProductManager {
 
     private static final Integer REBUILD_FETCH_PER_SIZE = 100;
 
-    @DubboReference(version = "${dubbo.consumer.ProductSpuRpc.version}")
-    private ProductSpuRpc productSpuRpc;
     @DubboReference(version = "${dubbo.consumer.ProductSkuRpc.version}")
     private ProductSkuRpc productSkuRpc;
     @DubboReference(version = "${dubbo.consumer.ProductCategoryRpc.version}")
     private ProductCategoryRpc productCategoryRpc;
+
+    @Autowired
+    private ProductSpuFeign productSpuFeign;
 
 //    @DubboReference( version = "${dubbo.consumer.CartService.version}")
 //    private CartService cartService;
@@ -68,7 +69,7 @@ public class SearchProductManager {
         int rebuildCounts = 0;
         while (true) {
             // 从商品服务，增量获取商品列表编号
-            CommonResult<List<Integer>> listProductSpuIdsResult = productSpuRpc.listProductSpuIds(lastId, REBUILD_FETCH_PER_SIZE);
+            CommonResult<List<Integer>> listProductSpuIdsResult = productSpuFeign.listProductSpuIds(lastId, REBUILD_FETCH_PER_SIZE);
             listProductSpuIdsResult.checkError();
             List<Integer> spuIds = listProductSpuIdsResult.getData();
             // 逐个重建索引到 ES 中
@@ -93,7 +94,7 @@ public class SearchProductManager {
      */
     public Boolean saveProduct(Integer id) {
         // 获得商品 SPU
-        CommonResult<ProductSpuRespDTO> productSpuResult = productSpuRpc.getProductSpu(id);
+        CommonResult<ProductSpuRespDTO> productSpuResult = productSpuFeign.getProductSpu(id);
         productSpuResult.checkError();
         if (productSpuResult.getData() == null) {
             log.error("[saveProduct][商品 SPU({}) 不存在]", id);

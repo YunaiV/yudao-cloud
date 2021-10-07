@@ -7,7 +7,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"cn.iocoder.mall.productservice.rpc.spu"})
 public class ManagementWebApplication {
 
     public static void main(String[] args) {

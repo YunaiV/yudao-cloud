@@ -7,10 +7,8 @@ import cn.iocoder.mall.managementweb.controller.product.vo.spu.ProductSpuPageReq
 import cn.iocoder.mall.managementweb.controller.product.vo.spu.ProductSpuRespVO;
 import cn.iocoder.mall.managementweb.controller.product.vo.spu.ProductSpuUpdateReqVO;
 import cn.iocoder.mall.managementweb.convert.product.ProductSpuConvert;
-import cn.iocoder.mall.managementweb.feign.ProductSpuFeign;
-import cn.iocoder.mall.productservice.rpc.spu.ProductSpuRpc;
+import cn.iocoder.mall.productservice.rpc.spu.ProductSpuFeign;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +20,6 @@ import java.util.List;
 @Service
 public class ProductSpuManager {
 
-    @DubboReference(version = "${dubbo.consumer.ProductSpuRpc.version}")
-    private ProductSpuRpc productSpuRpc;
 
     @Autowired
     private ProductSpuFeign productSpuFeign;
@@ -35,7 +31,7 @@ public class ProductSpuManager {
     * @return 商品 SPU
     */
     public Integer createProductSpu(ProductSpuCreateReqVO createVO) {
-        CommonResult<Integer> createProductSpuResult = productSpuRpc.createProductSpu(ProductSpuConvert.INSTANCE.convert(createVO));
+        CommonResult<Integer> createProductSpuResult = productSpuFeign.createProductSpu(ProductSpuConvert.INSTANCE.convert(createVO));
         createProductSpuResult.checkError();
         return createProductSpuResult.getData();
     }
@@ -46,7 +42,7 @@ public class ProductSpuManager {
     * @param updateVO 更新商品 SPU VO
     */
     public void updateProductSpu(ProductSpuUpdateReqVO updateVO) {
-        CommonResult<Boolean> updateProductSpuResult = productSpuRpc.updateProductSpu(ProductSpuConvert.INSTANCE.convert(updateVO));
+        CommonResult<Boolean> updateProductSpuResult = productSpuFeign.updateProductSpu(ProductSpuConvert.INSTANCE.convert(updateVO));
         updateProductSpuResult.checkError();
     }
 
@@ -69,7 +65,7 @@ public class ProductSpuManager {
     * @return 商品 SPU列表
     */
     public List<ProductSpuRespVO> listProductSpus(List<Integer> productSpuIds) {
-        CommonResult<List<ProductSpuRespDTO>> listProductSpuResult = productSpuRpc.listProductSpus(productSpuIds);
+        CommonResult<List<ProductSpuRespDTO>> listProductSpuResult = productSpuFeign.listProductSpus(productSpuIds);
         listProductSpuResult.checkError();
         return ProductSpuConvert.INSTANCE.convertList(listProductSpuResult.getData());
     }
@@ -81,7 +77,7 @@ public class ProductSpuManager {
     * @return 商品 SPU分页结果
     */
     public PageResult<ProductSpuRespVO> pageProductSpu(ProductSpuPageReqVO pageVO) {
-        CommonResult<PageResult<ProductSpuRespDTO>> pageProductSpuResult = productSpuRpc.pageProductSpu(ProductSpuConvert.INSTANCE.convert(pageVO));
+        CommonResult<PageResult<ProductSpuRespDTO>> pageProductSpuResult = productSpuFeign.pageProductSpu(ProductSpuConvert.INSTANCE.convert(pageVO));
         pageProductSpuResult.checkError();
         return ProductSpuConvert.INSTANCE.convertPage(pageProductSpuResult.getData());
     }

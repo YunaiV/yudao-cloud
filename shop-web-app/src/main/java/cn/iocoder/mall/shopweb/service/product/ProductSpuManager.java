@@ -6,7 +6,7 @@ import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.productservice.enums.spu.ProductSpuDetailFieldEnum;
 import cn.iocoder.mall.productservice.rpc.category.ProductCategoryRpc;
 import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryRespDTO;
-import cn.iocoder.mall.productservice.rpc.spu.ProductSpuRpc;
+import cn.iocoder.mall.productservice.rpc.spu.ProductSpuFeign;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuDetailRespDTO;
 import cn.iocoder.mall.searchservice.enums.product.SearchProductConditionFieldEnum;
 import cn.iocoder.mall.searchservice.rpc.product.SearchProductRpc;
@@ -19,6 +19,7 @@ import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuRespVO;
 import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuSearchConditionRespVO;
 import cn.iocoder.mall.shopweb.convert.product.ProductSpuConvert;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -39,8 +40,8 @@ public class ProductSpuManager {
     @DubboReference(version = "${dubbo.consumer.ProductCategoryRpc.version}")
     private ProductCategoryRpc productCategoryRpc;
 
-    @DubboReference(version = "${dubbo.consumer.ProductSpuRpc.version}")
-    private ProductSpuRpc productSpuRpc;
+    @Autowired
+    private ProductSpuFeign productSpuFeign;
 
     public PageResult<ProductSpuRespVO> pageProductSpu(ProductSpuPageReqVO pageReqVO) {
         CommonResult<PageResult<SearchProductRespDTO>> pageResult =
@@ -69,7 +70,7 @@ public class ProductSpuManager {
     }
 
     public ProductSpuDetailRespVO getProductSpuDetail(Integer id) {
-        CommonResult<ProductSpuDetailRespDTO> getProductSpuDetailResult = productSpuRpc.getProductSpuDetail(id,
+        CommonResult<ProductSpuDetailRespDTO> getProductSpuDetailResult = productSpuFeign.getProductSpuDetail(id,
                 Arrays.asList(ProductSpuDetailFieldEnum.SKU.getField(), ProductSpuDetailFieldEnum.ATTR.getField()));
         getProductSpuDetailResult.checkError();
         return ProductSpuConvert.INSTANCE.convert(getProductSpuDetailResult.getData());

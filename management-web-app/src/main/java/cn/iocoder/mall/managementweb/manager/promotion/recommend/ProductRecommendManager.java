@@ -8,11 +8,12 @@ import cn.iocoder.mall.managementweb.controller.promotion.recommend.vo.ProductRe
 import cn.iocoder.mall.managementweb.controller.promotion.recommend.vo.ProductRecommendPageReqVO;
 import cn.iocoder.mall.managementweb.controller.promotion.recommend.vo.ProductRecommendUpdateReqVO;
 import cn.iocoder.mall.managementweb.convert.promotion.ProductRecommendConvert;
-import cn.iocoder.mall.productservice.rpc.spu.ProductSpuRpc;
+import cn.iocoder.mall.productservice.rpc.spu.ProductSpuFeign;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
 import cn.iocoder.mall.promotion.api.rpc.recommend.ProductRecommendRpc;
 import cn.iocoder.mall.promotion.api.rpc.recommend.dto.ProductRecommendRespDTO;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -28,9 +29,8 @@ public class ProductRecommendManager {
 
     @DubboReference(version = "${dubbo.consumer.ProductRecommendRpc.version}")
     private ProductRecommendRpc productRecommendRpc;
-    @DubboReference(version = "${dubbo.consumer.ProductSpuRpc.version}")
-    private ProductSpuRpc productSpuRpc;
-
+    @Autowired
+    private ProductSpuFeign productSpuFeign;
     /**
      * 创建商品推荐
      *
@@ -78,7 +78,7 @@ public class ProductRecommendManager {
         PageResult<ProductRecommendDetailVO> pageResult = ProductRecommendConvert.INSTANCE.convertPage(pageProductRecommendResult.getData());
         if (!CollectionUtils.isEmpty(pageResult.getList())) {
             // 获取商品信息，并进行拼接
-            CommonResult<List<ProductSpuRespDTO>> listProductSpusResult = productSpuRpc.listProductSpus(
+            CommonResult<List<ProductSpuRespDTO>> listProductSpusResult = productSpuFeign.listProductSpus(
                     CollectionUtils.convertSet(pageResult.getList(), ProductRecommendDetailVO::getProductSpuId));
             listProductSpusResult.checkError();
             Map<Integer, ProductSpuRespDTO> productSpuMap = CollectionUtils.convertMap(listProductSpusResult.getData(), ProductSpuRespDTO::getId);

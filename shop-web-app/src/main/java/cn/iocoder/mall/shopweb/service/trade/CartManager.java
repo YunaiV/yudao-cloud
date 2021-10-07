@@ -2,10 +2,8 @@ package cn.iocoder.mall.shopweb.service.trade;
 
 import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.tradeservice.rpc.cart.CartRpc;
-import cn.iocoder.mall.tradeservice.rpc.cart.dto.*;
 import cn.iocoder.mall.productservice.enums.sku.ProductSkuDetailFieldEnum;
-import cn.iocoder.mall.productservice.rpc.sku.ProductSkuRpc;
+import cn.iocoder.mall.productservice.rpc.sku.ProductSkuFeign;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuListQueryReqDTO;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuRespDTO;
 import cn.iocoder.mall.promotion.api.rpc.activity.PromotionActivityRpc;
@@ -16,7 +14,10 @@ import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcRespDTO;
 import cn.iocoder.mall.shopweb.controller.trade.vo.cart.CartDetailVO;
 import cn.iocoder.mall.shopweb.convert.trade.CartConvert;
+import cn.iocoder.mall.tradeservice.rpc.cart.CartRpc;
+import cn.iocoder.mall.tradeservice.rpc.cart.dto.*;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -34,8 +35,9 @@ public class CartManager {
     private PriceRpc priceRpc;
     @DubboReference(version = "${dubbo.consumer.PromotionActivityRpc.version}")
     private PromotionActivityRpc promotionActivityRpc;
-    @DubboReference(version = "${dubbo.consumer.ProductSkuRpc.version}")
-    private ProductSkuRpc productSkuRpc;
+
+    @Autowired
+    private ProductSkuFeign productSkuFeign;
 
     /**
      * 添加商品到购物车
@@ -158,7 +160,7 @@ public class CartManager {
     }
 
     private Map<Integer, ProductSkuRespDTO> getProductSkuMap(List<CartItemRespDTO> itemRespDTOs) {
-        CommonResult<List<ProductSkuRespDTO>> listProductSkusResult = productSkuRpc.listProductSkus(new ProductSkuListQueryReqDTO()
+        CommonResult<List<ProductSkuRespDTO>> listProductSkusResult = productSkuFeign.listProductSkus(new ProductSkuListQueryReqDTO()
             .setProductSkuIds(CollectionUtils.convertSet(itemRespDTOs, CartItemRespDTO::getSkuId))
             .setFields(Arrays.asList(ProductSkuDetailFieldEnum.SPU.getField(), ProductSkuDetailFieldEnum.ATTR.getField())));
         listProductSkusResult.checkError();

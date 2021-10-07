@@ -5,7 +5,7 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.productservice.rpc.category.ProductCategoryFeign;
 import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryRespDTO;
-import cn.iocoder.mall.productservice.rpc.sku.ProductSkuRpc;
+import cn.iocoder.mall.productservice.rpc.sku.ProductSkuFeign;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuListQueryReqDTO;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuRespDTO;
 import cn.iocoder.mall.productservice.rpc.spu.ProductSpuFeign;
@@ -20,7 +20,6 @@ import cn.iocoder.mall.searchservice.service.product.bo.SearchProductBO;
 import cn.iocoder.mall.searchservice.service.product.bo.SearchProductConditionBO;
 import cn.iocoder.mall.searchservice.service.product.bo.SearchProductSaveBO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,9 +32,9 @@ public class SearchProductManager {
 
     private static final Integer REBUILD_FETCH_PER_SIZE = 100;
 
-    @DubboReference(version = "${dubbo.consumer.ProductSkuRpc.version}")
-    private ProductSkuRpc productSkuRpc;
 
+    @Autowired
+    private ProductSkuFeign productSkuFeign;
     @Autowired
     private ProductCategoryFeign productCategoryFeign;
     @Autowired
@@ -102,7 +101,7 @@ public class SearchProductManager {
         }
         // 获得商品 SKU
         CommonResult<List<ProductSkuRespDTO>> listProductSkusResult =
-                productSkuRpc.listProductSkus(new ProductSkuListQueryReqDTO().setProductSpuId(id));
+                productSkuFeign.listProductSkus(new ProductSkuListQueryReqDTO().setProductSpuId(id));
         listProductSkusResult.checkError();
         if (CollectionUtils.isEmpty(listProductSkusResult.getData())) {
             log.error("[saveProduct][商品 SPU({}) 的 SKU 不存在]", id);

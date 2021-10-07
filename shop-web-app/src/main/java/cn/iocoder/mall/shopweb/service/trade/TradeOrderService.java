@@ -6,7 +6,7 @@ import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.productservice.enums.sku.ProductSkuDetailFieldEnum;
-import cn.iocoder.mall.productservice.rpc.sku.ProductSkuRpc;
+import cn.iocoder.mall.productservice.rpc.sku.ProductSkuFeign;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuListQueryReqDTO;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuRespDTO;
 import cn.iocoder.mall.promotion.api.rpc.activity.PromotionActivityRpc;
@@ -55,10 +55,11 @@ public class TradeOrderService {
     private PromotionActivityRpc promotionActivityRpc;
     @DubboReference(version = "${dubbo.consumer.ProductCategoryRpc.version}")
     private CartRpc cartRpc;
-    @DubboReference(version = "${dubbo.consumer.ProductSkuRpc.version}")
-    private ProductSkuRpc productSkuRpc;
     @DubboReference(version = "${dubbo.consumer.CouponCardRpc.version}")
     private CouponCardRpc couponCardRpc;
+    
+    @Autowired
+    private ProductSkuFeign productSkuFeign;
 
     @Autowired
     private TradeOrderClient tradeOrderClient;
@@ -128,7 +129,7 @@ public class TradeOrderService {
 
     private Map<Integer, ProductSkuRespDTO> checkProductSkus(Map<Integer, Integer> skuMap) {
         // 获得商品 SKU 列表
-        CommonResult<List<ProductSkuRespDTO>> listProductSkusResult = productSkuRpc.listProductSkus(new ProductSkuListQueryReqDTO()
+        CommonResult<List<ProductSkuRespDTO>> listProductSkusResult = productSkuFeign.listProductSkus(new ProductSkuListQueryReqDTO()
                 .setProductSkuIds(skuMap.keySet())
                 .setFields(Arrays.asList(ProductSkuDetailFieldEnum.SPU.getField(), ProductSkuDetailFieldEnum.ATTR.getField())));
         listProductSkusResult.checkError();

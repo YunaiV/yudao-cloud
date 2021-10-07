@@ -3,13 +3,11 @@ package cn.iocoder.mall.tradeservice.service.cart;
 import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
+import cn.iocoder.mall.productservice.rpc.sku.ProductSkuFeign;
+import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuRespDTO;
 import cn.iocoder.mall.tradeservice.convert.cart.CartConvert;
 import cn.iocoder.mall.tradeservice.rpc.cart.dto.*;
-import cn.iocoder.mall.tradeservice.service.cart.CartService;
 import cn.iocoder.mall.tradeservice.service.cart.bo.CartItemBO;
-import cn.iocoder.mall.productservice.rpc.sku.ProductSkuRpc;
-import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuRespDTO;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +21,8 @@ import static cn.iocoder.mall.tradeservice.enums.OrderErrorCodeConstants.CARD_IT
 @Service
 public class CartManager {
 
-    @DubboReference(version = "${dubbo.consumer.ProductSkuRpc.version}")
-    private ProductSkuRpc productSkuRpc;
+    @Autowired
+    private ProductSkuFeign productSkuFeign;
 
     @Autowired
     private CartService cartService;
@@ -104,7 +102,7 @@ public class CartManager {
      * @return 商品 SKU 信息
      */
     private ProductSkuRespDTO checkProductSku(Integer skuId) {
-        CommonResult<ProductSkuRespDTO> getProductSkuResult = productSkuRpc.getProductSku(skuId);
+        CommonResult<ProductSkuRespDTO> getProductSkuResult = productSkuFeign.getProductSku(skuId);
         getProductSkuResult.checkError();
         ProductSkuRespDTO skuDTO = getProductSkuResult.getData();
         if (skuDTO == null || CommonStatusEnum.DISABLE.getValue().equals(skuDTO.getStatus())) {

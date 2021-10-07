@@ -3,7 +3,7 @@ package cn.iocoder.mall.promotionservice.manager.price;
 import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.productservice.rpc.sku.ProductSkuRpc;
+import cn.iocoder.mall.productservice.rpc.sku.ProductSkuFeign;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuListQueryReqDTO;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuRespDTO;
 import cn.iocoder.mall.productservice.rpc.spu.ProductSpuFeign;
@@ -21,7 +21,6 @@ import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcRespDTO;
 import cn.iocoder.mall.promotionservice.service.activity.PromotionActivityService;
 import cn.iocoder.mall.promotionservice.service.coupon.CouponCardService;
 import cn.iocoder.mall.promotionservice.service.coupon.CouponTemplateService;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -36,8 +35,8 @@ import static cn.iocoder.mall.promotion.api.enums.PromotionErrorCodeConstants.*;
 @Validated
 public class PriceManager {
 
-    @DubboReference(version = "${dubbo.consumer.ProductSkuRpc.version}")
-    private ProductSkuRpc productSkuRpc;
+    @Autowired
+    private ProductSkuFeign productSkuFeign;
     @Autowired
     private ProductSpuFeign productSpuFeign;
 
@@ -53,7 +52,7 @@ public class PriceManager {
         // 校验商品都存在
         Map<Integer, PriceProductCalcReqDTO.Item> calcProductItemDTOMap = CollectionUtils.convertMap(
                 calcReqDTO.getItems(), PriceProductCalcReqDTO.Item::getSkuId);
-        CommonResult<List<ProductSkuRespDTO>> listProductSkusResult = productSkuRpc.listProductSkus(
+        CommonResult<List<ProductSkuRespDTO>> listProductSkusResult = productSkuFeign.listProductSkus(
                 new ProductSkuListQueryReqDTO().setProductSkuIds(calcProductItemDTOMap.keySet()));
         listProductSkusResult.checkError();
         if (calcReqDTO.getItems().size() != listProductSkusResult.getData().size()) {

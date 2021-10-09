@@ -6,17 +6,16 @@ import cn.iocoder.mall.productservice.enums.sku.ProductSkuDetailFieldEnum;
 import cn.iocoder.mall.productservice.rpc.sku.ProductSkuFeign;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuListQueryReqDTO;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuRespDTO;
-import cn.iocoder.mall.promotion.api.rpc.activity.PromotionActivityRpc;
+import cn.iocoder.mall.promotion.api.rpc.activity.PromotionActivityFeign;
 import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityListReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityRespDTO;
-import cn.iocoder.mall.promotion.api.rpc.price.PriceRpc;
+import cn.iocoder.mall.promotion.api.rpc.price.PriceFeign;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcRespDTO;
 import cn.iocoder.mall.shopweb.controller.trade.vo.cart.CartDetailVO;
 import cn.iocoder.mall.shopweb.convert.trade.CartConvert;
 import cn.iocoder.mall.tradeservice.rpc.cart.CartFeign;
 import cn.iocoder.mall.tradeservice.rpc.cart.dto.*;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,10 +30,11 @@ public class CartManager {
 
     @Autowired
     private CartFeign cartFeign;
-    @DubboReference(version = "${dubbo.consumer.PriceRpc.version}")
-    private PriceRpc priceRpc;
-    @DubboReference(version = "${dubbo.consumer.PromotionActivityRpc.version}")
-    private PromotionActivityRpc promotionActivityRpc;
+    @Autowired
+    private PriceFeign priceFeign;
+    
+    @Autowired
+    private PromotionActivityFeign promotionActivityFeign;
 
     @Autowired
     private ProductSkuFeign productSkuFeign;
@@ -107,7 +107,7 @@ public class CartManager {
             return result;
         }
         // 计算商品价格
-        CommonResult<PriceProductCalcRespDTO> calcProductPriceResult = priceRpc.calcProductPrice(new PriceProductCalcReqDTO().setUserId(userId)
+        CommonResult<PriceProductCalcRespDTO> calcProductPriceResult = priceFeign.calcProductPrice(new PriceProductCalcReqDTO().setUserId(userId)
                 .setItems(listCartItemsResult.getData().stream()
                         .map(cartItem -> new PriceProductCalcReqDTO.Item(cartItem.getSkuId(), cartItem.getQuantity(), cartItem.getSelected()))
                         .collect(Collectors.toList())));
@@ -154,7 +154,7 @@ public class CartManager {
         }
         // 查询促销活动列表
         CommonResult<List<PromotionActivityRespDTO>> listPromotionActivitiesResult =
-                promotionActivityRpc.listPromotionActivities(new PromotionActivityListReqDTO().setActiveIds(activeIds));
+                promotionActivityFeign.listPromotionActivities(new PromotionActivityListReqDTO().setActiveIds(activeIds));
         listPromotionActivitiesResult.checkError();
         return CollectionUtils.convertMap(listPromotionActivitiesResult.getData(), PromotionActivityRespDTO::getId);
     }

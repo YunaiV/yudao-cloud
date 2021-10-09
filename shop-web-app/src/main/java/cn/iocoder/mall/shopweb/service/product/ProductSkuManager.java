@@ -1,15 +1,15 @@
 package cn.iocoder.mall.shopweb.service.product;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.promotion.api.rpc.activity.PromotionActivityRpc;
+import cn.iocoder.mall.promotion.api.rpc.activity.PromotionActivityFeign;
 import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityListReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityRespDTO;
-import cn.iocoder.mall.promotion.api.rpc.price.PriceRpc;
+import cn.iocoder.mall.promotion.api.rpc.price.PriceFeign;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcRespDTO;
 import cn.iocoder.mall.shopweb.controller.product.vo.sku.ProductSkuCalcPriceRespVO;
 import cn.iocoder.mall.shopweb.convert.product.ProductSkuConvert;
-import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -23,11 +23,11 @@ import java.util.List;
 @Validated
 public class ProductSkuManager {
 
-    @DubboReference(version = "${dubbo.consumer.PriceRpc.version}")
-    private PriceRpc priceRpc;
-    @DubboReference(version = "${dubbo.consumer.PromotionActivityRpc.version}")
-    private PromotionActivityRpc promotionActivityRpc;
 
+    @Autowired
+    private PriceFeign priceFeign;
+    @Autowired
+    private PromotionActivityFeign promotionActivityFeign;
     /**
      * 计算商品 SKU 价格
      *
@@ -36,7 +36,7 @@ public class ProductSkuManager {
      * @return SKU 价格明细
      */
     public ProductSkuCalcPriceRespVO calcProductSkuPrice(Integer userId, Integer skuId) {
-        CommonResult<PriceProductCalcRespDTO> calcProductPriceResult = priceRpc.calcProductPrice(new PriceProductCalcReqDTO().setUserId(userId)
+        CommonResult<PriceProductCalcRespDTO> calcProductPriceResult = priceFeign.calcProductPrice(new PriceProductCalcReqDTO().setUserId(userId)
                 .setItems(Collections.singletonList(new PriceProductCalcReqDTO.Item(skuId, 1, true))));
         calcProductPriceResult.checkError();
         // 拼接结果
@@ -51,7 +51,7 @@ public class ProductSkuManager {
     }
 
     private PromotionActivityRespDTO getPromotionActivity(Integer activityId) {
-        CommonResult<List<PromotionActivityRespDTO>> listPromotionActivitiesResult = promotionActivityRpc.listPromotionActivities(
+        CommonResult<List<PromotionActivityRespDTO>> listPromotionActivitiesResult = promotionActivityFeign.listPromotionActivities(
                  new PromotionActivityListReqDTO().setActiveIds(Collections.singleton(activityId)));
         listPromotionActivitiesResult.checkError();
         return listPromotionActivitiesResult.getData().get(0);

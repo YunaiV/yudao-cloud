@@ -1,10 +1,10 @@
 package cn.iocoder.mall.tradeservice.client.promotion;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.promotion.api.rpc.price.PriceRpc;
+import cn.iocoder.mall.promotion.api.rpc.price.PriceFeign;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcRespDTO;
-import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +12,8 @@ import java.util.List;
 @Service
 public class PriceClient {
 
-    @DubboReference(version = "${dubbo.consumer.PriceRpc.version}")
-    private PriceRpc priceRpc;
-
+    @Autowired
+    private PriceFeign priceFeign;
     /**
      * 计算商品们的价格
      *
@@ -25,7 +24,7 @@ public class PriceClient {
      */
     public PriceProductCalcRespDTO calcProductPrice(Integer userId, List<PriceProductCalcReqDTO.Item> items,
                                                     Integer couponCardId) {
-        CommonResult<PriceProductCalcRespDTO> calcProductPriceResult = priceRpc.calcProductPrice(
+        CommonResult<PriceProductCalcRespDTO> calcProductPriceResult = priceFeign.calcProductPrice(
                 new PriceProductCalcReqDTO().setUserId(userId).setItems(items).setCouponCardId(couponCardId));
         calcProductPriceResult.checkError();
         return calcProductPriceResult.getData();

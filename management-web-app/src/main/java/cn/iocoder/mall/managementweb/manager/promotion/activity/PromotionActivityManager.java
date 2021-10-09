@@ -4,9 +4,9 @@ import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.managementweb.controller.promotion.activity.vo.PromotionActivityPageReqVO;
 import cn.iocoder.mall.managementweb.convert.promotion.PromotionActivityConvert;
-import cn.iocoder.mall.promotion.api.rpc.activity.PromotionActivityRpc;
+import cn.iocoder.mall.promotion.api.rpc.activity.PromotionActivityFeign;
 import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityRespDTO;
-import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -17,11 +17,12 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class PromotionActivityManager {
 
-    @DubboReference(version = "${dubbo.consumer.PromotionActivityRpc.version}")
-    private PromotionActivityRpc promotionActivityRpc;
+
+    @Autowired
+    private PromotionActivityFeign promotionActivityFeign;
 
     public PageResult<PromotionActivityRespDTO> pagePromotionActivity(PromotionActivityPageReqVO pageReqVO) {
-        CommonResult<PageResult<PromotionActivityRespDTO>> pagePromotionActivityResult = promotionActivityRpc.pagePromotionActivity(
+        CommonResult<PageResult<PromotionActivityRespDTO>> pagePromotionActivityResult = promotionActivityFeign.pagePromotionActivity(
                 PromotionActivityConvert.INSTANCE.convert(pageReqVO));
         pagePromotionActivityResult.checkError();
         return pagePromotionActivityResult.getData();

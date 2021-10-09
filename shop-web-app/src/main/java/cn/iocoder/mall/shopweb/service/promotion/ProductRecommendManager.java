@@ -5,14 +5,13 @@ import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.productservice.rpc.spu.ProductSpuFeign;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
-import cn.iocoder.mall.promotion.api.rpc.recommend.ProductRecommendRpc;
+import cn.iocoder.mall.promotion.api.rpc.recommend.ProductRecommendFeign;
 import cn.iocoder.mall.promotion.api.rpc.recommend.dto.ProductRecommendListReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.recommend.dto.ProductRecommendRespDTO;
 import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuRespVO;
 import cn.iocoder.mall.shopweb.convert.promotion.ProductRecommendConvert;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -28,15 +27,14 @@ import java.util.Map;
 @Service
 @Validated
 public class ProductRecommendManager {
-
-    @DubboReference(version = "${dubbo.consumer.ProductRecommendRpc.version}")
-    private ProductRecommendRpc productRecommendRpc;
+    @Autowired
+    private ProductRecommendFeign productRecommendFeign;
     @Autowired
     private ProductSpuFeign productSpuFeign;
 
     public Map<Integer, Collection<ProductSpuRespVO>> listProductRecommends() {
         // 查询商品推荐列表
-        CommonResult<List<ProductRecommendRespDTO>> listProductRecommendsResult = productRecommendRpc.listProductRecommends(
+        CommonResult<List<ProductRecommendRespDTO>> listProductRecommendsResult = productRecommendFeign.listProductRecommends(
                 new ProductRecommendListReqDTO().setStatus(CommonStatusEnum.ENABLE.getValue()));
         listProductRecommendsResult.checkError();
         listProductRecommendsResult.getData().sort(Comparator.comparing(ProductRecommendRespDTO::getSort)); // 排序，按照 sort 升序

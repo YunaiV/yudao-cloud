@@ -7,9 +7,9 @@ import cn.iocoder.mall.managementweb.controller.promotion.brand.vo.BannerPageReq
 import cn.iocoder.mall.managementweb.controller.promotion.brand.vo.BannerRespVO;
 import cn.iocoder.mall.managementweb.controller.promotion.brand.vo.BannerUpdateReqVO;
 import cn.iocoder.mall.managementweb.convert.promotion.BannerConvert;
-import cn.iocoder.mall.promotion.api.rpc.banner.BannerRpc;
+import cn.iocoder.mall.promotion.api.rpc.banner.BannerFeign;
 import cn.iocoder.mall.promotion.api.rpc.banner.dto.BannerRespDTO;
-import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class BannerManager {
 
-    @DubboReference(version = "${dubbo.consumer.BannerRpc.version}")
-    private BannerRpc bannerRpc;
+    @Autowired
+    private BannerFeign bannerFeign;
 
     /**
     * 创建 Banner
@@ -28,7 +28,7 @@ public class BannerManager {
     * @return  Banner
     */
     public Integer createBanner(BannerCreateReqVO createVO) {
-        CommonResult<Integer> createBannerResult = bannerRpc.createBanner(BannerConvert.INSTANCE.convert(createVO));
+        CommonResult<Integer> createBannerResult = bannerFeign.createBanner(BannerConvert.INSTANCE.convert(createVO));
         createBannerResult.checkError();
         return createBannerResult.getData();
     }
@@ -39,7 +39,7 @@ public class BannerManager {
     * @param updateVO 更新 Banner  VO
     */
     public void updateBanner(BannerUpdateReqVO updateVO) {
-        CommonResult<Boolean> updateBannerResult = bannerRpc.updateBanner(BannerConvert.INSTANCE.convert(updateVO));
+        CommonResult<Boolean> updateBannerResult = bannerFeign.updateBanner(BannerConvert.INSTANCE.convert(updateVO));
         updateBannerResult.checkError();
     }
 
@@ -49,7 +49,7 @@ public class BannerManager {
     * @param bannerId  Banner 编号
     */
     public void deleteBanner(Integer bannerId) {
-        CommonResult<Boolean> deleteBannerResult = bannerRpc.deleteBanner(bannerId);
+        CommonResult<Boolean> deleteBannerResult = bannerFeign.deleteBanner(bannerId);
         deleteBannerResult.checkError();
     }
 
@@ -60,7 +60,7 @@ public class BannerManager {
     * @return  Banner 分页结果
     */
     public PageResult<BannerRespVO> pageBanner(BannerPageReqVO pageVO) {
-        CommonResult<PageResult<BannerRespDTO>> pageBannerResult = bannerRpc.pageBanner(BannerConvert.INSTANCE.convert(pageVO));
+        CommonResult<PageResult<BannerRespDTO>> pageBannerResult = bannerFeign.pageBanner(BannerConvert.INSTANCE.convert(pageVO));
         pageBannerResult.checkError();
         return BannerConvert.INSTANCE.convertPage(pageBannerResult.getData());
     }

@@ -9,13 +9,13 @@ import cn.iocoder.mall.productservice.enums.sku.ProductSkuDetailFieldEnum;
 import cn.iocoder.mall.productservice.rpc.sku.ProductSkuFeign;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuListQueryReqDTO;
 import cn.iocoder.mall.productservice.rpc.sku.dto.ProductSkuRespDTO;
-import cn.iocoder.mall.promotion.api.rpc.activity.PromotionActivityRpc;
+import cn.iocoder.mall.promotion.api.rpc.activity.PromotionActivityFeign;
 import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityListReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.activity.dto.PromotionActivityRespDTO;
-import cn.iocoder.mall.promotion.api.rpc.coupon.CouponCardRpc;
+import cn.iocoder.mall.promotion.api.rpc.coupon.CouponCardFeign;
 import cn.iocoder.mall.promotion.api.rpc.coupon.dto.card.CouponCardAvailableListReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.coupon.dto.card.CouponCardAvailableRespDTO;
-import cn.iocoder.mall.promotion.api.rpc.price.PriceRpc;
+import cn.iocoder.mall.promotion.api.rpc.price.PriceFeign;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcRespDTO;
 import cn.iocoder.mall.shopweb.client.trade.TradeOrderClient;
@@ -31,7 +31,6 @@ import cn.iocoder.mall.tradeservice.rpc.cart.dto.CartItemListReqDTO;
 import cn.iocoder.mall.tradeservice.rpc.cart.dto.CartItemRespDTO;
 import cn.iocoder.mall.tradeservice.rpc.order.dto.TradeOrderPageReqDTO;
 import cn.iocoder.mall.tradeservice.rpc.order.dto.TradeOrderRespDTO;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -49,15 +48,15 @@ import static cn.iocoder.mall.shopweb.enums.ShopWebErrorCodeConstants.ORDER_PROD
 @Validated
 public class TradeOrderService {
 
-    @DubboReference(version = "${dubbo.consumer.PriceRpc.version}")
-    private PriceRpc priceRpc;
-    @DubboReference(version = "${dubbo.consumer.PromotionActivityRpc.version}")
-    private PromotionActivityRpc promotionActivityRpc;
+    @Autowired
+    private PriceFeign priceFeign;
+    @Autowired
+    private PromotionActivityFeign promotionActivityFeign;
     
     @Autowired
     private CartFeign cartFeign;
-    private CouponCardRpc couponCardRpc;
-    
+    @Autowired
+    private CouponCardFeign couponCardFeign;
     @Autowired
     private ProductSkuFeign productSkuFeign;
 
@@ -94,7 +93,7 @@ public class TradeOrderService {
         // 获得商品 SKU 信息
         Map<Integer, ProductSkuRespDTO> productSkuMap = this.checkProductSkus(skuMap);
         // 计算商品价格
-        CommonResult<PriceProductCalcRespDTO> calcProductPriceResult = priceRpc.calcProductPrice(new PriceProductCalcReqDTO()
+        CommonResult<PriceProductCalcRespDTO> calcProductPriceResult = priceFeign.calcProductPrice(new PriceProductCalcReqDTO()
                 .setUserId(userId).setCouponCardId(couponCardId)
                 .setItems(skuMap.entrySet().stream().map(entry -> new PriceProductCalcReqDTO.Item(entry.getKey(), entry.getValue(), true))
                         .collect(Collectors.toList())));
@@ -119,7 +118,7 @@ public class TradeOrderService {
                     productSkuMap.get(item.getSkuId()), promotionActivityMap.get(item.getActivityId()))));
         }
         // 查询可用优惠劵信息
-        CommonResult<List<CouponCardAvailableRespDTO>> listAvailableCouponCardsResult = couponCardRpc.listAvailableCouponCards(
+        CommonResult<List<CouponCardAvailableRespDTO>> listAvailableCouponCardsResult = couponCardFeign.listAvailableCouponCards(
                 new CouponCardAvailableListReqDTO().setUserId(userId)
                         .setItems(TradeOrderConvert.INSTANCE.convertList(calcProductPriceResult.getData().getItemGroups())));
         listAvailableCouponCardsResult.checkError();
@@ -165,7 +164,7 @@ public class TradeOrderService {
         }
         // 查询促销活动列表
         CommonResult<List<PromotionActivityRespDTO>> listPromotionActivitiesResult =
-                promotionActivityRpc.listPromotionActivities(new PromotionActivityListReqDTO().setActiveIds(activeIds));
+                promotionActivityFeign.listPromotionActivities(new PromotionActivityListReqDTO().setActiveIds(activeIds));
         listPromotionActivitiesResult.checkError();
         return CollectionUtils.convertMap(listPromotionActivitiesResult.getData(), PromotionActivityRespDTO::getId);
     }

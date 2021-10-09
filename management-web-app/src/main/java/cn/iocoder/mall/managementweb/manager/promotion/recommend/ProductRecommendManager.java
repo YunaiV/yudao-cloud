@@ -10,9 +10,8 @@ import cn.iocoder.mall.managementweb.controller.promotion.recommend.vo.ProductRe
 import cn.iocoder.mall.managementweb.convert.promotion.ProductRecommendConvert;
 import cn.iocoder.mall.productservice.rpc.spu.ProductSpuFeign;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuRespDTO;
-import cn.iocoder.mall.promotion.api.rpc.recommend.ProductRecommendRpc;
+import cn.iocoder.mall.promotion.api.rpc.recommend.ProductRecommendFeign;
 import cn.iocoder.mall.promotion.api.rpc.recommend.dto.ProductRecommendRespDTO;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -27,8 +26,8 @@ import java.util.Map;
 @Validated
 public class ProductRecommendManager {
 
-    @DubboReference(version = "${dubbo.consumer.ProductRecommendRpc.version}")
-    private ProductRecommendRpc productRecommendRpc;
+    @Autowired
+    private ProductRecommendFeign productRecommendFeign;
     @Autowired
     private ProductSpuFeign productSpuFeign;
     /**
@@ -38,7 +37,7 @@ public class ProductRecommendManager {
      * @return 商品推荐
      */
     public Integer createProductRecommend(ProductRecommendCreateReqVO createVO) {
-        CommonResult<Integer> createProductRecommendResult = productRecommendRpc.createProductRecommend(
+        CommonResult<Integer> createProductRecommendResult = productRecommendFeign.createProductRecommend(
                 ProductRecommendConvert.INSTANCE.convert(createVO));
         createProductRecommendResult.checkError();
         return createProductRecommendResult.getData();
@@ -50,7 +49,7 @@ public class ProductRecommendManager {
      * @param updateVO 更新商品推荐 VO
      */
     public void updateProductRecommend(ProductRecommendUpdateReqVO updateVO) {
-        CommonResult<Boolean> updateProductRecommendResult = productRecommendRpc.updateProductRecommend(
+        CommonResult<Boolean> updateProductRecommendResult = productRecommendFeign.updateProductRecommend(
                 ProductRecommendConvert.INSTANCE.convert(updateVO));
         updateProductRecommendResult.checkError();
     }
@@ -61,7 +60,7 @@ public class ProductRecommendManager {
      * @param productRecommendId 商品推荐编号
      */
     public void deleteProductRecommend(Integer productRecommendId) {
-        CommonResult<Boolean> deleteProductRecommendResult = productRecommendRpc.deleteProductRecommend(productRecommendId);
+        CommonResult<Boolean> deleteProductRecommendResult = productRecommendFeign.deleteProductRecommend(productRecommendId);
         deleteProductRecommendResult.checkError();
     }
 
@@ -72,7 +71,7 @@ public class ProductRecommendManager {
      * @return 商品推荐分页结果
      */
     public PageResult<ProductRecommendDetailVO> pageProductRecommend(ProductRecommendPageReqVO pageVO) {
-        CommonResult<PageResult<ProductRecommendRespDTO>> pageProductRecommendResult = productRecommendRpc.pageProductRecommend(ProductRecommendConvert.INSTANCE.convert(pageVO));
+        CommonResult<PageResult<ProductRecommendRespDTO>> pageProductRecommendResult = productRecommendFeign.pageProductRecommend(ProductRecommendConvert.INSTANCE.convert(pageVO));
         pageProductRecommendResult.checkError();
         // 拼接结果
         PageResult<ProductRecommendDetailVO> pageResult = ProductRecommendConvert.INSTANCE.convertPage(pageProductRecommendResult.getData());

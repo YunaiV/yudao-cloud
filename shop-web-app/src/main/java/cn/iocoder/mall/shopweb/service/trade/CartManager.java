@@ -14,7 +14,7 @@ import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcReqDTO;
 import cn.iocoder.mall.promotion.api.rpc.price.dto.PriceProductCalcRespDTO;
 import cn.iocoder.mall.shopweb.controller.trade.vo.cart.CartDetailVO;
 import cn.iocoder.mall.shopweb.convert.trade.CartConvert;
-import cn.iocoder.mall.tradeservice.rpc.cart.CartRpc;
+import cn.iocoder.mall.tradeservice.rpc.cart.CartFeign;
 import cn.iocoder.mall.tradeservice.rpc.cart.dto.*;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +29,8 @@ import java.util.stream.Collectors;
 @Service
 public class CartManager {
 
-    @DubboReference(version = "${dubbo.consumer.ProductCategoryRpc.version}")
-    private CartRpc cartRpc;
+    @Autowired
+    private CartFeign cartFeign;
     @DubboReference(version = "${dubbo.consumer.PriceRpc.version}")
     private PriceRpc priceRpc;
     @DubboReference(version = "${dubbo.consumer.PromotionActivityRpc.version}")
@@ -47,7 +47,7 @@ public class CartManager {
      * @param quantity 增加数量
      */
     public void addCartItem(Integer userId, Integer skuId, Integer quantity) {
-        CommonResult<Boolean> addCartItemResult = cartRpc.addCartItem(new CartItemAddReqDTO().setUserId(userId)
+        CommonResult<Boolean> addCartItemResult = cartFeign.addCartItem(new CartItemAddReqDTO().setUserId(userId)
             .setSkuId(skuId).setQuantity(quantity));
         addCartItemResult.checkError();
     }
@@ -59,7 +59,7 @@ public class CartManager {
      * @return 商品数量
      */
     public Integer sumCartItemQuantity(Integer userId) {
-        CommonResult<Integer> sumCartItemQuantityResult = cartRpc.sumCartItemQuantity(userId);
+        CommonResult<Integer> sumCartItemQuantityResult = cartFeign.sumCartItemQuantity(userId);
         sumCartItemQuantityResult.checkError();
         return sumCartItemQuantityResult.getData();
     }
@@ -72,7 +72,7 @@ public class CartManager {
      * @param quantity 数量
      */
     public void updateCartItemQuantity(Integer userId, Integer skuId, Integer quantity) {
-        CommonResult<Boolean> updateCartItemQuantityResult = cartRpc.updateCartItemQuantity(new CartItemUpdateQuantityReqDTO()
+        CommonResult<Boolean> updateCartItemQuantityResult = cartFeign.updateCartItemQuantity(new CartItemUpdateQuantityReqDTO()
             .setUserId(userId).setSkuId(skuId).setQuantity(quantity));
         updateCartItemQuantityResult.checkError();
     }
@@ -85,7 +85,7 @@ public class CartManager {
      * @param selected 是否选中
      */
     public void updateCartItemSelected(Integer userId, Set<Integer> skuIds, Boolean selected) {
-        CommonResult<Boolean> updateCartItemSelectedResult = cartRpc.updateCartItemSelected(new CartItemUpdateSelectedReqDTO()
+        CommonResult<Boolean> updateCartItemSelectedResult = cartFeign.updateCartItemSelected(new CartItemUpdateSelectedReqDTO()
             .setUserId(userId).setSkuIds(skuIds).setSelected(selected));
         updateCartItemSelectedResult.checkError();
     }
@@ -97,7 +97,7 @@ public class CartManager {
      */
     public CartDetailVO getCartDetail(Integer userId) {
         // 获得购物车的商品
-        CommonResult<List<CartItemRespDTO>> listCartItemsResult = cartRpc.listCartItems(new CartItemListReqDTO().setUserId(userId));
+        CommonResult<List<CartItemRespDTO>> listCartItemsResult = cartFeign.listCartItems(new CartItemListReqDTO().setUserId(userId));
         listCartItemsResult.checkError();
         // 购物车为空时，构造空的 UsersOrderConfirmCreateVO 返回
         if (CollectionUtils.isEmpty(listCartItemsResult.getData())) {

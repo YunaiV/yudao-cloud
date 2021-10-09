@@ -5,13 +5,23 @@ import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.tradeservice.rpc.order.dto.TradeOrderCreateReqDTO;
 import cn.iocoder.mall.tradeservice.rpc.order.dto.TradeOrderPageReqDTO;
 import cn.iocoder.mall.tradeservice.rpc.order.dto.TradeOrderRespDTO;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
 
 /**
- * 交易订单 Rpc 接口
+ * Title:
+ * Description:
+ *
+ * @author zhuyang
+ * @version 1.0 2021/10/9
  */
-public interface TradeOrderRpc {
+@FeignClient(value = "trade-service")
+public interface TradeOrderFeign {
 
     /**
      * 创建交易订单
@@ -19,7 +29,8 @@ public interface TradeOrderRpc {
      * @param createReqDTO 订单信息
      * @return 订单编号
      */
-    CommonResult<Integer> createTradeOrder(TradeOrderCreateReqDTO createReqDTO);
+    @PostMapping("createTradeOrder")
+    CommonResult<Integer> createTradeOrder(@RequestBody TradeOrderCreateReqDTO createReqDTO);
 
     /**
      * 获得订单交易
@@ -28,16 +39,16 @@ public interface TradeOrderRpc {
      * @param fields 额外返回字段，可见 {@link cn.iocoder.mall.tradeservice.enums.order.TradeOrderDetailFieldEnum}
      * @return 订单交易
      */
-    CommonResult<TradeOrderRespDTO> getTradeOrder(Integer tradeOrderId, Collection<String> fields);
-
+    @GetMapping("getTradeOrder")
+    CommonResult<TradeOrderRespDTO> getTradeOrder(@RequestParam("tradeOrderId")Integer tradeOrderId, @RequestParam("fields") Collection<String> fields);
     /**
      * 获得交易订单分页
      *
      * @param pageDTO 订单交易分页查询
      * @return 订单交易分页结果
      */
-    CommonResult<PageResult<TradeOrderRespDTO>> pageTradeOrder(TradeOrderPageReqDTO pageDTO);
-
+    @PostMapping("pageTradeOrder")
+    CommonResult<PageResult<TradeOrderRespDTO>> pageTradeOrder(@RequestBody TradeOrderPageReqDTO pageDTO);
     // TODO 芋艿：需要重构成入参是 DTO，方便后续升级；返回是 CommonResult，用于返回失败的原因
 
     /**
@@ -49,6 +60,6 @@ public interface TradeOrderRpc {
      * @param payAmount 支付金额
      * @return 成功
      */
-    CommonResult<Boolean> updateTradeOrderPaySuccess(String tradeOrderId, Integer payAmount);
-
+    @PostMapping("updateTradeOrderPaySuccess")
+    CommonResult<Boolean> updateTradeOrderPaySuccess(@RequestParam("tradeOrderId") String tradeOrderId, @RequestParam("payAmount")Integer payAmount);
 }

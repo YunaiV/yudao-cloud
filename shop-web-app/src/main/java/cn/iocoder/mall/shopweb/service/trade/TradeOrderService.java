@@ -26,7 +26,7 @@ import cn.iocoder.mall.shopweb.controller.trade.vo.order.TradeOrderRespVO;
 import cn.iocoder.mall.shopweb.convert.trade.CartConvert;
 import cn.iocoder.mall.shopweb.convert.trade.TradeOrderConvert;
 import cn.iocoder.mall.tradeservice.enums.order.TradeOrderDetailFieldEnum;
-import cn.iocoder.mall.tradeservice.rpc.cart.CartRpc;
+import cn.iocoder.mall.tradeservice.rpc.cart.CartFeign;
 import cn.iocoder.mall.tradeservice.rpc.cart.dto.CartItemListReqDTO;
 import cn.iocoder.mall.tradeservice.rpc.cart.dto.CartItemRespDTO;
 import cn.iocoder.mall.tradeservice.rpc.order.dto.TradeOrderPageReqDTO;
@@ -53,9 +53,9 @@ public class TradeOrderService {
     private PriceRpc priceRpc;
     @DubboReference(version = "${dubbo.consumer.PromotionActivityRpc.version}")
     private PromotionActivityRpc promotionActivityRpc;
-    @DubboReference(version = "${dubbo.consumer.ProductCategoryRpc.version}")
-    private CartRpc cartRpc;
-    @DubboReference(version = "${dubbo.consumer.CouponCardRpc.version}")
+    
+    @Autowired
+    private CartFeign cartFeign;
     private CouponCardRpc couponCardRpc;
     
     @Autowired
@@ -72,7 +72,7 @@ public class TradeOrderService {
 
     public TradeOrderConfirmCreateInfoRespVO getOrderConfirmCreateInfoFromCart(Integer userId, Integer couponCardId) {
         // 获得购物车的商品
-        CommonResult<List<CartItemRespDTO>> listCartItemsResult = cartRpc.listCartItems(
+        CommonResult<List<CartItemRespDTO>> listCartItemsResult = cartFeign.listCartItems(
                 new CartItemListReqDTO().setUserId(userId).setSelected(true));
         listCartItemsResult.checkError();
         // 购物车为空时，构造空的 OrderConfirmCreateInfoRespVO 返回

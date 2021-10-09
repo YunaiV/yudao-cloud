@@ -7,7 +7,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages = {"cn.iocoder.mall.productservice.rpc","cn.iocoder.mall.searchservice.rpc"})
+@EnableFeignClients(basePackages = {"cn.iocoder.mall.productservice.rpc","cn.iocoder.mall.searchservice.rpc",
+        "cn.iocoder.mall.tradeservice.rpc"})
 public class ShopWebApplication {
 
     public static void main(String[] args) {

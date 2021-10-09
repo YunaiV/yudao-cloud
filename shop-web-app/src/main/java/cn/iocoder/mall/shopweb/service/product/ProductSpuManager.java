@@ -9,7 +9,7 @@ import cn.iocoder.mall.productservice.rpc.category.dto.ProductCategoryRespDTO;
 import cn.iocoder.mall.productservice.rpc.spu.ProductSpuFeign;
 import cn.iocoder.mall.productservice.rpc.spu.dto.ProductSpuDetailRespDTO;
 import cn.iocoder.mall.searchservice.enums.product.SearchProductConditionFieldEnum;
-import cn.iocoder.mall.searchservice.rpc.product.SearchProductRpc;
+import cn.iocoder.mall.searchservice.rpc.product.SearchProductFeign;
 import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductConditionReqDTO;
 import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductConditionRespDTO;
 import cn.iocoder.mall.searchservice.rpc.product.dto.SearchProductRespDTO;
@@ -18,7 +18,6 @@ import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuPageReqVO
 import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuRespVO;
 import cn.iocoder.mall.shopweb.controller.product.vo.product.ProductSpuSearchConditionRespVO;
 import cn.iocoder.mall.shopweb.convert.product.ProductSpuConvert;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -34,9 +33,8 @@ import java.util.List;
 @Validated
 public class ProductSpuManager {
 
-    @DubboReference(version = "${dubbo.consumer.SearchProductRpc.version}")
-    private SearchProductRpc searchProductRpc;
-
+    @Autowired
+    private SearchProductFeign searchProductFeign;
 
     @Autowired
     private ProductCategoryFeign productCategoryFeign;
@@ -45,7 +43,7 @@ public class ProductSpuManager {
 
     public PageResult<ProductSpuRespVO> pageProductSpu(ProductSpuPageReqVO pageReqVO) {
         CommonResult<PageResult<SearchProductRespDTO>> pageResult =
-                searchProductRpc.pageSearchProduct(ProductSpuConvert.INSTANCE.convert(pageReqVO));
+                searchProductFeign.pageSearchProduct(ProductSpuConvert.INSTANCE.convert(pageReqVO));
         pageResult.checkError();
         return ProductSpuConvert.INSTANCE.convertPage(pageResult.getData());
     }
@@ -53,7 +51,7 @@ public class ProductSpuManager {
     public ProductSpuSearchConditionRespVO getProductSpuSearchCondition(String keyword) {
         // 获得搜索条件
         CommonResult<SearchProductConditionRespDTO> getSearchProductConditionResult =
-                searchProductRpc.getSearchProductCondition(new SearchProductConditionReqDTO().setKeyword(keyword)
+                searchProductFeign.getSearchProductCondition(new SearchProductConditionReqDTO().setKeyword(keyword)
                     .setFields(Collections.singletonList(SearchProductConditionFieldEnum.CATEGORY.getField())));
         getSearchProductConditionResult.checkError();
         // 拼接结果

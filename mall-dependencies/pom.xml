@@ -64,6 +64,7 @@
         <guava.version>27.0.1-jre</guava.version>
         <org.projectlombok.version>1.16.14</org.projectlombok.version>
         <org.mapstruct.version>1.3.0.Final</org.mapstruct.version>
+        <spring-cloud.feign.version>3.0.4</spring-cloud.feign.version>
     </properties>
 
     <!-- 依赖管理 -->
@@ -379,6 +380,12 @@
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate-validator.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-openfeign-core</artifactId>
+                <version>${spring-cloud.feign.version}</version>
             </dependency>
 
         </dependencies>

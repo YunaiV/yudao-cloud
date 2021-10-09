@@ -29,7 +29,7 @@ public interface TradeOrderFeign {
      * @param createReqDTO 订单信息
      * @return 订单编号
      */
-    @PostMapping("createTradeOrder")
+    @PostMapping("/trade/order/createTradeOrder")
     CommonResult<Integer> createTradeOrder(@RequestBody TradeOrderCreateReqDTO createReqDTO);
 
     /**
@@ -39,7 +39,7 @@ public interface TradeOrderFeign {
      * @param fields 额外返回字段，可见 {@link cn.iocoder.mall.tradeservice.enums.order.TradeOrderDetailFieldEnum}
      * @return 订单交易
      */
-    @GetMapping("getTradeOrder")
+    @GetMapping("/trade/order/getTradeOrder")
     CommonResult<TradeOrderRespDTO> getTradeOrder(@RequestParam("tradeOrderId")Integer tradeOrderId, @RequestParam("fields") Collection<String> fields);
     /**
      * 获得交易订单分页
@@ -47,7 +47,7 @@ public interface TradeOrderFeign {
      * @param pageDTO 订单交易分页查询
      * @return 订单交易分页结果
      */
-    @PostMapping("pageTradeOrder")
+    @PostMapping("/trade/order/pageTradeOrder")
     CommonResult<PageResult<TradeOrderRespDTO>> pageTradeOrder(@RequestBody TradeOrderPageReqDTO pageDTO);
     // TODO 芋艿：需要重构成入参是 DTO，方便后续升级；返回是 CommonResult，用于返回失败的原因
 
@@ -60,6 +60,6 @@ public interface TradeOrderFeign {
      * @param payAmount 支付金额
      * @return 成功
      */
-    @PostMapping("updateTradeOrderPaySuccess")
+    @PostMapping("/trade/order/updateTradeOrderPaySuccess")
     CommonResult<Boolean> updateTradeOrderPaySuccess(@RequestParam("tradeOrderId") String tradeOrderId, @RequestParam("payAmount")Integer payAmount);
 }

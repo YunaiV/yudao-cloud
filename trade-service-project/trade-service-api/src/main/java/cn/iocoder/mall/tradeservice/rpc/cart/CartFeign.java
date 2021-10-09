@@ -25,7 +25,7 @@ public interface CartFeign {
      * @param addReqDTO 添加商品信息
      * @return 成功
      */
-    @PostMapping("addCartItem")
+    @PostMapping("/trade/cart/addCartItem")
     CommonResult<Boolean> addCartItem(@RequestBody CartItemAddReqDTO addReqDTO);
 
     /**
@@ -34,7 +34,7 @@ public interface CartFeign {
      * @param updateQuantityReqDTO 更新商品数量 DTO
      * @return 成功
      */
-    @PostMapping("updateCartItemQuantity")
+    @PostMapping("/trade/cart/updateCartItemQuantity")
     CommonResult<Boolean> updateCartItemQuantity(@RequestBody CartItemUpdateQuantityReqDTO updateQuantityReqDTO);
 
     /**
@@ -43,7 +43,7 @@ public interface CartFeign {
      * @param updateSelectedReqDTO 更新商品是否选中 DTO
      * @return 成功
      */
-    @PostMapping("updateCartItemSelected")
+    @PostMapping("/trade/cart/updateCartItemSelected")
     CommonResult<Boolean> updateCartItemSelected(@RequestBody CartItemUpdateSelectedReqDTO updateSelectedReqDTO);
 
     /**
@@ -52,10 +52,10 @@ public interface CartFeign {
      * @param deleteListReqDTO 删除商品列表 DTO
      * @return 成功
      */
-    @PostMapping("deleteCartItems")
+    @PostMapping("/trade/cart/deleteCartItems")
     CommonResult<Boolean> deleteCartItems(@RequestBody CartItemDeleteListReqDTO deleteListReqDTO);
     @GetMapping("/sumCartItemQuantity")
     public CommonResult<Integer> sumCartItemQuantity(@RequestParam("userId") Integer userId) ;
-    @PostMapping("/listCartItems")
+    @PostMapping("/trade/cart/listCartItems")
     public CommonResult<List<CartItemRespDTO>> listCartItems(@RequestBody CartItemListReqDTO listReqDTO) ;
 }

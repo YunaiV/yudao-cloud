@@ -46,7 +46,7 @@
         <!-- MQ 相关 -->
         <rocketmq-spring-boot-starter.version>2.1.1</rocketmq-spring-boot-starter.version>
         <!-- Job 相关 -->
-        <xxl-job.version>2.2.0</xxl-job.version>
+        <xxl-job.version>2.3.0</xxl-job.version>
         <!-- Transaction 相关 -->
         <seata.version>1.1.0</seata.version>
         <!-- 云服务相关 -->

@@ -7,22 +7,23 @@ import cn.iocoder.mall.managementweb.controller.systemlog.dto.SystemExceptionLog
 import cn.iocoder.mall.managementweb.controller.systemlog.vo.SystemExceptionLogDetailVO;
 import cn.iocoder.mall.managementweb.controller.systemlog.vo.SystemExceptionLogVO;
 import cn.iocoder.mall.managementweb.convert.systemlog.SystemExceptionLogConvert;
-import cn.iocoder.mall.systemservice.rpc.admin.AdminRpc;
+import cn.iocoder.mall.systemservice.rpc.admin.AdminFeign;
 import cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO;
-import cn.iocoder.mall.systemservice.rpc.systemlog.SystemExceptionLogRpc;
-import org.apache.dubbo.config.annotation.Reference;
+import cn.iocoder.mall.systemservice.rpc.systemlog.SystemExceptionLogFeign;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+;
 
 /**
 * 系统异常日志 Manager
 */
 @Service
 public class SystemExceptionLogManager {
-
-    @Reference(version = "${dubbo.consumer.SystemExceptionLogRpc.version}")
-    private SystemExceptionLogRpc systemExceptionLogRpc;
-    @Reference(version = "${dubbo.consumer.AdminRpc.version}")
-    private AdminRpc adminRpc;
+    @Autowired
+    private AdminFeign adminFeign;
+    @Autowired
+    private SystemExceptionLogFeign systemExceptionLogFeign;
 
     /**
     * 获得系统异常日志
@@ -33,12 +34,12 @@ public class SystemExceptionLogManager {
     public SystemExceptionLogDetailVO getSystemExceptionLogDetail(Integer systemExceptionLogId) {
         // 获得系统异常明细
         CommonResult<cn.iocoder.mall.systemservice.rpc.systemlog.vo.SystemExceptionLogVO> getSystemExceptionLogResult
-                = systemExceptionLogRpc.getSystemExceptionLog(systemExceptionLogId);
+                = systemExceptionLogFeign.getSystemExceptionLog(systemExceptionLogId);
         getSystemExceptionLogResult.checkError();
         SystemExceptionLogDetailVO logDetailVO = SystemExceptionLogConvert.INSTANCE.convert(getSystemExceptionLogResult.getData());
         // 拼接处理管理员信息
         if (getSystemExceptionLogResult.getData().getProcessAdminId() != null) {
-            CommonResult<AdminVO> adminVOResult = adminRpc.getAdmin(getSystemExceptionLogResult.getData().getProcessAdminId());
+            CommonResult<AdminVO> adminVOResult = adminFeign.getAdmin(getSystemExceptionLogResult.getData().getProcessAdminId());
             adminVOResult.checkError();
             if (adminVOResult.getData() != null) {
                 SystemExceptionLogDetailVO.Admin admin = SystemExceptionLogConvert.INSTANCE.convert(adminVOResult.getData());
@@ -56,7 +57,7 @@ public class SystemExceptionLogManager {
     */
     public PageResult<SystemExceptionLogVO> pageSystemExceptionLog(SystemExceptionLogPageDTO pageDTO) {
         CommonResult<PageResult<cn.iocoder.mall.systemservice.rpc.systemlog.vo.SystemExceptionLogVO>> pageSystemExceptionLogResult
-                = systemExceptionLogRpc.pageSystemExceptionLog(SystemExceptionLogConvert.INSTANCE.convert(pageDTO));
+                = systemExceptionLogFeign.pageSystemExceptionLog(SystemExceptionLogConvert.INSTANCE.convert(pageDTO));
         pageSystemExceptionLogResult.checkError();
         return SystemExceptionLogConvert.INSTANCE.convertPage(pageSystemExceptionLogResult.getData());
     }
@@ -68,7 +69,7 @@ public class SystemExceptionLogManager {
      * @param processDTO 处理系统异常日志 DTO
      */
     public void processSystemExceptionLog(Integer processAdminId, SystemExceptionLogProcessDTO processDTO) {
-        CommonResult<Boolean> processSystemExceptionLogResult = systemExceptionLogRpc.processSystemExceptionLog(
+        CommonResult<Boolean> processSystemExceptionLogResult = systemExceptionLogFeign.processSystemExceptionLog(
                 SystemExceptionLogConvert.INSTANCE.convert(processDTO).setProcessAdminId(processAdminId));
         processSystemExceptionLogResult.checkError();
     }

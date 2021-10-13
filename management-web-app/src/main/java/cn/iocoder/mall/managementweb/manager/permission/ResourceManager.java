@@ -7,10 +7,10 @@ import cn.iocoder.mall.managementweb.controller.permission.vo.ResourceTreeNodeVO
 import cn.iocoder.mall.managementweb.controller.permission.vo.ResourceVO;
 import cn.iocoder.mall.managementweb.convert.permission.ResourceConvert;
 import cn.iocoder.mall.systemservice.enums.permission.ResourceIdEnum;
-import cn.iocoder.mall.systemservice.rpc.permission.ResourceRpc;
-import cn.iocoder.mall.systemservice.rpc.permission.RoleRpc;
+import cn.iocoder.mall.systemservice.rpc.permission.ResourceFeign;
+import cn.iocoder.mall.systemservice.rpc.permission.RoleFeign;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -23,11 +23,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ResourceManager {
 
-    @Reference(version = "${dubbo.consumer.ResourceRpc.version}")
-    private ResourceRpc resourceRpc;
-    @Reference(version = "${dubbo.consumer.RoleRpc.version}")
-    private RoleRpc roleRpc;
 
+    @Autowired
+    private ResourceFeign resourceFeign;
+    @Autowired
+    private RoleFeign roleFeign;
     /**
     * 创建资源
     *
@@ -35,7 +35,7 @@ public class ResourceManager {
     * @return 资源
     */
     public Integer createResource(ResourceCreateDTO createDTO, Integer createAdminId) {
-        CommonResult<Integer> createResourceResult = resourceRpc.createResource(ResourceConvert.INSTANCE.convert(createDTO)
+        CommonResult<Integer> createResourceResult = resourceFeign.createResource(ResourceConvert.INSTANCE.convert(createDTO)
             .setCreateAdminId(createAdminId));
         createResourceResult.checkError();
         return createResourceResult.getData();
@@ -47,7 +47,7 @@ public class ResourceManager {
     * @param updateDTO 更新资源 DTO
     */
     public void updateResource(ResourceUpdateDTO updateDTO) {
-        CommonResult<Boolean> updateResourceResult = resourceRpc.updateResource(ResourceConvert.INSTANCE.convert(updateDTO));
+        CommonResult<Boolean> updateResourceResult = resourceFeign.updateResource(ResourceConvert.INSTANCE.convert(updateDTO));
         updateResourceResult.checkError();
     }
 
@@ -57,7 +57,7 @@ public class ResourceManager {
     * @param resourceId 资源编号
     */
     public void deleteResource(Integer resourceId) {
-        CommonResult<Boolean> deleteResourceResult = resourceRpc.deleteResource(resourceId);
+        CommonResult<Boolean> deleteResourceResult = resourceFeign.deleteResource(resourceId);
         deleteResourceResult.checkError();
     }
 
@@ -68,7 +68,7 @@ public class ResourceManager {
     * @return 资源
     */
     public ResourceVO getResource(Integer resourceId) {
-        CommonResult<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO> getResourceResult = resourceRpc.getResource(resourceId);
+        CommonResult<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO> getResourceResult = resourceFeign.getResource(resourceId);
         getResourceResult.checkError();
         return ResourceConvert.INSTANCE.convert(getResourceResult.getData());
     }
@@ -80,7 +80,7 @@ public class ResourceManager {
     * @return 资源列表
     */
     public List<ResourceVO> listResources(List<Integer> resourceIds) {
-        CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO>> listResourceResult = resourceRpc.listResource(resourceIds);
+        CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO>> listResourceResult = resourceFeign.listResource(resourceIds);
         return ResourceConvert.INSTANCE.convertList(listResourceResult.getData());
     }
 
@@ -91,7 +91,7 @@ public class ResourceManager {
      */
     public List<ResourceTreeNodeVO> treeResource() {
         // 获得资源全列表
-        CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO>> listResourceResult = resourceRpc.listResource();
+        CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO>> listResourceResult = resourceFeign.listResource();
         listResourceResult.checkError();
         // 构建菜单树
         return buildResourceTree(listResourceResult.getData());

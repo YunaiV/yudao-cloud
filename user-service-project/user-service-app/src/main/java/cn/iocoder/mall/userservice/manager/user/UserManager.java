@@ -4,7 +4,7 @@ import cn.iocoder.common.framework.enums.CommonStatusEnum;
 import cn.iocoder.common.framework.enums.UserTypeEnum;
 import cn.iocoder.common.framework.util.StringUtils;
 import cn.iocoder.common.framework.vo.PageResult;
-import cn.iocoder.mall.systemservice.rpc.oauth.OAuth2Rpc;
+import cn.iocoder.mall.systemservice.rpc.oauth.OAuthFeign;
 import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2RemoveTokenByUserReqDTO;
 import cn.iocoder.mall.userservice.convert.user.UserConvert;
 import cn.iocoder.mall.userservice.rpc.user.dto.UserCreateReqDTO;
@@ -13,7 +13,6 @@ import cn.iocoder.mall.userservice.rpc.user.dto.UserRespDTO;
 import cn.iocoder.mall.userservice.rpc.user.dto.UserUpdateReqDTO;
 import cn.iocoder.mall.userservice.service.user.UserService;
 import cn.iocoder.mall.userservice.service.user.bo.UserBO;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +24,9 @@ public class UserManager {
     @Autowired
     private UserService userService;
 
-    @DubboReference(version = "${dubbo.consumer.OAuth2Rpc.version}")
-    private OAuth2Rpc oauth2Rpc;
+
+    @Autowired
+    private OAuthFeign oAuthFeign;
 
     public UserRespDTO createUserIfAbsent(UserCreateReqDTO createDTO) {
         // 用户已经存在
@@ -50,7 +50,7 @@ public class UserManager {
         // 如果修改密码，或者禁用管理员
         if (StringUtils.hasText(updateDTO.getPassword())
                 || CommonStatusEnum.DISABLE.getValue().equals(updateDTO.getStatus())) {
-            oauth2Rpc.removeToken(new OAuth2RemoveTokenByUserReqDTO().setUserId(updateDTO.getId())
+            oAuthFeign.removeToken(new OAuth2RemoveTokenByUserReqDTO().setUserId(updateDTO.getId())
                 .setUserType(UserTypeEnum.ADMIN.getValue()));
         }
     }

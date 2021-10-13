@@ -1,4 +1,4 @@
-package controller;
+package cn.iocoder.mall.systemservice.controller;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;

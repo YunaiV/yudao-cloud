@@ -1,4 +1,4 @@
-package cn.iocoder.mall.systemservice.rpc.oauth;
+package cn.iocoder.mall.systemservice.controller;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2AccessTokenRespDTO;
@@ -6,36 +6,43 @@ import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2CreateAccessTokenReqDTO
 import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2RefreshAccessTokenReqDTO;
 import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2RemoveTokenByUserReqDTO;
 import cn.iocoder.mall.systemservice.service.oauth.OAuth2Service;
-import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
 
-@DubboService
-public class OAuth2RpcImpl implements OAuth2Rpc {
+/**
+ * Title:
+ * Description:
+ *
+ * @author zhuyang
+ * @version 1.0 2021/10/11
+ */
+@RestController
+@RequestMapping("/system/oauth")
+public class OAuthController {
 
     @Autowired
     private OAuth2Service oAuth2Service;
 
-    @Override
-    public CommonResult<OAuth2AccessTokenRespDTO> createAccessToken(OAuth2CreateAccessTokenReqDTO createAccessTokenDTO) {
+    @PostMapping("createAccessToken")
+    public CommonResult<OAuth2AccessTokenRespDTO> createAccessToken(@RequestBody OAuth2CreateAccessTokenReqDTO createAccessTokenDTO) {
         return success(oAuth2Service.createAccessToken(createAccessTokenDTO));
     }
 
-    @Override
-    public CommonResult<OAuth2AccessTokenRespDTO> checkAccessToken(String accessToken) {
+    @PostMapping("checkAccessToken")
+    public CommonResult<OAuth2AccessTokenRespDTO> checkAccessToken(@RequestParam("accessToken") String accessToken) {
         return success(oAuth2Service.checkAccessToken(accessToken));
     }
 
-    @Override
-    public CommonResult<OAuth2AccessTokenRespDTO> refreshAccessToken(OAuth2RefreshAccessTokenReqDTO refreshAccessTokenDTO) {
+    @PostMapping("refreshAccessToken")
+    public CommonResult<OAuth2AccessTokenRespDTO> refreshAccessToken(@RequestBody OAuth2RefreshAccessTokenReqDTO refreshAccessTokenDTO) {
         return success(oAuth2Service.refreshAccessToken(refreshAccessTokenDTO));
     }
 
-    @Override
-    public CommonResult<Boolean> removeToken(OAuth2RemoveTokenByUserReqDTO removeTokenDTO) {
+    @PostMapping("removeToken")
+    public CommonResult<Boolean> removeToken(@RequestBody OAuth2RemoveTokenByUserReqDTO removeTokenDTO) {
         oAuth2Service.removeToken(removeTokenDTO);
         return success(true);
     }
-
 }

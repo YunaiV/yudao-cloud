@@ -2,20 +2,20 @@ package cn.iocoder.mall.security.admin.core.interceptor;
 
 import cn.iocoder.common.framework.enums.UserTypeEnum;
 import cn.iocoder.common.framework.exception.GlobalException;
+import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.util.CollectionUtils;
 import cn.iocoder.common.framework.util.HttpUtil;
-import cn.iocoder.common.framework.exception.util.ServiceExceptionUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.security.admin.core.context.AdminSecurityContext;
 import cn.iocoder.mall.security.admin.core.context.AdminSecurityContextHolder;
-import cn.iocoder.mall.systemservice.rpc.oauth.OAuth2Rpc;
+import cn.iocoder.mall.systemservice.rpc.oauth.OAuthFeign;
 import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2AccessTokenRespDTO;
-import cn.iocoder.mall.systemservice.rpc.permission.PermissionRpc;
+import cn.iocoder.mall.systemservice.rpc.permission.PermissionFeign;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.PermissionCheckDTO;
 import cn.iocoder.mall.web.core.util.CommonWebUtil;
 import cn.iocoder.security.annotations.RequiresNone;
 import cn.iocoder.security.annotations.RequiresPermissions;
-import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -28,11 +28,11 @@ import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeConstants.OAUTH
 
 public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
 
-    @Reference(version = "${dubbo.consumer.OAuth2Rpc.version}")
-    private OAuth2Rpc oauth2Rpc;
-    @Reference(version = "${dubbo.consumer.PermissionRpc.version}")
-    private PermissionRpc permissionRpc;
 
+    @Autowired
+    private OAuthFeign oAuthFeign;
+    @Autowired
+    private PermissionFeign permissionFeign;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         // 获得访问令牌
@@ -48,7 +48,7 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
         String accessToken = HttpUtil.obtainAuthorization(request);
         Integer adminId = null;
         if (accessToken != null) {
-            CommonResult<OAuth2AccessTokenRespDTO> checkAccessTokenResult = oauth2Rpc.checkAccessToken(accessToken);
+            CommonResult<OAuth2AccessTokenRespDTO> checkAccessTokenResult = oAuthFeign.checkAccessToken(accessToken);
             checkAccessTokenResult.checkError();
             // 校验用户类型正确
             if (!UserTypeEnum.ADMIN.getValue().equals(checkAccessTokenResult.getData().getUserType())) {
@@ -83,7 +83,7 @@ public class AdminSecurityInterceptor extends HandlerInterceptorAdapter {
             return;
         }
         // 权限验证
-        permissionRpc.checkPermission(new PermissionCheckDTO().setAdminId(adminId).setPermissions(Arrays.asList(permissions)))
+        permissionFeign.checkPermission(new PermissionCheckDTO().setAdminId(adminId).setPermissions(Arrays.asList(permissions)))
                 .checkError();
     }
 

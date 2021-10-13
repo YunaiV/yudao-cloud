@@ -7,8 +7,8 @@ import cn.iocoder.mall.managementweb.controller.permission.dto.RolePageDTO;
 import cn.iocoder.mall.managementweb.controller.permission.dto.RoleUpdateDTO;
 import cn.iocoder.mall.managementweb.controller.permission.vo.RoleVO;
 import cn.iocoder.mall.managementweb.convert.permission.RoleConvert;
-import cn.iocoder.mall.systemservice.rpc.permission.RoleRpc;
-import org.apache.dubbo.config.annotation.Reference;
+import cn.iocoder.mall.systemservice.rpc.permission.RoleFeign;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,9 +19,9 @@ import java.util.List;
 @Service
 public class RoleManager {
 
-    @Reference(version = "${dubbo.consumer.RoleRpc.version}")
-    private RoleRpc roleRpc;
 
+    @Autowired
+    private RoleFeign roleFeign;
     /**
     * 创建角色
     *
@@ -29,7 +29,7 @@ public class RoleManager {
     * @return 角色
     */
     public Integer createRole(RoleCreateDTO createDTO, Integer createAdminId) {
-        CommonResult<Integer> createRoleResult = roleRpc.createRole(RoleConvert.INSTANCE.convert(createDTO).setCreateAdminId(createAdminId));
+        CommonResult<Integer> createRoleResult = roleFeign.createRole(RoleConvert.INSTANCE.convert(createDTO).setCreateAdminId(createAdminId));
         createRoleResult.checkError();
         return createRoleResult.getData();
     }
@@ -40,7 +40,7 @@ public class RoleManager {
     * @param updateDTO 更新角色 DTO
     */
     public void updateRole(RoleUpdateDTO updateDTO) {
-        CommonResult<Boolean> updateRoleResult = roleRpc.updateRole(RoleConvert.INSTANCE.convert(updateDTO));
+        CommonResult<Boolean> updateRoleResult = roleFeign.updateRole(RoleConvert.INSTANCE.convert(updateDTO));
         updateRoleResult.checkError();
     }
 
@@ -50,7 +50,7 @@ public class RoleManager {
     * @param roleId 角色编号
     */
     public void deleteRole(Integer roleId) {
-        CommonResult<Boolean> deleteRoleResult = roleRpc.deleteRole(roleId);
+        CommonResult<Boolean> deleteRoleResult = roleFeign.deleteRole(roleId);
         deleteRoleResult.checkError();
     }
 
@@ -61,7 +61,7 @@ public class RoleManager {
     * @return 角色
     */
     public RoleVO getRole(Integer roleId) {
-        CommonResult<cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO> getRoleResult = roleRpc.getRole(roleId);
+        CommonResult<cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO> getRoleResult = roleFeign.getRole(roleId);
         getRoleResult.checkError();
         return RoleConvert.INSTANCE.convert(getRoleResult.getData());
     }
@@ -72,7 +72,7 @@ public class RoleManager {
      * @return 角色列表
      */
     public List<RoleVO> listAllRoles() {
-        CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO>> listRoleResult = roleRpc.listAllRoles();
+        CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO>> listRoleResult = roleFeign.listAllRoles();
         listRoleResult.checkError();
         return RoleConvert.INSTANCE.convertList(listRoleResult.getData());
     }
@@ -84,7 +84,7 @@ public class RoleManager {
     * @return 角色列表
     */
     public List<RoleVO> listRoles(List<Integer> roleIds) {
-        CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO>> listRoleResult = roleRpc.listRoles(roleIds);
+        CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO>> listRoleResult = roleFeign.listRoles(roleIds);
         listRoleResult.checkError();
         return RoleConvert.INSTANCE.convertList(listRoleResult.getData());
     }
@@ -97,7 +97,7 @@ public class RoleManager {
     */
     public PageResult<RoleVO> pageRole(RolePageDTO pageDTO) {
         CommonResult<PageResult<cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO>> pageRoleResult =
-                roleRpc.pageRole(RoleConvert.INSTANCE.convert(pageDTO));
+                roleFeign.pageRole(RoleConvert.INSTANCE.convert(pageDTO));
         pageRoleResult.checkError();
         return RoleConvert.INSTANCE.convertPage(pageRoleResult.getData());
     }

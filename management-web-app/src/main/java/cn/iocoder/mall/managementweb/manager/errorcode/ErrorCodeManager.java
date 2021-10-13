@@ -8,8 +8,8 @@ import cn.iocoder.mall.managementweb.controller.errorcode.dto.ErrorCodeUpdateDTO
 import cn.iocoder.mall.managementweb.controller.errorcode.vo.ErrorCodeVO;
 import cn.iocoder.mall.managementweb.convert.errorcode.ErrorCodeConvert;
 import cn.iocoder.mall.systemservice.enums.errorcode.ErrorCodeTypeEnum;
-import cn.iocoder.mall.systemservice.rpc.errorcode.ErrorCodeRpc;
-import org.apache.dubbo.config.annotation.Reference;
+import cn.iocoder.mall.systemservice.rpc.errorcode.ErrorCodeFeign;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,9 +20,8 @@ import java.util.List;
 @Service
 public class ErrorCodeManager {
 
-    @Reference(version = "${dubbo.consumer.ErrorCodeRpc.version}", validation = "false")
-    private ErrorCodeRpc errorCodeRpc;
-
+    @Autowired
+    private ErrorCodeFeign errorCodeFeign;
     /**
     * 创建错误码
     *
@@ -30,7 +29,7 @@ public class ErrorCodeManager {
     * @return 错误码
     */
     public Integer createErrorCode(ErrorCodeCreateDTO createDTO) {
-        CommonResult<Integer> createErrorCodeResult = errorCodeRpc.createErrorCode(ErrorCodeConvert.INSTANCE.convert(createDTO)
+        CommonResult<Integer> createErrorCodeResult = errorCodeFeign.createErrorCode(ErrorCodeConvert.INSTANCE.convert(createDTO)
                 .setType(ErrorCodeTypeEnum.MANUAL_OPERATION.getType()));
         createErrorCodeResult.checkError();
         return createErrorCodeResult.getData();
@@ -42,7 +41,7 @@ public class ErrorCodeManager {
     * @param updateDTO 更新错误码 DTO
     */
     public void updateErrorCode(ErrorCodeUpdateDTO updateDTO) {
-        CommonResult<Boolean> updateErrorCodeResult = errorCodeRpc.updateErrorCode(ErrorCodeConvert.INSTANCE.convert(updateDTO)
+        CommonResult<Boolean> updateErrorCodeResult = errorCodeFeign.updateErrorCode(ErrorCodeConvert.INSTANCE.convert(updateDTO)
                 .setType(ErrorCodeTypeEnum.MANUAL_OPERATION.getType()));
         updateErrorCodeResult.checkError();
     }
@@ -53,7 +52,7 @@ public class ErrorCodeManager {
     * @param errorCodeId 错误码编号
     */
     public void deleteErrorCode(Integer errorCodeId) {
-        CommonResult<Boolean> deleteErrorCodeResult = errorCodeRpc.deleteErrorCode(errorCodeId);
+        CommonResult<Boolean> deleteErrorCodeResult = errorCodeFeign.deleteErrorCode(errorCodeId);
         deleteErrorCodeResult.checkError();
     }
 
@@ -64,7 +63,7 @@ public class ErrorCodeManager {
     * @return 错误码
     */
     public ErrorCodeVO getErrorCode(Integer errorCodeId) {
-        CommonResult<cn.iocoder.mall.systemservice.rpc.errorcode.vo.ErrorCodeVO> getErrorCodeResult = errorCodeRpc.getErrorCode(errorCodeId);
+        CommonResult<cn.iocoder.mall.systemservice.rpc.errorcode.vo.ErrorCodeVO> getErrorCodeResult = errorCodeFeign.getErrorCode(errorCodeId);
         getErrorCodeResult.checkError();
         return ErrorCodeConvert.INSTANCE.convert(getErrorCodeResult.getData());
     }
@@ -76,7 +75,7 @@ public class ErrorCodeManager {
     * @return 错误码列表
     */
     public List<ErrorCodeVO> listErrorCodes(List<Integer> errorCodeIds) {
-        CommonResult<List<cn.iocoder.mall.systemservice.rpc.errorcode.vo.ErrorCodeVO>> listErrorCodeResult = errorCodeRpc.listErrorCodes(errorCodeIds);
+        CommonResult<List<cn.iocoder.mall.systemservice.rpc.errorcode.vo.ErrorCodeVO>> listErrorCodeResult = errorCodeFeign.listErrorCodes(errorCodeIds);
         listErrorCodeResult.checkError();
         return ErrorCodeConvert.INSTANCE.convertList(listErrorCodeResult.getData());
     }
@@ -89,7 +88,7 @@ public class ErrorCodeManager {
     */
     public PageResult<ErrorCodeVO> pageErrorCode(ErrorCodePageDTO pageDTO) {
         CommonResult<PageResult<cn.iocoder.mall.systemservice.rpc.errorcode.vo.ErrorCodeVO>> pageErrorCodeResult
-                = errorCodeRpc.pageErrorCode(ErrorCodeConvert.INSTANCE.convert(pageDTO));
+                = errorCodeFeign.pageErrorCode(ErrorCodeConvert.INSTANCE.convert(pageDTO));
         pageErrorCodeResult.checkError();
         return ErrorCodeConvert.INSTANCE.convertPage(pageErrorCodeResult.getData());
     }

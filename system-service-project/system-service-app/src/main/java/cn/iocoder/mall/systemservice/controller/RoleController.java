@@ -1,4 +1,4 @@
-package cn.iocoder.mall.systemservice.rpc.permission;
+package cn.iocoder.mall.systemservice.controller;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
@@ -7,8 +7,8 @@ import cn.iocoder.mall.systemservice.rpc.permission.dto.RolePageDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.RoleUpdateDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.vo.RoleCreateDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO;
-import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,53 +17,58 @@ import java.util.Set;
 import static cn.iocoder.common.framework.vo.CommonResult.success;
 
 /**
-* 角色 Rpc 实现类
-*/
-@Service(version = "${dubbo.provider.RoleRpc.version}")
-public class RoleRpcImpl implements RoleRpc {
+ * Title:
+ * Description:
+ *
+ * @author zhuyang
+ * @version 1.0 2021/10/11
+ */
+@RestController
+@RequestMapping("/system/role")
+public class RoleController {
 
     @Autowired
     private RoleManager roleManager;
 
-    @Override
-    public CommonResult<Integer> createRole(RoleCreateDTO createDTO) {
+    @PostMapping("createRole")
+    public CommonResult<Integer> createRole(@RequestBody RoleCreateDTO createDTO) {
         return success(roleManager.createRole(createDTO));
     }
 
-    @Override
-    public CommonResult<Boolean> updateRole(RoleUpdateDTO updateDTO) {
+    @PostMapping("updateRole")
+    public CommonResult<Boolean> updateRole(@RequestBody RoleUpdateDTO updateDTO) {
         roleManager.updateRole(updateDTO);
         return success(true);
     }
 
-    @Override
-    public CommonResult<Boolean> deleteRole(Integer roleId) {
+    @GetMapping("deleteRole")
+    public CommonResult<Boolean> deleteRole(@RequestParam("roleId")Integer roleId) {
         roleManager.deleteRole(roleId);
         return success(true);
     }
 
-    @Override
-    public CommonResult<RoleVO> getRole(Integer roleId) {
+    @GetMapping("getRole")
+    public CommonResult<RoleVO> getRole(@RequestParam("roleId")Integer roleId) {
         return success(roleManager.getRole(roleId));
     }
 
-    @Override
+    @GetMapping("listAllRoles")
     public CommonResult<List<RoleVO>> listAllRoles() {
         return success(roleManager.listAllRoles());
     }
 
-    @Override
-    public CommonResult<List<RoleVO>> listRoles(Collection<Integer> roleIds) {
+    @GetMapping("listRoles")
+    public CommonResult<List<RoleVO>> listRoles(@RequestParam("roleIds")Collection<Integer> roleIds) {
         return success(roleManager.listRoles(roleIds));
     }
 
-    @Override
-    public CommonResult<PageResult<RoleVO>> pageRole(RolePageDTO pageDTO) {
+    @PostMapping("pageRole")
+    public CommonResult<PageResult<RoleVO>> pageRole(@RequestBody RolePageDTO pageDTO) {
         return success(roleManager.pageRole(pageDTO));
     }
 
-    @Override
-    public CommonResult<Set<Integer>> listAdminRoleIds(Integer adminId) {
+    @GetMapping("listAdminRoleIds")
+    public CommonResult<Set<Integer>> listAdminRoleIds(@RequestParam("adminId") Integer adminId) {
         return success(roleManager.listAdminRoleIds(adminId));
     }
 

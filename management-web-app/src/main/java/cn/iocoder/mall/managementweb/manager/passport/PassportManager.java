@@ -12,16 +12,16 @@ import cn.iocoder.mall.managementweb.convert.passport.AdminPassportConvert;
 import cn.iocoder.mall.managementweb.convert.permission.ResourceConvert;
 import cn.iocoder.mall.managementweb.manager.permission.ResourceManager;
 import cn.iocoder.mall.systemservice.enums.permission.ResourceTypeEnum;
-import cn.iocoder.mall.systemservice.rpc.admin.AdminRpc;
+import cn.iocoder.mall.systemservice.rpc.admin.AdminFeign;
 import cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO;
-import cn.iocoder.mall.systemservice.rpc.oauth.OAuth2Rpc;
+import cn.iocoder.mall.systemservice.rpc.oauth.OAuthFeign;
 import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2AccessTokenRespDTO;
 import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2CreateAccessTokenReqDTO;
 import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2RefreshAccessTokenReqDTO;
-import cn.iocoder.mall.systemservice.rpc.permission.ResourceRpc;
-import cn.iocoder.mall.systemservice.rpc.permission.RoleRpc;
+import cn.iocoder.mall.systemservice.rpc.permission.ResourceFeign;
+import cn.iocoder.mall.systemservice.rpc.permission.RoleFeign;
 import cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO;
-import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -31,22 +31,22 @@ import java.util.Set;
 @Service
 public class PassportManager {
 
-    @DubboReference(version = "${dubbo.consumer.AdminRpc.version}")
-    private AdminRpc adminRpc;
-    @DubboReference(version = "${dubbo.consumer.OAuth2Rpc.version}")
-    private OAuth2Rpc oauth2Rpc;
-    @DubboReference(version = "${dubbo.consumer.RoleRpc.version}")
-    private RoleRpc roleRpc;
-    @DubboReference(version = "${dubbo.consumer.ResourceRpc.version}")
-    private ResourceRpc resourceRpc;
 
+    @Autowired
+    private AdminFeign adminFeign;
+    @Autowired
+    private OAuthFeign oAuthFeign;
+    @Autowired
+    private RoleFeign roleFeign;
+    @Autowired
+    private ResourceFeign resourceFeign;
     public PassportAccessTokenVO login(PassportLoginDTO loginDTO, String ip) {
         // 校验管理员密码
-//        CommonResult<AdminVO> verifyPasswordResult = adminRpc.verifyPassword(AdminPassportConvert.INSTANCE.convert(loginDTO).setIp(ip));
-        CommonResult<AdminVO> verifyPasswordResult = adminRpc.verifyPassword(AdminPassportConvert.INSTANCE.convert(loginDTO).setIp(ip));
+//        CommonResult<AdminVO> verifyPasswordResult = adminFeign.verifyPassword(AdminPassportConvert.INSTANCE.convert(loginDTO).setIp(ip));
+        CommonResult<AdminVO> verifyPasswordResult = adminFeign.verifyPassword(AdminPassportConvert.INSTANCE.convert(loginDTO).setIp(ip));
         verifyPasswordResult.checkError();
         // 创建访问令牌
-        CommonResult<OAuth2AccessTokenRespDTO> createAccessTokenResult = oauth2Rpc.createAccessToken(
+        CommonResult<OAuth2AccessTokenRespDTO> createAccessTokenResult = oAuthFeign.createAccessToken(
                 new OAuth2CreateAccessTokenReqDTO().setUserId(verifyPasswordResult.getData().getId())
                         .setUserType(UserTypeEnum.ADMIN.getValue()).setCreateIp(ip));
         createAccessTokenResult.checkError();
@@ -55,13 +55,13 @@ public class PassportManager {
     }
 
     public PassportAdminVO getAdmin(Integer adminId) {
-        CommonResult<AdminVO> getAdminResult = adminRpc.getAdmin(adminId);
+        CommonResult<AdminVO> getAdminResult = adminFeign.getAdmin(adminId);
         getAdminResult.checkError();
         return AdminPassportConvert.INSTANCE.convert(getAdminResult.getData());
     }
 
     public PassportAccessTokenVO refreshToken(String refreshToken, String ip) {
-        CommonResult<OAuth2AccessTokenRespDTO> refreshAccessTokenResult = oauth2Rpc.refreshAccessToken(
+        CommonResult<OAuth2AccessTokenRespDTO> refreshAccessTokenResult = oAuthFeign.refreshAccessToken(
                 new OAuth2RefreshAccessTokenReqDTO().setRefreshToken(refreshToken).setCreateIp(ip));
         refreshAccessTokenResult.checkError();
         return AdminPassportConvert.INSTANCE.convert(refreshAccessTokenResult.getData());
@@ -75,13 +75,13 @@ public class PassportManager {
      */
     public Set<String> listAdminPermission(Integer adminId) {
         // 获得管理员拥有的角色编号列表
-        CommonResult<Set<Integer>> listAdminRoleIdsResult = roleRpc.listAdminRoleIds(adminId);
+        CommonResult<Set<Integer>> listAdminRoleIdsResult = roleFeign.listAdminRoleIds(adminId);
         listAdminRoleIdsResult.checkError();
         if (CollectionUtils.isEmpty(listAdminRoleIdsResult.getData())) {
             return Collections.emptySet();
         }
         // 获得角色拥有的资源列表
-        CommonResult<List<ResourceVO>> resourceVOResult = resourceRpc.listRoleResource(
+        CommonResult<List<ResourceVO>> resourceVOResult = resourceFeign.listRoleResource(
                 listAdminRoleIdsResult.getData(), null);
         resourceVOResult.checkError();
         return CollectionUtils.convertSet(resourceVOResult.getData(), cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO::getPermission);
@@ -95,13 +95,13 @@ public class PassportManager {
      */
     public List<PassportAdminMenuTreeNodeVO> treeAdminMenu(Integer adminId) {
         // 获得管理员拥有的角色编号列表
-        CommonResult<Set<Integer>> listAdminRoleIdsResult = roleRpc.listAdminRoleIds(adminId);
+        CommonResult<Set<Integer>> listAdminRoleIdsResult = roleFeign.listAdminRoleIds(adminId);
         listAdminRoleIdsResult.checkError();
         if (CollectionUtils.isEmpty(listAdminRoleIdsResult.getData())) {
             return Collections.emptyList();
         }
         // 获得角色拥有的资源（菜单）列表
-        CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO>> resourceVOResult = resourceRpc.listRoleResource(
+        CommonResult<List<cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO>> resourceVOResult = resourceFeign.listRoleResource(
                 listAdminRoleIdsResult.getData(), ResourceTypeEnum.MENU.getType());
         resourceVOResult.checkError();
         // 构建菜单树

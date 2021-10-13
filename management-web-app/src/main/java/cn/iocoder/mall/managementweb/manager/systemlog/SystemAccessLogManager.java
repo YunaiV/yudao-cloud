@@ -5,8 +5,8 @@ import cn.iocoder.common.framework.vo.PageResult;
 import cn.iocoder.mall.managementweb.controller.systemlog.dto.SystemAccessLogPageDTO;
 import cn.iocoder.mall.managementweb.controller.systemlog.vo.SystemAccessLogVO;
 import cn.iocoder.mall.managementweb.convert.systemlog.SystemAccessLogConvert;
-import cn.iocoder.mall.systemservice.rpc.systemlog.SystemAccessLogRpc;
-import org.apache.dubbo.config.annotation.DubboReference;
+import cn.iocoder.mall.systemservice.rpc.systemlog.SystemAccessLogFeign;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,9 +15,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class SystemAccessLogManager {
 
-    @DubboReference(version = "${dubbo.consumer.SystemAccessLogRpc.version}")
-    private SystemAccessLogRpc systemAccessLogRpc;
-
+    @Autowired
+    private SystemAccessLogFeign systemAccessLogFeign;
     /**
     * 获得系统访问日志分页
     *
@@ -26,7 +25,7 @@ public class SystemAccessLogManager {
     */
     public PageResult<SystemAccessLogVO> pageSystemAccessLog(SystemAccessLogPageDTO pageDTO) {
         CommonResult<PageResult<cn.iocoder.mall.systemservice.rpc.systemlog.vo.SystemAccessLogVO>> pageSystemAccessLogResult =
-                systemAccessLogRpc.pageSystemAccessLog(SystemAccessLogConvert.INSTANCE.convert(pageDTO));
+                systemAccessLogFeign.pageSystemAccessLog(SystemAccessLogConvert.INSTANCE.convert(pageDTO));
         pageSystemAccessLogResult.checkError();
         return SystemAccessLogConvert.INSTANCE.convertPage(pageSystemAccessLogResult.getData());
     }

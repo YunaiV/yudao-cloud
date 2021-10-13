@@ -1,12 +1,12 @@
-package cn.iocoder.mall.systemservice.rpc.permission;
+package cn.iocoder.mall.systemservice.controller;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.systemservice.manager.permission.ResourceManager;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.ResourceCreateDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.dto.ResourceUpdateDTO;
 import cn.iocoder.mall.systemservice.rpc.permission.vo.ResourceVO;
-import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,48 +14,53 @@ import java.util.List;
 import static cn.iocoder.common.framework.vo.CommonResult.success;
 
 /**
-* 资源 Rpc 实现类
-*/
-@Service(version = "${dubbo.provider.ResourceRpc.version}")
-public class ResourceRpcImpl implements ResourceRpc {
+ * Title:
+ * Description:
+ *
+ * @author zhuyang
+ * @version 1.0 2021/10/11
+ */
+@RestController
+@RequestMapping("/system/resource")
+public class ResourceController {
 
     @Autowired
     private ResourceManager resourceManager;
 
-    @Override
-    public CommonResult<Integer> createResource(ResourceCreateDTO createDTO) {
+    @PostMapping("createResource")
+    public CommonResult<Integer> createResource(@RequestBody ResourceCreateDTO createDTO) {
         return success(resourceManager.createResource(createDTO));
     }
 
-    @Override
-    public CommonResult<Boolean> updateResource(ResourceUpdateDTO updateDTO) {
+    @PostMapping("updateResource")
+    public CommonResult<Boolean> updateResource(@RequestBody ResourceUpdateDTO updateDTO) {
         resourceManager.updateResource(updateDTO);
         return success(true);
     }
 
-    @Override
-    public CommonResult<Boolean> deleteResource(Integer resourceId) {
+    @GetMapping("deleteResource")
+    public CommonResult<Boolean> deleteResource(@RequestParam("resourceId")Integer resourceId) {
         resourceManager.deleteResource(resourceId);
         return success(true);
     }
 
-    @Override
-    public CommonResult<ResourceVO> getResource(Integer resourceId) {
+    @GetMapping("getResource")
+    public CommonResult<ResourceVO> getResource(@RequestParam("resourceId")Integer resourceId) {
         return success(resourceManager.getResource(resourceId));
     }
 
-    @Override
+    @GetMapping("listAllResource")
     public CommonResult<List<ResourceVO>> listResource() {
         return success(resourceManager.listResources());
     }
 
-    @Override
-    public CommonResult<List<ResourceVO>> listResource(List<Integer> resourceIds) {
+    @GetMapping("listResource")
+    public CommonResult<List<ResourceVO>> listResource(@RequestParam("resourceIds")List<Integer> resourceIds) {
         return success(resourceManager.listResources(resourceIds));
     }
 
-    @Override
-    public CommonResult<List<ResourceVO>> listRoleResource(Collection<Integer> roleIds, Integer type) {
+    @GetMapping("listRoleResource")
+    public CommonResult<List<ResourceVO>> listRoleResource(@RequestParam("roleIds") Collection<Integer> roleIds, @RequestParam("type")Integer type) {
         return success(resourceManager.listRoleResources(roleIds, type));
     }
 

@@ -1,4 +1,4 @@
-package cn.iocoder.mall.systemservice.rpc.admin;
+package cn.iocoder.mall.systemservice.controller;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
@@ -8,41 +8,49 @@ import cn.iocoder.mall.systemservice.rpc.admin.dto.AdminPageDTO;
 import cn.iocoder.mall.systemservice.rpc.admin.dto.AdminUpdateDTO;
 import cn.iocoder.mall.systemservice.rpc.admin.dto.AdminVerifyPasswordDTO;
 import cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO;
-import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
 
-@Service(version = "${dubbo.provider.AdminRpc.version}")
-public class AdminRpcImpl implements AdminRpc {
-
+/**
+ * Title:
+ * Description:
+ *
+ * @author zhuyang
+ * @version 1.0 2021/10/11
+ */
+@RestController
+@RequestMapping("/system/admin")
+public class AdminController {
     @Autowired
     private AdminManager adminManager;
 
-    @Override
-    public CommonResult<AdminVO> verifyPassword(AdminVerifyPasswordDTO verifyPasswordDTO) {
+    
+    @PostMapping("verifyPassword")
+    public CommonResult<AdminVO> verifyPassword(@RequestBody AdminVerifyPasswordDTO verifyPasswordDTO) {
         return success(adminManager.verifyPassword(verifyPasswordDTO));
     }
 
-    @Override
-    public CommonResult<Integer> createAdmin(AdminCreateDTO createDTO) {
+    @PostMapping("createAdmin")
+    public CommonResult<Integer> createAdmin(@RequestBody AdminCreateDTO createDTO) {
         AdminVO adminVO = adminManager.createAdmin(createDTO);
         return success(adminVO.getId());
     }
 
-    @Override
-    public CommonResult<Boolean> updateAdmin(AdminUpdateDTO updateDTO) {
+    @PostMapping("updateAdmin")
+    public CommonResult<Boolean> updateAdmin(@RequestBody AdminUpdateDTO updateDTO) {
         adminManager.updateAdmin(updateDTO);
         return success(true);
     }
 
-    @Override
-    public CommonResult<PageResult<AdminVO>> pageAdmin(AdminPageDTO pageDTO) {
+    @PostMapping("pageAdmin")
+    public CommonResult<PageResult<AdminVO>> pageAdmin(@RequestBody  AdminPageDTO pageDTO) {
         return success(adminManager.pageAdmin(pageDTO));
     }
 
-    @Override
-    public CommonResult<AdminVO> getAdmin(Integer adminId) {
+    @GetMapping("getAdmin")
+    public CommonResult<AdminVO> getAdmin(@RequestParam("adminId") Integer adminId) {
         return success(adminManager.getAdmin(adminId));
     }
 

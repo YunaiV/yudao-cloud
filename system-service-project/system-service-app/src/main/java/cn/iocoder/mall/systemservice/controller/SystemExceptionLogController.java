@@ -1,4 +1,4 @@
-package cn.iocoder.mall.systemservice.rpc.systemlog;
+package cn.iocoder.mall.systemservice.controller;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
@@ -7,37 +7,43 @@ import cn.iocoder.mall.systemservice.rpc.systemlog.dto.SystemExceptionLogCreateD
 import cn.iocoder.mall.systemservice.rpc.systemlog.dto.SystemExceptionLogPageDTO;
 import cn.iocoder.mall.systemservice.rpc.systemlog.dto.SystemExceptionLogProcessDTO;
 import cn.iocoder.mall.systemservice.rpc.systemlog.vo.SystemExceptionLogVO;
-import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
 
-@Service(version = "${dubbo.provider.SystemExceptionLogRpc.version}")
-public class SystemExceptionLogRpcImpl implements SystemExceptionLogRpc {
-
+/**
+ * Title:
+ * Description:
+ *
+ * @author zhuyang
+ * @version 1.0 2021/10/11
+ */
+@RestController
+@RequestMapping("/system/exceptionlog")
+public class SystemExceptionLogController {
     @Autowired
     private SystemExceptionLogManager systemExceptionLogManager;
 
-    @Override
-    public CommonResult<Boolean> createSystemExceptionLog(SystemExceptionLogCreateDTO createDTO) {
+    @PostMapping("createSystemExceptionLog")
+    public CommonResult<Boolean> createSystemExceptionLog(@RequestBody SystemExceptionLogCreateDTO createDTO) {
         systemExceptionLogManager.createSystemExceptionLog(createDTO);
         return success(true);
     }
 
-    @Override
-    public CommonResult<SystemExceptionLogVO> getSystemExceptionLog(Integer systemExceptionLogId) {
+    @GetMapping("getSystemExceptionLog")
+    public CommonResult<SystemExceptionLogVO> getSystemExceptionLog(@RequestParam("systemExceptionLogId") Integer systemExceptionLogId) {
         return success(systemExceptionLogManager.getSystemExceptionLog(systemExceptionLogId));
     }
 
-    @Override
-    public CommonResult<PageResult<SystemExceptionLogVO>> pageSystemExceptionLog(SystemExceptionLogPageDTO pageDTO) {
+    @PostMapping("pageSystemExceptionLog")
+    public CommonResult<PageResult<SystemExceptionLogVO>> pageSystemExceptionLog(@RequestBody SystemExceptionLogPageDTO pageDTO) {
         return success(systemExceptionLogManager.pageSystemExceptionLog(pageDTO));
     }
 
-    @Override
-    public CommonResult<Boolean> processSystemExceptionLog(SystemExceptionLogProcessDTO processDTO) {
+    @PostMapping("processSystemExceptionLog")
+    public CommonResult<Boolean> processSystemExceptionLog(@RequestBody SystemExceptionLogProcessDTO processDTO) {
         systemExceptionLogManager.processSystemExceptionLog(processDTO);
         return CommonResult.success(true);
     }
-
 }

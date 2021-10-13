@@ -6,12 +6,12 @@ import cn.iocoder.common.framework.util.HttpUtil;
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.mall.security.user.core.context.UserSecurityContext;
 import cn.iocoder.mall.security.user.core.context.UserSecurityContextHolder;
-import cn.iocoder.mall.systemservice.rpc.oauth.OAuth2Rpc;
+import cn.iocoder.mall.systemservice.rpc.oauth.OAuthFeign;
 import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2AccessTokenRespDTO;
 import cn.iocoder.mall.web.core.util.CommonWebUtil;
 import cn.iocoder.security.annotations.RequiresAuthenticate;
 import cn.iocoder.security.annotations.RequiresPermissions;
-import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -23,8 +23,8 @@ import static cn.iocoder.mall.systemservice.enums.SystemErrorCodeConstants.OAUTH
 
 public class UserSecurityInterceptor extends HandlerInterceptorAdapter {
 
-    @Reference(version = "${dubbo.consumer.OAuth2Rpc.version}")
-    private OAuth2Rpc oauth2Rpc;
+    @Autowired
+    private OAuthFeign oAuthFeign;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -39,7 +39,7 @@ public class UserSecurityInterceptor extends HandlerInterceptorAdapter {
         String accessToken = HttpUtil.obtainAuthorization(request);
         Integer userId = null;
         if (accessToken != null) {
-            CommonResult<OAuth2AccessTokenRespDTO> checkAccessTokenResult = oauth2Rpc.checkAccessToken(accessToken);
+            CommonResult<OAuth2AccessTokenRespDTO> checkAccessTokenResult = oAuthFeign.checkAccessToken(accessToken);
             checkAccessTokenResult.checkError();
             // 校验用户类型正确
             if (!UserTypeEnum.USER.getValue().equals(checkAccessTokenResult.getData().getUserType())) {

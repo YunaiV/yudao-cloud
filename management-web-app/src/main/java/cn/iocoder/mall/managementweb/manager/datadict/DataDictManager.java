@@ -6,8 +6,8 @@ import cn.iocoder.mall.managementweb.controller.datadict.dto.DataDictUpdateDTO;
 import cn.iocoder.mall.managementweb.controller.datadict.vo.DataDictSimpleVO;
 import cn.iocoder.mall.managementweb.controller.datadict.vo.DataDictVO;
 import cn.iocoder.mall.managementweb.convert.datadict.DataDictConvert;
-import cn.iocoder.mall.systemservice.rpc.datadict.DataDictRpc;
-import org.apache.dubbo.config.annotation.Reference;
+import cn.iocoder.mall.systemservice.rpc.datadict.DataDictFeign;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -23,9 +23,8 @@ public class DataDictManager {
             .comparing(cn.iocoder.mall.systemservice.rpc.datadict.vo.DataDictVO::getEnumValue)
             .thenComparingInt(cn.iocoder.mall.systemservice.rpc.datadict.vo.DataDictVO::getSort);
 
-    @Reference(version = "${dubbo.consumer.DataDictRpc.version}")
-    private DataDictRpc dataDictRpc;
-
+    @Autowired
+    private DataDictFeign dataDictFeign;
     /**
     * 创建数据字典
     *
@@ -33,7 +32,7 @@ public class DataDictManager {
     * @return 数据字典
     */
     public Integer createDataDict(DataDictCreateDTO createDTO) {
-        CommonResult<Integer> createDataDictResult = dataDictRpc.createDataDict(DataDictConvert.INSTANCE.convert(createDTO));
+        CommonResult<Integer> createDataDictResult = dataDictFeign.createDataDict(DataDictConvert.INSTANCE.convert(createDTO));
         createDataDictResult.checkError();
         return createDataDictResult.getData();
     }
@@ -44,7 +43,7 @@ public class DataDictManager {
     * @param updateDTO 更新数据字典 DTO
     */
     public void updateDataDict(DataDictUpdateDTO updateDTO) {
-        CommonResult<Boolean> updateDataDictResult = dataDictRpc.updateDataDict(DataDictConvert.INSTANCE.convert(updateDTO));
+        CommonResult<Boolean> updateDataDictResult = dataDictFeign.updateDataDict(DataDictConvert.INSTANCE.convert(updateDTO));
         updateDataDictResult.checkError();
     }
 
@@ -54,7 +53,7 @@ public class DataDictManager {
     * @param dataDictId 数据字典编号
     */
     public void deleteDataDict(Integer dataDictId) {
-        CommonResult<Boolean> deleteDataDictResult = dataDictRpc.deleteDataDict(dataDictId);
+        CommonResult<Boolean> deleteDataDictResult = dataDictFeign.deleteDataDict(dataDictId);
         deleteDataDictResult.checkError();
     }
 
@@ -65,7 +64,7 @@ public class DataDictManager {
     * @return 数据字典
     */
     public DataDictVO getDataDict(Integer dataDictId) {
-        CommonResult<cn.iocoder.mall.systemservice.rpc.datadict.vo.DataDictVO> getDataDictResult = dataDictRpc.getDataDict(dataDictId);
+        CommonResult<cn.iocoder.mall.systemservice.rpc.datadict.vo.DataDictVO> getDataDictResult = dataDictFeign.getDataDict(dataDictId);
         getDataDictResult.checkError();
         return DataDictConvert.INSTANCE.convert(getDataDictResult.getData());
     }
@@ -77,7 +76,7 @@ public class DataDictManager {
     * @return 数据字典列表
     */
     public List<DataDictVO> listDataDicts(List<Integer> dataDictIds) {
-        CommonResult<List<cn.iocoder.mall.systemservice.rpc.datadict.vo.DataDictVO>> listDataDictResult = dataDictRpc.listDataDicts(dataDictIds);
+        CommonResult<List<cn.iocoder.mall.systemservice.rpc.datadict.vo.DataDictVO>> listDataDictResult = dataDictFeign.listDataDicts(dataDictIds);
         listDataDictResult.checkError();
         return DataDictConvert.INSTANCE.convertList(listDataDictResult.getData());
     }
@@ -88,7 +87,7 @@ public class DataDictManager {
      * @return 数据字典列表
      */
     public List<DataDictVO> listDataDicts() {
-        CommonResult<List<cn.iocoder.mall.systemservice.rpc.datadict.vo.DataDictVO>> listDataDictResult = dataDictRpc.listDataDicts();
+        CommonResult<List<cn.iocoder.mall.systemservice.rpc.datadict.vo.DataDictVO>> listDataDictResult = dataDictFeign.listDataDicts();
         listDataDictResult.checkError();
         // 按照 enumValue 和 sort 排序
         listDataDictResult.getData().sort(COMPARATOR_ENUM_VALUE_SORT);
@@ -103,7 +102,7 @@ public class DataDictManager {
      * @return 数据字典列表
      */
     public List<DataDictSimpleVO> listSimpleDataDicts() {
-        CommonResult<List<cn.iocoder.mall.systemservice.rpc.datadict.vo.DataDictVO>> listDataDictResult = dataDictRpc.listDataDicts();
+        CommonResult<List<cn.iocoder.mall.systemservice.rpc.datadict.vo.DataDictVO>> listDataDictResult = dataDictFeign.listDataDicts();
         listDataDictResult.checkError();
         // 按照 enumValue 和 sort 排序
         listDataDictResult.getData().sort(COMPARATOR_ENUM_VALUE_SORT);

@@ -10,13 +10,13 @@ import cn.iocoder.mall.managementweb.controller.admin.dto.AdminUpdateStatusDTO;
 import cn.iocoder.mall.managementweb.controller.admin.vo.AdminPageItemVO;
 import cn.iocoder.mall.managementweb.controller.admin.vo.AdminVO;
 import cn.iocoder.mall.managementweb.convert.admin.AdminConvert;
-import cn.iocoder.mall.systemservice.rpc.admin.AdminRpc;
-import cn.iocoder.mall.systemservice.rpc.admin.DepartmentRpc;
+import cn.iocoder.mall.systemservice.rpc.admin.AdminFeign;
+import cn.iocoder.mall.systemservice.rpc.admin.DepartmentFeign;
 import cn.iocoder.mall.systemservice.rpc.admin.vo.DepartmentVO;
-import cn.iocoder.mall.systemservice.rpc.permission.PermissionRpc;
-import cn.iocoder.mall.systemservice.rpc.permission.RoleRpc;
+import cn.iocoder.mall.systemservice.rpc.permission.PermissionFeign;
+import cn.iocoder.mall.systemservice.rpc.permission.RoleFeign;
 import cn.iocoder.mall.systemservice.rpc.permission.vo.RoleVO;
-import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -27,18 +27,18 @@ import java.util.*;
 @Validated
 public class AdminManager {
 
-    @Reference(version = "${dubbo.consumer.AdminRpc.version}")
-    private AdminRpc adminRpc;
-    @Reference(version = "${dubbo.consumer.RoleRpc.version}")
-    private RoleRpc roleRpc;
-    @Reference(version = "${dubbo.consumer.DepartmentRpc.version}")
-    private DepartmentRpc departmentRpc;
-    @Reference(version = "${dubbo.consumer.PermissionRpc.version}")
-    private PermissionRpc permissionRpc;
+    @Autowired
+    private AdminFeign adminFeign;
+    @Autowired
+    private RoleFeign roleFeign;
+    @Autowired
+    private DepartmentFeign departmentFeign;
+    @Autowired
+    private PermissionFeign permissionFeign;
 
     public PageResult<AdminPageItemVO> pageAdmin(AdminPageDTO pageDTO) {
         CommonResult<PageResult<cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO>> pageResult =
-                adminRpc.pageAdmin(AdminConvert.INSTANCE.convert(pageDTO));
+                adminFeign.pageAdmin(AdminConvert.INSTANCE.convert(pageDTO));
         pageResult.checkError();
         // 转换结果
         PageResult<AdminPageItemVO> adminPageVO = new PageResult<>();
@@ -50,7 +50,7 @@ public class AdminManager {
             Map<Integer, List<RoleVO>> adminRoleMap = this.listAdminRoles(CollectionUtils.convertList(pageResult.getData().getList(),
                     cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO::getId));
             // 查询部门
-            CommonResult<List<DepartmentVO>> listDepartmentsResult = departmentRpc.listDepartments(
+            CommonResult<List<DepartmentVO>> listDepartmentsResult = departmentFeign.listDepartments(
                     CollectionUtils.convertSet(pageResult.getData().getList(),
                     cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO::getDepartmentId));
             listDepartmentsResult.checkError();
@@ -72,12 +72,12 @@ public class AdminManager {
 
     private Map<Integer, List<RoleVO>> listAdminRoles(List<Integer> adminIds) {
         // 获得管理员拥有的角色
-        CommonResult<Map<Integer, Set<Integer>>> mapAdminRoleIdsResult = permissionRpc.mapAdminRoleIds(adminIds);
+        CommonResult<Map<Integer, Set<Integer>>> mapAdminRoleIdsResult = permissionFeign.mapAdminRoleIds(adminIds);
         mapAdminRoleIdsResult.checkError();
         // 获得角色列表
         Set<Integer> roleIds = new HashSet<>();
         mapAdminRoleIdsResult.getData().values().forEach(roleIds::addAll);
-        CommonResult<List<RoleVO>> listRolesResult = roleRpc.listRoles(roleIds);
+        CommonResult<List<RoleVO>> listRolesResult = roleFeign.listRoles(roleIds);
         listRolesResult.checkError();
         Map<Integer, RoleVO> roleVOMap = CollectionUtils.convertMap(listRolesResult.getData(), RoleVO::getId);
         // 拼接结果
@@ -96,24 +96,24 @@ public class AdminManager {
     }
 
     public Integer createAdmin(AdminCreateDTO createDTO, Integer createAdminId, String createIp) {
-        CommonResult<Integer> createAdminResult = adminRpc.createAdmin(AdminConvert.INSTANCE.convert(createDTO)
+        CommonResult<Integer> createAdminResult = adminFeign.createAdmin(AdminConvert.INSTANCE.convert(createDTO)
             .setCreateAdminId(createAdminId).setCreateIp(createIp));
         createAdminResult.checkError();
         return createAdminResult.getData();
     }
 
     public void updateAdmin(AdminUpdateInfoDTO updateInfoDTO) {
-        CommonResult<Boolean> updateAdminResult = adminRpc.updateAdmin(AdminConvert.INSTANCE.convert(updateInfoDTO));
+        CommonResult<Boolean> updateAdminResult = adminFeign.updateAdmin(AdminConvert.INSTANCE.convert(updateInfoDTO));
         updateAdminResult.checkError();
     }
 
     public void updateAdminStatus(@Valid AdminUpdateStatusDTO updateStatusDTO) {
-        CommonResult<Boolean> updateAdminResult = adminRpc.updateAdmin(AdminConvert.INSTANCE.convert(updateStatusDTO));
+        CommonResult<Boolean> updateAdminResult = adminFeign.updateAdmin(AdminConvert.INSTANCE.convert(updateStatusDTO));
         updateAdminResult.checkError();
     }
 
     public AdminVO getAdmin(Integer adminId) {
-        CommonResult<cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO> getAdminResult = adminRpc.getAdmin(adminId);
+        CommonResult<cn.iocoder.mall.systemservice.rpc.admin.vo.AdminVO> getAdminResult = adminFeign.getAdmin(adminId);
         getAdminResult.checkError();
         return AdminConvert.INSTANCE.convert(getAdminResult.getData());
     }

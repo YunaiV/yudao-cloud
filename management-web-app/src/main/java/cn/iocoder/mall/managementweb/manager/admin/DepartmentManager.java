@@ -7,9 +7,9 @@ import cn.iocoder.mall.managementweb.controller.admin.vo.DepartmentTreeNodeVO;
 import cn.iocoder.mall.managementweb.controller.admin.vo.DepartmentVO;
 import cn.iocoder.mall.managementweb.convert.admin.DepartmentConvert;
 import cn.iocoder.mall.systemservice.enums.admin.DepartmentIdEnum;
-import cn.iocoder.mall.systemservice.rpc.admin.DepartmentRpc;
+import cn.iocoder.mall.systemservice.rpc.admin.DepartmentFeign;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -22,9 +22,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class DepartmentManager {
 
-    @Reference(version = "${dubbo.consumer.DepartmentRpc.version}")
-    private DepartmentRpc departmentRpc;
-
+    @Autowired
+    private DepartmentFeign departmentFeign;
     /**
     * 创建部门
     *
@@ -32,7 +31,7 @@ public class DepartmentManager {
     * @return 部门
     */
     public Integer createDepartment(DepartmentCreateDTO createDTO) {
-        CommonResult<Integer> createDepartmentResult = departmentRpc.createDepartment(DepartmentConvert.INSTANCE.convert(createDTO));
+        CommonResult<Integer> createDepartmentResult = departmentFeign.createDepartment(DepartmentConvert.INSTANCE.convert(createDTO));
         createDepartmentResult.checkError();
         return createDepartmentResult.getData();
     }
@@ -43,7 +42,7 @@ public class DepartmentManager {
     * @param updateDTO 更新部门 DTO
     */
     public void updateDepartment(DepartmentUpdateDTO updateDTO) {
-        CommonResult<Boolean> updateDepartmentResult = departmentRpc.updateDepartment(DepartmentConvert.INSTANCE.convert(updateDTO));
+        CommonResult<Boolean> updateDepartmentResult = departmentFeign.updateDepartment(DepartmentConvert.INSTANCE.convert(updateDTO));
         updateDepartmentResult.checkError();
     }
 
@@ -53,7 +52,7 @@ public class DepartmentManager {
     * @param departmentId 部门编号
     */
     public void deleteDepartment(Integer departmentId) {
-        CommonResult<Boolean> deleteDepartmentResult = departmentRpc.deleteDepartment(departmentId);
+        CommonResult<Boolean> deleteDepartmentResult = departmentFeign.deleteDepartment(departmentId);
         deleteDepartmentResult.checkError();
     }
 
@@ -64,7 +63,7 @@ public class DepartmentManager {
     * @return 部门
     */
     public DepartmentVO getDepartment(Integer departmentId) {
-        CommonResult<cn.iocoder.mall.systemservice.rpc.admin.vo.DepartmentVO> getDepartmentResult = departmentRpc.getDepartment(departmentId);
+        CommonResult<cn.iocoder.mall.systemservice.rpc.admin.vo.DepartmentVO> getDepartmentResult = departmentFeign.getDepartment(departmentId);
         getDepartmentResult.checkError();
         return DepartmentConvert.INSTANCE.convert(getDepartmentResult.getData());
     }
@@ -76,7 +75,7 @@ public class DepartmentManager {
     * @return 部门列表
     */
     public List<DepartmentVO> listDepartments(List<Integer> departmentIds) {
-        CommonResult<List<cn.iocoder.mall.systemservice.rpc.admin.vo.DepartmentVO>> listDepartmentResult = departmentRpc.listDepartments(departmentIds);
+        CommonResult<List<cn.iocoder.mall.systemservice.rpc.admin.vo.DepartmentVO>> listDepartmentResult = departmentFeign.listDepartments(departmentIds);
         listDepartmentResult.checkError();
         return DepartmentConvert.INSTANCE.convertList(listDepartmentResult.getData());
     }
@@ -88,7 +87,7 @@ public class DepartmentManager {
      */
     public List<DepartmentTreeNodeVO> treeDepartment() {
         // 获得资源全列表
-        CommonResult<List<cn.iocoder.mall.systemservice.rpc.admin.vo.DepartmentVO>> listDepartmentResult = departmentRpc.listDepartments();
+        CommonResult<List<cn.iocoder.mall.systemservice.rpc.admin.vo.DepartmentVO>> listDepartmentResult = departmentFeign.listDepartments();
         listDepartmentResult.checkError();
         // 构建菜单树
         return buildDepartmentTree(listDepartmentResult.getData());

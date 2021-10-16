@@ -1,37 +1,37 @@
 ### /resource/create 成功
-POST {{baseUrl}}/resource/create
+POST http://127.0.0.1:18083/management-api/resource/create
 Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer {{accessToken}}
+Authorization: Bearer yudaoyuanma
 
 name=测试菜单&permission=resource:add&type=1&sort=1&pid=0&route=/resource/list&icon=test
 
 ### /admin/update 成功
-POST {{baseUrl}}/resource/update
+POST http://127.0.0.1:18083/management-api/resource/update
 Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer {{accessToken}}
+Authorization: Bearer yudaoyuanma
 
 id=61&name=测试菜单2&permission=resource:add&type=1&sort=1&pid=0&route=/resource/list&icon=test
 
 ### /resource/delete 成功
-POST {{baseUrl}}/resource/delete
+POST http://127.0.0.1:18083/management-api/resource/delete
 Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer {{accessToken}}
+Authorization: Bearer yudaoyuanma
 
 resourceId=61
 
 ### /resource/get 成功
-GET {{baseUrl}}/resource/get?resourceId=61
+GET http://127.0.0.1:18083/management-api/resource/get?resourceId=61
 Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer {{accessToken}}
+Authorization: Bearer yudaoyuanma
 
 ### /resource/list 成功
-GET {{baseUrl}}/resource/list?resourceIds=61,63
+GET http://127.0.0.1:18083/management-api/resource/list?resourceIds=61,63
 Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer {{accessToken}}
+Authorization: Bearer yudaoyuanma
 
 ### /resource/tree 成功
-GET {{baseUrl}}/resource/tree
+GET http://127.0.0.1:18083/management-api/resource/tree
 Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer {{accessToken}}
+Authorization: Bearer yudaoyuanma
 
 ###

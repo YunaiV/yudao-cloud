@@ -1,4 +1,4 @@
-package cn.iocoder.mall.userservice.rpc.user;
+package cn.iocoder.mall.userservice.controller;
 
 import cn.iocoder.common.framework.vo.CommonResult;
 import cn.iocoder.common.framework.vo.PageResult;
@@ -7,42 +7,43 @@ import cn.iocoder.mall.userservice.rpc.user.dto.UserCreateReqDTO;
 import cn.iocoder.mall.userservice.rpc.user.dto.UserPageReqDTO;
 import cn.iocoder.mall.userservice.rpc.user.dto.UserRespDTO;
 import cn.iocoder.mall.userservice.rpc.user.dto.UserUpdateReqDTO;
-import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 import static cn.iocoder.common.framework.vo.CommonResult.success;
 
-@Service(version = "${dubbo.provider.UserRpc.version}", validation = "false")
-public class UserRpcImpl implements UserRpc {
+@RestController
+@RequestMapping("/user/manage")
+public class UserManageController {
 
     @Autowired
     private UserManager userManager;
 
-    @Override
-    public CommonResult<UserRespDTO> getUser(Integer id) {
+    @GetMapping("getUser")
+    public CommonResult<UserRespDTO> getUser(@RequestParam("id") Integer id) {
         return success(userManager.getUser(id));
     }
 
-    @Override
-    public CommonResult<List<UserRespDTO>> listUsers(List<Integer> userIds) {
+    @GetMapping("listUsers")
+    public CommonResult<List<UserRespDTO>> listUsers(@RequestParam("userIds") List<Integer> userIds) {
         return success(userManager.listUsers(userIds));
     }
 
-    @Override
-    public CommonResult<UserRespDTO> createUserIfAbsent(UserCreateReqDTO createDTO) {
+    @PostMapping("createUserIfAbsent")
+    public CommonResult<UserRespDTO> createUserIfAbsent(@RequestBody UserCreateReqDTO createDTO) {
         return success(userManager.createUserIfAbsent(createDTO));
     }
 
-    @Override
-    public CommonResult<Boolean> updateUser(UserUpdateReqDTO updateDTO) {
+    @PostMapping("updateUser")
+    public CommonResult<Boolean> updateUser(@RequestBody UserUpdateReqDTO updateDTO) {
         userManager.updateUser(updateDTO);
         return success(true);
     }
 
-    @Override
-    public CommonResult<PageResult<UserRespDTO>> pageUser(UserPageReqDTO pageDTO) {
+    @PostMapping("pageUser")
+    public CommonResult<PageResult<UserRespDTO>> pageUser(@RequestBody UserPageReqDTO pageDTO) {
         return success(userManager.pageUser(pageDTO));
     }
 

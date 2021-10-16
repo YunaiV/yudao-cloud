@@ -30,7 +30,7 @@ public class OAuthController {
         return success(oAuth2Service.createAccessToken(createAccessTokenDTO));
     }
 
-    @PostMapping("checkAccessToken")
+    @GetMapping("checkAccessToken")
     public CommonResult<OAuth2AccessTokenRespDTO> checkAccessToken(@RequestParam("accessToken") String accessToken) {
         return success(oAuth2Service.checkAccessToken(accessToken));
     }

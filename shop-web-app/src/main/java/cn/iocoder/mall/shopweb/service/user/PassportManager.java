@@ -11,31 +11,28 @@ import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2AccessTokenRespDTO;
 import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2CreateAccessTokenReqDTO;
 import cn.iocoder.mall.systemservice.rpc.oauth.dto.OAuth2RefreshAccessTokenReqDTO;
 import cn.iocoder.mall.userservice.enums.sms.UserSmsSceneEnum;
-import cn.iocoder.mall.userservice.rpc.sms.UserSmsCodeRpc;
-import cn.iocoder.mall.userservice.rpc.user.UserRpc;
+import cn.iocoder.mall.userservice.rpc.sms.UserSmsCodeFeign;
+import cn.iocoder.mall.userservice.rpc.user.UserFeign;
 import cn.iocoder.mall.userservice.rpc.user.dto.UserRespDTO;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PassportManager {
 
-    @DubboReference(version = "${dubbo.consumer.UserSmsCodeRpc.version}", validation = "false")
-    private UserSmsCodeRpc userSmsCodeRpc;
-    @DubboReference(version = "${dubbo.consumer.UserRpc.version}", validation = "false")
-    private UserRpc userRpc;
+    private UserSmsCodeFeign userSmsCodeFeign;
+    private UserFeign userFeign;
 
     @Autowired
     private OAuthFeign oAuthFeign;
 
     public PassportAccessTokenRespVO loginBySms(PassportLoginBySmsReqVO loginBySmsDTO, String ip) {
         // 校验验证码
-        CommonResult<Boolean> verifySmsCodeResult = userSmsCodeRpc.verifySmsCode(
+        CommonResult<Boolean> verifySmsCodeResult = userSmsCodeFeign.verifySmsCode(
                 PassportConvert.INSTANCE.convert(loginBySmsDTO).setScene(UserSmsSceneEnum.LOGIN_BY_SMS.getValue()).setIp(ip));
         verifySmsCodeResult.checkError();
         // 获得用户
-        CommonResult<UserRespDTO> createUserResult = userRpc.createUserIfAbsent(
+        CommonResult<UserRespDTO> createUserResult = userFeign.createUserIfAbsent(
                 PassportConvert.INSTANCE.convert02(loginBySmsDTO).setIp(ip));
         createUserResult.checkError();
         // 创建访问令牌
@@ -48,7 +45,7 @@ public class PassportManager {
     }
 
     public void sendSmsCode(PassportSendSmsRespVO sendSmsCodeDTO, String ip) {
-        CommonResult<Boolean> sendSmsCodeResult = userSmsCodeRpc.sendSmsCode(
+        CommonResult<Boolean> sendSmsCodeResult = userSmsCodeFeign.sendSmsCode(
                 PassportConvert.INSTANCE.convert(sendSmsCodeDTO).setIp(ip));
         sendSmsCodeResult.checkError();
     }

@@ -12,15 +12,15 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling // 开启调度任务的功能，因为 ErrorCodeRemoteLoader 通过定时刷新错误码
 public class ErrorCodeAutoConfiguration {
 
-    @Bean
-    public ErrorCodeAutoGenerator errorCodeAutoGenerator(ErrorCodeProperties errorCodeProperties) {
-        return new ErrorCodeAutoGenerator(errorCodeProperties.getGroup())
-                .setErrorCodeConstantsClass(errorCodeProperties.getConstantsClass());
-    }
-
-    @Bean
-    public ErrorCodeRemoteLoader errorCodeRemoteLoader(ErrorCodeProperties errorCodeProperties) {
-        return new ErrorCodeRemoteLoader(errorCodeProperties.getGroup());
-    }
+//    @Bean
+//    public ErrorCodeAutoGenerator errorCodeAutoGenerator(ErrorCodeProperties errorCodeProperties) {
+//        return new ErrorCodeAutoGenerator(errorCodeProperties.getGroup())
+//                .setErrorCodeConstantsClass(errorCodeProperties.getConstantsClass());
+//    }
+//
+//    @Bean
+//    public ErrorCodeRemoteLoader errorCodeRemoteLoader(ErrorCodeProperties errorCodeProperties) {
+//        return new ErrorCodeRemoteLoader(errorCodeProperties.getGroup());
+//    }
 
 }

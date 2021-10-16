@@ -34,6 +34,6 @@ public interface PermissionFeign {
     @PostMapping("/system/permission/assignAdminRole")
     public CommonResult<Boolean> assignAdminRole(@RequestBody PermissionAssignAdminRoleDTO assignAdminRoleDTO);
 
-    @PostMapping("/system/permission/scheckPermission")
+    @PostMapping("/system/permission/checkPermission")
     public CommonResult<Boolean> checkPermission(@RequestBody PermissionCheckDTO checkDTO) ;
 }

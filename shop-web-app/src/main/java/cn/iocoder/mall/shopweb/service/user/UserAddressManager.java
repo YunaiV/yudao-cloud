@@ -8,9 +8,9 @@ import cn.iocoder.mall.shopweb.controller.user.vo.address.UserAddressRespVO;
 import cn.iocoder.mall.shopweb.controller.user.vo.address.UserAddressUpdateReqVO;
 import cn.iocoder.mall.shopweb.convert.user.UserAddressConvert;
 import cn.iocoder.mall.userservice.enums.address.UserAddressType;
-import cn.iocoder.mall.userservice.rpc.address.UserAddressRpc;
+import cn.iocoder.mall.userservice.rpc.address.UserAddressFeign;
 import cn.iocoder.mall.userservice.rpc.address.dto.UserAddressRespDTO;
-import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,9 +23,8 @@ import static cn.iocoder.common.framework.exception.enums.GlobalErrorCodeConstan
 @Service
 public class UserAddressManager {
 
-    @DubboReference(version = "${dubbo.consumer.UserAddressRpc.version}")
-    private UserAddressRpc userAddressRpc;
-
+    @Autowired
+    private UserAddressFeign userAddressFeign;
     /**
     * 创建用户收件地址
     *
@@ -34,7 +33,7 @@ public class UserAddressManager {
     * @return 用户收件地址
     */
     public Integer createUserAddress(Integer userId, UserAddressCreateReqVO createVO) {
-        CommonResult<Integer> createUserAddressResult = userAddressRpc.createUserAddress(
+        CommonResult<Integer> createUserAddressResult = userAddressFeign.createUserAddress(
                 UserAddressConvert.INSTANCE.convert(createVO).setUserId(userId));
         createUserAddressResult.checkError();
         return createUserAddressResult.getData();
@@ -50,7 +49,7 @@ public class UserAddressManager {
         // 校验是否能够操作
         check(userId, updateVO.getId());
         // 执行更新
-        CommonResult<Boolean> updateUserAddressResult = userAddressRpc.updateUserAddress(UserAddressConvert.INSTANCE.convert(updateVO)
+        CommonResult<Boolean> updateUserAddressResult = userAddressFeign.updateUserAddress(UserAddressConvert.INSTANCE.convert(updateVO)
             .setUserId(userId));
         updateUserAddressResult.checkError();
     }
@@ -65,7 +64,7 @@ public class UserAddressManager {
         // 校验是否能够操作
         check(userId, userAddressId);
         // 执行删除
-        CommonResult<Boolean> deleteUserAddressResult = userAddressRpc.deleteUserAddress(userAddressId);
+        CommonResult<Boolean> deleteUserAddressResult = userAddressFeign.deleteUserAddress(userAddressId);
         deleteUserAddressResult.checkError();
     }
 
@@ -77,7 +76,7 @@ public class UserAddressManager {
     * @return 用户收件地址
     */
     public UserAddressRespVO getUserAddress(Integer userId, Integer userAddressId) {
-        CommonResult<UserAddressRespDTO> getUserAddressResult = userAddressRpc.getUserAddress(userAddressId);
+        CommonResult<UserAddressRespDTO> getUserAddressResult = userAddressFeign.getUserAddress(userAddressId);
         getUserAddressResult.checkError();
         // 校验是否能够操作
         this.check(userId, userAddressId);
@@ -91,7 +90,7 @@ public class UserAddressManager {
     * @return 用户收件地址列表
     */
     public List<UserAddressRespVO> listUserAddresses(Integer userId) {
-        CommonResult<List<UserAddressRespDTO>> listUserAddressResult = userAddressRpc.listUserAddresses(userId, null);
+        CommonResult<List<UserAddressRespDTO>> listUserAddressResult = userAddressFeign.listUserAddresses(userId, null);
         listUserAddressResult.checkError();
         return UserAddressConvert.INSTANCE.convertList(listUserAddressResult.getData());
     }
@@ -103,7 +102,7 @@ public class UserAddressManager {
      * @return 用户收件地址
      */
     public UserAddressRespVO getDefaultUserAddress(Integer userId) {
-        CommonResult<List<UserAddressRespDTO>> listUserAddressResult = userAddressRpc.listUserAddresses(userId, UserAddressType.DEFAULT.getType());
+        CommonResult<List<UserAddressRespDTO>> listUserAddressResult = userAddressFeign.listUserAddresses(userId, UserAddressType.DEFAULT.getType());
         listUserAddressResult.checkError();
         return !CollectionUtils.isEmpty(listUserAddressResult.getData()) ?
                 UserAddressConvert.INSTANCE.convert(listUserAddressResult.getData().get(0)) : null;
@@ -116,7 +115,7 @@ public class UserAddressManager {
      * @param userAddressId 用户收件地址
      */
     private void check(Integer userId, Integer userAddressId) {
-        CommonResult<UserAddressRespDTO> getUserAddressResult = userAddressRpc.getUserAddress(userAddressId);
+        CommonResult<UserAddressRespDTO> getUserAddressResult = userAddressFeign.getUserAddress(userAddressId);
         getUserAddressResult.checkError();
         this.check(userId, getUserAddressResult.getData());
     }

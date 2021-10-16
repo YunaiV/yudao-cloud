@@ -1,9 +1,9 @@
 package cn.iocoder.mall.tradeservice.client.user;
 
 import cn.iocoder.common.framework.vo.CommonResult;
-import cn.iocoder.mall.userservice.rpc.address.UserAddressRpc;
+import cn.iocoder.mall.userservice.rpc.address.UserAddressFeign;
 import cn.iocoder.mall.userservice.rpc.address.dto.UserAddressRespDTO;
-import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -11,11 +11,10 @@ import java.util.Objects;
 @Service
 public class UserAddressClient {
 
-    @DubboReference(version = "${dubbo.consumer.UserAddressRpc.version}")
-    private UserAddressRpc userAddressRpc;
-
+    @Autowired
+    private UserAddressFeign userAddressFeign;
     public UserAddressRespDTO getUserAddress(Integer userAddressId, Integer userId) {
-        CommonResult<UserAddressRespDTO> getUserAddressResult = userAddressRpc.getUserAddress(userAddressId);
+        CommonResult<UserAddressRespDTO> getUserAddressResult = userAddressFeign.getUserAddress(userAddressId);
         getUserAddressResult.checkError();
         if (getUserAddressResult.getData() == null) {
             return null;

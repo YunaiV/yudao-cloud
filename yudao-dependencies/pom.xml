@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cn.iocoder.cloud</groupId>
+    <artifactId>yudao-dependencies</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+
+    <name>${project.artifactId}</name>
+    <description>基础 bom 文件，管理整个项目的依赖版本</description>
+    <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
+
+    <properties>
+        <revision>1.6.2-snapshot</revision>
+        <!-- 统一依赖管理 -->
+        <spring.boot.version>2.6.7</spring.boot.version>
+        <spring.cloud.version>2021.0.1</spring.cloud.version>
+        <spring.cloud.alibaba.version>2021.0.1.0</spring.cloud.alibaba.version>
+        <!-- Web 相关 -->
+        <knife4j.version>3.0.2</knife4j.version>
+        <swagger-annotations.version>1.5.22</swagger-annotations.version>
+        <servlet.versoin>2.5</servlet.versoin>
+        <!-- DB 相关 -->
+        <druid.version>1.2.8</druid.version>
+        <mybatis-plus.version>3.4.3.4</mybatis-plus.version>
+        <mybatis-plus-generator.version>3.5.2</mybatis-plus-generator.version>
+        <dynamic-datasource.version>3.5.0</dynamic-datasource.version>
+        <redisson.version>3.17.0</redisson.version>
+        <!-- Config 配置中心相关 -->
+        <apollo.version>1.9.2</apollo.version>
+        <!-- Job 定时任务相关 -->
+        <!-- 服务保障相关 -->
+        <lock4j.version>2.2.0</lock4j.version>
+        <resilience4j.version>1.7.0</resilience4j.version>
+        <!-- 监控相关 -->
+        <skywalking.version>8.7.0</skywalking.version>
+        <spring-boot-admin.version>2.6.2</spring-boot-admin.version>
+        <opentracing.version>0.31.0</opentracing.version>
+        <!-- Test 测试相关 -->
+        <podam.version>7.2.6.RELEASE</podam.version>
+        <jedis-mock.version>0.1.16</jedis-mock.version>
+        <mockito-inline.version>3.9.0</mockito-inline.version>
+        <!-- Bpm 工作流相关 -->
+        <activiti.version>7.1.0.M6</activiti.version>
+        <flowable.version>6.7.0</flowable.version>
+        <!-- 工具类相关 -->
+        <jasypt-spring-boot-starter.version>3.0.4</jasypt-spring-boot-starter.version>
+        <lombok.version>1.18.20</lombok.version>
+        <mapstruct.version>1.4.1.Final</mapstruct.version>
+        <hutool.version>5.6.1</hutool.version>
+        <easyexcel.verion>2.2.7</easyexcel.verion>
+        <velocity.version>2.2</velocity.version>
+        <screw.version>1.0.5</screw.version>
+        <guava.version>30.1.1-jre</guava.version>
+        <guice.version>5.1.0</guice.version>
+        <transmittable-thread-local.version>2.12.2</transmittable-thread-local.version>
+        <commons-net.version>3.8.0</commons-net.version>
+        <jsch.version>0.1.55</jsch.version>
+        <!-- 三方云服务相关 -->
+        <minio.version>8.2.2</minio.version>
+        <aliyun-java-sdk-core.version>4.5.25</aliyun-java-sdk-core.version>
+        <aliyun-java-sdk-dysmsapi.version>2.1.0</aliyun-java-sdk-dysmsapi.version>
+        <tencentcloud-sdk-java.version>3.1.471</tencentcloud-sdk-java.version>
+        <yunpian-java-sdk.version>1.2.7</yunpian-java-sdk.version>
+        <justauth.version>1.4.0</justauth.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- 统一依赖管理 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- 业务组件 -->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-biz-operatelog</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-biz-dict</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-biz-sms</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-biz-pay</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-biz-weixin</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-biz-tenant</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-biz-data-permission</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-biz-social</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+
+            <!-- Spring 核心 -->
+            <dependency>
+                <!-- 用于生成自定义的 Spring @ConfigurationProperties 配置类的说明文件 -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
+            <!-- Web 相关 -->
+            <dependency>
+                <groupId>cn.iocoder.boot</groupId>
+                <artifactId>yudao-spring-boot-starter-web</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.iocoder.boot</groupId>
+                <artifactId>yudao-spring-boot-starter-security</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>mapstruct</artifactId>
+                        <groupId>org.mapstruct</groupId> <!-- 避免冲突 -->
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>guava</artifactId>
+                        <groupId>com.google.guava</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>swagger-annotations</artifactId>
+                        <groupId>io.swagger</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger-annotations.version}</version>
+            </dependency>
+
+            <!-- DB 相关 -->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-mybatis</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId> <!-- 代码生成器，使用它解析表结构 -->
+                <version>${mybatis-plus-generator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId> <!-- 多数据源 -->
+                <version>${dynamic-datasource.version}</version>
+            </dependency>
+
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-redis</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+
+            <!-- Config 配置中心相关 -->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-config</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+
+            <dependency>
+                <groupId>com.ctrip.framework.apollo</groupId>
+                <artifactId>apollo-client</artifactId> <!-- 引入 Apollo Client 库，实现内嵌的配置中心 -->
+                <version>${apollo.version}</version>
+            </dependency>
+
+            <!-- Job 定时任务相关 -->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-job</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+
+            <!-- 消息队列相关 -->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-mq</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+
+            <!-- 服务保障相关 -->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-protection</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>lock4j-redisson-spring-boot-starter</artifactId>
+                <version>${lock4j.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>redisson-spring-boot-starter</artifactId>
+                        <groupId>org.redisson</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.resilience4j</groupId>
+                <artifactId>resilience4j-ratelimiter</artifactId>
+                <version>${resilience4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.resilience4j</groupId>
+                <artifactId>resilience4j-spring-boot2</artifactId>
+                <version>${resilience4j.version}</version>
+            </dependency>
+
+            <!-- 监控相关 -->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-monitor</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-trace</artifactId>
+                <version>${skywalking.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-logback-1.x</artifactId>
+                <version>${skywalking.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-opentracing</artifactId>
+                <version>${skywalking.version}</version>
+<!--                <exclusions>-->
+<!--                    <exclusion>-->
+<!--                        <artifactId>opentracing-api</artifactId>-->
+<!--                        <groupId>io.opentracing</groupId>-->
+<!--                    </exclusion>-->
+<!--                    <exclusion>-->
+<!--                        <artifactId>opentracing-util</artifactId>-->
+<!--                        <groupId>io.opentracing</groupId>-->
+<!--                    </exclusion>-->
+<!--                </exclusions>-->
+            </dependency>
+            <dependency>
+                <groupId>io.opentracing</groupId>
+                <artifactId>opentracing-api</artifactId>
+                <version>${opentracing.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.opentracing</groupId>
+                <artifactId>opentracing-util</artifactId>
+                <version>${opentracing.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.opentracing</groupId>
+                <artifactId>opentracing-noop</artifactId>
+                <version>${opentracing.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId> <!-- 实现 Spring Boot Admin Server 服务端 -->
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-client</artifactId> <!-- 实现 Spring Boot Admin Server 服务端 -->
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
+
+            <!-- Test 测试相关 -->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-test</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--                <scope>test</scope>-->
+<!--            </dependency>-->
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-inline</artifactId>
+                <version>${mockito-inline.version}</version> <!-- 支持 Mockito 的 final 类与 static 方法的 mock -->
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring.boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>asm</artifactId>
+                        <groupId>org.ow2.asm</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.mockito</groupId>
+                        <artifactId>mockito-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.fppt</groupId> <!-- 单元测试，我们采用内嵌的 Redis 数据库 -->
+                <artifactId>jedis-mock</artifactId>
+                <version>${jedis-mock.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>uk.co.jemos.podam</groupId> <!-- 单元测试，随机生成 POJO 类 -->
+                <artifactId>podam</artifactId>
+                <version>${podam.version}</version>
+            </dependency>
+
+            <!-- 工作流相关 -->
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-spring-boot-starter</artifactId>
+                <version>${activiti.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>de.odysseus.juel</groupId>
+                        <artifactId>juel-api</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>de.odysseus.juel</groupId>
+                        <artifactId>juel-spi</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.mybatis</groupId>
+                        <artifactId>mybatis</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>el-api</artifactId>
+                        <groupId>javax.el</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-image-generator</artifactId>
+                <version>${activiti.version}</version>
+            </dependency>
+
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-activiti</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+            <!-- 工作流相关 flowable -->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-flowable</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+            <dependency>
+                <groupId>org.flowable</groupId>
+                <artifactId>flowable-spring-boot-starter-basic</artifactId>
+                <version>${flowable.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.flowable</groupId>
+                <artifactId>flowable-spring-boot-starter-actuator</artifactId>
+                <version>${flowable.version}</version>
+            </dependency>
+            <!-- 工作流相关结束 -->
+
+            <!-- 工具类相关 -->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-common</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+
+            <dependency>
+                <groupId>com.github.ulisesbocchio</groupId>
+                <artifactId>jasypt-spring-boot-starter</artifactId> <!-- 加解密 -->
+                <version>${jasypt-spring-boot-starter.version}</version>
+            </dependency>
+
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-excel</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId> <!-- use mapstruct-jdk8 for Java 8 or higher -->
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-jdk8</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>${easyexcel.verion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.smallbun.screw</groupId>
+                <artifactId>screw-core</artifactId> <!-- 实现数据库文档 -->
+                <version>${screw.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.freemarker</groupId>
+                        <artifactId>freemarker</artifactId> <!-- 移除 Freemarker 依赖，采用 Velocity 作为模板引擎 -->
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.inject</groupId>
+                <artifactId>guice</artifactId>
+                <version>${guice.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId> <!-- 解决 ThreadLocal 父子线程的传值问题 -->
+                <version>${transmittable-thread-local.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId> <!-- 解决 ftp 连接 -->
+                <version>${commons-net.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.jcraft</groupId>
+                <artifactId>jsch</artifactId> <!-- 解决 sftp 连接 -->
+                <version>${jsch.version}</version>
+            </dependency>
+
+            <!-- 三方云服务相关 -->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.boot</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-file</artifactId>-->
+<!--                <version>${revision}</version>-->
+<!--            </dependency>-->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+            </dependency>
+
+            <!-- SMS SDK begin -->
+            <dependency>
+                <groupId>com.yunpian.sdk</groupId>
+                <artifactId>yunpian-java-sdk</artifactId>
+                <version>${yunpian-java-sdk.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-core</artifactId>
+                <version>${aliyun-java-sdk-core.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>opentracing-api</artifactId>
+                        <groupId>io.opentracing</groupId>
+                    </exclusion>
+                    <exclusion>
+                        <artifactId>opentracing-util</artifactId>
+                        <groupId>io.opentracing</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+                <version>${aliyun-java-sdk-dysmsapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.tencentcloudapi</groupId>
+                <artifactId>tencentcloud-sdk-java</artifactId>
+                <version>${tencentcloud-sdk-java.version}</version>
+            </dependency>
+            <!-- SMS SDK end -->
+
+            <dependency>
+                <groupId>com.xkcoding.justauth</groupId>
+                <artifactId>justauth-spring-boot-starter</artifactId> <!-- 社交登陆（例如说，个人微信、企业微信等等） -->
+                <version>${justauth.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>

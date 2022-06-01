@@ -19,3 +19,7 @@ spring:
             - Path=/oschina
           filters: # 过滤器，对请求进行拦截，实现自定义的功能，对应 FilterDefinition 数组
             - StripPrefix=1
+        - id: system-admin-api # 路由的编号
+          uri: http://127.0.0.1:48080 # 路由的目标地址
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/admin-api/system/**

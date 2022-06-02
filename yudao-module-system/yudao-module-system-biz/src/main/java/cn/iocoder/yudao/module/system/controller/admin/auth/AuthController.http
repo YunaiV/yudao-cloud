@@ -1,5 +1,5 @@
 ### 请求 /login 接口 => 成功
-POST {{baseUrl}}/system/auth/login
+POST {{systemBaseUrl}}/system/auth/login
 Content-Type: application/json
 tenant-id: {{adminTenentId}}
 
@@ -11,7 +11,7 @@ tenant-id: {{adminTenentId}}
 }
 
 ### 请求 /login 接口 => 成功（无验证码)
-POST {{baseUrl}}/system/auth/login
+POST {{systemBaseUrl}}/system/auth/login
 Content-Type: application/json
 tenant-id: {{adminTenentId}}
 
@@ -21,12 +21,12 @@ tenant-id: {{adminTenentId}}
 }
 
 ### 请求 /get-permission-info 接口 => 成功
-GET {{baseUrl}}/system/auth/get-permission-info
+GET {{systemBaseUrl}}/system/auth/get-permission-info
 Authorization: Bearer {{token}}
 tenant-id: {{adminTenentId}}
 
 ### 请求 /list-menus 接口 => 成功
-GET {{baseUrl}}/system/list-menus
+GET {{systemBaseUrl}}/system/list-menus
 Authorization: Bearer {{token}}
 #Authorization: Bearer a6aa7714a2e44c95aaa8a2c5adc2a67a
 tenant-id: {{adminTenentId}}

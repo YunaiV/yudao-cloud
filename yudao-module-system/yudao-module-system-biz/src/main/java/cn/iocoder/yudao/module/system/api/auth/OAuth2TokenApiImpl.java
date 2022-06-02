@@ -7,6 +7,7 @@ import cn.iocoder.yudao.module.system.convert.auth.OAuth2TokenConvert;
 import cn.iocoder.yudao.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
 import cn.iocoder.yudao.module.system.service.oauth2.OAuth2TokenService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
@@ -15,7 +16,7 @@ import javax.annotation.Resource;
  *
  * @author 芋道源码
  */
-@Service
+@RestController
 public class OAuth2TokenApiImpl implements OAuth2TokenApi {
 
     @Resource

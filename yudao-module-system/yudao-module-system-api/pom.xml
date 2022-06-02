@@ -29,6 +29,13 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- RPC 远程调用相关 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <optional>true</optional>
+        </dependency>
+
     </dependencies>
 
 </project>

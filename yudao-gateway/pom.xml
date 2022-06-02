@@ -16,6 +16,13 @@
     <url>https://github.com/YunaiV/yudao-cloud</url>
 
     <dependencies>
+        <!-- 业务组件 -->
+        <dependency>
+            <groupId>cn.iocoder.cloud</groupId>
+            <artifactId>yudao-module-system-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
         <!-- Gateway 网关相关 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -26,6 +33,11 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
         <!-- Registry 注册中心相关 -->

@@ -222,18 +222,9 @@
                 <version>${redisson.version}</version>
             </dependency>
 
-            <!-- Config 配置中心相关 -->
-            <dependency>
-                <groupId>cn.iocoder.cloud</groupId>
-                <artifactId>yudao-spring-boot-starter-config</artifactId>
-                <version>${revision}</version>
-            </dependency>
+            <!-- Registry 注册中心相关 -->
 
-            <dependency>
-                <groupId>com.ctrip.framework.apollo</groupId>
-                <artifactId>apollo-client</artifactId> <!-- 引入 Apollo Client 库，实现内嵌的配置中心 -->
-                <version>${apollo.version}</version>
-            </dependency>
+            <!-- Config 配置中心相关 -->
 
             <!-- Job 定时任务相关 -->
             <dependency>

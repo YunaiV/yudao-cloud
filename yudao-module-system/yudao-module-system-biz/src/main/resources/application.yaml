@@ -73,7 +73,7 @@ mybatis-plus:
 yudao:
   info:
     version: 1.0.0
-    base-package: cn.iocoder.yudao
+    base-package: cn.iocoder.yudao.module.system
   web:
     admin-api:
       prefix: /admin-api

@@ -1,7 +1,6 @@
 package cn.iocoder.yudao.gateway.filter;
 
-import cn.iocoder.yudao.module.system.api.auth.OAuth2TokenApi;
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.iocoder.yudao.module.system.api.oauth2.OAuth2TokenApi;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;

@@ -22,6 +22,13 @@
             <artifactId>yudao-common</artifactId>
         </dependency>
 
+        <!-- Web 相关 -->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!-- 参数校验 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

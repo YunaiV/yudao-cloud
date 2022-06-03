@@ -1,6 +1,6 @@
 package cn.iocoder.yudao.gateway;
 
-import cn.iocoder.yudao.module.system.api.auth.OAuth2TokenApi;
+import cn.iocoder.yudao.module.system.api.oauth2.OAuth2TokenApi;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;

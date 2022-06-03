@@ -9,4 +9,6 @@ public class ApiConstants {
 
     public static final String API_PREFIX = "/rpc-api/system";
 
+    public static final String API_VERSION = "1.0.0";
+
 }

@@ -66,7 +66,17 @@ mybatis-plus:
 #      id-type: ASSIGN_ID # 分配 ID，默认使用雪花算法。注意，Oracle、PostgreSQL、Kingbase、DB2、H2 数据库时，需要去除实体类上的 @KeySequence 注解
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
-  type-aliases-package: ${yudao.info.base-package}.module.*.dal.dataobject
+  type-aliases-package: ${yudao.info.base-package}.dal.dataobject
+
+--- #################### RPC 远程调用相关配置 ####################
+dubbo:
+  scan:
+    base-packages: ${yudao.info.base-package}.api # 指定 Dubbo 服务实现类的扫描基准包
+  protocol:
+    name: dubbo # 协议名称
+    port: -1 # 协议端口，-1 表示自增端口，从 20880 开始
+  registry:
+    address: spring-cloud://localhost # 设置使用 Spring Cloud 注册中心
 
 --- #################### 芋道相关配置 ####################
 

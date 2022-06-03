@@ -26,19 +26,19 @@ public interface OAuth2TokenApi {
 
     @GetMapping(API_PREFIX + "/check")
     @ApiOperation("校验访问令牌")
-    @ApiImplicitParam(name = "accessToken", value = "访问令牌", required = true, example = "tudou")
+    @ApiImplicitParam(name = "accessToken", value = "访问令牌", required = true, dataTypeClass = String.class, example = "tudou")
     CommonResult<OAuth2AccessTokenCheckRespDTO> checkAccessToken(@RequestParam("accessToken") String accessToken);
 
     @DeleteMapping(API_PREFIX + "/remove")
     @ApiOperation("移除访问令牌")
-    @ApiImplicitParam(name = "accessToken", value = "访问令牌", required = true, example = "tudou")
+    @ApiImplicitParam(name = "accessToken", value = "访问令牌", required = true, dataTypeClass = String.class, example = "tudou")
     CommonResult<OAuth2AccessTokenRespDTO> removeAccessToken(@RequestParam("accessToken") String accessToken);
 
     @PutMapping(API_PREFIX + "/refresh")
     @ApiOperation("刷新访问令牌")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "refreshToken", value = "刷新令牌", required = true, example = "haha"),
-        @ApiImplicitParam(name = "clientId", value = "客户端编号", required = true, example = "yudaoyuanma")
+        @ApiImplicitParam(name = "refreshToken", value = "刷新令牌", required = true, dataTypeClass = String.class, example = "haha"),
+        @ApiImplicitParam(name = "clientId", value = "客户端编号", required = true, dataTypeClass = String.class, example = "yudaoyuanma")
     })
     CommonResult<OAuth2AccessTokenRespDTO> refreshAccessToken(@RequestParam("refreshToken") String refreshToken,
                                                               @RequestParam("clientId") String clientId);

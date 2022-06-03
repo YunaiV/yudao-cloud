@@ -26,7 +26,7 @@ public class OAuth2TokenApiImpl implements OAuth2TokenApi {
 
     @Override
     @ApiOperation("创建访问令牌")
-    public CommonResult<OAuth2AccessTokenRespDTO> createAccessToken(@RequestBody OAuth2AccessTokenCreateReqDTO reqDTO) {
+    public CommonResult<OAuth2AccessTokenRespDTO> createAccessToken(OAuth2AccessTokenCreateReqDTO reqDTO) {
         OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.createAccessToken(
                 reqDTO.getUserId(), reqDTO.getUserType(), reqDTO.getClientId(), reqDTO.getScopes());
         return success(OAuth2TokenConvert.INSTANCE.convert2(accessTokenDO));

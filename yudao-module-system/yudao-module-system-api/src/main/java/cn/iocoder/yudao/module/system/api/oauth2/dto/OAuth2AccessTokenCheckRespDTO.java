@@ -7,7 +7,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.List;
 
-@ApiModel("RPC 服务 - OAuth2.0 访问令牌的校验 Response DTO")
+@ApiModel("RPC 服务 - OAuth2 访问令牌的校验 Response DTO")
 @Data
 public class OAuth2AccessTokenCheckRespDTO implements Serializable {
 

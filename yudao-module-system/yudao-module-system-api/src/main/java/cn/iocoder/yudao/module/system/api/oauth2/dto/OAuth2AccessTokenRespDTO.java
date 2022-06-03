@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.util.Date;
 
-@ApiModel("RPC 服务 - OAuth2.0 访问令牌的信息 Response DTO")
+@ApiModel("RPC 服务 - OAuth2 访问令牌的信息 Response DTO")
 @Data
 @Accessors(chain = true)
 public class OAuth2AccessTokenRespDTO implements Serializable {

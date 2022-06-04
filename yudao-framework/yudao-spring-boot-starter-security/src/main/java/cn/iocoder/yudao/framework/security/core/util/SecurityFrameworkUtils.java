@@ -22,6 +22,8 @@ public class SecurityFrameworkUtils {
 
     public static final String AUTHORIZATION_BEARER = "Bearer";
 
+    public static final String LOGIN_USER_HEADER = "login-user";
+
     private SecurityFrameworkUtils() {}
 
     /**

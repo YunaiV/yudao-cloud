@@ -4,6 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.exception.ServiceException;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
+import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.framework.common.util.servlet.ServletUtils;
 import cn.iocoder.yudao.framework.security.config.SecurityProperties;
 import cn.iocoder.yudao.framework.security.core.LoginUser;
@@ -41,28 +42,34 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     @SuppressWarnings("NullableProblems")
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-        String token = SecurityFrameworkUtils.obtainAuthorization(request, securityProperties.getTokenHeader());
-        if (StrUtil.isNotEmpty(token)) {
-            Integer userType = WebFrameworkUtils.getLoginUserType(request);
-            try {
-                // 1.1 基于 token 构建登录用户
-                LoginUser loginUser = buildLoginUserByToken(token, userType);
-                // 1.2 模拟 Login 功能，方便日常开发调试
-                if (loginUser == null) {
-                    loginUser = mockLoginUser(request, token, userType);
-                }
+        // 情况一，基于 header[login-user] 获得用户，例如说来自 Gateway 或者其它服务透传
+        LoginUser loginUser = buildLoginUserByHeader(request);
 
-                // 2. 设置当前用户
-                if (loginUser != null) {
-                    SecurityFrameworkUtils.setLoginUser(loginUser, request);
+        // 情况二，基于 Token 获得用户
+        // 注意，这里主要满足直接使用 Nginx 直接转发到 Spring Cloud 服务的场景。
+        if (loginUser == null) {
+            String token = SecurityFrameworkUtils.obtainAuthorization(request, securityProperties.getTokenHeader());
+            if (StrUtil.isNotEmpty(token)) {
+                Integer userType = WebFrameworkUtils.getLoginUserType(request);
+                try {
+                    // 1.1 基于 token 构建登录用户
+                    loginUser = buildLoginUserByToken(token, userType);
+                    // 1.2 模拟 Login 功能，方便日常开发调试
+                    if (loginUser == null) {
+                        loginUser = mockLoginUser(request, token, userType);
+                    }
+                } catch (Throwable ex) {
+                    CommonResult<?> result = globalExceptionHandler.allExceptionHandler(request, ex);
+                    ServletUtils.writeJSON(response, result);
+                    return;
                 }
-            } catch (Throwable ex) {
-                CommonResult<?> result = globalExceptionHandler.allExceptionHandler(request, ex);
-                ServletUtils.writeJSON(response, result);
-                return;
             }
         }
 
+        // 设置当前用户
+        if (loginUser != null) {
+            SecurityFrameworkUtils.setLoginUser(loginUser, request);
+        }
         // 继续过滤链
         chain.doFilter(request, response);
     }
@@ -111,6 +118,11 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         Long userId = Long.valueOf(token.substring(securityProperties.getMockSecret().length()));
         return new LoginUser().setId(userId).setUserType(userType)
                 .setTenantId(WebFrameworkUtils.getTenantId(request));
+    }
+
+    private LoginUser buildLoginUserByHeader(HttpServletRequest request) {
+        String loginUserStr = request.getHeader(SecurityFrameworkUtils.LOGIN_USER_HEADER);
+        return StrUtil.isNotEmpty(loginUserStr) ? JsonUtils.parseObject(loginUserStr, LoginUser.class) : null;
     }
 
 }

@@ -26,7 +26,7 @@ Authorization: Bearer {{token}}
 tenant-id: {{adminTenentId}}
 
 ### 请求 /list-menus 接口 => 成功
-GET {{systemBaseUrl}}/system/list-menus
-Authorization: Bearer {{token}}
-#Authorization: Bearer a6aa7714a2e44c95aaa8a2c5adc2a67a
+GET {{systemBaseUrl}}/system/auth/list-menus
+#Authorization: Bearer {{token}}
+Authorization: Bearer 81e64ecd759a410ca54d3f00bdeb4574
 tenant-id: {{adminTenentId}}

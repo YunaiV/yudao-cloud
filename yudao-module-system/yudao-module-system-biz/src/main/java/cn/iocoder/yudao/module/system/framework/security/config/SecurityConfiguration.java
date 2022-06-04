@@ -50,7 +50,7 @@ public class SecurityConfiguration {
                 registry.antMatchers("/actuator").anonymous()
                         .antMatchers("/actuator/**").anonymous();
                 // RPC 服务的安全配置
-                registry.antMatchers(ApiConstants.API_PREFIX + "/**").anonymous();
+                registry.antMatchers(ApiConstants.PREFIX + "/**").permitAll();
             }
 
         };

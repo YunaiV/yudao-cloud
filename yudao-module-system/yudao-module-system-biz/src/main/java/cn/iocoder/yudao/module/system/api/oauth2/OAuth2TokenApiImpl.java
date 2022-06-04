@@ -7,20 +7,18 @@ import cn.iocoder.yudao.module.system.api.oauth2.dto.OAuth2AccessTokenRespDTO;
 import cn.iocoder.yudao.module.system.convert.auth.OAuth2TokenConvert;
 import cn.iocoder.yudao.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
 import cn.iocoder.yudao.module.system.service.oauth2.OAuth2TokenService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
-import static cn.iocoder.yudao.module.system.enums.ApiConstants.API_VERSION;
+import static cn.iocoder.yudao.module.system.enums.ApiConstants.VERSION;
 
 @RestController // 提供 RESTful API 接口，给 Feign 调用
-@DubboService(version = API_VERSION) // 提供 Dubbo RPC 接口，给 Dubbo Consumer 调用
+@DubboService(version = VERSION) // 提供 Dubbo RPC 接口，给 Dubbo Consumer 调用
 @Validated
 public class OAuth2TokenApiImpl implements OAuth2TokenApi {
 

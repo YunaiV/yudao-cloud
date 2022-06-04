@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: gateway-server
+
+  profiles:
+    active: local

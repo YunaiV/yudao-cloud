@@ -72,13 +72,6 @@ spring:
     database: 0 # 数据库索引
 #    password: 123456 # 密码，建议生产环境开启
 
---- #################### 注册中心相关配置 ####################
-
-spring:
-  cloud:
-    nacos:
-      server-addr: 127.0.0.1:8848
-
 jasypt:
   encryptor:
     password: yuanma # 加解密的秘钥

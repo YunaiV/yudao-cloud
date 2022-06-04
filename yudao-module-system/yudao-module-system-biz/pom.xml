@@ -18,6 +18,13 @@
     </description>
 
     <dependencies>
+        <!-- Spring Cloud 基础 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+
+        <!-- 依赖服务 -->
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>
             <artifactId>yudao-module-system-api</artifactId>
@@ -90,6 +97,10 @@
         </dependency>
 
         <!-- Config 配置中心相关 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
 
         <!-- Job 定时任务相关 TODO 芋艿：暂时去掉 -->
 <!--        <dependency>-->

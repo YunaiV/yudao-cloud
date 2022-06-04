@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: system-server
+
+  profiles:
+    active: local

@@ -1,4 +1,4 @@
-package cn.iocoder.yudao.gateway.filter;
+package cn.iocoder.yudao.gateway.filter.security;
 
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;

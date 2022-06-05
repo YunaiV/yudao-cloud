@@ -5,10 +5,10 @@ spring:
       # 路由配置项，对应 RouteDefinition 数组
       routes:
         - id: system-admin-api # 路由的编号
-          uri: lb://system-server
+          uri: grayLb://system-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/admin-api/system/**
         - id: system-app-api # 路由的编号
-          uri: lb://system-server
+          uri: grayLb://system-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/app-api/system/**

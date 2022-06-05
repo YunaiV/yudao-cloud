@@ -6,6 +6,8 @@ spring:
       server-addr: 127.0.0.1:8848
       discovery:
         namespace: dev # 命名空间。这里使用 dev 开发环境
+        metadata:
+          version: 1.0.0 # 服务实例的版本号，可用于灰度发布
 
 --- #################### 配置中心相关配置 ####################
 

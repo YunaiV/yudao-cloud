@@ -10,6 +10,7 @@ import org.reactivestreams.Publisher;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.filter.factory.rewrite.CachedBodyOutputMessage;
+import org.springframework.cloud.gateway.filter.factory.rewrite.ModifyRequestBodyGatewayFilterFactory;
 import org.springframework.cloud.gateway.support.BodyInserterContext;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.Ordered;
@@ -20,6 +21,7 @@ import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.http.codec.HttpMessageReader;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
@@ -50,7 +52,6 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // 将 Request 中可以直接获取到的参数，设置到网关日志
         ServerHttpRequest request = exchange.getRequest();
@@ -82,31 +83,28 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
     }
 
     /**
-     * 解决 request body 只能读取一次问题，
-     * 参考: org.springframework.cloud.gateway.filter.factory.rewrite.ModifyRequestBodyGatewayFilterFactory
-     * @param exchange
-     * @param chain
-     * @param gatewayLog
-     * @return
+     * 参考 {@link ModifyRequestBodyGatewayFilterFactory} 实现
+     *
+     * 差别主要在于使用 modifiedBody 来读取 Request Body 数据
      */
-    @SuppressWarnings("unchecked")
-    private Mono filterWithRequestBody(ServerWebExchange exchange, GatewayFilterChain chain, GatewayLog gatewayLog) {
+    private Mono<Void> filterWithRequestBody(ServerWebExchange exchange, GatewayFilterChain chain, GatewayLog gatewayLog) {
+        // 设置 Request Body 读取时，设置到网关日志
         ServerRequest serverRequest = ServerRequest.create(exchange, messageReaders);
         Mono<String> modifiedBody = serverRequest.bodyToMono(String.class).flatMap(body -> {
             gatewayLog.setRequestBody(body);
             return Mono.just(body);
         });
 
-        // 通过 BodyInserter 插入 body(支持修改body), 避免 request body 只能获取一次
-        BodyInserter bodyInserter = BodyInserters.fromPublisher(modifiedBody, String.class);
+        // 创建 BodyInserter 对象
+        BodyInserter<Mono<String>, ReactiveHttpOutputMessage> bodyInserter = BodyInserters.fromPublisher(modifiedBody, String.class);
+        // 创建 CachedBodyOutputMessage 对象
         HttpHeaders headers = new HttpHeaders();
         headers.putAll(exchange.getRequest().getHeaders());
         // the new content type will be computed by bodyInserter
         // and then set in the request decorator
-        headers.remove(HttpHeaders.CONTENT_LENGTH);
-
+        headers.remove(HttpHeaders.CONTENT_LENGTH); // 移除
         CachedBodyOutputMessage outputMessage = new CachedBodyOutputMessage(exchange, headers);
-
+        // 通过 BodyInserter 将 Request Body 写入到 CachedBodyOutputMessage 中
         return bodyInserter.insert(outputMessage, new BodyInserterContext()).then(Mono.defer(() -> {
             // 包装 Request，用于缓存 Request Body
             ServerHttpRequest decoratedRequest = requestDecorate(exchange, headers, outputMessage);
@@ -120,8 +118,7 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
 
     /**
      * 打印日志
-     * @author javadaily
-     * @date 2021/3/24 14:53
+     *
      * @param gatewayLog 网关日志
      */
     private void writeAccessLog(GatewayLog gatewayLog) {

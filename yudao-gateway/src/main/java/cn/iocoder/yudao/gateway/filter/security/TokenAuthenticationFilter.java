@@ -68,6 +68,8 @@ public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
             return exchange;
         }
 
+        // 设置登录用户
+        SecurityFrameworkUtils.setLoginUser(exchange, result.getData());
         // 将访问令牌封装成 LoginUser，并设置到 login-user 的请求头，使用 json 存储值
         return exchange.mutate().request(builder -> SecurityFrameworkUtils.setLoginUserHeader(builder, result.getData())).build();
     }

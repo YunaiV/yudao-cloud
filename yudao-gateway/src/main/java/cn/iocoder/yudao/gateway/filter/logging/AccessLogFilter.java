@@ -1,8 +1,10 @@
 package cn.iocoder.yudao.gateway.filter.logging;
 
-import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.json.JSONUtil;
 import cn.iocoder.yudao.framework.common.util.date.DateUtils;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
+import cn.iocoder.yudao.gateway.util.SecurityFrameworkUtils;
 import cn.iocoder.yudao.gateway.util.WebFrameworkUtils;
 import com.alibaba.nacos.common.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +21,6 @@ import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.http.codec.HttpMessageReader;
@@ -38,17 +39,64 @@ import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
+import static cn.hutool.core.date.DatePattern.NORM_DATETIME_MS_FORMAT;
+
+/**
+ * 网关的访问日志过滤器
+ *
+ * 从功能上，它类似 yudao-spring-boot-starter-web 的 ApiAccessLogFilter 过滤器
+ *
+ * TODO 芋艿：如果网关执行异常，不会记录访问日志，后续研究下 https://github.com/Silvmike/webflux-demo/blob/master/tests/src/test/java/ru/hardcoders/demo/webflux/web_handler/filters/logging
+ *
+ * @author 芋道源码
+ */
 @Slf4j
 @Component
 public class AccessLogFilter implements GlobalFilter, Ordered {
 
     private final List<HttpMessageReader<?>> messageReaders = HandlerStrategies.withDefaults().messageReaders();
 
+    /**
+     * 打印日志
+     *
+     * @param gatewayLog 网关日志
+     */
+    private void writeAccessLog(AccessLog gatewayLog) {
+        // 方式一：打印 Logger 后，通过 ELK 进行收集
+        // log.info("[writeAccessLog][日志内容：{}]", JsonUtils.toJsonString(gatewayLog));
+
+        // 方式二：调用远程服务，记录到数据库中
+        // TODO 芋艿：暂未实现
+
+        // 方式三：打印到控制台，方便排查错误
+        Map<String, Object> values = new LinkedHashMap<>(); // 手工拼接，保证排序
+        values.put("userId", gatewayLog.getUserId());
+        values.put("userType", gatewayLog.getUserType());
+        values.put("routeId", gatewayLog.getRoute() != null ? gatewayLog.getRoute().getId() : null);
+        values.put("schema", gatewayLog.getSchema());
+        values.put("requestUrl", gatewayLog.getRequestUrl());
+        values.put("queryParams", gatewayLog.getQueryParams().toSingleValueMap());
+        values.put("requestBody", JsonUtils.isJson(gatewayLog.getRequestBody()) ? // 保证 body 的展示好看
+                JSONUtil.parse(gatewayLog.getRequestBody()) : gatewayLog.getRequestBody());
+        values.put("requestHeaders", JsonUtils.toJsonString(gatewayLog.getRequestHeaders().toSingleValueMap()));
+        values.put("userIp", gatewayLog.getUserIp());
+        values.put("responseBody", JsonUtils.isJson(gatewayLog.getResponseBody()) ? // 保证 body 的展示好看
+                JSONUtil.parse(gatewayLog.getResponseBody()) : gatewayLog.getResponseBody());
+        values.put("responseHeaders", JsonUtils.toJsonString(gatewayLog.getResponseHeaders().toSingleValueMap()));
+        values.put("httpStatus", gatewayLog.getHttpStatus());
+        values.put("startTime", DateUtil.format(gatewayLog.getStartTime(), NORM_DATETIME_MS_FORMAT));
+        values.put("endTime", DateUtil.format(gatewayLog.getEndTime(), NORM_DATETIME_MS_FORMAT));
+        values.put("duration", gatewayLog.getDuration() != null ? gatewayLog.getDuration() + " ms" : null);
+        log.info("[writeAccessLog][网关日志：{}]", JsonUtils.toJsonPrettyString(values));
+    }
+
     @Override
     public int getOrder() {
-        return -100;
+        return Ordered.HIGHEST_PRECEDENCE;
     }
 
     @Override
@@ -56,7 +104,7 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
         // 将 Request 中可以直接获取到的参数，设置到网关日志
         ServerHttpRequest request = exchange.getRequest();
         // TODO traceId
-        GatewayLog gatewayLog = new GatewayLog();
+        AccessLog gatewayLog = new AccessLog();
         gatewayLog.setRoute(WebFrameworkUtils.getGatewayRoute(exchange));
         gatewayLog.setSchema(request.getURI().getScheme());
         gatewayLog.setRequestMethod(request.getMethodValue());
@@ -75,7 +123,7 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
         return filterWithoutRequestBody(exchange, chain, gatewayLog);
     }
 
-    private Mono<Void> filterWithoutRequestBody(ServerWebExchange exchange, GatewayFilterChain chain, GatewayLog accessLog) {
+    private Mono<Void> filterWithoutRequestBody(ServerWebExchange exchange, GatewayFilterChain chain, AccessLog accessLog) {
         // 包装 Response，用于记录 Response Body
         ServerHttpResponseDecorator decoratedResponse = recordResponseLog(exchange, accessLog);
         return chain.filter(exchange.mutate().response(decoratedResponse).build())
@@ -87,7 +135,7 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
      *
      * 差别主要在于使用 modifiedBody 来读取 Request Body 数据
      */
-    private Mono<Void> filterWithRequestBody(ServerWebExchange exchange, GatewayFilterChain chain, GatewayLog gatewayLog) {
+    private Mono<Void> filterWithRequestBody(ServerWebExchange exchange, GatewayFilterChain chain, AccessLog gatewayLog) {
         // 设置 Request Body 读取时，设置到网关日志
         ServerRequest serverRequest = ServerRequest.create(exchange, messageReaders);
         Mono<String> modifiedBody = serverRequest.bodyToMono(String.class).flatMap(body -> {
@@ -113,23 +161,15 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
             // 记录普通的
             return chain.filter(exchange.mutate().request(decoratedRequest).response(decoratedResponse).build())
                     .then(Mono.fromRunnable(() -> writeAccessLog(gatewayLog))); // 打印日志
-        }));
-    }
 
-    /**
-     * 打印日志
-     *
-     * @param gatewayLog 网关日志
-     */
-    private void writeAccessLog(GatewayLog gatewayLog) {
-        log.info("[writeAccessLog][日志内容：{}]", JsonUtils.toJsonString(gatewayLog));
+        }));
     }
 
     /**
      * 记录响应日志
      * 通过 DataBufferFactory 解决响应体分段传输问题。
      */
-    private ServerHttpResponseDecorator recordResponseLog(ServerWebExchange exchange, GatewayLog gatewayLog) {
+    private ServerHttpResponseDecorator recordResponseLog(ServerWebExchange exchange, AccessLog gatewayLog) {
         ServerHttpResponse response = exchange.getResponse();
         return new ServerHttpResponseDecorator(response) {
 
@@ -141,16 +181,15 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
                     gatewayLog.setEndTime(new Date());
                     gatewayLog.setDuration((int) DateUtils.diff(gatewayLog.getEndTime(), gatewayLog.getStartTime()));
                     // 设置其它字段
+                    gatewayLog.setUserId(SecurityFrameworkUtils.getLoginUserId(exchange));
+                    gatewayLog.setUserType(SecurityFrameworkUtils.getLoginUserType(exchange));
                     gatewayLog.setResponseHeaders(response.getHeaders());
+                    gatewayLog.setHttpStatus(response.getStatusCode());
 
                     // 获取响应类型，如果是 json 就打印
                     String originalResponseContentType = exchange.getAttribute(ServerWebExchangeUtils.ORIGINAL_RESPONSE_CONTENT_TYPE_ATTR);
-
-
-                    if (ObjectUtil.equal(getStatusCode(), HttpStatus.OK)
-                            && StringUtils.isNotBlank(originalResponseContentType)
+                    if (StringUtils.isNotBlank(originalResponseContentType)
                             && originalResponseContentType.contains("application/json")) {
-
                         Flux<? extends DataBuffer> fluxBody = Flux.from(body);
                         return super.writeWith(fluxBody.buffer().map(dataBuffers -> {
                             // 设置 response body 到网关日志

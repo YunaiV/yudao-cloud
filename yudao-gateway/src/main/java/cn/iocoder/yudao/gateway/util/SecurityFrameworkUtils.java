@@ -24,6 +24,9 @@ public class SecurityFrameworkUtils {
 
     private static final String LOGIN_USER_HEADER = "login-user";
 
+    private static final String LOGIN_USER_ID_ATTR = "login-user-id";
+    private static final String LOGIN_USER_TYPE_ATTR = "login-user-type";
+
     private SecurityFrameworkUtils() {}
 
     /**
@@ -42,6 +45,37 @@ public class SecurityFrameworkUtils {
             return null;
         }
         return authorization.substring(index + 7).trim();
+    }
+
+    /**
+     * 设置登录用户
+     *
+     * @param exchange 请求
+     * @param token 访问令牌
+     */
+    public static void setLoginUser(ServerWebExchange exchange, OAuth2AccessTokenCheckRespDTO token) {
+        exchange.getAttributes().put(LOGIN_USER_ID_ATTR, token.getUserId());
+        exchange.getAttributes().put(LOGIN_USER_TYPE_ATTR, token.getUserType());
+    }
+
+    /**
+     * 获得登录用户的编号
+     *
+     * @param exchange 请求
+     * @return 用户编号
+     */
+    public static Long getLoginUserId(ServerWebExchange exchange) {
+        return MapUtil.getLong(exchange.getAttributes(), LOGIN_USER_ID_ATTR);
+    }
+
+    /**
+     * 获得登录用户的类型
+     *
+     * @param exchange 请求
+     * @return 用户类型
+     */
+    public static Integer getLoginUserType(ServerWebExchange exchange) {
+        return MapUtil.getInt(exchange.getAttributes(), LOGIN_USER_TYPE_ATTR);
     }
 
     /**

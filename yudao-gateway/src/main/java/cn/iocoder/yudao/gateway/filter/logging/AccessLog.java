@@ -2,6 +2,7 @@ package cn.iocoder.yudao.gateway.filter.logging;
 
 import lombok.Data;
 import org.springframework.cloud.gateway.route.Route;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.MultiValueMap;
 
 import java.util.Date;
@@ -11,7 +12,7 @@ import java.util.Map;
  * 网关的访问日志
  */
 @Data
-public class GatewayLog {
+public class AccessLog {
 
     /**
      * 链路追踪编号
@@ -71,6 +72,10 @@ public class GatewayLog {
      * 响应头
      */
     private MultiValueMap<String, String> responseHeaders;
+    /**
+     * 响应结果
+     */
+    private HttpStatus httpStatus;
 
     /**
      * 开始请求时间

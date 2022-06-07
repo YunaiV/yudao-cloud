@@ -42,6 +42,11 @@ public class JsonUtils {
     }
 
     @SneakyThrows
+    public static String toJsonPrettyString(Object object) {
+        return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+    }
+
+    @SneakyThrows
     public static String toJsonString(Object object) {
         return objectMapper.writeValueAsString(object);
     }

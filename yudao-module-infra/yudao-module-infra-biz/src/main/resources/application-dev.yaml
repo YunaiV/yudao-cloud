@@ -1,6 +1,9 @@
---- #################### 数据库相关配置 ####################
-spring:
+server:
+  port: 48082
 
+--- #################### 数据库相关配置 ####################
+
+spring:
   # 数据源配置项
   autoconfigure:
     exclude:
@@ -33,7 +36,7 @@ spring:
         time-between-eviction-runs-millis: 60000 # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位：毫秒
         min-evictable-idle-time-millis: 300000 # 配置一个连接在池中最小生存的时间，单位：毫秒
         max-evictable-idle-time-millis: 900000 # 配置一个连接在池中最大生存的时间，单位：毫秒
-        validation-query: SELECT 1 FROM DUAL # 配置检测连接是否有效
+        validation-query: SELECT 1 # 配置检测连接是否有效
         test-while-idle: true
         test-on-borrow: false
         test-on-return: false
@@ -41,32 +44,22 @@ spring:
       datasource:
         master:
           name: ruoyi-vue-pro
-          url: jdbc:mysql://127.0.0.1:3306/${spring.datasource.dynamic.datasource.master.name}?allowMultiQueries=true&useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true&nullCatalogMeansCurrent=true # MySQL Connector/J 8.X 连接的示例
-#          url: jdbc:mysql://127.0.0.1:3306/${spring.datasource.dynamic.datasource.master.name}?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=CTT # MySQL Connector/J 5.X 连接的示例
-#          url: jdbc:postgresql://127.0.0.1:5432/${spring.datasource.dynamic.datasource.slave.name} # PostgreSQL 连接的示例
-#          url: jdbc:oracle:thin:@127.0.0.1:1521:xe # Oracle 连接的示例
-#          url: jdbc:sqlserver://127.0.0.1:1433;DatabaseName=${spring.datasource.dynamic.datasource.master.name} # SQLServer 连接的示例
+          url: jdbc:mysql://400-infra.server.iocoder.cn:3306/${spring.datasource.dynamic.datasource.master.name}?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=CTT&nullCatalogMeansCurrent=true
+          driver-class-name: com.mysql.jdbc.Driver
           username: root
-          password: 123456
-#          username: sa
-#          password: JSm:g(*%lU4ZAkz06cd52KqT3)i1?H7W
-        slave: # 模拟从库，可根据自己需要修改
+          password: 3WLiVUBEwTbvAfsh
+        slave: # 模拟从库，可根据自己需要修改 # 模拟从库，可根据自己需要修改
           name: ruoyi-vue-pro
-          url: jdbc:mysql://127.0.0.1:3306/${spring.datasource.dynamic.datasource.slave.name}?allowMultiQueries=true&useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true&nullCatalogMeansCurrent=true # MySQL Connector/J 8.X 连接的示例
-#          url: jdbc:mysql://127.0.0.1:3306/${spring.datasource.dynamic.datasource.slave.name}?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=CTT # MySQL Connector/J 5.X 连接的示例
-#          url: jdbc:postgresql://127.0.0.1:5432/${spring.datasource.dynamic.datasource.slave.name} # PostgreSQL 连接的示例
-#          url: jdbc:oracle:thin:@127.0.0.1:1521:xe # Oracle 连接的示例
-#          url: jdbc:sqlserver://127.0.0.1:1433;DatabaseName=${spring.datasource.dynamic.datasource.slave.name} # SQLServer 连接的示例
+          url: jdbc:mysql://400-infra.server.iocoder.cn:3306/${spring.datasource.dynamic.datasource.slave.name}?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=CTT&nullCatalogMeansCurrent=true
+          driver-class-name: com.mysql.jdbc.Driver
           username: root
-          password: 123456
-#          username: sa
-#          password: JSm:g(*%lU4ZAkz06cd52KqT3)i1?H7W
+          password: 3WLiVUBEwTbvAfsh
 
   # Redis 配置。Redisson 默认的配置足够使用，一般不需要进行调优
   redis:
-    host: 127.0.0.1 # 地址
+    host: 400-infra.server.iocoder.cn # 地址
     port: 6379 # 端口
-    database: 0 # 数据库索引
+    database: 1 # 数据库索引
 #    password: 123456 # 密码，建议生产环境开启
 
 jasypt:
@@ -78,7 +71,7 @@ jasypt:
 # Quartz 配置项，对应 QuartzProperties 配置类
 spring:
   quartz:
-    auto-startup: false # 本地开发环境，尽量不要开启 Job
+    auto-startup: true # 测试环境，需要开启 Job
     scheduler-name: schedulerName # Scheduler 名字。默认为 schedulerName
     job-store-type: jdbc # Job 存储器类型。默认为 memory 表示内存，可选 jdbc 使用数据库。
     wait-for-jobs-to-complete-on-shutdown: true # 应用关闭时，是否等待定时任务执行完成。默认为 false ，建议设置为 true
@@ -161,14 +154,6 @@ spring:
 logging:
   file:
     name: ${user.home}/logs/${spring.application.name}.log # 日志文件名，全路径
-  level:
-    # 配置自己写的 MyBatis Mapper 打印日志
-    cn.iocoder.yudao.module.bpm.dal.mysql: debug
-    cn.iocoder.yudao.module.infra.dal.mysql: debug
-    cn.iocoder.yudao.module.pay.dal.mysql: debug
-    cn.iocoder.yudao.module.system.dal.mysql: debug
-    cn.iocoder.yudao.module.tool.dal.mysql: debug
-    cn.iocoder.yudao.module.member.dal.mysql: debug
 
 --- #################### 微信公众号相关配置 ####################
 wx: # 参见 https://github.com/Wechat-Group/WxJava/blob/develop/spring-boot-starters/wx-java-mp-spring-boot-starter/README.md 文档
@@ -186,8 +171,6 @@ wx: # 参见 https://github.com/Wechat-Group/WxJava/blob/develop/spring-boot-sta
 
 # 芋道配置项，设置当前项目所有自定义的配置
 yudao:
-  captcha:
-    enable: false # 本地环境，暂时关闭图片验证码，方便登录等接口的测试
   security:
     token-header: Authorization
     mock-enable: true
@@ -201,7 +184,7 @@ yudao:
     pay-notify-url: http://niubi.natapp1.cc/api/pay/order/notify
     pay-return-url: http://niubi.natapp1.cc/api/pay/order/return
     refund-notify-url: http://niubi.natapp1.cc/api/pay/refund/notify
-  demo: false # 关闭演示模式
+  demo: true # 开启演示模式
 
 justauth:
   enabled: true
@@ -219,4 +202,3 @@ justauth:
     type: REDIS
     prefix: 'social_auth_state:' # 缓存前缀，目前只对 Redis 缓存生效，默认 JUSTAUTH::STATE::
     timeout: 24h # 超时时长，目前只对 Redis 缓存生效，默认 3 分钟
-

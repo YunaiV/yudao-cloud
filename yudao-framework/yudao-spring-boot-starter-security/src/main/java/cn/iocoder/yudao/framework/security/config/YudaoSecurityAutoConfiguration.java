@@ -12,6 +12,7 @@ import cn.iocoder.yudao.module.system.api.oauth2.OAuth2TokenApi;
 import cn.iocoder.yudao.module.system.api.permission.PermissionApi;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,6 +33,7 @@ import javax.annotation.Resource;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(SecurityProperties.class)
+@EnableFeignClients(clients = OAuth2TokenApi.class)
 public class YudaoSecurityAutoConfiguration {
 
     @Resource

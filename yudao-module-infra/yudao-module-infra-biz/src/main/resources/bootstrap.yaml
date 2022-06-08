@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: infra-server
+
+  profiles:
+    active: local
+
+server:
+  port: 48082
+
+
+yudao:
+  security: # TODO 芋艿，发现一定要配置，需要找下原因
+    token-header: Authorization
+    mock-enable: true
+    mock-secret: test

@@ -19,6 +19,13 @@
     </description>
 
     <dependencies>
+        <!-- Spring Cloud 基础 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+
+        <!-- 依赖服务 -->
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>
             <artifactId>yudao-module-system-api</artifactId>
@@ -57,13 +64,34 @@
             <artifactId>yudao-spring-boot-starter-redis</artifactId>
         </dependency>
 
-        <!-- Config 配置中心相关 -->
-
-        <!-- Job 定时任务相关 -->
+        <!-- RPC 远程调用相关 -->
         <dependency>
-            <groupId>cn.iocoder.cloud</groupId>
-            <artifactId>yudao-spring-boot-starter-job</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-dubbo</artifactId>
+        </dependency>
+
+        <!-- Registry 注册中心相关 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+        <!-- Config 配置中心相关 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
+        <!-- Job 定时任务相关 TODO 芋艿：暂时去掉 -->
+<!--            <dependency>-->
+<!--                <groupId>cn.iocoder.cloud</groupId>-->
+<!--                <artifactId>yudao-spring-boot-starter-job</artifactId>-->
+<!--            </dependency>-->
 
         <!-- 消息队列相关 -->
         <dependency>

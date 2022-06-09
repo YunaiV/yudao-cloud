@@ -1,18 +1,22 @@
 package cn.iocoder.yudao.module.system.api.user;
 
+import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
 import cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO;
+import cn.iocoder.yudao.module.system.enums.ApiConstants;
+import io.swagger.annotations.Api;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Admin 用户 API 接口
- *
- * @author 芋道源码
- */
+@FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
+@Api(tags = "RPC 服务 - 管理员用户")
 public interface AdminUserApi {
+
+    String PREFIX = ApiConstants.PREFIX + "/user";
 
     /**
      * 通过用户 ID 查询用户
@@ -20,7 +24,17 @@ public interface AdminUserApi {
      * @param id 用户ID
      * @return 用户对象信息
      */
+    @GetMapping("/get")
     AdminUserRespDTO getUser(Long id);
+
+    /**
+     * 通过用户 ID 查询用户们
+     *
+     * @param ids 用户 ID 们
+     * @return 用户对象信息
+     */
+    @GetMapping("/list")
+    List<AdminUserRespDTO> getUsers(Collection<Long> ids);
 
     /**
      * 获得指定部门的用户数组
@@ -28,6 +42,7 @@ public interface AdminUserApi {
      * @param deptIds 部门数组
      * @return 用户数组
      */
+    @GetMapping("/list-by-dept-id")
     List<AdminUserRespDTO> getUsersByDeptIds(Collection<Long> deptIds);
 
     /**
@@ -36,6 +51,7 @@ public interface AdminUserApi {
      * @param postIds 岗位数组
      * @return 用户数组
      */
+    @GetMapping("/list-by-post-id")
     List<AdminUserRespDTO> getUsersByPostIds(Collection<Long> postIds);
 
     /**
@@ -44,7 +60,10 @@ public interface AdminUserApi {
      * @param ids 用户编号数组
      * @return 用户 Map
      */
-    Map<Long, AdminUserRespDTO> getUserMap(Collection<Long> ids);
+    default Map<Long, AdminUserRespDTO> getUserMap(Collection<Long> ids) {
+        List<AdminUserRespDTO> users = getUsers(ids);
+        return CollectionUtils.convertMap(users, AdminUserRespDTO::getId);
+    }
 
     /**
      * 校验用户们是否有效。如下情况，视为无效：
@@ -53,6 +72,7 @@ public interface AdminUserApi {
      *
      * @param ids 用户编号数组
      */
+    @GetMapping("/valid")
     void validUsers(Set<Long> ids);
 
 }

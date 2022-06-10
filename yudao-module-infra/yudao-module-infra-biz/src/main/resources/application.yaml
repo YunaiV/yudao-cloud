@@ -71,6 +71,8 @@ dubbo:
     port: -1 # 协议端口，-1 表示自增端口，从 20880 开始
   registry:
     address: spring-cloud://localhost # 设置使用 Spring Cloud 注册中心
+  application:
+    id: infra-server # TODO 一定要写么？
 
 --- #################### 芋道相关配置 ####################
 

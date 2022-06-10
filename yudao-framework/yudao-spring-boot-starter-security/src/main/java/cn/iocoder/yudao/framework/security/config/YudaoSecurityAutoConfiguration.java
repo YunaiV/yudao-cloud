@@ -33,7 +33,6 @@ import javax.annotation.Resource;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(SecurityProperties.class)
-@EnableFeignClients(clients = OAuth2TokenApi.class)
 public class YudaoSecurityAutoConfiguration {
 
     @Resource

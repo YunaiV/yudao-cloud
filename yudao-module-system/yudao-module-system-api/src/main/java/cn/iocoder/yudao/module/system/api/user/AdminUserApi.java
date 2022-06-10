@@ -24,7 +24,7 @@ public interface AdminUserApi {
      * @param id 用户ID
      * @return 用户对象信息
      */
-    @GetMapping("/get")
+    @GetMapping(PREFIX + "/get")
     AdminUserRespDTO getUser(Long id);
 
     /**
@@ -33,7 +33,7 @@ public interface AdminUserApi {
      * @param ids 用户 ID 们
      * @return 用户对象信息
      */
-    @GetMapping("/list")
+    @GetMapping(PREFIX + "/list")
     List<AdminUserRespDTO> getUsers(Collection<Long> ids);
 
     /**
@@ -42,7 +42,7 @@ public interface AdminUserApi {
      * @param deptIds 部门数组
      * @return 用户数组
      */
-    @GetMapping("/list-by-dept-id")
+    @GetMapping(PREFIX + "/list-by-dept-id")
     List<AdminUserRespDTO> getUsersByDeptIds(Collection<Long> deptIds);
 
     /**
@@ -51,7 +51,7 @@ public interface AdminUserApi {
      * @param postIds 岗位数组
      * @return 用户数组
      */
-    @GetMapping("/list-by-post-id")
+    @GetMapping(PREFIX + "/list-by-post-id")
     List<AdminUserRespDTO> getUsersByPostIds(Collection<Long> postIds);
 
     /**
@@ -72,7 +72,7 @@ public interface AdminUserApi {
      *
      * @param ids 用户编号数组
      */
-    @GetMapping("/valid")
+    @GetMapping(PREFIX + "/valid")
     void validUsers(Set<Long> ids);
 
 }

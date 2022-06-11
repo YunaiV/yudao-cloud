@@ -54,6 +54,6 @@ public interface PermissionApi {
      * @return 部门数据权限
      */
     @GetMapping(PREFIX + "/get-dept-data-permission")
-    DeptDataPermissionRespDTO getDeptDataPermission(Long userId);
+    DeptDataPermissionRespDTO getDeptDataPermission(@RequestParam("userId") Long userId);
 
 }

@@ -222,6 +222,13 @@
                 <version>${redisson.version}</version>
             </dependency>
 
+            <!-- RPC 远程调用相关 -->
+            <dependency>
+                <groupId>cn.iocoder.cloud</groupId>
+                <artifactId>yudao-spring-boot-starter-rpc</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
             <!-- Registry 注册中心相关 -->
 
             <!-- Config 配置中心相关 -->

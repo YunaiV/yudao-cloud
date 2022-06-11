@@ -15,3 +15,11 @@ spring:
           uri: grayLb://system-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/app-api/system/**
+        - id: infra-admin-api # 路由的编号
+          uri: grayLb://infra-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/admin-api/infra/**
+        - id: infra-app-api # 路由的编号
+          uri: grayLb://infra-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/app-api/infra/**

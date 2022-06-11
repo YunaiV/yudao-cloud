@@ -1,6 +1,8 @@
 package cn.iocoder.yudao.framework.tenant.core.security;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.iocoder.yudao.framework.common.enums.RpcConstants;
 import cn.iocoder.yudao.framework.common.exception.enums.GlobalErrorCodeConstants;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.util.servlet.ServletUtils;
@@ -51,6 +53,12 @@ public class TenantSecurityWebFilter extends ApiRequestFilter {
         this.pathMatcher = new AntPathMatcher();
         this.globalExceptionHandler = globalExceptionHandler;
         this.tenantFrameworkService = tenantFrameworkService;
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return super.shouldNotFilter(request) &&
+                !StrUtil.startWithAny(request.getRequestURI(), RpcConstants.RPC_API_PREFIX); // 因为 RPC API 也会透传租户编号
     }
 
     @Override

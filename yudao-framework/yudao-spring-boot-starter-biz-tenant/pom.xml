@@ -38,6 +38,13 @@
             <artifactId>yudao-spring-boot-starter-redis</artifactId>
         </dependency>
 
+        <!-- RPC 远程调用相关 -->
+        <dependency>
+            <groupId>cn.iocoder.cloud</groupId>
+            <artifactId>yudao-spring-boot-starter-rpc</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!-- Job 定时任务相关 -->
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>

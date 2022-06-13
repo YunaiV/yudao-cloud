@@ -1,5 +1,6 @@
-package cn.iocoder.yudao.framework.operatelog.core.dto;
+package cn.iocoder.yudao.module.system.api.logger.dto;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -8,14 +9,11 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Map;
 
-/**
- * 操作日志创建 Request DTO
- */
+@ApiModel("操作日志创建 Request DTO")
 @Data
 public class OperateLogCreateReqDTO {
 
     @ApiModelProperty(value = "链路追踪编号", required = true, example = "89aca178-a370-411c-ae02-3f0d672be4ab")
-    @NotEmpty(message = "链路追踪编号不能为空")
     private String traceId;
 
     @ApiModelProperty(value = "用户编号", required = true, example = "1024")

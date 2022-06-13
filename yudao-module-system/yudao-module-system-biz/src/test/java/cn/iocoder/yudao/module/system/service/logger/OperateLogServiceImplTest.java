@@ -7,9 +7,10 @@ import cn.iocoder.yudao.framework.common.exception.enums.GlobalErrorCodeConstant
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.monitor.TracerUtils;
 import cn.iocoder.yudao.framework.common.util.object.ObjectUtils;
-import cn.iocoder.yudao.framework.operatelog.core.dto.OperateLogCreateReqDTO;
+import cn.iocoder.yudao.framework.operatelog.core.service.OperateLog;
 import cn.iocoder.yudao.framework.operatelog.core.enums.OperateTypeEnum;
 import cn.iocoder.yudao.framework.test.core.util.RandomUtils;
+import cn.iocoder.yudao.module.system.api.logger.dto.OperateLogCreateReqDTO;
 import cn.iocoder.yudao.module.system.controller.admin.logger.vo.operatelog.OperateLogExportReqVO;
 import cn.iocoder.yudao.module.system.controller.admin.logger.vo.operatelog.OperateLogPageReqVO;
 import cn.iocoder.yudao.module.system.dal.dataobject.logger.OperateLogDO;
@@ -49,7 +50,7 @@ public class OperateLogServiceImplTest extends BaseDbUnitTest {
     private AdminUserService userService;
 
     @Test
-    public void testCreateOperateLogAsync() throws InterruptedException, ExecutionException {
+    public void testCreateOperateLogAsync() {
         String traceId = TracerUtils.getTraceId();
         OperateLogCreateReqDTO reqVO = RandomUtils.randomPojo(OperateLogCreateReqDTO.class, o -> {
             o.setTraceId(traceId);
@@ -59,8 +60,7 @@ public class OperateLogServiceImplTest extends BaseDbUnitTest {
         });
 
         // 执行service方法
-        Future<Boolean> future = operateLogServiceImpl.createOperateLogAsync(reqVO);
-        future.get();
+        operateLogServiceImpl.createOperateLog(reqVO);
         // 断言插入是否正确
         OperateLogDO sysOperateLogDO = operateLogMapper.selectOne("trace_id", traceId);
         assertPojoEquals(reqVO, sysOperateLogDO);

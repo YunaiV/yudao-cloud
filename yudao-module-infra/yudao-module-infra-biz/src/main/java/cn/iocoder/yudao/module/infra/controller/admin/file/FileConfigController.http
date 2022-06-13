@@ -19,7 +19,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 请求 /infra/file-config/update 接口 => 成功
-PUT {{baseUrl}}/infra/file-config/update
+PUT {{infaBaseUrl}}/infra/file-config/update
 Content-Type: application/json
 tenant-id: {{adminTenentId}}
 Authorization: Bearer {{token}}

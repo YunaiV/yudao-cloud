@@ -13,7 +13,7 @@ import java.util.Map;
 @Data
 public class OperateLogCreateReqDTO {
 
-    @ApiModelProperty(value = "链路追踪编号", required = true, example = "89aca178-a370-411c-ae02-3f0d672be4ab")
+    @ApiModelProperty(value = "链路追踪编号", example = "89aca178-a370-411c-ae02-3f0d672be4ab")
     private String traceId;
 
     @ApiModelProperty(value = "用户编号", required = true, example = "1024")

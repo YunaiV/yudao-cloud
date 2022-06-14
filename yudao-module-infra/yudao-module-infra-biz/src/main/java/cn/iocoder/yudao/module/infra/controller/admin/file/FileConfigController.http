@@ -39,7 +39,7 @@ Authorization: Bearer {{token}}
 }
 
 ### 请求 /infra/file-config/test 接口 => 成功
-GET {{baseUrl}}/infra/file-config/test?id=2
+GET {{infaBaseUrl}}/infra/file-config/test?id=2
 Content-Type: application/json
 tenant-id: {{adminTenentId}}
 Authorization: Bearer {{token}}

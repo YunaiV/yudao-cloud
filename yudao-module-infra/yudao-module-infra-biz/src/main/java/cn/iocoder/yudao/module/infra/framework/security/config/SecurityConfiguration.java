@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.infra.framework.security.config;
 
 import cn.iocoder.yudao.framework.security.config.AuthorizeRequestsCustomizer;
+import cn.iocoder.yudao.module.infra.enums.ApiConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,6 +38,10 @@ public class SecurityConfiguration {
                         .antMatchers(adminSeverContextPath + "/**").anonymous();
                 // 文件的获取接口，可匿名访问
                 registry.antMatchers(buildAdminApi("/infra/file/*/get/**"), buildAppApi("/infra/file/get/**")).permitAll();
+
+                // TODO 芋艿：这个每个项目都需要重复配置，得捉摸有没通用的方案
+                // RPC 服务的安全配置
+                registry.antMatchers(ApiConstants.PREFIX + "/**").permitAll();
             }
 
         };

@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.infra.service.logger;
 
-import cn.iocoder.yudao.framework.apilog.core.service.dto.ApiErrorLogCreateReqDTO;
+import cn.iocoder.yudao.framework.apilog.core.service.ApiErrorLog;
+import cn.iocoder.yudao.module.infra.api.logger.dto.ApiErrorLogCreateReqDTO;
 import cn.iocoder.yudao.module.infra.controller.admin.logger.vo.apierrorlog.ApiErrorLogExportReqVO;
 import cn.iocoder.yudao.module.infra.controller.admin.logger.vo.apierrorlog.ApiErrorLogPageReqVO;
 import cn.iocoder.yudao.module.infra.convert.logger.ApiErrorLogConvert;
@@ -31,6 +32,13 @@ public class ApiErrorLogServiceImpl implements ApiErrorLogService {
     private ApiErrorLogMapper apiErrorLogMapper;
 
     @Override
+    public void createApiErrorLog(ApiErrorLogCreateReqDTO createDTO) {
+        ApiErrorLogDO apiErrorLog = ApiErrorLogConvert.INSTANCE.convert(createDTO);
+        apiErrorLog.setProcessStatus(ApiErrorLogProcessStatusEnum.INIT.getStatus());
+        apiErrorLogMapper.insert(apiErrorLog);
+    }
+
+    @Override
     public PageResult<ApiErrorLogDO> getApiErrorLogPage(ApiErrorLogPageReqVO pageReqVO) {
         return apiErrorLogMapper.selectPage(pageReqVO);
     }
@@ -52,14 +60,6 @@ public class ApiErrorLogServiceImpl implements ApiErrorLogService {
         // 标记处理
         apiErrorLogMapper.updateById(ApiErrorLogDO.builder().id(id).processStatus(processStatus)
                 .processUserId(processUserId).processTime(new Date()).build());
-    }
-
-    @Override
-    @Async
-    public void createApiErrorLogAsync(ApiErrorLogCreateReqDTO createDTO) {
-        ApiErrorLogDO apiErrorLog = ApiErrorLogConvert.INSTANCE.convert(createDTO);
-        apiErrorLog.setProcessStatus(ApiErrorLogProcessStatusEnum.INIT.getStatus());
-        apiErrorLogMapper.insert(apiErrorLog);
     }
 
 }

@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.iocoder.yudao.framework.apilog.config.YudaoApiLogRpcAutoConfiguration,\
   cn.iocoder.yudao.framework.apilog.config.YudaoApiLogAutoConfiguration,\
   cn.iocoder.yudao.framework.jackson.config.YudaoJacksonAutoConfiguration,\
   cn.iocoder.yudao.framework.swagger.config.YudaoSwaggerAutoConfiguration,\

@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Map;
 
-@ApiModel("操作日志创建 Request DTO")
+@ApiModel("RPC 服务 - 操作日志创建 Request DTO")
 @Data
 public class OperateLogCreateReqDTO {
 

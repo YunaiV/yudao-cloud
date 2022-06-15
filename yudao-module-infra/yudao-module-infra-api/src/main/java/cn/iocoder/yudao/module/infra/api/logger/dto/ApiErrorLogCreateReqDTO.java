@@ -7,7 +7,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@ApiModel("API 错误日志创建 Request DTO")
+@ApiModel("RPC 服务 - API 错误日志创建 Request DTO")
 @Data
 public class ApiErrorLogCreateReqDTO {
 

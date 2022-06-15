@@ -1,8 +1,12 @@
 package cn.iocoder.yudao.module.system.api.permission;
 
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.system.api.permission.dto.DeptDataPermissionRespDTO;
 import cn.iocoder.yudao.module.system.enums.ApiConstants;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,44 +20,32 @@ public interface PermissionApi {
 
     String PREFIX = ApiConstants.PREFIX + "/permission";
 
-    /**
-     * 获得拥有多个角色的用户编号集合
-     *
-     * @param roleIds 角色编号集合
-     * @return 用户编号集合
-     */
     @GetMapping(PREFIX + "/user-role-id-list-by-role-id")
-    Set<Long> getUserRoleIdListByRoleIds(Collection<Long> roleIds);
+    @ApiOperation("获得拥有多个角色的用户编号集合")
+    @ApiImplicitParam(name = "roleIds", value = "角色编号集合", required = true, allowMultiple = true)
+    CommonResult<Set<Long>> getUserRoleIdListByRoleIds(@RequestParam("roleIds") Collection<Long> roleIds);
 
-    /**
-     * 判断是否有权限，任一一个即可
-     *
-     * @param userId 用户编号
-     * @param permissions 权限
-     * @return 是否
-     */
     @GetMapping(PREFIX + "/has-any-permissions")
-    boolean hasAnyPermissions(@RequestParam("userId") Long userId,
-                              @RequestParam("permissions") String... permissions);
+    @ApiOperation("判断是否有权限，任一一个即可")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "用户编号", required = true, dataTypeClass = Long.class),
+            @ApiImplicitParam(name = "permissions", value = "权限", required = true, allowMultiple = true)
+    })
+    CommonResult<Boolean> hasAnyPermissions(@RequestParam("userId") Long userId,
+                                            @RequestParam("permissions") String... permissions);
 
-    /**
-     * 判断是否有角色，任一一个即可
-     *
-     * @param userId 用户编号
-     * @param roles 角色数组
-     * @return 是否
-     */
     @GetMapping(PREFIX + "/has-any-roles")
-    boolean hasAnyRoles(@RequestParam("userId") Long userId,
-                        @RequestParam("roles") String... roles);
+    @ApiOperation("判断是否有角色，任一一个即可")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "用户编号", required = true, dataTypeClass = Long.class),
+            @ApiImplicitParam(name = "roles", value = "角色数组", required = true, allowMultiple = true)
+    })
+    CommonResult<Boolean> hasAnyRoles(@RequestParam("userId") Long userId,
+                                      @RequestParam("roles") String... roles);
 
-    /**
-     * 获得登陆用户的部门数据权限
-     *
-     * @param userId 用户编号
-     * @return 部门数据权限
-     */
     @GetMapping(PREFIX + "/get-dept-data-permission")
-    DeptDataPermissionRespDTO getDeptDataPermission(@RequestParam("userId") Long userId);
+    @ApiOperation("获得登陆用户的部门数据权限")
+    @ApiImplicitParam(name = "userId", value = "部门数据权限", required = true, dataTypeClass = Long.class)
+    CommonResult<DeptDataPermissionRespDTO> getDeptDataPermission(@RequestParam("userId") Long userId);
 
 }

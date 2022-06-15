@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.framework.security.core.service;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.security.core.LoginUser;
 import cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils;
 import cn.iocoder.yudao.module.system.api.permission.PermissionApi;
@@ -27,7 +28,9 @@ public class SecurityFrameworkServiceImpl implements SecurityFrameworkService {
 
     @Override
     public boolean hasAnyPermissions(String... permissions) {
-        return permissionApi.hasAnyPermissions(getLoginUserId(), permissions);
+        CommonResult<Boolean> hasAnyPermissionsResult = permissionApi.hasAnyPermissions(getLoginUserId(), permissions);
+        hasAnyPermissionsResult.checkError();
+        return hasAnyPermissionsResult.getData();
     }
 
     @Override
@@ -37,7 +40,9 @@ public class SecurityFrameworkServiceImpl implements SecurityFrameworkService {
 
     @Override
     public boolean hasAnyRoles(String... roles) {
-        return permissionApi.hasAnyRoles(getLoginUserId(), roles);
+        CommonResult<Boolean> hasAnyRolesResult = permissionApi.hasAnyRoles(getLoginUserId(), roles);
+        hasAnyRolesResult.checkError();
+        return hasAnyRolesResult.getData();
     }
 
     @Override

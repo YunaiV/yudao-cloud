@@ -7,7 +7,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@ApiModel("API 访问日志创建 Request DTO")
+@ApiModel("RPC 服务 - API 访问日志创建 Request DTO")
 @Data
 public class ApiAccessLogCreateReqDTO {
 

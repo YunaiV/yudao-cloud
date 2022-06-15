@@ -6,6 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
 
@@ -17,6 +18,6 @@ public interface PostApi {
 
     @GetMapping(PREFIX + "/valid")
     @ApiImplicitParam(name = "ids", value = "部门编号数组", required = true, allowMultiple = true)
-    CommonResult<Boolean> validPosts(Collection<Long> ids);
+    CommonResult<Boolean> validPosts(@RequestParam("ids") Collection<Long> ids);
 
 }

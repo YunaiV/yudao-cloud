@@ -33,6 +33,7 @@ public interface DeptApi {
     CommonResult<List<DeptRespDTO>> getDepts(@RequestParam("ids") Collection<Long> ids);
 
     @GetMapping(PREFIX + "/valid")
+    @ApiOperation("校验部门是否合法")
     @ApiImplicitParam(name = "ids", value = "部门编号数组", example = "1,2", required = true, allowMultiple = true)
     CommonResult<Boolean> validDepts(@RequestParam("ids") Collection<Long> ids);
 

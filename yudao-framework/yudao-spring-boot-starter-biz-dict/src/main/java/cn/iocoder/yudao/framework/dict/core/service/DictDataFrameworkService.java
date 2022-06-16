@@ -24,12 +24,4 @@ public interface DictDataFrameworkService {
      */
     DictDataRespDTO parseDictDataFromCache(String type, String label);
 
-    /**
-     * 获得指定类型的字典数据，从缓存中
-     *
-     * @param type 字典类型
-     * @return 字典数据列表
-     */
-    List<DictDataRespDTO> listDictDatasFromCache(String type);
-
 }

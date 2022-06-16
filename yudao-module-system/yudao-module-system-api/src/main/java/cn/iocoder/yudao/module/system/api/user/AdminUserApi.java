@@ -1,11 +1,15 @@
 package cn.iocoder.yudao.module.system.api.user;
 
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
 import cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO;
 import cn.iocoder.yudao.module.system.enums.ApiConstants;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,41 +22,25 @@ public interface AdminUserApi {
 
     String PREFIX = ApiConstants.PREFIX + "/user";
 
-    /**
-     * 通过用户 ID 查询用户
-     *
-     * @param id 用户ID
-     * @return 用户对象信息
-     */
     @GetMapping(PREFIX + "/get")
-    AdminUserRespDTO getUser(Long id);
+    @ApiOperation("通过用户 ID 查询用户")
+    @ApiImplicitParam(name = "id", value = "用户编号", example = "1", required = true, dataTypeClass = Long.class)
+    CommonResult<AdminUserRespDTO> getUser(@RequestParam("id") Long id);
 
-    /**
-     * 通过用户 ID 查询用户们
-     *
-     * @param ids 用户 ID 们
-     * @return 用户对象信息
-     */
     @GetMapping(PREFIX + "/list")
-    List<AdminUserRespDTO> getUsers(Collection<Long> ids);
+    @ApiOperation("通过用户 ID 查询用户们")
+    @ApiImplicitParam(name = "ids", value = "部门编号数组", example = "1,2", required = true, allowMultiple = true)
+    CommonResult<List<AdminUserRespDTO>> getUsers(@RequestParam("ids") Collection<Long> ids);
 
-    /**
-     * 获得指定部门的用户数组
-     *
-     * @param deptIds 部门数组
-     * @return 用户数组
-     */
     @GetMapping(PREFIX + "/list-by-dept-id")
-    List<AdminUserRespDTO> getUsersByDeptIds(Collection<Long> deptIds);
+    @ApiOperation("获得指定部门的用户数组")
+    @ApiImplicitParam(name = "deptIds", value = "部门编号数组", example = "1,2", required = true, allowMultiple = true)
+    CommonResult<List<AdminUserRespDTO>> getUsersByDeptIds(@RequestParam("deptIds") Collection<Long> deptIds);
 
-    /**
-     * 获得指定岗位的用户数组
-     *
-     * @param postIds 岗位数组
-     * @return 用户数组
-     */
     @GetMapping(PREFIX + "/list-by-post-id")
-    List<AdminUserRespDTO> getUsersByPostIds(Collection<Long> postIds);
+    @ApiOperation("获得指定岗位的用户数组")
+    @ApiImplicitParam(name = "postIds", value = "岗位编号数组", example = "2,3", required = true, allowMultiple = true)
+    CommonResult<List<AdminUserRespDTO>> getUsersByPostIds(@RequestParam("postIds") Collection<Long> postIds);
 
     /**
      * 获得用户 Map
@@ -61,18 +49,14 @@ public interface AdminUserApi {
      * @return 用户 Map
      */
     default Map<Long, AdminUserRespDTO> getUserMap(Collection<Long> ids) {
-        List<AdminUserRespDTO> users = getUsers(ids);
-        return CollectionUtils.convertMap(users, AdminUserRespDTO::getId);
+        CommonResult<List<AdminUserRespDTO>> getUsersResult = getUsers(ids);
+        getUsersResult.checkError();
+        return CollectionUtils.convertMap(getUsersResult.getData(), AdminUserRespDTO::getId);
     }
 
-    /**
-     * 校验用户们是否有效。如下情况，视为无效：
-     * 1. 用户编号不存在
-     * 2. 用户被禁用
-     *
-     * @param ids 用户编号数组
-     */
     @GetMapping(PREFIX + "/valid")
-    void validUsers(Set<Long> ids);
+    @ApiOperation("校验用户们是否有效")
+    @ApiImplicitParam(name = "ids", value = "用户编号数组", example = "3,5", required = true)
+    CommonResult<Boolean> validUsers(@RequestParam("ids") Set<Long> ids);
 
 }

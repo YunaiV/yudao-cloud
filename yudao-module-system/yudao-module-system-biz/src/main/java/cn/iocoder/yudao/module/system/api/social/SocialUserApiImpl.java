@@ -1,19 +1,21 @@
 package cn.iocoder.yudao.module.system.api.social;
 
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialUserBindReqDTO;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialUserUnbindReqDTO;
 import cn.iocoder.yudao.module.system.service.social.SocialUserService;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
-/**
- * 社交用户的 API 实现类
- *
- * @author 芋道源码
- */
-@Service
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
+import static cn.iocoder.yudao.module.system.enums.ApiConstants.VERSION;
+
+@RestController // 提供 RESTful API 接口，给 Feign 调用
+@DubboService(version = VERSION) // 提供 Dubbo RPC 接口，给 Dubbo Consumer 调用
 @Validated
 public class SocialUserApiImpl implements SocialUserApi {
 
@@ -21,24 +23,26 @@ public class SocialUserApiImpl implements SocialUserApi {
     private SocialUserService socialUserService;
 
     @Override
-    public String getAuthorizeUrl(Integer type, String redirectUri) {
-        return socialUserService.getAuthorizeUrl(type, redirectUri);
+    public CommonResult<String> getAuthorizeUrl(Integer type, String redirectUri) {
+        return success(socialUserService.getAuthorizeUrl(type, redirectUri));
     }
 
     @Override
-    public void bindSocialUser(SocialUserBindReqDTO reqDTO) {
+    public CommonResult<Boolean> bindSocialUser(SocialUserBindReqDTO reqDTO) {
         socialUserService.bindSocialUser(reqDTO);
+        return success(true);
     }
 
     @Override
-    public void unbindSocialUser(SocialUserUnbindReqDTO reqDTO) {
+    public CommonResult<Boolean> unbindSocialUser(SocialUserUnbindReqDTO reqDTO) {
         socialUserService.unbindSocialUser(reqDTO.getUserId(), reqDTO.getUserType(),
                 reqDTO.getType(), reqDTO.getUnionId());
+        return success(true);
     }
 
     @Override
-    public Long getBindUserId(Integer userType, Integer type, String code, String state) {
-       return socialUserService.getBindUserId(userType, type, code, state);
+    public CommonResult<Long> getBindUserId(Integer userType, Integer type, String code, String state) {
+       return success(socialUserService.getBindUserId(userType, type, code, state));
     }
 
 }

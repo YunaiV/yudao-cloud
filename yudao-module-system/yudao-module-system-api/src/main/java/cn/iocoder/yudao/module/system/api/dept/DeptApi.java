@@ -24,16 +24,16 @@ public interface DeptApi {
 
     @GetMapping(PREFIX + "/get")
     @ApiOperation("获得部门信息")
-    @ApiImplicitParam(name = "id", value = "部门编号", required = true, dataTypeClass = Long.class)
+    @ApiImplicitParam(name = "id", value = "部门编号", example = "1024", required = true, dataTypeClass = Long.class)
     CommonResult<DeptRespDTO> getDept(@RequestParam("id") Long id);
 
     @GetMapping(PREFIX + "/list")
     @ApiOperation("获得部门信息数组")
-    @ApiImplicitParam(name = "ids", value = "部门编号数组", required = true, allowMultiple = true)
+    @ApiImplicitParam(name = "ids", value = "部门编号数组", example = "1,2", required = true, allowMultiple = true)
     CommonResult<List<DeptRespDTO>> getDepts(@RequestParam("ids") Collection<Long> ids);
 
     @GetMapping(PREFIX + "/valid")
-    @ApiImplicitParam(name = "ids", value = "部门编号数组", required = true, allowMultiple = true)
+    @ApiImplicitParam(name = "ids", value = "部门编号数组", example = "1,2", required = true, allowMultiple = true)
     CommonResult<Boolean> validDepts(@RequestParam("ids") Collection<Long> ids);
 
     /**

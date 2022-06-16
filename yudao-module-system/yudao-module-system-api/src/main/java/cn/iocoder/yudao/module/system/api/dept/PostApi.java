@@ -17,7 +17,7 @@ public interface PostApi {
     String PREFIX = ApiConstants.PREFIX + "/post";
 
     @GetMapping(PREFIX + "/valid")
-    @ApiImplicitParam(name = "ids", value = "部门编号数组", required = true, allowMultiple = true)
+    @ApiImplicitParam(name = "ids", value = "部门编号数组", example = "1,2", required = true, allowMultiple = true)
     CommonResult<Boolean> validPosts(@RequestParam("ids") Collection<Long> ids);
 
 }

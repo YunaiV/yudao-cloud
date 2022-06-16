@@ -1,53 +1,52 @@
 package cn.iocoder.yudao.module.system.api.social;
 
-import cn.iocoder.yudao.framework.common.exception.ServiceException;
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialUserBindReqDTO;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialUserUnbindReqDTO;
-import cn.iocoder.yudao.module.system.enums.social.SocialTypeEnum;
+import cn.iocoder.yudao.module.system.enums.ApiConstants;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-/**
- * 社交用户的 API 接口
- *
- * @author 芋道源码
- */
+@FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
+@Api(tags = "RPC 服务 - 社交用户的")
 public interface SocialUserApi {
 
-    /**
-     * 获得社交平台的授权 URL
-     *
-     * @param type 社交平台的类型 {@link SocialTypeEnum}
-     * @param redirectUri 重定向 URL
-     * @return 社交平台的授权 URL
-     */
-    String getAuthorizeUrl(Integer type, String redirectUri);
+    String PREFIX = ApiConstants.PREFIX + "/social-user";
 
-    /**
-     * 绑定社交用户
-     *
-     * @param reqDTO 绑定信息
-     */
-    void bindSocialUser(@Valid SocialUserBindReqDTO reqDTO);
+    @GetMapping("/get-authorize-url")
+    @ApiOperation("获得社交平台的授权 URL")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "type", value = "社交平台的类型", example = "1", required = true, dataTypeClass = Integer.class),
+            @ApiImplicitParam(name = "redirectUri", value = "重定向 URL", example = "https://www.iocoder.cn",required = true, dataTypeClass = String.class)
+    })
+    CommonResult<String> getAuthorizeUrl(@RequestParam("type") Integer type,
+                                         @RequestParam("redirectUri") String redirectUri);
 
-    /**
-     * 取消绑定社交用户
-     *
-     * @param reqDTO 解绑
-     */
-    void unbindSocialUser(@Valid SocialUserUnbindReqDTO reqDTO);
+    @PostMapping("/bind")
+    @ApiOperation("绑定社交用户")
+    CommonResult<Boolean> bindSocialUser(@Valid @RequestBody SocialUserBindReqDTO reqDTO);
 
-    /**
-     * 获得社交用户的绑定用户编号
-     * 注意，返回的是 MemberUser 或者 AdminUser 的 id 编号！
-     * 在认证信息不正确的情况下，也会抛出 {@link ServiceException} 业务异常
-     *
-     * @param userType 用户类型
-     * @param type 社交平台的类型
-     * @param code 授权码
-     * @param state state
-     * @return 绑定用户编号
-     */
-    Long getBindUserId(Integer userType, Integer type, String code, String state);
+    @DeleteMapping("/unbind")
+    @ApiOperation("取消绑定社交用户")
+    CommonResult<Boolean> unbindSocialUser(@Valid @RequestBody SocialUserUnbindReqDTO reqDTO);
+
+    @GetMapping("/get-bind-user-id")
+    @ApiOperation("获得社交用户的绑定用户编号")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userType", value = "用户类型", example = "2", required = true, dataTypeClass = Integer.class),
+            @ApiImplicitParam(name = "type", value = "社交平台的类型", example = "1", required = true, dataTypeClass = Integer.class),
+            @ApiImplicitParam(name = "code", value = "授权码", required = true, example = "tudou", dataTypeClass = String.class),
+            @ApiImplicitParam(name = "state", value = "state", required = true, example = "coke", dataTypeClass = String.class)
+    })
+    CommonResult<Long> getBindUserId(@RequestParam("userType") Integer userType,
+                                     @RequestParam("type") Integer type,
+                                     @RequestParam("code") String code,
+                                     @RequestParam("state") String state);
 
 }

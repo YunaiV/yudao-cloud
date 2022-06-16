@@ -15,7 +15,7 @@ import javax.validation.Valid;
 @Api(tags = "RPC 服务 - 短信发送")
 public interface SmsSendApi {
 
-    String PREFIX = ApiConstants.PREFIX + "/oauth2/sms/send";
+    String PREFIX = ApiConstants.PREFIX + "/sms/send";
 
     @PostMapping(PREFIX + "/send-single-admin")
     @ApiOperation(value = "发送单条短信给 Admin 用户", notes = "在 mobile 为空时，使用 userId 加载对应 Admin 的手机号")

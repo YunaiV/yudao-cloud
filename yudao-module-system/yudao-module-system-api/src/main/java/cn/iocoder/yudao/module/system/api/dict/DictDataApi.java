@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
 
@@ -20,9 +21,10 @@ public interface DictDataApi {
     @GetMapping(PREFIX + "/valid")
     @ApiOperation("校验字典数据们是否有效")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "dictType", value = "字典类型", required = true, dataTypeClass = String.class),
-        @ApiImplicitParam(name = "values", value = "字典数据值的数组", required = true, allowMultiple = true)
+        @ApiImplicitParam(name = "dictType", value = "字典类型", example = "SEX", required = true, dataTypeClass = String.class),
+        @ApiImplicitParam(name = "values", value = "字典数据值的数组", example = "1,2", required = true, allowMultiple = true)
     })
-    CommonResult<Boolean> validDictDatas(String dictType, Collection<String> values);
+    CommonResult<Boolean> validDictDatas(@RequestParam("dictType") String dictType,
+                                         @RequestParam("values") Collection<String> values);
 
 }

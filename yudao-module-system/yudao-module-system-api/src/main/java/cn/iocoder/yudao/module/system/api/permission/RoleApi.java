@@ -17,7 +17,7 @@ public interface RoleApi {
     String PREFIX = ApiConstants.PREFIX + "/role";
 
     @GetMapping(PREFIX + "/valid")
-    @ApiImplicitParam(name = "ids", value = "角色编号数组", required = true, allowMultiple = true)
+    @ApiImplicitParam(name = "ids", value = "角色编号数组", example = "1,2", required = true, allowMultiple = true)
     CommonResult<Boolean> validRoles(@RequestParam("ids") Collection<Long> ids);
 
 }

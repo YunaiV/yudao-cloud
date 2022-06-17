@@ -23,11 +23,6 @@ import java.util.Set;
 public interface TenantService {
 
     /**
-     * 初始化租户的本地缓存
-     */
-    void initLocalCache();
-
-    /**
      * 创建租户
      *
      * @param createReqVO 创建信息

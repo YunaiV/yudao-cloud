@@ -52,14 +52,15 @@ public class TenantFrameworkServiceImpl implements TenantFrameworkService {
             });
 
     @Override
+    @SneakyThrows
     public List<Long> getTenantIds() {
-        return getTenantIdsCache.getUnchecked(Boolean.TRUE);
+        return getTenantIdsCache.get(Boolean.TRUE);
     }
 
     @Override
     @SneakyThrows
     public void validTenant(Long id) {
-        validTenantCache.getUnchecked(id).checkError();
+        validTenantCache.get(id).checkError();
     }
 
 }

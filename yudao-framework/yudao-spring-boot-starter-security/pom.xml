@@ -57,6 +57,12 @@
             <artifactId>yudao-module-system-api</artifactId> <!-- 需要使用它，进行 Token 的校验 -->
             <version>${revision}</version>
         </dependency>
+
+        <!-- 工具类相关 -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

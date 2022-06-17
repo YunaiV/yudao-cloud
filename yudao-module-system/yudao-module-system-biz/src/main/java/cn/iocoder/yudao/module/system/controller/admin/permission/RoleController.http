@@ -31,7 +31,7 @@ tenant-id: {{adminTenentId}}
 roleId=14
 
 ### /role/get 成功
-GET {{baseUrl}}/system/role/get?id=100
+GET {{systemBaseUrl}}/system/role/get?id=100
 Content-Type: application/x-www-form-urlencoded
 Authorization: Bearer {{token}}
 tenant-id: {{adminTenentId}}

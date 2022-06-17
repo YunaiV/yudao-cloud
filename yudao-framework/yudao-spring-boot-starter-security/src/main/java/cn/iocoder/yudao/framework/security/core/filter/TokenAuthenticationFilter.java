@@ -77,9 +77,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private LoginUser buildLoginUserByToken(String token, Integer userType) {
         try {
             // 校验访问令牌
-            CommonResult<OAuth2AccessTokenCheckRespDTO> accessTokenResult = oauth2TokenApi.checkAccessToken(token);
-            accessTokenResult.checkError();
-            OAuth2AccessTokenCheckRespDTO accessToken = accessTokenResult.getData();
+            OAuth2AccessTokenCheckRespDTO accessToken = oauth2TokenApi.checkAccessToken(token).getCheckedData();
             if (accessToken == null) {
                 return null;
             }

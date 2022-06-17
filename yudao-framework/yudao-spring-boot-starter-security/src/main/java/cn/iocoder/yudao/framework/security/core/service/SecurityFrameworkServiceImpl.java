@@ -38,13 +38,12 @@ public class SecurityFrameworkServiceImpl implements SecurityFrameworkService {
     private final LoadingCache<KeyValue<Long, List<String>>, Boolean> hasAnyRolesCache = CacheUtils.buildAsyncReloadingCache(
             Duration.ofMinutes(1L), // 过期时间 1 分钟
             new CacheLoader<KeyValue<Long, List<String>>, Boolean>() {
+
                 @Override
                 public Boolean load(KeyValue<Long, List<String>> key) {
-                    CommonResult<Boolean> hasAnyRolesResult = permissionApi.hasAnyRoles(key.getKey(),
-                            key.getValue().toArray(new String[0]));
-                    hasAnyRolesResult.checkError();
-                    return hasAnyRolesResult.getData();
+                    return permissionApi.hasAnyRoles(key.getKey(), key.getValue().toArray(new String[0])).getCheckedData();
                 }
+
             });
 
     /**
@@ -53,13 +52,12 @@ public class SecurityFrameworkServiceImpl implements SecurityFrameworkService {
     private final LoadingCache<KeyValue<Long, List<String>>, Boolean> hasAnyPermissionsCache = CacheUtils.buildAsyncReloadingCache(
             Duration.ofMinutes(1L), // 过期时间 1 分钟
             new CacheLoader<KeyValue<Long, List<String>>, Boolean>() {
+
                 @Override
                 public Boolean load(KeyValue<Long, List<String>> key) {
-                    CommonResult<Boolean> hasAnyPermissionsResult = permissionApi.hasAnyPermissions(key.getKey(),
-                            key.getValue().toArray(new String[0]));
-                    hasAnyPermissionsResult.checkError();
-                    return hasAnyPermissionsResult.getData();
+                    return permissionApi.hasAnyPermissions(key.getKey(), key.getValue().toArray(new String[0])).getCheckedData();
                 }
+
             });
 
     @Override

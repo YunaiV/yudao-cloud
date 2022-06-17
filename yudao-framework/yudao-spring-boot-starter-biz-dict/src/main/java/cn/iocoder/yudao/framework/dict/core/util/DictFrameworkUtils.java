@@ -34,9 +34,8 @@ public class DictFrameworkUtils {
 
                 @Override
                 public DictDataRespDTO load(KeyValue<String, String> key) {
-                    CommonResult<DictDataRespDTO> getDictDataResult = dictDataApi.getDictData(key.getKey(), key.getValue());
-                    getDictDataResult.checkError();
-                    return ObjectUtil.defaultIfNull(getDictDataResult.getData(), DICT_DATA_NULL);
+                    return ObjectUtil.defaultIfNull(dictDataApi.getDictData(key.getKey(), key.getValue()).getCheckedData(),
+                            DICT_DATA_NULL);
                 }
 
             });
@@ -50,9 +49,8 @@ public class DictFrameworkUtils {
 
                 @Override
                 public DictDataRespDTO load(KeyValue<String, String> key) {
-                    CommonResult<DictDataRespDTO> parseDictDataResult = dictDataApi.parseDictData(key.getKey(), key.getValue());
-                    parseDictDataResult.checkError();
-                    return ObjectUtil.defaultIfNull(parseDictDataResult.getData(), DICT_DATA_NULL);
+                    return ObjectUtil.defaultIfNull(dictDataApi.parseDictData(key.getKey(), key.getValue()).getCheckedData(),
+                            DICT_DATA_NULL);
                 }
 
             });

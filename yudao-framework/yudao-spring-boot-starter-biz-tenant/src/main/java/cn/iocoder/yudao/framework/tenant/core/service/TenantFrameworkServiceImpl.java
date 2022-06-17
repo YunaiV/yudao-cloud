@@ -30,9 +30,7 @@ public class TenantFrameworkServiceImpl implements TenantFrameworkService {
 
                 @Override
                 public List<Long> load(Object key) {
-                    CommonResult<List<Long>> tenantIdsResult = tenantApi.getTenantIds();
-                    tenantIdsResult.checkError();
-                    return tenantIdsResult.getData();
+                    return tenantApi.getTenantIds().getCheckedData();
                 }
 
             });

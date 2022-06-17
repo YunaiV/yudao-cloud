@@ -23,8 +23,7 @@ public class ApiAccessLogFrameworkServiceImpl implements ApiAccessLogFrameworkSe
     @Async
     public void createApiAccessLog(ApiAccessLog apiAccessLog) {
         ApiAccessLogCreateReqDTO reqDTO = BeanUtil.copyProperties(apiAccessLog, ApiAccessLogCreateReqDTO.class);
-        CommonResult<Boolean> result = apiAccessLogApi.createApiAccessLog(reqDTO);
-        result.checkError();
+        apiAccessLogApi.createApiAccessLog(reqDTO).checkError();
     }
 
 }

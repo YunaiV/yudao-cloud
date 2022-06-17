@@ -106,9 +106,7 @@ public class DeptDataPermissionRule implements DataPermissionRule {
         DeptDataPermissionRespDTO deptDataPermission = loginUser.getContext(CONTEXT_KEY, DeptDataPermissionRespDTO.class);
         // 从上下文中拿不到，则调用逻辑进行获取
         if (deptDataPermission == null) {
-            CommonResult<DeptDataPermissionRespDTO> getDeptDataPermissionResult = permissionApi.getDeptDataPermission(loginUser.getId());
-            getDeptDataPermissionResult.checkError();
-            deptDataPermission = getDeptDataPermissionResult.getData();
+            deptDataPermission = permissionApi.getDeptDataPermission(loginUser.getId()).getData();
             if (deptDataPermission == null) {
                 log.error("[getExpression][LoginUser({}) 获取数据权限为 null]", JsonUtils.toJsonString(loginUser));
                 throw new NullPointerException(String.format("LoginUser(%d) Table(%s/%s) 未返回数据权限",

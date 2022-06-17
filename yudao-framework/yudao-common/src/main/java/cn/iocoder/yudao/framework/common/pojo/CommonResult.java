@@ -95,6 +95,16 @@ public class CommonResult<T> implements Serializable {
         throw new ServiceException(code, msg);
     }
 
+    /**
+     * 判断是否有异常。如果有，则抛出 {@link ServiceException} 异常
+     * 如果没有，则返回 {@link #data} 数据
+     */
+    @JsonIgnore // 避免 jackson 序列化
+    public T getCheckedData() {
+        checkError();
+        return data;
+    }
+
     public static <T> CommonResult<T> error(ServiceException serviceException) {
         return error(serviceException.getCode(), serviceException.getMessage());
     }

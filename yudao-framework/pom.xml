@@ -19,6 +19,7 @@
         <module>yudao-spring-boot-starter-file</module>
         <module>yudao-spring-boot-starter-monitor</module>
         <module>yudao-spring-boot-starter-protection</module>
+<!--        <module>yudao-spring-boot-starter-config</module>-->
         <module>yudao-spring-boot-starter-job</module>
         <module>yudao-spring-boot-starter-mq</module>
         <module>yudao-spring-boot-starter-rpc</module>
@@ -29,12 +30,15 @@
         <module>yudao-spring-boot-starter-biz-operatelog</module>
         <module>yudao-spring-boot-starter-biz-dict</module>
         <module>yudao-spring-boot-starter-biz-sms</module>
-        <module>yudao-spring-boot-starter-activiti</module>
+
         <module>yudao-spring-boot-starter-biz-pay</module>
         <module>yudao-spring-boot-starter-biz-weixin</module>
         <module>yudao-spring-boot-starter-biz-social</module>
         <module>yudao-spring-boot-starter-biz-tenant</module>
         <module>yudao-spring-boot-starter-biz-data-permission</module>
+        <module>yudao-spring-boot-starter-biz-error-code</module>
+
+        <module>yudao-spring-boot-starter-activiti</module>
         <module>yudao-spring-boot-starter-flowable</module>
     </modules>
 

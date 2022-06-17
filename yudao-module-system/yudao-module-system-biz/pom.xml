@@ -61,6 +61,10 @@
             <groupId>cn.iocoder.cloud</groupId>
             <artifactId>yudao-spring-boot-starter-biz-tenant</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.iocoder.cloud</groupId>
+            <artifactId>yudao-spring-boot-starter-biz-error-code</artifactId>
+        </dependency>
 
         <!-- Web 相关 -->
         <dependency>

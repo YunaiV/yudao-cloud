@@ -1,6 +1,5 @@
 --- #################### 数据库相关配置 ####################
 spring:
-
   # 数据源配置项
   autoconfigure:
     exclude:
@@ -104,8 +103,6 @@ spring:
 
 # 日志文件配置
 logging:
-  file:
-    name: ${user.home}/logs/${spring.application.name}.log # 日志文件名，全路径
   level:
     # 配置自己写的 MyBatis Mapper 打印日志
     cn.iocoder.yudao.module.system.dal.mysql: debug
@@ -157,4 +154,3 @@ justauth:
     type: REDIS
     prefix: 'social_auth_state:' # 缓存前缀，目前只对 Redis 缓存生效，默认 JUSTAUTH::STATE::
     timeout: 24h # 超时时长，目前只对 Redis 缓存生效，默认 3 分钟
-

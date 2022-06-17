@@ -1,5 +1,4 @@
 --- #################### 数据库相关配置 ####################
-
 spring:
   # 数据源配置项
   autoconfigure:
@@ -33,7 +32,7 @@ spring:
         time-between-eviction-runs-millis: 60000 # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位：毫秒
         min-evictable-idle-time-millis: 300000 # 配置一个连接在池中最小生存的时间，单位：毫秒
         max-evictable-idle-time-millis: 900000 # 配置一个连接在池中最大生存的时间，单位：毫秒
-        validation-query: SELECT 1 # 配置检测连接是否有效
+        validation-query: SELECT 1 FROM DUAL # 配置检测连接是否有效
         test-while-idle: true
         test-on-borrow: false
         test-on-return: false
@@ -95,11 +94,6 @@ spring:
           prefer-ip: true # 注册实例时，优先使用 IP
       # Spring Boot Admin Server 服务端的相关配置
       context-path: /admin # 配置 Spring
-
-# 日志文件配置
-logging:
-  file:
-    name: ${user.home}/logs/${spring.application.name}.log # 日志文件名，全路径
 
 --- #################### 芋道相关配置 ####################
 

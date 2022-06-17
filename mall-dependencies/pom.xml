@@ -58,7 +58,7 @@
         <spring-boot-admin-starter-client.version>2.2.2</spring-boot-admin-starter-client.version>
         <sentry.version>1.7.30</sentry.version>
         <!-- 工具类相关 -->
-        <fastjson.version>1.2.56</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <hibernate-validator.version>6.0.16.Final</hibernate-validator.version>
         <hutool.version>5.2.5</hutool.version>
         <guava.version>27.0.1-jre</guava.version>

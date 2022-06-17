@@ -22,7 +22,7 @@ import java.util.List;
 @Api(tags = "RPC 服务 - 错误码")
 public interface ErrorCodeApi {
 
-    String PREFIX = ApiConstants.PREFIX + "/oauth2/token";
+    String PREFIX = ApiConstants.PREFIX + "/error-code";
 
     @PostMapping(PREFIX + "/auto-generate")
     @ApiOperation("自动创建错误码")

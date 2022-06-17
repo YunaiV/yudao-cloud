@@ -78,6 +78,7 @@ yudao:
       - /admin-api/system/captcha/get-image # 获取图片验证码，和租户无关
       - /admin-api/system/sms/callback/* # 短信回调接口，无法带上租户编号
       - /rpc-api/system/tenant/valid # 防止递归。避免调用 /rpc-api/system/tenant/valid 接口时，又去触发 /rpc-api/system/tenant/valid 去校验
+      - /rpc-api/system/error-code/* # 错误码的自动创建与下载的接口，无法带上租户编号
     ignore-tables:
       - system_tenant
       - system_tenant_package

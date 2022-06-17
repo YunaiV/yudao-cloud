@@ -1,5 +1,7 @@
 package cn.iocoder.yudao.module.system.controller.admin.dict.vo.data;
 
+import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
+import cn.iocoder.yudao.framework.common.validation.InEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 

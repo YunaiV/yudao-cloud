@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.system.api.dict;
 
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
+import cn.iocoder.yudao.module.system.api.dict.dto.DictDataRespDTO;
 import cn.iocoder.yudao.module.system.enums.ApiConstants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -26,5 +27,23 @@ public interface DictDataApi {
     })
     CommonResult<Boolean> validDictDatas(@RequestParam("dictType") String dictType,
                                          @RequestParam("values") Collection<String> values);
+
+    @GetMapping(PREFIX + "/get")
+    @ApiOperation("获得指定的字典数据")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "dictType", value = "字典类型", example = "SEX", required = true, dataTypeClass = String.class),
+            @ApiImplicitParam(name = "value", value = "字典数据值", example = "1", required = true, dataTypeClass = String.class)
+    })
+    CommonResult<DictDataRespDTO> getDictData(@RequestParam("dictType") String dictType,
+                                              @RequestParam("value") String value);
+
+    @GetMapping(PREFIX + "/parse")
+    @ApiOperation("解析获得指定的字典数据")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "dictType", value = "字典类型", example = "SEX", required = true, dataTypeClass = String.class),
+            @ApiImplicitParam(name = "label", value = "字典标签", example = "男", required = true, dataTypeClass = String.class)
+    })
+    CommonResult<DictDataRespDTO> parseDictData(@RequestParam("dictType") String dictType,
+                                                @RequestParam("label") String label);
 
 }

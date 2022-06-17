@@ -23,6 +23,11 @@ public interface DictDataMapper extends BaseMapperX<DictDataDO> {
                 .eq(DictDataDO::getValue, value));
     }
 
+    default DictDataDO selectByDictTypeAndLabel(String dictType, String label) {
+        return selectOne(new LambdaQueryWrapper<DictDataDO>().eq(DictDataDO::getDictType, dictType)
+                .eq(DictDataDO::getLabel, label));
+    }
+
     default List<DictDataDO> selectByDictTypeAndValues(String dictType, Collection<String> values) {
         return selectList(new LambdaQueryWrapper<DictDataDO>().eq(DictDataDO::getDictType, dictType)
                 .in(DictDataDO::getValue, values));
@@ -45,8 +50,5 @@ public interface DictDataMapper extends BaseMapperX<DictDataDO> {
                 .likeIfPresent(DictDataDO::getDictType, reqVO.getDictType())
                 .eqIfPresent(DictDataDO::getStatus, reqVO.getStatus()));
     }
-
-    @Select("SELECT COUNT(*) FROM system_dict_data WHERE update_time > #{maxUpdateTime}")
-    Long selectCountByUpdateTimeGt(Date maxUpdateTime);
 
 }

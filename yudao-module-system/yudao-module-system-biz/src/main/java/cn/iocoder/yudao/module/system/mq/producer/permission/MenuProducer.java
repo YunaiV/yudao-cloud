@@ -21,7 +21,7 @@ public class MenuProducer {
      */
     public void sendMenuRefreshMessage() {
         MenuRefreshMessage message = new MenuRefreshMessage();
-        streamBridge.send("demo02-output", message);
+        streamBridge.send("menuRefresh-out-0", message);
     }
 
 }

@@ -26,7 +26,7 @@ public class RoleProducer {
      */
     public void sendRoleRefreshMessage() {
         RoleRefreshMessage message = new RoleRefreshMessage();
-        streamBridge.send("demo01-output", message);
+        streamBridge.send("roleRefresh-out-0", message);
     }
 
 }

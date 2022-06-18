@@ -10,12 +10,5 @@ import lombok.EqualsAndHashCode;
  * @author 芋道源码
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class RoleMenuRefreshMessage extends AbstractChannelMessage {
-
-    @Override
-    public String getChannel() {
-        return "system.role-menu.refresh";
-    }
-
+public class RoleMenuRefreshMessage {
 }

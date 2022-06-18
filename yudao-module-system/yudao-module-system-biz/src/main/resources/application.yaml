@@ -56,42 +56,52 @@ spring:
     # Spring Cloud Stream 配置项，对应 BindingServiceProperties 类
     stream:
       function:
-        definition: roleRefreshConsumer;menuRefreshConsumer;
+        definition: roleRefreshConsumer;menuRefreshConsumer;roleMenuRefreshConsumer;userRoleRefreshConsumer;
       # Binding 配置项，对应 BindingProperties Map
       bindings:
-        demo01-output:
-          destination: TEST
+        roleRefresh-out-0:
+          destination: system_role_refresh
         roleRefreshConsumer-in-0:
-          destination: TEST
-          group: roleRefreshConsumer
-        demo02-output:
-          destination: TEST2
+          destination: system_role_refresh
+          group: system_role_refresh_consumer_group
+        menuRefresh-out-0:
+          destination: system_menu_refresh
         menuRefreshConsumer-in-0:
-          destination: TEST2
-          group: menuRefreshConsumer
+          destination: system_menu_refresh
+          group: system_menu_refresh_consumer_group
+        roleMenuRefresh-out-0:
+          destination: system_role_menu_refresh
+        roleMenuRefreshConsumer-in-0:
+          destination: system_role_menu_refresh
+          group: system_role_menu_refresh_consumer_group
+        userRoleRefresh-out-0:
+          destination: system_user_role_refresh
+        userRoleRefreshConsumer-in-0:
+          destination: system_user_role_refresh
+          group: system_user_role_refresh_consumer_group
       # Spring Cloud Stream RocketMQ 配置项
       rocketmq:
         # RocketMQ Binder 配置项，对应 RocketMQBinderConfigurationProperties 类
         binder:
           name-server: 127.0.0.1:9876 # RocketMQ Namesrv 地址
+        default: # 默认 bindings 全局配置
+          producer: # RocketMQ Producer 配置项，对应 RocketMQProducerProperties 类
+            group: system_producer_group # 生产者分组
+            send-type: SYNC # 发送模式，SYNC 同步
         # RocketMQ 自定义 Binding 配置项，对应 RocketMQBindingProperties Map
         bindings:
-          demo01-output:
-            # RocketMQ Producer 配置项，对应 RocketMQProducerProperties 类
-            producer:
-              group: test # 生产者分组
-              sync: true # 是否同步发送消息，默认为 false 异步。
           roleRefreshConsumer-in-0:
             consumer:
-              message-model: BROADCASTING
-          demo02-output:
-            # RocketMQ Producer 配置项，对应 RocketMQProducerProperties 类
-            producer:
-              group: test # 生产者分组
-              sync: true # 是否同步发送消息，默认为 false 异步。
+              message-model: BROADCASTING # 广播消费
           menuRefreshConsumer-in-0:
             consumer:
-              message-model: BROADCASTING
+              message-model: BROADCASTING # 广播消费
+          roleMenuRefreshConsumer-in-0:
+            consumer:
+              message-model: BROADCASTING # 广播消费
+          userRoleRefreshConsumer-in-0:
+            consumer:
+              message-model: BROADCASTING # 广播消费
 
 --- #################### 芋道相关配置 ####################
 

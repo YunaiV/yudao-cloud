@@ -13,8 +13,7 @@ import java.util.Map;
  * @author 芋道源码
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class MailSendMessage extends AbstractStreamMessage {
+public class MailSendMessage {
 
     /**
      * 邮箱地址
@@ -40,9 +39,5 @@ public class MailSendMessage extends AbstractStreamMessage {
      */
     private Integer userType;
 
-    @Override
-    public String getStreamKey() {
-        return "system.mail.send";
-    }
 
 }

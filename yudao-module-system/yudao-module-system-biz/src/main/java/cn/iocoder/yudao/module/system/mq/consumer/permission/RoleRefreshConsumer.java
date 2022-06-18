@@ -22,7 +22,7 @@ public class RoleRefreshConsumer implements Consumer<RoleRefreshMessage> {
 
     @Override
     public void accept(RoleRefreshMessage message) {
-        log.info("[onMessage][收到 Role 刷新消息]");
+        log.info("[accept][收到 Role 刷新消息]");
         roleService.initLocalCache();
     }
 

@@ -22,7 +22,7 @@ public class MenuRefreshConsumer implements Consumer<MenuRefreshMessage> {
 
     @Override
     public void accept(MenuRefreshMessage menuRefreshMessage) {
-        log.info("[onMessage][收到 Menu 刷新消息]");
+        log.info("[accept][收到 Menu 刷新消息]");
         menuService.initLocalCache();
     }
 }

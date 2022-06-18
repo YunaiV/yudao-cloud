@@ -1,10 +1,11 @@
 package cn.iocoder.yudao.module.system.mq.producer.sms;
 
 import cn.iocoder.yudao.framework.common.core.KeyValue;
+import cn.iocoder.yudao.framework.mq.core.RedisMQTemplate;
+import cn.iocoder.yudao.framework.mq.core.bus.AbstractBusProducer;
 import cn.iocoder.yudao.module.system.mq.message.sms.SmsChannelRefreshMessage;
 import cn.iocoder.yudao.module.system.mq.message.sms.SmsSendMessage;
 import cn.iocoder.yudao.module.system.mq.message.sms.SmsTemplateRefreshMessage;
-import cn.iocoder.yudao.framework.mq.core.RedisMQTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +20,7 @@ import java.util.List;
  */
 @Slf4j
 @Component
-public class SmsProducer {
+public class SmsProducer extends AbstractBusProducer {
 
     @Resource
     private RedisMQTemplate redisMQTemplate;
@@ -28,16 +29,14 @@ public class SmsProducer {
      * 发送 {@link SmsChannelRefreshMessage} 消息
      */
     public void sendSmsChannelRefreshMessage() {
-        SmsChannelRefreshMessage message = new SmsChannelRefreshMessage();
-        redisMQTemplate.send(message);
+        publishEvent(new SmsChannelRefreshMessage(this, getBusId(), selfDestinationService()));
     }
 
     /**
      * 发送 {@link SmsTemplateRefreshMessage} 消息
      */
     public void sendSmsTemplateRefreshMessage() {
-        SmsTemplateRefreshMessage message = new SmsTemplateRefreshMessage();
-        redisMQTemplate.send(message);
+        publishEvent(new SmsTemplateRefreshMessage(this, getBusId(), selfDestinationService()));
     }
 
     /**

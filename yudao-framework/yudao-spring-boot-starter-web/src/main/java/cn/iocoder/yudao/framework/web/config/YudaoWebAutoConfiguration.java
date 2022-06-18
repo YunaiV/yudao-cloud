@@ -104,8 +104,8 @@ public class YudaoWebAutoConfiguration implements WebMvcConfigurer {
      * 创建 XssFilter Bean，解决 Xss 安全问题
      */
     @Bean
-    public FilterRegistrationBean<XssFilter> xssFilter(XssProperties properties, PathMatcher pathMatcher) {
-        return createFilterBean(new XssFilter(properties, pathMatcher), WebFilterOrderEnum.XSS_FILTER);
+    public FilterRegistrationBean<XssFilter> xssFilter(XssProperties properties, PathMatcher mvcPathMatcher) {
+        return createFilterBean(new XssFilter(properties, mvcPathMatcher), WebFilterOrderEnum.XSS_FILTER);
     }
 
     /**

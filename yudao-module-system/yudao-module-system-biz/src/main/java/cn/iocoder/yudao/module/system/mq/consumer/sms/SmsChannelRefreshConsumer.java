@@ -1,9 +1,9 @@
 package cn.iocoder.yudao.module.system.mq.consumer.sms;
 
-import cn.iocoder.yudao.framework.mq.core.pubsub.AbstractChannelMessageListener;
 import cn.iocoder.yudao.module.system.mq.message.sms.SmsChannelRefreshMessage;
 import cn.iocoder.yudao.module.system.service.sms.SmsChannelService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -15,14 +15,14 @@ import javax.annotation.Resource;
  */
 @Component
 @Slf4j
-public class SmsChannelRefreshConsumer extends AbstractChannelMessageListener<SmsChannelRefreshMessage> {
+public class SmsChannelRefreshConsumer {
 
     @Resource
     private SmsChannelService smsChannelService;
 
-    @Override
-    public void onMessage(SmsChannelRefreshMessage message) {
-        log.info("[onMessage][收到 SmsChannel 刷新消息]");
+    @EventListener
+    public void execute(SmsChannelRefreshMessage message) {
+        log.info("[execute][收到 SmsChannel 刷新消息]");
         smsChannelService.initSmsClients();
     }
 

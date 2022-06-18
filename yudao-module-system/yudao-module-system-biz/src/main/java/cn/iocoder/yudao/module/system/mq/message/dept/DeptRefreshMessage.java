@@ -1,8 +1,8 @@
 package cn.iocoder.yudao.module.system.mq.message.dept;
 
-import cn.iocoder.yudao.framework.mq.core.pubsub.AbstractChannelMessage;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.cloud.bus.event.RemoteApplicationEvent;
 
 /**
  * 部门数据刷新 Message
@@ -11,11 +11,13 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class DeptRefreshMessage extends AbstractChannelMessage {
+public class DeptRefreshMessage extends RemoteApplicationEvent {
 
-    @Override
-    public String getChannel() {
-        return "system.dept.refresh";
+    public DeptRefreshMessage() {
+    }
+
+    public DeptRefreshMessage(Object source, String originService, String destinationService) {
+        super(source, originService, destinationService);
     }
 
 }

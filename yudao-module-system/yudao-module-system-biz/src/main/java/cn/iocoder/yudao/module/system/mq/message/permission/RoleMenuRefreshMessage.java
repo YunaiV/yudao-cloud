@@ -1,8 +1,7 @@
 package cn.iocoder.yudao.module.system.mq.message.permission;
 
-import cn.iocoder.yudao.framework.mq.core.pubsub.AbstractChannelMessage;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.springframework.cloud.bus.event.RemoteApplicationEvent;
 
 /**
  * 角色与菜单数据刷新 Message
@@ -10,5 +9,13 @@ import lombok.EqualsAndHashCode;
  * @author 芋道源码
  */
 @Data
-public class RoleMenuRefreshMessage {
+public class RoleMenuRefreshMessage extends RemoteApplicationEvent {
+
+    public RoleMenuRefreshMessage() {
+    }
+
+    public RoleMenuRefreshMessage(Object source, String originService, String destinationService) {
+        super(source, originService, destinationService);
+    }
+
 }

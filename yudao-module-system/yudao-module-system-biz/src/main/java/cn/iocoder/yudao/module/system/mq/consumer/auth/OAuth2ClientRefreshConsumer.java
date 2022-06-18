@@ -1,9 +1,9 @@
 package cn.iocoder.yudao.module.system.mq.consumer.auth;
 
-import cn.iocoder.yudao.framework.mq.core.pubsub.AbstractChannelMessageListener;
 import cn.iocoder.yudao.module.system.mq.message.auth.OAuth2ClientRefreshMessage;
 import cn.iocoder.yudao.module.system.service.oauth2.OAuth2ClientService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -15,14 +15,14 @@ import javax.annotation.Resource;
  */
 @Component
 @Slf4j
-public class OAuth2ClientRefreshConsumer extends AbstractChannelMessageListener<OAuth2ClientRefreshMessage> {
+public class OAuth2ClientRefreshConsumer {
 
     @Resource
     private OAuth2ClientService oauth2ClientService;
 
-    @Override
-    public void onMessage(OAuth2ClientRefreshMessage message) {
-        log.info("[onMessage][收到 OAuth2Client 刷新消息]");
+    @EventListener
+    public void execute(OAuth2ClientRefreshMessage message) {
+        log.info("[execute][收到 OAuth2Client 刷新消息]");
         oauth2ClientService.initLocalCache();
     }
 

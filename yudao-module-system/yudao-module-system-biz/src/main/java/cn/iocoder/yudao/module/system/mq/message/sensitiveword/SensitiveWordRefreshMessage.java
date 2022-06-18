@@ -1,19 +1,21 @@
 package cn.iocoder.yudao.module.system.mq.message.sensitiveword;
 
-import cn.iocoder.yudao.framework.mq.core.pubsub.AbstractChannelMessage;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.cloud.bus.event.RemoteApplicationEvent;
 
 /**
  * 敏感词的刷新 Message
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SensitiveWordRefreshMessage extends AbstractChannelMessage {
+public class SensitiveWordRefreshMessage extends RemoteApplicationEvent {
 
-    @Override
-    public String getChannel() {
-        return "system.sensitive-word.refresh";
+    public SensitiveWordRefreshMessage() {
+    }
+
+    public SensitiveWordRefreshMessage(Object source, String originService, String destinationService) {
+        super(source, originService, destinationService);
     }
 
 }

@@ -1,8 +1,8 @@
 package cn.iocoder.yudao.module.system.mq.message.auth;
 
-import cn.iocoder.yudao.framework.mq.core.pubsub.AbstractChannelMessage;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.cloud.bus.event.RemoteApplicationEvent;
 
 /**
  * OAuth 2.0 客户端的数据刷新 Message
@@ -11,11 +11,13 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class OAuth2ClientRefreshMessage extends AbstractChannelMessage {
+public class OAuth2ClientRefreshMessage extends RemoteApplicationEvent {
 
-    @Override
-    public String getChannel() {
-        return "system.oauth2-client.refresh";
+    public OAuth2ClientRefreshMessage() {
+    }
+
+    public OAuth2ClientRefreshMessage(Object source, String originService, String destinationService) {
+        super(source, originService, destinationService);
     }
 
 }

@@ -12,7 +12,11 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>消息队列，基于 Redis Pub/Sub 实现广播消费，基于 Stream 实现集群消费</description>
+    <description>
+        消息队列：
+            1. 基于 Spring Cloud Stream 实现异步消息
+            2. 基于 Spring Cloud Bus 实现事件总线
+    </description>
     <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
 
     <dependencies>
@@ -27,6 +31,12 @@
             <groupId>com.alibaba.cloud</groupId>
             <!-- 引入 Spring Cloud Alibaba Stream RocketMQ 相关依赖，将 RocketMQ 作为消息队列，并实现对其的自动配置 -->
             <artifactId>spring-cloud-starter-stream-rocketmq</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <!-- 引入基于 RocketMQ 的 Spring Cloud Bus 的实现的依赖，并实现对其的自动配置 -->
+            <artifactId>spring-cloud-starter-bus-rocketmq</artifactId>
         </dependency>
     </dependencies>
 

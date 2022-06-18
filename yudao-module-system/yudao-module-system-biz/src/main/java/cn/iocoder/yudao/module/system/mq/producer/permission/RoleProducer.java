@@ -2,6 +2,10 @@ package cn.iocoder.yudao.module.system.mq.producer.permission;
 
 import cn.iocoder.yudao.module.system.mq.message.permission.RoleRefreshMessage;
 import cn.iocoder.yudao.framework.mq.core.RedisMQTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -15,14 +19,14 @@ import javax.annotation.Resource;
 public class RoleProducer {
 
     @Resource
-    private RedisMQTemplate redisMQTemplate;
+    private StreamBridge streamBridge;
 
     /**
      * 发送 {@link RoleRefreshMessage} 消息
      */
     public void sendRoleRefreshMessage() {
         RoleRefreshMessage message = new RoleRefreshMessage();
-        redisMQTemplate.send(message);
+        streamBridge.send("demo01-output", message);
     }
 
 }

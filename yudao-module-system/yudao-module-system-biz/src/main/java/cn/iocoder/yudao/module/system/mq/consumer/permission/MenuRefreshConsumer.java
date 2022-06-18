@@ -1,12 +1,12 @@
 package cn.iocoder.yudao.module.system.mq.consumer.permission;
 
-import cn.iocoder.yudao.framework.mq.core.pubsub.AbstractChannelMessageListener;
 import cn.iocoder.yudao.module.system.mq.message.permission.MenuRefreshMessage;
 import cn.iocoder.yudao.module.system.service.permission.MenuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.function.Consumer;
 
 /**
  * 针对 {@link MenuRefreshMessage} 的消费者
@@ -15,15 +15,14 @@ import javax.annotation.Resource;
  */
 @Component
 @Slf4j
-public class MenuRefreshConsumer extends AbstractChannelMessageListener<MenuRefreshMessage> {
+public class MenuRefreshConsumer implements Consumer<MenuRefreshMessage> {
 
     @Resource
     private MenuService menuService;
 
     @Override
-    public void onMessage(MenuRefreshMessage message) {
+    public void accept(MenuRefreshMessage menuRefreshMessage) {
         log.info("[onMessage][收到 Menu 刷新消息]");
         menuService.initLocalCache();
     }
-
 }

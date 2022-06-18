@@ -25,6 +25,10 @@
         <!-- 业务组件 -->
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>
+            <artifactId>yudao-spring-boot-starter-banner</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.iocoder.cloud</groupId>
             <artifactId>yudao-module-system-api</artifactId>
             <version>${revision}</version>
         </dependency>
@@ -51,6 +55,12 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
+        <!-- 监控相关 -->
+        <dependency>
+            <groupId>cn.iocoder.cloud</groupId>
+            <artifactId>yudao-spring-boot-starter-monitor</artifactId>
         </dependency>
     </dependencies>
 

@@ -34,7 +34,7 @@
         <swagger.version>1.5.21</swagger.version>
         <springfox-swagger.version>2.9.2</springfox-swagger.version>
         <!-- DB 相关 -->
-        <mysql-connector-java.version>5.1.46</mysql-connector-java.version>
+        <mysql-connector-java.version>8.0.28</mysql-connector-java.version>
         <druid.version>1.1.16</druid.version>
         <mybatis-spring-boot-starter.version>2.0.0</mybatis-spring-boot-starter.version>
         <mybatis.version>3.5.4</mybatis.version>

@@ -1,12 +1,12 @@
 package cn.iocoder.yudao.module.system.mq.producer.sms;
 
 import cn.iocoder.yudao.framework.common.core.KeyValue;
-import cn.iocoder.yudao.framework.mq.core.RedisMQTemplate;
 import cn.iocoder.yudao.framework.mq.core.bus.AbstractBusProducer;
 import cn.iocoder.yudao.module.system.mq.message.sms.SmsChannelRefreshMessage;
 import cn.iocoder.yudao.module.system.mq.message.sms.SmsSendMessage;
 import cn.iocoder.yudao.module.system.mq.message.sms.SmsTemplateRefreshMessage;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -23,7 +23,7 @@ import java.util.List;
 public class SmsProducer extends AbstractBusProducer {
 
     @Resource
-    private RedisMQTemplate redisMQTemplate;
+    private StreamBridge streamBridge;
 
     /**
      * 发送 {@link SmsChannelRefreshMessage} 消息
@@ -52,7 +52,7 @@ public class SmsProducer extends AbstractBusProducer {
                                    Long channelId, String apiTemplateId, List<KeyValue<String, Object>> templateParams) {
         SmsSendMessage message = new SmsSendMessage().setLogId(logId).setMobile(mobile);
         message.setChannelId(channelId).setApiTemplateId(apiTemplateId).setTemplateParams(templateParams);
-        redisMQTemplate.send(message);
+        streamBridge.send("smsSend-out-0", message);
     }
 
 }

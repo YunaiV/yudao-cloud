@@ -56,15 +56,15 @@ spring:
   cloud:
     # Spring Cloud Stream 配置项，对应 BindingServiceProperties 类
     stream:
-#      function:
-#        definition: roleRefreshConsumer;roleMenuRefreshConsumer;userRoleRefreshConsumer;
+      function:
+        definition: smsSendConsumer;
       # Binding 配置项，对应 BindingProperties Map
       bindings:
-        roleRefresh-out-0:
-          destination: system_role_refresh
-        roleRefreshConsumer-in-0:
-          destination: system_role_refresh
-          group: system_role_refresh_consumer_group
+        smsSend-out-0:
+          destination: system_sms_send
+        smsSendConsumer-in-0:
+          destination: system_sms_send
+          group: system_sms_send_consumer_group
       # Spring Cloud Stream RocketMQ 配置项
       rocketmq:
         # RocketMQ Binder 配置项，对应 RocketMQBinderConfigurationProperties 类

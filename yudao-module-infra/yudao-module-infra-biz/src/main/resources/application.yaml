@@ -52,6 +52,37 @@ dubbo:
   application:
     id: infra-server # TODO 一定要写么？
 
+--- #################### MQ 消息队列相关配置 ####################
+
+spring:
+  cloud:
+    # Spring Cloud Stream 配置项，对应 BindingServiceProperties 类
+    stream:
+      #      function:
+      #        definition: roleRefreshConsumer;roleMenuRefreshConsumer;userRoleRefreshConsumer;
+      # Binding 配置项，对应 BindingProperties Map
+      bindings:
+        roleRefresh-out-0:
+          destination: system_role_refresh
+        roleRefreshConsumer-in-0:
+          destination: system_role_refresh
+          group: system_role_refresh_consumer_group
+      # Spring Cloud Stream RocketMQ 配置项
+      rocketmq:
+        # RocketMQ Binder 配置项，对应 RocketMQBinderConfigurationProperties 类
+        binder:
+          name-server: 127.0.0.1:9876 # RocketMQ Namesrv 地址
+        default: # 默认 bindings 全局配置
+          producer: # RocketMQ Producer 配置项，对应 RocketMQProducerProperties 类
+            group: system_producer_group # 生产者分组
+            send-type: SYNC # 发送模式，SYNC 同步
+
+    # Spring Cloud Bus 配置项，对应 BusProperties 类
+    bus:
+      enabled: true # 是否开启，默认为 true
+      id: ${spring.application.name}:${server.port} # 编号，Spring Cloud Alibaba 建议使用“应用:端口”的格式
+      destination: springCloudBus # 目标消息队列，默认为 springCloudBus
+
 --- #################### 芋道相关配置 ####################
 
 yudao:

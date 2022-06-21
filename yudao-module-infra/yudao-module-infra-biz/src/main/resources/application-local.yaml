@@ -73,6 +73,15 @@ jasypt:
   encryptor:
     password: yuanma # 加解密的秘钥
 
+--- #################### MQ 消息队列相关配置 ####################
+spring:
+  cloud:
+    stream:
+      rocketmq:
+        # RocketMQ Binder 配置项，对应 RocketMQBinderConfigurationProperties 类
+        binder:
+          name-server: 127.0.0.1:9876 # RocketMQ Namesrv 地址
+
 --- #################### 定时任务相关配置 ####################
 
 --- #################### 配置中心相关配置 ####################

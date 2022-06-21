@@ -1,9 +1,9 @@
 package cn.iocoder.yudao.module.infra.mq.consumer.file;
 
-import cn.iocoder.yudao.framework.mq.core.pubsub.AbstractChannelMessageListener;
 import cn.iocoder.yudao.module.infra.mq.message.file.FileConfigRefreshMessage;
 import cn.iocoder.yudao.module.infra.service.file.FileConfigService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -15,14 +15,14 @@ import javax.annotation.Resource;
  */
 @Component
 @Slf4j
-public class FileConfigRefreshConsumer extends AbstractChannelMessageListener<FileConfigRefreshMessage> {
+public class FileConfigRefreshConsumer {
 
     @Resource
     private FileConfigService fileConfigService;
 
-    @Override
-    public void onMessage(FileConfigRefreshMessage message) {
-        log.info("[onMessage][收到 FileConfig 刷新消息]");
+    @EventListener
+    public void execute(FileConfigRefreshMessage message) {
+        log.info("[execute][收到 FileConfig 刷新消息]");
         fileConfigService.initFileClients();
     }
 

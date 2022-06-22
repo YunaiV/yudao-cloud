@@ -35,8 +35,13 @@
         </dependency>
 
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-dubbo</artifactId>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-common</artifactId> <!-- 兜底，保证在不引入 spring-cloud-starter-dubbo 时，注解等不报错 -->
         </dependency>
+        <!-- -->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-dubbo</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 </project>

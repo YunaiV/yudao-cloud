@@ -8,7 +8,8 @@ import cn.iocoder.yudao.framework.tenant.core.aop.TenantIgnoreAspect;
 import cn.iocoder.yudao.framework.tenant.core.db.TenantDatabaseInterceptor;
 import cn.iocoder.yudao.framework.tenant.core.job.TenantJob;
 import cn.iocoder.yudao.framework.tenant.core.job.TenantJobHandlerDecorator;
-import cn.iocoder.yudao.framework.tenant.core.mq.TenantRedisMessageInterceptor;
+import cn.iocoder.yudao.framework.tenant.core.mq.TenantChannelInterceptor;
+import cn.iocoder.yudao.framework.tenant.core.mq.TenantFunctionAroundWrapper;
 import cn.iocoder.yudao.framework.tenant.core.security.TenantSecurityWebFilter;
 import cn.iocoder.yudao.framework.tenant.core.service.TenantFrameworkService;
 import cn.iocoder.yudao.framework.tenant.core.service.TenantFrameworkServiceImpl;
@@ -23,8 +24,10 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.cloud.function.context.catalog.FunctionAroundWrapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.integration.config.GlobalChannelInterceptor;
 
 @Configuration
 @ConditionalOnProperty(prefix = "yudao.tenant", value = "enable", matchIfMissing = true) // 允许使用 yudao.tenant.enable=false 禁用多租户
@@ -82,14 +85,19 @@ public class YudaoTenantAutoConfiguration {
     // ========== MQ ==========
 
     @Bean
-    public TenantRedisMessageInterceptor tenantRedisMessageInterceptor() {
-        return new TenantRedisMessageInterceptor();
+    @GlobalChannelInterceptor // 必须添加在方法上，否则无法生效
+    public TenantChannelInterceptor tenantChannelInterceptor() {
+        return new TenantChannelInterceptor();
+    }
+
+    @Bean
+    public FunctionAroundWrapper functionAroundWrapper() {
+        return new TenantFunctionAroundWrapper();
     }
 
     // ========== Job ==========
 
     @Bean
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     public BeanPostProcessor jobHandlerBeanPostProcessor(TenantFrameworkService tenantFrameworkService) {
         return new BeanPostProcessor() {
 

@@ -20,12 +20,6 @@
     <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
 
     <dependencies>
-        <!-- DB 相关 -->
-        <dependency>
-            <groupId>cn.iocoder.cloud</groupId>
-            <artifactId>yudao-spring-boot-starter-redis</artifactId>
-        </dependency>
-
         <!-- MQ 相关 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

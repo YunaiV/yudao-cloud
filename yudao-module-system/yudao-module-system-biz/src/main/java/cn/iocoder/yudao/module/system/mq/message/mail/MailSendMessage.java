@@ -1,8 +1,6 @@
 package cn.iocoder.yudao.module.system.mq.message.mail;
 
-import cn.iocoder.yudao.framework.mq.core.stream.AbstractStreamMessage;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotNull;
 import java.util.Map;
@@ -38,6 +36,5 @@ public class MailSendMessage {
      * 用户类型，允许空
      */
     private Integer userType;
-
 
 }

@@ -29,6 +29,8 @@
         <mybatis-plus-generator.version>3.5.2</mybatis-plus-generator.version>
         <dynamic-datasource.version>3.5.0</dynamic-datasource.version>
         <redisson.version>3.17.3</redisson.version>
+        <!-- RPC 相关 -->
+        <dubbo.version>2.7.15</dubbo.version>
         <!-- Config 配置中心相关 -->
         <apollo.version>1.9.2</apollo.version>
         <!-- Job 定时任务相关 -->
@@ -233,6 +235,11 @@
             </dependency>
 
             <!-- RPC 远程调用相关 -->
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-common</artifactId> <!-- 兜底，保证在不引入 spring-cloud-starter-dubbo 时，注解等不报错 -->
+                <version>${dubbo.version}</version>
+            </dependency>
             <dependency>
                 <groupId>cn.iocoder.cloud</groupId>
                 <artifactId>yudao-spring-boot-starter-rpc</artifactId>

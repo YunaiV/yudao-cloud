@@ -12,10 +12,7 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>任务拓展
-        1. 定时任务，基于 Quartz 拓展
-        2. 异步任务，基于 Spring Async 拓展
-    </description>
+    <description>任务拓展，基于 XXL-Job 实现</description>
     <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
 
     <dependencies>
@@ -24,10 +21,22 @@
             <artifactId>yudao-common</artifactId>
         </dependency>
 
-        <!-- Job 定时任务相关 -->
+        <!-- Spring 核心 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-quartz</artifactId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Job 相关 -->
+        <dependency>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-job-core</artifactId>
         </dependency>
 
         <!-- 工具类相关 -->

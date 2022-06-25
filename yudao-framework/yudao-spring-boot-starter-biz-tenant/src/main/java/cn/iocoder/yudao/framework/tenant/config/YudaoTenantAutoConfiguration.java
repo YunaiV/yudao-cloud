@@ -1,13 +1,10 @@
 package cn.iocoder.yudao.framework.tenant.config;
 
-import cn.hutool.core.annotation.AnnotationUtil;
 import cn.iocoder.yudao.framework.common.enums.WebFilterOrderEnum;
 import cn.iocoder.yudao.framework.mybatis.core.util.MyBatisUtils;
-import cn.iocoder.yudao.framework.quartz.core.handler.JobHandler;
 import cn.iocoder.yudao.framework.tenant.core.aop.TenantIgnoreAspect;
 import cn.iocoder.yudao.framework.tenant.core.db.TenantDatabaseInterceptor;
-import cn.iocoder.yudao.framework.tenant.core.job.TenantJob;
-import cn.iocoder.yudao.framework.tenant.core.job.TenantJobHandlerDecorator;
+import cn.iocoder.yudao.framework.tenant.core.job.TenantJobAspect;
 import cn.iocoder.yudao.framework.tenant.core.mq.TenantChannelInterceptor;
 import cn.iocoder.yudao.framework.tenant.core.mq.TenantFunctionAroundWrapper;
 import cn.iocoder.yudao.framework.tenant.core.security.TenantSecurityWebFilter;
@@ -19,6 +16,7 @@ import cn.iocoder.yudao.framework.web.core.handler.GlobalExceptionHandler;
 import cn.iocoder.yudao.module.system.api.tenant.TenantApi;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
+import com.xxl.job.core.executor.XxlJobExecutor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -103,19 +101,25 @@ public class YudaoTenantAutoConfiguration {
 
             @Override
             public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-                if (!(bean instanceof JobHandler)) {
+                if (!(bean instanceof XxlJobExecutor)) {
                     return bean;
                 }
-                // 有 TenantJob 注解的情况下，才会进行处理
-                if (!AnnotationUtil.hasAnnotation(bean.getClass(), TenantJob.class)) {
-                    return bean;
-                }
-
-                // 使用 TenantJobHandlerDecorator 装饰
-                return new TenantJobHandlerDecorator(tenantFrameworkService, (JobHandler) bean);
+//                // 有 TenantJob 注解的情况下，才会进行处理
+//                if (!AnnotationUtil.hasAnnotation(bean.getClass(), TenantJob.class)) {
+//                    return bean;
+//                }
+//
+//                // 使用 TenantJobHandlerDecorator 装饰
+//                return new TenantJobHandlerDecorator(tenantFrameworkService, (JobHandler) bean);
+                return bean;
             }
 
         };
+    }
+
+    @Bean
+    public TenantJobAspect tenantJobAspect(TenantFrameworkService tenantFrameworkService) {
+        return new TenantJobAspect(tenantFrameworkService);
     }
 
 }

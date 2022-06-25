@@ -84,6 +84,15 @@ spring:
       id: ${spring.application.name}:${server.port} # 编号，Spring Cloud Alibaba 建议使用“应用:端口”的格式
       destination: springCloudBus # 目标消息队列，默认为 springCloudBus
 
+--- #################### 定时任务相关配置 ####################
+
+xxl:
+  job:
+    executor:
+      appname: ${spring.application.name} # 执行器 AppName
+      logpath: ${user.home}/logs/xxl-job/${spring.application.name} # 执行器运行日志文件存储磁盘路径
+    accessToken: default_token # 执行器通讯TOKEN
+
 --- #################### 芋道相关配置 ####################
 
 yudao:

@@ -1,39 +1,36 @@
-package cn.iocoder.yudao.gateway.filter.grey;
+package cn.iocoder.yudao.framework.env.core.fegin;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
+import cn.iocoder.yudao.framework.env.core.context.EnvContextHolder;
+import cn.iocoder.yudao.framework.env.core.util.EnvUtils;
 import com.alibaba.cloud.nacos.balancer.NacosBalancer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.loadbalancer.*;
+import org.springframework.cloud.client.loadbalancer.DefaultResponse;
+import org.springframework.cloud.client.loadbalancer.EmptyResponse;
+import org.springframework.cloud.client.loadbalancer.Request;
+import org.springframework.cloud.client.loadbalancer.Response;
+import org.springframework.cloud.client.loadbalancer.reactive.ReactiveLoadBalancer;
 import org.springframework.cloud.loadbalancer.core.NoopServiceInstanceListSupplier;
 import org.springframework.cloud.loadbalancer.core.ReactorServiceInstanceLoadBalancer;
 import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
-import org.springframework.http.HttpHeaders;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 
 /**
- * 灰度 {@link GrayLoadBalancer} 实现类
- *
- * 根据请求的 header[version] 匹配，筛选满足 metadata[version] 相等的服务实例列表，然后随机 + 权重进行选择一个
- * 1. 假如请求的 header[version] 为空，则不进行筛选，所有服务实例都进行选择
- * 2. 如果 metadata[version] 都不相等，则不进行筛选，所有服务实例都进行选择
- *
- * 注意，考虑到实现的简易，它的权重是使用 Nacos 的 nacos.weight，所以随机 + 权重也是基于 {@link NacosBalancer} 筛选。
- * 也就是说，如果你不使用 Nacos 作为注册中心，需要微调一下筛选的实现逻辑
+ * 多环境的 {@link org.springframework.cloud.client.loadbalancer.LoadBalancerClient} 实现类
+ * 在从服务实例列表选择时，优先选择 tag 匹配的服务实例
  *
  * @author 芋道源码
  */
 @RequiredArgsConstructor
 @Slf4j
-public class GrayLoadBalancer implements ReactorServiceInstanceLoadBalancer {
-
-    private static final String VERSION = "version";
+public class EnvLoadBalancerClient implements ReactorServiceInstanceLoadBalancer {
 
     /**
      * 用于获取 serviceId 对应的服务实例的列表
@@ -45,17 +42,23 @@ public class GrayLoadBalancer implements ReactorServiceInstanceLoadBalancer {
      * 暂时用于打印 logger 日志
      */
     private final String serviceId;
+    /**
+     * 被代理的 ReactiveLoadBalancer 对象
+     */
+    private final ReactiveLoadBalancer<ServiceInstance> reactiveLoadBalancer;
 
     @Override
     public Mono<Response<ServiceInstance>> choose(Request request) {
-        // 获得 HttpHeaders 属性，实现从 header 中获取 version
-        HttpHeaders headers = ((RequestDataContext) request.getContext()).getClientRequest().getHeaders();
+        String tag = EnvContextHolder.getTag();
+        if (StrUtil.isEmpty(tag)) {
+            return Mono.from(reactiveLoadBalancer.choose(request));
+        }
         // 选择实例
         ServiceInstanceListSupplier supplier = serviceInstanceListSupplierProvider.getIfAvailable(NoopServiceInstanceListSupplier::new);
-        return supplier.get(request).next().map(list -> getInstanceResponse(list, headers));
+        return supplier.get(request).next().map(list -> getInstanceResponse(list, tag));
     }
 
-    private Response<ServiceInstance> getInstanceResponse(List<ServiceInstance> instances, HttpHeaders headers) {
+    private Response<ServiceInstance> getInstanceResponse(List<ServiceInstance> instances, String tag) {
         // 如果服务实例为空，则直接返回
         if (CollUtil.isEmpty(instances)) {
             log.warn("[getInstanceResponse][serviceId({}) 服务实例列表为空]", serviceId);
@@ -63,19 +66,16 @@ public class GrayLoadBalancer implements ReactorServiceInstanceLoadBalancer {
         }
 
         // 筛选满足条件的实例列表
-        String version = headers.getFirst(VERSION);
-        List<ServiceInstance> chooseInstances;
-        if (StrUtil.isEmpty(version)) {
+        List<ServiceInstance> chooseInstances = CollectionUtils.filterList(instances, instance -> tag.equals(EnvUtils.getTag(instance)));
+        if (CollUtil.isEmpty(chooseInstances)) {
+            log.warn("[getInstanceResponse][serviceId({}) 没有满足 tag({}) 的服务实例列表，直接使用所有服务实例列表]", serviceId, tag);
             chooseInstances = instances;
-        } else {
-            chooseInstances = CollectionUtils.filterList(instances, instance -> version.equals(instance.getMetadata().get("version")));
-            if (CollUtil.isEmpty(chooseInstances)) {
-                log.warn("[getInstanceResponse][serviceId({}) 没有满足版本的服务实例列表，直接使用所有服务实例列表]", serviceId);
-                chooseInstances = instances;
-            }
         }
+
+        // TODO 芋艿：https://juejin.cn/post/7056770721858469896 想通网段
 
         // 随机 + 权重获取实例列表 TODO 芋艿：目前直接使用 Nacos 提供的方法，如果替换注册中心，需要重新失败该方法
         return new DefaultResponse(NacosBalancer.getHostByRandomWeight3(chooseInstances));
     }
+
 }

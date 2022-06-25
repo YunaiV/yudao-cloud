@@ -7,6 +7,11 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * 多环境的 Web 组件的自动配置
+ *
+ * @author 芋道源码
+ */
 @Configuration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class YudaoEnvWebAutoConfiguration {

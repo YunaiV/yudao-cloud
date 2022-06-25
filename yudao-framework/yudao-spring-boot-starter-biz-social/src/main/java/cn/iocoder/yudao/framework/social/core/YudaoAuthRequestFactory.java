@@ -10,6 +10,7 @@ import me.zhyd.oauth.cache.AuthStateCache;
 import me.zhyd.oauth.config.AuthConfig;
 import me.zhyd.oauth.config.AuthSource;
 import me.zhyd.oauth.request.AuthRequest;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.lang.reflect.Method;
 

@@ -137,6 +137,8 @@ wx: # 参见 https://github.com/Wechat-Group/WxJava/blob/develop/spring-boot-sta
 
 # 芋道配置项，设置当前项目所有自定义的配置
 yudao:
+  env: # 多环境的配置项
+    tag: ${HOSTNAME}
   captcha:
     enable: false # 本地环境，暂时关闭图片验证码，方便登录等接口的测试
   security:

@@ -3,6 +3,7 @@ package cn.iocoder.yudao.framework.env.config;
 import cn.iocoder.yudao.framework.env.core.fegin.EnvLoadBalancerClientFactory;
 import cn.iocoder.yudao.framework.env.core.fegin.EnvRequestInterceptor;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClientsProperties;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClientSpecification;
 import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
@@ -18,6 +19,7 @@ import java.util.List;
  * @author 芋道源码
  */
 @Configuration
+@EnableConfigurationProperties(EnvProperties.class)
 public class YudaoEnvRpcAutoConfiguration {
 
     // ========== Feign 相关 ==========

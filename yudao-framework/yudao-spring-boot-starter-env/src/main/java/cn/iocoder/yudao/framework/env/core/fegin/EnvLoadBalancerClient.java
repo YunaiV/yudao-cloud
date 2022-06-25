@@ -49,11 +49,13 @@ public class EnvLoadBalancerClient implements ReactorServiceInstanceLoadBalancer
 
     @Override
     public Mono<Response<ServiceInstance>> choose(Request request) {
+        // 情况一，没有 tag 时，使用默认的 reactiveLoadBalancer 实现负载均衡
         String tag = EnvContextHolder.getTag();
         if (StrUtil.isEmpty(tag)) {
             return Mono.from(reactiveLoadBalancer.choose(request));
         }
-        // 选择实例
+
+        // 情况二，有 tag 时，使用 tag 匹配服务实例
         ServiceInstanceListSupplier supplier = serviceInstanceListSupplierProvider.getIfAvailable(NoopServiceInstanceListSupplier::new);
         return supplier.get(request).next().map(list -> getInstanceResponse(list, tag));
     }

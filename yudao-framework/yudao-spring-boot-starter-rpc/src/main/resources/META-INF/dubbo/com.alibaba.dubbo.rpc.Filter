@@ -1,0 +1,1 @@
+dubboExceptionFilter=cn.iocoder.yudao.framework.rpc.core.dubbo.DubboProviderExceptionFilter

@@ -1,27 +1,24 @@
-package cn.iocoder.mall.dubbo.core.filter;
+package cn.iocoder.yudao.framework.rpc.core.dubbo;
 
-import cn.iocoder.common.framework.exception.GlobalException;
-import cn.iocoder.common.framework.exception.ServiceException;
-import cn.iocoder.common.framework.util.ExceptionUtil;
-import cn.iocoder.common.framework.vo.CommonResult;
+import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.iocoder.yudao.framework.common.exception.ServerException;
+import cn.iocoder.yudao.framework.common.exception.ServiceException;
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.*;
 import org.apache.dubbo.rpc.service.GenericService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.lang.reflect.Type;
 
-import static cn.iocoder.common.framework.exception.enums.GlobalErrorCodeConstants.BAD_REQUEST;
-import static cn.iocoder.common.framework.exception.enums.GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR;
+import static cn.iocoder.yudao.framework.common.exception.enums.GlobalErrorCodeConstants.*;
 
 @Activate(group = CommonConstants.PROVIDER) // TODO 优化点：设置下顺序
+@Slf4j
 public class DubboProviderExceptionFilter implements Filter, Filter.Listener {
-
-    private Logger logger = LoggerFactory.getLogger(DubboProviderExceptionFilter.class);
 
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
@@ -55,14 +52,14 @@ public class DubboProviderExceptionFilter implements Filter, Filter.Listener {
                     appResponse.setException(exception);
                 }
             } catch (Throwable e) {
-                logger.warn("Fail to ExceptionFilter when called by " + RpcContext.getContext().getRemoteHost() + ". service: " + invoker.getInterface().getName() + ", method: " + invocation.getMethodName() + ", exception: " + e.getClass().getName() + ": " + e.getMessage(), e);
+                log.warn("Fail to ExceptionFilter when called by " + RpcContext.getContext().getRemoteHost() + ". service: " + invoker.getInterface().getName() + ", method: " + invocation.getMethodName() + ", exception: " + e.getClass().getName() + ": " + e.getMessage(), e);
             }
         }
     }
 
     @Override
     public void onError(Throwable e, Invoker<?> invoker, Invocation invocation) {
-        logger.error("Got unchecked and undeclared exception which called by " + RpcContext.getContext().getRemoteHost() + ". service: " + invoker.getInterface().getName() + ", method: " + invocation.getMethodName() + ", exception: " + e.getClass().getName() + ": " + e.getMessage(), e);
+        log.error("Got unchecked and undeclared exception which called by " + RpcContext.getContext().getRemoteHost() + ". service: " + invoker.getInterface().getName() + ", method: " + invocation.getMethodName() + ", exception: " + e.getClass().getName() + ": " + e.getMessage(), e);
     }
 
     private boolean isReturnCommonResult(Invocation invocation) {
@@ -78,32 +75,31 @@ public class DubboProviderExceptionFilter implements Filter, Filter.Listener {
         if (!(returnType instanceof Class)) {
             return false;
         }
-        Class returnClass = (Class) returnType;
+        Class<?> returnClass = (Class<?>) returnType;
         return returnClass == CommonResult.class;
     }
 
     /**
      * 处理 Validator 校验不通过产生的异常
      */
-    private GlobalException constraintViolationExceptionHandler(ConstraintViolationException ex) {
-        logger.warn("[constraintViolationExceptionHandler]", ex);
+    private ServiceException constraintViolationExceptionHandler(ConstraintViolationException ex) {
+        log.warn("[constraintViolationExceptionHandler]", ex);
         ConstraintViolation<?> constraintViolation = ex.getConstraintViolations().iterator().next();
-        return new GlobalException(BAD_REQUEST.getCode(),
+        return new ServiceException(BAD_REQUEST.getCode(),
                 String.format("请求参数不正确:%s", constraintViolation.getMessage()));
     }
 
     /**
      * 处理系统异常，兜底处理所有的一切
      */
-    private GlobalException defaultExceptionHandler(Throwable exception, Invocation invocation) {
-        logger.error("[defaultExceptionHandler][service({}) method({}) params({}) 执行异常]",
+    private ServerException defaultExceptionHandler(Throwable exception, Invocation invocation) {
+        log.error("[defaultExceptionHandler][service({}) method({}) params({}) 执行异常]",
                 invocation.getTargetServiceUniqueName(), invocation.getMethodName(), invocation.getArguments(), exception);
         // 如果已经是 GlobalException 全局异常，直接返回即可
-        if (exception instanceof GlobalException) {
-            return (GlobalException) exception;
+        if (exception instanceof ServerException) {
+            return (ServerException) exception;
         }
-        return new GlobalException(INTERNAL_SERVER_ERROR)
-                .setDetailMessage(this.buildDetailMessage(exception, invocation));
+        return new ServerException(INTERNAL_SERVER_ERROR).setMessage(this.buildDetailMessage(exception, invocation));
     }
 
     private String buildDetailMessage(Throwable exception, Invocation invocation) {

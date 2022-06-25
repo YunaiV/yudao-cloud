@@ -38,10 +38,20 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-common</artifactId> <!-- 兜底，保证在不引入 spring-cloud-starter-dubbo 时，注解等不报错 -->
         </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-rpc-api</artifactId> <!-- 兜底，保证在不引入 spring-cloud-starter-dubbo 时，注解等不报错 -->
+        </dependency>
         <!--  -->
 <!--        <dependency>-->
 <!--            <groupId>com.alibaba.cloud</groupId>-->
 <!--            <artifactId>spring-cloud-starter-dubbo</artifactId>-->
 <!--        </dependency>-->
+
+        <!-- 工具相关 -->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
     </dependencies>
 </project>

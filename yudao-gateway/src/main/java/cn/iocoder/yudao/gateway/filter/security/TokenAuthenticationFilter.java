@@ -39,12 +39,18 @@ public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
 
     private final WebClient webClient;
 
+    /**
+     * 登录用户的本地缓存
+     *
+     * key1：多租户的编号
+     * key2：访问令牌
+     */
     private final LoadingCache<KeyValue<Long, String>, LoginUser> loginUserCache = CacheUtils.buildAsyncReloadingCache(Duration.ofMinutes(1),
             new CacheLoader<KeyValue<Long, String>, LoginUser>() {
 
                 @Override
-                public LoginUser load(KeyValue<Long, String> keyValue) {
-                    String body = checkAccessToken(keyValue.getKey(), keyValue.getValue()).block();
+                public LoginUser load(KeyValue<Long, String> token) {
+                    String body = checkAccessToken(token.getKey(), token.getValue()).block();
                     return buildUser(body);
                 }
 
@@ -70,15 +76,37 @@ public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
         }
 
         // 情况二，如果有 Token 令牌，则解析对应 userId、userType、tenantId 等字段，并通过 通过 Header 转发给服务
+        return getLoginUser(exchange, token).flatMap(user -> {
+            if (user == null) {
+                return chain.filter(exchange);
+            }
+            // 设置登录用户
+            SecurityFrameworkUtils.setLoginUser(exchange, user);
+            // 将 user 并设置到 login-user 的请求头，使用 json 存储值
+            ServerWebExchange newExchange = exchange.mutate().request(builder -> SecurityFrameworkUtils.setLoginUserHeader(builder, user)).build();
+            return chain.filter(newExchange);
+        });
+    }
+
+    private Mono<LoginUser> getLoginUser(ServerWebExchange exchange, String token) {
+        // 从缓存中，获取 LoginUser
         Long tenantId = WebFrameworkUtils.getTenantId(exchange);
         KeyValue<Long, String> cacheKey = new KeyValue<Long, String>().setKey(tenantId).setValue(token);
-        LoginUser user = loginUserCache.getUnchecked(cacheKey);
-        if (user != null) {
-            SecurityFrameworkUtils.setLoginUser(exchange, user);
-            return chain.filter(exchange.mutate().request(builder -> SecurityFrameworkUtils.setLoginUserHeader(builder, user)).build());
+        LoginUser localUser = loginUserCache.getIfPresent(cacheKey);
+        if (localUser != null) {
+            return Mono.just(localUser);
         }
-        return checkAccessToken(cacheKey.getKey(), token)
-                .flatMap((Function<String, Mono<Void>>) body -> chain.filter(buildNewServerWebExchange(exchange, cacheKey, body))); // 处理请求的结果
+
+        // 缓存不存在，则请求远程服务
+        return checkAccessToken(tenantId, token).flatMap((Function<String, Mono<LoginUser>>) body -> {
+            LoginUser remoteUser = buildUser(body);
+            if (remoteUser != null) {
+                // 非空，则进行缓存
+                loginUserCache.put(cacheKey, remoteUser);
+                return Mono.just(remoteUser);
+            }
+            return Mono.empty();
+        });
     }
 
     private Mono<String> checkAccessToken(Long tenantId, String token) {
@@ -86,23 +114,6 @@ public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
                 .uri(OAuth2TokenApi.URL_CHECK, uriBuilder -> uriBuilder.queryParam("accessToken", token).build())
                 .headers(httpHeaders -> WebFrameworkUtils.setTenantIdHeader(tenantId, httpHeaders)) // 设置租户的 Header
                 .retrieve().bodyToMono(String.class);
-    }
-
-    private ServerWebExchange buildNewServerWebExchange(ServerWebExchange exchange, KeyValue<Long, String> cacheKey, String body) {
-        // 1.1 解析 User
-        LoginUser user = buildUser(body);
-        // 1.2 校验 Token 令牌失败，则直接返回
-        if (user == null) {
-            return exchange;
-        }
-
-        // 2. 设置到缓存
-        loginUserCache.put(cacheKey, user);
-
-        // 3.1 设置登录用户
-        SecurityFrameworkUtils.setLoginUser(exchange, user);
-        // 3.2 将 user 并设置到 login-user 的请求头，使用 json 存储值
-        return exchange.mutate().request(builder -> SecurityFrameworkUtils.setLoginUserHeader(builder, user)).build();
     }
 
     private LoginUser buildUser(String body) {

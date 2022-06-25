@@ -26,8 +26,9 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class WebFrameworkUtils {
 
-    @SuppressWarnings("UastIncorrectHttpHeaderInspection")
     private static final String HEADER_TENANT_ID = "tenant-id";
+
+    private static final String HEADER_TAG = "tag";
 
     private WebFrameworkUtils() {}
 

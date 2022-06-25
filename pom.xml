@@ -16,7 +16,6 @@
 <!--        <module>yudao-module-bpm</module>-->
         <module>yudao-module-system</module>
         <module>yudao-module-infra</module>
-        <module>yudao-spring-boot-starter-env</module>
         <!--        <module>yudao-module-pay</module>-->
     </modules>
 

@@ -2,12 +2,10 @@ package cn.iocoder.yudao.gateway.util;
 
 import cn.hutool.core.map.MapUtil;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
-import cn.iocoder.yudao.module.system.api.oauth2.dto.OAuth2AccessTokenCheckRespDTO;
+import cn.iocoder.yudao.gateway.filter.security.LoginUser;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
-
-import java.util.Map;
 
 /**
  * 安全服务工具类
@@ -51,13 +49,19 @@ public class SecurityFrameworkUtils {
      * 设置登录用户
      *
      * @param exchange 请求
-     * @param token 访问令牌
+     * @param user 用户
      */
-    public static void setLoginUser(ServerWebExchange exchange, OAuth2AccessTokenCheckRespDTO token) {
-        exchange.getAttributes().put(LOGIN_USER_ID_ATTR, token.getUserId());
-        exchange.getAttributes().put(LOGIN_USER_TYPE_ATTR, token.getUserType());
+    public static void setLoginUser(ServerWebExchange exchange, LoginUser user) {
+        exchange.getAttributes().put(LOGIN_USER_ID_ATTR, user.getId());
+        exchange.getAttributes().put(LOGIN_USER_TYPE_ATTR, user.getUserType());
     }
 
+    /**
+     * 移除请求头的用户
+     *
+     * @param exchange 请求
+     * @return 请求
+     */
     public static ServerWebExchange removeLoginUser(ServerWebExchange exchange) {
         // 如果不包含，直接返回
         if (!exchange.getRequest().getHeaders().containsKey(LOGIN_USER_HEADER)) {
@@ -90,20 +94,13 @@ public class SecurityFrameworkUtils {
     }
 
     /**
-     * 将访问令牌封装成 LoginUser，并设置到 login-user 的请求头，使用 json 存储值
+     * 将 user 并设置到 login-user 的请求头，使用 json 存储值
      *
      * @param builder 请求
-     * @param token 访问令牌
+     * @param user 用户
      */
-    public static void setLoginUserHeader(ServerHttpRequest.Builder builder, OAuth2AccessTokenCheckRespDTO token) {
-        // 构建 LoginUser 对象。由于 Gateway 没有 loginUser 类，所以使用 Map
-        Map<String, Object> loginUser = MapUtil.newHashMap(4);
-        loginUser.put("id", token.getUserId());
-        loginUser.put("userType", token.getUserType());
-        loginUser.put("tenantId", token.getTenantId());
-        loginUser.put("scopes", token.getScopes());
-        // 设置到 Header 中
-        builder.header(LOGIN_USER_HEADER, JsonUtils.toJsonString(loginUser));
+    public static void setLoginUserHeader(ServerHttpRequest.Builder builder, LoginUser user) {
+        builder.header(LOGIN_USER_HEADER, JsonUtils.toJsonString(user));
     }
 
 }

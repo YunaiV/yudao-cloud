@@ -2,7 +2,6 @@ package cn.iocoder.yudao.gateway.util;
 
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -28,22 +27,24 @@ public class WebFrameworkUtils {
 
     private static final String HEADER_TENANT_ID = "tenant-id";
 
-    private static final String HEADER_TAG = "tag";
-
     private WebFrameworkUtils() {}
 
     /**
      * 将 Gateway 请求中的 header，设置到 HttpHeaders 中
      *
-     * @param exchange Gateway 请求
+     * @param tenantId 租户编号
      * @param httpHeaders WebClient 的请求
      */
-    public static void setTenantIdHeader(ServerWebExchange exchange, HttpHeaders httpHeaders) {
-        String tenantId = exchange.getRequest().getHeaders().getFirst(HEADER_TENANT_ID);
-        if (StrUtil.isNotEmpty(tenantId)) {
+    public static void setTenantIdHeader(Long tenantId, HttpHeaders httpHeaders) {
+        if (tenantId == null) {
             return;
         }
-        httpHeaders.set(HEADER_TENANT_ID, tenantId);
+        httpHeaders.set(HEADER_TENANT_ID, String.valueOf(tenantId));
+    }
+
+    public static Long getTenantId(ServerWebExchange exchange) {
+        String tenantId = exchange.getRequest().getHeaders().getFirst(HEADER_TENANT_ID);
+        return tenantId != null ? Long.parseLong(tenantId) : null;
     }
 
     /**

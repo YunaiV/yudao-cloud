@@ -157,6 +157,12 @@
                 <version>${spring.boot.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>cn.iocoder.cloud</groupId>
+                <artifactId>yudao-spring-boot-starter-env</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
             <!-- Web 相关 -->
             <dependency>
                 <groupId>cn.iocoder.cloud</groupId>

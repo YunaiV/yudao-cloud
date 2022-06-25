@@ -2,6 +2,7 @@
 POST {{systemBaseUrl}}/system/auth/login
 Content-Type: application/json
 tenant-id: {{adminTenentId}}
+tag: 123
 
 {
   "username": "admin",

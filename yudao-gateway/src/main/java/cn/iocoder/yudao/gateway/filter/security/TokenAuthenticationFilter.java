@@ -12,14 +12,11 @@ import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalance
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.Resource;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -47,8 +44,11 @@ public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(final ServerWebExchange exchange, GatewayFilterChain chain) {
-        String token = SecurityFrameworkUtils.obtainAuthorization(exchange);
+        // 移除 login-user 的请求头，避免伪造模拟
+        SecurityFrameworkUtils.removeLoginUser(exchange);
+
         // 情况一，如果没有 Token 令牌，则直接继续 filter
+        String token = SecurityFrameworkUtils.obtainAuthorization(exchange);
         if (StrUtil.isEmpty(token)) {
             return chain.filter(exchange);
         }

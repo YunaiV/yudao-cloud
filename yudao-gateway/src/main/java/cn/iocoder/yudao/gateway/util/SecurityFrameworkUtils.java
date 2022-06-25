@@ -58,6 +58,17 @@ public class SecurityFrameworkUtils {
         exchange.getAttributes().put(LOGIN_USER_TYPE_ATTR, token.getUserType());
     }
 
+    public static ServerWebExchange removeLoginUser(ServerWebExchange exchange) {
+        // 如果不包含，直接返回
+        if (!exchange.getRequest().getHeaders().containsKey(LOGIN_USER_HEADER)) {
+            return exchange;
+        }
+        // 如果包含，则移除。参考 RemoveRequestHeaderGatewayFilterFactory 实现
+        ServerHttpRequest request = exchange.getRequest().mutate()
+                .headers(httpHeaders -> httpHeaders.remove(LOGIN_USER_HEADER)).build();
+        return exchange.mutate().request(request).build();
+    }
+
     /**
      * 获得登录用户的编号
      *

@@ -248,6 +248,11 @@
                 <version>${dubbo.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-cluster</artifactId> <!-- 兜底，保证在不引入 spring-cloud-starter-dubbo 时，注解等不报错 -->
+                <version>${dubbo.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>cn.iocoder.cloud</groupId>
                 <artifactId>yudao-spring-boot-starter-rpc</artifactId>
                 <version>${revision}</version>

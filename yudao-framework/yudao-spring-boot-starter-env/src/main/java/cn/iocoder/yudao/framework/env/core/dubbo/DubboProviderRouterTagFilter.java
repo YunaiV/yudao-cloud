@@ -1,8 +1,7 @@
-package cn.iocoder.mall.dubbo.core.filter;
+package cn.iocoder.yudao.framework.env.core.dubbo;
 
-import cn.iocoder.common.framework.util.StringUtils;
-import cn.iocoder.mall.dubbo.core.cluster.interceptor.DubboConsumerRouterTagClusterInterceptor;
-import cn.iocoder.mall.dubbo.core.router.DubboRouterTagContextHolder;
+import cn.hutool.core.util.StrUtil;
+import cn.iocoder.yudao.framework.env.core.context.EnvContextHolder;
 import org.apache.dubbo.common.constants.CommonConstants;
 import org.apache.dubbo.common.extension.Activate;
 import org.apache.dubbo.rpc.*;
@@ -15,9 +14,9 @@ import org.apache.dubbo.rpc.cluster.router.tag.TagRouter;
  * 2. TODO 优化点：蓝绿发布、灰度发布
  *
  * 实现逻辑为：
- * 1. 对于 Consumer 方，在调用 Provider 时，{@link DubboConsumerRouterTagClusterInterceptor} 会将 {@link DubboRouterTagContextHolder} 中的 Tag 通过 Dubbo 隐式传参。
+ * 1. 对于 Consumer 方，在调用 Provider 时，{@link DubboConsumerRouterTagClusterInterceptor} 会将 {@link EnvContextHolder} 中的 Tag 通过 Dubbo 隐式传参。
  *      同时，Dubbo 自带 {@link TagRouter}，会根据该参数，会选择符合该 Tag 的 Provider。
- * 2. 对于 Provider 方，在通过 Dubbo 隐式传参获得到 Tag 时，会设置到 {@link DubboRouterTagContextHolder} 中。
+ * 2. 对于 Provider 方，在通过 Dubbo 隐式传参获得到 Tag 时，会设置到 {@link EnvContextHolder} 中。
  *      这样，在 Provider 作为 Consumer 角色时，调用其它 Provider 时，可以继续实现标签路由的功能。
  */
 @Activate(group = {CommonConstants.PROVIDER, CommonConstants.CONSUMER}, order = -1000)
@@ -25,20 +24,19 @@ public class DubboProviderRouterTagFilter implements Filter {
 
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-       // 从 Dubbo 隐式传参获得 Dubbo Tag
-        String dubboTag = invocation.getAttachment(CommonConstants.TAG_KEY);
-        boolean hasDubboTag = StringUtils.hasText(dubboTag);
-        if (hasDubboTag) {
-            invocation.setAttachment(CommonConstants.TAG_KEY, dubboTag);
+        // 情况一，没有 tag 时，直接调用即可
+        String tag = invocation.getAttachment(CommonConstants.TAG_KEY);
+        if (StrUtil.isEmpty(tag)) {
+            return invoker.invoke(invocation);
         }
+
+        // 情况二，有 tag 时，从 Dubbo 隐式传参获得 Dubbo Tag
+        EnvContextHolder.setTag(tag);
         // 继续调用
         try {
             return invoker.invoke(invocation);
         } finally {
-            // 清理
-            if (hasDubboTag) {
-                DubboRouterTagContextHolder.clear();
-            }
+            EnvContextHolder.removeTag();
         }
     }
 

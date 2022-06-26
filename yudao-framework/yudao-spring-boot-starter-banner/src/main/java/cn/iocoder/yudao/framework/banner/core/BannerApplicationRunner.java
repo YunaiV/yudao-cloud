@@ -4,7 +4,6 @@ import cn.hutool.core.thread.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,8 +26,8 @@ public class BannerApplicationRunner implements ApplicationRunner {
                             "视频教程: \t{} \n\t" +
                             "源码解析: \t{} \n" +
                             "----------------------------------------------------------",
-                    "https://doc.iocoder.cn/api-doc/",
-                    "https://doc.iocoder.cn",
+                    "https://cloud.iocoder.cn/api-doc/",
+                    "https://cloud.iocoder.cn",
                     "https://t.zsxq.com/02Yf6M7Qn",
                     "https://t.zsxq.com/02B6ujIee");
         });

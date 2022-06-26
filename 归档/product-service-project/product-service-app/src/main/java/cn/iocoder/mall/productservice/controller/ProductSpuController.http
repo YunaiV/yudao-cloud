@@ -1,0 +1,13 @@
+### /product/spu/get 获得商品 SPU
+GET http://localhost:38082/product/spu/get?productSpuId=32
+###
+
+### /product/spu/get 获得商品 SPU
+GET http://localhost:38082/product/spu/lislistProductSpuIdst?lastSpuId=30&limit=10
+###
+
+
+### /product/spu/get 获得商品 SPU
+GET http://localhost:38082/product/spu/getProductSpuDetail?productSpuId=32&fields=attr,sku
+###
+

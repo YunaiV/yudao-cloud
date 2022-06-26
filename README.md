@@ -1,12 +1,18 @@
-[toc]
+以 [ruoyi-vue-pro](https://github.com/YunaiV/ruoyi-vue-pro) 为基础，实现的 Spring Cloud Alibaba 微服务架构。进度如下：
 
-> 友情提示：近期在升级和优化该项目，建议先 Star 本项目。主要在做几个事情：
-> 
-> * 1、微服务技术选型以 Spring Cloud Alibaba 为中心。
-> * 2、修改项目分层，并合并部分服务，简化整体服务的复杂性。
-> * 3、将管理后台从 React 重构到 Vue 框架。
-> 
-> 交流群：[传送门](http://www.iocoder.cn/mall-user-group/?vip&gitee)
+* [x] `gateway` 网关服务 
+* [x] `system` 系统服务
+* [x] `infra` 基础设施
+* [ ] `bpm` 工作流服务
+* [ ] `pay` 支付服务
+* [ ] `member` 会员服务
+* [ ] `product` 商品服务
+* [ ] `market` 营销服务
+* [ ] `trade` 交易服务 
+
+启动文档，可见 <https://cloud.iocoder.cn/quick-start/> 地址。
+
+----
 
 # 前言
 

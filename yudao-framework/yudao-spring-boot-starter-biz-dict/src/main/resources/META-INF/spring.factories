@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.iocoder.yudao.framework.dict.config.YudaoDictRpcAutoConfiguration,\
+  cn.iocoder.yudao.framework.dict.config.YudaoDictAutoConfiguration

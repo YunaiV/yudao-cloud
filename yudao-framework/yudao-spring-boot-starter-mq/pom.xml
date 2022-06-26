@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>cn.iocoder.cloud</groupId>
+        <artifactId>yudao-framework</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>yudao-spring-boot-starter-mq</artifactId>
+    <packaging>jar</packaging>
+
+    <name>${project.artifactId}</name>
+    <description>
+        消息队列：
+            1. 基于 Spring Cloud Stream 实现异步消息
+            2. 基于 Spring Cloud Bus 实现事件总线
+    </description>
+    <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
+
+    <dependencies>
+        <!-- MQ 相关 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <!-- 引入 Spring Cloud Alibaba Stream RocketMQ 相关依赖，将 RocketMQ 作为消息队列，并实现对其的自动配置 -->
+            <artifactId>spring-cloud-starter-stream-rocketmq</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <!-- 引入基于 RocketMQ 的 Spring Cloud Bus 的实现的依赖，并实现对其的自动配置 -->
+            <artifactId>spring-cloud-starter-bus-rocketmq</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

@@ -66,7 +66,6 @@ public interface AuthConvert {
     }
 
     SocialUserBindReqDTO convert(Long userId, Integer userType, AuthSocialBindLoginReqVO reqVO);
-    SocialUserBindReqDTO convert(Long userId, Integer userType, AuthSocialQuickLoginReqVO reqVO);
 
     SmsCodeSendReqDTO convert(AuthSmsSendReqVO reqVO);
 

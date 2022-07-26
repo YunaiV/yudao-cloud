@@ -59,4 +59,15 @@ public class FlowableUtils {
         BpmnXMLConverter converter = new BpmnXMLConverter();
         return converter.convertToXML(model);
     }
+
+    // ========== Execution 相关的工具方法 ==========
+
+    public static String formatCollectionVariable(String activityId) {
+        return activityId + "_assignees";
+    }
+
+    public static String formatCollectionElementVariable(String activityId) {
+        return activityId + "_assignee";
+    }
+
 }

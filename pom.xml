@@ -13,7 +13,7 @@
         <module>yudao-framework</module>
         <!--  各种 module 拓展 -->
 <!--        <module>yudao-module-member</module>-->
-<!--        <module>yudao-module-bpm</module>-->
+        <module>yudao-module-bpm</module>
         <module>yudao-module-system</module>
         <module>yudao-module-infra</module>
         <!--        <module>yudao-module-pay</module>-->

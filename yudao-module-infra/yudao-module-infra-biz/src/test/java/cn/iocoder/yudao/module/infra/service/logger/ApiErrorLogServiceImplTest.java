@@ -1,7 +1,6 @@
 package cn.iocoder.yudao.module.infra.service.logger;
 
 import cn.hutool.core.util.RandomUtil;
-import cn.iocoder.yudao.framework.apilog.core.service.ApiErrorLog;
 import cn.iocoder.yudao.framework.common.enums.UserTypeEnum;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.object.ObjectUtils;
@@ -78,8 +77,7 @@ public class ApiErrorLogServiceImplTest extends BaseDbUnitTest {
         reqVO.setUserType(userType);
         reqVO.setApplicationName(applicationName);
         reqVO.setRequestUrl(requestUrl);
-        reqVO.setBeginExceptionTime(buildTime(2021, 3, 12));
-        reqVO.setEndExceptionTime(buildTime(2021, 3, 14));
+        reqVO.setExceptionTime((new Date[]{buildTime(2021, 3, 12),buildTime(2021, 3, 14)}));
         reqVO.setProcessStatus(progressStatus);
 
         // 调用service方法
@@ -131,8 +129,7 @@ public class ApiErrorLogServiceImplTest extends BaseDbUnitTest {
         reqVO.setUserType(userType);
         reqVO.setApplicationName(applicationName);
         reqVO.setRequestUrl(requestUrl);
-        reqVO.setBeginExceptionTime(buildTime(2021, 3, 12));
-        reqVO.setEndExceptionTime(buildTime(2021, 3, 14));
+        reqVO.setExceptionTime((new Date[]{buildTime(2021, 3, 12),buildTime(2021, 3, 14)}));
         reqVO.setProcessStatus(progressStatus);
 
         // 调用service方法
@@ -182,7 +179,7 @@ public class ApiErrorLogServiceImplTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCreateApiErrorLog() {
+    public void testCreateApiErrorLogAsync() {
         // 准备参数
         ApiErrorLogCreateReqDTO createDTO = RandomUtils.randomPojo(ApiErrorLogCreateReqDTO.class,
                 dto -> dto.setUserType(RandomUtil.randomEle(UserTypeEnum.values()).getValue()));

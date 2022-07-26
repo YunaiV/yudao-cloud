@@ -24,12 +24,8 @@ public class FilePageReqVO extends PageParam {
     @ApiModelProperty(value = "文件类型", example = "jpg", notes = "模糊匹配")
     private String type;
 
+    @ApiModelProperty(value = "创建时间", example = "[2022-07-01 00:00:00, 2022-07-01 23:59:59]")
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
-    @ApiModelProperty(value = "开始创建时间")
-    private Date beginCreateTime;
-
-    @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
-    @ApiModelProperty(value = "结束创建时间")
-    private Date endCreateTime;
+    private Date[] createTime;
 
 }

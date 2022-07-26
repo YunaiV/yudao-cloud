@@ -86,7 +86,8 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
         values.put("userIp", gatewayLog.getUserIp());
         values.put("responseBody", JsonUtils.isJson(gatewayLog.getResponseBody()) ? // 保证 body 的展示好看
                 JSONUtil.parse(gatewayLog.getResponseBody()) : gatewayLog.getResponseBody());
-        values.put("responseHeaders", JsonUtils.toJsonString(gatewayLog.getResponseHeaders().toSingleValueMap()));
+        values.put("responseHeaders", gatewayLog.getResponseHeaders() != null ?
+                JsonUtils.toJsonString(gatewayLog.getResponseHeaders().toSingleValueMap()) : null);
         values.put("httpStatus", gatewayLog.getHttpStatus());
         values.put("startTime", DateUtil.format(gatewayLog.getStartTime(), NORM_DATETIME_MS_FORMAT));
         values.put("endTime", DateUtil.format(gatewayLog.getEndTime(), NORM_DATETIME_MS_FORMAT));

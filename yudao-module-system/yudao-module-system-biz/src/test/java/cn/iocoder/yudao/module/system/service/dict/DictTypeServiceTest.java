@@ -16,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -42,36 +43,35 @@ public class DictTypeServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetDictTypePage() {
-       // mock 数据
-       DictTypeDO dbDictType = randomPojo(DictTypeDO.class, o -> { // 等会查询到
-           o.setName("yunai");
-           o.setType("芋艿");
-           o.setStatus(CommonStatusEnum.ENABLE.getStatus());
-           o.setCreateTime(buildTime(2021, 1, 15));
-       });
-       dictTypeMapper.insert(dbDictType);
-       // 测试 name 不匹配
-       dictTypeMapper.insert(ObjectUtils.cloneIgnoreId(dbDictType, o -> o.setName("tudou")));
-       // 测试 type 不匹配
-       dictTypeMapper.insert(ObjectUtils.cloneIgnoreId(dbDictType, o -> o.setType("土豆")));
-       // 测试 status 不匹配
-       dictTypeMapper.insert(ObjectUtils.cloneIgnoreId(dbDictType, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
-       // 测试 createTime 不匹配
-       dictTypeMapper.insert(ObjectUtils.cloneIgnoreId(dbDictType, o -> o.setCreateTime(buildTime(2021, 1, 1))));
-       // 准备参数
-       DictTypePageReqVO reqVO = new DictTypePageReqVO();
-       reqVO.setName("nai");
-       reqVO.setType("艿");
-       reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-       reqVO.setBeginCreateTime(buildTime(2021, 1, 10));
-       reqVO.setEndCreateTime(buildTime(2021, 1, 20));
+        // mock 数据
+        DictTypeDO dbDictType = randomPojo(DictTypeDO.class, o -> { // 等会查询到
+            o.setName("yunai");
+            o.setType("芋艿");
+            o.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            o.setCreateTime(buildTime(2021, 1, 15));
+        });
+        dictTypeMapper.insert(dbDictType);
+        // 测试 name 不匹配
+        dictTypeMapper.insert(ObjectUtils.cloneIgnoreId(dbDictType, o -> o.setName("tudou")));
+        // 测试 type 不匹配
+        dictTypeMapper.insert(ObjectUtils.cloneIgnoreId(dbDictType, o -> o.setType("土豆")));
+        // 测试 status 不匹配
+        dictTypeMapper.insert(ObjectUtils.cloneIgnoreId(dbDictType, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
+        // 测试 createTime 不匹配
+        dictTypeMapper.insert(ObjectUtils.cloneIgnoreId(dbDictType, o -> o.setCreateTime(buildTime(2021, 1, 1))));
+        // 准备参数
+        DictTypePageReqVO reqVO = new DictTypePageReqVO();
+        reqVO.setName("nai");
+        reqVO.setType("艿");
+        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        reqVO.setCreateTime((new Date[]{buildTime(2021, 1, 10),buildTime(2021, 1, 20)}));
 
-       // 调用
-       PageResult<DictTypeDO> pageResult = dictTypeService.getDictTypePage(reqVO);
-       // 断言
-       assertEquals(1, pageResult.getTotal());
-       assertEquals(1, pageResult.getList().size());
-       assertPojoEquals(dbDictType, pageResult.getList().get(0));
+        // 调用
+        PageResult<DictTypeDO> pageResult = dictTypeService.getDictTypePage(reqVO);
+        // 断言
+        assertEquals(1, pageResult.getTotal());
+        assertEquals(1, pageResult.getList().size());
+        assertPojoEquals(dbDictType, pageResult.getList().get(0));
     }
 
     @Test
@@ -97,8 +97,7 @@ public class DictTypeServiceTest extends BaseDbUnitTest {
         reqVO.setName("nai");
         reqVO.setType("艿");
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        reqVO.setBeginCreateTime(buildTime(2021, 1, 10));
-        reqVO.setEndCreateTime(buildTime(2021, 1, 20));
+        reqVO.setCreateTime((new Date[]{buildTime(2021, 1, 10),buildTime(2021, 1, 20)}));
 
         // 调用
         List<DictTypeDO> list = dictTypeService.getDictTypeList(reqVO);

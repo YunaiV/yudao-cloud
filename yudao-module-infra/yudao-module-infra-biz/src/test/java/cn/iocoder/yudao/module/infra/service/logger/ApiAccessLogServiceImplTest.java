@@ -1,7 +1,6 @@
 package cn.iocoder.yudao.module.infra.service.logger;
 
 import cn.hutool.core.util.RandomUtil;
-import cn.iocoder.yudao.framework.apilog.core.service.ApiAccessLog;
 import cn.iocoder.yudao.framework.common.enums.UserTypeEnum;
 import cn.iocoder.yudao.framework.common.exception.enums.GlobalErrorCodeConstants;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
@@ -78,8 +77,7 @@ public class ApiAccessLogServiceImplTest extends BaseDbUnitTest {
         reqVO.setUserType(userType);
         reqVO.setApplicationName(applicationName);
         reqVO.setRequestUrl(requestUrl);
-        reqVO.setBeginBeginTime(buildTime(2021, 3, 12));
-        reqVO.setEndBeginTime(buildTime(2021, 3, 14));
+        reqVO.setBeginTime((new Date[]{buildTime(2021, 3, 12),buildTime(2021, 3, 14)}));
         reqVO.setDuration(duration);
         reqVO.setResultCode(resultCode);
 
@@ -136,8 +134,7 @@ public class ApiAccessLogServiceImplTest extends BaseDbUnitTest {
         reqVO.setUserType(userType);
         reqVO.setApplicationName(applicationName);
         reqVO.setRequestUrl(requestUrl);
-        reqVO.setBeginBeginTime(buildTime(2021, 3, 12));
-        reqVO.setEndBeginTime(buildTime(2021, 3, 14));
+        reqVO.setBeginTime((new Date[]{buildTime(2021, 3, 12),buildTime(2021, 3, 14)}));
         reqVO.setDuration(duration);
         reqVO.setResultCode(resultCode);
 
@@ -150,7 +147,7 @@ public class ApiAccessLogServiceImplTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testCreateApiAccessLog() {
+    public void testCreateApiAccessLogAsync() {
         // 准备参数
         ApiAccessLogCreateReqDTO createDTO = RandomUtils.randomPojo(ApiAccessLogCreateReqDTO.class,
                 dto -> dto.setUserType(RandomUtil.randomEle(UserTypeEnum.values()).getValue()));
@@ -162,6 +159,5 @@ public class ApiAccessLogServiceImplTest extends BaseDbUnitTest {
         assertNotNull(infApiAccessLogDO);
         assertPojoEquals(createDTO, infApiAccessLogDO);
     }
-
 
 }

@@ -34,8 +34,18 @@ import java.util.function.Function;
 @Component
 public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
 
+    /**
+     * CommonResult<OAuth2AccessTokenCheckRespDTO> 对应的 TypeReference 结果，用于解析 checkToken 的结果
+     */
     private static final TypeReference<CommonResult<OAuth2AccessTokenCheckRespDTO>> CHECK_RESULT_TYPE_REFERENCE
             = new TypeReference<CommonResult<OAuth2AccessTokenCheckRespDTO>>() {};
+
+    /**
+     * 空的 LoginUser 的结果
+     *
+     * TODO 芋艿：用于解决 getLoginUser 返回 Mono.empty() 的时候，会导致后续的 flatMap 无法进行处理的问题。先暂时这么解决，寻找更优解 ing
+     */
+    private static final LoginUser LOGIN_USER_EMPTY = new LoginUser();
 
     private final WebClient webClient;
 
@@ -76,14 +86,18 @@ public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
         }
 
         // 情况二，如果有 Token 令牌，则解析对应 userId、userType、tenantId 等字段，并通过 通过 Header 转发给服务
-        return getLoginUser(exchange, token).flatMap(user -> {
-            if (user == null) {
+        // 重要说明：defaultIfEmpty 作用，保证 Mono.empty() 情况，可以继续执行 `flatMap 的 chain.filter(exchange)` 逻辑，避免返回给前端空的 Response！！
+        return getLoginUser(exchange, token).defaultIfEmpty(LOGIN_USER_EMPTY).flatMap(user -> {
+            // 1. 无用户，直接 filter 继续请求
+            if (user == LOGIN_USER_EMPTY) {
                 return chain.filter(exchange);
             }
-            // 设置登录用户
+
+            // 2.1 有用户，则设置登录用户
             SecurityFrameworkUtils.setLoginUser(exchange, user);
-            // 将 user 并设置到 login-user 的请求头，使用 json 存储值
-            ServerWebExchange newExchange = exchange.mutate().request(builder -> SecurityFrameworkUtils.setLoginUserHeader(builder, user)).build();
+            // 2.2 将 user 并设置到 login-user 的请求头，使用 json 存储值
+            ServerWebExchange newExchange = exchange.mutate()
+                    .request(builder -> SecurityFrameworkUtils.setLoginUserHeader(builder, user)).build();
             return chain.filter(newExchange);
         });
     }

@@ -7,8 +7,8 @@ import cn.iocoder.yudao.framework.common.exception.enums.GlobalErrorCodeConstant
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.monitor.TracerUtils;
 import cn.iocoder.yudao.framework.common.util.object.ObjectUtils;
-import cn.iocoder.yudao.framework.operatelog.core.service.OperateLog;
 import cn.iocoder.yudao.framework.operatelog.core.enums.OperateTypeEnum;
+import cn.iocoder.yudao.framework.test.core.ut.BaseDbUnitTest;
 import cn.iocoder.yudao.framework.test.core.util.RandomUtils;
 import cn.iocoder.yudao.module.system.api.logger.dto.OperateLogCreateReqDTO;
 import cn.iocoder.yudao.module.system.controller.admin.logger.vo.operatelog.OperateLogExportReqVO;
@@ -18,16 +18,14 @@ import cn.iocoder.yudao.module.system.dal.dataobject.user.AdminUserDO;
 import cn.iocoder.yudao.module.system.dal.mysql.logger.OperateLogMapper;
 import cn.iocoder.yudao.module.system.enums.common.SexEnum;
 import cn.iocoder.yudao.module.system.service.user.AdminUserService;
-import cn.iocoder.yudao.framework.test.core.ut.BaseDbUnitTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
 import static cn.iocoder.yudao.framework.common.exception.enums.GlobalErrorCodeConstants.BAD_REQUEST;
@@ -106,8 +104,7 @@ public class OperateLogServiceImplTest extends BaseDbUnitTest {
         reqVO.setUserNickname("wangkai");
         reqVO.setModule("order");
         reqVO.setType(OperateTypeEnum.CREATE.getType());
-        reqVO.setBeginTime(buildTime(2021, 3, 5));
-        reqVO.setEndTime(buildTime(2021, 3, 7));
+        reqVO.setStartTime((new Date[]{buildTime(2021, 3, 5),buildTime(2021, 3, 7)}));
         reqVO.setSuccess(true);
 
         // 调用service方法
@@ -158,8 +155,7 @@ public class OperateLogServiceImplTest extends BaseDbUnitTest {
         reqVO.setUserNickname("wangkai");
         reqVO.setModule("order");
         reqVO.setType(OperateTypeEnum.CREATE.getType());
-        reqVO.setBeginTime(buildTime(2021, 3, 5));
-        reqVO.setEndTime(buildTime(2021, 3, 7));
+        reqVO.setStartTime((new Date[]{buildTime(2021, 3, 5),buildTime(2021, 3, 7)}));
         reqVO.setSuccess(true);
 
         // 调用 service 方法

@@ -75,7 +75,7 @@ spring:
           name-server: 127.0.0.1:9876 # RocketMQ Namesrv 地址
         default: # 默认 bindings 全局配置
           producer: # RocketMQ Producer 配置项，对应 RocketMQProducerProperties 类
-            group: system_producer_group # 生产者分组
+            group: infra_producer_group # 生产者分组
             send-type: SYNC # 发送模式，SYNC 同步
 
     # Spring Cloud Bus 配置项，对应 BusProperties 类

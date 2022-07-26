@@ -23,3 +23,7 @@ spring:
           uri: grayLb://infra-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/app-api/infra/**
+        - id: bpm-admin-api # 路由的编号
+          uri: grayLb://bpm-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/admin-api/bpm/**

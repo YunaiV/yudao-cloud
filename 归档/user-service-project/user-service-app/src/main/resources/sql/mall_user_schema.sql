@@ -38,20 +38,3 @@ CREATE TABLE `user_sms_code` (
   KEY `idx_mobile` (`mobile`) USING BTREE COMMENT '手机号'
 ) ENGINE=InnoDB AUTO_INCREMENT=445 DEFAULT CHARSET=utf8mb4 COMMENT='手机验证码';
 
--- ----------------------------
--- Table structure for user_sms_code
--- ----------------------------
-CREATE TABLE `user_address` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '收件地址编号',
-  `user_id` int(11) NOT NULL COMMENT '用户编号',
-  `name` varchar(10) COLLATE utf8mb4_bin NOT NULL COMMENT '收件人名称',
-  `mobile` varchar(20) COLLATE utf8mb4_bin NOT NULL COMMENT '手机号',
-  `area_code` int(11) NOT NULL COMMENT '地区编码',
-  `detail_address` varchar(250) COLLATE utf8mb4_bin NOT NULL COMMENT '收件详细地址',
-  `type` tinyint(4) NOT NULL COMMENT '地址类型',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最后更新时间',
-  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '删除状态',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx_userId` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户收件地址';

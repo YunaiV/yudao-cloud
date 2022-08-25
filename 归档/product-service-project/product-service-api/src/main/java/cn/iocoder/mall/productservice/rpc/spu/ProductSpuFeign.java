@@ -23,26 +23,6 @@ public interface ProductSpuFeign {
     @GetMapping(value = "/product/spu/get")
     CommonResult<ProductSpuRespDTO> getProductSpu(@RequestParam("productSpuId") Integer productSpuId);
 
-
-
-    /**
-     * 创建商品 SPU
-     *
-     * @param createDTO 创建商品 SPU DTO
-     * @return 商品 SPU编号
-     */
-    @PostMapping(value = "/product/spu/create")
-    CommonResult<Integer> createProductSpu(@RequestBody ProductSpuAndSkuCreateReqDTO createDTO);
-
-    /**
-     * 更新商品 SPU
-     *
-     * @param updateDTO 更新商品 SPU DTO
-     */
-    @PostMapping(value = "/product/spu/update")
-    CommonResult<Boolean> updateProductSpu(@RequestBody ProductSpuAndSkuUpdateReqDTO updateDTO);
-
-
     /**
      * 获得商品 SPU列表
      *

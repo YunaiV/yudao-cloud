@@ -31,44 +31,6 @@ public class ProductSkuService {
         productSkuMapper.insertList(skus);
     }
 
-    @Transactional
-    public void updateProductSkus(Integer spuId, List<ProductSkuCreateOrUpdateBO> skuUpdateBOs) {
-        List<ProductSkuDO> existsSkus = productSkuMapper.selectListBySpuIdAndStatus(spuId,
-                CommonStatusEnum.ENABLE.getValue());
-        List<ProductSkuDO> insertSkus = new ArrayList<>(); // 1、找不到，进行插入
-        List<Integer> deleteSkus = new ArrayList<>(); // 2、多余的，删除
-        List<ProductSkuDO> updateSkus = new ArrayList<>(); // 3、找的到，进行更新。
-        for (ProductSkuCreateOrUpdateBO skuUpdateDTO : skuUpdateBOs) {
-            ProductSkuDO existsSku = findProductSku(skuUpdateDTO.getAttrValueIds(), existsSkus);
-            // 3、找的到，进行更新。
-            if (existsSku != null) {
-                // 移除
-                existsSkus.remove(existsSku);
-                // 创建 ProductSkuDO
-                updateSkus.add(ProductSkuConvert.INSTANCE.convert(skuUpdateDTO).setId(existsSku.getId()));
-                continue;
-            }
-            // 1、找不到，进行插入
-            ProductSkuDO insertSku = ProductSkuConvert.INSTANCE.convert(skuUpdateDTO)
-                    .setSpuId(spuId).setStatus(CommonStatusEnum.ENABLE.getValue());
-            insertSkus.add(insertSku);
-        }
-        // 2、多余的，删除
-        if (!existsSkus.isEmpty()) {
-            deleteSkus.addAll(existsSkus.stream().map(ProductSkuDO::getId).collect(Collectors.toList()));
-        }
-        // 执行修改 Sku
-        if (!insertSkus.isEmpty()) {
-            productSkuMapper.insertList(insertSkus);
-        }
-        if (!updateSkus.isEmpty()) {
-            updateSkus.forEach(productSkuDO -> productSkuMapper.updateById(productSkuDO));
-        }
-        if (!deleteSkus.isEmpty()) {
-            productSkuMapper.deleteBatchIds(deleteSkus);
-        }
-    }
-
     /**
      * 获得 sku 数组中，指定规格的 sku
      *

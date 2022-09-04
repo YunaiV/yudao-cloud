@@ -35,7 +35,7 @@
             <groupId>com.github.binarywang</groupId>
 <!--            <artifactId>weixin-java-mp</artifactId>-->
             <artifactId>wx-java-mp-spring-boot-starter</artifactId>
-            <version>4.1.9.B</version>
+            <version>4.3.8.B</version>
         </dependency>
         <!-- TODO 芋艿：清理 -->
     </dependencies>

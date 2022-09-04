@@ -31,24 +31,6 @@ public class ProductSpuController {
         return success(productSpuManager.getProductSpu(productSpuId));
     }
 
-    /**
-     * 更新商品 SPU
-     *
-     * @param updateDTO 更新商品 SPU DTO
-     */
-    @PostMapping("/update")
-    @ApiOperation("更新商品 SPU")
-    public CommonResult<Boolean> updateProductSpu(@Valid @RequestBody ProductSpuAndSkuUpdateReqDTO updateDTO) {
-        productSpuManager.updateProductSpu(updateDTO);
-        return success(true);
-    }
-
-    @PostMapping("/create")
-    @ApiOperation("创建商品 SPU")
-    public CommonResult<Integer> createProductSpu(@Valid @RequestBody ProductSpuAndSkuCreateReqDTO createDTO) {
-        return success(productSpuManager.createProductSpu(createDTO));
-    }
-
     @GetMapping("/list")
     @ApiOperation("获得商品 SPU 列表")
     @ApiImplicitParam(name = "productSpuIds", value = "商品 SPU 编号列表", required = true)

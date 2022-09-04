@@ -51,69 +51,6 @@ public class ProductSpuManager {
     @Autowired
     private ProductMQProducer productMQProducer;
 
-    private static ProductSpuManager self() {
-        return (ProductSpuManager) AopContext.currentProxy();
-    }
-
-    /**
-    * 创建商品 SPU 和 SKU
-    *
-    * @param createDTO 创建商品 SPU 和 SKU DTO
-    * @return 商品 SPU
-    */
-    public Integer createProductSpu(ProductSpuAndSkuCreateReqDTO createDTO) {
-        // 创建商品 SPU 和 SKU。注意，这里要调用 self() 方法，因为需要创建事务，否则会失效
-        Integer spuId = self().createProductSpu0(createDTO);
-        // 发送商品创建的 MQ 消息
-        productMQProducer.sendProductUpdateMessage(spuId);
-        return spuId;
-    }
-
-    @Transactional
-    public Integer createProductSpu0(ProductSpuAndSkuCreateReqDTO createDTO) {
-        // 校验商品分类是否合法
-        this.checkProductCategory(createDTO.getCid());
-        // 创建商品 SKU 对象，并进行校验
-        List<ProductSkuCreateOrUpdateBO> skuBOs = ProductSpuConvert.INSTANCE.convert(createDTO.getSkus());
-        this.checkProductAttr(skuBOs);
-        // 插入商品 SPU 记录
-        ProductSpuCreateBO spuCreateBO = ProductSpuConvert.INSTANCE.convert(createDTO).setSort(0);
-        spuCreateBO.setPrice(skuBOs.stream().min(Comparator.comparing(ProductSkuCreateOrUpdateBO::getPrice)).get().getPrice()); // 求最小价格
-        spuCreateBO.setQuantity(skuBOs.stream().mapToInt(ProductSkuCreateOrUpdateBO::getQuantity).sum()); // 求库存之和
-        ProductSpuBO spuBO = productSpuService.createProductSpu(spuCreateBO);
-        // 插入商品 SKU 记录
-        productSkuService.createProductSkus(spuBO.getId(), skuBOs);
-        return spuBO.getId();
-    }
-
-    /**
-    * 更新商品 SPU
-    *
-    * @param updateDTO 更新商品 SPU DTO
-    */
-    public void updateProductSpu(ProductSpuAndSkuUpdateReqDTO updateDTO) {
-        // 更新商品 SPU 和 SKU。注意，这里要调用 self() 方法，因为需要创建事务，否则会失效
-        self().updateProductSpu0(updateDTO);
-        // 发送商品创建的 MQ 消息
-        productMQProducer.sendProductUpdateMessage(updateDTO.getId());
-    }
-
-    @Transactional
-    public void updateProductSpu0(ProductSpuAndSkuUpdateReqDTO updateDTO) {
-        // 校验商品分类是否合法
-        this.checkProductCategory(updateDTO.getCid());
-        // 创建商品 SKU 对象，并进行校验
-        List<ProductSkuCreateOrUpdateBO> skuBOs = ProductSpuConvert.INSTANCE.convert02(updateDTO.getSkus());
-        this.checkProductAttr(skuBOs);
-        // 更新商品 SPU 记录
-        ProductSpuUpdateBO spuUpdateBO = ProductSpuConvert.INSTANCE.convert(updateDTO);
-        spuUpdateBO.setPrice(skuBOs.stream().min(Comparator.comparing(ProductSkuCreateOrUpdateBO::getPrice)).get().getPrice()); // 求最小价格
-        spuUpdateBO.setQuantity(skuBOs.stream().mapToInt(ProductSkuCreateOrUpdateBO::getQuantity).sum()); // 求库存之和
-        productSpuService.updateProductSpu(spuUpdateBO);
-        // 更新商品 SKU 记录
-        productSkuService.updateProductSkus(updateDTO.getId(), skuBOs);
-    }
-
     /**
     * 获得商品 SPU
     *

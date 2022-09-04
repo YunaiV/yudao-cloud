@@ -25,28 +25,6 @@ public class ProductSpuManager {
     private ProductSpuFeign productSpuFeign;
 
     /**
-    * 创建商品 SPU
-    *
-    * @param createVO 创建商品 SPU VO
-    * @return 商品 SPU
-    */
-    public Integer createProductSpu(ProductSpuCreateReqVO createVO) {
-        CommonResult<Integer> createProductSpuResult = productSpuFeign.createProductSpu(ProductSpuConvert.INSTANCE.convert(createVO));
-        createProductSpuResult.checkError();
-        return createProductSpuResult.getData();
-    }
-
-    /**
-    * 更新商品 SPU
-    *
-    * @param updateVO 更新商品 SPU VO
-    */
-    public void updateProductSpu(ProductSpuUpdateReqVO updateVO) {
-        CommonResult<Boolean> updateProductSpuResult = productSpuFeign.updateProductSpu(ProductSpuConvert.INSTANCE.convert(updateVO));
-        updateProductSpuResult.checkError();
-    }
-
-    /**
     * 获得商品 SPU
     *
     * @param productSpuId 商品 SPU编号

@@ -17,14 +17,17 @@ import cn.iocoder.yudao.module.system.enums.logger.LoginLogTypeEnum;
 import cn.iocoder.yudao.module.system.enums.logger.LoginResultEnum;
 import cn.iocoder.yudao.module.system.enums.oauth2.OAuth2ClientConstants;
 import cn.iocoder.yudao.module.system.enums.sms.SmsSceneEnum;
-import cn.iocoder.yudao.module.system.service.common.CaptchaService;
 import cn.iocoder.yudao.module.system.service.logger.LoginLogService;
 import cn.iocoder.yudao.module.system.service.member.MemberService;
 import cn.iocoder.yudao.module.system.service.oauth2.OAuth2TokenService;
 import cn.iocoder.yudao.module.system.service.social.SocialUserService;
 import cn.iocoder.yudao.module.system.service.user.AdminUserService;
+import com.anji.captcha.model.common.ResponseModel;
+import com.anji.captcha.model.vo.CaptchaVO;
+import com.anji.captcha.service.CaptchaService;
 import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -47,8 +50,6 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     @Resource
     private AdminUserService userService;
     @Resource
-    private CaptchaService captchaService;
-    @Resource
     private LoginLogService loginLogService;
     @Resource
     private OAuth2TokenService oauth2TokenService;
@@ -61,7 +62,15 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     private Validator validator;
 
     @Resource
+    private CaptchaService captchaService;
+    @Resource
     private SmsCodeApi smsCodeApi;
+
+    /**
+     * 验证码的开关，默认为 true
+     */
+    @Value("${yudao.captcha.enable:true}")
+    private Boolean captchaEnable;
 
     @Override
     public AdminUserDO authenticate(String username, String password) {
@@ -130,27 +139,20 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     @VisibleForTesting
     void verifyCaptcha(AuthLoginReqVO reqVO) {
         // 如果验证码关闭，则不进行校验
-        if (!captchaService.isCaptchaEnable()) {
+        if (!captchaEnable) {
             return;
         }
         // 校验验证码
         ValidationUtils.validate(validator, reqVO, AuthLoginReqVO.CodeEnableGroup.class);
-        // 验证码不存在
-        final LoginLogTypeEnum logTypeEnum = LoginLogTypeEnum.LOGIN_USERNAME;
-        String code = captchaService.getCaptchaCode(reqVO.getUuid());
-        if (code == null) {
-            // 创建登录失败日志（验证码不存在）
-            createLoginLog(null, reqVO.getUsername(), logTypeEnum, LoginResultEnum.CAPTCHA_NOT_FOUND);
-            throw exception(AUTH_LOGIN_CAPTCHA_NOT_FOUND);
-        }
-        // 验证码不正确
-        if (!code.equals(reqVO.getCode())) {
+        CaptchaVO captchaVO = new CaptchaVO();
+        captchaVO.setCaptchaVerification(reqVO.getCaptchaVerification());
+        ResponseModel response = captchaService.verification(captchaVO);
+        // 验证不通过
+        if (!response.isSuccess()) {
             // 创建登录失败日志（验证码不正确)
-            createLoginLog(null, reqVO.getUsername(), logTypeEnum, LoginResultEnum.CAPTCHA_CODE_ERROR);
-            throw exception(AUTH_LOGIN_CAPTCHA_CODE_ERROR);
+            createLoginLog(null, reqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME, LoginResultEnum.CAPTCHA_CODE_ERROR);
+            throw exception(AUTH_LOGIN_CAPTCHA_CODE_ERROR, response.getRepMsg());
         }
-        // 正确，所以要删除下验证码
-        captchaService.deleteCaptchaCode(reqVO.getUuid());
     }
 
     private void createLoginLog(Long userId, String username,

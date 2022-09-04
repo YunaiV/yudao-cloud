@@ -2,7 +2,6 @@ package cn.iocoder.yudao.framework.dict.core.util;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.iocoder.yudao.framework.common.core.KeyValue;
-import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.util.cache.CacheUtils;
 import cn.iocoder.yudao.module.system.api.dict.DictDataApi;
 import cn.iocoder.yudao.module.system.api.dict.dto.DictDataRespDTO;
@@ -28,7 +27,7 @@ public class DictFrameworkUtils {
     /**
      * 针对 {@link #getDictDataLabel(String, String)} 的缓存
      */
-    private static final LoadingCache<KeyValue<String, String>, DictDataRespDTO> getDictDataCache = CacheUtils.buildAsyncReloadingCache(
+    private static final LoadingCache<KeyValue<String, String>, DictDataRespDTO> GET_DICT_DATA_CACHE = CacheUtils.buildAsyncReloadingCache(
             Duration.ofMinutes(1L), // 过期时间 1 分钟
             new CacheLoader<KeyValue<String, String>, DictDataRespDTO>() {
 
@@ -43,7 +42,7 @@ public class DictFrameworkUtils {
     /**
      * 针对 {@link #parseDictDataValue(String, String)} 的缓存
      */
-    private static final LoadingCache<KeyValue<String, String>, DictDataRespDTO> parseDictDataCache = CacheUtils.buildAsyncReloadingCache(
+    private static final LoadingCache<KeyValue<String, String>, DictDataRespDTO> PARSE_DICT_DATA_CACHE = CacheUtils.buildAsyncReloadingCache(
             Duration.ofMinutes(1L), // 过期时间 1 分钟
             new CacheLoader<KeyValue<String, String>, DictDataRespDTO>() {
 
@@ -62,12 +61,12 @@ public class DictFrameworkUtils {
 
     @SneakyThrows
     public static String getDictDataLabel(String dictType, String value) {
-        return getDictDataCache.get(new KeyValue<>(dictType, value)).getLabel();
+        return GET_DICT_DATA_CACHE.get(new KeyValue<>(dictType, value)).getLabel();
     }
 
     @SneakyThrows
     public static String parseDictDataValue(String dictType, String label) {
-        return parseDictDataCache.get(new KeyValue<>(dictType, label)).getValue();
+        return PARSE_DICT_DATA_CACHE.get(new KeyValue<>(dictType, label)).getValue();
     }
 
 }

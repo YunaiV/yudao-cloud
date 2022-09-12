@@ -52,17 +52,6 @@ public class ProductSpuManager {
     private ProductMQProducer productMQProducer;
 
     /**
-    * 获得商品 SPU
-    *
-    * @param productSpuId 商品 SPU编号
-    * @return 商品 SPU
-    */
-    public ProductSpuRespDTO getProductSpu(Integer productSpuId) {
-        ProductSpuBO productSpuBO = productSpuService.getProductSpu(productSpuId);
-        return ProductSpuConvert.INSTANCE.convert(productSpuBO);
-    }
-
-    /**
     * 获得商品 SPU列表
     *
     * @param productSpuIds 商品 SPU编号列表
@@ -82,25 +71,6 @@ public class ProductSpuManager {
     public PageResult<ProductSpuRespDTO> pageProductSpu(ProductSpuPageReqDTO pageDTO) {
         PageResult<ProductSpuBO> pageResultBO = productSpuService.pageProductSpu(ProductSpuConvert.INSTANCE.convert(pageDTO));
         return ProductSpuConvert.INSTANCE.convertPage(pageResultBO);
-    }
-
-    /**
-     * 添加或修改商品 SPU 时，校验商品分类是否合法
-     *
-     * @param cid 商品分类编号
-     * @return 商品分类
-     */
-    private ProductCategoryBO checkProductCategory(Integer cid) {
-        ProductCategoryBO categoryBO = productCategoryService.getProductCategory(cid);
-        if (categoryBO == null) {
-            // 不存在
-            throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_NOT_EXISTS);
-        }
-        if (ProductCategoryIdEnum.ROOT.getId().equals(categoryBO.getPid())) {
-            // 商品只能添加到二级分类下
-            throw ServiceExceptionUtil.exception(PRODUCT_SPU_CATEGORY_MUST_BE_LEVEL2);
-        }
-        return categoryBO;
     }
 
     /**

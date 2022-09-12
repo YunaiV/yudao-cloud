@@ -28,68 +28,6 @@ import java.util.stream.Collectors;
 @Service
 public class CartManager {
 
-    @Autowired
-    private CartFeign cartFeign;
-    @Autowired
-    private PriceFeign priceFeign;
-    
-    @Autowired
-    private PromotionActivityFeign promotionActivityFeign;
-
-    @Autowired
-    private ProductSkuFeign productSkuFeign;
-
-    /**
-     * 添加商品到购物车
-     *
-     * @param userId 用户编号
-     * @param skuId 商品 SKU 编号
-     * @param quantity 增加数量
-     */
-    public void addCartItem(Integer userId, Integer skuId, Integer quantity) {
-        CommonResult<Boolean> addCartItemResult = cartFeign.addCartItem(new CartItemAddReqDTO().setUserId(userId)
-            .setSkuId(skuId).setQuantity(quantity));
-        addCartItemResult.checkError();
-    }
-
-    /**
-     * 查询用户在购物车中的商品数量
-     *
-     * @param userId 用户编号
-     * @return 商品数量
-     */
-    public Integer sumCartItemQuantity(Integer userId) {
-        CommonResult<Integer> sumCartItemQuantityResult = cartFeign.sumCartItemQuantity(userId);
-        sumCartItemQuantityResult.checkError();
-        return sumCartItemQuantityResult.getData();
-    }
-
-    /**
-     * 更新购物车商品数量
-     *
-     * @param userId 用户编号
-     * @param skuId 商品 SKU 编号
-     * @param quantity 数量
-     */
-    public void updateCartItemQuantity(Integer userId, Integer skuId, Integer quantity) {
-        CommonResult<Boolean> updateCartItemQuantityResult = cartFeign.updateCartItemQuantity(new CartItemUpdateQuantityReqDTO()
-            .setUserId(userId).setSkuId(skuId).setQuantity(quantity));
-        updateCartItemQuantityResult.checkError();
-    }
-
-    /**
-     * 更新购物车商品是否选中
-     *
-     * @param userId 用户编号
-     * @param skuIds 商品 SKU 编号数组
-     * @param selected 是否选中
-     */
-    public void updateCartItemSelected(Integer userId, Set<Integer> skuIds, Boolean selected) {
-        CommonResult<Boolean> updateCartItemSelectedResult = cartFeign.updateCartItemSelected(new CartItemUpdateSelectedReqDTO()
-            .setUserId(userId).setSkuIds(skuIds).setSelected(selected));
-        updateCartItemSelectedResult.checkError();
-    }
-
     /**
      * 查询用户的购物车的商品列表
      *

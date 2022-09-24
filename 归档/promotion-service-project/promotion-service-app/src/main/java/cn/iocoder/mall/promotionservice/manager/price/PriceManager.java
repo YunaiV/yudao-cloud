@@ -48,26 +48,12 @@ public class PriceManager {
     private CouponTemplateService couponTemplateService;
 
     public PriceProductCalcRespDTO calcProductPrice(PriceProductCalcReqDTO calcReqDTO) {
-        // TODO 芋艿，补充一些表单校验。例如说，需要传入用户编号。
-        // 校验商品都存在
-        Map<Integer, PriceProductCalcReqDTO.Item> calcProductItemDTOMap = CollectionUtils.convertMap(
-                calcReqDTO.getItems(), PriceProductCalcReqDTO.Item::getSkuId);
-        CommonResult<List<ProductSkuRespDTO>> listProductSkusResult = productSkuFeign.listProductSkus(
-                new ProductSkuListQueryReqDTO().setProductSkuIds(calcProductItemDTOMap.keySet()));
-        listProductSkusResult.checkError();
-        if (calcReqDTO.getItems().size() != listProductSkusResult.getData().size()) {
-            throw ServiceExceptionUtil.exception(PRICE_PRODUCT_SKU_NOT_EXISTS);
-        }
-        // TODO 库存相关
-        // 查询促销活动
+        // 拼装结果（主要是计算价格）
+        PriceProductCalcRespDTO calcRespDTO = new PriceProductCalcRespDTO();
+
         List<PromotionActivityRespDTO> activityRespDTOs = promotionActivityService.listPromotionActivitiesBySpuIds(
                 CollectionUtils.convertSet(listProductSkusResult.getData(), ProductSkuRespDTO::getSpuId),
                 Collections.singleton(PromotionActivityStatusEnum.RUN.getValue()));
-        // 拼装结果（主要是计算价格）
-        PriceProductCalcRespDTO calcRespDTO = new PriceProductCalcRespDTO();
-        // 1. 创建初始的每一项的数组
-        List<PriceProductCalcRespDTO.Item> calcItemRespDTOs = this.initCalcOrderPriceItems(
-                listProductSkusResult.getData(), calcProductItemDTOMap);
         // 2. 计算【限时折扣】促销
         this.modifyPriceByTimeLimitDiscount(calcItemRespDTOs, activityRespDTOs);
         // 3. 计算【满减送】促销
@@ -91,35 +77,6 @@ public class PriceManager {
                 String.format("价格合计( %d - %d == %d )不正确", buyTotal, discountTotal, presentTotal));
         calcRespDTO.setFee(new PriceProductCalcRespDTO.Fee(buyTotal, discountTotal, 0, presentTotal));
         return calcRespDTO;
-    }
-
-    private List<PriceProductCalcRespDTO.Item> initCalcOrderPriceItems(List<ProductSkuRespDTO> skus,
-                                                                       Map<Integer, PriceProductCalcReqDTO.Item> calcProductItemDTOMap) {
-        // 获得商品分类 Map
-        CommonResult<List<ProductSpuRespDTO>> listProductSpusResult = productSpuFeign.listProductSpus(CollectionUtils.convertSet(skus, ProductSkuRespDTO::getSpuId));
-        listProductSpusResult.checkError();
-        Map<Integer, Integer> spuIdCategoryIdMap = CollectionUtils.convertMap(listProductSpusResult.getData(), // SPU 编号与 Category 编号的映射
-                ProductSpuRespDTO::getId, ProductSpuRespDTO::getCid);
-        // 生成商品列表
-        List<PriceProductCalcRespDTO.Item> items = new ArrayList<>();
-        for (ProductSkuRespDTO sku : skus) {
-            PriceProductCalcRespDTO.Item item = new PriceProductCalcRespDTO.Item();
-            items.add(item);
-            // 将基本信息，复制到 item 中
-            PriceProductCalcReqDTO.Item calcOrderItem = calcProductItemDTOMap.get(sku.getId());
-            item.setSpuId(sku.getSpuId()).setSkuId(sku.getId());
-            item.setCid(spuIdCategoryIdMap.get(sku.getSpuId()));
-            item.setSelected(calcOrderItem.getSelected());
-            item.setBuyQuantity(calcOrderItem.getQuantity());
-            // 计算初始价格
-            item.setOriginPrice(sku.getPrice());
-            item.setBuyPrice(sku.getPrice());
-            item.setPresentPrice(sku.getPrice());
-            item.setBuyTotal(sku.getPrice() * calcOrderItem.getQuantity());
-            item.setDiscountTotal(0);
-            item.setPresentTotal(item.getBuyTotal());
-        }
-        return items;
     }
 
     private void modifyPriceByTimeLimitDiscount(List<PriceProductCalcRespDTO.Item> items, List<PromotionActivityRespDTO> activityList) {

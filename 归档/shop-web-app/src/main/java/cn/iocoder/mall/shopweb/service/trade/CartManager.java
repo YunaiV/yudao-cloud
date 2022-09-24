@@ -34,16 +34,7 @@ public class CartManager {
      * @return 商品列表
      */
     public CartDetailVO getCartDetail(Integer userId) {
-        // 获得购物车的商品
-        CommonResult<List<CartItemRespDTO>> listCartItemsResult = cartFeign.listCartItems(new CartItemListReqDTO().setUserId(userId));
-        listCartItemsResult.checkError();
-        // 购物车为空时，构造空的 UsersOrderConfirmCreateVO 返回
-        if (CollectionUtils.isEmpty(listCartItemsResult.getData())) {
-            CartDetailVO result = new CartDetailVO();
-            result.setItemGroups(Collections.emptyList());
-            result.setFee(new CartDetailVO.Fee(0, 0, 0, 0));
-            return result;
-        }
+
         // 计算商品价格
         CommonResult<PriceProductCalcRespDTO> calcProductPriceResult = priceFeign.calcProductPrice(new PriceProductCalcReqDTO().setUserId(userId)
                 .setItems(listCartItemsResult.getData().stream()

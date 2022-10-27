@@ -16,7 +16,7 @@ spring:
         - id: system-admin-api # 路由的编号
           uri: grayLb://system-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
-            - Path=/admin-api/system/**
+            - Path=/admin-api/system/**,/captcha/**
           filters:
               - RewritePath=/admin-api/system/v2/api-docs, /v2/api-docs
         - id: system-app-api # 路由的编号

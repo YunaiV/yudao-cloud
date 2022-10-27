@@ -5,25 +5,41 @@ spring:
   cloud:
     # Spring Cloud Gateway 配置项，对应 GatewayProperties 类
     gateway:
+      discovery:
+        locator:
+          # gateway开启服务注册和发现的功能，
+          enabled: true
+          # 将请求路径上的服务名配置为小写（因为服务注册的时候，向注册中心注册时将服务名转成大写的了）
+          lowerCaseServiceId: true
       # 路由配置项，对应 RouteDefinition 数组
       routes:
         - id: system-admin-api # 路由的编号
           uri: grayLb://system-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/admin-api/system/**
+          filters:
+              - RewritePath=/admin-api/system/v2/api-docs, /v2/api-docs
         - id: system-app-api # 路由的编号
           uri: grayLb://system-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/app-api/system/**
+          filters:
+              - RewritePath=/app-api/system/v2/api-docs, /v2/api-docs
         - id: infra-admin-api # 路由的编号
           uri: grayLb://infra-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/admin-api/infra/**
+          filters:
+              - RewritePath=/admin-api/infram/v2/api-docs, /v2/api-docs
         - id: infra-app-api # 路由的编号
           uri: grayLb://infra-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/app-api/infra/**
+          filters:
+              - RewritePath=/app-api/infra/v2/api-docs, /v2/api-docs
         - id: bpm-admin-api # 路由的编号
           uri: grayLb://bpm-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/admin-api/bpm/**
+          filters:
+              - RewritePath=/admin-api/bpm/v2/api-docs, /v2/api-docs

@@ -20,11 +20,6 @@ public interface ProductRecommendMapper extends BaseMapper<ProductRecommendDO> {
                 .eq("type", type));
     }
 
-    default List<ProductRecommendDO> selectList(ProductRecommendListReqDTO listReqDTO) {
-        return selectList(new QueryWrapperX<ProductRecommendDO>().eqIfPresent("type", listReqDTO.getType())
-                .eqIfPresent("status", listReqDTO.getStatus()));
-    }
-
     default IPage<ProductRecommendDO> selectPage(ProductRecommendPageReqDTO pageReqDTO) {
         return selectPage(new Page<>(pageReqDTO.getPageNo(), pageReqDTO.getPageSize()),
                 new QueryWrapperX<ProductRecommendDO>().eqIfPresent("type", pageReqDTO.getType()));

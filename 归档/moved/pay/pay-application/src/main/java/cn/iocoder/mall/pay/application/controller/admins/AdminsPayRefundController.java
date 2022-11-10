@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -33,13 +33,13 @@ public class AdminsPayRefundController {
 
     @GetMapping("/page")
     public CommonResult<AdminsPayRefundPageVO> page(@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-                                                   @RequestParam(value = "createBeginTime", required = false) Date createBeginTime,
+                                                   @RequestParam(value = "createBeginTime", required = false) LocalDateTime createBeginTime,
                                                     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-                                                   @RequestParam(value = "createEndTime", required = false) Date createEndTime,
+                                                   @RequestParam(value = "createEndTime", required = false) LocalDateTime createEndTime,
                                                     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-                                                   @RequestParam(value = "finishBeginTime", required = false) Date finishBeginTime,
+                                                   @RequestParam(value = "finishBeginTime", required = false) LocalDateTime finishBeginTime,
                                                     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-                                                   @RequestParam(value = "finishEndTime", required = false) Date finishEndTime,
+                                                   @RequestParam(value = "finishEndTime", required = false) LocalDateTime finishEndTime,
                                                     @RequestParam(value = "status", required = false) Integer status,
                                                     @RequestParam(value = "payChannel", required = false) Integer payChannel,
                                                     @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,

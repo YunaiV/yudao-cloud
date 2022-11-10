@@ -1,7 +1,7 @@
 package cn.iocoder.mall.order.rest.response.comment;
 
 import io.swagger.annotations.ApiModel;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -78,7 +78,7 @@ public class UsersOrderCommentPageResponse {
         /**
          * 创建时间
          */
-        private Date createTime;
+        private LocalDateTime createTime;
 
         /**
          * 商家回复列表 只展示最近的一条

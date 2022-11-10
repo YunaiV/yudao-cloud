@@ -17,7 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -69,7 +69,7 @@ public class DeptServiceTest extends BaseDbUnitTest {
         assertPojoEquals(deptDO1, parentDeptCache.get(deptDO1.getParentId()));
         assertPojoEquals(deptDO2, parentDeptCache.get(deptDO2.getParentId()));
         // 断言 maxUpdateTime 缓存
-        Date maxUpdateTime = (Date) getFieldValue(deptService, "maxUpdateTime");
+        LocalDateTime maxUpdateTime = (LocalDateTime) getFieldValue(deptService, "maxUpdateTime");
         assertEquals(ObjectUtils.max(deptDO1.getUpdateTime(), deptDO2.getUpdateTime()), maxUpdateTime);
     }
 
@@ -100,10 +100,10 @@ public class DeptServiceTest extends BaseDbUnitTest {
     void testCreateDept_success() {
         // 准备参数
         DeptCreateReqVO reqVO = randomPojo(DeptCreateReqVO.class,
-            o -> {
-                o.setParentId(DeptIdEnum.ROOT.getId());
-                o.setStatus(randomCommonStatus());
-            });
+                o -> {
+                    o.setParentId(DeptIdEnum.ROOT.getId());
+                    o.setStatus(randomCommonStatus());
+                });
         // 调用
         Long deptId = deptService.createDept(reqVO);
         // 断言
@@ -161,14 +161,14 @@ public class DeptServiceTest extends BaseDbUnitTest {
         deptMapper.insert(nameDeptDO);
         // 准备参数
         DeptUpdateReqVO reqVO = randomPojo(DeptUpdateReqVO.class,
-            o -> {
-                // 设置根节点部门
-                o.setParentId(DeptIdEnum.ROOT.getId());
-                // 设置更新的 ID
-                o.setId(deptDO.getId());
-                // 模拟 name 重复
-                o.setName(nameDeptDO.getName());
-            });
+                o -> {
+                    // 设置根节点部门
+                    o.setParentId(DeptIdEnum.ROOT.getId());
+                    // 设置更新的 ID
+                    o.setId(deptDO.getId());
+                    // 模拟 name 重复
+                    o.setName(nameDeptDO.getName());
+                });
         // 调用, 并断言异常
         assertServiceException(() -> deptService.updateDept(reqVO), DEPT_NAME_DUPLICATE);
     }
@@ -176,7 +176,7 @@ public class DeptServiceTest extends BaseDbUnitTest {
     @Test
     void testCheckDept_parentNotExitsForCreate() {
         DeptCreateReqVO reqVO = randomPojo(DeptCreateReqVO.class,
-            o -> o.setStatus(randomCommonStatus()));
+                o -> o.setStatus(randomCommonStatus()));
         // 调用,并断言异常
         assertServiceException(() -> deptService.createDept(reqVO), DEPT_PARENT_NOT_EXITS);
     }
@@ -212,12 +212,12 @@ public class DeptServiceTest extends BaseDbUnitTest {
         deptMapper.insert(dbDeptDO);
         // 准备参数
         DeptUpdateReqVO reqVO = randomPojo(DeptUpdateReqVO.class,
-            o -> {
-                // 设置自己为父部门
-                o.setParentId(dbDeptDO.getId());
-                // 设置更新的 ID
-                o.setId(dbDeptDO.getId());
-            });
+                o -> {
+                    // 设置自己为父部门
+                    o.setParentId(dbDeptDO.getId());
+                    // 设置更新的 ID
+                    o.setId(dbDeptDO.getId());
+                });
         // 调用, 并断言异常
         assertServiceException(() -> deptService.updateDept(reqVO), DEPT_PARENT_ERROR);
     }
@@ -229,10 +229,10 @@ public class DeptServiceTest extends BaseDbUnitTest {
         deptMapper.insert(deptDO);
         // 准备参数
         DeptCreateReqVO reqVO = randomPojo(DeptCreateReqVO.class,
-            o -> {
-                // 设置未启用的部门为副部门
-                o.setParentId(deptDO.getId());
-            });
+                o -> {
+                    // 设置未启用的部门为副部门
+                    o.setParentId(deptDO.getId());
+                });
         // 调用, 并断言异常
         assertServiceException(() -> deptService.createDept(reqVO), DEPT_NOT_ENABLE);
     }
@@ -251,12 +251,12 @@ public class DeptServiceTest extends BaseDbUnitTest {
         deptService.initLocalCache();
         // 准备参数
         DeptUpdateReqVO reqVO = randomPojo(DeptUpdateReqVO.class,
-            o -> {
-                // 设置自己的子部门为父部门
-                o.setParentId(childDept.getId());
-                // 设置更新的 ID
-                o.setId(parentDept.getId());
-            });
+                o -> {
+                    // 设置自己的子部门为父部门
+                    o.setParentId(childDept.getId());
+                    // 设置更新的 ID
+                    o.setId(parentDept.getId());
+                });
         // 调用, 并断言异常
         assertServiceException(() -> deptService.updateDept(reqVO), DEPT_PARENT_IS_CHILD);
     }

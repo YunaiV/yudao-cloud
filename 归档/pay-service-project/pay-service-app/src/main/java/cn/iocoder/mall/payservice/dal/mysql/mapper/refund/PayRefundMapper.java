@@ -38,19 +38,19 @@ public interface PayRefundMapper extends BaseMapper<PayRefundDO> {
 //    AND pay_channel = #{payChannel}
 //            </if>
 
-//    List<PayRefundDO> selectListByPage(@Param("createBeginTime") Date createBeginTime,
-//                                       @Param("createEndTime") Date createEndTime,
-//                                       @Param("finishBeginTime") Date finishBeginTime,
-//                                       @Param("finishEndTime") Date finishEndTime,
+//    List<PayRefundDO> selectListByPage(@Param("createBeginTime") LocalDateTime createBeginTime,
+//                                       @Param("createEndTime") LocalDateTime createEndTime,
+//                                       @Param("finishBeginTime") LocalDateTime finishBeginTime,
+//                                       @Param("finishEndTime") LocalDateTime finishEndTime,
 //                                       @Param("status") Integer status,
 //                                       @Param("payChannel") Integer payChannel,
 //                                       @Param("offset") Integer offset,
 //                                       @Param("limit") Integer limit);
 //
-//    Integer selectCountByPage(@Param("createBeginTime") Date createBeginTime,
-//                              @Param("createEndTime") Date createEndTime,
-//                              @Param("finishBeginTime") Date finishBeginTime,
-//                              @Param("finishEndTime") Date finishEndTime,
+//    Integer selectCountByPage(@Param("createBeginTime") LocalDateTime createBeginTime,
+//                              @Param("createEndTime") LocalDateTime createEndTime,
+//                              @Param("finishBeginTime") LocalDateTime finishBeginTime,
+//                              @Param("finishEndTime") LocalDateTime finishEndTime,
 //                              @Param("status") Integer status,
 //                              @Param("payChannel") Integer payChannel);
 

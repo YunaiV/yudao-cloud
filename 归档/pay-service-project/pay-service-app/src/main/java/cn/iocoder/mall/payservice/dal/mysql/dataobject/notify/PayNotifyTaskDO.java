@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 支付通知 App 的任务 DO
@@ -64,11 +64,11 @@ public class PayNotifyTaskDO extends DeletableDO {
     /**
      * 下一次通知时间
      */
-    private Date nextNotifyTime;
+    private LocalDateTime nextNotifyTime;
     /**
      * 最后一次执行时间
      */
-    private Date lastExecuteTime;
+    private LocalDateTime lastExecuteTime;
     /**
      * 当前通知次数
      */

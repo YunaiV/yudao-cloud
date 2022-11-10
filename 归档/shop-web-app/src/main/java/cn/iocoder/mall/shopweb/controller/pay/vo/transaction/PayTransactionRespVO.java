@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @ApiModel("支付交易 Response VO")
 @Data
@@ -34,6 +34,6 @@ public class PayTransactionRespVO {
     private Integer status;
 
     @ApiModelProperty(value = "交易过期时间", required = true)
-    private Date expireTime;
+    private LocalDateTime expireTime;
 
 }

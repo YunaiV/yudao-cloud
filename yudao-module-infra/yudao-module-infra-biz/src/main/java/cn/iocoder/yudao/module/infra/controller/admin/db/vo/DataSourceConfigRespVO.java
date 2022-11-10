@@ -1,6 +1,8 @@
 package cn.iocoder.yudao.module.infra.controller.admin.db.vo;
 
 import lombok.*;
+
+import java.time.LocalDateTime;
 import java.util.*;
 import io.swagger.annotations.*;
 
@@ -14,6 +16,6 @@ public class DataSourceConfigRespVO extends DataSourceConfigBaseVO {
     private Integer id;
 
     @ApiModelProperty(value = "创建时间", required = true)
-    private Date createTime;
+    private LocalDateTime createTime;
 
 }

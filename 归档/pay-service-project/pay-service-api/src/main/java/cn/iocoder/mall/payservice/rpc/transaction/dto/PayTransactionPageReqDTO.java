@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 支付交易分页 Request DTO
@@ -18,19 +18,19 @@ public class PayTransactionPageReqDTO extends PageParam {
     /**
      * 创建时间（开始）
      */
-    private Date createBeginTime;
+    private LocalDateTime createBeginTime;
     /**
      * 创建时间（结束）
      */
-    private Date createEndTime;
+    private LocalDateTime createEndTime;
     /**
      * 支付时间（开始）
      */
-    private Date paymentBeginTime;
+    private LocalDateTime paymentBeginTime;
     /**
      * 支付时间（结束）
      */
-    private Date paymentEndTime;
+    private LocalDateTime paymentEndTime;
     /**
      * 支付状态
      */

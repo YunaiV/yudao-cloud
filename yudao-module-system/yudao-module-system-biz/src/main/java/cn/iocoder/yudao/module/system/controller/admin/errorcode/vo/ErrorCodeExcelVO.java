@@ -6,7 +6,7 @@ import cn.iocoder.yudao.framework.excel.core.convert.DictConvert;
 import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 错误码 Excel VO
@@ -36,6 +36,6 @@ public class ErrorCodeExcelVO {
     private String memo;
 
     @ExcelProperty("创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
 }

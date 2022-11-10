@@ -5,8 +5,7 @@ import org.springframework.cloud.gateway.route.Route;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.MultiValueMap;
 
-import java.util.Date;
-import java.util.Map;
+import java.time.LocalDateTime;
 
 /**
  * 网关的访问日志
@@ -80,11 +79,11 @@ public class AccessLog {
     /**
      * 开始请求时间
      */
-    private Date startTime;
+    private LocalDateTime startTime;
     /**
      * 结束请求时间
      */
-    private Date endTime;
+    private LocalDateTime endTime;
     /**
      * 执行时长，单位：毫秒
      */

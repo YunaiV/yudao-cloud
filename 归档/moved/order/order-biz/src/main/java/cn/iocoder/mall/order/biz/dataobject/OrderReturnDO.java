@@ -1,7 +1,7 @@
 package cn.iocoder.mall.order.biz.dataobject;
 
 import cn.iocoder.mall.mybatis.core.dataobject.BaseDO;
-import java.util.Date;
+import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -64,23 +64,23 @@ public class OrderReturnDO extends BaseDO {
     /**
      * 同意时间
      */
-    private Date approvalTime;
+    private LocalDateTime approvalTime;
     /**
      * 拒绝时间
      */
-    private Date refuseTime;
+    private LocalDateTime refuseTime;
     /**
      * 物流时间（填写物流单号时间）
      */
-    private Date logisticsTime;
+    private LocalDateTime logisticsTime;
     /**
      * 收货时间
      */
-    private Date receiverTime;
+    private LocalDateTime receiverTime;
     /**
      * 成交时间（确认时间）
      */
-    private Date closingTime;
+    private LocalDateTime closingTime;
     /**
      * 服务类型
      *

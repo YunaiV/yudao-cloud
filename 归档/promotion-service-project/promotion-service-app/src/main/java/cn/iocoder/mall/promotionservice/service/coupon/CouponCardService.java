@@ -150,9 +150,9 @@ public class CouponCardService {
         if (CouponTemplateDateTypeEnum.FIXED_DATE.getValue().equals(template.getDateType())) {
             card.setValidStartTime(template.getValidStartTime()).setValidEndTime(template.getValidEndTime());
         } else if (CouponTemplateDateTypeEnum.FIXED_TERM.getValue().equals(template.getDateType())) {
-            Date validStartTime = DateUtil.getDayBegin(new Date());
+            LocalDateTime validStartTime = DateUtil.getDayBegin(new Date());
             card.setValidStartTime(DateUtil.addDate(validStartTime, Calendar.DAY_OF_YEAR, template.getFixedStartTerm()));
-            Date validEndTime = DateUtil.getDayEnd(card.getValidStartTime());
+            LocalDateTime validEndTime = DateUtil.getDayEnd(card.getValidStartTime());
             card.setValidEndTime(DateUtil.addDate(validEndTime, Calendar.DAY_OF_YEAR, template.getFixedEndTerm() - 1));
         }
     }

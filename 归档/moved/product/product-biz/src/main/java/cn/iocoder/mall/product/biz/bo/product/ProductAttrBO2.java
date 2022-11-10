@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 商品规格 VO
@@ -28,6 +28,6 @@ public class ProductAttrBO2 implements Serializable {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private LocalDateTime createTime;
 
 }

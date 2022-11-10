@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 更新商品收藏参数
@@ -24,7 +24,7 @@ public class UserProductSpuCollectionsUpdateDTO implements Serializable {
     /**
      * 更新时间
      */
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /**
      * 删除状态

@@ -21,6 +21,6 @@ public class UserRespVO {
     @ApiModelProperty(value = "注册 IP", required = true, example = "127.0.0.1")
     private String createIp;
     @ApiModelProperty(value = "创建时间", required = true)
-    private Date createTime;
+    private LocalDateTime createTime;
 
 }

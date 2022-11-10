@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 售后订单，用于处理 {@link TradeOrderDO} 交易订单的退货换流程
@@ -134,7 +134,7 @@ public class AfterSaleOrderDO extends DeletableDO {
     /**
      * 退货物流的填写时间
      */
-    private Date returnLogisticsDate;
+    private LocalDateTime returnLogisticsDate;
 
     // ========== 换货相关 ==========
     /**
@@ -155,6 +155,6 @@ public class AfterSaleOrderDO extends DeletableDO {
     /**
      * 换货物流的填写时间
      */
-    private Date exchangeLogisticsDate;
+    private LocalDateTime exchangeLogisticsDate;
 
 }

@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 订单退货 查询 po
@@ -32,11 +32,11 @@ public class OrderReturnQueryDTO implements Serializable {
     /**
      * 创建时间 - 开始
      */
-    private Date startCreateTime;
+    private LocalDateTime startCreateTime;
     /**
      * 创建时间 - 结束
      */
-    private Date endCreateTime;
+    private LocalDateTime endCreateTime;
     /**
      * 状态
      */

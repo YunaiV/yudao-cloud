@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Select;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper

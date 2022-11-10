@@ -1,7 +1,7 @@
 package cn.iocoder.mall.order.rest.request.admin;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -34,12 +34,12 @@ public class AdminsOrderReturnQueryRequest implements Serializable {
      * 创建时间 - 开始
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date startCreateTime;
+    private LocalDateTime startCreateTime;
     /**
      * 创建时间 - 结束
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date endCreateTime;
+    private LocalDateTime endCreateTime;
     /**
      * 状态
      */

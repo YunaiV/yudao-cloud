@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @ApiModel("RPC 服务 - API 访问日志创建 Request DTO")
 @Data
@@ -40,10 +40,10 @@ public class ApiAccessLogCreateReqDTO {
 
     @ApiModelProperty(value = "开始时间", required = true)
     @NotNull(message = "开始请求时间不能为空")
-    private Date beginTime;
+    private LocalDateTime beginTime;
     @ApiModelProperty(value = "结束时间", required = true)
     @NotNull(message = "结束请求时间不能为空")
-    private Date endTime;
+    private LocalDateTime endTime;
     @ApiModelProperty(value = "执行时长，单位：毫秒", required = true)
     @NotNull(message = "执行时长不能为空")
     private Integer duration;

@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 支付退款分页 DTO
@@ -16,19 +16,19 @@ public class PayRefundPageDTO {
     /**
      * 创建时间（开始）
      */
-    private Date createBeginTime;
+    private LocalDateTime createBeginTime;
     /**
      * 创建时间（结束）
      */
-    private Date createEndTime;
+    private LocalDateTime createEndTime;
     /**
      * 完成时间（开始）
      */
-    private Date finishBeginTime;
+    private LocalDateTime finishBeginTime;
     /**
      * 完成时间（结束）
      */
-    private Date finishEndTime;
+    private LocalDateTime finishEndTime;
     /**
      * 退款状态
      */

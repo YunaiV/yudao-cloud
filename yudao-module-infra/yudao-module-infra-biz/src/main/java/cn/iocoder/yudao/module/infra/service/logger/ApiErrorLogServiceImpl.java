@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -59,7 +59,7 @@ public class ApiErrorLogServiceImpl implements ApiErrorLogService {
         }
         // 标记处理
         apiErrorLogMapper.updateById(ApiErrorLogDO.builder().id(id).processStatus(processStatus)
-                .processUserId(processUserId).processTime(new Date()).build());
+                .processUserId(processUserId).processTime(LocalDateTime.now()).build());
     }
 
 }

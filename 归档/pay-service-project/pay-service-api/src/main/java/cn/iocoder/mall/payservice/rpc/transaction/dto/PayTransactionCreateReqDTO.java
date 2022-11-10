@@ -8,7 +8,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 支付交易单创建 DTO
@@ -67,6 +67,6 @@ public class PayTransactionCreateReqDTO implements Serializable {
      * 交易过期时间
      */
     @NotNull(message = "交易过期时间不能为空")
-    private Date expireTime;
+    private LocalDateTime expireTime;
 
 }

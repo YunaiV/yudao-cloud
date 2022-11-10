@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import static cn.iocoder.yudao.framework.common.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
@@ -27,7 +27,7 @@ public class ApiAccessLogExportReqVO {
 
     @ApiModelProperty(value = "开始时间", example = "[2022-07-01 00:00:00, 2022-07-01 23:59:59]")
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
-    private Date[] beginTime;
+    private LocalDateTime[] beginTime;
 
     @ApiModelProperty(value = "执行时长", example = "100", notes = "大于等于，单位：毫秒")
     private Integer duration;

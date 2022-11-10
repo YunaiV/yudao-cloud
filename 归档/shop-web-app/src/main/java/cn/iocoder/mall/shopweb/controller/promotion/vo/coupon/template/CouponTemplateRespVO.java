@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @ApiModel("优惠劵（码）模板 VO")
@@ -49,9 +49,9 @@ public class CouponTemplateRespVO {
     @ApiModelProperty(value = "生效日期类型", example = "1", notes = "参见 CouponTemplateDateTypeEnum 枚举")
     private Integer dateType;
     @ApiModelProperty(value = "固定日期-生效开始时间", notes = "当 dateType 为固定日期时，非空")
-    private Date validStartTime;
+    private LocalDateTime validStartTime;
     @ApiModelProperty(value = "固定日期-生效结束时间", notes = "当 dateType 为固定日期时，非空")
-    private Date validEndTime;
+    private LocalDateTime validEndTime;
     @ApiModelProperty(value = "领取日期-开始天数", example = "0", notes = "例如，0-当天；1-次天")
     private Integer fixedStartTerm;
     @ApiModelProperty(value = "领取日期-结束天数", example = "1", notes = "当 dateType 为领取日期时，非空")
@@ -75,6 +75,6 @@ public class CouponTemplateRespVO {
     // ========== 统计信息 END ==========
 
     @ApiModelProperty(value = "创建时间", required = true)
-    private Date createTime;
+    private LocalDateTime createTime;
 
 }

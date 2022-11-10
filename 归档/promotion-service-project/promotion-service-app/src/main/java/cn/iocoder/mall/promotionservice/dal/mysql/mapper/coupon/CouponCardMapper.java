@@ -19,16 +19,6 @@ public interface CouponCardMapper extends BaseMapper<CouponCardDO> {
                 .eq("status", status));
     }
 
-    default int selectCountByUserIdAndTemplateId(Integer userId, Integer templateId) {
-        return selectCount(new QueryWrapper<CouponCardDO>().eq("user_id", userId)
-                .eq("template_id", templateId));
-    }
-
-    default int updateByIdAndStatus(Integer id, Integer status, CouponCardDO updateObj) {
-        return update(updateObj, new QueryWrapper<CouponCardDO>().eq("id", id)
-                .eq("status", status));
-    }
-
     default IPage<CouponCardDO> selectPage(CouponCardPageReqDTO pageReqDTO) {
         return selectPage(new Page<>(pageReqDTO.getPageNo(), pageReqDTO.getPageSize()),
                 new QueryWrapperX<CouponCardDO>().eqIfPresent("user_id", pageReqDTO.getUserId())

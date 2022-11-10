@@ -14,9 +14,9 @@ import java.util.Arrays;
 @Service
 public class TradeOrderClient {
 
-
     @Autowired
     private TradeOrderFeign tradeOrderFeign;
+
     public Integer createTradeOrder(TradeOrderCreateReqDTO createReqDTO) {
         CommonResult<Integer> createTradeOrderResult = tradeOrderFeign.createTradeOrder(createReqDTO);
         createTradeOrderResult.checkError();

@@ -23,8 +23,10 @@ import static cn.iocoder.common.framework.vo.CommonResult.success;
 @RestController
 @RequestMapping("/trade/order")
 public class TradeOrderController {
+
     @Autowired
     private TradeOrderService tradeOrderService;
+
     /**
      * 创建交易订单
      *
@@ -59,8 +61,6 @@ public class TradeOrderController {
         return success(tradeOrderService.pageTradeOrder(pageDTO));
     }
 
-    // TODO 芋艿：需要重构成入参是 DTO，方便后续升级；返回是 CommonResult，用于返回失败的原因
-
     /**
      * 更新交易订单支付成功
      *
@@ -75,4 +75,5 @@ public class TradeOrderController {
         tradeOrderService.updateTradeOrderPaySuccess(Integer.valueOf(tradeOrderId), payAmount);
         return success(true);
     }
+
 }

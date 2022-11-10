@@ -63,7 +63,7 @@
         <hutool.version>5.2.5</hutool.version>
         <guava.version>27.0.1-jre</guava.version>
         <org.projectlombok.version>1.16.14</org.projectlombok.version>
-        <org.mapstruct.version>1.3.0.Final</org.mapstruct.version>
+        <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
     </properties>
 
     <!-- 依赖管理 -->

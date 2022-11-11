@@ -10,7 +10,7 @@ import cn.iocoder.yudao.module.system.controller.admin.errorcode.vo.ErrorCodePag
 import cn.iocoder.yudao.module.system.controller.admin.errorcode.vo.ErrorCodeUpdateReqVO;
 
 import javax.validation.Valid;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -36,7 +36,7 @@ public interface ErrorCodeService {
      * @param minUpdateTime 最小更新时间
      * @return 错误码数组
      */
-    List<ErrorCodeRespDTO> getErrorCodeList(String applicationName, Date minUpdateTime);
+    List<ErrorCodeRespDTO> getErrorCodeList(String applicationName, LocalDateTime minUpdateTime);
 
     /**
      * 创建错误码

@@ -70,11 +70,6 @@ public class PromotionActivityService {
         return PromotionActivityConvert.INSTANCE.convertList(activityList);
     }
 
-    public PageResult<PromotionActivityRespDTO> pagePromotionActivity(PromotionActivityPageReqDTO pageReqDTO) {
-        IPage<PromotionActivityDO> promotionActivityPage = promotionActivityMapper.selectPage(pageReqDTO);
-        return PromotionActivityConvert.INSTANCE.convertPage(promotionActivityPage);
-    }
-
     private boolean isSpuMatchTimeLimitDiscount(Integer spuId, PromotionActivityDO activity) {
         Assert.isTrue(PromotionActivityTypeEnum.TIME_LIMITED_DISCOUNT.getValue().equals(activity.getActivityType()),
                 "传入的必须的促销活动必须是限时折扣");

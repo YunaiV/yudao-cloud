@@ -9,7 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
@@ -30,7 +30,7 @@ public class ErrorCodeApiImpl implements ErrorCodeApi {
     }
 
     @Override
-    public CommonResult<List<ErrorCodeRespDTO>> getErrorCodeList(String applicationName, Date minUpdateTime) {
+    public CommonResult<List<ErrorCodeRespDTO>> getErrorCodeList(String applicationName, LocalDateTime minUpdateTime) {
         return success(errorCodeService.getErrorCodeList(applicationName, minUpdateTime));
     }
 }

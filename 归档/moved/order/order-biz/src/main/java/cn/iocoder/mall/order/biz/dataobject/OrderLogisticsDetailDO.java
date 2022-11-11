@@ -1,7 +1,7 @@
 package cn.iocoder.mall.order.biz.dataobject;
 
 import cn.iocoder.mall.mybatis.core.dataobject.DeletableDO;
-import java.util.Date;
+import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -28,7 +28,7 @@ public class OrderLogisticsDetailDO extends DeletableDO {
     /**
      * 物流时间
      */
-    private Date logisticsTime;
+    private LocalDateTime logisticsTime;
     /**
      * 物流信息
      */

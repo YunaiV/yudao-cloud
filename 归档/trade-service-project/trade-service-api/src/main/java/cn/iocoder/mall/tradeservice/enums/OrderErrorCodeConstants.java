@@ -39,11 +39,6 @@ public interface OrderErrorCodeConstants {
     ErrorCode ORDER_RETURN_NOT_EXISTENT = new ErrorCode(1008000401, "退货订单不存在");
     ErrorCode ORDER_RETURN_REFUND_FAILED = new ErrorCode(1008000402, "退款失败");
 
-    // ========== 购物车 ==========
-    ErrorCode CARD_ITEM_NOT_FOUND = new ErrorCode(1008003000, "购物车项不存在");
-    ErrorCode CARD_ITEM_SKU_NOT_FOUND = new ErrorCode(1008003001, "商品不存在");
-    ErrorCode CARD_ITEM_SKU_QUANTITY_NOT_ENOUGH = new ErrorCode(1008003002, "商品库存不足");
-
     // 工具类服务  1008004000
     ErrorCode DICT_SERVER_INVOKING_FAIL = new ErrorCode(1008004000, "字典服务调用失败!");
     ErrorCode ORDER_LOGISTICS_INVOKING_FAIL = new ErrorCode(1008004001, "订单物流调用失败!");

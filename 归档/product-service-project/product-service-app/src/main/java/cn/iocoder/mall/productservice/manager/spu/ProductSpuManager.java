@@ -52,17 +52,6 @@ public class ProductSpuManager {
     private ProductMQProducer productMQProducer;
 
     /**
-    * 获得商品 SPU
-    *
-    * @param productSpuId 商品 SPU编号
-    * @return 商品 SPU
-    */
-    public ProductSpuRespDTO getProductSpu(Integer productSpuId) {
-        ProductSpuBO productSpuBO = productSpuService.getProductSpu(productSpuId);
-        return ProductSpuConvert.INSTANCE.convert(productSpuBO);
-    }
-
-    /**
     * 获得商品 SPU列表
     *
     * @param productSpuIds 商品 SPU编号列表
@@ -85,25 +74,6 @@ public class ProductSpuManager {
     }
 
     /**
-     * 添加或修改商品 SPU 时，校验商品分类是否合法
-     *
-     * @param cid 商品分类编号
-     * @return 商品分类
-     */
-    private ProductCategoryBO checkProductCategory(Integer cid) {
-        ProductCategoryBO categoryBO = productCategoryService.getProductCategory(cid);
-        if (categoryBO == null) {
-            // 不存在
-            throw ServiceExceptionUtil.exception(PRODUCT_CATEGORY_NOT_EXISTS);
-        }
-        if (ProductCategoryIdEnum.ROOT.getId().equals(categoryBO.getPid())) {
-            // 商品只能添加到二级分类下
-            throw ServiceExceptionUtil.exception(PRODUCT_SPU_CATEGORY_MUST_BE_LEVEL2);
-        }
-        return categoryBO;
-    }
-
-    /**
      * 顺序获得商品 SPU 编号数组
      *
      * @param lastSpuId 最后一个商品 SPU 编号
@@ -112,40 +82,6 @@ public class ProductSpuManager {
      */
     public List<Integer> listProductSpuIds(Integer lastSpuId, Integer limit) {
         return productSpuService.listProductSpuIds(lastSpuId, limit);
-    }
-
-    private List<ProductAttrKeyValueBO> checkProductAttr(List<ProductSkuCreateOrUpdateBO> skuBOs) {
-        // 第一步，校验 SKU 使用到的规格是否存在
-        Set<Integer> attrValueIds = new HashSet<>();
-        skuBOs.forEach(sku -> attrValueIds.addAll(sku.getAttrValueIds()));
-        List<ProductAttrKeyValueBO> attrKeyValueBOs = productAttrService.validProductAttr(attrValueIds, true);
-        // 第二步，校验 SKU 设置的规格是否合法，例如说数量是否一致，是否重复等等
-        // 创建 ProductAttrDetailBO 的映射。其中，KEY 为 ProductAttrDetailBO.attrValueId ，即规格值的编号
-        Map<Integer, ProductAttrKeyValueBO> productAttrDetailBOMap = attrKeyValueBOs.stream().collect(
-                Collectors.toMap(ProductAttrKeyValueBO::getAttrValueId, productAttrDetailBO -> productAttrDetailBO));
-        // 1. 先校验，一个 Sku 下，没有重复的规格。校验方式是，遍历每个 Sku ，看看是否有重复的规格 attrId
-        for (ProductSkuCreateOrUpdateBO sku : skuBOs) {
-            Set<Integer> attrIds = sku.getAttrValueIds().stream().map(attrValueId -> productAttrDetailBOMap.get(attrValueId).getAttrKeyId())
-                    .collect(Collectors.toSet());
-            if (attrIds.size() != sku.getAttrValueIds().size()) {
-                throw ServiceExceptionUtil.exception(PRODUCT_SKU_ATTR_CANT_NOT_DUPLICATE);
-            }
-        }
-        // 2. 再校验，每个 Sku 的规格值的数量，是一致的。
-        int attrValueIdsSize = skuBOs.get(0).getAttrValueIds().size();
-        for (int i = 1; i < skuBOs.size(); i++) {
-            if (attrValueIdsSize != skuBOs.get(i).getAttrValueIds().size()) {
-                throw ServiceExceptionUtil.exception(PRODUCT_SPU_ATTR_NUMBERS_MUST_BE_EQUALS);
-            }
-        }
-        // 3. 最后校验，每个 Sku 之间不是重复的
-        Set<Set<Integer>> skuAttrValues = new HashSet<>(); // 每个元素，都是一个 Sku 的 attrValueId 集合。这样，通过最外层的 Set ，判断是否有重复的.
-        for (ProductSkuCreateOrUpdateBO sku : skuBOs) {
-            if (!skuAttrValues.add(new HashSet<>(sku.getAttrValueIds()))) { // 添加失败，说明重复
-                throw ServiceExceptionUtil.exception(PRODUCT_SPU_SKU_NOT_DUPLICATE);
-            }
-        }
-        return attrKeyValueBOs;
     }
 
     public ProductSpuDetailRespDTO getProductSpuDetail(Integer productSpuId, Collection<String> fields) {

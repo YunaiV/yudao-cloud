@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
 * 支付交易表
@@ -62,11 +62,11 @@ public class PayTransactionDO extends DeletableDO {
     /**
      * 交易过期时间
      */
-    private Date expireTime;
+    private LocalDateTime expireTime;
     /**
      * 回调业务线完成时间
      */
-    private Date finishTime;
+    private LocalDateTime finishTime;
     /**
      * 异步通知地址
      */
@@ -83,11 +83,11 @@ public class PayTransactionDO extends DeletableDO {
     /**
      * 第三方支付成功的时间
      */
-    private Date paymentTime;
+    private LocalDateTime paymentTime;
     /**
      * 收到第三方系统通知的时间
      */
-    private Date notifyTime;
+    private LocalDateTime notifyTime;
     /**
      * 第三方的流水号
      */

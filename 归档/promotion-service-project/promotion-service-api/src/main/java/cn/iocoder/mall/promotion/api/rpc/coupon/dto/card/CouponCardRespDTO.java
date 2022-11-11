@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 优惠劵 Response DTO
@@ -63,11 +63,11 @@ public class CouponCardRespDTO implements Serializable {
     /**
      * 生效开始时间
      */
-    private Date validStartTime;
+    private LocalDateTime validStartTime;
     /**
      * 生效结束时间
      */
-    private Date validEndTime;
+    private LocalDateTime validEndTime;
     // ========== 使用规则 END ==========
 
     // ========== 使用效果 BEGIN ==========
@@ -98,13 +98,13 @@ public class CouponCardRespDTO implements Serializable {
     /**
      * 使用时间
      */
-    private Date usedTime;
+    private LocalDateTime usedTime;
 
     // ========== 使用情况 END ==========
 
     /**
      * 创建时间
      */
-    private Date createTime;
+    private LocalDateTime createTime;
 
 }

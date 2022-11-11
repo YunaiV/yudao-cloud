@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 订单 query
@@ -39,13 +39,13 @@ public class OrderQueryDTO implements Serializable {
     /**
      * 付款时间（待发货）
      */
-    private Date startPaymentTime;
-    private Date endPaymentTime;
+    private LocalDateTime startPaymentTime;
+    private LocalDateTime endPaymentTime;
     /**
      * 创建时间
      */
-    private Date startCreateTime;
-    private Date endCreateTime;
+    private LocalDateTime startCreateTime;
+    private LocalDateTime endCreateTime;
     /**
      * 删除状态
      */

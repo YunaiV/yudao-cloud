@@ -4,7 +4,7 @@ import cn.iocoder.common.framework.dataobject.DeletableDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 订单物流 - 详细信息
@@ -29,7 +29,7 @@ public class OrderLogisticsDetailDO extends DeletableDO {
     /**
      * 物流时间
      */
-    private Date logisticsTime;
+    private LocalDateTime logisticsTime;
     /**
      * 物流信息
      */

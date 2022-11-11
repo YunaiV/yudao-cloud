@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -32,9 +33,9 @@ public interface ErrorCodeApi {
     @ApiOperation(value = "增量获得错误码数组", notes = "如果 minUpdateTime 为空时，则获取所有错误码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "applicationName", value = "应用名", example = "system-server", required = true, dataTypeClass = String.class),
-            @ApiImplicitParam(name = "minUpdateTime", value = "最小更新时间", dataTypeClass = Date.class)
+            @ApiImplicitParam(name = "minUpdateTime", value = "最小更新时间", dataTypeClass = LocalDateTime.class)
     })
     CommonResult<List<ErrorCodeRespDTO>> getErrorCodeList(@RequestParam(value = "applicationName") String applicationName,
-                                                          @RequestParam(value = "minUpdateTime", required = false) Date minUpdateTime);
+                                                          @RequestParam(value = "minUpdateTime", required = false) LocalDateTime minUpdateTime);
 
 }

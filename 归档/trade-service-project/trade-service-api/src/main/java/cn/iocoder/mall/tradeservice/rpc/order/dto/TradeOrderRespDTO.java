@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -39,13 +39,13 @@ public class TradeOrderRespDTO implements Serializable {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private LocalDateTime createTime;
 
     // ========== 价格 + 支付基本信息 ==========
     /**
      * 订单结束时间
      */
-    private Date endTime;
+    private LocalDateTime endTime;
     /**
      * 订单金额(总金额)，单位：分
      */
@@ -73,7 +73,7 @@ public class TradeOrderRespDTO implements Serializable {
     /**
      * 付款时间
      */
-    private Date payTime;
+    private LocalDateTime payTime;
     /**
      * 支付订单编号
      */
@@ -91,11 +91,11 @@ public class TradeOrderRespDTO implements Serializable {
     /**
      * 发货时间
      */
-    private Date deliveryTime;
+    private LocalDateTime deliveryTime;
     /**
      * 收货时间
      */
-    private Date receiveTime;
+    private LocalDateTime receiveTime;
     /**
      * 收件人名称
      */

@@ -37,11 +37,6 @@ import java.util.stream.Collectors;
 @Validated
 public class CouponCardService {
 
-    @Autowired
-    private CouponCardMapper couponCardMapper;
-    @Autowired
-    private CouponTemplateMapper couponTemplateMapper;
-
     /**
      * 获得用户的优惠劵
      *
@@ -128,35 +123,6 @@ public class CouponCardService {
     }
 
     /**
-     * 用户使用优惠劵
-     *
-     * @param userId 用户编号
-     * @param couponCardId 优惠劵编号
-     */
-    public void useCouponCard(Integer userId, Integer couponCardId) {
-        // 查询优惠劵
-        CouponCardDO card = couponCardMapper.selectById(couponCardId);
-        if (card == null) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_NOT_EXISTS.getCode());
-        }
-        if (!userId.equals(card.getUserId())) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_ERROR_USER.getCode());
-        }
-        if (!CouponCardStatusEnum.UNUSED.getValue().equals(card.getStatus())) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
-        }
-        if (DateUtil.isBetween(card.getValidStartTime(), card.getValidEndTime())) { // 为避免定时器没跑，实际优惠劵已经过期
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
-        }
-        // 更新优惠劵已使用
-        int updateCount = couponCardMapper.updateByIdAndStatus(card.getId(), CouponCardStatusEnum.UNUSED.getValue(),
-                new CouponCardDO().setStatus(CouponCardStatusEnum.USED.getValue()).setUsedTime(new Date()));
-        if (updateCount == 0) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_STATUS_NOT_UNUSED.getCode());
-        }
-    }
-
-    /**
      * 用户取消使用优惠劵
      *
      * @param userId 用户编号
@@ -167,9 +133,6 @@ public class CouponCardService {
         CouponCardDO card = couponCardMapper.selectById(couponCardId);
         if (card == null) {
             throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_NOT_EXISTS.getCode());
-        }
-        if (!userId.equals(card.getUserId())) {
-            throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_ERROR_USER.getCode());
         }
         if (!CouponCardStatusEnum.USED.getValue().equals(card.getStatus())) {
             throw ServiceExceptionUtil.exception(PromotionErrorCodeConstants.COUPON_CARD_STATUS_NOT_USED.getCode());
@@ -183,74 +146,13 @@ public class CouponCardService {
         // 有一点要注意，更新会未使用时，优惠劵可能已经过期了，直接让定时器跑过期，这里不做处理。
     }
 
-    /**
-     * 获得用户优惠劵的可用信息列表
-     *
-     * @param listReqDTO 查询信息
-     * @return 优惠劵的可用信息列表
-     */
-    public List<CouponCardAvailableRespDTO> listAvailableCouponCards(CouponCardAvailableListReqDTO listReqDTO) {
-        // 查询用户未使用的优惠劵列表
-        List<CouponCardDO> cards = couponCardMapper.selectListByUserIdAndStatus(listReqDTO.getUserId(), CouponCardStatusEnum.UNUSED.getValue());
-        if (cards.isEmpty()) {
-            return Collections.emptyList();
-        }
-        // 查询优惠劵模板集合
-        Map<Integer, CouponTemplateDO> templates = CollectionUtils.convertMap(
-                couponTemplateMapper.selectBatchIds(CollectionUtils.convertSet(cards, CouponCardDO::getTemplateId)),
-                CouponTemplateDO::getId);
-        // 逐个判断是否可用
-        return cards.stream().map(card -> {
-            CouponCardAvailableRespDTO availableCard = CouponCardConvert.INSTANCE.convert01(card);
-            availableCard.setUnavailableReason(isMatch(card, templates.get(card.getTemplateId()), listReqDTO.getItems()));
-            availableCard.setAvailable(availableCard.getUnavailableReason() == null);
-            return availableCard;
-        }).collect(Collectors.toList());
-    }
-
-    /**
-     * 匹配商品是否可以使用指定优惠劵
-     *
-     * @param card 优惠劵
-     * @param template 优惠劵模板
-     * @param items 商品 SKU 数组
-     * @return 如果不匹配，返回原因
-     */
-    private String isMatch(CouponCardDO card, CouponTemplateDO template, List<CouponCardAvailableListReqDTO.Item> items) {
-        int totalPrice = 0;
-        if (RangeTypeEnum.ALL.getValue().equals(template.getRangeType())) {
-            totalPrice = items.stream().mapToInt(spu -> spu.getPrice() * spu.getQuantity()).sum();
-        } else if (RangeTypeEnum.PRODUCT_INCLUDE_PART.getValue().equals(template.getRangeType())) {
-            List<Integer> spuIds = StringUtils.splitToInt(template.getRangeValues(), ",");
-            totalPrice = items.stream().mapToInt(spu -> spuIds.contains(spu.getSpuId()) ? spu.getPrice() * spu.getQuantity() : 0).sum();
-        } else if (RangeTypeEnum.PRODUCT_EXCLUDE_PART.getValue().equals(template.getRangeType())) {
-            List<Integer> spuIds = StringUtils.splitToInt(template.getRangeValues(), ",");
-            totalPrice = items.stream().mapToInt(spu -> !spuIds.contains(spu.getSpuId()) ? spu.getPrice() * spu.getQuantity() : 0).sum();
-        } else if (RangeTypeEnum.CATEGORY_INCLUDE_PART.getValue().equals(template.getRangeType())) {
-            List<Integer> spuIds = StringUtils.splitToInt(template.getRangeValues(), ",");
-            totalPrice = items.stream().mapToInt(spu -> spuIds.contains(spu.getCid()) ? spu.getPrice() * spu.getQuantity() : 0).sum();
-        } else if (RangeTypeEnum.CATEGORY_EXCLUDE_PART.getValue().equals(template.getRangeType())) {
-            List<Integer> spuIds = StringUtils.splitToInt(template.getRangeValues(), ",");
-            totalPrice = items.stream().mapToInt(spu -> !spuIds.contains(spu.getCid()) ? spu.getPrice() * spu.getQuantity() : 0).sum();
-        }
-        // 总价为 0 时，说明优惠劵丫根不匹配
-        if (totalPrice == 0) {
-            return "优惠劵不匹配";
-        }
-        // 如果不满足金额
-        if (totalPrice < card.getPriceAvailable()) {
-            return String.format("差 %1$,.2f 元可用优惠劵", (card.getPriceAvailable() - totalPrice) / 100D);
-        }
-        return null;
-    }
-
     private void setCouponCardValidTime(CouponCardDO card, CouponTemplateDO template) {
         if (CouponTemplateDateTypeEnum.FIXED_DATE.getValue().equals(template.getDateType())) {
             card.setValidStartTime(template.getValidStartTime()).setValidEndTime(template.getValidEndTime());
         } else if (CouponTemplateDateTypeEnum.FIXED_TERM.getValue().equals(template.getDateType())) {
-            Date validStartTime = DateUtil.getDayBegin(new Date());
+            LocalDateTime validStartTime = DateUtil.getDayBegin(new Date());
             card.setValidStartTime(DateUtil.addDate(validStartTime, Calendar.DAY_OF_YEAR, template.getFixedStartTerm()));
-            Date validEndTime = DateUtil.getDayEnd(card.getValidStartTime());
+            LocalDateTime validEndTime = DateUtil.getDayEnd(card.getValidStartTime());
             card.setValidEndTime(DateUtil.addDate(validEndTime, Calendar.DAY_OF_YEAR, template.getFixedEndTerm() - 1));
         }
     }

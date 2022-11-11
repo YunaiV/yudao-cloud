@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -103,19 +103,19 @@ public class OrderReturnInfoBO implements Serializable {
         /**
          * 同意时间
          */
-        private Date approvalTime;
+        private LocalDateTime approvalTime;
         /**
          * 物流时间（填写物流单号时间）
          */
-        private Date logisticsTime;
+        private LocalDateTime logisticsTime;
         /**
          * 收货时间
          */
-        private Date receiverTime;
+        private LocalDateTime receiverTime;
         /**
          * 成交时间（确认时间）
          */
-        private Date closingTime;
+        private LocalDateTime closingTime;
         /**
          * 退款类型
          *

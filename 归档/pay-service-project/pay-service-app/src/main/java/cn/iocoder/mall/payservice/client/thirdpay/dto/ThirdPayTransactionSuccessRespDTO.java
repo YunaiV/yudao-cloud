@@ -3,7 +3,7 @@ package cn.iocoder.mall.payservice.client.thirdpay.dto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 三方平台的交易支付成功 Response DTO
@@ -25,6 +25,6 @@ public class ThirdPayTransactionSuccessRespDTO {
     /**
      * 第三方支付成功的时间
      */
-    private Date paymentTime;
+    private LocalDateTime paymentTime;
 
 }

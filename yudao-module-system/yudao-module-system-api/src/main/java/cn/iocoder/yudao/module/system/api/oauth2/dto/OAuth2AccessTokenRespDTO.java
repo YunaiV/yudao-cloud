@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @ApiModel("RPC 服务 - OAuth2 访问令牌的信息 Response DTO")
 @Data
@@ -26,6 +26,6 @@ public class OAuth2AccessTokenRespDTO implements Serializable {
     private Integer userType;
 
     @ApiModelProperty(value = "过期时间", required = true)
-    private Date expiresTime;
+    private LocalDateTime expiresTime;
 
 }

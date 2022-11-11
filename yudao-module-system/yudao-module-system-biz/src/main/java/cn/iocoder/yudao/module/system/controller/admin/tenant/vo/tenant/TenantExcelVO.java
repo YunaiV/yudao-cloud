@@ -1,12 +1,12 @@
 package cn.iocoder.yudao.module.system.controller.admin.tenant.vo.tenant;
 
-import cn.iocoder.yudao.module.system.enums.DictTypeConstants;
-import lombok.*;
-import java.util.*;
-
-import com.alibaba.excel.annotation.ExcelProperty;
 import cn.iocoder.yudao.framework.excel.core.annotations.DictFormat;
 import cn.iocoder.yudao.framework.excel.core.convert.DictConvert;
+import cn.iocoder.yudao.module.system.enums.DictTypeConstants;
+import com.alibaba.excel.annotation.ExcelProperty;
+import lombok.Data;
+
+import java.time.LocalDateTime;
 
 
 /**
@@ -34,6 +34,6 @@ public class TenantExcelVO {
     private Integer status;
 
     @ExcelProperty("创建时间")
-    private Date createTime;
+    private LocalDateTime createTime;
 
 }

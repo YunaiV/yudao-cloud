@@ -3,7 +3,7 @@ package cn.iocoder.mall.pay.api.bo.refund;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 支付退款 BO
@@ -65,7 +65,7 @@ public class PayRefundBO {
     /**
      * 回调业务线完成时间
      */
-    private Date finishTime;
+    private LocalDateTime finishTime;
     /**
      * 异步通知地址
      */
@@ -83,13 +83,13 @@ public class PayRefundBO {
     /**
      * 第三方退款成功的时间
      */
-    private Date refundTime;
+    private LocalDateTime refundTime;
     /**
      * 收到第三方系统通知的时间
      *
      * 一般情况下，即第三方系统的异步通知
      */
-    private Date notifyTime;
+    private LocalDateTime notifyTime;
     /**
      * 第三方的流水号
      */
@@ -97,6 +97,6 @@ public class PayRefundBO {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private LocalDateTime createTime;
 
 }

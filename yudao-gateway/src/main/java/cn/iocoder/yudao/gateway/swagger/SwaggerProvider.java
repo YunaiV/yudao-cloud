@@ -1,53 +1,102 @@
 package cn.iocoder.yudao.gateway.swagger;
 
-import java.util.ArrayList;
-import java.util.List;
-import lombok.AllArgsConstructor;
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.config.GatewayProperties;
-import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
+import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.support.NameUtils;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
-/**
- * @author zxliu
- * @create 2022-10-25 11:23
- */
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+/**
+ * Swagger 资源的 Provider 实现类
+ *
+ * @author zxliu
+ * @date 2022-10-25 11:23
+ */
 @Component
 @Primary
-@AllArgsConstructor
+@Slf4j
 public class SwaggerProvider implements SwaggerResourcesProvider {
 
-    private final RouteLocator routeLocator;
-    private final GatewayProperties gatewayProperties;
+    @Resource
+    private GatewayProperties gatewayProperties;
 
-
+    /**
+     * 获得 SwaggerResource 列表
+     *
+     * @return SwaggerResource 列表
+     */
     @Override
     public List<SwaggerResource> get() {
+        // 将 RouteDefinition 转换成 SwaggerResource
         List<SwaggerResource> resources = new ArrayList<>();
-        List<String> routes = new ArrayList<>();
-        routeLocator.getRoutes().subscribe(route -> routes.add(route.getId()));
-        gatewayProperties.getRoutes().stream().filter(routeDefinition -> routes.contains(routeDefinition.getId()))
-                .forEach(route -> route.getPredicates().stream()
-                        .filter(predicateDefinition -> ("Path").equalsIgnoreCase(predicateDefinition.getName()))
-                        .forEach(predicateDefinition -> resources.add(swaggerResource(route.getId(),
-                                predicateDefinition.getArgs().get(NameUtils.GENERATED_NAME_PREFIX + "0")
-                                        .replace("**", "v2/api-docs"))))
-                );
+        Set<String> serviceNames = new HashSet<>(); // 已处理的服务名，避免重复
+        gatewayProperties.getRoutes().forEach(route -> {
+            // 已存在的服务，直接忽略
+            String serviceName = route.getUri().getHost();
+            if (StrUtil.isEmpty(serviceName)) {
+                return;
+            }
+            if (!serviceNames.add(serviceName)) {
+                return;
+            }
 
+            // 获得 Path PredicateDefinition
+            String path = getRoutePath(route);
+            if (path == null) {
+                return;
+            }
+
+            // 重要：构建最终的 SwaggerResource 对象
+            resources.add(buildSwaggerResource(serviceName, path));
+        });
         return resources;
     }
 
-
-    private SwaggerResource swaggerResource(String name, String location) {
+    private SwaggerResource buildSwaggerResource(String name, String location) {
         SwaggerResource swaggerResource = new SwaggerResource();
         swaggerResource.setName(name);
         swaggerResource.setLocation(location);
         swaggerResource.setSwaggerVersion("2.0");
         return swaggerResource;
+    }
+
+    /**
+     * 获得路由的 Path
+     *
+     * ① 输入：
+     *  predicates:
+     *      - Path=/admin-api/system/**
+     * ② 输出：
+     *  /admin-api/system/v2/api-docs
+     *
+     * @param route 路由
+     * @return 路由
+     */
+    private String getRoutePath(RouteDefinition route) {
+        PredicateDefinition pathDefinition = CollUtil.findOne(route.getPredicates(),
+                predicateDefinition -> predicateDefinition.getName().equals("Path"));
+        if (pathDefinition == null) {
+            log.info("[get][Route({}) 没有 Path 条件，忽略接口文档]", route.getId());
+            return null;
+        }
+        String path = pathDefinition.getArgs().get(NameUtils.GENERATED_NAME_PREFIX + "0");
+        if (StrUtil.isEmpty(path)) {
+            log.info("[get][Route({}) Path 的值为空，忽略接口文档]", route.getId());
+            return null;
+        }
+        return path.replace("/**", "/v2/api-docs");
     }
 
 }

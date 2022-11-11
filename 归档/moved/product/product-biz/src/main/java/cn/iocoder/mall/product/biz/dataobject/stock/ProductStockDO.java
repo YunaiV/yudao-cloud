@@ -3,7 +3,7 @@ package cn.iocoder.mall.product.biz.dataobject.stock;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Product 库存
@@ -28,11 +28,11 @@ public class ProductStockDO {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private LocalDateTime createTime;
     /**
      * 最后更新时间
      */
-    private Date updateTime;
+    private LocalDateTime updateTime;
     /**
      * 状态
      *

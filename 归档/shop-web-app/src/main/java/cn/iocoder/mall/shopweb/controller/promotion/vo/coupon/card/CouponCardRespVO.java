@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @ApiModel("优惠劵 Response VO")
 @Data
@@ -28,9 +28,9 @@ public class CouponCardRespVO {
     @ApiModelProperty(value = "是否设置满多少金额可用，单位：分", required = true)
     private Integer priceAvailable;
     @ApiModelProperty(value = "固定日期-生效开始时间", required = true)
-    private Date validStartTime;
+    private LocalDateTime validStartTime;
     @ApiModelProperty(value = "固定日期-生效结束时间", required = true)
-    private Date validEndTime;
+    private LocalDateTime validEndTime;
     // ========== 使用规则 END ==========
 
     // ========== 使用效果 BEGIN ==========

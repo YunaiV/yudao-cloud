@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -69,7 +69,7 @@ public class OrderLogisticsInfoBO implements Serializable {
         /**
          * 物流时间
          */
-        private Date logisticsTime;
+        private LocalDateTime logisticsTime;
         /**
          * 物流时间 text
          */

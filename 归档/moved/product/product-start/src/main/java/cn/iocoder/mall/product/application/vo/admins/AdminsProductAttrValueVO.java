@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @ApiModel(value = "商品规格值 VO")
 @Data
@@ -21,6 +21,6 @@ public class AdminsProductAttrValueVO {
     @ApiModelProperty(value = "状态", required = true, example = "1")
     private Integer status;
     @ApiModelProperty(value = "创建时间", required = true, example = "时间戳")
-    private Date createTime;
+    private LocalDateTime createTime;
 
 }

@@ -17,8 +17,6 @@ public interface ProductSkuMapper extends BaseMapper<ProductSkuDO> {
                 .eq("status", status));
     }
 
-    void insertList(@Param("productSkuDOs") List<ProductSkuDO> productSkuDOs);
-
     default List<ProductSkuDO> selectList(ProductSkuListQueryBO queryBO) {
         return selectList(new QueryWrapperX<ProductSkuDO>().eqIfPresent("id", queryBO.getProductSkuId())
                 .inIfPresent("id", queryBO.getProductSkuIds())

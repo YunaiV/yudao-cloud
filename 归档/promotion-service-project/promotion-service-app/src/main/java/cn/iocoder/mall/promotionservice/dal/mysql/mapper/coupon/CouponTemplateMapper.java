@@ -12,14 +12,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CouponTemplateMapper extends BaseMapper<CouponTemplateDO> {
 
-    default IPage<CouponTemplateDO> selectPage(CouponTemplatePageReqDTO pageReqDTO) {
-        return selectPage(new Page<>(pageReqDTO.getPageNo(), pageReqDTO.getPageSize()),
-                new QueryWrapperX<CouponTemplateDO>().eqIfPresent("type", pageReqDTO.getType())
-                    .likeIfPresent("title", pageReqDTO.getTitle())
-                    .eqIfPresent("status", pageReqDTO.getStatus())
-                    .eqIfPresent("preferential_type", pageReqDTO.getPreferentialType()));
-    }
-
     /**
      * 更新优惠劵模板已领取的数量
      *

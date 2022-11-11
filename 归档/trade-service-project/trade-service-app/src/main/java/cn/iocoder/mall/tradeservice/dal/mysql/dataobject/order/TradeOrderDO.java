@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 交易订单
@@ -54,7 +54,7 @@ public class TradeOrderDO extends DeletableDO {
      *
      * 即交易订单状态变成 {@link TradeOrderStatusEnum#COMPLETED} 和 {@link TradeOrderStatusEnum#CLOSED} 的时间
      */
-    private Date endTime;
+    private LocalDateTime endTime;
 
     // ========== 价格 + 支付基本信息 ==========
     /**
@@ -91,7 +91,7 @@ public class TradeOrderDO extends DeletableDO {
     /**
      * 付款时间
      */
-    private Date payTime;
+    private LocalDateTime payTime;
     /**
      * 支付订单编号
      *
@@ -113,11 +113,11 @@ public class TradeOrderDO extends DeletableDO {
     /**
      * 发货时间
      */
-    private Date deliveryTime;
+    private LocalDateTime deliveryTime;
     /**
      * 收货时间
      */
-    private Date receiveTime;
+    private LocalDateTime receiveTime;
     /**
      * 收件人名称
      */

@@ -41,6 +41,8 @@ public class BpmTaskAssignLeaderX2ScriptTest extends BaseMockitoUnitTest {
         // mock 方法(startUser)
         AdminUserRespDTO startUser = randomPojo(AdminUserRespDTO.class, o -> o.setDeptId(10L));
         when(adminUserApi.getUser(eq(1L))).thenReturn(success(startUser));
+        // mock 方法(getStartUserDept)没有部门
+        when(deptApi.getDept(eq(10L))).thenReturn(success(null));
 
         // 调用
         Set<Long> result = script.calculateTaskCandidateUsers(execution);
@@ -57,7 +59,9 @@ public class BpmTaskAssignLeaderX2ScriptTest extends BaseMockitoUnitTest {
         when(adminUserApi.getUser(eq(1L))).thenReturn(success(startUser));
         DeptRespDTO startUserDept = randomPojo(DeptRespDTO.class, o -> o.setId(10L).setParentId(100L)
                 .setLeaderUserId(20L));
+        // mock 方法（getDept）
         when(deptApi.getDept(eq(10L))).thenReturn(success(startUserDept));
+        when(deptApi.getDept(eq(100L))).thenReturn(success(null));
 
         // 调用
         Set<Long> result = script.calculateTaskCandidateUsers(execution);

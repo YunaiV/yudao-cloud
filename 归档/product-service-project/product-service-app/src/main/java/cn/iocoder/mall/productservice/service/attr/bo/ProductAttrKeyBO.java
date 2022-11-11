@@ -3,7 +3,7 @@ package cn.iocoder.mall.productservice.service.attr.bo;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 商品规格键 BO
@@ -27,6 +27,6 @@ public class ProductAttrKeyBO {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private LocalDateTime createTime;
 
 }

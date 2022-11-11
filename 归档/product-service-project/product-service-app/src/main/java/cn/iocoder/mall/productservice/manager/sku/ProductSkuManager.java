@@ -33,17 +33,6 @@ public class ProductSkuManager {
     private ProductAttrService productAttrService;
 
     /**
-     * 获得商品 SKU
-     *
-     * @param productSkuId 商品 SKU编号
-     * @return 商品 SKU
-     */
-    public ProductSkuRespDTO getProductSku(Integer productSkuId) {
-        ProductSkuBO productSkuBO = productSkuService.getProductSku(productSkuId);
-        return ProductSkuConvert.INSTANCE.convert(productSkuBO);
-    }
-
-    /**
      * 获得商品 SKU 列表
      *
      * @param queryReqDTO 商品 SKU 列表的查询请求 DTO

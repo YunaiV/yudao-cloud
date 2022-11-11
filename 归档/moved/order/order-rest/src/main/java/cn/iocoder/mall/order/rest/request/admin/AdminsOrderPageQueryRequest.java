@@ -3,7 +3,7 @@ package cn.iocoder.mall.order.rest.request.admin;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -39,26 +39,26 @@ public class AdminsOrderPageQueryRequest implements Serializable {
      */
     @ApiModelProperty("start付款时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date startPaymentTime;
+    private LocalDateTime startPaymentTime;
     @ApiModelProperty("end付款时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date endPaymentTime;
+    private LocalDateTime endPaymentTime;
     /**
      * 创建时间
      */
     @ApiModelProperty("start订单创建时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date startCreateTime;
+    private LocalDateTime startCreateTime;
     @ApiModelProperty("end订单创建时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date endCreateTime;
+    private LocalDateTime endCreateTime;
     /**
      * 结束时间
      */
     @ApiModelProperty("start成交时间")
-    private Date startClosingTime;
+    private LocalDateTime startClosingTime;
     @ApiModelProperty("end成交时间")
-    private Date endClosingTime;
+    private LocalDateTime endClosingTime;
     /**
      * 删除状态
      */

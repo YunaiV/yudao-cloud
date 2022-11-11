@@ -22,15 +22,6 @@ public class ProductSkuService {
     @Autowired
     private ProductSkuMapper productSkuMapper;
 
-    public void createProductSkus(Integer spuId, List<ProductSkuCreateOrUpdateBO> createSkuBOs) {
-        List<ProductSkuDO> skus = ProductSkuConvert.INSTANCE.convertList(createSkuBOs);
-        skus.forEach(sku -> {
-            sku.setStatus(CommonStatusEnum.ENABLE.getValue());
-            sku.setSpuId(spuId);
-        });
-        productSkuMapper.insertList(skus);
-    }
-
     /**
      * 获得 sku 数组中，指定规格的 sku
      *
@@ -52,17 +43,6 @@ public class ProductSkuService {
             }
         }
         return null;
-    }
-
-    /**
-     * 获得商品 SKU
-     *
-     * @param productSkuId 商品 SKU 编号
-     * @return 商品 SKU
-     */
-    public ProductSkuBO getProductSku(Integer productSkuId) {
-        ProductSkuDO productSkuDO = productSkuMapper.selectById(productSkuId);
-        return ProductSkuConvert.INSTANCE.convert(productSkuDO);
     }
 
     /**

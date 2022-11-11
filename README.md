@@ -3,7 +3,7 @@
 * [x] `gateway` 网关服务 
 * [x] `system` 系统服务
 * [x] `infra` 基础设施
-* [ ] `bpm` 工作流服务
+* [x] `bpm` 工作流服务
 * [ ] `pay` 支付服务
 * [ ] `member` 会员服务
 * [ ] `product` 商品服务

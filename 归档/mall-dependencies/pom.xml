@@ -42,7 +42,7 @@
         <spring-boot-starter-data-jest.version>3.2.5.RELEASE</spring-boot-starter-data-jest.version>
         <redisson.version>3.13.6</redisson.version>
         <!-- RPC 相关 -->
-        <dubbo.version>2.7.7</dubbo.version>
+        <dubbo.version>2.7.18</dubbo.version>
         <!-- MQ 相关 -->
         <rocketmq-spring-boot-starter.version>2.1.1</rocketmq-spring-boot-starter.version>
         <!-- Job 相关 -->

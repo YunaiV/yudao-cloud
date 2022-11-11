@@ -14,6 +14,7 @@ import cn.iocoder.yudao.framework.tenant.core.service.TenantFrameworkService;
 import cn.iocoder.yudao.framework.web.config.WebProperties;
 import cn.iocoder.yudao.framework.web.core.filter.ApiRequestFilter;
 import cn.iocoder.yudao.framework.web.core.handler.GlobalExceptionHandler;
+import cn.iocoder.yudao.framework.web.core.util.WebFrameworkUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
 
@@ -65,6 +66,7 @@ public class TenantSecurityWebFilter extends ApiRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         Long tenantId = TenantContextHolder.getTenantId();
+        boolean isRpcRequest = !WebFrameworkUtils.isRpcRequest(request);
         // 1. 登陆的用户，校验是否有权限访问该租户，避免越权问题。
         LoginUser user = SecurityFrameworkUtils.getLoginUser();
         if (user != null) {
@@ -73,7 +75,8 @@ public class TenantSecurityWebFilter extends ApiRequestFilter {
                 tenantId = user.getTenantId();
                 TenantContextHolder.setTenantId(tenantId);
             // 如果传递了租户编号，则进行比对租户编号，避免越权问题
-            } else if (!Objects.equals(user.getTenantId(), TenantContextHolder.getTenantId())) {
+            } else if (!Objects.equals(user.getTenantId(), TenantContextHolder.getTenantId())
+                && !isRpcRequest) { // Cloud 特殊逻辑：如果是 RPC 请求，就不校验了。主要考虑，一些场景下，会调用 TenantUtils 去切换租户
                 log.error("[doFilterInternal][租户({}) User({}/{}) 越权访问租户({}) URL({}/{})]",
                         user.getTenantId(), user.getId(), user.getUserType(),
                         TenantContextHolder.getTenantId(), request.getRequestURI(), request.getMethod());

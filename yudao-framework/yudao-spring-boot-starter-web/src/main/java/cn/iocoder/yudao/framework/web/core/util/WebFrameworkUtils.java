@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.framework.web.core.util;
 
 import cn.hutool.core.util.StrUtil;
+import cn.iocoder.yudao.framework.common.enums.RpcConstants;
 import cn.iocoder.yudao.framework.common.enums.UserTypeEnum;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.web.config.WebProperties;
@@ -122,6 +123,16 @@ public class WebFrameworkUtils {
         }
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
         return servletRequestAttributes.getRequest();
+    }
+
+    /**
+     * 判断是否为 RPC 请求
+     *
+     * @param request 请求
+     * @return 是否为 RPC 请求
+     */
+    public static boolean isRpcRequest(HttpServletRequest request) {
+        return request.getRequestURI().startsWith(RpcConstants.RPC_API_PREFIX);
     }
 
 }

@@ -127,7 +127,6 @@ public class YudaoWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdap
                 .antMatchers(HttpMethod.DELETE, permitAllUrls.get(HttpMethod.DELETE).toArray(new String[0])).permitAll()
                 // 基于 yudao.security.permit-all-urls 无需认证
                 .antMatchers(securityProperties.getPermitAllUrls().toArray(new String[0])).permitAll()
-                .antMatchers("/captcha/get", "/captcha/check").permitAll()
                 // 设置 App API 无需认证
                 .antMatchers(buildAppApi("/**")).permitAll()
                 // ②：每个项目的自定义规则

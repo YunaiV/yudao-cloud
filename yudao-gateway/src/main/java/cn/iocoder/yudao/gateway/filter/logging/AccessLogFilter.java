@@ -2,11 +2,13 @@ package cn.iocoder.yudao.gateway.filter.logging;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.json.JSONUtil;
 import cn.iocoder.yudao.framework.common.util.date.DateUtils;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.gateway.util.SecurityFrameworkUtils;
 import cn.iocoder.yudao.gateway.util.WebFrameworkUtils;
+import com.alibaba.nacos.common.utils.MapUtils;
 import com.alibaba.nacos.common.utils.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
@@ -75,7 +77,7 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
         // TODO 芋艿：暂未实现
 
         // 方式三：打印到控制台，方便排查错误
-        Map<String, Object> values = new LinkedHashMap<>(); // 手工拼接，保证排序
+        Map<String, Object> values = MapUtil.newHashMap(15, true); // 手工拼接，保证排序；15 保证不用扩容
         values.put("userId", gatewayLog.getUserId());
         values.put("userType", gatewayLog.getUserType());
         values.put("routeId", gatewayLog.getRoute() != null ? gatewayLog.getRoute().getId() : null);

@@ -1,12 +1,9 @@
-package pay.core.client.impl.alipay;
+package cn.iocoder.yudao.framework.pay.core.client.impl.alipay;
 
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.framework.pay.core.client.PayCommonResult;
 import cn.iocoder.yudao.framework.pay.core.client.dto.PayOrderUnifiedReqDTO;
-import cn.iocoder.yudao.framework.pay.core.client.impl.alipay.AbstractAlipayClient;
-import cn.iocoder.yudao.framework.pay.core.client.impl.alipay.AlipayPayClientConfig;
-import cn.iocoder.yudao.framework.pay.core.client.impl.alipay.AlipayPayCodeMapping;
 import cn.iocoder.yudao.framework.pay.core.enums.PayChannelEnum;
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @MapperScan("cn.iocoder.mall.payservice.dal.mysql.mapper") // 扫描对应的 Mapper 接口
 @EnableTransactionManagement(proxyTargetClass = true) // 启动事务管理。
 public class DatabaseConfiguration {

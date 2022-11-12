@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author 芋道源码
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(EnvProperties.class)
 public class YudaoEnvRpcAutoConfiguration {
 

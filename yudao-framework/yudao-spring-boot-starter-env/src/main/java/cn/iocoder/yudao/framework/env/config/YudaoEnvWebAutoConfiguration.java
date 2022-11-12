@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author 芋道源码
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @EnableConfigurationProperties(EnvProperties.class)
 public class YudaoEnvWebAutoConfiguration {

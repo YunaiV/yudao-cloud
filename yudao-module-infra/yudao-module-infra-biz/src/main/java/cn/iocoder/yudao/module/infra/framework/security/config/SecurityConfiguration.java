@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 /**
  * Infra 模块的 Security 配置
  */
-@Configuration("infraSecurityConfiguration")
+@Configuration(proxyBeanMethods = false, value = "infraSecurityConfiguration")
 public class SecurityConfiguration {
 
     @Value("${spring.boot.admin.context-path:''}")

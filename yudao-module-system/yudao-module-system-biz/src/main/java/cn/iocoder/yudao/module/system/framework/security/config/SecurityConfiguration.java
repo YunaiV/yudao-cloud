@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 /**
  * System 模块的 Security 配置
  */
-@Configuration("systemSecurityConfiguration")
+@Configuration(proxyBeanMethods = false, value = "systemSecurityConfiguration")
 public class SecurityConfiguration {
 
     @Bean("systemAuthorizeRequestsCustomizer")

@@ -16,7 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  *
  * @author 芋道源码
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(XxlJobSpringExecutor.class)
 @ConditionalOnProperty(prefix = "xxl.job", name = "enabled", havingValue = "true", matchIfMissing = true)
 @EnableConfigurationProperties({XxlJobProperties.class})

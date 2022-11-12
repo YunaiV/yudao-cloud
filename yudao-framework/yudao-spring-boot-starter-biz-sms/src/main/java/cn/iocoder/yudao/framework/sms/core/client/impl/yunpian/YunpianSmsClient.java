@@ -2,6 +2,7 @@ package cn.iocoder.yudao.framework.sms.core.client.impl.yunpian;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.iocoder.yudao.framework.common.core.KeyValue;
@@ -105,6 +106,9 @@ public class YunpianSmsClient extends AbstractSmsClient {
     @Override
     protected SmsCommonResult<SmsTemplateRespDTO> doGetSmsTemplate(String apiTemplateId) throws Throwable {
         return invoke(() -> {
+            if (!NumberUtil.isNumber(apiTemplateId)) {
+                throw new IllegalArgumentException("云片的 API 模板编号必须为整数");
+            }
             Map<String, String> request = new HashMap<>();
             request.put(YunpianConstant.APIKEY, properties.getApiKey());
             request.put(YunpianConstant.TPL_ID, apiTemplateId);
@@ -112,7 +116,7 @@ public class YunpianSmsClient extends AbstractSmsClient {
         }, response -> {
             Template template = response.get(0);
             return new SmsTemplateRespDTO().setId(String.valueOf(template.getTpl_id())).setContent(template.getTpl_content())
-                   .setAuditStatus(convertSmsTemplateAuditStatus(template.getCheck_status())).setAuditReason(template.getReason());
+                    .setAuditStatus(convertSmsTemplateAuditStatus(template.getCheck_status())).setAuditReason(template.getReason());
         });
     }
 

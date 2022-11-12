@@ -21,8 +21,3 @@ spring:
         group: DEFAULT_GROUP # 使用的 Nacos 配置分组，默认为 DEFAULT_GROUP
         name: # 使用的 Nacos 配置集的 dataId，默认为 spring.application.name
         file-extension: yaml # 使用的 Nacos 配置集的 dataId 的文件拓展名，同时也是 Nacos 配置集的配置格式，默认为 properties
-
-# jasypt 禁止 Spring Cloud 的 bootstrap 阶段的启动，解决 https://github.com/ulisesbocchio/jasypt-spring-boot/issues/256 问题
-jasypt:
-  encryptor:
-    bootstrap: false

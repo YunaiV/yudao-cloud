@@ -50,11 +50,7 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-        <!-- 短信平台 阿里云、云片 -->
-        <dependency>
-            <groupId>com.yunpian.sdk</groupId>
-            <artifactId>yunpian-java-sdk</artifactId>
-        </dependency>
+        <!-- 短信平台 阿里云 -->
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-core</artifactId>

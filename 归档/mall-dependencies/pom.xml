@@ -51,7 +51,6 @@
         <seata.version>1.1.0</seata.version>
         <!-- 云服务相关 -->
         <qiniu.version>7.2.18</qiniu.version>
-        <yunpian-java-sdk.version>1.2.7</yunpian-java-sdk.version>
         <aliyun-java-sdk-core.version>4.1.0</aliyun-java-sdk-core.version>
         <!-- 监控相关 -->
         <skywalking.version>8.0.1</skywalking.version>
@@ -317,13 +316,8 @@
             </dependency>
 
             <dependency>
-                <groupId>com.yunpian.sdk</groupId>
-                <artifactId>yunpian-java-sdk</artifactId> <!-- 云片短信 -->
-                <version>${yunpian-java-sdk.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.aliyun</groupId>
-                <artifactId>aliyun-java-sdk-core</artifactId> <!-- 七牛短信 -->
+                <artifactId>aliyun-java-sdk-core</artifactId> <!-- 阿里云文件服务 -->
                 <version>${aliyun-java-sdk-core.version}</version>
             </dependency>
 

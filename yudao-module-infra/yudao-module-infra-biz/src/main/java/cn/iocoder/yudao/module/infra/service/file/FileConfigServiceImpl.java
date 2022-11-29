@@ -31,8 +31,8 @@ import org.springframework.validation.annotation.Validated;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.validation.Validator;
-import java.util.Collection;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -193,7 +193,7 @@ public class FileConfigServiceImpl implements FileConfigService {
         // 校验存在
         FileConfigDO config = this.validateFileConfigExists(id);
         if (Boolean.TRUE.equals(config.getMaster())) {
-             throw exception(FILE_CONFIG_DELETE_FAIL_MASTER);
+            throw exception(FILE_CONFIG_DELETE_FAIL_MASTER);
         }
         // 删除
         fileConfigMapper.deleteById(id);
@@ -230,7 +230,7 @@ public class FileConfigServiceImpl implements FileConfigService {
         this.validateFileConfigExists(id);
         // 上传文件
         byte[] content = ResourceUtil.readBytes("file/erweima.jpg");
-        return fileClientFactory.getFileClient(id).upload(content, IdUtil.fastSimpleUUID() + ".jpg");
+        return fileClientFactory.getFileClient(id).upload(content, IdUtil.fastSimpleUUID() + ".jpg", "image/jpeg");
     }
 
     @Override

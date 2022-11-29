@@ -64,7 +64,7 @@ public interface BpmTaskConvert {
     }
 
     default List<BpmTaskTodoPageItemRespVO> convertList1(List<Task> tasks,
-        Map<String, ProcessInstance> processInstanceMap, Map<Long, AdminUserRespDTO> userMap) {
+                                                         Map<String, ProcessInstance> processInstanceMap, Map<Long, AdminUserRespDTO> userMap) {
         return CollectionUtils.convertList(tasks, task -> {
             BpmTaskTodoPageItemRespVO respVO = convert1(task);
             ProcessInstance processInstance = processInstanceMap.get(task.getProcessInstanceId());
@@ -77,6 +77,8 @@ public interface BpmTaskConvert {
     }
 
     @Mapping(source = "suspended", target = "suspensionState", qualifiedByName = "convertSuspendedToSuspensionState")
+    @Mapping(target = "claimTime", expression = "java(bean.getClaimTime()==null?null: LocalDateTime.ofInstant(bean.getClaimTime().toInstant(),ZoneId.systemDefault()))")
+    @Mapping(target = "createTime", expression = "java(bean.getCreateTime()==null?null:LocalDateTime.ofInstant(bean.getCreateTime().toInstant(),ZoneId.systemDefault()))")
     BpmTaskTodoPageItemRespVO convert1(Task bean);
 
     @Named("convertSuspendedToSuspensionState")
@@ -85,8 +87,8 @@ public interface BpmTaskConvert {
     }
 
     default List<BpmTaskDonePageItemRespVO> convertList2(List<HistoricTaskInstance> tasks,
-        Map<String, BpmTaskExtDO> bpmTaskExtDOMap, Map<String, HistoricProcessInstance> historicProcessInstanceMap,
-        Map<Long, AdminUserRespDTO> userMap) {
+                                                         Map<String, BpmTaskExtDO> bpmTaskExtDOMap, Map<String, HistoricProcessInstance> historicProcessInstanceMap,
+                                                         Map<Long, AdminUserRespDTO> userMap) {
         return CollectionUtils.convertList(tasks, task -> {
             BpmTaskDonePageItemRespVO respVO = convert2(task);
             BpmTaskExtDO taskExtDO = bpmTaskExtDOMap.get(task.getId());
@@ -103,15 +105,15 @@ public interface BpmTaskConvert {
     BpmTaskDonePageItemRespVO convert2(HistoricTaskInstance bean);
 
     @Mappings({@Mapping(source = "processInstance.id", target = "id"),
-        @Mapping(source = "processInstance.name", target = "name"),
-        @Mapping(source = "processInstance.startUserId", target = "startUserId"),
-        @Mapping(source = "processInstance.processDefinitionId", target = "processDefinitionId"),
-        @Mapping(source = "startUser.nickname", target = "startUserNickname")})
+            @Mapping(source = "processInstance.name", target = "name"),
+            @Mapping(source = "processInstance.startUserId", target = "startUserId"),
+            @Mapping(source = "processInstance.processDefinitionId", target = "processDefinitionId"),
+            @Mapping(source = "startUser.nickname", target = "startUserNickname")})
     BpmTaskTodoPageItemRespVO.ProcessInstance convert(ProcessInstance processInstance, AdminUserRespDTO startUser);
 
     default List<BpmTaskRespVO> convertList3(List<HistoricTaskInstance> tasks,
-        Map<String, BpmTaskExtDO> bpmTaskExtDOMap, HistoricProcessInstance processInstance,
-        Map<Long, AdminUserRespDTO> userMap, Map<Long, DeptRespDTO> deptMap) {
+                                             Map<String, BpmTaskExtDO> bpmTaskExtDOMap, HistoricProcessInstance processInstance,
+                                             Map<Long, AdminUserRespDTO> userMap, Map<Long, DeptRespDTO> deptMap) {
         return CollectionUtils.convertList(tasks, task -> {
             BpmTaskRespVO respVO = convert3(task);
             BpmTaskExtDO taskExtDO = bpmTaskExtDOMap.get(task.getId());
@@ -141,28 +143,28 @@ public interface BpmTaskConvert {
     void copyTo(BpmTaskExtDO from, @MappingTarget BpmTaskDonePageItemRespVO to);
 
     @Mappings({@Mapping(source = "processInstance.id", target = "id"),
-        @Mapping(source = "processInstance.name", target = "name"),
-        @Mapping(source = "processInstance.startUserId", target = "startUserId"),
-        @Mapping(source = "processInstance.processDefinitionId", target = "processDefinitionId"),
-        @Mapping(source = "startUser.nickname", target = "startUserNickname")})
+            @Mapping(source = "processInstance.name", target = "name"),
+            @Mapping(source = "processInstance.startUserId", target = "startUserId"),
+            @Mapping(source = "processInstance.processDefinitionId", target = "processDefinitionId"),
+            @Mapping(source = "startUser.nickname", target = "startUserNickname")})
     BpmTaskTodoPageItemRespVO.ProcessInstance convert(HistoricProcessInstance processInstance,
-        AdminUserRespDTO startUser);
+                                                      AdminUserRespDTO startUser);
 
     default BpmTaskExtDO convert2TaskExt(Task task) {
         BpmTaskExtDO taskExtDO = new BpmTaskExtDO().setTaskId(task.getId())
-            .setAssigneeUserId(NumberUtils.parseLong(task.getAssignee())).setName(task.getName())
-            .setProcessDefinitionId(task.getProcessDefinitionId()).setProcessInstanceId(task.getProcessInstanceId());
+                .setAssigneeUserId(NumberUtils.parseLong(task.getAssignee())).setName(task.getName())
+                .setProcessDefinitionId(task.getProcessDefinitionId()).setProcessInstanceId(task.getProcessInstanceId());
         taskExtDO.setCreateTime(LocalDateTimeUtil.of(task.getCreateTime()));
         return taskExtDO;
     }
 
     default BpmMessageSendWhenTaskCreatedReqDTO convert(ProcessInstance processInstance, AdminUserRespDTO startUser,
-        Task task) {
+                                                        Task task) {
         BpmMessageSendWhenTaskCreatedReqDTO reqDTO = new BpmMessageSendWhenTaskCreatedReqDTO();
         reqDTO.setProcessInstanceId(processInstance.getProcessInstanceId())
-            .setProcessInstanceName(processInstance.getName()).setStartUserId(startUser.getId())
-            .setStartUserNickname(startUser.getNickname()).setTaskId(task.getId()).setTaskName(task.getName())
-            .setAssigneeUserId(NumberUtils.parseLong(task.getAssignee()));
+                .setProcessInstanceName(processInstance.getName()).setStartUserId(startUser.getId())
+                .setStartUserNickname(startUser.getNickname()).setTaskId(task.getId()).setTaskName(task.getName())
+                .setAssigneeUserId(NumberUtils.parseLong(task.getAssignee()));
         return reqDTO;
     }
 

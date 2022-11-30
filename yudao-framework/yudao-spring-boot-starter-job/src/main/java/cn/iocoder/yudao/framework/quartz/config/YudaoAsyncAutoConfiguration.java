@@ -3,6 +3,7 @@ package cn.iocoder.yudao.framework.quartz.config;
 import com.alibaba.ttl.TtlRunnable;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -11,7 +12,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 /**
  * 异步任务 Configuration
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 @EnableAsync
 public class YudaoAsyncAutoConfiguration {
 

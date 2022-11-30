@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.framework.mq.config;
 
 import com.alibaba.cloud.stream.binder.rocketmq.convert.RocketMQMessageConverter;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +16,7 @@ import java.util.List;
  *
  * @author 芋道源码
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 public class YudaoMQAutoConfiguration {
 
     /**

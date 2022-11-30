@@ -16,9 +16,9 @@
     <properties>
         <revision>1.6.2-snapshot</revision>
         <!-- 统一依赖管理 -->
-        <spring.boot.version>2.6.13</spring.boot.version>
-        <spring.cloud.version>2021.0.1</spring.cloud.version>
-        <spring.cloud.alibaba.version>2021.0.1.0</spring.cloud.alibaba.version>
+        <spring.boot.version>2.7.6</spring.boot.version>
+        <spring.cloud.version>2021.0.5</spring.cloud.version>
+        <spring.cloud.alibaba.version>2021.0.4.0</spring.cloud.alibaba.version>
         <!-- Web 相关 -->
         <knife4j.version>3.0.3</knife4j.version>
         <swagger-annotations.version>1.6.7</swagger-annotations.version>
@@ -68,7 +68,7 @@
         <minio.version>8.2.2</minio.version>
         <aliyun-java-sdk-core.version>4.6.2</aliyun-java-sdk-core.version>
         <aliyun-java-sdk-dysmsapi.version>2.2.1</aliyun-java-sdk-dysmsapi.version>
-        <tencentcloud-sdk-java.version>3.1.561</tencentcloud-sdk-java.version>
+        <tencentcloud-sdk-java.version>3.1.635</tencentcloud-sdk-java.version>
         <justauth.version>1.4.0</justauth.version>
     </properties>
 
@@ -597,7 +597,7 @@
             </dependency>
             <dependency>
                 <groupId>com.tencentcloudapi</groupId>
-                <artifactId>tencentcloud-sdk-java</artifactId>
+                <artifactId>tencentcloud-sdk-java-sms</artifactId>
                 <version>${tencentcloud-sdk-java.version}</version>
             </dependency>
             <!-- SMS SDK end -->

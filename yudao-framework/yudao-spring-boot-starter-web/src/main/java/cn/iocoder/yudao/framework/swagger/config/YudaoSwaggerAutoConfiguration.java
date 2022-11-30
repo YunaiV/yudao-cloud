@@ -2,6 +2,7 @@ package cn.iocoder.yudao.framework.swagger.config;
 
 import cn.iocoder.yudao.framework.swagger.core.SpringFoxHandlerProviderBeanPostProcessor;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -29,7 +30,7 @@ import static springfox.documentation.builders.RequestHandlerSelectors.basePacka
  *
  * @author 芋道源码
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 @EnableSwagger2
 @EnableKnife4j
 @ConditionalOnClass({Docket.class, ApiInfoBuilder.class})

@@ -17,7 +17,7 @@ public class OAuth2ClientRefreshMessage extends RemoteApplicationEvent {
     }
 
     public OAuth2ClientRefreshMessage(Object source, String originService, String destinationService) {
-        super(source, originService, destinationService);
+        super(source, originService, DEFAULT_DESTINATION_FACTORY.getDestination(destinationService));
     }
 
 }

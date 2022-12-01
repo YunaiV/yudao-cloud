@@ -13,7 +13,7 @@ public class MenuRefreshMessage extends RemoteApplicationEvent {
     }
 
     public MenuRefreshMessage(Object source, String originService, String destinationService) {
-        super(source, originService, destinationService);
+        super(source, originService, DEFAULT_DESTINATION_FACTORY.getDestination(destinationService));
     }
 
 }

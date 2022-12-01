@@ -86,7 +86,7 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
      */
     private String getRoutePath(RouteDefinition route) {
         PredicateDefinition pathDefinition = CollUtil.findOne(route.getPredicates(),
-                predicateDefinition -> predicateDefinition.getName().equals("Path"));
+                predicateDefinition -> "Path".equals(predicateDefinition.getName()));
         if (pathDefinition == null) {
             log.info("[get][Route({}) 没有 Path 条件，忽略接口文档]", route.getId());
             return null;

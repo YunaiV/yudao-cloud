@@ -15,7 +15,7 @@ public class SensitiveWordRefreshMessage extends RemoteApplicationEvent {
     }
 
     public SensitiveWordRefreshMessage(Object source, String originService, String destinationService) {
-        super(source, originService, destinationService);
+        super(source, originService, DEFAULT_DESTINATION_FACTORY.getDestination(destinationService));
     }
 
 }

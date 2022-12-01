@@ -18,18 +18,18 @@ public class EnvContextHolder {
      *
      * 使用 {@link List} 的原因，可能存在多层设置或者清理
      */
-    private static final ThreadLocal<List<String>> tagContext = TransmittableThreadLocal.withInitial(ArrayList::new);
+    private static final ThreadLocal<List<String>> TAG_CONTEXT = TransmittableThreadLocal.withInitial(ArrayList::new);
 
     public static void setTag(String tag) {
-        tagContext.get().add(tag);
+        TAG_CONTEXT.get().add(tag);
     }
 
     public static String getTag() {
-        return CollUtil.getLast(tagContext.get());
+        return CollUtil.getLast(TAG_CONTEXT.get());
     }
 
     public static void removeTag() {
-        List<String> tags = tagContext.get();
+        List<String> tags = TAG_CONTEXT.get();
         if (CollUtil.isEmpty(tags)) {
             return;
         }

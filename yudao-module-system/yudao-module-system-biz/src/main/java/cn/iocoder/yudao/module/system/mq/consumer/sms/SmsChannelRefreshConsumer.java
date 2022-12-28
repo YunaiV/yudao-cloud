@@ -23,7 +23,7 @@ public class SmsChannelRefreshConsumer {
     @EventListener
     public void execute(SmsChannelRefreshMessage message) {
         log.info("[execute][收到 SmsChannel 刷新消息]");
-        smsChannelService.initSmsClients();
+        smsChannelService.initLocalCache();
     }
 
 }

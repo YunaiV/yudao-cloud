@@ -8,11 +8,9 @@ import cn.iocoder.yudao.module.system.controller.admin.dict.vo.data.DictDataPage
 import cn.iocoder.yudao.module.system.dal.dataobject.dict.DictDataDO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -40,14 +38,15 @@ public interface DictDataMapper extends BaseMapperX<DictDataDO> {
     default PageResult<DictDataDO> selectPage(DictDataPageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<DictDataDO>()
                 .likeIfPresent(DictDataDO::getLabel, reqVO.getLabel())
-                .likeIfPresent(DictDataDO::getDictType, reqVO.getDictType())
+                .eqIfPresent(DictDataDO::getDictType, reqVO.getDictType())
                 .eqIfPresent(DictDataDO::getStatus, reqVO.getStatus())
                 .orderByDesc(Arrays.asList(DictDataDO::getDictType, DictDataDO::getSort)));
     }
 
     default List<DictDataDO> selectList(DictDataExportReqVO reqVO) {
-        return selectList(new LambdaQueryWrapperX<DictDataDO>().likeIfPresent(DictDataDO::getLabel, reqVO.getLabel())
-                .likeIfPresent(DictDataDO::getDictType, reqVO.getDictType())
+        return selectList(new LambdaQueryWrapperX<DictDataDO>()
+                .likeIfPresent(DictDataDO::getLabel, reqVO.getLabel())
+                .eqIfPresent(DictDataDO::getDictType, reqVO.getDictType())
                 .eqIfPresent(DictDataDO::getStatus, reqVO.getStatus()));
     }
 

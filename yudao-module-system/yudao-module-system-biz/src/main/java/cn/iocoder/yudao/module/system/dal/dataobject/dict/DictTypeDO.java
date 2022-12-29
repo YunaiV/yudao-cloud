@@ -3,10 +3,11 @@ package cn.iocoder.yudao.module.system.dal.dataobject.dict;
 import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
 import com.baomidou.mybatisplus.annotation.KeySequence;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 /**
  * 字典类型表
@@ -46,5 +47,10 @@ public class DictTypeDO extends BaseDO {
      * 备注
      */
     private String remark;
+
+    /**
+     * 删除时间
+     */
+    private LocalDateTime deletedTime;
 
 }

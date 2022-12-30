@@ -33,6 +33,7 @@ mybatis-plus:
     map-underscore-to-camel-case: true # 虽然默认为 true ，但是还是显示去指定下。
   global-config:
     db-config:
+      # 重要说明：如果将配置放到 Nacos 时，请注意将 id-type 设置为对应 DB 的类型，否则会报错；详细见 https://gitee.com/zhijiantianya/yudao-cloud/issues/I5W2N0 讨论
       id-type: NONE # “智能”模式，基于 IdTypeEnvironmentPostProcessor + 数据源的类型，自动适配成 AUTO、INPUT 模式。
 #      id-type: AUTO # 自增 ID，适合 MySQL 等直接自增的数据库
 #      id-type: INPUT # 用户输入 ID，适合 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库

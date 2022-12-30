@@ -111,7 +111,7 @@ yudao:
     version: ${yudao.info.version}
     base-package: ${yudao.info.base-package}
   codegen:
-    base-package: ${yudao.info.base-package}
+    base-package: cn.iocoder.yudao
     db-schemas: ${spring.datasource.dynamic.datasource.master.name}
   error-code: # 错误码相关配置项
     constants-class-list:

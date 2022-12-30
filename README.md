@@ -21,11 +21,11 @@
 >
 > 😜 给项目点点 Star 吧，这对我们真的很重要！
 
-![架构图](https://static.iocoder.cn/ruoyi-vue-pro-architecture.png)
+![架构图](https://static.iocoder.cn/yudao-cloud-architecture.png)
 
 * 管理后台的 Vue3 版本采用 [vue-element-plus-admin](https://gitee.com/kailong110120130/vue-element-plus-admin) ，Vue2 版本采用 [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
 * 管理后台的移动端采用 [uni-app](https://github.com/dcloudio/uni-app) 方案，一份代码多终端适配，同时支持 APP、小程序、H5！
-* 后端采用 Spring Cloud Alibaba 微服务架构，注册中心 + 配置中心 Nacos，消息队列 RocketMQ，定时任务 XXL-Job，服务保障 Sentinel，服务网关 Gateway
+* 后端采用 Spring Cloud Alibaba 微服务架构，注册中心 + 配置中心 Nacos，消息队列 RocketMQ，定时任务 XXL-Job，服务保障 Sentinel，服务网关 Gateway，分布式事务 Seata
 * 数据库可使用 MySQL、Oracle、PostgreSQL、SQL Server、MariaDB、国产达梦 DM、TiDB 等，基于 MyBatis Plus、Redis + Redisson 操作
 * 权限认证使用 Spring Security & Token & Redis，支持多终端、多种用户的认证系统，支持 SSO 单点登录
 * 支持加载动态权限菜单，按钮级别权限控制，本地缓存提升性能
@@ -36,12 +36,12 @@
 * 集成阿里云、腾讯云等短信渠道，集成 MinIO、阿里云、腾讯云、七牛云等云存储服务
 * 集成报表设计器，支持数据报表、图形报表、打印设计等
 
-| 项目名                | 说明                     | 传送门                                                                                                                               |
-|--------------------|------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
-| `ruoyi-vue-pro`    | Spring Boot 多模块        | **[Gitee](https://gitee.com/zhijiantianya/ruoyi-vue-pro)** &nbsp;&nbsp;&nbsp; [Github](https://github.com/YunaiV/ruoyi-vue-pro)   |
-| `yudao-cloud`  | Spring Cloud 微服务       | **[Gitee](https://gitee.com/zhijiantianya/yudao-cloud)** &nbsp;&nbsp;&nbsp; [Github](https://github.com/YunaiV/yudao-cloud)       |
-| `Spring-Boot-Labs` | Spring Boot & Cloud 入门 | **[Gitee](https://gitee.com/zhijiantianya/SpringBoot-Labs)** &nbsp;&nbsp;&nbsp; [Github](https://github.com/YunaiV/SpringBoot-Labs) |
-| `ruoyi-vue-pro-mini` | 精简版：移除工作流、支付等模块        | **[Gitee](https://gitee.com/zhijiantianya/ruoyi-vue-pro/tree/mini)**  |
+| 项目名                  | 说明                     | 传送门                                                                                                                                 |
+|----------------------|------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| `ruoyi-vue-pro`      | Spring Boot 多模块        | **[Gitee](https://gitee.com/zhijiantianya/ruoyi-vue-pro)** &nbsp;&nbsp;&nbsp; [Github](https://github.com/YunaiV/ruoyi-vue-pro)     |
+| `yudao-cloud`        | Spring Cloud 微服务       | **[Gitee](https://gitee.com/zhijiantianya/yudao-cloud)** &nbsp;&nbsp;&nbsp; [Github](https://github.com/YunaiV/yudao-cloud)         |
+| `Spring-Boot-Labs`   | Spring Boot & Cloud 入门 | **[Gitee](https://gitee.com/zhijiantianya/SpringBoot-Labs)** &nbsp;&nbsp;&nbsp; [Github](https://github.com/YunaiV/SpringBoot-Labs) |
+| `ruoyi-vue-pro-mini` | 精简版：移除工作流、支付等模块        | **[Gitee](https://gitee.com/zhijiantianya/ruoyi-vue-pro/tree/mini)**                                                                |
 
 ## 😎 开源协议
 
@@ -94,7 +94,7 @@
 | ⭐️  | 登录日志  | 系统登录日志记录查询，包含登录异常               |
 | 🚀  | 错误码管理 | 系统所有错误码的管理，可在线修改错误提示，无需重启服务     |
 |     | 通知公告  | 系统通知公告信息发布维护                    |
-| 🚀  | 敏感词  | 配置系统敏感词，支持标签分组                  |
+| 🚀  | 敏感词   | 配置系统敏感词，支持标签分组                  |
 | 🚀  | 应用管理  | 管理 SSO 单点登录的应用，支持多种 OAuth2 授权方式 |
 | 🚀  | 地区管理  | 展示省份、城市、区镇等城市信息，支持 IP 对应城市      |
 
@@ -131,7 +131,7 @@ ps：核心功能已经实现，正在对接微信小程序中...
 |     | 表单构建     | 拖动表单元素生成相应的 HTML 代码，支持导出 JSON、Vue 文件         |
 | 🚀  | 配置管理     | 对系统动态配置常用参数，支持 SpringBoot 加载                 |
 | ⭐️  | 定时任务     | 在线（添加、修改、删除)任务调度包含执行结果日志                     |
-| 🚀  | 文件服务     | 支持将文件存储到 S3（MinIO、阿里云、腾讯云、七牛云）、本地、FTP、数据库等      | 
+| 🚀  | 文件服务     | 支持将文件存储到 S3（MinIO、阿里云、腾讯云、七牛云）、本地、FTP、数据库等   | 
 | 🚀  | API 日志   | 包括 RESTful API 访问日志、异常日志两部分，方便排查 API 相关的问题   |
 |     | MySQL 监控 | 监视当前系统数据库连接池状态，可进行分析SQL找出系统性能瓶颈              |
 |     | Redis 监控 | 监控 Redis 数据库的使用情况，使用的 Redis Key 管理           |
@@ -194,6 +194,7 @@ ps：核心功能已经实现，正在对接微信小程序中...
 | [Sentinel](https://github.com/alibaba/sentinel)                                             | 服务保障             | 1.8.6       | [文档](https://www.iocoder.cn/categories/Sentinel/?yudao)             |
 | [XXL Job](https://github.com/xuxueli/xxl-job)                                               | 定时任务             | 2.3.1       | [文档](https://www.iocoder.cn/XXL-JOB/good-collection/?yudao)         |
 | [Spring Cloud Gateway](https://github.com/spring-cloud/spring-cloud-gateway)                | 服务网关             | 3.4.1       | [文档](https://www.iocoder.cn/categories/Spring-Cloud-Gateway/?yudao) |
+| [Seata](https://github.com/seata/seata)                                                     | 分布式事务            | 1.6.1       | [文档](https://www.iocoder.cn/categories/Seata/?yudao)                |
 | [MySQL](https://www.mysql.com/cn/)                                                          | 数据库服务器           | 5.7 / 8.0+  |                                                                     |
 | [Druid](https://github.com/alibaba/druid)                                                   | JDBC 连接池、监控组件    | 1.2.15      | [文档](http://www.iocoder.cn/Spring-Boot/datasource-pool/?yudao)      |
 | [MyBatis Plus](https://mp.baomidou.com/)                                                    | MyBatis 增强工具包    | 3.5.2       | [文档](http://www.iocoder.cn/Spring-Boot/MyBatis/?yudao)              |

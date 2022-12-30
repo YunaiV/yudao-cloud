@@ -16,12 +16,14 @@ import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalance
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -43,7 +45,9 @@ public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
     /**
      * 空的 LoginUser 的结果
      *
-     * TODO 芋艿：用于解决 getLoginUser 返回 Mono.empty() 的时候，会导致后续的 flatMap 无法进行处理的问题。先暂时这么解决，寻找更优解 ing
+     * 用于解决如下问题：
+     * 1. {@link #getLoginUser(ServerWebExchange, String)} 返回 Mono.empty() 时，会导致后续的 flatMap 无法进行处理的问题。
+     * 2. {@link #buildUser(String)} 时，如果 Token 已经过期，返回 LOGIN_USER_EMPTY 对象，避免缓存无法刷新
      */
     private static final LoginUser LOGIN_USER_EMPTY = new LoginUser();
 
@@ -131,10 +135,19 @@ public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
     }
 
     private LoginUser buildUser(String body) {
+        // 处理结果，结果不正确
         CommonResult<OAuth2AccessTokenCheckRespDTO> result = JsonUtils.parseObject(body, CHECK_RESULT_TYPE_REFERENCE);
-        if (result == null || result.isError()) {
+        if (result == null) {
             return null;
         }
+        if (result.isError()) {
+            // 特殊情况：令牌已经过期（code = 401），需要返回 LOGIN_USER_EMPTY，避免 Token 一直因为缓存，被误判为有效
+            if (Objects.equals(result.getCode(), HttpStatus.UNAUTHORIZED.value())) {
+                return LOGIN_USER_EMPTY;
+            }
+            return null;
+        }
+
         // 创建登录用户
         OAuth2AccessTokenCheckRespDTO tokenInfo = result.getData();
         return new LoginUser().setId(tokenInfo.getUserId()).setUserType(tokenInfo.getUserType())

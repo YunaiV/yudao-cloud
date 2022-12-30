@@ -37,3 +37,5 @@ spring:
             - Path=/admin-api/bpm/**
           filters:
               - RewritePath=/admin-api/bpm/v2/api-docs, /v2/api-docs
+      x-forwarded:
+        prefix-enabled: false # 避免 Swagger 重复带上额外的 /admin-api/system 前缀

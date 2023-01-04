@@ -78,6 +78,11 @@ public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
                     .replaceAll("-internal", "")// 去除内网 Endpoint 的后缀
                     .replaceAll("https://", "");
         }
+        // 腾讯云必须有 region，否则会报错
+        if (config.getEndpoint().contains(ENDPOINT_TENCENT)) {
+            return StrUtil.subAfter(config.getEndpoint(), ".cos.", false)
+                    .replaceAll("." + ENDPOINT_TENCENT, ""); // 去除 Endpoint
+        }
         return null;
     }
 

@@ -197,7 +197,7 @@ ps：核心功能已经实现，正在对接微信小程序中...
 | [Seata](https://github.com/seata/seata)                                                     | 分布式事务            | 1.6.1       | [文档](https://www.iocoder.cn/categories/Seata/?yudao)                |
 | [MySQL](https://www.mysql.com/cn/)                                                          | 数据库服务器           | 5.7 / 8.0+  |                                                                     |
 | [Druid](https://github.com/alibaba/druid)                                                   | JDBC 连接池、监控组件    | 1.2.15      | [文档](http://www.iocoder.cn/Spring-Boot/datasource-pool/?yudao)      |
-| [MyBatis Plus](https://mp.baomidou.com/)                                                    | MyBatis 增强工具包    | 3.5.2       | [文档](http://www.iocoder.cn/Spring-Boot/MyBatis/?yudao)              |
+| [MyBatis Plus](https://mp.baomidou.com/)                                                    | MyBatis 增强工具包    | 3.5.3.1     | [文档](http://www.iocoder.cn/Spring-Boot/MyBatis/?yudao)              |
 | [Dynamic Datasource](https://dynamic-datasource.com/)                                       | 动态数据源            | 3.6.0       | [文档](http://www.iocoder.cn/Spring-Boot/datasource-pool/?yudao)      |
 | [Redis](https://redis.io/)                                                                  | key-value 数据库    | 5.0 / 6.0   |                                                                     |
 | [Redisson](https://github.com/redisson/redisson)                                            | Redis 客户端        | 3.18.0      | [文档](http://www.iocoder.cn/Spring-Boot/Redis/?yudao)                |
@@ -205,9 +205,9 @@ ps：核心功能已经实现，正在对接微信小程序中...
 | [Spring Security](https://github.com/spring-projects/spring-security)                       | Spring 安全框架      | 5.7.5       | [文档](http://www.iocoder.cn/Spring-Boot/Spring-Security/?yudao)      |
 | [Hibernate Validator](https://github.com/hibernate/hibernate-validator)                     | 参数校验组件           | 6.2.5       | [文档](http://www.iocoder.cn/Spring-Boot/Validation/?yudao)           |
 | [Flowable](https://github.com/flowable/flowable-engine)                                     | 工作流引擎            | 6.7.2       | [文档](https://doc.iocoder.cn/bpm/)                                   |
-| [Knife4j](https://gitee.com/xiaoym/knife4j)                                                 | Swagger 增强 UI 实现 | 3.0.3       | [文档](http://www.iocoder.cn/Spring-Boot/Swagger/?yudao)              |
+| [Knife4j](https://gitee.com/xiaoym/knife4j)                                                 | Swagger 增强 UI 实现 | 4.0.0       | [文档](http://www.iocoder.cn/Spring-Boot/Swagger/?yudao)              |
 | [SkyWalking](https://skywalking.apache.org/)                                                | 分布式应用追踪系统        | 8.12.0      | [文档](http://www.iocoder.cn/Spring-Boot/SkyWalking/?yudao)           |
-| [Spring Boot Admin](https://github.com/codecentric/spring-boot-admin)                       | Spring Boot 监控平台 | 2.7.9       | [文档](http://www.iocoder.cn/Spring-Boot/Admin/?yudao)                |
+| [Spring Boot Admin](https://github.com/codecentric/spring-boot-admin)                       | Spring Boot 监控平台 | 2.7.10      | [文档](http://www.iocoder.cn/Spring-Boot/Admin/?yudao)                |
 | [Jackson](https://github.com/FasterXML/jackson)                                             | JSON 工具库         | 2.13.3      |                                                                     |
 | [MapStruct](https://mapstruct.org/)                                                         | Java Bean 转换     | 1.5.3.Final | [文档](http://www.iocoder.cn/Spring-Boot/MapStruct/?yudao)            |
 | [Lombok](https://projectlombok.org/)                                                        | 消除冗长的 Java 代码    | 1.18.24     | [文档](http://www.iocoder.cn/Spring-Boot/Lombok/?yudao)               |
@@ -226,12 +226,12 @@ ps：核心功能已经实现，正在对接微信小程序中...
 | 框架                                                                   |      说明      |   版本   |
 |----------------------------------------------------------------------|:------------:|:------:|
 | [Vue](https://staging-cn.vuejs.org/)                                 |    Vue 框架    | 3.2.45 |
-| [Vite](https://cn.vitejs.dev//)                                      |   开发与构建工具    | 4.0.3  |
-| [Element Plus](https://element-plus.org/zh-CN/)                      | Element Plus | 2.2.27 |
+| [Vite](https://cn.vitejs.dev//)                                      |   开发与构建工具    | 4.0.4  |
+| [Element Plus](https://element-plus.org/zh-CN/)                      | Element Plus | 2.2.28 |
 | [TypeScript](https://www.typescriptlang.org/docs/)                   |  TypeScript  | 4.9.4  |
-| [pinia](https://pinia.vuejs.org/)                                    |    vuex5     | 2.0.28 |
+| [pinia](https://pinia.vuejs.org/)                                    |    vuex5     | 2.0.29 |
 | [vue-i18n](https://kazupon.github.io/vue-i18n/zh/introduction.html/) |     国际化      | 9.2.2  |
-| [vxe-table](https://vxetable.cn/)                                    |   vue最强表单    | 4.3.7  |
+| [vxe-table](https://vxetable.cn/)                                    |   vue最强表单    | 4.3.9  |
 
 ### [管理后台 uni-app 跨端](./yudao-ui-admin-uniapp)
 

@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.system.controller.admin.captcha;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.servlet.ServletUtil;
 import cn.iocoder.yudao.framework.operatelog.core.annotations.OperateLog;
 import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.model.vo.CaptchaVO;
@@ -52,21 +53,12 @@ public class CaptchaController {
     }
 
     public static String getRemoteId(HttpServletRequest request) {
-        String xfwd = request.getHeader("X-Forwarded-For");
-        String ip = getRemoteIpFromXfwd(xfwd);
+        String ip = ServletUtil.getClientIP(request);
         String ua = request.getHeader("user-agent");
         if (StrUtil.isNotBlank(ip)) {
             return ip + ua;
         }
         return request.getRemoteAddr() + ua;
-    }
-
-    private static String getRemoteIpFromXfwd(String xfwd) {
-        if (StrUtil.isNotBlank(xfwd)) {
-            String[] ipList = xfwd.split(",");
-            return StrUtil.trim(ipList[0]);
-        }
-        return null;
     }
 
 }

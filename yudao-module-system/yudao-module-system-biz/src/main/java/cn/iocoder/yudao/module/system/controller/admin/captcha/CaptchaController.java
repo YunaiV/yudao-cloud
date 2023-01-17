@@ -20,9 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 验证码
  *
- * 问题：为什么不直接使用 anji 提供的 CaptchaController，而要另外继承？
- * 回答：管理使用 /admin-api/* 作为前缀，所以需要继承！
- *
  * @author 芋道源码
  */
 @Api(tags = "管理后台 - 验证码")

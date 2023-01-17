@@ -30,7 +30,7 @@
         <dynamic-datasource.version>3.6.1</dynamic-datasource.version>
         <redisson.version>3.18.0</redisson.version>
         <!-- RPC 相关 -->
-        <dubbo.version>2.7.15</dubbo.version>
+        <dubbo.version>2.7.18</dubbo.version>
         <!-- Config 配置中心相关 -->
         <apollo.version>1.9.2</apollo.version>
         <!-- Job 定时任务相关 -->
@@ -72,7 +72,7 @@
         <minio.version>8.5.1</minio.version>
         <aliyun-java-sdk-core.version>4.6.3</aliyun-java-sdk-core.version>
         <aliyun-java-sdk-dysmsapi.version>2.2.1</aliyun-java-sdk-dysmsapi.version>
-        <tencentcloud-sdk-java.version>3.1.667</tencentcloud-sdk-java.version>
+        <tencentcloud-sdk-java.version>3.1.676</tencentcloud-sdk-java.version>
         <justauth.version>1.4.0</justauth.version>
     </properties>
 

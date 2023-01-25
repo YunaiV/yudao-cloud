@@ -6,7 +6,6 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
-import cn.iocoder.yudao.framework.tenant.core.aop.TenantIgnore;
 import cn.iocoder.yudao.framework.tenant.core.util.TenantUtils;
 import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RoleCreateReqVO;
 import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RoleExportReqVO;
@@ -22,9 +21,7 @@ import cn.iocoder.yudao.module.system.mq.producer.permission.RoleProducer;
 import com.google.common.annotations.VisibleForTesting;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.lang.Nullable;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronization;
@@ -33,7 +30,6 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -50,12 +46,6 @@ import static cn.iocoder.yudao.module.system.enums.ErrorCodeConstants.*;
 public class RoleServiceImpl implements RoleService {
 
     /**
-     * 定时执行 {@link #schedulePeriodicRefresh()} 的周期
-     * 因为已经通过 Redis Pub/Sub 机制，所以频率不需要高
-     */
-    private static final long SCHEDULER_PERIOD = 5 * 60 * 1000L;
-
-    /**
      * 角色缓存
      * key：角色编号 {@link RoleDO#getId()}
      *
@@ -63,11 +53,6 @@ public class RoleServiceImpl implements RoleService {
      */
     @Getter
     private volatile Map<Long, RoleDO> roleCache;
-    /**
-     * 缓存角色的最大更新时间，用于后续的增量轮询，判断是否有更新
-     */
-    @Getter
-    private volatile LocalDateTime maxUpdateTime;
 
     @Resource
     private PermissionService permissionService;
@@ -78,49 +63,20 @@ public class RoleServiceImpl implements RoleService {
     @Resource
     private RoleProducer roleProducer;
 
-    @Resource
-    @Lazy // 注入自己，所以延迟加载
-    private RoleService self;
-
     /**
      * 初始化 {@link #roleCache} 缓存
      */
     @Override
     @PostConstruct
     public void initLocalCache() {
-        initLocalCacheIfUpdate(null);
-    }
-
-    @Scheduled(fixedDelay = SCHEDULER_PERIOD, initialDelay = SCHEDULER_PERIOD)
-    public void schedulePeriodicRefresh() {
-        initLocalCacheIfUpdate(this.maxUpdateTime);
-    }
-
-    /**
-     * 刷新本地缓存
-     *
-     * @param maxUpdateTime 最大更新时间
-     *                      1. 如果 maxUpdateTime 为 null，则“强制”刷新缓存
-     *                      2. 如果 maxUpdateTime 不为 null，判断自 maxUpdateTime 是否有数据发生变化，有的情况下才刷新缓存
-     */
-    private void initLocalCacheIfUpdate(LocalDateTime maxUpdateTime) {
         // 注意：忽略自动多租户，因为要全局初始化缓存
         TenantUtils.executeIgnore(() -> {
-            // 第一步：基于 maxUpdateTime 判断缓存是否刷新。
-            // 如果没有增量的数据变化，则不进行本地缓存的刷新
-            if (maxUpdateTime != null
-                    && roleMapper.selectCountByUpdateTimeGt(maxUpdateTime) == 0) {
-                log.info("[initLocalCacheIfUpdate][数据未发生变化({})，本地缓存不刷新]", maxUpdateTime);
-                return;
-            }
+            // 第一步：查询数据
             List<RoleDO> roleList = roleMapper.selectList();
-            log.info("[initLocalCacheIfUpdate][缓存角色，数量为:{}]", roleList.size());
+            log.info("[initLocalCache][缓存角色，数量为:{}]", roleList.size());
 
-            // 第二步：构建缓存。
+            // 第二步：构建缓存
             roleCache = CollectionUtils.convertMap(roleList, RoleDO::getId);
-
-            // 第三步：设置最新的 maxUpdateTime，用于下次的增量判断。
-            this.maxUpdateTime = CollectionUtils.getMaxValue(roleList, RoleDO::getUpdateTime);
         });
     }
 
@@ -215,8 +171,8 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<RoleDO> getRoles(@Nullable Collection<Integer> statuses) {
         if (CollUtil.isEmpty(statuses)) {
-    		return roleMapper.selectList();
-		}
+            return roleMapper.selectList();
+        }
         return roleMapper.selectListByStatus(statuses);
     }
 

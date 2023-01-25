@@ -28,9 +28,8 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
-import static cn.iocoder.yudao.framework.common.util.date.DateUtils.buildLocalDateTime;
+import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildTime;
 import static cn.iocoder.yudao.framework.common.util.object.ObjectUtils.cloneIgnoreId;
-import static cn.iocoder.yudao.framework.common.util.object.ObjectUtils.max;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertPojoEquals;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomLongId;
@@ -42,10 +41,10 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 /**
-* {@link FileConfigServiceImpl} 的单元测试类
-*
-* @author 芋道源码
-*/
+ * {@link FileConfigServiceImpl} 的单元测试类
+ *
+ * @author 芋道源码
+ */
 @Import(FileConfigServiceImpl.class)
 public class FileConfigServiceImplTest extends BaseDbUnitTest {
 
@@ -74,16 +73,13 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
         when(fileClientFactory.getFileClient(eq(1L))).thenReturn(masterFileClient);
 
         // 调用
-        fileConfigService.initFileClients();
+        fileConfigService.initLocalCache();
         // 断言 fileClientFactory 调用
         verify(fileClientFactory).createOrUpdateFileClient(eq(1L),
                 eq(configDO1.getStorage()), eq(configDO1.getConfig()));
         verify(fileClientFactory).createOrUpdateFileClient(eq(2L),
                 eq(configDO2.getStorage()), eq(configDO2.getConfig()));
         assertSame(masterFileClient, fileConfigService.getMasterFileClient());
-        // 断言 maxUpdateTime 缓存
-        assertEquals(max(configDO1.getUpdateTime(), configDO2.getUpdateTime()),
-                fileConfigService.getMaxUpdateTime());
     }
 
     @Test
@@ -175,8 +171,8 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
 
         // 调用
         fileConfigService.deleteFileConfig(id);
-       // 校验数据不存在了
-       assertNull(fileConfigMapper.selectById(id));
+        // 校验数据不存在了
+        assertNull(fileConfigMapper.selectById(id));
         // verify 调用
         verify(fileConfigProducer).sendFileConfigRefreshMessage();
     }
@@ -204,30 +200,30 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
 
     @Test
     public void testGetFileConfigPage() {
-       // mock 数据
-       FileConfigDO dbFileConfig = randomFileConfigDO().setName("芋道源码")
-               .setStorage(FileStorageEnum.LOCAL.getStorage());
-       dbFileConfig.setCreateTime(LocalDateTimeUtil.parse("2020-01-23", DatePattern.NORM_DATE_PATTERN));// 等会查询到
-       fileConfigMapper.insert(dbFileConfig);
-       // 测试 name 不匹配
-       fileConfigMapper.insert(cloneIgnoreId(dbFileConfig, o -> o.setName("源码")));
-       // 测试 storage 不匹配
-       fileConfigMapper.insert(cloneIgnoreId(dbFileConfig, o -> o.setStorage(FileStorageEnum.DB.getStorage())));
-       // 测试 createTime 不匹配
-       fileConfigMapper.insert(cloneIgnoreId(dbFileConfig, o -> o.setCreateTime(LocalDateTimeUtil.parse("2020-11-23", DatePattern.NORM_DATE_PATTERN))));
-       // 准备参数
-       FileConfigPageReqVO reqVO = new FileConfigPageReqVO();
-       reqVO.setName("芋道");
-       reqVO.setStorage(FileStorageEnum.LOCAL.getStorage());
-       reqVO.setCreateTime((new LocalDateTime[]{buildLocalDateTime(2020, 1, 1),
-               buildLocalDateTime(2020, 1, 24)}));
+        // mock 数据
+        FileConfigDO dbFileConfig = randomFileConfigDO().setName("芋道源码")
+                .setStorage(FileStorageEnum.LOCAL.getStorage());
+        dbFileConfig.setCreateTime(LocalDateTimeUtil.parse("2020-01-23", DatePattern.NORM_DATE_PATTERN));// 等会查询到
+        fileConfigMapper.insert(dbFileConfig);
+        // 测试 name 不匹配
+        fileConfigMapper.insert(cloneIgnoreId(dbFileConfig, o -> o.setName("源码")));
+        // 测试 storage 不匹配
+        fileConfigMapper.insert(cloneIgnoreId(dbFileConfig, o -> o.setStorage(FileStorageEnum.DB.getStorage())));
+        // 测试 createTime 不匹配
+        fileConfigMapper.insert(cloneIgnoreId(dbFileConfig, o -> o.setCreateTime(LocalDateTimeUtil.parse("2020-11-23", DatePattern.NORM_DATE_PATTERN))));
+        // 准备参数
+        FileConfigPageReqVO reqVO = new FileConfigPageReqVO();
+        reqVO.setName("芋道");
+        reqVO.setStorage(FileStorageEnum.LOCAL.getStorage());
+        reqVO.setCreateTime((new LocalDateTime[]{buildTime(2020, 1, 1),
+                buildTime(2020, 1, 24)}));
 
-       // 调用
-       PageResult<FileConfigDO> pageResult = fileConfigService.getFileConfigPage(reqVO);
-       // 断言
-       assertEquals(1, pageResult.getTotal());
-       assertEquals(1, pageResult.getList().size());
-       assertPojoEquals(dbFileConfig, pageResult.getList().get(0));
+        // 调用
+        PageResult<FileConfigDO> pageResult = fileConfigService.getFileConfigPage(reqVO);
+        // 断言
+        assertEquals(1, pageResult.getTotal());
+        assertEquals(1, pageResult.getList().size());
+        assertPojoEquals(dbFileConfig, pageResult.getList().get(0));
     }
 
     @Test

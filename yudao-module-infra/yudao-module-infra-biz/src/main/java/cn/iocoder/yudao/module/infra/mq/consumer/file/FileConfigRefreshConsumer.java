@@ -23,7 +23,7 @@ public class FileConfigRefreshConsumer {
     @EventListener
     public void execute(FileConfigRefreshMessage message) {
         log.info("[execute][收到 FileConfig 刷新消息]");
-        fileConfigService.initFileClients();
+        fileConfigService.initLocalCache();
     }
 
 }

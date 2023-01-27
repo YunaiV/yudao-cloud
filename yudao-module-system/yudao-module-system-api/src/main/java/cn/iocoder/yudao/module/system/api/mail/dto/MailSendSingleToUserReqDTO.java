@@ -1,39 +1,27 @@
 package cn.iocoder.yudao.module.system.api.mail.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Map;
 
-/**
- * 邮件发送 Request DTO
- *
- * @author wangjingqi
- */
+@ApiModel("RPC 服务 - 邮件发送给 Admin 或者 Member 用户 Request DTO")
 @Data
 public class MailSendSingleToUserReqDTO {
 
-    /**
-     * 用户编号
-     */
-    @NotNull(message = "用户编号不能为空")
+    @ApiModelProperty(value = "用户编号", example = "1024")
     private Long userId;
-    /**
-     * 邮箱
-     */
+    @ApiModelProperty(value = "手机号", required = true, example = "15601691300")
     @Email
     private String mail;
 
-    /**
-     * 邮件模板编号
-     */
+    @ApiModelProperty(value = "邮件模板编号", required = true, example = "USER_SEND")
     @NotNull(message = "邮件模板编号不能为空")
     private String templateCode;
-    /**
-     * 邮件模板参数
-     */
-    @NotNull(message = "邮件模板参数不能为空")
+    @ApiModelProperty(value = "邮件模板参数")
     private Map<String, Object> templateParams;
 
 }

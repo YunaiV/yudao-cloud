@@ -18,7 +18,8 @@ public class SmsSendSingleToUserReqDTO {
     @ApiModelProperty(value = "手机号", required = true, example = "15601691300")
     @Mobile
     private String mobile;
-    @ApiModelProperty(value = "用户编号", required = true, example = "USER_SEND")
+
+    @ApiModelProperty(value = "短信模板编号", required = true, example = "USER_SEND")
     @NotEmpty(message = "短信模板编号不能为空")
     private String templateCode;
     @ApiModelProperty(value = "短信模板参数")

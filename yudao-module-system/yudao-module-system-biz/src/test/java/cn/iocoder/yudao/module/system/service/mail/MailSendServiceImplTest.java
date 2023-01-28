@@ -153,7 +153,7 @@ class MailSendServiceImplTest extends BaseMockitoUnitTest {
         // mock 方法
 
         // 调用，并断言异常
-        assertServiceException(() -> mailSendService.buildTemplateParams(template, templateParams),
+        assertServiceException(() -> mailSendService.checkTemplateParams(template, templateParams),
                 MAIL_SEND_TEMPLATE_PARAM_MISS, "code");
     }
 

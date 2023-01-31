@@ -187,7 +187,7 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
     public void testValidateDept_parentNotExitsForCreate() {
         // 准备参数
         DeptCreateReqVO reqVO = randomPojo(DeptCreateReqVO.class,
-                o -> o.setStatus(randomCommonStatus()));
+            o -> o.setStatus(randomCommonStatus()));
 
         // 调用,并断言异常
         assertServiceException(() -> deptService.createDept(reqVO), DEPT_PARENT_NOT_EXITS);
@@ -203,7 +203,7 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testValidateDept_exitsChildrenForDelete() {
+   public void testValidateDept_exitsChildrenForDelete() {
         // mock 数据
         DeptDO parentDept = randomPojo(DeptDO.class, o -> o.setStatus(randomCommonStatus()));
         deptMapper.insert(parentDept);// @Sql: 先插入出一条存在的数据
@@ -337,7 +337,7 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
         List<Long> ids = singletonList(deptDO.getId());
 
         // 调用, 并断言异常
-        assertServiceException(() -> deptService.validateDeptList(ids), DEPT_NOT_ENABLE);
+        assertServiceException(() -> deptService.validateDeptList(ids), DEPT_NOT_ENABLE, deptDO.getName());
     }
 
     @SafeVarargs

@@ -6,7 +6,6 @@ import cn.iocoder.yudao.module.system.convert.dict.DictDataConvert;
 import cn.iocoder.yudao.module.system.dal.dataobject.dict.DictDataDO;
 import cn.iocoder.yudao.module.system.service.dict.DictDataService;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,8 +24,8 @@ public class DictDataApiImpl implements DictDataApi {
     private DictDataService dictDataService;
 
     @Override
-    public CommonResult<Boolean> validDictDatas(String dictType, Collection<String> values) {
-        dictDataService.validDictDatas(dictType, values);
+    public CommonResult<Boolean> validateDictDatas(String dictType, Collection<String> values) {
+        dictDataService.validateDictDataList(dictType, values);
         return success(true);
     }
 

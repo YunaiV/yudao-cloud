@@ -1,14 +1,11 @@
 package cn.iocoder.yudao.module.system.service.logger;
 
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
-import cn.iocoder.yudao.framework.operatelog.core.service.OperateLog;
-import cn.iocoder.yudao.framework.operatelog.core.service.OperateLogFrameworkService;
 import cn.iocoder.yudao.module.system.api.logger.dto.OperateLogCreateReqDTO;
 import cn.iocoder.yudao.module.system.controller.admin.logger.vo.operatelog.OperateLogExportReqVO;
 import cn.iocoder.yudao.module.system.controller.admin.logger.vo.operatelog.OperateLogPageReqVO;
 import cn.iocoder.yudao.module.system.dal.dataobject.logger.OperateLogDO;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -23,7 +20,7 @@ public interface OperateLogService {
      *
      * @param createReqDTO 操作日志请求
      */
-    void createOperateLog(@Valid OperateLogCreateReqDTO createReqDTO);
+    void createOperateLog(OperateLogCreateReqDTO createReqDTO);
 
     /**
      * 获得操作日志分页列表
@@ -39,6 +36,6 @@ public interface OperateLogService {
      * @param reqVO 列表条件
      * @return 日志列表
      */
-    List<OperateLogDO> getOperateLogs(OperateLogExportReqVO reqVO);
+    List<OperateLogDO> getOperateLogList(OperateLogExportReqVO reqVO);
 
 }

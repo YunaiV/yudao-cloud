@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.Collection;
 import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
@@ -81,7 +80,7 @@ public class SmsChannelServiceImpl implements SmsChannelService {
     public void deleteSmsChannel(Long id) {
         // 校验存在
         this.validateSmsChannelExists(id);
-        // 校验是否有字典数据
+        // 校验是否有在使用该账号的模版
         if (smsTemplateService.countByChannelId(id) > 0) {
             throw exception(SMS_CHANNEL_HAS_CHILDREN);
         }
@@ -100,11 +99,6 @@ public class SmsChannelServiceImpl implements SmsChannelService {
     @Override
     public SmsChannelDO getSmsChannel(Long id) {
         return smsChannelMapper.selectById(id);
-    }
-
-    @Override
-    public List<SmsChannelDO> getSmsChannelList(Collection<Long> ids) {
-        return smsChannelMapper.selectBatchIds(ids);
     }
 
     @Override

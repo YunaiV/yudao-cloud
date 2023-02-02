@@ -1,7 +1,7 @@
 package cn.iocoder.yudao.module.system.api.sms;
 
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
-import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeCheckReqDTO;
+import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeValidateReqDTO;
 import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeSendReqDTO;
 import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
 import cn.iocoder.yudao.module.system.service.sms.SmsCodeService;
@@ -35,8 +35,8 @@ public class SmsCodeApiImpl implements SmsCodeApi {
     }
 
     @Override
-    public CommonResult<Boolean> checkSmsCode(SmsCodeCheckReqDTO reqDTO) {
-        smsCodeService.checkSmsCode(reqDTO);
+    public CommonResult<Boolean> validateSmsCode(SmsCodeValidateReqDTO reqDTO) {
+        smsCodeService.validateSmsCode(reqDTO);
         return success(true);
     }
 

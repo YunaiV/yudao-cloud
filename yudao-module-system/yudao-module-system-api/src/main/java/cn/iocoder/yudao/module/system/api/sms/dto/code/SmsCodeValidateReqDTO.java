@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @ApiModel("RPC 服务 - 短信验证码的校验 Request DTO")
 @Data
-public class SmsCodeCheckReqDTO {
+public class SmsCodeValidateReqDTO {
 
     @ApiModelProperty(value = "手机号", required = true, example = "15601691300")
     @Mobile

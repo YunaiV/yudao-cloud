@@ -1,9 +1,9 @@
 package cn.iocoder.yudao.module.system.service.sms;
 
 import cn.iocoder.yudao.framework.common.exception.ServiceException;
-import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeCheckReqDTO;
 import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeSendReqDTO;
 import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
+import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeValidateReqDTO;
 
 import javax.validation.Valid;
 
@@ -35,6 +35,6 @@ public interface SmsCodeService {
      *
      * @param reqDTO 校验请求
      */
-    void checkSmsCode(@Valid SmsCodeCheckReqDTO reqDTO);
+    void validateSmsCode(@Valid SmsCodeValidateReqDTO reqDTO);
 
 }

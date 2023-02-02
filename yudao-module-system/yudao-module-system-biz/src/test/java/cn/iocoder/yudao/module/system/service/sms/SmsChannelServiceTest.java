@@ -15,7 +15,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;
-
 import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildBetweenTime;
@@ -118,8 +117,8 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
 
         // 调用
         smsChannelService.deleteSmsChannel(id);
-        // 校验数据不存在了
-        assertNull(smsChannelMapper.selectById(id));
+       // 校验数据不存在了
+       assertNull(smsChannelMapper.selectById(id));
         // 校验调用
         verify(smsProducer, times(1)).sendSmsChannelRefreshMessage();
     }
@@ -178,31 +177,31 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetSmsChannelPage() {
-        // mock 数据
-        SmsChannelDO dbSmsChannel = randomPojo(SmsChannelDO.class, o -> { // 等会查询到
-            o.setSignature("芋道源码");
-            o.setStatus(CommonStatusEnum.ENABLE.getStatus());
-            o.setCreateTime(buildTime(2020, 12, 12));
-        });
-        smsChannelMapper.insert(dbSmsChannel);
-        // 测试 signature 不匹配
-        smsChannelMapper.insert(cloneIgnoreId(dbSmsChannel, o -> o.setSignature("源码")));
-        // 测试 status 不匹配
-        smsChannelMapper.insert(cloneIgnoreId(dbSmsChannel, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
-        // 测试 createTime 不匹配
-        smsChannelMapper.insert(cloneIgnoreId(dbSmsChannel, o -> o.setCreateTime(buildTime(2020, 11, 11))));
-        // 准备参数
-        SmsChannelPageReqVO reqVO = new SmsChannelPageReqVO();
-        reqVO.setSignature("芋道");
-        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        reqVO.setCreateTime(buildBetweenTime(2020, 12, 1, 2020, 12, 24));
+       // mock 数据
+       SmsChannelDO dbSmsChannel = randomPojo(SmsChannelDO.class, o -> { // 等会查询到
+           o.setSignature("芋道源码");
+           o.setStatus(CommonStatusEnum.ENABLE.getStatus());
+           o.setCreateTime(buildTime(2020, 12, 12));
+       });
+       smsChannelMapper.insert(dbSmsChannel);
+       // 测试 signature 不匹配
+       smsChannelMapper.insert(cloneIgnoreId(dbSmsChannel, o -> o.setSignature("源码")));
+       // 测试 status 不匹配
+       smsChannelMapper.insert(cloneIgnoreId(dbSmsChannel, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
+       // 测试 createTime 不匹配
+       smsChannelMapper.insert(cloneIgnoreId(dbSmsChannel, o -> o.setCreateTime(buildTime(2020, 11, 11))));
+       // 准备参数
+       SmsChannelPageReqVO reqVO = new SmsChannelPageReqVO();
+       reqVO.setSignature("芋道");
+       reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+       reqVO.setCreateTime(buildBetweenTime(2020, 12, 1, 2020, 12, 24));
 
-        // 调用
-        PageResult<SmsChannelDO> pageResult = smsChannelService.getSmsChannelPage(reqVO);
-        // 断言
-        assertEquals(1, pageResult.getTotal());
-        assertEquals(1, pageResult.getList().size());
-        assertPojoEquals(dbSmsChannel, pageResult.getList().get(0));
+       // 调用
+       PageResult<SmsChannelDO> pageResult = smsChannelService.getSmsChannelPage(reqVO);
+       // 断言
+       assertEquals(1, pageResult.getTotal());
+       assertEquals(1, pageResult.getList().size());
+       assertPojoEquals(dbSmsChannel, pageResult.getList().get(0));
     }
 
 }

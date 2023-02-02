@@ -25,12 +25,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
+import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildBetweenTime;
 import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildTime;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertPojoEquals;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
@@ -224,7 +224,7 @@ public class SmsTemplateServiceImplTest extends BaseDbUnitTest {
        reqVO.setContent("芋道");
        reqVO.setApiTemplateId("yu");
        reqVO.setChannelId(1L);
-       reqVO.setCreateTime((new LocalDateTime[]{buildTime(2021, 11, 1),buildTime(2021, 12, 1)}));
+       reqVO.setCreateTime(buildBetweenTime(2021, 11, 1, 2021, 12, 1));
 
        // 调用
        PageResult<SmsTemplateDO> pageResult = smsTemplateService.getSmsTemplatePage(reqVO);
@@ -269,7 +269,7 @@ public class SmsTemplateServiceImplTest extends BaseDbUnitTest {
         reqVO.setContent("芋道");
         reqVO.setApiTemplateId("yu");
         reqVO.setChannelId(1L);
-        reqVO.setCreateTime((new LocalDateTime[]{buildTime(2021, 11, 1),buildTime(2021, 12, 1)}));
+        reqVO.setCreateTime(buildBetweenTime(2021, 11, 1, 2021, 12, 1));
 
        // 调用
        List<SmsTemplateDO> list = smsTemplateService.getSmsTemplateList(reqVO);

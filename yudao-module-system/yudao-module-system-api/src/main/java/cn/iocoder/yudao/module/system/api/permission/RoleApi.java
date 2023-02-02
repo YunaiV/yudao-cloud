@@ -20,6 +20,6 @@ public interface RoleApi {
     @GetMapping(PREFIX + "/valid")
     @ApiOperation("校验角色是否合法")
     @ApiImplicitParam(name = "ids", value = "角色编号数组", example = "1,2", required = true, allowMultiple = true)
-    CommonResult<Boolean> validRoles(@RequestParam("ids") Collection<Long> ids);
+    CommonResult<Boolean> validRoleList(@RequestParam("ids") Collection<Long> ids);
 
 }

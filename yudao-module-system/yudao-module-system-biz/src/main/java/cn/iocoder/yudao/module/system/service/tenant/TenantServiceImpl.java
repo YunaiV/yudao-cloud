@@ -7,7 +7,6 @@ import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
 import cn.iocoder.yudao.framework.common.util.date.DateUtils;
-import cn.iocoder.yudao.framework.datapermission.core.annotation.DataPermission;
 import cn.iocoder.yudao.framework.tenant.config.TenantProperties;
 import cn.iocoder.yudao.framework.tenant.core.context.TenantContextHolder;
 import cn.iocoder.yudao.framework.tenant.core.util.TenantUtils;
@@ -97,7 +96,6 @@ public class TenantServiceImpl implements TenantService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @DataPermission(enable = false) // 租户创建，不需要数据权限，避免出现被数据权限拦截
     public Long createTenant(TenantCreateReqVO createReqVO) {
         // 校验套餐被禁用
         TenantPackageDO tenantPackage = tenantPackageService.validTenantPackage(createReqVO.getPackageId());
@@ -140,7 +138,7 @@ public class TenantServiceImpl implements TenantService {
     @Transactional(rollbackFor = Exception.class)
     public void updateTenant(TenantUpdateReqVO updateReqVO) {
         // 校验存在
-        TenantDO tenant = checkUpdateTenant(updateReqVO.getId());
+        TenantDO tenant = validateUpdateTenant(updateReqVO.getId());
         // 校验套餐被禁用
         TenantPackageDO tenantPackage = tenantPackageService.validTenantPackage(updateReqVO.getPackageId());
 
@@ -181,12 +179,12 @@ public class TenantServiceImpl implements TenantService {
     @Override
     public void deleteTenant(Long id) {
         // 校验存在
-        checkUpdateTenant(id);
+        validateUpdateTenant(id);
         // 删除
         tenantMapper.deleteById(id);
     }
 
-    private TenantDO checkUpdateTenant(Long id) {
+    private TenantDO validateUpdateTenant(Long id) {
         TenantDO tenant = tenantMapper.selectById(id);
         if (tenant == null) {
             throw exception(TENANT_NOT_EXISTS);

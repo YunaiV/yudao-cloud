@@ -30,17 +30,17 @@ public interface AdminUserApi {
     @GetMapping(PREFIX + "/list")
     @ApiOperation("通过用户 ID 查询用户们")
     @ApiImplicitParam(name = "ids", value = "部门编号数组", example = "1,2", required = true, allowMultiple = true)
-    CommonResult<List<AdminUserRespDTO>> getUsers(@RequestParam("ids") Collection<Long> ids);
+    CommonResult<List<AdminUserRespDTO>> getUserList(@RequestParam("ids") Collection<Long> ids);
 
     @GetMapping(PREFIX + "/list-by-dept-id")
     @ApiOperation("获得指定部门的用户数组")
     @ApiImplicitParam(name = "deptIds", value = "部门编号数组", example = "1,2", required = true, allowMultiple = true)
-    CommonResult<List<AdminUserRespDTO>> getUsersByDeptIds(@RequestParam("deptIds") Collection<Long> deptIds);
+    CommonResult<List<AdminUserRespDTO>> getUserListByDeptIds(@RequestParam("deptIds") Collection<Long> deptIds);
 
     @GetMapping(PREFIX + "/list-by-post-id")
     @ApiOperation("获得指定岗位的用户数组")
     @ApiImplicitParam(name = "postIds", value = "岗位编号数组", example = "2,3", required = true, allowMultiple = true)
-    CommonResult<List<AdminUserRespDTO>> getUsersByPostIds(@RequestParam("postIds") Collection<Long> postIds);
+    CommonResult<List<AdminUserRespDTO>> getUserListByPostIds(@RequestParam("postIds") Collection<Long> postIds);
 
     /**
      * 获得用户 Map
@@ -49,12 +49,12 @@ public interface AdminUserApi {
      * @return 用户 Map
      */
     default Map<Long, AdminUserRespDTO> getUserMap(Collection<Long> ids) {
-        return CollectionUtils.convertMap(getUsers(ids).getCheckedData(), AdminUserRespDTO::getId);
+        return CollectionUtils.convertMap(getUserList(ids).getCheckedData(), AdminUserRespDTO::getId);
     }
 
     @GetMapping(PREFIX + "/valid")
     @ApiOperation("校验用户们是否有效")
     @ApiImplicitParam(name = "ids", value = "用户编号数组", example = "3,5", required = true)
-    CommonResult<Boolean> validUsers(@RequestParam("ids") Set<Long> ids);
+    CommonResult<Boolean> validUserList(@RequestParam("ids") Set<Long> ids);
 
 }

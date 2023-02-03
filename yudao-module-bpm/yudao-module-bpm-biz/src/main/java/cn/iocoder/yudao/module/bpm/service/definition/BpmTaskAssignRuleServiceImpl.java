@@ -220,7 +220,7 @@ public class BpmTaskAssignRuleServiceImpl implements BpmTaskAssignRuleService {
         } else if (Objects.equals(type, BpmTaskAssignRuleTypeEnum.POST.getType())) {
             postApi.validPostList(options);
         } else if (Objects.equals(type, BpmTaskAssignRuleTypeEnum.USER.getType())) {
-            adminUserApi.validUsers(options);
+            adminUserApi.validUserList(options);
         } else if (Objects.equals(type, BpmTaskAssignRuleTypeEnum.USER_GROUP.getType())) {
             userGroupService.validUserGroups(options);
         } else if (Objects.equals(type, BpmTaskAssignRuleTypeEnum.SCRIPT.getType())) {
@@ -288,7 +288,7 @@ public class BpmTaskAssignRuleServiceImpl implements BpmTaskAssignRuleService {
     }
 
     private Set<Long> calculateTaskCandidateUsersByDeptMember(BpmTaskAssignRuleDO rule) {
-        List<AdminUserRespDTO> users = adminUserApi.getUsersByDeptIds(rule.getOptions()).getCheckedData();
+        List<AdminUserRespDTO> users = adminUserApi.getUserListByDeptIds(rule.getOptions()).getCheckedData();
         return convertSet(users, AdminUserRespDTO::getId);
     }
 
@@ -298,7 +298,7 @@ public class BpmTaskAssignRuleServiceImpl implements BpmTaskAssignRuleService {
     }
 
     private Set<Long> calculateTaskCandidateUsersByPost(BpmTaskAssignRuleDO rule) {
-        List<AdminUserRespDTO> users = adminUserApi.getUsersByPostIds(rule.getOptions()).getCheckedData();
+        List<AdminUserRespDTO> users = adminUserApi.getUserListByPostIds(rule.getOptions()).getCheckedData();
         return convertSet(users, AdminUserRespDTO::getId);
     }
 

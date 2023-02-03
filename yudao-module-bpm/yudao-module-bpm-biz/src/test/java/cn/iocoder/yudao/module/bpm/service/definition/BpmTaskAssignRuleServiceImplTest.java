@@ -87,7 +87,7 @@ public class BpmTaskAssignRuleServiceImplTest extends BaseDbUnitTest {
         // mock 方法
         List<AdminUserRespDTO> users = CollectionUtils.convertList(asSet(11L, 22L),
                 id -> new AdminUserRespDTO().setId(id));
-        when(adminUserApi.getUsersByDeptIds(eq(rule.getOptions()))).thenReturn(success(users));
+        when(adminUserApi.getUserListByDeptIds(eq(rule.getOptions()))).thenReturn(success(users));
         mockGetUserMap(asSet(11L, 22L));
 
         // 调用
@@ -121,7 +121,7 @@ public class BpmTaskAssignRuleServiceImplTest extends BaseDbUnitTest {
         // mock 方法
         List<AdminUserRespDTO> users = CollectionUtils.convertList(asSet(11L, 22L),
                 id -> new AdminUserRespDTO().setId(id));
-        when(adminUserApi.getUsersByPostIds(eq(rule.getOptions()))).thenReturn(success(users));
+        when(adminUserApi.getUserListByPostIds(eq(rule.getOptions()))).thenReturn(success(users));
         mockGetUserMap(asSet(11L, 22L));
 
         // 调用

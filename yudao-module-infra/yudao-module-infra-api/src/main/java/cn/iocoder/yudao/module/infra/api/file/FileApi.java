@@ -3,8 +3,8 @@ package cn.iocoder.yudao.module.infra.api.file;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.infra.api.file.dto.FileCreateReqDTO;
 import cn.iocoder.yudao.module.infra.enums.ApiConstants;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.Valid;
 
 @FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
-@Api(tags = "RPC 服务 - 文件")
+@Tag(name =  "RPC 服务 - 文件")
 public interface FileApi {
 
     String PREFIX = ApiConstants.PREFIX + "/file";
@@ -54,7 +54,7 @@ public interface FileApi {
     }
 
     @PostMapping(PREFIX + "/create")
-    @ApiOperation("保存文件，并返回文件的访问路径")
+    @Operation(summary = "保存文件，并返回文件的访问路径")
     CommonResult<String> createFile(@Valid @RequestBody FileCreateReqDTO createReqDTO);
 
 }

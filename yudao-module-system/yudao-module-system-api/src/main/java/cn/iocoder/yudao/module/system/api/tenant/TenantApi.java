@@ -19,7 +19,7 @@ public interface TenantApi {
 
     @GetMapping(PREFIX + "/id-list")
     @ApiOperation("获得所有租户编号")
-    CommonResult<List<Long>> getTenantIds();
+    CommonResult<List<Long>> getTenantIdList();
 
     @GetMapping(PREFIX + "/valid")
     @ApiOperation("校验租户是否合法")

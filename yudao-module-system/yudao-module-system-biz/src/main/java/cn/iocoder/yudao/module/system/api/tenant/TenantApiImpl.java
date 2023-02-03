@@ -22,7 +22,7 @@ public class TenantApiImpl implements TenantApi {
 
     @Override
     public CommonResult<List<Long>> getTenantIdList() {
-        return success(tenantService.getTenantIds());
+        return success(tenantService.getTenantIdList());
     }
 
     @Override

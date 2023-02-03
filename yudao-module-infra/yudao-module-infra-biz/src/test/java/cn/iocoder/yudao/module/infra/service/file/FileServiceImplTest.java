@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Import;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
-import static cn.iocoder.yudao.framework.common.util.date.DateUtils.buildLocalDateTime;
+import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildTime;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.*;
 import static cn.iocoder.yudao.module.infra.enums.ErrorCodeConstants.FILE_NOT_EXISTS;
@@ -25,7 +25,7 @@ import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.*;
 
 @Import({FileServiceImpl.class})
-public class FileServiceTest extends BaseDbUnitTest {
+public class FileServiceImplTest extends BaseDbUnitTest {
 
     @Resource
     private FileService fileService;
@@ -42,7 +42,7 @@ public class FileServiceTest extends BaseDbUnitTest {
         FileDO dbFile = randomPojo(FileDO.class, o -> { // 等会查询到
             o.setPath("yunai");
             o.setType("image/jpg");
-            o.setCreateTime(buildLocalDateTime(2021, 1, 15));
+            o.setCreateTime(buildTime(2021, 1, 15));
         });
         fileMapper.insert(dbFile);
         // 测试 path 不匹配
@@ -53,13 +53,13 @@ public class FileServiceTest extends BaseDbUnitTest {
         }));
         // 测试 createTime 不匹配
         fileMapper.insert(ObjectUtils.cloneIgnoreId(dbFile, o -> {
-            o.setCreateTime(buildLocalDateTime(2020, 1, 15));
+            o.setCreateTime(buildTime(2020, 1, 15));
         }));
         // 准备参数
         FilePageReqVO reqVO = new FilePageReqVO();
         reqVO.setPath("yunai");
         reqVO.setType("jp");
-        reqVO.setCreateTime((new LocalDateTime[]{buildLocalDateTime(2021, 1, 10), buildLocalDateTime(2021, 1, 20)}));
+        reqVO.setCreateTime((new LocalDateTime[]{buildTime(2021, 1, 10), buildTime(2021, 1, 20)}));
 
         // 调用
         PageResult<FileDO> pageResult = fileService.getFilePage(reqVO);

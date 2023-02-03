@@ -4,9 +4,9 @@ import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
 import cn.iocoder.yudao.module.system.api.dept.dto.DeptRespDTO;
 import cn.iocoder.yudao.module.system.enums.ApiConstants;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,24 +17,24 @@ import java.util.Map;
 import java.util.Set;
 
 @FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
-@Api(tags = "RPC 服务 - 部门")
+@Tag(name = "RPC 服务 - 部门")
 public interface DeptApi {
 
     String PREFIX = ApiConstants.PREFIX + "/dept";
 
     @GetMapping(PREFIX + "/get")
-    @ApiOperation("获得部门信息")
-    @ApiImplicitParam(name = "id", value = "部门编号", example = "1024", required = true, dataTypeClass = Long.class)
+    @Operation(summary = "获得部门信息")
+    @Parameter(name = "id", description = "部门编号", example = "1024", required = true)
     CommonResult<DeptRespDTO> getDept(@RequestParam("id") Long id);
 
     @GetMapping(PREFIX + "/list")
-    @ApiOperation("获得部门信息数组")
-    @ApiImplicitParam(name = "ids", value = "部门编号数组", example = "1,2", required = true, allowMultiple = true)
+    @Operation(summary = "获得部门信息数组")
+    @Parameter(name = "ids", description = "部门编号数组", example = "1,2", required = true)
     CommonResult<List<DeptRespDTO>> getDeptList(@RequestParam("ids") Collection<Long> ids);
 
     @GetMapping(PREFIX + "/valid")
-    @ApiOperation("校验部门是否合法")
-    @ApiImplicitParam(name = "ids", value = "部门编号数组", example = "1,2", required = true, allowMultiple = true)
+    @Operation(summary = "校验部门是否合法")
+    @Parameter(name = "ids", description = "部门编号数组", example = "1,2", required = true)
     CommonResult<Boolean> validateDeptList(@RequestParam("ids") Collection<Long> ids);
 
     /**

@@ -1,7 +1,7 @@
 package cn.iocoder.yudao.module.bpm.controller.admin.oa.vo;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-import io.swagger.annotations.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
@@ -18,7 +18,7 @@ public class BpmOALeaveRespVO extends BpmOALeaveBaseVO {
     @Schema(description = "请假表单主键", required = true, example = "1024")
     private Long id;
 
-    @Schema(description = "状态", required = true, example = "1", notes = "参见 bpm_process_instance_result 枚举")
+    @Schema(description = "状态,参见 bpm_process_instance_result 枚举", required = true, example = "1")
     private Integer result;
 
     @Schema(description = "申请时间", required = true)

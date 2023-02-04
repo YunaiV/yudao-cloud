@@ -13,7 +13,7 @@ public class RedisKeyValueRespVO {
     @Schema(description = "c5f6990767804a928f4bb96ca249febf", required = true, example = "String")
     private String key;
 
-    @ApiModelProperty(required = true, example = "String")
+    @Schema(required = true, example = "String")
     private String value;
 
 }

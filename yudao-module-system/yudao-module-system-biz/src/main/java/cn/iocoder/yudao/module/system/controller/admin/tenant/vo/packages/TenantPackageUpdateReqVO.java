@@ -1,8 +1,7 @@
 package cn.iocoder.yudao.module.system.controller.admin.tenant.vo.packages;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-import java.util.*;
-import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 
 @Schema(description = "管理后台 - 租户套餐更新 Request VO")

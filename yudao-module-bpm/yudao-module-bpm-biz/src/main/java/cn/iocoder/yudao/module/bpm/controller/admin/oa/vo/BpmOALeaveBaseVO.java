@@ -25,7 +25,7 @@ public class BpmOALeaveBaseVO {
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
     private LocalDateTime endTime;
 
-    @Schema(description = "请假类型", required = true, example = "1", notes = "参见 bpm_oa_type 枚举")
+    @Schema(description = "请假类型,参见 bpm_oa_type 枚举", required = true, example = "1")
     private Integer type;
 
     @Schema(description = "原因", required = true, example = "阅读芋道源码")

@@ -12,10 +12,10 @@ import java.util.List;
 @Data
 public class CodegenDetailRespVO {
 
-    @ApiModelProperty("表定义")
+    @Schema(description = "表定义")
     private CodegenTableRespVO table;
 
-    @ApiModelProperty("字段定义")
+    @Schema(description = "字段定义")
     private List<CodegenColumnRespVO> columns;
 
 }

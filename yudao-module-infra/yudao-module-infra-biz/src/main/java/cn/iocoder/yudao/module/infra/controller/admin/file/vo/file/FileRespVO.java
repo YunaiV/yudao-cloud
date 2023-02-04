@@ -6,7 +6,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Schema(description = value = "管理后台 - 文件 Response VO", description = "不返回 content 字段，太大")
+@Schema(description =   "管理后台 - 文件 Response VO,不返回 content 字段，太大" )
 @Data
 public class FileRespVO {
 

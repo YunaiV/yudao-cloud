@@ -14,7 +14,7 @@ public class BpmModelUpdateStateReqVO {
     @NotNull(message = "编号不能为空")
     private String id;
 
-    @Schema(description = "状态", required = true, example = "1", notes = "见 SuspensionState 枚举")
+    @Schema(description = "状态,见 SuspensionState 枚举", required = true, example = "1")
     @NotNull(message = "状态不能为空")
     private Integer state;
 

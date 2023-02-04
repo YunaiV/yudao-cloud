@@ -15,7 +15,7 @@ import java.util.Properties;
 @AllArgsConstructor
 public class RedisMonitorRespVO {
 
-    @Schema(description = "Redis info 指令结果", required = true, notes = "具体字段，查看 Redis 文档")
+    @Schema(description = "Redis info 指令结果,具体字段，查看 Redis 文档", required = true)
     private Properties info;
 
     @Schema(description = "Redis key 数量", required = true, example = "1024")

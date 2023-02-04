@@ -1,10 +1,9 @@
 package cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.group;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.*;
-import io.swagger.annotations.*;
 
 @Schema(description = "管理后台 - 用户组 Response VO")
 @Data

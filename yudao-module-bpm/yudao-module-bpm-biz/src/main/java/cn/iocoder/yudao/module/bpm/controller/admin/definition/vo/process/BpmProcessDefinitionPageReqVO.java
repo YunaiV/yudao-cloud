@@ -13,7 +13,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 public class BpmProcessDefinitionPageReqVO extends PageParam {
 
-    @Schema(description = "标识", example = "process1641042089407", notes = "精准匹配")
+    @Schema(description = "标识,精准匹配", example = "process1641042089407")
     private String key;
 
 }

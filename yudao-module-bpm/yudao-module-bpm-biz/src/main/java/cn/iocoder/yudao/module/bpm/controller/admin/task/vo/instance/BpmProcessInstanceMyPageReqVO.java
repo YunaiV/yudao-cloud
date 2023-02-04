@@ -24,13 +24,13 @@ public class BpmProcessInstanceMyPageReqVO extends PageParam {
     @Schema(description = "流程定义的编号", example = "2048")
     private String processDefinitionId;
 
-    @Schema(description = "流程实例的状态", notes = "参见 bpm_process_instance_status", example = "1")
+    @Schema(description = "流程实例的状态,参见 bpm_process_instance_status", example = "1")
     private Integer status;
 
-    @Schema(description = "流程实例的结果", notes = "参见 bpm_process_instance_result", example = "2")
+    @Schema(description = "流程实例的结果,参见 bpm_process_instance_result", example = "2")
     private Integer result;
 
-    @Schema(description = "流程分类", notes = "参见 bpm_model_category 数据字典", example = "1")
+    @Schema(description = "流程分类,参见 bpm_model_category 数据字典", example = "1")
     private String category;
 
     @Schema(description = "创建时间")

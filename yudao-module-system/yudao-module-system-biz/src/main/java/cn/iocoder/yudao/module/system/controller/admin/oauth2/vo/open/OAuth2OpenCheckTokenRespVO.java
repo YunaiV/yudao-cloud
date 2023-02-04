@@ -18,7 +18,7 @@ public class OAuth2OpenCheckTokenRespVO {
     @Schema(description = "用户编号", required = true, example = "666")
     @JsonProperty("user_id")
     private Long userId;
-    @Schema(description = "用户类型", required = true, example = "2", notes = "参见 UserTypeEnum 枚举")
+    @Schema(description = "用户类型,参见 UserTypeEnum 枚举", required = true, example = "2")
     @JsonProperty("user_type")
     private Integer userType;
     @Schema(description = "租户编号", required = true, example = "1024")
@@ -34,7 +34,7 @@ public class OAuth2OpenCheckTokenRespVO {
     @JsonProperty("access_token")
     private String accessToken;
 
-    @Schema(description = "过期时间", required = true, example = "1593092157", notes = "时间戳 / 1000，即单位：秒")
+    @Schema(description = "过期时间,时间戳 / 1000，即单位：秒", required = true, example = "1593092157")
     private Long exp;
 
 }

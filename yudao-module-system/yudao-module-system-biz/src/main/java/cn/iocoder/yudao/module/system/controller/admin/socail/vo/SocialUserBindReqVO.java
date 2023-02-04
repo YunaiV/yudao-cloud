@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class SocialUserBindReqVO {
 
-    @Schema(description = "社交平台的类型", required = true, example = "10", notes = "参见 UserSocialTypeEnum 枚举值")
+    @Schema(description = "社交平台的类型,参见 UserSocialTypeEnum 枚举值", required = true, example = "10" )
     @InEnum(SocialTypeEnum.class)
     @NotNull(message = "社交平台的类型不能为空")
     private Integer type;

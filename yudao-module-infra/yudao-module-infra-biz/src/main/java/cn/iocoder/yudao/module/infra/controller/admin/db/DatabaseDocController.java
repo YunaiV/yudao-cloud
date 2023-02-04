@@ -43,8 +43,7 @@ public class DatabaseDocController {
 
     @GetMapping("/export-html")
     @Operation(summary = "导出 html 格式的数据文档")
-    @Parameter(name = "deleteFile", description = "是否删除在服务器本地生成的数据库文档", example = "true",
-            dataTypeClass = Boolean.class)
+    @Parameter(name = "deleteFile", description = "是否删除在服务器本地生成的数据库文档", example = "true")
     public void exportHtml(@RequestParam(defaultValue = "true") Boolean deleteFile,
                            HttpServletResponse response) throws IOException {
         doExportFile(EngineFileType.HTML, deleteFile, response);
@@ -52,8 +51,7 @@ public class DatabaseDocController {
 
     @GetMapping("/export-word")
     @Operation(summary = "导出 word 格式的数据文档")
-    @Parameter(name = "deleteFile", description = "是否删除在服务器本地生成的数据库文档", example = "true",
-            dataTypeClass = Boolean.class)
+    @Parameter(name = "deleteFile", description = "是否删除在服务器本地生成的数据库文档", example = "true")
     public void exportWord(@RequestParam(defaultValue = "true") Boolean deleteFile,
                            HttpServletResponse response) throws IOException {
         doExportFile(EngineFileType.WORD, deleteFile, response);
@@ -61,8 +59,7 @@ public class DatabaseDocController {
 
     @GetMapping("/export-markdown")
     @Operation(summary = "导出 markdown 格式的数据文档")
-    @Parameter(name = "deleteFile", description = "是否删除在服务器本地生成的数据库文档", example = "true",
-            dataTypeClass = Boolean.class)
+    @Parameter(name = "deleteFile", description = "是否删除在服务器本地生成的数据库文档", example = "true")
     public void exportMarkdown(@RequestParam(defaultValue = "true") Boolean deleteFile,
                                HttpServletResponse response) throws IOException {
         doExportFile(EngineFileType.MD, deleteFile, response);

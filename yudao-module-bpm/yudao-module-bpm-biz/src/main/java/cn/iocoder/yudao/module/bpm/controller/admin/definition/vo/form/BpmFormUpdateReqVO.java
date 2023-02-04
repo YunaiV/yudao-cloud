@@ -1,7 +1,7 @@
 package cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.form;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 import java.util.List;
 
@@ -15,11 +15,11 @@ public class BpmFormUpdateReqVO extends BpmFormBaseVO {
     @NotNull(message = "表单编号不能为空")
     private Long id;
 
-    @Schema(description = "表单的配置", required = true, notes = "JSON 字符串")
+    @Schema(description = "表单的配置,JSON 字符串", required = true)
     @NotNull(message = "表单的配置不能为空")
     private String conf;
 
-    @Schema(description = "表单项的数组", required = true, notes = "JSON 字符串的数组")
+    @Schema(description = "表单项的数组,JSON 字符串的数组", required = true)
     @NotNull(message = "表单项的数组不能为空")
     private List<String> fields;
 

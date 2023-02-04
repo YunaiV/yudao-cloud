@@ -21,7 +21,7 @@ public class NotifyMessageBaseVO {
     @NotNull(message = "用户编号不能为空")
     private Long userId;
 
-    @Schema(description = "用户类型", required = true, example = "1", notes = "参见 UserTypeEnum 枚举")
+    @Schema(description = "用户类型,参见 UserTypeEnum 枚举", required = true, example = "1")
     @NotNull(message = "用户类型不能为空")
     private Byte userType;
 

@@ -22,7 +22,7 @@ public class ConfigRespVO extends ConfigBaseVO {
     @Size(max = 100, message = "参数键名长度不能超过100个字符")
     private String key;
 
-    @Schema(description = "参数类型", required = true, example = "1", notes = "参见 SysConfigTypeEnum 枚举")
+    @Schema(description = "参数类型,参见 SysConfigTypeEnum 枚举", required = true, example = "1")
     private Integer type;
 
     @Schema(description = "创建时间", required = true, example = "时间戳格式")

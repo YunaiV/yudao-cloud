@@ -20,21 +20,19 @@ public class BpmModelUpdateReqVO {
     @Schema(description = "流程描述", example = "我是描述")
     private String description;
 
-    @Schema(description = "流程分类", notes = "参见 bpm_model_category 数据字典", example = "1")
+    @Schema(description = "流程分类,参见 bpm_model_category 数据字典", example = "1")
     private String category;
 
     @Schema(description = "BPMN XML", required = true)
     private String bpmnXml;
 
-    @Schema(description = "表单类型", notes = "参见 bpm_model_form_type 数据字典", example = "1")
+    @Schema(description = "表单类型,参见 bpm_model_form_type 数据字典", example = "1")
     private Integer formType;
-    @Schema(description = "表单编号", example = "1024", notes = "在表单类型为 {@link BpmModelFormTypeEnum#CUSTOM} 时，必须非空")
+    @Schema(description = "表单编号,在表单类型为 {@link BpmModelFormTypeEnum#CUSTOM} 时，必须非空", example = "1024")
     private Long formId;
-    @Schema(description = "自定义表单的提交路径，使用 Vue 的路由地址", example = "/bpm/oa/leave/create",
-            notes = "在表单类型为 {@link BpmModelFormTypeEnum#CUSTOM} 时，必须非空")
+    @Schema(description = "自定义表单的提交路径，使用 Vue 的路由地址,在表单类型为 {@link BpmModelFormTypeEnum#CUSTOM} 时，必须非空", example = "/bpm/oa/leave/create")
     private String formCustomCreatePath;
-    @Schema(description = "自定义表单的查看路径，使用 Vue 的路由地址", example = "/bpm/oa/leave/view",
-            notes = "在表单类型为 {@link BpmModelFormTypeEnum#CUSTOM} 时，必须非空")
+    @Schema(description = "自定义表单的查看路径，使用 Vue 的路由地址,在表单类型为 {@link BpmModelFormTypeEnum#CUSTOM} 时，必须非空", example = "/bpm/oa/leave/view" )
     private String formCustomViewPath;
 
 }

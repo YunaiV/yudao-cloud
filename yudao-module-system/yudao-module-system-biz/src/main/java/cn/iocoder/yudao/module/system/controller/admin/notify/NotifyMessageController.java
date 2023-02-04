@@ -63,7 +63,7 @@ public class NotifyMessageController {
 
     @PutMapping("/update-read")
     @Operation(summary = "标记站内信为已读")
-    @Parameter(name = "ids", description = "编号列表", required = true, example = "1024,2048", dataTypeClass = List.class)
+    @Parameter(name = "ids", description = "编号列表", required = true, example = "1024,2048")
     public CommonResult<Boolean> updateNotifyMessageRead(@RequestParam("ids") List<Long> ids) {
         notifyMessageService.updateNotifyMessageRead(ids, getLoginUserId(), UserTypeEnum.ADMIN.getValue());
         return success(Boolean.TRUE);
@@ -78,7 +78,7 @@ public class NotifyMessageController {
 
     @GetMapping("/get-unread-list")
     @Operation(summary = "获取当前用户的最新站内信列表，默认 10 条")
-    @Parameter(name = "size", description = "10", defaultValue = "10")
+    @Parameter(name = "size", description = "10")
     public CommonResult<List<NotifyMessageRespVO>> getUnreadNotifyMessageList(
             @RequestParam(name = "size", defaultValue = "10") Integer size) {
         List<NotifyMessageDO> list = notifyMessageService.getUnreadNotifyMessageList(

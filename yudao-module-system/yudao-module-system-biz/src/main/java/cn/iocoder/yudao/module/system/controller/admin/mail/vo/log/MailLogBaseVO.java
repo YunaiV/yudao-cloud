@@ -20,7 +20,7 @@ public class MailLogBaseVO {
     @Schema(description = "用户编号", example = "30883")
     private Long userId;
 
-    @Schema(description = "用户类型", example = "2", notes = "参见 UserTypeEnum 枚举")
+    @Schema(description = "用户类型,参见 UserTypeEnum 枚举", example = "2" )
     private Byte userType;
 
     @Schema(description = "接收邮箱地址", required = true, example = "76854@qq.com")
@@ -58,7 +58,7 @@ public class MailLogBaseVO {
     @NotNull(message = "邮件参数不能为空")
     private Map<String, Object> templateParams;
 
-    @Schema(description = "发送状态", required = true, example = "1", notes = "参见 MailSendStatusEnum 枚举")
+    @Schema(description = "发送状态，参见 MailSendStatusEnum 枚举", required = true, example = "1" )
     @NotNull(message = "发送状态不能为空")
     private Byte sendStatus;
 

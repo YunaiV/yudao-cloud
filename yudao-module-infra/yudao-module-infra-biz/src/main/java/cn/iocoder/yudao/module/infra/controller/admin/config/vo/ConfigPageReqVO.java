@@ -21,10 +21,10 @@ public class ConfigPageReqVO extends PageParam {
     @Schema(description = "数据源名称", example = "模糊匹配")
     private String name;
 
-    @Schema(description = "参数键名", example = "yunai.db.username", notes = "模糊匹配")
+    @Schema(description = "参数键名,模糊匹配", example = "yunai.db.username")
     private String key;
 
-    @Schema(description = "参数类型", example = "1", notes = "参见 SysConfigTypeEnum 枚举")
+    @Schema(description = "参数类型,参见 SysConfigTypeEnum 枚举", example = "1")
     private Integer type;
 
     @Schema(description = "创建时间", example = "[2022-07-01 00:00:00,2022-07-01 23:59:59]")

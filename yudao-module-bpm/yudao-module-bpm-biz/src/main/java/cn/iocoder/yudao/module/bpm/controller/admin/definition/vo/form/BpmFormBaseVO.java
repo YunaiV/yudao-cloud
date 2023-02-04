@@ -1,7 +1,7 @@
 package cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.form;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 
 /**
@@ -15,7 +15,7 @@ public class BpmFormBaseVO {
     @NotNull(message = "表单名称不能为空")
     private String name;
 
-    @Schema(description = "表单状态", required = true, notes = "参见 CommonStatusEnum 枚举", example = "1")
+    @Schema(description = "表单状态,参见 CommonStatusEnum 枚举", required = true, example = "1")
     @NotNull(message = "表单状态不能为空")
     private Integer status;
 

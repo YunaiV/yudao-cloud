@@ -22,7 +22,7 @@ public class BpmTaskTodoPageItemRespVO {
     @Schema(description = "创建时间", required = true)
     private LocalDateTime createTime;
 
-    @Schema(description = "激活状态", required = true, example = "1", notes = "参见 SuspensionState 枚举")
+    @Schema(description = "激活状态,参见 SuspensionState 枚举", required = true, example = "1")
     private Integer suspensionState;
 
     /**

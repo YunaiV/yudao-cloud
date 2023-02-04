@@ -20,7 +20,7 @@ public class OAuth2OpenAuthorizeInfoRespVO {
      */
     private Client client;
 
-    @Schema(description = "scope 的选中信息", required = true, notes = "使用 List 保证有序性，Key 是 scope，Value 为是否选中")
+    @Schema(description = "scope 的选中信息,使用 List 保证有序性，Key 是 scope，Value 为是否选中", required = true)
     private List<KeyValue<String, Boolean>> scopes;
 
     @Data

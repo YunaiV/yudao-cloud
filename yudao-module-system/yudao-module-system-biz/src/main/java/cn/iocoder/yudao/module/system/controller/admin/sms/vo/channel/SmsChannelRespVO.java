@@ -17,7 +17,7 @@ public class SmsChannelRespVO extends SmsChannelBaseVO {
     @Schema(description = "编号", required = true, example = "1024")
     private Long id;
 
-    @Schema(description = "渠道编码", required = true, example = "YUN_PIAN", notes = "参见 SmsChannelEnum 枚举类")
+    @Schema(description = "渠道编码，参见 SmsChannelEnum 枚举类", required = true, example = "YUN_PIAN" )
     private String code;
 
     @Schema(description = "创建时间", required = true)

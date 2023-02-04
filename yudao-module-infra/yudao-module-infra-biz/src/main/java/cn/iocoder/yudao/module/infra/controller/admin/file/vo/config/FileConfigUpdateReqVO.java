@@ -19,7 +19,7 @@ public class FileConfigUpdateReqVO extends FileConfigBaseVO {
     @NotNull(message = "编号不能为空")
     private Long id;
 
-    @Schema(description = "存储配置", required = true, notes = "配置是动态参数，所以使用 Map 接收")
+    @Schema(description = "存储配置,配置是动态参数，所以使用 Map 接收", required = true)
     @NotNull(message = "存储配置不能为空")
     private Map<String, Object> config;
 

@@ -11,10 +11,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class NoticePageReqVO extends PageParam {
 
-    @Schema(description = "通知公告名称", example = "芋道", notes = "模糊匹配")
+    @Schema(description = "通知公告名称,模糊匹配", example = "芋道")
     private String title;
 
-    @Schema(description = "展示状态", example = "1", notes = "参见 CommonStatusEnum 枚举类")
+    @Schema(description = "展示状态,参见 CommonStatusEnum 枚举类", example = "1")
     private Integer status;
 
 }

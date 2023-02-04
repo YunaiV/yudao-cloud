@@ -70,7 +70,7 @@ public class CodegenColumnBaseVO {
     @NotNull(message = "是否为 List 查询操作的字段不能为空")
     private Boolean listOperation;
 
-    @Schema(description = "List 查询操作的条件类型", required = true, example = "LIKE", notes = "参见 CodegenColumnListConditionEnum 枚举")
+    @Schema(description = "List 查询操作的条件类型,参见 CodegenColumnListConditionEnum 枚举", required = true, example = "LIKE")
     @NotNull(message = "List 查询操作的条件类型不能为空")
     private String listOperationCondition;
 

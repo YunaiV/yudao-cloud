@@ -1,8 +1,7 @@
 package cn.iocoder.yudao.module.infra.controller.admin.test.vo;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-import java.util.*;
-import io.swagger.annotations.*;
 import javax.validation.constraints.*;
 
 /**

@@ -20,7 +20,7 @@ public class BpmActivityRespVO {
     @Schema(description = "流程活动的结束时间", required = true)
     private LocalDateTime endTime;
 
-    @Schema(description = "关联的流程任务的编号", example = "2048", notes = "关联的流程任务，只有 UserTask 等类型才有")
+    @Schema(description = "关联的流程任务的编号,关联的流程任务，只有 UserTask 等类型才有", example = "2048")
     private String taskId;
 
 }

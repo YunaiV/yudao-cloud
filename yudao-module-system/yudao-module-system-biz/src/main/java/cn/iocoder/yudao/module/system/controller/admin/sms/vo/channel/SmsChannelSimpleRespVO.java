@@ -18,7 +18,7 @@ public class SmsChannelSimpleRespVO {
     @NotNull(message = "短信签名不能为空")
     private String signature;
 
-    @Schema(description = "渠道编码", required = true, example = "YUN_PIAN", notes = "参见 SmsChannelEnum 枚举类")
+    @Schema(description = "渠道编码，参见 SmsChannelEnum 枚举类", required = true, example = "YUN_PIAN" )
     private String code;
 
 }

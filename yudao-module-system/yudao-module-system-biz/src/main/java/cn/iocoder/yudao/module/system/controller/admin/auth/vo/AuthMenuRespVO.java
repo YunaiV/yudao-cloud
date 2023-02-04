@@ -25,13 +25,13 @@ public class AuthMenuRespVO {
     @Schema(description = "菜单名称", required = true, example = "芋道")
     private String name;
 
-    @Schema(description = "路由地址", example = "post", notes = "仅菜单类型为菜单或者目录时，才需要传")
+    @Schema(description = "路由地址，仅菜单类型为菜单或者目录时，才需要传", example = "post")
     private String path;
 
-    @Schema(description = "组件路径", example = "system/post/index", notes = "仅菜单类型为菜单时，才需要传")
+    @Schema(description = "组件路径，仅菜单类型为菜单时，才需要传", example = "system/post/index")
     private String component;
 
-    @Schema(description = "菜单图标", example = "/menu/list", notes = "仅菜单类型为菜单或者目录时，才需要传")
+    @Schema(description = "菜单图标，仅菜单类型为菜单或者目录时，才需要传", example = "/menu/list")
     private String icon;
 
     @Schema(description = "是否可见", required = true, example = "false")

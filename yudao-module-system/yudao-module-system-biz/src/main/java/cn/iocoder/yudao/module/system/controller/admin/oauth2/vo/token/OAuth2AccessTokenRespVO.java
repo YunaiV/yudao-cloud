@@ -26,7 +26,7 @@ public class OAuth2AccessTokenRespVO {
     @Schema(description = "用户编号", required = true, example = "666")
     private Long userId;
 
-    @Schema(description = "用户类型", required = true, example = "2", notes = "参见 UserTypeEnum 枚举")
+    @Schema(description = "用户类型,参见 UserTypeEnum 枚举", required = true, example = "2")
     private Integer userType;
 
     @Schema(description = "客户端编号", required = true, example = "2")

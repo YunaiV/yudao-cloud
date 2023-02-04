@@ -19,7 +19,7 @@ public class MenuRespVO extends MenuBaseVO {
     @Schema(description = "菜单编号", required = true, example = "1024")
     private Long id;
 
-    @Schema(description = "状态", required = true, example = "1", notes = "参见 CommonStatusEnum 枚举类")
+    @Schema(description = "状态，参见 CommonStatusEnum 枚举类", required = true, example = "1")
     private Integer status;
 
     @Schema(description = "创建时间", required = true, example = "时间戳格式")

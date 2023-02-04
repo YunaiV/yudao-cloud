@@ -25,11 +25,11 @@ public class OAuth2OpenAccessTokenRespVO {
     @JsonProperty("token_type")
     private String tokenType;
 
-    @Schema(description = "过期时间", required = true, example = "42430", notes = "单位：秒")
+    @Schema(description = "过期时间,单位：秒", required = true, example = "42430")
     @JsonProperty("expires_in")
     private Long expiresIn;
 
-    @Schema(description = "授权范围", example = "user_info", notes = "如果多个授权范围，使用空格分隔")
+    @Schema(description = "授权范围,如果多个授权范围，使用空格分隔", example = "user_info")
     private String scope;
 
 }

@@ -14,13 +14,13 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class BpmModelPageReqVO extends PageParam {
 
-    @Schema(description = "标识", example = "process1641042089407", notes = "精准匹配")
+    @Schema(description = "标识,精准匹配", example = "process1641042089407")
     private String key;
 
-    @Schema(description = "名字", example = "芋道", notes = "模糊匹配")
+    @Schema(description = "名字,精准匹配", example = "芋道")
     private String name;
 
-    @Schema(description = "流程分类", notes = "参见 bpm_model_category 数据字典", example = "1")
+    @Schema(description = "流程分类,参见 bpm_model_category 数据字典", example = "1")
     private String category;
 
 }

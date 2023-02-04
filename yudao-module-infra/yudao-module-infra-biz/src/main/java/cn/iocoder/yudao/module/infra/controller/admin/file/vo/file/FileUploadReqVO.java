@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
 
-@Schema(description = value = "管理后台 - 上传文件 Request VO")
+@Schema(description =  "管理后台 - 上传文件 Request VO")
 @Data
 public class FileUploadReqVO {
 

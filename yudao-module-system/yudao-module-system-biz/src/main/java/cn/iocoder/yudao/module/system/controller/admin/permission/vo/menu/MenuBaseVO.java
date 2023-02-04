@@ -19,11 +19,11 @@ public class MenuBaseVO {
     @Size(max = 50, message = "菜单名称长度不能超过50个字符")
     private String name;
 
-    @Schema(description = "权限标识", example = "sys:menu:add", notes = "仅菜单类型为按钮时，才需要传递")
+    @Schema(description = "权限标识,仅菜单类型为按钮时，才需要传递", example = "sys:menu:add")
     @Size(max = 100)
     private String permission;
 
-    @Schema(description = "类型", required = true, example = "1", notes = "参见 MenuTypeEnum 枚举类")
+    @Schema(description = "类型,参见 MenuTypeEnum 枚举类", required = true, example = "1")
     @NotNull(message = "菜单类型不能为空")
     private Integer type;
 
@@ -35,18 +35,18 @@ public class MenuBaseVO {
     @NotNull(message = "父菜单 ID 不能为空")
     private Long parentId;
 
-    @Schema(description = "路由地址", example = "post", notes = "仅菜单类型为菜单或者目录时，才需要传")
+    @Schema(description = "路由地址,仅菜单类型为菜单或者目录时，才需要传", example = "post")
     @Size(max = 200, message = "路由地址不能超过200个字符")
     private String path;
 
-    @Schema(description = "菜单图标", example = "/menu/list", notes = "仅菜单类型为菜单或者目录时，才需要传")
+    @Schema(description = "菜单图标,仅菜单类型为菜单或者目录时，才需要传", example = "/menu/list")
     private String icon;
 
-    @Schema(description = "组件路径", example = "system/post/index", notes = "仅菜单类型为菜单时，才需要传")
+    @Schema(description = "组件路径,仅菜单类型为菜单时，才需要传", example = "system/post/index")
     @Size(max = 200, message = "组件路径不能超过255个字符")
     private String component;
 
-    @Schema(description = "状态", required = true, example = "1", notes = "见 CommonStatusEnum 枚举")
+    @Schema(description = "状态,见 CommonStatusEnum 枚举", required = true, example = "1")
     @NotNull(message = "状态不能为空")
     private Integer status;
 

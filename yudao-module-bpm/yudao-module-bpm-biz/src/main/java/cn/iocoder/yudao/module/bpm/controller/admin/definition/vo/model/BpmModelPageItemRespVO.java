@@ -41,7 +41,7 @@ public class BpmModelPageItemRespVO extends BpmModelBaseVO {
         @Schema(description = "部署时间", required = true)
         private LocalDateTime deploymentTime;
 
-        @Schema(description = "中断状态", required = true, example = "1", notes = "参见 SuspensionState 枚举")
+        @Schema(description = "中断状态,参见 SuspensionState 枚举", required = true, example = "1")
         private Integer suspensionState;
 
     }

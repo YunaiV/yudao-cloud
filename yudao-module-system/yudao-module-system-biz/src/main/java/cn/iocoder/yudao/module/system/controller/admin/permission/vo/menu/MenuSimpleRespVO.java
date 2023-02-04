@@ -23,7 +23,7 @@ public class MenuSimpleRespVO {
     @Schema(description = "父菜单 ID", required = true, example = "1024")
     private Long parentId;
 
-    @Schema(description = "类型", required = true, example = "1", notes = "参见 MenuTypeEnum 枚举类")
+    @Schema(description = "类型，参见 MenuTypeEnum 枚举类", required = true, example = "1")
     private Integer type;
 
 }

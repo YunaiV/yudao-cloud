@@ -69,7 +69,7 @@ public class TestDemoController {
 
     @GetMapping("/list")
     @Operation(summary = "获得字典类型列表")
-    @Parameter(name = "ids", description = "编号列表", required = true, example = "1024,2048", dataTypeClass = List.class)
+    @Parameter(name = "ids", description = "编号列表", required = true, example = "1024,2048")
     @PreAuthorize("@ss.hasPermission('infra:test-demo:query')")
     public CommonResult<List<TestDemoRespVO>> getTestDemoList(@RequestParam("ids") Collection<Long> ids) {
         List<TestDemoDO> list = testDemoService.getTestDemoList(ids);

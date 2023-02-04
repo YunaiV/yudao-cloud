@@ -26,7 +26,7 @@ public class NoticeBaseVO {
     @Schema(description = "公告内容", required = true, example = "半生编码")
     private String content;
 
-    @Schema(description = "状态", required = true, example = "1", notes = "参见 CommonStatusEnum 枚举类")
+    @Schema(description = "状态，参见 CommonStatusEnum 枚举类", required = true, example = "1")
     private Integer status;
 
 }

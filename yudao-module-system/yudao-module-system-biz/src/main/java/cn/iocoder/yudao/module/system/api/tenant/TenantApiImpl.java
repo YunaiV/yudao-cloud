@@ -21,8 +21,8 @@ public class TenantApiImpl implements TenantApi {
     private TenantService tenantService;
 
     @Override
-    public CommonResult<List<Long>> getTenantIds() {
-        return success(tenantService.getTenantIds());
+    public CommonResult<List<Long>> getTenantIdList() {
+        return success(tenantService.getTenantIdList());
     }
 
     @Override

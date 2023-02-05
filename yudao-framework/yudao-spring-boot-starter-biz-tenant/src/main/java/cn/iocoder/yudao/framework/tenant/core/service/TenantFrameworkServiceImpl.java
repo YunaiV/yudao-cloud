@@ -30,7 +30,7 @@ public class TenantFrameworkServiceImpl implements TenantFrameworkService {
 
                 @Override
                 public List<Long> load(Object key) {
-                    return tenantApi.getTenantIds().getCheckedData();
+                    return tenantApi.getTenantIdList().getCheckedData();
                 }
 
             });

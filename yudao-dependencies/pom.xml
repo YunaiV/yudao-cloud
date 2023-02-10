@@ -75,6 +75,8 @@
         <aliyun-java-sdk-dysmsapi.version>2.2.1</aliyun-java-sdk-dysmsapi.version>
         <tencentcloud-sdk-java.version>3.1.676</tencentcloud-sdk-java.version>
         <justauth.version>1.4.0</justauth.version>
+        <jimureport.version>1.5.6</jimureport.version>
+        <xercesImpl.version>2.12.2</xercesImpl.version>
     </properties>
 
     <dependencyManagement>
@@ -635,6 +637,24 @@
                         <artifactId>hutool-core</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <!-- 积木报表-->
+            <dependency>
+                <groupId>org.jeecgframework.jimureport</groupId>
+                <artifactId>jimureport-spring-boot-starter</artifactId>
+                <version>${jimureport.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.alibaba</groupId>
+                        <artifactId>druid</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>xerces</groupId>
+                <artifactId>xercesImpl</artifactId>
+                <version>${xercesImpl.version}</version>
             </dependency>
 
         </dependencies>

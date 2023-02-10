@@ -44,7 +44,7 @@
         <opentracing.version>0.33.0</opentracing.version>
         <!-- Test 测试相关 -->
         <podam.version>7.2.11.RELEASE</podam.version>
-        <jedis-mock.version>1.0.5</jedis-mock.version>
+        <jedis-mock.version>1.0.6</jedis-mock.version>
         <mockito-inline.version>4.11.0</mockito-inline.version>
         <!-- Bpm 工作流相关 -->
         <flowable.version>6.8.0</flowable.version>

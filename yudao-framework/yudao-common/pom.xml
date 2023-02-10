@@ -60,8 +60,8 @@
 
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <scope>provided</scope> <!-- 设置为 provided，主要是 PageParam 使用到 -->
+            <artifactId>springdoc-openapi-webmvc-core</artifactId>
+            <scope>compile</scope>
         </dependency>
 
         <!-- 监控相关 -->

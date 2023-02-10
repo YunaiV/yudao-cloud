@@ -31,7 +31,6 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 
-// TODO @芋艿：单测的代码质量可以提升下
 @Import(MenuServiceImpl.class)
 public class MenuServiceTest extends BaseDbUnitTest {
 

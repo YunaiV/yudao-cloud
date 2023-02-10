@@ -46,6 +46,9 @@ public class MenuBaseVO {
     @Size(max = 200, message = "组件路径不能超过255个字符")
     private String component;
 
+    @ApiModelProperty(value = "组件名", example = "SystemUser")
+    private String componentName;
+
     @ApiModelProperty(value = "状态", required = true, example = "1", notes = "见 CommonStatusEnum 枚举")
     @NotNull(message = "状态不能为空")
     private Integer status;
@@ -55,5 +58,8 @@ public class MenuBaseVO {
 
     @ApiModelProperty(value = "是否缓存", example = "false")
     private Boolean keepAlive;
+
+    @ApiModelProperty(value = "是否总是显示", example = "false")
+    private Boolean alwaysShow;
 
 }

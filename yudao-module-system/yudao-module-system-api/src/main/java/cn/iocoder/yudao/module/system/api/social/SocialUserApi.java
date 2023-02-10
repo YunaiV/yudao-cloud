@@ -19,7 +19,7 @@ public interface SocialUserApi {
 
     String PREFIX = ApiConstants.PREFIX + "/social-user";
 
-    @GetMapping("/get-authorize-url")
+    @GetMapping("PREFIX + /get-authorize-url")
     @Operation(summary = "获得社交平台的授权 URL")
     @Parameters({
             @Parameter(name = "type", description = "社交平台的类型", example = "1", required = true),
@@ -28,15 +28,15 @@ public interface SocialUserApi {
     CommonResult<String> getAuthorizeUrl(@RequestParam("type") Integer type,
                                          @RequestParam("redirectUri") String redirectUri);
 
-    @PostMapping("/bind")
+    @PostMapping("PREFIX + /bind")
     @Operation(summary = "绑定社交用户")
     CommonResult<Boolean> bindSocialUser(@Valid @RequestBody SocialUserBindReqDTO reqDTO);
 
-    @DeleteMapping("/unbind")
+    @DeleteMapping("PREFIX + /unbind")
     @Operation(summary = "取消绑定社交用户")
     CommonResult<Boolean> unbindSocialUser(@Valid @RequestBody SocialUserUnbindReqDTO reqDTO);
 
-    @GetMapping("/get-bind-user-id")
+    @GetMapping("PREFIX + /get-bind-user-id")
     @Operation(summary = "获得社交用户的绑定用户编号")
     @Parameters({
             @Parameter(name = "userType", description = "用户类型", example = "2", required = true),

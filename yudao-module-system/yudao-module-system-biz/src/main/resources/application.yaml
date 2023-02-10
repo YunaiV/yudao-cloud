@@ -59,7 +59,7 @@ spring:
     # Spring Cloud Stream 配置项，对应 BindingServiceProperties 类
     stream:
       function:
-        definition: smsSendConsumer;
+        definition: smsSendConsumer;mailSendConsumer;
       # Binding 配置项，对应 BindingProperties Map
       bindings:
         smsSend-out-0:
@@ -67,6 +67,11 @@ spring:
         smsSendConsumer-in-0:
           destination: system_sms_send
           group: system_sms_send_consumer_group
+        mailSend-out-0:
+          destination: system_mail_send
+        mailSendConsumer-in-0:
+          destination: system_mail_send
+          group: system_mail_send_consumer_group
       # Spring Cloud Stream RocketMQ 配置项
       rocketmq:
         # RocketMQ Binder 配置项，对应 RocketMQBinderConfigurationProperties 类
@@ -154,6 +159,10 @@ yudao:
       - system_sms_log
       - system_sensitive_word
       - system_oauth2_client
+      - system_mail_account
+      - system_mail_template
+      - system_mail_log
+      - system_notify_template
   sms-code: # 短信验证码相关的配置项
     expire-times: 10m
     send-frequency: 1m

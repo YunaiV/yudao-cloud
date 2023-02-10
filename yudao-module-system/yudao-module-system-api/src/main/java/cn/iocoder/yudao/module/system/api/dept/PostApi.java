@@ -20,6 +20,6 @@ public interface PostApi {
     @GetMapping(PREFIX + "/valid")
     @ApiOperation("校验岗位是否合法")
     @ApiImplicitParam(name = "ids", value = "岗位编号数组", example = "1,2", required = true, allowMultiple = true)
-    CommonResult<Boolean> validPosts(@RequestParam("ids") Collection<Long> ids);
+    CommonResult<Boolean> validPostList(@RequestParam("ids") Collection<Long> ids);
 
 }

@@ -33,26 +33,26 @@ public class AdminUserApiImpl implements AdminUserApi {
     }
 
     @Override
-    public CommonResult<List<AdminUserRespDTO>> getUsers(Collection<Long> ids) {
-        List<AdminUserDO> users = userService.getUsers(ids);
+    public CommonResult<List<AdminUserRespDTO>> getUserList(Collection<Long> ids) {
+        List<AdminUserDO> users = userService.getUserList(ids);
         return success(UserConvert.INSTANCE.convertList4(users));
     }
 
     @Override
-    public CommonResult<List<AdminUserRespDTO>> getUsersByDeptIds(Collection<Long> deptIds) {
-        List<AdminUserDO> users = userService.getUsersByDeptIds(deptIds);
+    public CommonResult<List<AdminUserRespDTO>> getUserListByDeptIds(Collection<Long> deptIds) {
+        List<AdminUserDO> users = userService.getUserListByDeptIds(deptIds);
         return success(UserConvert.INSTANCE.convertList4(users));
     }
 
     @Override
-    public CommonResult<List<AdminUserRespDTO>> getUsersByPostIds(Collection<Long> postIds) {
-        List<AdminUserDO> users = userService.getUsersByPostIds(postIds);
+    public CommonResult<List<AdminUserRespDTO>> getUserListByPostIds(Collection<Long> postIds) {
+        List<AdminUserDO> users = userService.getUserListByPostIds(postIds);
         return success(UserConvert.INSTANCE.convertList4(users));
     }
 
     @Override
-    public CommonResult<Boolean> validUsers(Set<Long> ids) {
-        userService.validUsers(ids);
+    public CommonResult<Boolean> validUserList(Set<Long> ids) {
+        userService.validateUserList(ids);
         return success(true);
     }
 

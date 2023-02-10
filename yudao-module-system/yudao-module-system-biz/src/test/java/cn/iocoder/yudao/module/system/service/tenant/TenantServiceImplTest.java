@@ -34,7 +34,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.util.collection.SetUtils.asSet;
-import static cn.iocoder.yudao.framework.common.util.date.DateUtils.buildLocalDateTime;
+import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildTime;
 import static cn.iocoder.yudao.framework.common.util.object.ObjectUtils.cloneIgnoreId;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertPojoEquals;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
@@ -81,13 +81,13 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     }
 
     @Test
-    public void testGetTenantIds() {
+    public void testGetTenantIdList() {
         // mock 数据
         TenantDO tenant = randomPojo(TenantDO.class, o -> o.setId(1L));
         tenantMapper.insert(tenant);
 
         // 调用，并断言业务异常
-        List<Long> result = tenantService.getTenantIds();
+        List<Long> result = tenantService.getTenantIdList();
         assertEquals(Collections.singletonList(1L), result);
     }
 
@@ -110,7 +110,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     public void testValidTenant_expired() {
         // mock 数据
         TenantDO tenant = randomPojo(TenantDO.class, o -> o.setId(1L).setStatus(CommonStatusEnum.ENABLE.getStatus())
-                .setExpireTime(buildLocalDateTime(2020, 2, 2)));
+                .setExpireTime(buildTime(2020, 2, 2)));
         tenantMapper.insert(tenant);
 
         // 调用，并断言业务异常
@@ -196,7 +196,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         role100.setTenantId(dbTenant.getId());
         RoleDO role101 = randomPojo(RoleDO.class, o -> o.setId(101L));
         role101.setTenantId(dbTenant.getId());
-        when(roleService.getRoles(isNull())).thenReturn(asList(role100, role101));
+        when(roleService.getRoleListByStatus(isNull())).thenReturn(asList(role100, role101));
         // mock 每个角色的权限
         when(permissionService.getRoleMenuIds(eq(101L))).thenReturn(asSet(201L, 202L));
 
@@ -291,7 +291,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
             o.setContactName("芋艿");
             o.setContactMobile("15601691300");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
-            o.setCreateTime(buildLocalDateTime(2020, 12, 12));
+            o.setCreateTime(buildTime(2020, 12, 12));
         });
         tenantMapper.insert(dbTenant);
         // 测试 name 不匹配
@@ -303,14 +303,14 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         // 测试 status 不匹配
         tenantMapper.insert(cloneIgnoreId(dbTenant, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // 测试 createTime 不匹配
-        tenantMapper.insert(cloneIgnoreId(dbTenant, o -> o.setCreateTime(buildLocalDateTime(2021, 12, 12))));
+        tenantMapper.insert(cloneIgnoreId(dbTenant, o -> o.setCreateTime(buildTime(2021, 12, 12))));
         // 准备参数
         TenantPageReqVO reqVO = new TenantPageReqVO();
         reqVO.setName("芋道");
         reqVO.setContactName("艿");
         reqVO.setContactMobile("1560");
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        reqVO.setCreateTime(new LocalDateTime[]{buildLocalDateTime(2020, 12, 1),buildLocalDateTime(2020, 12, 24)});
+        reqVO.setCreateTime(new LocalDateTime[]{buildTime(2020, 12, 1),buildTime(2020, 12, 24)});
 
         // 调用
         PageResult<TenantDO> pageResult = tenantService.getTenantPage(reqVO);
@@ -328,7 +328,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
             o.setContactName("芋艿");
             o.setContactMobile("15601691300");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
-            o.setCreateTime(buildLocalDateTime(2020, 12, 12));
+            o.setCreateTime(buildTime(2020, 12, 12));
         });
         tenantMapper.insert(dbTenant);
         // 测试 name 不匹配
@@ -340,14 +340,14 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         // 测试 status 不匹配
         tenantMapper.insert(cloneIgnoreId(dbTenant, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // 测试 createTime 不匹配
-        tenantMapper.insert(cloneIgnoreId(dbTenant, o -> o.setCreateTime(buildLocalDateTime(2021, 12, 12))));
+        tenantMapper.insert(cloneIgnoreId(dbTenant, o -> o.setCreateTime(buildTime(2021, 12, 12))));
         // 准备参数
         TenantExportReqVO reqVO = new TenantExportReqVO();
         reqVO.setName("芋道");
         reqVO.setContactName("艿");
         reqVO.setContactMobile("1560");
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        reqVO.setCreateTime(new LocalDateTime[]{buildLocalDateTime(2020, 12, 1),buildLocalDateTime(2020, 12, 24)});
+        reqVO.setCreateTime(new LocalDateTime[]{buildTime(2020, 12, 1),buildTime(2020, 12, 24)});
 
         // 调用
         List<TenantDO> list = tenantService.getTenantList(reqVO);
@@ -453,8 +453,8 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         tenantMapper.insert(dbTenant);// @Sql: 先插入出一条存在的数据
         TenantContextHolder.setTenantId(dbTenant.getId());
         // mock 菜单
-        when(menuService.getMenus()).thenReturn(Arrays.asList(randomPojo(MenuDO.class, o -> o.setId(100L)),
-                randomPojo(MenuDO.class, o -> o.setId(101L))));
+        when(menuService.getMenuList()).thenReturn(Arrays.asList(randomPojo(MenuDO.class, o -> o.setId(100L)),
+                        randomPojo(MenuDO.class, o -> o.setId(101L))));
 
         // 调用
         tenantService.handleTenantMenu(handler);

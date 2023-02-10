@@ -21,6 +21,7 @@ import com.xxl.job.core.executor.XxlJobExecutor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -90,44 +91,10 @@ public class YudaoTenantAutoConfiguration {
         return registrationBean;
     }
 
-    // ========== MQ ==========
-
-    @Bean
-    @GlobalChannelInterceptor // 必须添加在方法上，否则无法生效
-    public TenantChannelInterceptor tenantChannelInterceptor() {
-        return new TenantChannelInterceptor();
-    }
-
-    @Bean
-    public FunctionAroundWrapper functionAroundWrapper() {
-        return new TenantFunctionAroundWrapper();
-    }
-
     // ========== Job ==========
 
     @Bean
-    public BeanPostProcessor jobHandlerBeanPostProcessor(TenantFrameworkService tenantFrameworkService) {
-        return new BeanPostProcessor() {
-
-            @Override
-            public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-                if (!(bean instanceof XxlJobExecutor)) {
-                    return bean;
-                }
-//                // 有 TenantJob 注解的情况下，才会进行处理
-//                if (!AnnotationUtil.hasAnnotation(bean.getClass(), TenantJob.class)) {
-//                    return bean;
-//                }
-//
-//                // 使用 TenantJobHandlerDecorator 装饰
-//                return new TenantJobHandlerDecorator(tenantFrameworkService, (JobHandler) bean);
-                return bean;
-            }
-
-        };
-    }
-
-    @Bean
+    @ConditionalOnClass(name = "com.xxl.job.core.handler.annotation.XxlJob")
     public TenantJobAspect tenantJobAspect(TenantFrameworkService tenantFrameworkService) {
         return new TenantJobAspect(tenantFrameworkService);
     }

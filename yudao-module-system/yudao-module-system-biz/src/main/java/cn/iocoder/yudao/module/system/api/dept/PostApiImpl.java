@@ -22,8 +22,8 @@ public class PostApiImpl implements PostApi {
     private PostService postService;
 
     @Override
-    public CommonResult<Boolean> validPosts(Collection<Long> ids) {
-        postService.validPosts(ids);
+    public CommonResult<Boolean> validPostList(Collection<Long> ids) {
+        postService.validatePostList(ids);
         return success(true);
     }
 

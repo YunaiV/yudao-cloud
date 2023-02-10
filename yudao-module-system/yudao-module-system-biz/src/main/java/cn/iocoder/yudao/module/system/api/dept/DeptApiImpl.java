@@ -31,14 +31,14 @@ public class DeptApiImpl implements DeptApi {
     }
 
     @Override
-    public CommonResult<List<DeptRespDTO>> getDepts(Collection<Long> ids) {
-        List<DeptDO> depts = deptService.getDepts(ids);
+    public CommonResult<List<DeptRespDTO>> getDeptList(Collection<Long> ids) {
+        List<DeptDO> depts = deptService.getDeptList(ids);
         return success(DeptConvert.INSTANCE.convertList03(depts));
     }
 
     @Override
-    public CommonResult<Boolean> validDepts(Collection<Long> ids) {
-        deptService.validDepts(ids);
+    public CommonResult<Boolean> validateDeptList(Collection<Long> ids) {
+        deptService.validateDeptList(ids);
         return success(true);
     }
 

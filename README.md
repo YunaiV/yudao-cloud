@@ -34,7 +34,7 @@
 * 高效率开发，使用代码生成器可以一键生成前后端代码 + 单元测试 + Swagger 接口文档 + Validator 参数校验
 * 集成微信小程序、微信公众号、企业微信、钉钉等三方登陆，集成支付宝、微信等支付与退款
 * 集成阿里云、腾讯云等短信渠道，集成 MinIO、阿里云、腾讯云、七牛云等云存储服务
-* 集成报表设计器，支持数据报表、图形报表、打印设计等
+* 集成报表设计器、大屏设计器，通过拖拽即可生成酷炫的报表与大屏
 
 | 项目名                  | 说明                     | 传送门                                                                                                                                 |
 |----------------------|------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
@@ -54,6 +54,14 @@
 ![开源项目对比](https://static.iocoder.cn/project-vs.png?imageView2/2/format/webp/w/1280)
 
 ③ 代码整洁、架构整洁，遵循《阿里巴巴 Java 开发手册》规范，代码注释详细，57000 行 Java 代码，22000 行代码注释。
+
+## 🤝 项目外包
+
+我们也是接外包滴，如果你有项目想要外包，可以微信联系【**Aix9975**】。
+
+团队包含专业的项目经理、架构师、前端工程师、后端工程师、测试工程师、运维工程师，可以提供全流程的外包服务。
+
+项目可以是商城、SCRM 系统、OA 系统、物流系统、ERP 系统、CMS 系统、HIS 系统、支付系统、IM 聊天、微信公众号、微信小程序等等。
 
 ## 🐼 内置功能
 
@@ -91,6 +99,8 @@
 | 🚀  | 租户套餐  | 配置租户套餐，自定每个租户的菜单、操作、按钮的权限       |
 |     | 字典管理  | 对系统中经常使用的一些较为固定的数据进行维护          |
 | 🚀  | 短信管理  | 短信渠道、短息模板、短信日志，对接阿里云、腾讯云等主流短信平台 |
+| 🚀  | 邮件管理  | 邮箱账号、邮件模版、邮件发送日志，支持所有邮件平台       |
+| 🚀  | 站内信   | 系统内的消息通知，提供站内信模版、站内信消息          |
 | 🚀  | 操作日志  | 系统正常操作日志记录和查询，集成 Swagger 生成日志内容 |
 | ⭐️  | 登录日志  | 系统登录日志记录查询，包含登录异常               |
 | 🚀  | 错误码管理 | 系统所有错误码的管理，可在线修改错误提示，无需重启服务     |
@@ -151,7 +161,7 @@ ps：核心功能已经实现，正在对接微信小程序中...
 |     | 功能       | 描述                                           |
 |-----|----------|----------------------------------------------|
 | 🚀  | 报表设计器     | 支持数据报表、图形报表、打印设计等       |
-| 🚀  | 大屏设计器     | 建设中... 拖拽式实现可视化数据大屏          |
+| 🚀  | 大屏设计器 | 拖拽生成数据大屏，内置几十种图表组件 |
 
 ### 微信公众号
 
@@ -184,21 +194,21 @@ ps：核心功能已经实现，正在对接微信小程序中...
 
 ## 🐨 技术栈
 
-| 项目                           | 说明                 |
-|------------------------------|--------------------|
-| `yudao-dependencies`         | Maven 依赖版本管理       |
-| `yudao-framework`            | Java 框架拓展          |
-| `yudao-ui-admin`             | 管理后台的 Vue2 前端项目    |
-| `yudao-ui-admin-vue3`        | 管理后台的 Vue3 前端项目    |
-| `yudao-ui-admin-uniapp`      | 管理后台的 uni-app 多端项目 |
-| `yudao-ui-app`               | 用户 APP 的 UI 界面     |
-| `yudao-gateway`              | 服务网关的 Module 模块    |
-| `yudao-module-system`        | 系统功能的 Module 模块    |
-| `yudao-module-member`        | 会员中心的 Module 模块    |
-| `yudao-module-infra`         | 基础设施的 Module 模块    |
-| `yudao-module-bpm`           | 工作流程的 Module 模块    |
-| `yudao-module-pay`           | 支付系统的 Module 模块    |
-| `yudao-module-visualization` | 大屏报表 Module 模块     |
+| 项目                      | 说明                 |
+|-------------------------|--------------------|
+| `yudao-dependencies`    | Maven 依赖版本管理       |
+| `yudao-framework`       | Java 框架拓展          |
+| `yudao-ui-admin`        | 管理后台的 Vue2 前端项目    |
+| `yudao-ui-admin-vue3`   | 管理后台的 Vue3 前端项目    |
+| `yudao-ui-admin-uniapp` | 管理后台的 uni-app 多端项目 |
+| `yudao-ui-app`          | 用户 APP 的 UI 界面     |
+| `yudao-gateway`         | 服务网关的 Module 模块    |
+| `yudao-module-system`   | 系统功能的 Module 模块    |
+| `yudao-module-member`   | 会员中心的 Module 模块    |
+| `yudao-module-infra`    | 基础设施的 Module 模块    |
+| `yudao-module-bpm`      | 工作流程的 Module 模块    |
+| `yudao-module-pay`      | 支付系统的 Module 模块    |
+| `yudao-module-report`   | 大屏报表 Module 模块     |
 
 ### 后端
 
@@ -306,6 +316,7 @@ ps：核心功能已经实现，正在对接微信小程序中...
 | 模块      | biu                                                              | biu                                                                    | biu                                                                    |
 |---------|------------------------------------------------------------------|------------------------------------------------------------------------|------------------------------------------------------------------------|
 | 报表设计器 | ![数据报表](https://static.iocoder.cn/images/ruoyi-vue-pro/报表设计器-数据报表.jpg?imageView2/2/format/webp/w/1280) | ![图形报表](https://static.iocoder.cn/images/ruoyi-vue-pro/报表设计器-图形报表.jpg?imageView2/2/format/webp/w/1280) | ![报表设计器-打印设计](https://static.iocoder.cn/images/ruoyi-vue-pro/报表设计器-打印设计.jpg?imageView2/2/format/webp/w/1280) |
+| 大屏设计器 | ![大屏列表](https://static.iocoder.cn/images/ruoyi-vue-pro/大屏设计器-列表.jpg?imageView2/2/format/webp/w/1280)   | ![大屏预览](https://static.iocoder.cn/images/ruoyi-vue-pro/大屏设计器-预览.jpg?imageView2/2/format/webp/w/1280)   | ![大屏编辑](https://static.iocoder.cn/images/ruoyi-vue-pro/大屏设计器-编辑.jpg?imageView2/2/format/webp/w/1280)         |
 
 ### 移动端（管理后台）
 

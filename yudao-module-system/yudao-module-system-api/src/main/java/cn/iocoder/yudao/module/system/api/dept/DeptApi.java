@@ -30,12 +30,12 @@ public interface DeptApi {
     @GetMapping(PREFIX + "/list")
     @ApiOperation("获得部门信息数组")
     @ApiImplicitParam(name = "ids", value = "部门编号数组", example = "1,2", required = true, allowMultiple = true)
-    CommonResult<List<DeptRespDTO>> getDepts(@RequestParam("ids") Collection<Long> ids);
+    CommonResult<List<DeptRespDTO>> getDeptList(@RequestParam("ids") Collection<Long> ids);
 
     @GetMapping(PREFIX + "/valid")
     @ApiOperation("校验部门是否合法")
     @ApiImplicitParam(name = "ids", value = "部门编号数组", example = "1,2", required = true, allowMultiple = true)
-    CommonResult<Boolean> validDepts(@RequestParam("ids") Collection<Long> ids);
+    CommonResult<Boolean> validateDeptList(@RequestParam("ids") Collection<Long> ids);
 
     /**
      * 获得指定编号的部门 Map
@@ -44,7 +44,7 @@ public interface DeptApi {
      * @return 部门 Map
      */
     default Map<Long, DeptRespDTO> getDeptMap(Set<Long> ids) {
-        return CollectionUtils.convertMap(getDepts(ids).getCheckedData(), DeptRespDTO::getId);
+        return CollectionUtils.convertMap(getDeptList(ids).getCheckedData(), DeptRespDTO::getId);
     }
 
 }

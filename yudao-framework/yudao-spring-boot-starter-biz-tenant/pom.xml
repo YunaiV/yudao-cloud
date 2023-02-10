@@ -49,12 +49,14 @@
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>
             <artifactId>yudao-spring-boot-starter-job</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!-- 消息队列相关 -->
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>
             <artifactId>yudao-spring-boot-starter-mq</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!-- Test 测试相关 -->

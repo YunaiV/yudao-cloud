@@ -213,18 +213,18 @@ public class BpmTaskAssignRuleServiceImpl implements BpmTaskAssignRuleService {
 
     private void validTaskAssignRuleOptions(Integer type, Set<Long> options) {
         if (Objects.equals(type, BpmTaskAssignRuleTypeEnum.ROLE.getType())) {
-            roleApi.validRoles(options);
+            roleApi.validRoleList(options);
         } else if (ObjectUtils.equalsAny(type, BpmTaskAssignRuleTypeEnum.DEPT_MEMBER.getType(),
             BpmTaskAssignRuleTypeEnum.DEPT_LEADER.getType())) {
-            deptApi.validDepts(options);
+            deptApi.validateDeptList(options);
         } else if (Objects.equals(type, BpmTaskAssignRuleTypeEnum.POST.getType())) {
-            postApi.validPosts(options);
+            postApi.validPostList(options);
         } else if (Objects.equals(type, BpmTaskAssignRuleTypeEnum.USER.getType())) {
-            adminUserApi.validUsers(options);
+            adminUserApi.validUserList(options);
         } else if (Objects.equals(type, BpmTaskAssignRuleTypeEnum.USER_GROUP.getType())) {
             userGroupService.validUserGroups(options);
         } else if (Objects.equals(type, BpmTaskAssignRuleTypeEnum.SCRIPT.getType())) {
-            dictDataApi.validDictDatas(DictTypeConstants.TASK_ASSIGN_SCRIPT,
+            dictDataApi.validateDictDatas(DictTypeConstants.TASK_ASSIGN_SCRIPT,
                 CollectionUtils.convertSet(options, String::valueOf));
         } else {
             throw new IllegalArgumentException(format("未知的规则类型({})", type));
@@ -288,17 +288,17 @@ public class BpmTaskAssignRuleServiceImpl implements BpmTaskAssignRuleService {
     }
 
     private Set<Long> calculateTaskCandidateUsersByDeptMember(BpmTaskAssignRuleDO rule) {
-        List<AdminUserRespDTO> users = adminUserApi.getUsersByDeptIds(rule.getOptions()).getCheckedData();
+        List<AdminUserRespDTO> users = adminUserApi.getUserListByDeptIds(rule.getOptions()).getCheckedData();
         return convertSet(users, AdminUserRespDTO::getId);
     }
 
     private Set<Long> calculateTaskCandidateUsersByDeptLeader(BpmTaskAssignRuleDO rule) {
-        List<DeptRespDTO> depts = deptApi.getDepts(rule.getOptions()).getCheckedData();
+        List<DeptRespDTO> depts = deptApi.getDeptList(rule.getOptions()).getCheckedData();
         return convertSet(depts, DeptRespDTO::getLeaderUserId);
     }
 
     private Set<Long> calculateTaskCandidateUsersByPost(BpmTaskAssignRuleDO rule) {
-        List<AdminUserRespDTO> users = adminUserApi.getUsersByPostIds(rule.getOptions()).getCheckedData();
+        List<AdminUserRespDTO> users = adminUserApi.getUserListByPostIds(rule.getOptions()).getCheckedData();
         return convertSet(users, AdminUserRespDTO::getId);
     }
 

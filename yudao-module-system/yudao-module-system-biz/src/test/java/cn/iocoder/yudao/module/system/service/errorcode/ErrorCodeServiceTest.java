@@ -2,9 +2,9 @@ package cn.iocoder.yudao.module.system.service.errorcode;
 
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.collection.ArrayUtils;
-import cn.iocoder.yudao.framework.common.util.object.ObjectUtils;
 import cn.iocoder.yudao.framework.test.core.ut.BaseDbUnitTest;
 import cn.iocoder.yudao.module.system.api.errorcode.dto.ErrorCodeAutoGenerateReqDTO;
+import cn.iocoder.yudao.module.system.api.errorcode.dto.ErrorCodeRespDTO;
 import cn.iocoder.yudao.module.system.controller.admin.errorcode.vo.ErrorCodeCreateReqVO;
 import cn.iocoder.yudao.module.system.controller.admin.errorcode.vo.ErrorCodeExportReqVO;
 import cn.iocoder.yudao.module.system.controller.admin.errorcode.vo.ErrorCodePageReqVO;
@@ -22,8 +22,9 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
-import static cn.iocoder.yudao.framework.common.util.date.DateUtils.buildLocalDateTime;
-import static cn.iocoder.yudao.framework.common.util.date.DateUtils.buildTime;
+import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildBetweenTime;
+import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildTime;
+import static cn.iocoder.yudao.framework.common.util.object.ObjectUtils.cloneIgnoreId;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertPojoEquals;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.*;
@@ -58,7 +59,7 @@ public class ErrorCodeServiceTest extends BaseDbUnitTest {
     @Test
     public void testUpdateErrorCode_success() {
         // mock 数据
-        ErrorCodeDO dbErrorCode = randomInfErrorCodeDO();
+        ErrorCodeDO dbErrorCode = randomErrorCodeDO();
         errorCodeMapper.insert(dbErrorCode);// @Sql: 先插入出一条存在的数据
         // 准备参数
         ErrorCodeUpdateReqVO reqVO = randomPojo(ErrorCodeUpdateReqVO.class, o -> {
@@ -76,65 +77,64 @@ public class ErrorCodeServiceTest extends BaseDbUnitTest {
     @Test
     public void testDeleteErrorCode_success() {
         // mock 数据
-        ErrorCodeDO dbErrorCode = randomInfErrorCodeDO();
+        ErrorCodeDO dbErrorCode = randomErrorCodeDO();
         errorCodeMapper.insert(dbErrorCode);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbErrorCode.getId();
 
         // 调用
         errorCodeService.deleteErrorCode(id);
-        // 校验数据不存在了
-        assertNull(errorCodeMapper.selectById(id));
+       // 校验数据不存在了
+       assertNull(errorCodeMapper.selectById(id));
     }
 
     @Test
     public void testGetErrorCodePage() {
-        // mock 数据
-        ErrorCodeDO dbErrorCode = initGetErrorCodePage();
-        // 准备参数
-        ErrorCodePageReqVO reqVO = new ErrorCodePageReqVO();
-        reqVO.setType(ErrorCodeTypeEnum.AUTO_GENERATION.getType());
-        reqVO.setApplicationName("tu");
-        reqVO.setCode(1);
-        reqVO.setMessage("ma");
-        reqVO.setCreateTime((new LocalDateTime[]{buildLocalDateTime(2020, 11, 1),
-                buildLocalDateTime(2020, 11, 30)}));
+       // mock 数据
+       ErrorCodeDO dbErrorCode = initGetErrorCodePage();
+       // 准备参数
+       ErrorCodePageReqVO reqVO = new ErrorCodePageReqVO();
+       reqVO.setType(ErrorCodeTypeEnum.AUTO_GENERATION.getType());
+       reqVO.setApplicationName("tu");
+       reqVO.setCode(1);
+       reqVO.setMessage("ma");
+       reqVO.setCreateTime(buildBetweenTime(2020, 11, 1, 2020, 11, 30));
 
-        // 调用
-        PageResult<ErrorCodeDO> pageResult = errorCodeService.getErrorCodePage(reqVO);
-        // 断言
-        assertEquals(1, pageResult.getTotal());
-        assertEquals(1, pageResult.getList().size());
-        assertPojoEquals(dbErrorCode, pageResult.getList().get(0));
+       // 调用
+       PageResult<ErrorCodeDO> pageResult = errorCodeService.getErrorCodePage(reqVO);
+       // 断言
+       assertEquals(1, pageResult.getTotal());
+       assertEquals(1, pageResult.getList().size());
+       assertPojoEquals(dbErrorCode, pageResult.getList().get(0));
     }
 
     /**
      * 初始化 getErrorCodePage 方法的测试数据
      */
     private ErrorCodeDO initGetErrorCodePage() {
-        ErrorCodeDO dbErrorCode = randomInfErrorCodeDO(o -> { // 等会查询到
+        ErrorCodeDO dbErrorCode = randomErrorCodeDO(o -> { // 等会查询到
             o.setType(ErrorCodeTypeEnum.AUTO_GENERATION.getType());
             o.setApplicationName("tudou");
             o.setCode(1);
             o.setMessage("yuanma");
-            o.setCreateTime(buildLocalDateTime(2020, 11, 11));
+            o.setCreateTime(buildTime(2020, 11, 11));
         });
         errorCodeMapper.insert(dbErrorCode);
         // 测试 type 不匹配
-        errorCodeMapper.insert(ObjectUtils.cloneIgnoreId(dbErrorCode, o -> o.setType(ErrorCodeTypeEnum.MANUAL_OPERATION.getType())));
+        errorCodeMapper.insert(cloneIgnoreId(dbErrorCode, o -> o.setType(ErrorCodeTypeEnum.MANUAL_OPERATION.getType())));
         // 测试 applicationName 不匹配
-        errorCodeMapper.insert(ObjectUtils.cloneIgnoreId(dbErrorCode, o -> o.setApplicationName("yuan")));
+        errorCodeMapper.insert(cloneIgnoreId(dbErrorCode, o -> o.setApplicationName("yuan")));
         // 测试 code 不匹配
-        errorCodeMapper.insert(ObjectUtils.cloneIgnoreId(dbErrorCode, o -> o.setCode(2)));
+        errorCodeMapper.insert(cloneIgnoreId(dbErrorCode, o -> o.setCode(2)));
         // 测试 message 不匹配
-        errorCodeMapper.insert(ObjectUtils.cloneIgnoreId(dbErrorCode, o -> o.setMessage("nai")));
+        errorCodeMapper.insert(cloneIgnoreId(dbErrorCode, o -> o.setMessage("nai")));
         // 测试 createTime 不匹配
-        errorCodeMapper.insert(ObjectUtils.cloneIgnoreId(dbErrorCode, o -> o.setCreateTime(buildLocalDateTime(2020, 12, 12))));
+        errorCodeMapper.insert(cloneIgnoreId(dbErrorCode, o -> o.setCreateTime(buildTime(2020, 12, 12))));
         return dbErrorCode;
     }
 
     @Test
-    public void testGetErrorCodeList() {
+    public void testGetErrorCodeList_export() {
         // mock 数据
         ErrorCodeDO dbErrorCode = initGetErrorCodePage();
         // 准备参数
@@ -143,8 +143,7 @@ public class ErrorCodeServiceTest extends BaseDbUnitTest {
         reqVO.setApplicationName("tu");
         reqVO.setCode(1);
         reqVO.setMessage("ma");
-        reqVO.setCreateTime((new LocalDateTime[]{buildLocalDateTime(2020, 11, 1),
-                buildLocalDateTime(2020, 11, 30)}));
+        reqVO.setCreateTime(buildBetweenTime(2020, 11, 1, 2020, 11, 30));
 
         // 调用
         List<ErrorCodeDO> list = errorCodeService.getErrorCodeList(reqVO);
@@ -158,7 +157,7 @@ public class ErrorCodeServiceTest extends BaseDbUnitTest {
         // 准备参数
         Integer code = randomInteger();
         // mock 数据
-        errorCodeMapper.insert(randomInfErrorCodeDO(o -> o.setCode(code)));
+        errorCodeMapper.insert(randomErrorCodeDO(o -> o.setCode(code)));
 
         // 调用，校验异常
         assertServiceException(() -> errorCodeService.validateCodeDuplicate(code, null),
@@ -171,7 +170,7 @@ public class ErrorCodeServiceTest extends BaseDbUnitTest {
         Long id = randomLongId();
         Integer code = randomInteger();
         // mock 数据
-        errorCodeMapper.insert(randomInfErrorCodeDO(o -> o.setCode(code)));
+        errorCodeMapper.insert(randomErrorCodeDO(o -> o.setCode(code)));
 
         // 调用，校验异常
         assertServiceException(() -> errorCodeService.validateCodeDuplicate(code, id),
@@ -207,7 +206,7 @@ public class ErrorCodeServiceTest extends BaseDbUnitTest {
     @Test
     public void testAutoGenerateErrorCodes_021() {
         // mock 数据
-        ErrorCodeDO dbErrorCode = randomInfErrorCodeDO(o -> o.setType(ErrorCodeTypeEnum.MANUAL_OPERATION.getType()));
+        ErrorCodeDO dbErrorCode = randomErrorCodeDO(o -> o.setType(ErrorCodeTypeEnum.MANUAL_OPERATION.getType()));
         errorCodeMapper.insert(dbErrorCode);
         // 准备参数
         ErrorCodeAutoGenerateReqDTO generateReqDTO = randomPojo(ErrorCodeAutoGenerateReqDTO.class,
@@ -227,7 +226,7 @@ public class ErrorCodeServiceTest extends BaseDbUnitTest {
     @Test
     public void testAutoGenerateErrorCodes_022() {
         // mock 数据
-        ErrorCodeDO dbErrorCode = randomInfErrorCodeDO(o -> o.setType(ErrorCodeTypeEnum.AUTO_GENERATION.getType()));
+        ErrorCodeDO dbErrorCode = randomErrorCodeDO(o -> o.setType(ErrorCodeTypeEnum.AUTO_GENERATION.getType()));
         errorCodeMapper.insert(dbErrorCode);
         // 准备参数
         ErrorCodeAutoGenerateReqDTO generateReqDTO = randomPojo(ErrorCodeAutoGenerateReqDTO.class,
@@ -247,12 +246,12 @@ public class ErrorCodeServiceTest extends BaseDbUnitTest {
     @Test
     public void testAutoGenerateErrorCodes_023() {
         // mock 数据
-        ErrorCodeDO dbErrorCode = randomInfErrorCodeDO(o -> o.setType(ErrorCodeTypeEnum.AUTO_GENERATION.getType()));
+        ErrorCodeDO dbErrorCode = randomErrorCodeDO(o -> o.setType(ErrorCodeTypeEnum.AUTO_GENERATION.getType()));
         errorCodeMapper.insert(dbErrorCode);
         // 准备参数
         ErrorCodeAutoGenerateReqDTO generateReqDTO = randomPojo(ErrorCodeAutoGenerateReqDTO.class,
                 o -> o.setCode(dbErrorCode.getCode()).setApplicationName(dbErrorCode.getApplicationName())
-                        .setMessage(dbErrorCode.getMessage()));
+                    .setMessage(dbErrorCode.getMessage()));
         // mock 方法
 
         // 调用
@@ -268,7 +267,7 @@ public class ErrorCodeServiceTest extends BaseDbUnitTest {
     @Test
     public void testAutoGenerateErrorCodes_024() {
         // mock 数据
-        ErrorCodeDO dbErrorCode = randomInfErrorCodeDO(o -> o.setType(ErrorCodeTypeEnum.AUTO_GENERATION.getType()));
+        ErrorCodeDO dbErrorCode = randomErrorCodeDO(o -> o.setType(ErrorCodeTypeEnum.AUTO_GENERATION.getType()));
         errorCodeMapper.insert(dbErrorCode);
         // 准备参数
         ErrorCodeAutoGenerateReqDTO generateReqDTO = randomPojo(ErrorCodeAutoGenerateReqDTO.class,
@@ -282,10 +281,44 @@ public class ErrorCodeServiceTest extends BaseDbUnitTest {
         assertPojoEquals(generateReqDTO, errorCode);
     }
 
+    @Test
+    public void testGetErrorCode() {
+        // 准备参数
+        ErrorCodeDO errorCodeDO = randomErrorCodeDO();
+        errorCodeMapper.insert(errorCodeDO);
+        // mock 方法
+        Long id = errorCodeDO.getId();
+
+        // 调用
+        ErrorCodeDO dbErrorCode = errorCodeService.getErrorCode(id);
+        // 断言
+        assertPojoEquals(errorCodeDO, dbErrorCode);
+    }
+
+    @Test
+    public void testGetErrorCodeList() {
+        // 准备参数
+        ErrorCodeDO errorCodeDO01 = randomErrorCodeDO(
+                o -> o.setApplicationName("yunai_server").setUpdateTime(buildTime(2022, 1, 10)));
+        errorCodeMapper.insert(errorCodeDO01);
+        ErrorCodeDO errorCodeDO02 = randomErrorCodeDO(
+                o -> o.setApplicationName("yunai_server").setUpdateTime(buildTime(2022, 1, 12)));
+        errorCodeMapper.insert(errorCodeDO02);
+        // mock 方法
+        String applicationName = "yunai_server";
+        LocalDateTime minUpdateTime = buildTime(2022, 1, 11);
+
+        // 调用
+        List<ErrorCodeRespDTO> errorCodeList = errorCodeService.getErrorCodeList(applicationName, minUpdateTime);
+        // 断言
+        assertEquals(1, errorCodeList.size());
+        assertPojoEquals(errorCodeDO02, errorCodeList.get(0));
+    }
+
     // ========== 随机对象 ==========
 
     @SafeVarargs
-    private static ErrorCodeDO randomInfErrorCodeDO(Consumer<ErrorCodeDO>... consumers) {
+    private static ErrorCodeDO randomErrorCodeDO(Consumer<ErrorCodeDO>... consumers) {
         Consumer<ErrorCodeDO> consumer = (o) -> {
             o.setType(randomEle(ErrorCodeTypeEnum.values()).getType()); // 保证 key 的范围
         };

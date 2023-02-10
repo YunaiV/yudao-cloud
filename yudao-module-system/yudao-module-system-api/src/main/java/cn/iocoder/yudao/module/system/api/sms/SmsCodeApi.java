@@ -1,7 +1,7 @@
 package cn.iocoder.yudao.module.system.api.sms;
 
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
-import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeCheckReqDTO;
+import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeValidateReqDTO;
 import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeSendReqDTO;
 import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
 import cn.iocoder.yudao.module.system.enums.ApiConstants;
@@ -29,8 +29,8 @@ public interface SmsCodeApi {
     @ApiOperation("验证短信验证码，并进行使用")
     CommonResult<Boolean> useSmsCode(@Valid @RequestBody SmsCodeUseReqDTO reqDTO);
 
-    @GetMapping(PREFIX + "/check")
+    @GetMapping(PREFIX + "/validate")
     @ApiOperation("检查验证码是否有效")
-    CommonResult<Boolean> checkSmsCode(@Valid @RequestBody SmsCodeCheckReqDTO reqDTO);
+    CommonResult<Boolean> validateSmsCode(@Valid @RequestBody SmsCodeValidateReqDTO reqDTO);
 
 }

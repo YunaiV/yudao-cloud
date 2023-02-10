@@ -39,7 +39,6 @@ import static cn.iocoder.yudao.module.system.enums.ErrorCodeConstants.*;
  * 短信模板 Service 实现类
  *
  * @author zzf
- * @date 2021/1/25 9:25
  */
 @Service
 @Slf4j
@@ -105,11 +104,11 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
     @Override
     public Long createSmsTemplate(SmsTemplateCreateReqVO createReqVO) {
         // 校验短信渠道
-        SmsChannelDO channelDO = checkSmsChannel(createReqVO.getChannelId());
+        SmsChannelDO channelDO = validateSmsChannel(createReqVO.getChannelId());
         // 校验短信编码是否重复
-        checkSmsTemplateCodeDuplicate(null, createReqVO.getCode());
+        validateSmsTemplateCodeDuplicate(null, createReqVO.getCode());
         // 校验短信模板
-        checkApiTemplate(createReqVO.getChannelId(), createReqVO.getApiTemplateId());
+        validateApiTemplate(createReqVO.getChannelId(), createReqVO.getApiTemplateId());
 
         // 插入
         SmsTemplateDO template = SmsTemplateConvert.INSTANCE.convert(createReqVO);
@@ -125,13 +124,13 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
     @Override
     public void updateSmsTemplate(SmsTemplateUpdateReqVO updateReqVO) {
         // 校验存在
-        this.validateSmsTemplateExists(updateReqVO.getId());
+        validateSmsTemplateExists(updateReqVO.getId());
         // 校验短信渠道
-        SmsChannelDO channelDO = checkSmsChannel(updateReqVO.getChannelId());
+        SmsChannelDO channelDO = validateSmsChannel(updateReqVO.getChannelId());
         // 校验短信编码是否重复
-        checkSmsTemplateCodeDuplicate(updateReqVO.getId(), updateReqVO.getCode());
+        validateSmsTemplateCodeDuplicate(updateReqVO.getId(), updateReqVO.getCode());
         // 校验短信模板
-        checkApiTemplate(updateReqVO.getChannelId(), updateReqVO.getApiTemplateId());
+        validateApiTemplate(updateReqVO.getChannelId(), updateReqVO.getApiTemplateId());
 
         // 更新
         SmsTemplateDO updateObj = SmsTemplateConvert.INSTANCE.convert(updateReqVO);
@@ -145,7 +144,7 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
     @Override
     public void deleteSmsTemplate(Long id) {
         // 校验存在
-        this.validateSmsTemplateExists(id);
+        validateSmsTemplateExists(id);
         // 更新
         smsTemplateMapper.deleteById(id);
         // 发送刷新消息
@@ -184,7 +183,7 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
     }
 
     @VisibleForTesting
-    public SmsChannelDO checkSmsChannel(Long channelId) {
+    public SmsChannelDO validateSmsChannel(Long channelId) {
         SmsChannelDO channelDO = smsChannelService.getSmsChannel(channelId);
         if (channelDO == null) {
             throw exception(SMS_CHANNEL_NOT_EXISTS);
@@ -196,7 +195,7 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
     }
 
     @VisibleForTesting
-    public void checkSmsTemplateCodeDuplicate(Long id, String code) {
+    public void validateSmsTemplateCodeDuplicate(Long id, String code) {
         SmsTemplateDO template = smsTemplateMapper.selectByCode(code);
         if (template == null) {
             return;
@@ -217,7 +216,7 @@ public class SmsTemplateServiceImpl implements SmsTemplateService {
      * @param apiTemplateId API 模板编号
      */
     @VisibleForTesting
-    public void checkApiTemplate(Long channelId, String apiTemplateId) {
+    public void validateApiTemplate(Long channelId, String apiTemplateId) {
         // 获得短信模板
         SmsClient smsClient = smsClientFactory.getSmsClient(channelId);
         Assert.notNull(smsClient, String.format("短信客户端(%d) 不存在", channelId));

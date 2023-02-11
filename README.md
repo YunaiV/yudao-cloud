@@ -36,12 +36,12 @@
 * 集成阿里云、腾讯云等短信渠道，集成 MinIO、阿里云、腾讯云、七牛云等云存储服务
 * 集成报表设计器、大屏设计器，通过拖拽即可生成酷炫的报表与大屏
 
-| 项目名                  | 说明                     | 传送门                                                                                                                                 |
-|----------------------|------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| `ruoyi-vue-pro`      | Spring Boot 多模块        | **[Gitee](https://gitee.com/zhijiantianya/ruoyi-vue-pro)** &nbsp;&nbsp;&nbsp; [Github](https://github.com/YunaiV/ruoyi-vue-pro)     |
-| `yudao-cloud`        | Spring Cloud 微服务       | **[Gitee](https://gitee.com/zhijiantianya/yudao-cloud)** &nbsp;&nbsp;&nbsp; [Github](https://github.com/YunaiV/yudao-cloud)         |
-| `Spring-Boot-Labs`   | Spring Boot & Cloud 入门 | **[Gitee](https://gitee.com/zhijiantianya/SpringBoot-Labs)** &nbsp;&nbsp;&nbsp; [Github](https://github.com/YunaiV/SpringBoot-Labs) |
-| `ruoyi-vue-pro-mini` | 精简版：移除工作流、支付等模块        | **[Gitee](https://gitee.com/zhijiantianya/ruoyi-vue-pro/tree/mini)**                                                                |
+| 项目名                  | 说明                     | 传送门                                                                                                                                |
+|----------------------|------------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| `ruoyi-vue-pro`      | Spring Boot 多模块        | **[Gitee](https://gitee.com/zhijiantianya/ruoyi-vue-pro)** &nbsp;&nbsp;&nbsp; [Github](https://github.com/YunaiV/ruoyi-vue-pro)    |
+| `yudao-cloud`        | Spring Cloud 微服务       | **[Gitee](https://gitee.com/zhijiantianya/yudao-cloud)** &nbsp;&nbsp;&nbsp; [Github](https://github.com/YunaiV/yudao-cloud)        |
+| `Spring-Boot-Labs`   | Spring Boot & Cloud 入门 | **[Gitee](https://gitee.com/yudaocode/SpringBoot-Labs)** &nbsp;&nbsp;&nbsp; [Github](https://github.com/yudaocode/SpringBoot-Labs) |
+| `ruoyi-vue-pro-mini` | 精简版：移除工作流、支付等模块        | **[Gitee](https://gitee.com/zhijiantianya/ruoyi-vue-pro/tree/mini)**                                                               |
 
 ## 😎 开源协议
 

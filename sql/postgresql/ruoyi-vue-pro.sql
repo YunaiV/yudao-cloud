@@ -4883,3 +4883,42 @@ COMMENT ON COLUMN system_notify_template.updater is '更新者';
 COMMENT ON COLUMN system_notify_template.update_time is '更新时间';
 COMMENT ON COLUMN system_notify_template.deleted is '是否删除';
 
+DROP TABLE IF EXISTS system_notify_message;
+CREATE TABLE system_notify_message
+(
+    id                bigint                   NOT NULL,
+    user_id           bigint                   NOT NULL,
+    user_type         int2                     NOT NULL,
+    template_id       bigint                   NOT NULL,
+    template_code     varchar(64)              NOT NULL,
+    template_nickname varchar(63)              NOT NULL,
+    template_content  varchar(1024)            NOT NULL,
+    template_type     int                      NOT NULL,
+    template_params   varchar(255)             NOT NULL,
+    read_status       boolean                     NOT NULL default false,
+    read_time         timestamp with time zone NULL     DEFAULT NULL,
+    creator           varchar(64)              NULL     DEFAULT '',
+    create_time       timestamp with time zone NOT NULL DEFAULT now(),
+    updater           varchar(64)              NULL     DEFAULT '',
+    update_time       timestamp with time zone NOT NULL DEFAULT now(),
+    deleted           int2                     NOT NULL DEFAULT 0,
+    tenant_id         bigint                   NOT NULL DEFAULT 0
+);
+COMMENT ON TABLE system_notify_message is '站内信消息表';
+COMMENT ON COLUMN system_notify_message.id is '编号';
+COMMENT ON COLUMN system_notify_message.user_id is '用户编号';
+COMMENT ON COLUMN system_notify_message.user_type is '用户类型';
+COMMENT ON COLUMN system_notify_message.template_id is '模板编号';
+COMMENT ON COLUMN system_notify_message.template_code is '模板编码';
+COMMENT ON COLUMN system_notify_message.template_nickname is '模板昵称';
+COMMENT ON COLUMN system_notify_message.template_content is '模板内容';
+COMMENT ON COLUMN system_notify_message.template_type is '模板类型';
+COMMENT ON COLUMN system_notify_message.template_params is '模板参数';
+COMMENT ON COLUMN system_notify_message.read_status is '阅读状态';
+COMMENT ON COLUMN system_notify_message.read_time is '阅读时间';
+COMMENT ON COLUMN system_notify_message.creator is '创建者';
+COMMENT ON COLUMN system_notify_message.create_time is '创建时间';
+COMMENT ON COLUMN system_notify_message.updater is '更新者';
+COMMENT ON COLUMN system_notify_message.update_time is '更新时间';
+COMMENT ON COLUMN system_notify_message.deleted is '是否删除';
+COMMENT ON COLUMN system_notify_message.tenant_id is '租户编号';

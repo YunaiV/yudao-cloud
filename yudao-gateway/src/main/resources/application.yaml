@@ -49,3 +49,8 @@ spring:
             - Path=/jmreport/**
       x-forwarded:
         prefix-enabled: false # 避免 Swagger 重复带上额外的 /admin-api/system 前缀
+
+knife4j:
+  # 聚合 Swagger 文档
+  gateway:
+    enable: true

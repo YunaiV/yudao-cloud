@@ -58,8 +58,7 @@
 
         <dependency>
             <groupId>com.github.xiaoymin</groupId> <!-- 接口文档 -->
-            <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>3.0.3</version>
+            <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
         </dependency>
 
         <!-- RPC 远程调用相关 -->
@@ -85,7 +84,6 @@
             <groupId>cn.iocoder.cloud</groupId>
             <artifactId>yudao-spring-boot-starter-monitor</artifactId>
         </dependency>
-
     </dependencies>
 
 

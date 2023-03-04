@@ -2,45 +2,49 @@ package cn.iocoder.yudao.gateway.swagger;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.support.NameUtils;
-import org.springframework.context.annotation.Primary;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import springfox.documentation.swagger.web.SwaggerResource;
-import springfox.documentation.swagger.web.SwaggerResourcesProvider;
+import org.springframework.web.reactive.function.server.HandlerFunction;
+import org.springframework.web.reactive.function.server.ServerRequest;
+import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
- * Swagger 资源的 Provider 实现类
+ * 获得 Swagger 资源的 {@link HandlerFunction} 实现类
  *
  * @author zxliu
  * @since 2022-10-25 11:23
  */
-@Component
-@Primary
+@RequiredArgsConstructor
 @Slf4j
-public class SwaggerProvider implements SwaggerResourcesProvider {
+public class SwaggerResourceHandlerFunction implements HandlerFunction<ServerResponse> {
 
-    @Resource
-    private GatewayProperties gatewayProperties;
+    private final GatewayProperties gatewayProperties;
+
+    @Override
+    public Mono<ServerResponse> handle(ServerRequest request) {
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(getSwaggerResourceList());
+    }
 
     /**
      * 获得 SwaggerResource 列表
      *
      * @return SwaggerResource 列表
      */
-    @Override
-    public List<SwaggerResource> get() {
+    public List<Map<String, String>> getSwaggerResourceList() {
         // 将 RouteDefinition 转换成 SwaggerResource
-        List<SwaggerResource> resources = new ArrayList<>();
+        List<Map<String, String>> resources = new ArrayList<>();
         Set<String> serviceNames = new HashSet<>(); // 已处理的服务名，避免重复
         gatewayProperties.getRoutes().forEach(route -> {
             // 已存在的服务，直接忽略
@@ -64,11 +68,12 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
         return resources;
     }
 
-    private SwaggerResource buildSwaggerResource(String name, String location) {
-        SwaggerResource swaggerResource = new SwaggerResource();
-        swaggerResource.setName(name);
-        swaggerResource.setLocation(location);
-        swaggerResource.setSwaggerVersion("3.0.3");
+    private Map<String, String> buildSwaggerResource(String name, String location) {
+        Map<String, String> swaggerResource = new HashMap<>();
+        swaggerResource.put("name", name);
+        swaggerResource.put("location", location);
+        swaggerResource.put("url", location);
+        swaggerResource.put("swaggerVersion", "3.0.3");
         return swaggerResource;
     }
 

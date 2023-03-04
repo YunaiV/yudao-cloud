@@ -7,7 +7,7 @@ import cn.iocoder.yudao.module.system.api.oauth2.dto.OAuth2AccessTokenRespDTO;
 import cn.iocoder.yudao.module.system.convert.auth.OAuth2TokenConvert;
 import cn.iocoder.yudao.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
 import cn.iocoder.yudao.module.system.service.oauth2.OAuth2TokenService;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +26,7 @@ public class OAuth2TokenApiImpl implements OAuth2TokenApi {
     private OAuth2TokenService oauth2TokenService;
 
     @Override
-    @ApiOperation("创建访问令牌")
+    @Operation(description = "创建访问令牌")
     public CommonResult<OAuth2AccessTokenRespDTO> createAccessToken(OAuth2AccessTokenCreateReqDTO reqDTO) {
         OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.createAccessToken(
                 reqDTO.getUserId(), reqDTO.getUserType(), reqDTO.getClientId(), reqDTO.getScopes());

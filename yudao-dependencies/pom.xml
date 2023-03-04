@@ -20,9 +20,10 @@
         <spring.cloud.version>2021.0.5</spring.cloud.version>
         <spring.cloud.alibaba.version>2021.0.4.0</spring.cloud.alibaba.version>
         <!-- Web 相关 -->
-        <knife4j.version>4.0.0</knife4j.version>
-        <swagger-annotations.version>1.6.8</swagger-annotations.version>
         <servlet.versoin>2.5</servlet.versoin>
+        <swagger.version>2.2.8</swagger.version>
+        <springdoc.version>1.6.14</springdoc.version>
+        <knife4j.version>4.0.0</knife4j.version>
         <!-- DB 相关 -->
         <druid.version>1.2.15</druid.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
@@ -198,28 +199,44 @@
             </dependency>
 
             <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
-                <version>${knife4j.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>mapstruct</artifactId>
-                        <groupId>org.mapstruct</groupId> <!-- 避免冲突 -->
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>guava</artifactId>
-                        <groupId>com.google.guava</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>swagger-annotations</artifactId>
-                        <groupId>io.swagger</groupId>
-                    </exclusion>
-                </exclusions>
+                <groupId>io.swagger.core.v3</groupId> <!-- 接口文档：使用最新版本的 Swagger 模型 -->
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger-annotations.version}</version>
+                <groupId>io.swagger.core.v3</groupId> <!-- 接口文档：使用最新版本的 Swagger 模型 -->
+                <artifactId>swagger-models</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId> <!-- 接口文档 UI：解决 knife4j 引入的 Spring Doc 版本太老 -->
+                <artifactId>springdoc-openapi-common</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId> <!-- 接口文档 UI：解决 knife4j 引入的 Spring Doc 版本太老 -->
+                <artifactId>springdoc-openapi-webmvc-core</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId> <!-- 接口文档 UI：解决 knife4j 引入的 Spring Doc 版本太老 -->
+                <artifactId>springdoc-openapi-webflux-core</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId> <!-- 接口文档 UI：默认 -->
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId> <!-- 接口文档 UI：knife4j -->
+                <artifactId>knife4j-openapi3-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId> <!-- 接口文档 UI：knife4j【网关专属】 -->
+                <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
             </dependency>
 
             <!-- DB 相关 -->
@@ -227,6 +244,11 @@
                 <groupId>cn.iocoder.cloud</groupId>
                 <artifactId>yudao-spring-boot-starter-mybatis</artifactId>
                 <version>${revision}</version>
+            </dependency>
+            <dependency> <!-- TODO 芋艿：说不清楚 -->
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-webflux-ui</artifactId>
+                <version>${springdoc.version}</version>
             </dependency>
 
             <dependency>

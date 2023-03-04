@@ -24,10 +24,8 @@ public class SecurityConfiguration {
             @Override
             public void customize(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry) {
                 // Swagger 接口文档
-                registry.antMatchers("/swagger-ui.html").anonymous()
-                        .antMatchers("/swagger-resources/**").anonymous()
-                        .antMatchers("/webjars/**").anonymous()
-                        .antMatchers("/*/api-docs").anonymous();
+                registry.antMatchers("/v3/api-docs/**").permitAll() // 元数据
+                        .antMatchers("/swagger-ui.html").permitAll(); // Swagger UI
                 // Spring Boot Actuator 的安全配置
                 registry.antMatchers("/actuator").anonymous()
                         .antMatchers("/actuator/**").anonymous();

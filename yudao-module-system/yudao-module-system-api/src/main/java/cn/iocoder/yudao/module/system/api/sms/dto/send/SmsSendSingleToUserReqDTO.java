@@ -1,28 +1,28 @@
 package cn.iocoder.yudao.module.system.api.sms.dto.send;
 
 import cn.iocoder.yudao.framework.common.validation.Mobile;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Map;
 
-@ApiModel("RPC 服务 - 短信发送给 Admin 或者 Member 用户 Request DTO")
+@Schema(description = "RPC 服务 - 短信发送给 Admin 或者 Member 用户 Request DTO")
 @Data
 public class SmsSendSingleToUserReqDTO {
 
-    @ApiModelProperty(value = "用户编号", example = "1024")
+    @Schema(description = "用户编号", example = "1024")
     private Long userId;
-    @ApiModelProperty(value = "手机号", required = true, example = "15601691300")
+    @Schema(description = "手机号", required = true, example = "15601691300")
     @Mobile
     private String mobile;
 
-    @ApiModelProperty(value = "短信模板编号", required = true, example = "USER_SEND")
+    @Schema(description = "短信模板编号", required = true, example = "USER_SEND")
     @NotEmpty(message = "短信模板编号不能为空")
     private String templateCode;
-    @ApiModelProperty(value = "短信模板参数")
+    @Schema(description = "短信模板参数")
     private Map<String, Object> templateParams;
 
 }

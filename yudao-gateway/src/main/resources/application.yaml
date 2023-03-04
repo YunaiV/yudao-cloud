@@ -12,40 +12,45 @@ spring:
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/admin-api/system/**
           filters:
-              - RewritePath=/admin-api/system/v2/api-docs, /v2/api-docs # 配置，保证转发到 /v2/api-docs
+              - RewritePath=/admin-api/system/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
         - id: system-app-api # 路由的编号
           uri: grayLb://system-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/app-api/system/**
           filters:
-              - RewritePath=/app-api/system/v2/api-docs, /v2/api-docs
+              - RewritePath=/app-api/system/v3/api-docs, /v3/api-docs
         - id: infra-admin-api # 路由的编号
           uri: grayLb://infra-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/admin-api/infra/**
           filters:
-              - RewritePath=/admin-api/infra/v2/api-docs, /v2/api-docs
+              - RewritePath=/admin-api/infra/v3/api-docs, /v3/api-docs
         - id: infra-app-api # 路由的编号
           uri: grayLb://infra-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/app-api/infra/**
           filters:
-              - RewritePath=/app-api/infra/v2/api-docs, /v2/api-docs
+              - RewritePath=/app-api/infra/v3/api-docs, /v3/api-docs
         - id: bpm-admin-api # 路由的编号
           uri: grayLb://bpm-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/admin-api/bpm/**
           filters:
-              - RewritePath=/admin-api/bpm/v2/api-docs, /v2/api-docs
+              - RewritePath=/admin-api/bpm/v3/api-docs, /v3/api-docs
         - id: report-admin-api # 路由的编号
           uri: grayLb://report-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/admin-api/report/**
           filters:
-            - RewritePath=/admin-api/report/v2/api-docs, /v2/api-docs
+            - RewritePath=/admin-api/report/v3/api-docs, /v3/api-docs
         - id: report-jmreport # 路由的编号（积木报表）
           uri: grayLb://report-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/jmreport/**
       x-forwarded:
         prefix-enabled: false # 避免 Swagger 重复带上额外的 /admin-api/system 前缀
+
+knife4j:
+  # 聚合 Swagger 文档
+  gateway:
+    enable: true

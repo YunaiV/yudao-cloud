@@ -35,12 +35,12 @@ public interface AdminUserApi {
     @GetMapping(PREFIX + "/list-by-dept-id")
     @Operation(summary = "获得指定部门的用户数组")
     @Parameter(name = "deptIds", description = "部门编号数组", example = "1,2", required = true)
-    CommonResult<List<AdminUserRespDTO>> getUsersByDeptIds(@RequestParam("deptIds") Collection<Long> deptIds);
+    CommonResult<List<AdminUserRespDTO>> getUserListByDeptIds(@RequestParam("deptIds") Collection<Long> deptIds);
 
     @GetMapping(PREFIX + "/list-by-post-id")
     @Operation(summary = "获得指定岗位的用户数组")
     @Parameter(name = "postIds", description = "岗位编号数组", example = "2,3", required = true)
-    CommonResult<List<AdminUserRespDTO>> getUsersByPostIds(@RequestParam("postIds") Collection<Long> postIds);
+    CommonResult<List<AdminUserRespDTO>> getUserListByPostIds(@RequestParam("postIds") Collection<Long> postIds);
 
     /**
      * 获得用户 Map
@@ -55,6 +55,6 @@ public interface AdminUserApi {
     @GetMapping(PREFIX + "/valid")
     @Operation(summary = "校验用户们是否有效")
     @Parameter(name = "ids", description = "用户编号数组", example = "3,5", required = true)
-    CommonResult<Boolean> validUsers(@RequestParam("ids") Set<Long> ids);
+    CommonResult<Boolean> validUserList(@RequestParam("ids") Set<Long> ids);
 
 }

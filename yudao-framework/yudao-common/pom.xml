@@ -59,9 +59,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-webmvc-core</artifactId>
-            <scope>compile</scope>
+            <groupId>io.swagger.core.v3</groupId> <!-- 接口文档：使用最新版本的 Swagger 模型 -->
+            <artifactId>swagger-annotations</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- 监控相关 -->

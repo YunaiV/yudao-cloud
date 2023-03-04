@@ -57,8 +57,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-webflux-ui</artifactId>
+            <groupId>com.github.xiaoymin</groupId> <!-- 接口文档 -->
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>3.0.3</version>
         </dependency>
 
         <!-- RPC 远程调用相关 -->

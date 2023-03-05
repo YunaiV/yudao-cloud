@@ -1,7 +1,6 @@
 package cn.iocoder.yudao.framework.operatelog.core.service;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.system.api.logger.OperateLogApi;
 import cn.iocoder.yudao.module.system.api.logger.dto.OperateLogCreateReqDTO;
 import lombok.RequiredArgsConstructor;

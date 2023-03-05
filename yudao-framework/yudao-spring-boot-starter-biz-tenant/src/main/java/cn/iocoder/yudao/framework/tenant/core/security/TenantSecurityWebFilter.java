@@ -66,7 +66,7 @@ public class TenantSecurityWebFilter extends ApiRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         Long tenantId = TenantContextHolder.getTenantId();
-        boolean isRpcRequest = !WebFrameworkUtils.isRpcRequest(request);
+        boolean isRpcRequest = WebFrameworkUtils.isRpcRequest(request);
         // 1. 登陆的用户，校验是否有权限访问该租户，避免越权问题。
         LoginUser user = SecurityFrameworkUtils.getLoginUser();
         if (user != null) {

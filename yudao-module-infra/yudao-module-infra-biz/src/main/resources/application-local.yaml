@@ -82,6 +82,7 @@ spring:
 --- #################### 定时任务相关配置 ####################
 xxl:
   job:
+    enabled: false # 是否开启调度中心，默认为 true 开启
     admin:
       addresses: http://127.0.0.1:9090/xxl-job-admin # 调度中心部署跟地址
 

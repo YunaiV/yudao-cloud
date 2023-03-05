@@ -76,6 +76,7 @@ spring:
         # RocketMQ Binder 配置项，对应 RocketMQBinderConfigurationProperties 类
         binder:
           name-server: 127.0.0.1:9876 # RocketMQ Namesrv 地址
+      binding-retry-interval: 7200 # 消息绑定重试间隔时间，单位：秒，默认为 30 秒。考虑到本地可能不启动 RocketMQ 服务，设置为 2 小时
 
 --- #################### 定时任务相关配置 ####################
 

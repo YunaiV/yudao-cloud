@@ -67,6 +67,7 @@
         <tika-core.version>2.6.0</tika-core.version>
         <netty-all.version>4.1.86.Final</netty-all.version>
         <ip2region.version>2.6.6</ip2region.version>
+        <reflections.version>0.10.2</reflections.version>
         <!-- 三方云服务相关 -->
         <okio.version>3.0.0</okio.version>
         <okhttp3.version>4.10.0</okhttp3.version>
@@ -610,6 +611,12 @@
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
                 <version>${jsoup.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflections.version}</version>
             </dependency>
 
             <!-- 三方云服务相关 -->

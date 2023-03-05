@@ -13,6 +13,7 @@
  File Encoding         : 65001
 
  Date: 28/07/2022 23:48:10
+ Update Date: 22/02/2023 12:00:00
 */
 
 
@@ -4774,3 +4775,150 @@ ALTER TABLE "qrtz_simprop_triggers" ADD CONSTRAINT "qrtz_simprop_triggers_sched_
 -- Foreign Keys structure for table qrtz_triggers
 -- ----------------------------
 ALTER TABLE "qrtz_triggers" ADD CONSTRAINT "qrtz_triggers_sched_name_job_name_job_group_fkey" FOREIGN KEY ("sched_name", "job_name", "job_group") REFERENCES "qrtz_job_details" ("sched_name", "job_name", "job_group") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Add missing table and column
+ALTER TABLE public.system_menu ADD component varchar default null;
+
+ALTER TABLE public.system_menu ADD component_name varchar default null;
+
+ALTER TABLE public.system_menu ADD always_show bit(1) default b'1' not null;
+
+DROP TABLE IF EXISTS system_mail_template;
+CREATE TABLE system_mail_template
+(
+    id          serial primary key,
+    name        varchar(63)              NOT NULL,
+    code        varchar(63)              NOT NULL,
+    account_id  bigint                   NOT NULL,
+    nickname    varchar(255)             NULL     DEFAULT NULL,
+    title       varchar(255)             NOT NULL,
+    content     varchar(10240)           NOT NULL,
+    params      varchar(255)             NOT NULL,
+    status      int2                  NOT NULL,
+    remark      varchar(255)             NULL     DEFAULT NULL,
+    creator     varchar(64)              NULL     DEFAULT '',
+    create_time timestamp with time zone NOT NULL DEFAULT now(),
+    updater     varchar(64)              NULL     DEFAULT '',
+    update_time timestamp                NOT NULL DEFAULT now(),
+    deleted     int2                      NOT NULL DEFAULT 0
+);
+COMMENT ON TABLE system_mail_template is '邮件模板表';
+COMMENT ON COLUMN system_mail_template.id is '编号';
+COMMENT ON COLUMN system_mail_template.name is '模板名称';
+COMMENT ON COLUMN system_mail_template.code is '模板编码';
+COMMENT ON COLUMN system_mail_template.account_id is '发送的邮箱账号编号';
+COMMENT ON COLUMN system_mail_template.nickname is '发送人名称';
+COMMENT ON COLUMN system_mail_template.title is '模板标题';
+COMMENT ON COLUMN system_mail_template.content is '模板内容';
+COMMENT ON COLUMN system_mail_template.params is '参数数组';
+COMMENT ON COLUMN system_mail_template.status is '开启状态';
+COMMENT ON COLUMN system_mail_template.remark is '备注';
+COMMENT ON COLUMN system_mail_template.creator is '创建者';
+COMMENT ON COLUMN system_mail_template.create_time is '创建时间';
+COMMENT ON COLUMN system_mail_template.updater is '更新者';
+COMMENT ON COLUMN system_mail_template.update_time is '更新时间';
+COMMENT ON COLUMN system_mail_template.deleted is '是否删除';
+
+DROP TABLE IF EXISTS system_mail_account;
+CREATE TABLE system_mail_account
+(
+    id          serial primary key       NOT NULL,
+    mail        varchar(255)             NOT NULL,
+    username    varchar(255)             NOT NULL,
+    password    varchar(255)             NOT NULL,
+    host        varchar(255)             NOT NULL,
+    port        int                      NOT NULL,
+    ssl_enable  int2                      NOT NULL DEFAULT 0,
+    creator     varchar(64)              NULL     DEFAULT '',
+    create_time timestamp with time zone NOT NULL DEFAULT now(),
+    updater     varchar(64)              NULL     DEFAULT '',
+    update_time timestamp with time zone NOT NULL DEFAULT now(),
+    deleted     int2                     NOT NULL DEFAULT 0
+);
+COMMENT ON TABLE system_mail_account is '邮件账号表';
+COMMENT ON COLUMN system_mail_account.id is '编号';
+COMMENT ON COLUMN system_mail_account.mail is '邮箱';
+COMMENT ON COLUMN system_mail_account.username is '用户名';
+COMMENT ON COLUMN system_mail_account.password is '密码';
+COMMENT ON COLUMN system_mail_account.host is 'SMTP 服务器域名';
+COMMENT ON COLUMN system_mail_account.port is 'SMTP 服务器端口';
+COMMENT ON COLUMN system_mail_account.ssl_enable is '是否开启ssl';
+COMMENT ON COLUMN system_mail_account.creator is '创建者';
+COMMENT ON COLUMN system_mail_account.create_time is '创建时间';
+COMMENT ON COLUMN system_mail_account.updater is '更新者';
+COMMENT ON COLUMN system_mail_account.update_time is '更新时间';
+COMMENT ON COLUMN system_mail_account.deleted is '是否删除';
+
+DROP TABLE IF EXISTS system_notify_template;
+CREATE TABLE system_notify_template
+(
+    id          bigint                   NOT NULL,
+    name        varchar(63)              NOT NULL,
+    code        varchar(64)              NOT NULL,
+    nickname    varchar(255)             NOT NULL,
+    content     varchar(1024)            NOT NULL,
+    type        int2                      NOT NULL,
+    params      varchar(255)             NULL     DEFAULT NULL,
+    status      int2                      NOT NULL,
+    remark      varchar(255)             NULL     DEFAULT NULL,
+    creator     varchar(64)              NULL     DEFAULT '',
+    create_time timestamp with time zone NOT NULL DEFAULT now(),
+    updater     varchar(64)              NULL     DEFAULT '',
+    update_time timestamp with time zone NOT NULL DEFAULT now(),
+    deleted     int2                   NOT NULL DEFAULT 0
+);
+COMMENT ON TABLE system_notify_template is '站内信模板表';
+COMMENT ON COLUMN system_notify_template.id is '编号';
+COMMENT ON COLUMN system_notify_template.name is '模板名称';
+COMMENT ON COLUMN system_notify_template.code is '模板编码';
+COMMENT ON COLUMN system_notify_template.nickname is '发送人名称';
+COMMENT ON COLUMN system_notify_template.content is '模板内容';
+COMMENT ON COLUMN system_notify_template.type is '类型';
+COMMENT ON COLUMN system_notify_template.params is '参数数组';
+COMMENT ON COLUMN system_notify_template.status is '状态';
+COMMENT ON COLUMN system_notify_template.remark is '备注';
+COMMENT ON COLUMN system_notify_template.creator is '创建者';
+COMMENT ON COLUMN system_notify_template.create_time is '创建时间';
+COMMENT ON COLUMN system_notify_template.updater is '更新者';
+COMMENT ON COLUMN system_notify_template.update_time is '更新时间';
+COMMENT ON COLUMN system_notify_template.deleted is '是否删除';
+
+DROP TABLE IF EXISTS system_notify_message;
+CREATE TABLE system_notify_message
+(
+    id                bigint                   NOT NULL,
+    user_id           bigint                   NOT NULL,
+    user_type         int2                     NOT NULL,
+    template_id       bigint                   NOT NULL,
+    template_code     varchar(64)              NOT NULL,
+    template_nickname varchar(63)              NOT NULL,
+    template_content  varchar(1024)            NOT NULL,
+    template_type     int                      NOT NULL,
+    template_params   varchar(255)             NOT NULL,
+    read_status       boolean                     NOT NULL default false,
+    read_time         timestamp with time zone NULL     DEFAULT NULL,
+    creator           varchar(64)              NULL     DEFAULT '',
+    create_time       timestamp with time zone NOT NULL DEFAULT now(),
+    updater           varchar(64)              NULL     DEFAULT '',
+    update_time       timestamp with time zone NOT NULL DEFAULT now(),
+    deleted           int2                     NOT NULL DEFAULT 0,
+    tenant_id         bigint                   NOT NULL DEFAULT 0
+);
+COMMENT ON TABLE system_notify_message is '站内信消息表';
+COMMENT ON COLUMN system_notify_message.id is '编号';
+COMMENT ON COLUMN system_notify_message.user_id is '用户编号';
+COMMENT ON COLUMN system_notify_message.user_type is '用户类型';
+COMMENT ON COLUMN system_notify_message.template_id is '模板编号';
+COMMENT ON COLUMN system_notify_message.template_code is '模板编码';
+COMMENT ON COLUMN system_notify_message.template_nickname is '模板昵称';
+COMMENT ON COLUMN system_notify_message.template_content is '模板内容';
+COMMENT ON COLUMN system_notify_message.template_type is '模板类型';
+COMMENT ON COLUMN system_notify_message.template_params is '模板参数';
+COMMENT ON COLUMN system_notify_message.read_status is '阅读状态';
+COMMENT ON COLUMN system_notify_message.read_time is '阅读时间';
+COMMENT ON COLUMN system_notify_message.creator is '创建者';
+COMMENT ON COLUMN system_notify_message.create_time is '创建时间';
+COMMENT ON COLUMN system_notify_message.updater is '更新者';
+COMMENT ON COLUMN system_notify_message.update_time is '更新时间';
+COMMENT ON COLUMN system_notify_message.deleted is '是否删除';
+COMMENT ON COLUMN system_notify_message.tenant_id is '租户编号';

@@ -20,7 +20,7 @@ public abstract class AbstractBusProducer {
     @Resource
     protected ServiceMatcher serviceMatcher;
 
-    @Value("{spring.application.name}")
+    @Value("${spring.application.name}")
     protected String applicationName;
 
     protected void publishEvent(RemoteApplicationEvent event) {

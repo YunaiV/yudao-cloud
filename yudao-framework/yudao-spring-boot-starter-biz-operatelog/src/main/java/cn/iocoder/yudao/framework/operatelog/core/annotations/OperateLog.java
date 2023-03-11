@@ -29,7 +29,7 @@ public @interface OperateLog {
     /**
      * 操作名
      *
-     * 为空时，会尝试读取 {@link ApiOperation#value()} 属性
+     * 为空时，会尝试读取 {@link Operation#summary()} 属性
      */
     String name() default "";
     /**

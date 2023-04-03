@@ -23,7 +23,7 @@ public @interface OperateLog {
     /**
      * 操作模块
      *
-     * 为空时，会尝试读取 {@link Api#value()} 属性
+     * 为空时，会尝试读取 {@link Tag#name()} 属性
      */
     String module() default "";
     /**

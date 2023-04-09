@@ -1,3 +1,4 @@
+## @formatter:off
 package ${basePackage}.module.${table.moduleName}.controller.${sceneEnum.basePackage}.${table.businessName}.vo;
 
 import lombok.*;
@@ -10,8 +11,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 #end
 #end
-import io.swagger.annotations.*;
-
 import com.alibaba.excel.annotation.ExcelProperty;
 #foreach ($column in $columns)
 #if ("$!column.dictType" != "")## 有设置数据字典
@@ -23,10 +22,10 @@ import ${DictConvertClassName};
 #end
 
 /**
- * ${table.classComment} Excel VO
- *
- * @author ${table.author}
- */
+* ${table.classComment} Excel VO
+*
+* @author ${table.author}
+*/
 @Data
 public class ${sceneEnum.prefixClass}${table.className}ExcelVO {
 

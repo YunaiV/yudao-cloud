@@ -289,7 +289,12 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
         }
 
         // 创建流程实例
-        ProcessInstance instance = runtimeService.startProcessInstanceById(definition.getId(), businessKey, variables);
+        ProcessInstance instance = runtimeService.createProcessInstanceBuilder()
+                .processDefinitionId(definition.getId())
+                .businessKey(businessKey)
+                .name(definition.getName().trim())
+                .variables(variables)
+                .start();
         // 设置流程名字
         runtimeService.setProcessInstanceName(instance.getId(), definition.getName());
 

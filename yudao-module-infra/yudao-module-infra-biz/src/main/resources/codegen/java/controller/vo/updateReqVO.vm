@@ -1,13 +1,13 @@
-## @formatter:off
 package ${basePackage}.module.${table.moduleName}.controller.${sceneEnum.basePackage}.${table.businessName}.vo;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import java.util.*;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.*;
+import javax.validation.constraints.*;
 ## 处理 Date 字段的引入
 #foreach ($column in $columns)
-#if (${column.updateOperation} && (!${column.createOperation} || !${column.listOperationResult}) && ${column.javaType} == "LocalDateTime")## 时间类型
+#if (${column.updateOperation} && (!${column.createOperation} || !${column.listOperationResult})
+    && ${column.javaType} == "LocalDateTime")## 时间类型
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 import static ${DateUtilsClassName}.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
@@ -15,7 +15,7 @@ import static ${DateUtilsClassName}.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 #end
 #end
 
-@Schema(name = "${sceneEnum.name} - ${table.classComment}更新 Request VO")
+@Schema(description = "${sceneEnum.name} - ${table.classComment}更新 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)

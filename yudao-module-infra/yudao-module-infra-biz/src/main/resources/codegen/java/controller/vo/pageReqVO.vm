@@ -1,4 +1,3 @@
-## @formatter:off
 package ${basePackage}.module.${table.moduleName}.controller.${sceneEnum.basePackage}.${table.businessName}.vo;
 
 import lombok.*;
@@ -21,7 +20,7 @@ import static ${DateUtilsClassName}.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
     private ${column.javaType}#if ("$!prefix" != "") ${prefix}${JavaField}#else ${column.javaField}#end;
 #end
 
-@Schema(name = "${sceneEnum.name} - ${table.classComment}分页 Request VO")
+@Schema(description = "${sceneEnum.name} - ${table.classComment}分页 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)

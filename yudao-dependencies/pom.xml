@@ -23,7 +23,7 @@
         <servlet.versoin>2.5</servlet.versoin>
         <swagger.version>2.2.8</swagger.version>
         <springdoc.version>1.6.14</springdoc.version>
-        <knife4j.version>4.0.0</knife4j.version>
+        <knife4j.version>4.1.0</knife4j.version>
         <!-- DB 相关 -->
         <druid.version>1.2.15</druid.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>

@@ -55,6 +55,16 @@ spring:
         prefix-enabled: false # 避免 Swagger 重复带上额外的 /admin-api/system 前缀
 
 knife4j:
-  # 聚合 Swagger 文档
+  # 聚合 Swagger 文档，参考 https://doc.xiaominfo.com/docs/action/springcloud-gateway 文档
   gateway:
-    enable: true
+    enabled: true
+    routes:
+      - name: system-server
+        service-name: system-server
+        url: /admin-api/system/v3/api-docs
+      - name: infra-server
+        service-name: infra-server
+        url: /admin-api/infra/v3/api-docs
+      - name: bpm-server
+        service-name: bpm-server
+        url: /admin-api/bpm/v3/api-docs

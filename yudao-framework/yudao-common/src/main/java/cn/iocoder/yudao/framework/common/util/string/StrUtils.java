@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.framework.common.util.string;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 
@@ -13,7 +14,14 @@ import java.util.Collection;
 public class StrUtils {
 
     public static String maxLength(CharSequence str, int maxLength) {
-        return StrUtil.maxLength(str, maxLength - 3); // -3 的原因，是该方法会补充 ... 恰好
+        Assert.isTrue(maxLength > 0);
+        if (null == str) {
+            return null;
+        }
+        if (str.length() <= maxLength) {
+            return str.toString();
+        }
+        return StrUtil.sub(str, 0, maxLength - 3) + "..."; // -3 的原因，是该方法会补充 ... 恰好
     }
 
     /**

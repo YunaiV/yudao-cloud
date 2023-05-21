@@ -52,7 +52,7 @@ public class MailProducer extends AbstractBusProducer {
         MailSendMessage message = new MailSendMessage()
                 .setLogId(sendLogId).setMail(mail).setAccountId(accountId)
                 .setNickname(nickname).setTitle(title).setContent(content);
-        streamBridge.send("smsMail-out-0", message);
+        streamBridge.send("mailSend-out-0", message);
     }
 
 }

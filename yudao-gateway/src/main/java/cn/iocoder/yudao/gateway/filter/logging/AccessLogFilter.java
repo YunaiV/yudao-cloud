@@ -37,6 +37,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -57,10 +58,7 @@ import static cn.hutool.core.date.DatePattern.NORM_DATETIME_MS_FORMATTER;
 @Component
 public class AccessLogFilter implements GlobalFilter, Ordered {
 
-    /**
-     * 解决spring.codec.max-in-memory-size设置不生效的问题
-     */
-    @Autowired
+    @Resource
     private CodecConfigurer codecConfigurer;
 
     /**
@@ -141,6 +139,7 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
      */
     private Mono<Void> filterWithRequestBody(ServerWebExchange exchange, GatewayFilterChain chain, AccessLog gatewayLog) {
         // 设置 Request Body 读取时，设置到网关日志
+        // 此处 codecConfigurer.getReaders() 的目的，是解决 spring.codec.max-in-memory-size 不生效
         ServerRequest serverRequest = ServerRequest.create(exchange, codecConfigurer.getReaders());
         Mono<String> modifiedBody = serverRequest.bodyToMono(String.class).flatMap(body -> {
             gatewayLog.setRequestBody(body);

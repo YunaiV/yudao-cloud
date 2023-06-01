@@ -96,7 +96,7 @@ public class UserProfileController {
         return success(true);
     }
 
-    @PutMapping("/update-avatar")
+    @PostMapping("/update-avatar")
     @Operation(summary = "上传用户个人头像")
     public CommonResult<String> updateUserAvatar(@RequestParam("avatarFile") MultipartFile file) throws Exception {
         if (file.isEmpty()) {

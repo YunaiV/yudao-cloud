@@ -20,6 +20,10 @@ public class RedisCaptchaServiceImpl implements CaptchaCacheService {
     @Resource // 保证 aj-captcha 的 SPI 创建时的注入
     private StringRedisTemplate stringRedisTemplate;
 
+    public void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate) {
+        this.stringRedisTemplate = stringRedisTemplate;
+    }
+
     @Override
     public String type() {
         return "redis";

@@ -259,7 +259,7 @@ public class OperateLogAspect {
         if (operateLog != null) {
             return operateLog.enable();
         }
-        // 没有 @ApiOperation 注解的情况下，只记录 POST、PUT、DELETE 的情况
+        // 没有 @OperateLog 注解的情况下，只记录 POST、PUT、DELETE 的情况
         return obtainFirstLogRequestMethod(obtainRequestMethod(joinPoint)) != null;
     }
 

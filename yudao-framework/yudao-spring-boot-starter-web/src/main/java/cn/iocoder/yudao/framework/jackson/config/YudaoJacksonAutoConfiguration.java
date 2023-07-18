@@ -34,8 +34,8 @@ public class YudaoJacksonAutoConfiguration {
                  * 2. 新增LocalDateTime序列化、反序列化规则
                  */
                 simpleModule
-                        .addSerializer(Long.class, NumberSerializer.instance)
-                        .addSerializer(Long.TYPE, NumberSerializer.instance)
+                        .addSerializer(Long.class, NumberSerializer.INSTANCE)
+                        .addSerializer(Long.TYPE, NumberSerializer.INSTANCE)
                         .addSerializer(LocalDateTime.class, LocalDateTimeSerializer.INSTANCE)
                         .addDeserializer(LocalDateTime.class, LocalDateTimeDeserializer.INSTANCE);
 

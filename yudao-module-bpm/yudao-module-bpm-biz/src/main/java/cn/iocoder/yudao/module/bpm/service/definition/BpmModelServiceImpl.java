@@ -70,6 +70,9 @@ public class BpmModelServiceImpl implements BpmModelService {
         if (StrUtil.isNotBlank(pageVO.getCategory())) {
             modelQuery.modelCategory(pageVO.getCategory());
         }
+        if (Objects.nonNull(pageVO.getTenantId()) && pageVO.getTenantId() > 0) {
+            modelQuery.modelTenantId(pageVO.getTenantId().toString());
+        }
         // 执行查询
         List<Model> models = modelQuery.orderByCreateTime().desc()
                 .listPage(PageUtils.getStart(pageVO), pageVO.getPageSize());

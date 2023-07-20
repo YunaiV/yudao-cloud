@@ -19,11 +19,11 @@ public interface BpmOALeaveService {
     /**
      * 创建请假申请
      *
-     * @param userId 用户编号
+     * @param tenantId 租户编号
      * @param createReqVO 创建信息
      * @return 编号
      */
-    Long createLeave(Long userId, @Valid BpmOALeaveCreateReqVO createReqVO);
+    Long createLeave(Long tenantId, Long userId, @Valid BpmOALeaveCreateReqVO createReqVO);
 
     /**
      * 更新请假申请的状态

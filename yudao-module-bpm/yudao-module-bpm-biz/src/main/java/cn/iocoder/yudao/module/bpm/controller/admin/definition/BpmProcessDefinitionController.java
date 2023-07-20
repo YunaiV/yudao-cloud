@@ -2,6 +2,7 @@ package cn.iocoder.yudao.module.bpm.controller.admin.definition;
 
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
+import cn.iocoder.yudao.framework.tenant.core.context.TenantContextHolder;
 import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.process.BpmProcessDefinitionListReqVO;
 import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.process.BpmProcessDefinitionPageItemRespVO;
 import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.process.BpmProcessDefinitionPageReqVO;
@@ -45,6 +46,7 @@ public class BpmProcessDefinitionController {
     @PreAuthorize("@ss.hasPermission('bpm:process-definition:query')")
     public CommonResult<List<BpmProcessDefinitionRespVO>> getProcessDefinitionList(
             BpmProcessDefinitionListReqVO listReqVO) {
+        listReqVO.setTenantId(TenantContextHolder.getTenantId());
         return success(bpmDefinitionService.getProcessDefinitionList(listReqVO));
     }
 

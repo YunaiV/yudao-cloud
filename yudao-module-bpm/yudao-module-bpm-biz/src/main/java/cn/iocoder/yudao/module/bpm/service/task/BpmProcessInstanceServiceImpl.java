@@ -108,19 +108,19 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String createProcessInstance(Long userId, @Valid BpmProcessInstanceCreateReqVO createReqVO) {
+    public String createProcessInstance(Long tenantId, @Valid BpmProcessInstanceCreateReqVO createReqVO) {
         // 获得流程定义
         ProcessDefinition definition = processDefinitionService.getProcessDefinition(createReqVO.getProcessDefinitionId());
         // 发起流程
-        return createProcessInstance0(userId, definition, createReqVO.getVariables(), null);
+        return createProcessInstance0(tenantId, definition, createReqVO.getVariables(), null);
     }
 
     @Override
-    public String createProcessInstance(Long userId, @Valid BpmProcessInstanceCreateReqDTO createReqDTO) {
+    public String createProcessInstance(Long tenantId, @Valid BpmProcessInstanceCreateReqDTO createReqDTO) {
         // 获得流程定义
         ProcessDefinition definition = processDefinitionService.getActiveProcessDefinition(createReqDTO.getProcessDefinitionKey());
         // 发起流程
-        return createProcessInstance0(userId, definition, createReqDTO.getVariables(), createReqDTO.getBusinessKey());
+        return createProcessInstance0(tenantId, definition, createReqDTO.getVariables(), createReqDTO.getBusinessKey());
     }
 
     @Override
@@ -278,7 +278,7 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
         runtimeService.deleteProcessInstance(id, reason);
     }
 
-    private String createProcessInstance0(Long userId, ProcessDefinition definition,
+    private String createProcessInstance0(Long tenantId, ProcessDefinition definition,
                                           Map<String, Object> variables, String businessKey) {
         // 校验流程定义
         if (definition == null) {
@@ -292,6 +292,7 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
         ProcessInstance instance = runtimeService.createProcessInstanceBuilder()
                 .processDefinitionId(definition.getId())
                 .businessKey(businessKey)
+                .tenantId(String.valueOf(tenantId))
                 .name(definition.getName().trim())
                 .variables(variables)
                 .start();

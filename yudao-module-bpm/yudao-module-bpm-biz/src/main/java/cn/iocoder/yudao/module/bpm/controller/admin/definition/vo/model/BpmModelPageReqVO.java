@@ -23,4 +23,7 @@ public class BpmModelPageReqVO extends PageParam {
     @Schema(description = "流程分类,参见 bpm_model_category 数据字典", example = "1")
     private String category;
 
+    @Schema(description = "租户编码", example = "1")
+    private Long tenantId;
+
 }

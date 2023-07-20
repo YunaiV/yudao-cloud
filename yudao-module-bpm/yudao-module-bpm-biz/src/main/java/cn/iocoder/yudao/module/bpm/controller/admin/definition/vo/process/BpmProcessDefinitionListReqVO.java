@@ -16,4 +16,7 @@ public class BpmProcessDefinitionListReqVO extends PageParam {
     @Schema(description = "中断状态,参见 SuspensionState 枚举", example = "1")
     private Integer suspensionState;
 
+    @Schema(description = "租户编码", example = "1")
+    private Long tenantId;
+
 }

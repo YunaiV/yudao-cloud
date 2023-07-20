@@ -45,7 +45,7 @@ public class BpmOALeaveServiceImpl implements BpmOALeaveService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long createLeave(Long userId, BpmOALeaveCreateReqVO createReqVO) {
+    public Long createLeave(Long tenantId, Long userId, BpmOALeaveCreateReqVO createReqVO) {
         // 插入 OA 请假单
         long day = LocalDateTimeUtil.between(createReqVO.getStartTime(), createReqVO.getEndTime()).toDays();
         BpmOALeaveDO leave = BpmOALeaveConvert.INSTANCE.convert(createReqVO).setUserId(userId).setDay(day)
@@ -55,7 +55,7 @@ public class BpmOALeaveServiceImpl implements BpmOALeaveService {
         // 发起 BPM 流程
         Map<String, Object> processInstanceVariables = new HashMap<>();
         processInstanceVariables.put("day", day);
-        String processInstanceId = processInstanceApi.createProcessInstance(userId,
+        String processInstanceId = processInstanceApi.createProcessInstance(tenantId,
                 new BpmProcessInstanceCreateReqDTO().setProcessDefinitionKey(PROCESS_KEY)
                         .setVariables(processInstanceVariables).setBusinessKey(String.valueOf(leave.getId())));
 

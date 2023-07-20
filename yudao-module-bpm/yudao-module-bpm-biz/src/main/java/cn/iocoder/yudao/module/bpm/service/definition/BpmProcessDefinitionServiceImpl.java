@@ -124,6 +124,7 @@ public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionServ
         Deployment deploy = repositoryService.createDeployment()
                 .key(createReqDTO.getKey()).name(createReqDTO.getName()).category(createReqDTO.getCategory())
                 .addBytes(createReqDTO.getKey() + BPMN_FILE_SUFFIX, createReqDTO.getBpmnBytes())
+                .tenantId(createReqDTO.getTenantId())
                 .deploy();
 
         // 设置 ProcessDefinition 的 category 分类
@@ -233,6 +234,7 @@ public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionServ
         } else if (Objects.equals(SuspensionState.ACTIVE.getStateCode(), listReqVO.getSuspensionState())) {
             definitionQuery.active();
         }
+        definitionQuery.processDefinitionTenantId(listReqVO.getTenantId().toString());
         // 执行查询
         List<ProcessDefinition> processDefinitions = definitionQuery.list();
         if (CollUtil.isEmpty(processDefinitions)) {

@@ -58,20 +58,20 @@ public interface BpmProcessInstanceService {
     /**
      * 创建流程实例（提供给前端）
      *
-     * @param userId 用户编号
+     * @param tenantId 租户编号
      * @param createReqVO 创建信息
      * @return 实例的编号
      */
-    String createProcessInstance(Long userId, @Valid BpmProcessInstanceCreateReqVO createReqVO);
+    String createProcessInstance(Long tenantId, @Valid BpmProcessInstanceCreateReqVO createReqVO);
 
     /**
      * 创建流程实例（提供给内部）
      *
-     * @param userId 用户编号
+     * @param tenantId 租户编号
      * @param createReqDTO 创建信息
      * @return 实例的编号
      */
-    String createProcessInstance(Long userId, @Valid BpmProcessInstanceCreateReqDTO createReqDTO);
+    String createProcessInstance(Long tenantId, @Valid BpmProcessInstanceCreateReqDTO createReqDTO);
 
     /**
      * 获得流程实例 VO 信息

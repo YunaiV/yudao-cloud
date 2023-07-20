@@ -23,4 +23,7 @@ public class BpmModelCreateReqVO {
     @Schema(description = "流程描述", example = "我是描述")
     private String description;
 
+    @Schema(description = "租户ID", example = "租户ID")
+    private Long tenantId;
+
 }

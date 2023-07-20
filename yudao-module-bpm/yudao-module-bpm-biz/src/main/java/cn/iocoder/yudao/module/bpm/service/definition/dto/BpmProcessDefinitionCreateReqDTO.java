@@ -82,6 +82,12 @@ public class BpmProcessDefinitionCreateReqDTO {
      * 在表单类型为 {@link BpmModelFormTypeEnum#CUSTOM} 时
      */
     private String formCustomViewPath;
+    /**
+     * 租户ID
+     * 为空，表示不属于任何租户
+     */
+    @NotEmpty(message = "租户编码不能为空")
+    private String tenantId;
 
     @AssertTrue(message = "流程表单信息不全")
     public boolean isNormalFormTypeValid() {

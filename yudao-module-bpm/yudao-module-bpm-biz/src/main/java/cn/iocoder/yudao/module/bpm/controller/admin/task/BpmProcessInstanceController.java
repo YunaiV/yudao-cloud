@@ -2,6 +2,7 @@ package cn.iocoder.yudao.module.bpm.controller.admin.task;
 
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
+import cn.iocoder.yudao.framework.tenant.core.context.TenantContextHolder;
 import cn.iocoder.yudao.module.bpm.controller.admin.task.vo.instance.*;
 import cn.iocoder.yudao.module.bpm.service.task.BpmProcessInstanceService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,7 +39,7 @@ public class BpmProcessInstanceController {
     @Operation(summary = "新建流程实例")
     @PreAuthorize("@ss.hasPermission('bpm:process-instance:query')")
     public CommonResult<String> createProcessInstance(@Valid @RequestBody BpmProcessInstanceCreateReqVO createReqVO) {
-        return success(processInstanceService.createProcessInstance(getLoginUserId(), createReqVO));
+        return success(processInstanceService.createProcessInstance(TenantContextHolder.getTenantId(), createReqVO));
     }
 
     @GetMapping("/get")

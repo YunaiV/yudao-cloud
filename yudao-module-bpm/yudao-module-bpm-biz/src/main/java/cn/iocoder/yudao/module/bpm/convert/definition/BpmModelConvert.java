@@ -89,6 +89,7 @@ public interface BpmModelConvert {
         createReqDTO.setName(model.getName());
         createReqDTO.setKey(model.getKey());
         createReqDTO.setCategory(model.getCategory());
+        createReqDTO.setTenantId(model.getTenantId());
         BpmModelMetaInfoRespDTO metaInfo = JsonUtils.parseObject(model.getMetaInfo(), BpmModelMetaInfoRespDTO.class);
         // metaInfo
         copyTo(metaInfo, createReqDTO);

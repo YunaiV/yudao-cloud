@@ -3,6 +3,7 @@ package cn.iocoder.yudao.module.bpm.controller.admin.definition;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.io.IoUtils;
+import cn.iocoder.yudao.framework.tenant.core.context.TenantContextHolder;
 import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.model.*;
 import cn.iocoder.yudao.module.bpm.convert.definition.BpmModelConvert;
 import cn.iocoder.yudao.module.bpm.service.definition.BpmModelService;
@@ -32,6 +33,7 @@ public class BpmModelController {
     @GetMapping("/page")
     @Operation(summary = "获得模型分页")
     public CommonResult<PageResult<BpmModelPageItemRespVO>> getModelPage(BpmModelPageReqVO pageVO) {
+        pageVO.setTenantId(TenantContextHolder.getTenantId());
         return success(modelService.getModelPage(pageVO));
     }
 
@@ -48,6 +50,7 @@ public class BpmModelController {
     @Operation(summary = "新建模型")
     @PreAuthorize("@ss.hasPermission('bpm:model:create')")
     public CommonResult<String> createModel(@Valid @RequestBody BpmModelCreateReqVO createRetVO) {
+        createRetVO.setTenantId(TenantContextHolder.getTenantId());
         return success(modelService.createModel(createRetVO, null));
     }
 
@@ -66,6 +69,7 @@ public class BpmModelController {
         BpmModelCreateReqVO createReqVO = BpmModelConvert.INSTANCE.convert(importReqVO);
         // 读取文件
         String bpmnXml = IoUtils.readUtf8(importReqVO.getBpmnFile().getInputStream(), false);
+        createReqVO.setTenantId(TenantContextHolder.getTenantId());
         return success(modelService.createModel(createReqVO, bpmnXml));
     }
 

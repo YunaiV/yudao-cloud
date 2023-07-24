@@ -4,15 +4,18 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.enums.UserTypeEnum;
+import cn.iocoder.yudao.framework.common.exception.ServiceException;
 import cn.iocoder.yudao.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
 import cn.iocoder.yudao.module.system.dal.dataobject.oauth2.OAuth2CodeDO;
 import cn.iocoder.yudao.module.system.dal.dataobject.user.AdminUserDO;
 import cn.iocoder.yudao.module.system.enums.ErrorCodeConstants;
 import cn.iocoder.yudao.module.system.service.auth.AdminAuthService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
 
@@ -22,6 +25,7 @@ import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionU
  * @author 芋道源码
  */
 @Service
+@Slf4j
 public class OAuth2GrantServiceImpl implements OAuth2GrantService {
 
     @Resource
@@ -72,7 +76,17 @@ public class OAuth2GrantServiceImpl implements OAuth2GrantService {
     @Override
     public OAuth2AccessTokenDO grantPassword(String username, String password, String clientId, List<String> scopes) {
         // 使用账号 + 密码进行登录
-        AdminUserDO user = adminAuthService.authenticate(username, password);
+        AdminUserDO user = null;
+        try {
+            user = adminAuthService.authenticate(username, password);
+        }
+        catch (ServiceException e) {
+            // 记录登录日志
+            log.info("[login][username({}) 登录失败，原因为({})", username, password, e);
+        }
+        if (Objects.isNull(user)) {
+            user = adminAuthService.authenticateByMobile(username, password);
+        }
         Assert.notNull(user, "用户不能为空！"); // 防御性编程
 
         // 创建访问令牌

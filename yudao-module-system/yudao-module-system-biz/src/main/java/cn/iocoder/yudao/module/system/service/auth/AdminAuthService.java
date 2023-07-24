@@ -24,6 +24,15 @@ public interface AdminAuthService {
     AdminUserDO authenticate(String username, String password);
 
     /**
+     * 验证手机号 + 密码。如果通过，则返回用户
+     *
+     * @param mobile 账号
+     * @param password 密码
+     * @return 用户
+     */
+    AdminUserDO authenticateByMobile(String mobile, String password);
+
+    /**
      * 账号登录
      *
      * @param reqVO 登录信息

@@ -77,15 +77,10 @@ spring:
   cloud:
     # Spring Cloud Stream 配置项，对应 BindingServiceProperties 类
     stream:
-      #      function:
-      #        definition: roleRefreshConsumer;roleMenuRefreshConsumer;userRoleRefreshConsumer;
+      function:
+        definition: busConsumer
       # Binding 配置项，对应 BindingProperties Map
-      bindings:
-        roleRefresh-out-0:
-          destination: system_role_refresh
-        roleRefreshConsumer-in-0:
-          destination: system_role_refresh
-          group: system_role_refresh_consumer_group
+#      bindings:
       # Spring Cloud Stream RocketMQ 配置项
       rocketmq:
         # RocketMQ Binder 配置项，对应 RocketMQBinderConfigurationProperties 类
@@ -95,6 +90,10 @@ spring:
           producer: # RocketMQ Producer 配置项，对应 RocketMQProducerProperties 类
             group: infra_producer_group # 生产者分组
             send-type: SYNC # 发送模式，SYNC 同步
+        bindings:
+          springCloudBusInput:
+            consumer:
+              message-model: BROADCASTING # 重要，解决 Spring Cloud Bus RocketMQ 默认不是 BROADCASTING 广播消费的问题
 
     # Spring Cloud Bus 配置项，对应 BusProperties 类
     bus:

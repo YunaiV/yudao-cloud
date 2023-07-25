@@ -74,7 +74,7 @@ spring:
     # Spring Cloud Stream 配置项，对应 BindingServiceProperties 类
     stream:
       function:
-        definition: smsSendConsumer;mailSendConsumer;
+        definition: busConsumer;smsSendConsumer;mailSendConsumer
       # Binding 配置项，对应 BindingProperties Map
       bindings:
         smsSend-out-0:
@@ -96,6 +96,10 @@ spring:
           producer: # RocketMQ Producer 配置项，对应 RocketMQProducerProperties 类
             group: system_producer_group # 生产者分组
             send-type: SYNC # 发送模式，SYNC 同步
+        bindings:
+          springCloudBusInput:
+            consumer:
+              message-model: BROADCASTING # 重要，解决 Spring Cloud Bus RocketMQ 默认不是 BROADCASTING 广播消费的问题
 
     # Spring Cloud Bus 配置项，对应 BusProperties 类
     bus:

@@ -27,7 +27,7 @@ public class SmsLogPageReqVO extends PageParam {
     @Schema(description = "手机号", example = "15601691300")
     private String mobile;
 
-    @Schema(description = "发送状态,参见 SmsSendStatusEnum 枚举类", example = "1")
+    @Schema(description = "发送状态，参见 SmsSendStatusEnum 枚举类", example = "1")
     private Integer sendStatus;
 
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)

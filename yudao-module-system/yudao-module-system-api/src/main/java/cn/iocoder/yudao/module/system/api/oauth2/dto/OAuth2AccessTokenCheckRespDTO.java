@@ -14,7 +14,7 @@ public class OAuth2AccessTokenCheckRespDTO implements Serializable {
     @Schema(description = "用户编号", required = true, example = "10")
     private Long userId;
 
-    @Schema(description = "用户类型,参见 UserTypeEnum 枚举", required = true, example = "1")
+    @Schema(description = "用户类型，参见 UserTypeEnum 枚举", required = true, example = "1")
     private Integer userType;
 
     @Schema(description = "租户编号", required = true, example = "1024")

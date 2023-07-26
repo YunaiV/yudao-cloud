@@ -1,7 +1,6 @@
 package cn.iocoder.yudao.module.system.controller.admin.sms.vo.channel;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -18,7 +17,7 @@ public class SmsChannelSimpleRespVO {
     @NotNull(message = "短信签名不能为空")
     private String signature;
 
-    @Schema(description = "渠道编码，参见 SmsChannelEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "YUN_PIAN" )
+    @Schema(description = "渠道编码，参见 SmsChannelEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "YUN_PIAN")
     private String code;
 
 }

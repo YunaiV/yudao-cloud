@@ -31,22 +31,22 @@ import javax.sql.DataSource;
 @EnableConfigurationProperties(SqlInitializationProperties.class)
 public class SqlInitializationTestConfiguration {
 
-    @Bean
-    public DataSourceScriptDatabaseInitializer dataSourceScriptDatabaseInitializer(DataSource dataSource,
-                                                                                   SqlInitializationProperties initializationProperties) {
-        DatabaseInitializationSettings settings = createFrom(initializationProperties);
-        return new DataSourceScriptDatabaseInitializer(dataSource, settings);
-    }
+	@Bean
+	public DataSourceScriptDatabaseInitializer dataSourceScriptDatabaseInitializer(DataSource dataSource,
+																				   SqlInitializationProperties initializationProperties) {
+		DatabaseInitializationSettings settings = createFrom(initializationProperties);
+		return new DataSourceScriptDatabaseInitializer(dataSource, settings);
+	}
 
-    static DatabaseInitializationSettings createFrom(SqlInitializationProperties properties) {
-        DatabaseInitializationSettings settings = new DatabaseInitializationSettings();
-        settings.setSchemaLocations(properties.getSchemaLocations());
-        settings.setDataLocations(properties.getDataLocations());
-        settings.setContinueOnError(properties.isContinueOnError());
-        settings.setSeparator(properties.getSeparator());
-        settings.setEncoding(properties.getEncoding());
-        settings.setMode(properties.getMode());
-        return settings;
-    }
+	static DatabaseInitializationSettings createFrom(SqlInitializationProperties properties) {
+		DatabaseInitializationSettings settings = new DatabaseInitializationSettings();
+		settings.setSchemaLocations(properties.getSchemaLocations());
+		settings.setDataLocations(properties.getDataLocations());
+		settings.setContinueOnError(properties.isContinueOnError());
+		settings.setSeparator(properties.getSeparator());
+		settings.setEncoding(properties.getEncoding());
+		settings.setMode(properties.getMode());
+		return settings;
+	}
 
 }

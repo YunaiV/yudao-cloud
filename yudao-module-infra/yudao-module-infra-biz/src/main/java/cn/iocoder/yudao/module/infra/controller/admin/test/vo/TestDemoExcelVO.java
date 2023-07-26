@@ -1,10 +1,9 @@
 package cn.iocoder.yudao.module.infra.controller.admin.test.vo;
 
-import lombok.*;
+import com.alibaba.excel.annotation.ExcelProperty;
+import lombok.Data;
 
 import java.time.LocalDateTime;
-
-import com.alibaba.excel.annotation.ExcelProperty;
 
 /**
  * 字典类型 Excel VO

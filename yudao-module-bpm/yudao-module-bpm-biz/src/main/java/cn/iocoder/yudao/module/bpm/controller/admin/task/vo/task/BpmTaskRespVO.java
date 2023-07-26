@@ -1,7 +1,6 @@
 package cn.iocoder.yudao.module.bpm.controller.admin.task.vo.task;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -12,7 +11,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class BpmTaskRespVO extends BpmTaskDonePageItemRespVO {
 
-    @Schema(description = "任务定义的标识", required = true, example = "user-001")
+    @Schema(description = "任务定义的标识", requiredMode = Schema.RequiredMode.REQUIRED, example = "user-001")
     private String definitionKey;
 
     /**
@@ -24,14 +23,14 @@ public class BpmTaskRespVO extends BpmTaskDonePageItemRespVO {
     @Data
     public static class User {
 
-        @Schema(description = "用户编号", required = true, example = "1")
+        @Schema(description = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
         private Long id;
-        @Schema(description = "用户昵称", required = true, example = "芋艿")
+        @Schema(description = "用户昵称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋艿")
         private String nickname;
 
-        @Schema(description = "部门编号", required = true, example = "1")
+        @Schema(description = "部门编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
         private Long deptId;
-        @Schema(description = "部门名称", required = true, example = "研发部")
+        @Schema(description = "部门名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "研发部")
         private String deptName;
 
     }

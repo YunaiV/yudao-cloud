@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @ToString(callSuper = true)
 public class NotifyTemplateUpdateReqVO extends NotifyTemplateBaseVO {
 
-    @Schema(description = "ID", required = true, example = "1024")
+    @Schema(description = "ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @NotNull(message = "ID 不能为空")
     private Long id;
 

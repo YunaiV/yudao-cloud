@@ -10,7 +10,7 @@ import javax.validation.constraints.*;
 @ToString(callSuper = true)
 public class DataSourceConfigCreateReqVO extends DataSourceConfigBaseVO {
 
-    @Schema(description = "密码", required = true, example = "123456")
+    @Schema(description = "密码", requiredMode = Schema.RequiredMode.REQUIRED, example = "123456")
     @NotNull(message = "密码不能为空")
     private String password;
 

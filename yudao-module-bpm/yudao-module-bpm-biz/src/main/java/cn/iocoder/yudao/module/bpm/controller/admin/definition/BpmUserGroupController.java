@@ -23,7 +23,7 @@ import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
-@Tag(name =  "管理后台 - 用户组")
+@Tag(name = "管理后台 - 用户组")
 @RestController
 @RequestMapping("/bpm/user-group")
 @Validated

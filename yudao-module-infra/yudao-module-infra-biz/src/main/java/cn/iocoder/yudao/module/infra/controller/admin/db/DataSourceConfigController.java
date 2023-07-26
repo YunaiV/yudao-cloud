@@ -20,7 +20,7 @@ import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
-@Tag(name =  "管理后台 - 数据源配置")
+@Tag(name = "管理后台 - 数据源配置")
 @RestController
 @RequestMapping("/infra/data-source-config")
 @Validated

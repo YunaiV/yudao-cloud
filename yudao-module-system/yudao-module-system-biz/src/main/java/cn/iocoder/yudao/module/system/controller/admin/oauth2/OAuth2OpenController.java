@@ -55,7 +55,7 @@ import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUti
  *
  * @author 芋道源码
  */
-@Tag(name =  "管理后台 - OAuth2.0 授权")
+@Tag(name = "管理后台 - OAuth2.0 授权")
 @RestController
 @RequestMapping("/system/oauth2")
 @Validated

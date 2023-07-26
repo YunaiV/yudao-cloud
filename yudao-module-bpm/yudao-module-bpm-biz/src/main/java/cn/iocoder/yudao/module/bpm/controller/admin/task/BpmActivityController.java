@@ -18,7 +18,7 @@ import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
-@Tag(name =  "管理后台 - 流程活动实例")
+@Tag(name = "管理后台 - 流程活动实例")
 @RestController
 @RequestMapping("/bpm/activity")
 @Validated

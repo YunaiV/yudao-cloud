@@ -30,7 +30,7 @@ import javax.validation.Valid;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
-@Tag(name =  "管理后台 - 文件存储")
+@Tag(name = "管理后台 - 文件存储")
 @RestController
 @RequestMapping("/infra/file")
 @Validated

@@ -19,7 +19,7 @@ import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
-@Tag(name =  "管理后台 - 短信渠道")
+@Tag(name = "管理后台 - 短信渠道")
 @RestController
 @RequestMapping("system/sms-channel")
 public class SmsChannelController {

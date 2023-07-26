@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
-@Tag(name =  "管理后台 - 社交用户")
+@Tag(name = "管理后台 - 社交用户")
 @RestController
 @RequestMapping("/system/social-user")
 @Validated

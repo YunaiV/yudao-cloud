@@ -23,7 +23,7 @@ import java.util.List;
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
-@Tag(name =  "管理后台 - 我的站内信")
+@Tag(name = "管理后台 - 我的站内信")
 @RestController
 @RequestMapping("/system/notify-message")
 @Validated

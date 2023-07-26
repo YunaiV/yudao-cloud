@@ -34,7 +34,7 @@ import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertSet;
 import static cn.iocoder.yudao.framework.operatelog.core.enums.OperateTypeEnum.EXPORT;
 
-@Tag(name =  "管理后台 - 用户")
+@Tag(name = "管理后台 - 用户")
 @RestController
 @RequestMapping("/system/user")
 @Validated

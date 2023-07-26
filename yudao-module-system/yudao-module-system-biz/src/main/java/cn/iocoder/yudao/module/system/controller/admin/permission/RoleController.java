@@ -27,7 +27,7 @@ import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.operatelog.core.enums.OperateTypeEnum.EXPORT;
 import static java.util.Collections.singleton;
 
-@Tag(name =  "管理后台 - 角色")
+@Tag(name = "管理后台 - 角色")
 @RestController
 @RequestMapping("/system/role")
 @Validated

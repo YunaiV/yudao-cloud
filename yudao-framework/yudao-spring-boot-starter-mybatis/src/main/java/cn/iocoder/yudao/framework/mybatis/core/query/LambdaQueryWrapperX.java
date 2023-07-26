@@ -11,7 +11,7 @@ import java.util.Collection;
 
 /**
  * 拓展 MyBatis Plus QueryWrapper 类，主要增加如下功能：
- *
+ * <p>
  * 1. 拼接条件的方法，增加 xxxIfPresent 方法，用于判断值不存在的时候，不要拼接到条件中。
  *
  * @param <T> 数据类型
@@ -40,14 +40,14 @@ public class LambdaQueryWrapperX<T> extends LambdaQueryWrapper<T> {
     }
 
     public LambdaQueryWrapperX<T> eqIfPresent(SFunction<T, ?> column, Object val) {
-        if (val != null) {
+        if (ObjectUtil.isNotEmpty(val)) {
             return (LambdaQueryWrapperX<T>) super.eq(column, val);
         }
         return this;
     }
 
     public LambdaQueryWrapperX<T> neIfPresent(SFunction<T, ?> column, Object val) {
-        if (val != null) {
+        if (ObjectUtil.isNotEmpty(val)) {
             return (LambdaQueryWrapperX<T>) super.ne(column, val);
         }
         return this;

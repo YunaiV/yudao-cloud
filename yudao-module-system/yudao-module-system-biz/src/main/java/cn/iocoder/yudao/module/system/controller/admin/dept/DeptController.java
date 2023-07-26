@@ -20,7 +20,7 @@ import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
-@Tag(name =  "管理后台 - 部门")
+@Tag(name = "管理后台 - 部门")
 @RestController
 @RequestMapping("/system/dept")
 @Validated

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
-@Tag(name =  "RPC 服务 - 社交用户")
+@Tag(name = "RPC 服务 - 社交用户")
 public interface SocialUserApi {
 
     String PREFIX = ApiConstants.PREFIX + "/social-user";

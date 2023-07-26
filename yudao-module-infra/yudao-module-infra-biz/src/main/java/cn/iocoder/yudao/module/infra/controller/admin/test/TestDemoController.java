@@ -25,7 +25,7 @@ import java.util.List;
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.operatelog.core.enums.OperateTypeEnum.EXPORT;
 
-@Tag(name =  "管理后台 - 字典类型")
+@Tag(name = "管理后台 - 字典类型")
 @RestController
 @RequestMapping("/infra/test-demo")
 @Validated

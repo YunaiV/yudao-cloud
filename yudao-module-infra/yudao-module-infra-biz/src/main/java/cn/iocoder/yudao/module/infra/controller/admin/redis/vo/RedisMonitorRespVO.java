@@ -1,7 +1,6 @@
 package cn.iocoder.yudao.module.infra.controller.admin.redis.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,7 +33,7 @@ public class RedisMonitorRespVO {
         private String command;
 
         @Schema(description = "调用次数", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-        private Integer calls;
+        private Long calls;
 
         @Schema(description = "消耗 CPU 秒数", requiredMode = Schema.RequiredMode.REQUIRED, example = "666")
         private Long usec;

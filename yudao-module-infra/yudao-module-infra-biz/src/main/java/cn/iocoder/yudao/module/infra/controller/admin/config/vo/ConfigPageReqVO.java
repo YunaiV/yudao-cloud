@@ -2,7 +2,6 @@ package cn.iocoder.yudao.module.infra.controller.admin.config.vo;
 
 import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -18,7 +17,7 @@ import static cn.iocoder.yudao.framework.common.util.date.DateUtils.FORMAT_YEAR_
 @ToString(callSuper = true)
 public class ConfigPageReqVO extends PageParam {
 
-    @Schema(description = "数据源名称", example = "模糊匹配")
+    @Schema(description = "数据源名称,模糊匹配", example = "名称")
     private String name;
 
     @Schema(description = "参数键名,模糊匹配", example = "yunai.db.username")

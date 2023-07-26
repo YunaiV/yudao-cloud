@@ -36,7 +36,7 @@ import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 import static cn.iocoder.yudao.module.infra.enums.ErrorCodeConstants.FILE_IS_EMPTY;
 
-@Tag(name =  "管理后台 - 用户个人中心")
+@Tag(name = "管理后台 - 用户个人中心")
 @RestController
 @RequestMapping("/system/user/profile")
 @Validated

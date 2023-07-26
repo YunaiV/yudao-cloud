@@ -20,7 +20,7 @@ import java.util.List;
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
-@Tag(name =  "管理后台 - 邮件模版")
+@Tag(name = "管理后台 - 邮件模版")
 @RestController
 @RequestMapping("/system/mail-template")
 public class MailTemplateController {

@@ -36,7 +36,7 @@ import java.util.Map;
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
-@Tag(name =  "管理后台 - 代码生成器")
+@Tag(name = "管理后台 - 代码生成器")
 @RestController
 @RequestMapping("/infra/codegen")
 @Validated

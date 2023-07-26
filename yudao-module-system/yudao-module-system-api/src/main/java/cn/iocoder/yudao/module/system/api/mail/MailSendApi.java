@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.validation.Valid;
 
 @FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
-@Tag(name =  "RPC 服务 - 邮件发送")
+@Tag(name = "RPC 服务 - 邮件发送")
 public interface MailSendApi {
 
     String PREFIX = ApiConstants.PREFIX + "/mail/send";

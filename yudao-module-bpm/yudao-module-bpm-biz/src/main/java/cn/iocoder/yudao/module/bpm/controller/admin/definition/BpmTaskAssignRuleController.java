@@ -19,7 +19,7 @@ import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
-@Tag(name =  "管理后台 - 任务分配规则")
+@Tag(name = "管理后台 - 任务分配规则")
 @RestController
 @RequestMapping("/bpm/task-assign-rule")
 @Validated

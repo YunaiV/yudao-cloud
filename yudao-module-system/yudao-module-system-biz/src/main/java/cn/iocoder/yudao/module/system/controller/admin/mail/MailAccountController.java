@@ -19,7 +19,7 @@ import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
-@Tag(name =  "管理后台 - 邮箱账号")
+@Tag(name = "管理后台 - 邮箱账号")
 @RestController
 @RequestMapping("/system/mail-account")
 public class MailAccountController {

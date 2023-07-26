@@ -1,5 +1,6 @@
-package cn.iocoder.yudao.framework.pay.core.client.dto;
+package cn.iocoder.yudao.framework.pay.core.client.dto.order;
 
+import cn.iocoder.yudao.framework.pay.core.enums.order.PayOrderDisplayModeEnum;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
@@ -27,10 +28,12 @@ public class PayOrderUnifiedReqDTO {
     // ========== 商户相关字段 ==========
 
     /**
-     * 商户订单编号
+     * 外部订单号
+     *
+     * 对应 PayOrderExtensionDO 的 no 字段
      */
-    @NotEmpty(message = "商户订单编号不能为空")
-    private String merchantOrderId;
+    @NotEmpty(message = "外部订单编号不能为空")
+    private String outTradeNo;
     /**
      * 商品标题
      */
@@ -40,7 +43,6 @@ public class PayOrderUnifiedReqDTO {
     /**
      * 商品描述信息
      */
-    @NotEmpty(message = "商品描述信息不能为空")
     @Length(max = 128, message = "商品描述信息长度不能超过128")
     private String body;
     /**
@@ -62,7 +64,7 @@ public class PayOrderUnifiedReqDTO {
      */
     @NotNull(message = "支付金额不能为空")
     @DecimalMin(value = "0", inclusive = false, message = "支付金额必须大于零")
-    private Long amount;
+    private Integer price;
 
     /**
      * 支付过期时间
@@ -77,5 +79,14 @@ public class PayOrderUnifiedReqDTO {
      * 例如说，微信公众号需要传递 openid 参数
      */
     private Map<String, String> channelExtras;
+
+    /**
+     * 展示模式
+     *
+     * 如果不传递，则每个支付渠道使用默认的方式
+     *
+     * 枚举 {@link PayOrderDisplayModeEnum}
+     */
+    private String displayMode;
 
 }

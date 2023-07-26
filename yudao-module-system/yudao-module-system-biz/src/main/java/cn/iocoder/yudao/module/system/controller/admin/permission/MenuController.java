@@ -20,7 +20,7 @@ import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
-@Tag(name =  "管理后台 - 菜单")
+@Tag(name = "管理后台 - 菜单")
 @RestController
 @RequestMapping("/system/menu")
 @Validated

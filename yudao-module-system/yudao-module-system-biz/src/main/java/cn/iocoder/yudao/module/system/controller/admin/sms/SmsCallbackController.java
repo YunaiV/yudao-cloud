@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
-@Tag(name =  "管理后台 - 短信回调")
+@Tag(name = "管理后台 - 短信回调")
 @RestController
 @RequestMapping("/system/sms/callback")
 public class SmsCallbackController {

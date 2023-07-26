@@ -20,7 +20,7 @@ import javax.validation.Valid;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
-@Tag(name =  "管理后台 - 通知公告")
+@Tag(name = "管理后台 - 通知公告")
 @RestController
 @RequestMapping("/system/notice")
 @Validated

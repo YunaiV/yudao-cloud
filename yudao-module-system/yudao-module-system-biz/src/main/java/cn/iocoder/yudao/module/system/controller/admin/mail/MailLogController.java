@@ -23,7 +23,7 @@ import javax.validation.Valid;
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
 
-@Tag(name =  "管理后台 - 邮件日志")
+@Tag(name = "管理后台 - 邮件日志")
 @RestController
 @RequestMapping("/system/mail-log")
 public class MailLogController {

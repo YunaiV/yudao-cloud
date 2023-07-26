@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 
 @FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
-@Tag(name =  "RPC 服务 - API 异常日志")
+@Tag(name = "RPC 服务 - API 异常日志")
 public interface ApiErrorLogApi {
 
     String PREFIX = ApiConstants.PREFIX + "/api-error-log";

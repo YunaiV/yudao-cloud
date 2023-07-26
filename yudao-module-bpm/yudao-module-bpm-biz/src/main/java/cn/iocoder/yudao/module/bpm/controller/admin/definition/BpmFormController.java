@@ -19,7 +19,7 @@ import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
-@Tag(name =  "管理后台 - 动态表单")
+@Tag(name = "管理后台 - 动态表单")
 @RestController
 @RequestMapping("/bpm/form")
 @Validated

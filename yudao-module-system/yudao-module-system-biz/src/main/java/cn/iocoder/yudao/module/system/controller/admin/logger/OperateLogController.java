@@ -35,7 +35,7 @@ import java.util.Map;
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.operatelog.core.enums.OperateTypeEnum.EXPORT;
 
-@Tag(name =  "管理后台 - 操作日志")
+@Tag(name = "管理后台 - 操作日志")
 @RestController
 @RequestMapping("/system/operate-log")
 @Validated

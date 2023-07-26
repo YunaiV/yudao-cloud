@@ -27,7 +27,7 @@ import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUti
  * @author jason
  * @author 芋道源码
  */
-@Tag(name =  "管理后台 - OA 请假申请")
+@Tag(name = "管理后台 - OA 请假申请")
 @RestController
 @RequestMapping("/bpm/oa/leave")
 @Validated

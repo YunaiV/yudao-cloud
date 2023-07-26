@@ -1,6 +1,5 @@
 package cn.iocoder.yudao.framework.common.util.date;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 
 import java.time.*;
@@ -25,6 +24,8 @@ public class DateUtils {
     public static final long SECOND_MILLIS = 1000;
 
     public static final String FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND = "yyyy-MM-dd HH:mm:ss";
+
+    public static final String FORMAT_HOUR_MINUTE_SECOND = "HH:mm:ss";
 
     /**
      * 将 LocalDateTime 转换成 Date
@@ -83,10 +84,6 @@ public class DateUtils {
         return buildTime(year, mouth, day, 0, 0, 0);
     }
 
-    public static LocalDateTime buildLocalDateTime(int year, int mouth, int day) {
-        return LocalDateTime.of(year, mouth, day, 0, 0, 0);
-    }
-
     /**
      * 创建指定时间
      *
@@ -131,18 +128,6 @@ public class DateUtils {
         return a.isAfter(b) ? a : b;
     }
 
-    public static boolean beforeNow(Date date) {
-        return date.getTime() < System.currentTimeMillis();
-    }
-
-    public static boolean afterNow(Date date) {
-        return date.getTime() >= System.currentTimeMillis();
-    }
-
-    public static boolean afterNow(LocalDateTime localDateTime) {
-        return localDateTime.isAfter(LocalDateTime.now());
-    }
-
     /**
      * 计算当期时间相差的日期
      *
@@ -172,19 +157,6 @@ public class DateUtils {
         }
         c.add(field, amount);
         return c.getTime();
-    }
-
-    /**
-     * 是否今天
-     *
-     * @param date 日期
-     * @return 是否
-     */
-    public static boolean isToday(Date date) {
-        if (date == null) {
-            return false;
-        }
-        return DateUtil.isSameDay(date, new Date());
     }
 
     /**

@@ -19,7 +19,7 @@ import java.util.List;
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.web.core.util.WebFrameworkUtils.getLoginUserId;
 
-@Tag(name =  "管理后台 - 流程任务实例")
+@Tag(name = "管理后台 - 流程任务实例")
 @RestController
 @RequestMapping("/bpm/task")
 @Validated
@@ -47,7 +47,7 @@ public class BpmTaskController {
     @Parameter(name = "processInstanceId", description = "流程实例的编号", required = true)
     @PreAuthorize("@ss.hasPermission('bpm:task:query')")
     public CommonResult<List<BpmTaskRespVO>> getTaskListByProcessInstanceId(
-        @RequestParam("processInstanceId") String processInstanceId) {
+            @RequestParam("processInstanceId") String processInstanceId) {
         return success(taskService.getTaskListByProcessInstanceId(processInstanceId));
     }
 

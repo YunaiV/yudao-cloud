@@ -20,7 +20,7 @@ import javax.validation.Valid;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
-@Tag(name =  "管理后台 - OAuth2.0 令牌")
+@Tag(name = "管理后台 - OAuth2.0 令牌")
 @RestController
 @RequestMapping("/system/oauth2-token")
 public class OAuth2TokenController {

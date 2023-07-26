@@ -19,7 +19,7 @@ import javax.validation.Valid;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
-@Tag(name =  "管理后台 - 站内信模版")
+@Tag(name = "管理后台 - 站内信模版")
 @RestController
 @RequestMapping("/system/notify-template")
 @Validated

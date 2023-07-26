@@ -38,7 +38,7 @@ import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUti
 import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.obtainAuthorization;
 import static java.util.Collections.singleton;
 
-@Tag(name =  "管理后台 - 认证")
+@Tag(name = "管理后台 - 认证")
 @RestController
 @RequestMapping("/system/auth")
 @Validated

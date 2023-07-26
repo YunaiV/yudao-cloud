@@ -21,7 +21,7 @@ import javax.validation.Valid;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
-@Tag(name =  "管理后台 - OAuth2 客户端")
+@Tag(name = "管理后台 - OAuth2 客户端")
 @RestController
 @RequestMapping("/system/oauth2-client")
 @Validated

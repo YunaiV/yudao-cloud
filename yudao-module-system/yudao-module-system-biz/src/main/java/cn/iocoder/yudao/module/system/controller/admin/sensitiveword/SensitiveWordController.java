@@ -25,7 +25,7 @@ import java.util.Set;
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.operatelog.core.enums.OperateTypeEnum.EXPORT;
 
-@Tag(name =  "管理后台 - 敏感词")
+@Tag(name = "管理后台 - 敏感词")
 @RestController
 @RequestMapping("/system/sensitive-word")
 @Validated

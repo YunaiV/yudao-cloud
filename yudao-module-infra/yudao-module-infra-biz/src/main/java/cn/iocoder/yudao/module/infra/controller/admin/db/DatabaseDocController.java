@@ -27,7 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-@Tag(name =  "管理后台 - 数据库文档")
+@Tag(name = "管理后台 - 数据库文档")
 @RestController
 @RequestMapping("/infra/db-doc")
 public class DatabaseDocController {

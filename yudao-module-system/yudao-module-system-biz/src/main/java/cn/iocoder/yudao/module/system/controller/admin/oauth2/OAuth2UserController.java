@@ -33,7 +33,7 @@ import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUti
  *
  * @author 芋道源码
  */
-@Tag(name =  "管理后台 - OAuth2.0 用户")
+@Tag(name = "管理后台 - OAuth2.0 用户")
 @RestController
 @RequestMapping("/system/oauth2/user")
 @Validated

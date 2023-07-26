@@ -22,7 +22,7 @@ import java.util.List;
 import static cn.iocoder.yudao.framework.common.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
 @FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
-@Tag(name =  "RPC 服务 - 错误码")
+@Tag(name = "RPC 服务 - 错误码")
 public interface ErrorCodeApi {
 
     String PREFIX = ApiConstants.PREFIX + "/error-code";

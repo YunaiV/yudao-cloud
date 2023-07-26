@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author 芋道源码
  */
-@Tag(name =  "管理后台 - 验证码")
+@Tag(name = "管理后台 - 验证码")
 @RestController("adminCaptchaController")
 @RequestMapping("/system/captcha")
 public class CaptchaController {

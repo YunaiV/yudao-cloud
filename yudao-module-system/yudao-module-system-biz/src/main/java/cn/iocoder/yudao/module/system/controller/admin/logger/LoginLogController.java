@@ -27,7 +27,7 @@ import java.util.List;
 
 import static cn.iocoder.yudao.framework.operatelog.core.enums.OperateTypeEnum.EXPORT;
 
-@Tag(name =  "管理后台 - 登录日志")
+@Tag(name = "管理后台 - 登录日志")
 @RestController
 @RequestMapping("/system/login-log")
 @Validated

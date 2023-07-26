@@ -21,7 +21,7 @@ import javax.validation.Valid;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
-@Tag(name =  "管理后台 - 文件配置")
+@Tag(name = "管理后台 - 文件配置")
 @RestController
 @RequestMapping("/infra/file-config")
 @Validated

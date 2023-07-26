@@ -26,7 +26,7 @@ import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionU
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.operatelog.core.enums.OperateTypeEnum.EXPORT;
 
-@Tag(name =  "管理后台 - 参数配置")
+@Tag(name = "管理后台 - 参数配置")
 @RestController
 @RequestMapping("/infra/config")
 @Validated

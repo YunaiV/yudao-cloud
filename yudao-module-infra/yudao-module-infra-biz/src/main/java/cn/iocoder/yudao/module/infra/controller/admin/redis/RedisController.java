@@ -28,7 +28,7 @@ import java.util.Set;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
-@Tag(name =  "管理后台 - Redis 监控")
+@Tag(name = "管理后台 - Redis 监控")
 @RestController
 @RequestMapping("/infra/redis")
 public class RedisController {

@@ -1,9 +1,9 @@
 package cn.iocoder.yudao.framework.jackson.config;
 
-import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
+import cn.iocoder.yudao.framework.jackson.core.databind.NumberSerializer;
 import cn.iocoder.yudao.framework.jackson.core.databind.LocalDateTimeDeserializer;
 import cn.iocoder.yudao.framework.jackson.core.databind.LocalDateTimeSerializer;
-import cn.iocoder.yudao.framework.jackson.core.databind.NumberSerializer;
+import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +34,8 @@ public class YudaoJacksonAutoConfiguration {
                  * 2. 新增LocalDateTime序列化、反序列化规则
                  */
                 simpleModule
-                        .addSerializer(Long.class, NumberSerializer.instance)
-                        .addSerializer(Long.TYPE, NumberSerializer.instance)
+                        .addSerializer(Long.class, NumberSerializer.INSTANCE)
+                        .addSerializer(Long.TYPE, NumberSerializer.INSTANCE)
                         .addSerializer(LocalDateTime.class, LocalDateTimeSerializer.INSTANCE)
                         .addDeserializer(LocalDateTime.class, LocalDateTimeDeserializer.INSTANCE);
 

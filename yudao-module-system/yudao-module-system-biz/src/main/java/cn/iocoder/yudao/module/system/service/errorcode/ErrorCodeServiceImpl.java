@@ -100,7 +100,7 @@ public class ErrorCodeServiceImpl implements ErrorCodeService {
     }
 
     @VisibleForTesting
-    public void validateErrorCodeExists(Long id) {
+    void validateErrorCodeExists(Long id) {
         if (errorCodeMapper.selectById(id) == null) {
             throw exception(ERROR_CODE_NOT_EXISTS);
         }

@@ -22,7 +22,7 @@ public class OperateLogFrameworkServiceImpl implements OperateLogFrameworkServic
     @Async
     public void createOperateLog(OperateLog operateLog) {
         OperateLogCreateReqDTO reqDTO = BeanUtil.copyProperties(operateLog, OperateLogCreateReqDTO.class);
-        operateLogApi.createOperateLog(reqDTO).checkError();
+        operateLogApi.createOperateLog(reqDTO);
     }
 
 }

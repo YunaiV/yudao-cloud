@@ -2,15 +2,14 @@ package cn.iocoder.yudao.module.system.controller.admin.tenant.vo.tenant;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
-import org.hibernate.validator.constraints.URL;
 
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 
 /**
-* 租户 Base VO，提供给添加、修改、详细的子 VO 使用
-* 如果子 VO 存在差异的字段，请不要添加到这里，影响 Swagger 文档生成
-*/
+ * 租户 Base VO，提供给添加、修改、详细的子 VO 使用
+ * 如果子 VO 存在差异的字段，请不要添加到这里，影响 Swagger 文档生成
+ */
 @Data
 public class TenantBaseVO {
 
@@ -30,7 +29,6 @@ public class TenantBaseVO {
     private Integer status;
 
     @Schema(description = "绑定域名", example = "https://www.iocoder.cn")
-    @URL(message = "绑定域名的地址非 URL 格式")
     private String domain;
 
     @Schema(description = "租户套餐编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")

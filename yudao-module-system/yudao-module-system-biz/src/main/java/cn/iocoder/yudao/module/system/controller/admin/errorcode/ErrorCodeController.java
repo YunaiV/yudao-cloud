@@ -79,7 +79,7 @@ public class ErrorCodeController {
     @PreAuthorize("@ss.hasPermission('system:error-code:export')")
     @OperateLog(type = EXPORT)
     public void exportErrorCodeExcel(@Valid ErrorCodeExportReqVO exportReqVO,
-              HttpServletResponse response) throws IOException {
+                                     HttpServletResponse response) throws IOException {
         List<ErrorCodeDO> list = errorCodeService.getErrorCodeList(exportReqVO);
         // 导出 Excel
         List<ErrorCodeExcelVO> datas = ErrorCodeConvert.INSTANCE.convertList02(list);

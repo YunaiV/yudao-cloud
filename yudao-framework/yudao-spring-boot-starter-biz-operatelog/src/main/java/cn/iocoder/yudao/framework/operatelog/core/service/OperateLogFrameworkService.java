@@ -8,7 +8,7 @@ package cn.iocoder.yudao.framework.operatelog.core.service;
 public interface OperateLogFrameworkService {
 
     /**
-     * 异步记录操作日志
+     * 记录操作日志
      *
      * @param operateLog 操作日志请求
      */

@@ -111,8 +111,8 @@ public class UserController {
 
     @GetMapping("/list-all-simple")
     @Operation(summary = "获取用户精简信息列表", description = "只包含被开启的用户，主要用于前端的下拉选项")
-    public CommonResult<List<UserSimpleRespVO>> getSimpleUsers() {
-        // 获用户门列表，只要开启状态的
+    public CommonResult<List<UserSimpleRespVO>> getSimpleUserList() {
+        // 获用户列表，只要开启状态的
         List<AdminUserDO> list = userService.getUserListByStatus(CommonStatusEnum.ENABLE.getStatus());
         // 排序后，返回给前端
         return success(UserConvert.INSTANCE.convertList04(list));
@@ -122,7 +122,7 @@ public class UserController {
     @Operation(summary = "获得用户详情")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@ss.hasPermission('system:user:query')")
-    public CommonResult<UserRespVO> getInfo(@RequestParam("id") Long id) {
+    public CommonResult<UserRespVO> getUser(@RequestParam("id") Long id) {
         AdminUserDO user = userService.getUser(id);
         // 获得部门数据
         DeptDO dept = deptService.getDept(user.getDeptId());
@@ -133,8 +133,8 @@ public class UserController {
     @Operation(summary = "导出用户")
     @PreAuthorize("@ss.hasPermission('system:user:export')")
     @OperateLog(type = EXPORT)
-    public void exportUsers(@Validated UserExportReqVO reqVO,
-                            HttpServletResponse response) throws IOException {
+    public void exportUserList(@Validated UserExportReqVO reqVO,
+                               HttpServletResponse response) throws IOException {
         // 获得用户列表
         List<AdminUserDO> users = userService.getUserList(reqVO);
 

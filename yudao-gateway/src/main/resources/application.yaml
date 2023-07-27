@@ -7,6 +7,7 @@ spring:
     gateway:
       # 路由配置项，对应 RouteDefinition 数组
       routes:
+        ## system-server 服务
         - id: system-admin-api # 路由的编号
           uri: grayLb://system-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
@@ -19,6 +20,7 @@ spring:
             - Path=/app-api/system/**
           filters:
               - RewritePath=/app-api/system/v3/api-docs, /v3/api-docs
+        ## infra-server 服务
         - id: infra-admin-api # 路由的编号
           uri: grayLb://infra-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
@@ -35,22 +37,34 @@ spring:
           uri: grayLb://infra-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/admin/**
+        ## bpm-server 服务
         - id: bpm-admin-api # 路由的编号
           uri: grayLb://bpm-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/admin-api/bpm/**
           filters:
               - RewritePath=/admin-api/bpm/v3/api-docs, /v3/api-docs
+        ## report-server 服务
         - id: report-admin-api # 路由的编号
           uri: grayLb://report-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/admin-api/report/**
           filters:
             - RewritePath=/admin-api/report/v3/api-docs, /v3/api-docs
-        - id: report-jmreport # 路由的编号（积木报表）
-          uri: grayLb://report-server
+        ## pay-server 服务
+        - id: pay-admin-api # 路由的编号
+          uri: grayLb://pay-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
-            - Path=/jmreport/**
+            - Path=/admin-api/pay/**
+          filters:
+            - RewritePath=/admin-api/pay/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
+        - id: pay-app-api # 路由的编号
+          uri: grayLb://pay-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/app-api/pay/**
+          filters:
+            - RewritePath=/app-api/pay/v3/api-docs, /v3/api-docs
+
       x-forwarded:
         prefix-enabled: false # 避免 Swagger 重复带上额外的 /admin-api/system 前缀
 
@@ -68,3 +82,6 @@ knife4j:
       - name: bpm-server
         service-name: bpm-server
         url: /admin-api/bpm/v3/api-docs
+      - name: pay-server
+        service-name: pay-server
+        url: /admin-api/pay/v3/api-docs

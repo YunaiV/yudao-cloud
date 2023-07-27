@@ -16,8 +16,9 @@
         <module>yudao-module-bpm</module>
         <module>yudao-module-system</module>
         <module>yudao-module-infra</module>
-        <!--        <module>yudao-module-pay</module>-->
+        <module>yudao-module-pay</module>
         <module>yudao-module-report</module>
+        <module>yudao-module-mp</module>
     </modules>
 
     <name>${project.artifactId}</name>

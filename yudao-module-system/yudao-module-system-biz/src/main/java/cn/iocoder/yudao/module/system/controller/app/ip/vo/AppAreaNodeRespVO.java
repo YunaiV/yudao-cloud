@@ -1,13 +1,13 @@
-package cn.iocoder.yudao.module.system.controller.admin.ip.vo;
+package cn.iocoder.yudao.module.system.controller.app.ip.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.List;
 
-@Schema(description = "管理后台 - 地区节点 Response VO")
+@Schema(description = "用户 App - 地区节点 Response VO")
 @Data
-public class AreaNodeRespVO {
+public class AppAreaNodeRespVO {
 
     @Schema(description = "编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "110000")
     private Integer id;
@@ -18,6 +18,6 @@ public class AreaNodeRespVO {
     /**
      * 子节点
      */
-    private List<AreaNodeRespVO> children;
+    private List<AppAreaNodeRespVO> children;
 
 }

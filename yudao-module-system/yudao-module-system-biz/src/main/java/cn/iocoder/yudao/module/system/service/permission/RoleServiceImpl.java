@@ -171,8 +171,8 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<RoleDO> getRoleListByStatus(@Nullable Collection<Integer> statuses) {
         if (CollUtil.isEmpty(statuses)) {
-            return roleMapper.selectList();
-        }
+    		return roleMapper.selectList();
+		}
         return roleMapper.selectListByStatus(statuses);
     }
 

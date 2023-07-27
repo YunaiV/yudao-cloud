@@ -1,45 +1,19 @@
-### 请求 /infra/file-config/create 接口 => 成功
-POST {{baseUrl}}/infra/file-config/create
-Content-Type: application/json
-tenant-id: {{adminTenentId}}
+### 请求 /infra/test-demo/get 接口 => 成功
+GET {{baseUrl}}/infra/test-demo/get?id=106
 Authorization: Bearer {{token}}
+tenant-id: {{adminTenentId}}
+
+### 请求 /infra/test-demo/update 接口 => 成功
+PUT {{baseUrl}}/infra/test-demo/update
+Authorization: Bearer {{token}}
+tenant-id: {{adminTenentId}}
+Content-Type: application/json
+
 
 {
-  "name": "S3 - 七牛云",
-  "remark": "",
-  "storage": 20,
-  "config": {
-    "accessKey": "b7yvuhBSAGjmtPhMFcn9iMOxUOY_I06cA_p0ZUx8",
-    "accessSecret": "kXM1l5ia1RvSX3QaOEcwI3RLz3Y2rmNszWonKZtP",
-    "bucket": "ruoyi-vue-pro",
-    "endpoint": "s3-cn-south-1.qiniucs.com",
-    "domain": "http://test.yudao.iocoder.cn",
-    "region": "oss-cn-beijing"
-  }
+  "id": 106,
+  "name": "测试",
+  "status": "0",
+  "type": 1,
+  "category": 1
 }
-
-### 请求 /infra/file-config/update 接口 => 成功
-PUT {{baseUrl}}/infra/file-config/update
-Content-Type: application/json
-tenant-id: {{adminTenentId}}
-Authorization: Bearer {{token}}
-
-{
-  "id": 2,
-  "name": "S3 - 七牛云",
-  "remark": "",
-  "config": {
-    "accessKey": "b7yvuhBSAGjmtPhMFcn9iMOxUOY_I06cA_p0ZUx8",
-    "accessSecret": "kXM1l5ia1RvSX3QaOEcwI3RLz3Y2rmNszWonKZtP",
-    "bucket": "ruoyi-vue-pro",
-    "endpoint": "s3-cn-south-1.qiniucs.com",
-    "domain": "http://test.yudao.iocoder.cn",
-    "region": "oss-cn-beijing"
-  }
-}
-
-### 请求 /infra/file-config/test 接口 => 成功
-GET {{baseUrl}}/infra/file-config/test?id=2
-Content-Type: application/json
-tenant-id: {{adminTenentId}}
-Authorization: Bearer {{token}}

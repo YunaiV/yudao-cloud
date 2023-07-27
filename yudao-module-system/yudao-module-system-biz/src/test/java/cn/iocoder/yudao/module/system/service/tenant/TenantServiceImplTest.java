@@ -454,7 +454,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         TenantContextHolder.setTenantId(dbTenant.getId());
         // mock 菜单
         when(menuService.getMenuList()).thenReturn(Arrays.asList(randomPojo(MenuDO.class, o -> o.setId(100L)),
-                randomPojo(MenuDO.class, o -> o.setId(101L))));
+                        randomPojo(MenuDO.class, o -> o.setId(101L))));
 
         // 调用
         tenantService.handleTenantMenu(handler);

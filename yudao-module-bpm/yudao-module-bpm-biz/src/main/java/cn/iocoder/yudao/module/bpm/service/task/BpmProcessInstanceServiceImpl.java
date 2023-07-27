@@ -135,7 +135,7 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
 
         // 获得流程定义
         ProcessDefinition processDefinition = processDefinitionService
-                                                    .getProcessDefinition(processInstance.getProcessDefinitionId());
+                .getProcessDefinition(processInstance.getProcessDefinitionId());
         Assert.notNull(processDefinition, "流程定义({}) 不存在", processInstance.getProcessDefinitionId());
         BpmProcessDefinitionExtDO processDefinitionExt = processDefinitionService.getProcessDefinitionExt(
                 processInstance.getProcessDefinitionId());

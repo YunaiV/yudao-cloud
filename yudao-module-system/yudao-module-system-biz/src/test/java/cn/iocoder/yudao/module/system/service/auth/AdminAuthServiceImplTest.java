@@ -349,8 +349,9 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         // 调用
         authService.logout(token, LoginLogTypeEnum.LOGOUT_SELF.getType());
         // 校验调用参数
-        verify(loginLogService).createLoginLog(argThat(o -> o.getLogType().equals(LoginLogTypeEnum.LOGOUT_SELF.getType())
-                && o.getResult().equals(LoginResultEnum.SUCCESS.getResult()))
+        verify(loginLogService).createLoginLog(
+                argThat(o -> o.getLogType().equals(LoginLogTypeEnum.LOGOUT_SELF.getType())
+                        && o.getResult().equals(LoginResultEnum.SUCCESS.getResult()))
         );
         // 调用，并校验
 

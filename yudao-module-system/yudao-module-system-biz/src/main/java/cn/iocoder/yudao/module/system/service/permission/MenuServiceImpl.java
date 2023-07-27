@@ -185,7 +185,7 @@ public class MenuServiceImpl implements MenuService {
         }
         // 创建新数组，避免缓存被修改
         return menuCache.values().stream().filter(menu -> menuTypes.contains(menu.getType())
-                        && menusStatuses.contains(menu.getStatus()))
+                && menusStatuses.contains(menu.getStatus()))
                 .collect(Collectors.toList());
     }
 
@@ -238,7 +238,7 @@ public class MenuServiceImpl implements MenuService {
         }
         // 父菜单必须是目录或者菜单类型
         if (!MenuTypeEnum.DIR.getType().equals(menu.getType())
-                && !MenuTypeEnum.MENU.getType().equals(menu.getType())) {
+            && !MenuTypeEnum.MENU.getType().equals(menu.getType())) {
             throw exception(MENU_PARENT_NOT_DIR_OR_MENU);
         }
     }

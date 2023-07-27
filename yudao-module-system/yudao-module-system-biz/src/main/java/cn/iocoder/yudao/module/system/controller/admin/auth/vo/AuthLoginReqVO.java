@@ -14,7 +14,7 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
-@Schema(description = "管理后台 - 账号密码登录 Request VO,如果登录并绑定社交用户，需要传递 social 开头的参数")
+@Schema(description = "管理后台 - 账号密码登录 Request VO，如果登录并绑定社交用户，需要传递 social 开头的参数")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,7 +34,7 @@ public class AuthLoginReqVO {
 
     // ========== 图片验证码相关 ==========
 
-    @Schema(description = "验证码,验证码开启时，需要传递", requiredMode = Schema.RequiredMode.REQUIRED,
+    @Schema(description = "验证码，验证码开启时，需要传递", requiredMode = Schema.RequiredMode.REQUIRED,
             example = "PfcH6mgr8tpXuMWFjvW6YVaqrswIuwmWI5dsVZSg7sGpWtDCUbHuDEXl3cFB1+VvCC/rAkSwK8Fad52FSuncVg==")
     @NotEmpty(message = "验证码不能为空", groups = CodeEnableGroup.class)
     private String captchaVerification;
@@ -54,8 +54,7 @@ public class AuthLoginReqVO {
     /**
      * 开启验证码的 Group
      */
-    public interface CodeEnableGroup {
-    }
+    public interface CodeEnableGroup {}
 
     @AssertTrue(message = "授权码不能为空")
     public boolean isSocialCodeValid() {

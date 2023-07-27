@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;
-
 import java.time.LocalDateTime;
 
 import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildTime;
@@ -86,8 +85,8 @@ public class BpmUserGroupServiceTest extends BaseDbUnitTest {
 
         // 调用
         userGroupService.deleteUserGroup(id);
-        // 校验数据不存在了
-        Assertions.assertNull(userGroupMapper.selectById(id));
+       // 校验数据不存在了
+       Assertions.assertNull(userGroupMapper.selectById(id));
     }
 
     @Test
@@ -101,31 +100,31 @@ public class BpmUserGroupServiceTest extends BaseDbUnitTest {
 
     @Test
     public void testGetUserGroupPage() {
-        // mock 数据
-        BpmUserGroupDO dbUserGroup = RandomUtils.randomPojo(BpmUserGroupDO.class, o -> { // 等会查询到
-            o.setName("芋道源码");
-            o.setStatus(CommonStatusEnum.ENABLE.getStatus());
-            o.setCreateTime(buildTime(2021, 11, 11));
-        });
-        userGroupMapper.insert(dbUserGroup);
-        // 测试 name 不匹配
-        userGroupMapper.insert(cloneIgnoreId(dbUserGroup, o -> o.setName("芋道")));
-        // 测试 status 不匹配
-        userGroupMapper.insert(cloneIgnoreId(dbUserGroup, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
-        // 测试 createTime 不匹配
-        userGroupMapper.insert(cloneIgnoreId(dbUserGroup, o -> o.setCreateTime(buildTime(2021, 12, 12))));
-        // 准备参数
-        BpmUserGroupPageReqVO reqVO = new BpmUserGroupPageReqVO();
-        reqVO.setName("源码");
-        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        reqVO.setCreateTime((new LocalDateTime[]{buildTime(2021, 11, 10),buildTime(2021, 11, 12)}));
+       // mock 数据
+       BpmUserGroupDO dbUserGroup = RandomUtils.randomPojo(BpmUserGroupDO.class, o -> { // 等会查询到
+           o.setName("芋道源码");
+           o.setStatus(CommonStatusEnum.ENABLE.getStatus());
+           o.setCreateTime(buildTime(2021, 11, 11));
+       });
+       userGroupMapper.insert(dbUserGroup);
+       // 测试 name 不匹配
+       userGroupMapper.insert(cloneIgnoreId(dbUserGroup, o -> o.setName("芋道")));
+       // 测试 status 不匹配
+       userGroupMapper.insert(cloneIgnoreId(dbUserGroup, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
+       // 测试 createTime 不匹配
+       userGroupMapper.insert(cloneIgnoreId(dbUserGroup, o -> o.setCreateTime(buildTime(2021, 12, 12))));
+       // 准备参数
+       BpmUserGroupPageReqVO reqVO = new BpmUserGroupPageReqVO();
+       reqVO.setName("源码");
+       reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+       reqVO.setCreateTime((new LocalDateTime[]{buildTime(2021, 11, 10),buildTime(2021, 11, 12)}));
 
-        // 调用
-        PageResult<BpmUserGroupDO> pageResult = userGroupService.getUserGroupPage(reqVO);
-        // 断言
-        Assertions.assertEquals(1, pageResult.getTotal());
-        Assertions.assertEquals(1, pageResult.getList().size());
-        AssertUtils.assertPojoEquals(dbUserGroup, pageResult.getList().get(0));
+       // 调用
+       PageResult<BpmUserGroupDO> pageResult = userGroupService.getUserGroupPage(reqVO);
+       // 断言
+       Assertions.assertEquals(1, pageResult.getTotal());
+       Assertions.assertEquals(1, pageResult.getList().size());
+       AssertUtils.assertPojoEquals(dbUserGroup, pageResult.getList().get(0));
     }
 
 }

@@ -14,8 +14,8 @@ import cn.iocoder.yudao.framework.operatelog.core.service.OperateLog;
 import cn.iocoder.yudao.framework.operatelog.core.service.OperateLogFrameworkService;
 import cn.iocoder.yudao.framework.web.core.util.WebFrameworkUtils;
 import com.google.common.collect.Maps;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -267,9 +267,9 @@ public class OperateLogAspect {
             return null;
         }
         return Arrays.stream(requestMethods).filter(requestMethod ->
-                        requestMethod == RequestMethod.POST
-                                || requestMethod == RequestMethod.PUT
-                                || requestMethod == RequestMethod.DELETE)
+                requestMethod == RequestMethod.POST
+                        || requestMethod == RequestMethod.PUT
+                        || requestMethod == RequestMethod.DELETE)
                 .findFirst().orElse(null);
     }
 

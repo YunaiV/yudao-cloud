@@ -51,7 +51,7 @@ public class AdminUserApiImpl implements AdminUserApi {
     }
 
     @Override
-    public CommonResult<Boolean> validUserList(Set<Long> ids) {
+    public CommonResult<Boolean> validateUserList(Set<Long> ids) {
         userService.validateUserList(ids);
         return success(true);
     }

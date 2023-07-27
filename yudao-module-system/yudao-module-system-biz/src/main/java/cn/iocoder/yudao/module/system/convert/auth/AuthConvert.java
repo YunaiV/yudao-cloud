@@ -27,7 +27,8 @@ public interface AuthConvert {
 
     default AuthPermissionInfoRespVO convert(AdminUserDO user, List<RoleDO> roleList, List<MenuDO> menuList) {
         return AuthPermissionInfoRespVO.builder()
-                .user(AuthPermissionInfoRespVO.UserVO.builder().id(user.getId()).nickname(user.getNickname()).avatar(user.getAvatar()).build())
+                .user(AuthPermissionInfoRespVO.UserVO.builder().id(user.getId()).nickname(user.getNickname())
+                        .avatar(user.getAvatar()).build())
                 .roles(convertSet(roleList, RoleDO::getCode))
                 .permissions(convertSet(menuList, MenuDO::getPermission))
                 .build();
@@ -54,7 +55,7 @@ public interface AuthConvert {
             AuthMenuRespVO parentNode = treeNodeMap.get(childNode.getParentId());
             if (parentNode == null) {
                 LoggerFactory.getLogger(getClass()).error("[buildRouterTree][resource({}) 找不到父资源({})]",
-                        childNode.getId(), childNode.getParentId());
+                    childNode.getId(), childNode.getParentId());
                 return;
             }
             // 将自己添加到父节点中

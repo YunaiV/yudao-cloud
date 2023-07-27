@@ -73,16 +73,18 @@ public interface BpmTaskConvert {
 
     BpmTaskDonePageItemRespVO convert2(HistoricTaskInstance bean);
 
-    @Mappings({@Mapping(source = "processInstance.id", target = "id"),
-        @Mapping(source = "processInstance.name", target = "name"),
-        @Mapping(source = "processInstance.startUserId", target = "startUserId"),
-        @Mapping(source = "processInstance.processDefinitionId", target = "processDefinitionId"),
-        @Mapping(source = "startUser.nickname", target = "startUserNickname")})
+    @Mappings({
+            @Mapping(source = "processInstance.id", target = "id"),
+            @Mapping(source = "processInstance.name", target = "name"),
+            @Mapping(source = "processInstance.startUserId", target = "startUserId"),
+            @Mapping(source = "processInstance.processDefinitionId", target = "processDefinitionId"),
+            @Mapping(source = "startUser.nickname", target = "startUserNickname")
+    })
     BpmTaskTodoPageItemRespVO.ProcessInstance convert(ProcessInstance processInstance, AdminUserRespDTO startUser);
 
     default List<BpmTaskRespVO> convertList3(List<HistoricTaskInstance> tasks,
-                                             Map<String, BpmTaskExtDO> bpmTaskExtDOMap, HistoricProcessInstance processInstance,
-                                             Map<Long, AdminUserRespDTO> userMap, Map<Long, DeptRespDTO> deptMap) {
+        Map<String, BpmTaskExtDO> bpmTaskExtDOMap, HistoricProcessInstance processInstance,
+        Map<Long, AdminUserRespDTO> userMap, Map<Long, DeptRespDTO> deptMap) {
         return CollectionUtils.convertList(tasks, task -> {
             BpmTaskRespVO respVO = convert3(task);
             BpmTaskExtDO taskExtDO = bpmTaskExtDOMap.get(task.getId());

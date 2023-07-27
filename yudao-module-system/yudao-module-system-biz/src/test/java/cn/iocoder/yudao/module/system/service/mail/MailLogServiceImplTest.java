@@ -17,8 +17,8 @@ import javax.annotation.Resource;
 import java.util.Map;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
-import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildTime;
 import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildBetweenTime;
+import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildTime;
 import static cn.iocoder.yudao.framework.common.util.object.ObjectUtils.cloneIgnoreId;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertPojoEquals;
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.*;
@@ -132,48 +132,48 @@ public class MailLogServiceImplTest extends BaseDbUnitTest {
 
     @Test
     public void testGetMailLogPage() {
-        // mock 数据
-        MailLogDO dbMailLog = randomPojo(MailLogDO.class, o -> { // 等会查询到
-            o.setUserId(1L);
-            o.setUserType(UserTypeEnum.ADMIN.getValue());
-            o.setToMail("768@qq.com");
-            o.setAccountId(10L);
-            o.setTemplateId(100L);
-            o.setSendStatus(MailSendStatusEnum.INIT.getStatus());
-            o.setSendTime(buildTime(2023, 2, 10));
-            o.setTemplateParams(randomTemplateParams());
-        });
-        mailLogMapper.insert(dbMailLog);
-        // 测试 userId 不匹配
-        mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setUserId(2L)));
-        // 测试 userType 不匹配
-        mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setUserType(UserTypeEnum.MEMBER.getValue())));
-        // 测试 toMail 不匹配
-        mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setToMail("788@.qq.com")));
-        // 测试 accountId 不匹配
-        mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setAccountId(11L)));
-        // 测试 templateId 不匹配
-        mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setTemplateId(101L)));
-        // 测试 sendStatus 不匹配
-        mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setSendStatus(MailSendStatusEnum.SUCCESS.getStatus())));
-        // 测试 sendTime 不匹配
-        mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setSendTime(buildTime(2023, 3, 10))));
-        // 准备参数
-        MailLogPageReqVO reqVO = new MailLogPageReqVO();
-        reqVO.setUserId(1L);
-        reqVO.setUserType(UserTypeEnum.ADMIN.getValue());
-        reqVO.setToMail("768");
-        reqVO.setAccountId(10L);
-        reqVO.setTemplateId(100L);
-        reqVO.setSendStatus(MailSendStatusEnum.INIT.getStatus());
-        reqVO.setSendTime((buildBetweenTime(2023, 2, 1, 2023, 2, 15)));
+       // mock 数据
+       MailLogDO dbMailLog = randomPojo(MailLogDO.class, o -> { // 等会查询到
+           o.setUserId(1L);
+           o.setUserType(UserTypeEnum.ADMIN.getValue());
+           o.setToMail("768@qq.com");
+           o.setAccountId(10L);
+           o.setTemplateId(100L);
+           o.setSendStatus(MailSendStatusEnum.INIT.getStatus());
+           o.setSendTime(buildTime(2023, 2, 10));
+           o.setTemplateParams(randomTemplateParams());
+       });
+       mailLogMapper.insert(dbMailLog);
+       // 测试 userId 不匹配
+       mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setUserId(2L)));
+       // 测试 userType 不匹配
+       mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setUserType(UserTypeEnum.MEMBER.getValue())));
+       // 测试 toMail 不匹配
+       mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setToMail("788@.qq.com")));
+       // 测试 accountId 不匹配
+       mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setAccountId(11L)));
+       // 测试 templateId 不匹配
+       mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setTemplateId(101L)));
+       // 测试 sendStatus 不匹配
+       mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setSendStatus(MailSendStatusEnum.SUCCESS.getStatus())));
+       // 测试 sendTime 不匹配
+       mailLogMapper.insert(cloneIgnoreId(dbMailLog, o -> o.setSendTime(buildTime(2023, 3, 10))));
+       // 准备参数
+       MailLogPageReqVO reqVO = new MailLogPageReqVO();
+       reqVO.setUserId(1L);
+       reqVO.setUserType(UserTypeEnum.ADMIN.getValue());
+       reqVO.setToMail("768");
+       reqVO.setAccountId(10L);
+       reqVO.setTemplateId(100L);
+       reqVO.setSendStatus(MailSendStatusEnum.INIT.getStatus());
+       reqVO.setSendTime((buildBetweenTime(2023, 2, 1, 2023, 2, 15)));
 
-        // 调用
-        PageResult<MailLogDO> pageResult = mailLogService.getMailLogPage(reqVO);
-        // 断言
-        assertEquals(1, pageResult.getTotal());
-        assertEquals(1, pageResult.getList().size());
-        assertPojoEquals(dbMailLog, pageResult.getList().get(0));
+       // 调用
+       PageResult<MailLogDO> pageResult = mailLogService.getMailLogPage(reqVO);
+       // 断言
+       assertEquals(1, pageResult.getTotal());
+       assertEquals(1, pageResult.getList().size());
+       assertPojoEquals(dbMailLog, pageResult.getList().get(0));
     }
 
     private static Map<String, Object> randomTemplateParams() {

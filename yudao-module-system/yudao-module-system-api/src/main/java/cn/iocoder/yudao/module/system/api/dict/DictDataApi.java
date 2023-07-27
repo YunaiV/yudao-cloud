@@ -25,8 +25,8 @@ public interface DictDataApi {
         @Parameter(name = "dictType", description = "字典类型", example = "SEX", required = true),
         @Parameter(name = "descriptions", description = "字典数据值的数组", example = "1,2", required = true)
     })
-    CommonResult<Boolean> validateDictDatas(@RequestParam("dictType") String dictType,
-                                            @RequestParam("values") Collection<String> values);
+    CommonResult<Boolean> validateDictDataList(@RequestParam("dictType") String dictType,
+                                               @RequestParam("values") Collection<String> values);
 
     @GetMapping(PREFIX + "/get")
     @Operation(summary = "获得指定的字典数据")

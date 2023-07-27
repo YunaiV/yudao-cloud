@@ -55,6 +55,6 @@ public interface AdminUserApi {
     @GetMapping(PREFIX + "/valid")
     @Operation(summary = "校验用户们是否有效")
     @Parameter(name = "ids", description = "用户编号数组", example = "3,5", required = true)
-    CommonResult<Boolean> validUserList(@RequestParam("ids") Set<Long> ids);
+    CommonResult<Boolean> validateUserList(@RequestParam("ids") Set<Long> ids);
 
 }

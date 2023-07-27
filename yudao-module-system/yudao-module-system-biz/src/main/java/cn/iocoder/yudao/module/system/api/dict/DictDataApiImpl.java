@@ -24,7 +24,7 @@ public class DictDataApiImpl implements DictDataApi {
     private DictDataService dictDataService;
 
     @Override
-    public CommonResult<Boolean> validateDictDatas(String dictType, Collection<String> values) {
+    public CommonResult<Boolean> validateDictDataList(String dictType, Collection<String> values) {
         dictDataService.validateDictDataList(dictType, values);
         return success(true);
     }

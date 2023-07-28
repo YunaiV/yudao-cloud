@@ -21,7 +21,7 @@ public class PermissionApiImpl implements PermissionApi {
 
     @Override
     public CommonResult<Set<Long>> getUserRoleIdListByRoleIds(Collection<Long> roleIds) {
-        return success(permissionService.getUserRoleIdListByRoleIds(roleIds));
+        return success(permissionService.getUserRoleIdListByRoleId(roleIds));
     }
 
     @Override

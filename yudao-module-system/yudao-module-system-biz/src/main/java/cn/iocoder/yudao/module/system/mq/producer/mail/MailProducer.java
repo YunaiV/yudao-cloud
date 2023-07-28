@@ -1,9 +1,7 @@
 package cn.iocoder.yudao.module.system.mq.producer.mail;
 
 import cn.iocoder.yudao.framework.mq.core.bus.AbstractBusProducer;
-import cn.iocoder.yudao.module.system.mq.message.mail.MailAccountRefreshMessage;
 import cn.iocoder.yudao.module.system.mq.message.mail.MailSendMessage;
-import cn.iocoder.yudao.module.system.mq.message.mail.MailTemplateRefreshMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Component;
@@ -22,20 +20,6 @@ public class MailProducer extends AbstractBusProducer {
 
     @Resource
     private StreamBridge streamBridge;
-
-    /**
-     * 发送 {@link MailTemplateRefreshMessage} 消息
-     */
-    public void sendMailTemplateRefreshMessage() {
-        publishEvent(new MailTemplateRefreshMessage(this, getBusId(), selfDestinationService()));
-    }
-
-    /**
-     * 发送 {@link MailAccountRefreshMessage} 消息
-     */
-    public void sendMailAccountRefreshMessage() {
-        publishEvent(new MailAccountRefreshMessage(this, getBusId(), selfDestinationService()));
-    }
 
     /**
      * 发送 {@link MailSendMessage} 消息

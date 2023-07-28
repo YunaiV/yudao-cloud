@@ -4,7 +4,6 @@ import cn.iocoder.yudao.framework.common.core.KeyValue;
 import cn.iocoder.yudao.framework.mq.core.bus.AbstractBusProducer;
 import cn.iocoder.yudao.module.system.mq.message.sms.SmsChannelRefreshMessage;
 import cn.iocoder.yudao.module.system.mq.message.sms.SmsSendMessage;
-import cn.iocoder.yudao.module.system.mq.message.sms.SmsTemplateRefreshMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Component;
@@ -30,13 +29,6 @@ public class SmsProducer extends AbstractBusProducer {
      */
     public void sendSmsChannelRefreshMessage() {
         publishEvent(new SmsChannelRefreshMessage(this, getBusId(), selfDestinationService()));
-    }
-
-    /**
-     * 发送 {@link SmsTemplateRefreshMessage} 消息
-     */
-    public void sendSmsTemplateRefreshMessage() {
-        publishEvent(new SmsTemplateRefreshMessage(this, getBusId(), selfDestinationService()));
     }
 
     /**

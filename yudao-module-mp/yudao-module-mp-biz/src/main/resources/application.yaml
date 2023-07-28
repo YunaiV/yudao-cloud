@@ -71,6 +71,7 @@ wx:
       type: RedisTemplate # 采用 RedisTemplate 操作 Redis，会自动从 Spring 中获取
       key-prefix: wx # Redis Key 的前缀
       http-client-type: HttpClient # 采用 HttpClient 请求微信公众号平台
+    app-id: null # 避免 weixin-java-mp starter 报错
 
 --- #################### 芋道相关配置 ####################
 
@@ -81,6 +82,9 @@ yudao:
   web:
     admin-ui:
       url: http://dashboard.yudao.iocoder.cn # Admin 管理后台 UI 的地址
+  security:
+    permit-all_urls:
+      - /admin-api/mp/open/** # 微信公众号开放平台，微信回调接口，不需要登录
   swagger:
     title: 管理后台
     description: 提供管理员管理的所有功能

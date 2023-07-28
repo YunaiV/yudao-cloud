@@ -227,8 +227,7 @@ public class OperateLogAspect {
     private static void fillMethodFields(OperateLog operateLogObj,
                                          ProceedingJoinPoint joinPoint,
                                          cn.iocoder.yudao.framework.operatelog.core.annotations.OperateLog operateLog,
-                                         LocalDateTime startTime, Object result, Throwable exception) {
-        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+                                         LocalDateTime startTime, Object result, Throwable exception) {MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         operateLogObj.setJavaMethod(methodSignature.toString());
         if (operateLog == null || operateLog.logArgs()) {
             operateLogObj.setJavaMethodArgs(obtainMethodArgs(joinPoint));
@@ -257,6 +256,11 @@ public class OperateLogAspect {
         // 有 @OperateLog 注解的情况下
         if (operateLog != null) {
             return operateLog.enable();
+        }
+        // Cloud 专属逻辑：如果是 RPC 请求，则必须 @OperateLog 注解，才会记录操作日志
+        String className = joinPoint.getSignature().getDeclaringType().getName();
+        if (WebFrameworkUtils.isRpcRequest(className)) {
+            return false;
         }
         // 没有 @ApiOperation 注解的情况下，只记录 POST、PUT、DELETE 的情况
         return obtainFirstLogRequestMethod(obtainRequestMethod(joinPoint)) != null;

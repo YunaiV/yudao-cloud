@@ -1,7 +1,6 @@
 package cn.iocoder.yudao.framework.web.core.util;
 
 import cn.hutool.core.util.NumberUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.enums.RpcConstants;
 import cn.iocoder.yudao.framework.common.enums.UserTypeEnum;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
@@ -134,6 +133,18 @@ public class WebFrameworkUtils {
      */
     public static boolean isRpcRequest(HttpServletRequest request) {
         return request.getRequestURI().startsWith(RpcConstants.RPC_API_PREFIX);
+    }
+
+    /**
+     * 判断是否为 RPC 请求
+     *
+     * 约定大于配置，只要以 Api 结尾，都认为是 RPC 接口
+     *
+     * @param className 类名
+     * @return 是否为 RPC 请求
+     */
+    public static boolean isRpcRequest(String className) {
+        return className.endsWith("Api");
     }
 
 }

@@ -13,16 +13,14 @@ import static cn.iocoder.yudao.framework.env.core.util.EnvUtils.HOST_NAME_VALUE;
 
 /**
  * 多环境的 {@link EnvEnvironmentPostProcessor} 实现类
- * 将 yudao.env.tag 设置到 dubbo、nacos 等组件对应的 tag 配置项，当且仅当它们不存在时
+ * 将 yudao.env.tag 设置到 nacos 等组件对应的 tag 配置项，当且仅当它们不存在时
  *
  * @author 芋道源码
  */
 public class EnvEnvironmentPostProcessor implements EnvironmentPostProcessor {
 
     private static final Set<String> TARGET_TAG_KEYS = SetUtils.asSet(
-            "spring.cloud.nacos.discovery.metadata.tag", // Nacos 注册中心
-            "dubbo.provider.tag", // Dubbo 服务提供者的 tag
-            "dubbo.consumer.tag" // Dubbo 服务消费者的 tag
+            "spring.cloud.nacos.discovery.metadata.tag" // Nacos 注册中心
             // MQ TODO
     );
 

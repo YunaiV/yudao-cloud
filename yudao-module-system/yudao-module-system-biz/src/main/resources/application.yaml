@@ -1,7 +1,7 @@
 spring:
   main:
     allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
-    allow-bean-definition-overriding: true # 允许 Bean 覆盖，例如说 Dubbo 或者 Feign 等会存在重复定义的服务
+    allow-bean-definition-overriding: true # 允许 Bean 覆盖，例如说 Feign 等会存在重复定义的服务
 
   # Servlet 配置
   servlet:
@@ -58,14 +58,6 @@ mybatis-plus:
   type-aliases-package: ${yudao.info.base-package}.dal.dataobject
 
 --- #################### RPC 远程调用相关配置 ####################
-dubbo:
-  scan:
-    base-packages: ${yudao.info.base-package}.api # 指定 Dubbo 服务实现类的扫描基准包
-  protocol:
-    name: dubbo # 协议名称
-    port: -1 # 协议端口，-1 表示自增端口，从 20880 开始
-  registry:
-    address: spring-cloud://localhost # 设置使用 Spring Cloud 注册中心
 
 --- #################### MQ 消息队列相关配置 ####################
 

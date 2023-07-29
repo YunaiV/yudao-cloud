@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.pay.controller.admin.notify;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.operatelog.core.annotations.OperateLog;
@@ -82,8 +83,8 @@ public class PayNotifyController {
     @PermitAll
     @OperateLog(enable = false) // 回调地址，无需记录操作日志
     public String notifyRefund(@PathVariable("channelId") Long channelId,
-                              @RequestParam(required = false) Map<String, String> params,
-                              @RequestBody(required = false) String body) {
+                               @RequestParam(required = false) Map<String, String> params,
+                               @RequestBody(required = false) String body) {
         log.info("[notifyRefund][channelId({}) 回调数据({}/{})]", channelId, params, body);
         // 1. 校验支付渠道是否存在
         PayClient payClient = payClientFactory.getPayClient(channelId);
@@ -118,6 +119,9 @@ public class PayNotifyController {
     @PreAuthorize("@ss.hasPermission('pay:notify:query')")
     public CommonResult<PageResult<PayNotifyTaskRespVO>> getNotifyTaskPage(@Valid PayNotifyTaskPageReqVO pageVO) {
         PageResult<PayNotifyTaskDO> pageResult = notifyService.getNotifyTaskPage(pageVO);
+        if (CollUtil.isEmpty(pageResult.getList())) {
+            return success(PageResult.empty());
+        }
         // 拼接返回
         Map<Long, PayAppDO> appMap = appService.getAppMap(convertList(pageResult.getList(), PayNotifyTaskDO::getAppId));
         return success(PayNotifyTaskConvert.INSTANCE.convertPage(pageResult, appMap));

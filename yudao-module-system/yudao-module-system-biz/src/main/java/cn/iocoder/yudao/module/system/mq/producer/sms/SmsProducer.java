@@ -2,7 +2,6 @@ package cn.iocoder.yudao.module.system.mq.producer.sms;
 
 import cn.iocoder.yudao.framework.common.core.KeyValue;
 import cn.iocoder.yudao.framework.mq.core.bus.AbstractBusProducer;
-import cn.iocoder.yudao.module.system.mq.message.sms.SmsChannelRefreshMessage;
 import cn.iocoder.yudao.module.system.mq.message.sms.SmsSendMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
@@ -23,13 +22,6 @@ public class SmsProducer extends AbstractBusProducer {
 
     @Resource
     private StreamBridge streamBridge;
-
-    /**
-     * 发送 {@link SmsChannelRefreshMessage} 消息
-     */
-    public void sendSmsChannelRefreshMessage() {
-        publishEvent(new SmsChannelRefreshMessage(this, getBusId(), selfDestinationService()));
-    }
 
     /**
      * 发送 {@link SmsSendMessage} 消息

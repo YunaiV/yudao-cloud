@@ -23,13 +23,11 @@ public class BannerApplicationRunner implements ApplicationRunner {
                             "项目启动成功！\n\t" +
                             "接口文档: \t{} \n\t" +
                             "开发文档: \t{} \n\t" +
-                            "视频教程: \t{} \n\t" +
-                            "源码解析: \t{} \n" +
+                            "视频教程: \t{} \n" +
                             "----------------------------------------------------------",
                     "https://cloud.iocoder.cn/api-doc/",
                     "https://cloud.iocoder.cn",
-                    "https://t.zsxq.com/02Yf6M7Qn",
-                    "https://t.zsxq.com/02B6ujIee");
+                    "https://t.zsxq.com/02Yf6M7Qn");
 
             // 数据报表
             System.out.println("[报表模块 yudao-module-report 教程][参考 https://cloud.iocoder.cn/report/ 开启]");
@@ -37,9 +35,9 @@ public class BannerApplicationRunner implements ApplicationRunner {
             System.out.println("[工作流模块 yudao-module-bpm 教程][参考 https://cloud.iocoder.cn/bpm/ 开启]");
             // 微信公众号
             System.out.println("[微信公众号 yudao-module-mp 教程][参考 https://cloud.iocoder.cn/mp/build/ 开启]");
-            // 商城
+            // 商城系统
             System.out.println("[商城系统 yudao-module-mall 教程][参考 https://cloud.iocoder.cn/mall/build/ 开启]");
-            // 支付
+            // 支付平台
             System.out.println("[支付系统 yudao-module-pay - 已禁用][参考 https://doc.iocoder.cn/pay/build/ 开启]");
         });
     }

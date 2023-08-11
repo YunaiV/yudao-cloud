@@ -23,7 +23,7 @@ import static cn.iocoder.yudao.framework.redis.config.YudaoRedisAutoConfiguratio
  * Cache 配置类，基于 Redis 实现
  */
 @AutoConfiguration
-@EnableConfigurationProperties({CacheProperties.class})
+@EnableConfigurationProperties({CacheProperties.class, YudaoCacheProperties.class})
 @EnableCaching
 public class YudaoCacheAutoConfiguration {
 

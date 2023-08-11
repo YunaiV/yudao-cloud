@@ -16,7 +16,7 @@
     <properties>
         <revision>1.8.0-snapshot</revision>
         <!-- 统一依赖管理 -->
-        <spring.boot.version>2.7.13</spring.boot.version>
+        <spring.boot.version>2.7.14</spring.boot.version>
         <spring.cloud.version>2021.0.5</spring.cloud.version>
         <spring.cloud.alibaba.version>2021.0.4.0</spring.cloud.alibaba.version>
         <!-- Web 相关 -->
@@ -51,7 +51,7 @@
         <!-- Bpm 工作流相关 -->
         <flowable.version>6.8.0</flowable.version>
         <!-- 工具类相关 -->
-        <captcha-plus.version>1.0.5</captcha-plus.version>
+        <captcha-plus.version>1.0.6</captcha-plus.version>
         <jsoup.version>1.15.4</jsoup.version>
         <lombok.version>1.18.28</lombok.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>

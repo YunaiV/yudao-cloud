@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Schema(description = "管理后台 - 站内信 Response VO")
 @Data
@@ -17,6 +17,6 @@ public class NotifyMessageRespVO extends NotifyMessageBaseVO {
     private Long id;
 
     @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
-    private Date createTime;
+    private LocalDateTime createTime;
 
 }

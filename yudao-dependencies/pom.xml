@@ -22,9 +22,9 @@
         <spring.cloud.alibaba.version>2021.0.4.0</spring.cloud.alibaba.version>
         <!-- Web 相关 -->
         <servlet.versoin>2.5</servlet.versoin>
-        <swagger.version>2.2.8</swagger.version>
-        <springdoc.version>1.6.15</springdoc.version>
-        <knife4j.version>4.1.0</knife4j.version>
+        <swagger.version>2.2.15</swagger.version>
+        <springdoc.version>1.7.0</springdoc.version>
+        <knife4j.version>4.3.0</knife4j.version>
         <!-- DB 相关 -->
         <druid.version>1.2.18</druid.version>
         <mybatis-plus.version>3.5.3.2</mybatis-plus.version>
@@ -212,21 +212,6 @@
                 <groupId>io.swagger.core.v3</groupId> <!-- 接口文档：使用最新版本的 Swagger 模型 -->
                 <artifactId>swagger-models</artifactId>
                 <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId> <!-- 接口文档 UI：解决 knife4j 引入的 Spring Doc 版本太老 -->
-                <artifactId>springdoc-openapi-common</artifactId>
-                <version>${springdoc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId> <!-- 接口文档 UI：解决 knife4j 引入的 Spring Doc 版本太老 -->
-                <artifactId>springdoc-openapi-webmvc-core</artifactId>
-                <version>${springdoc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId> <!-- 接口文档 UI：解决 knife4j 引入的 Spring Doc 版本太老 -->
-                <artifactId>springdoc-openapi-webflux-core</artifactId>
-                <version>${springdoc.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId> <!-- 接口文档 UI：默认 -->

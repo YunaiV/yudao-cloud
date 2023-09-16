@@ -16,7 +16,6 @@ import javax.annotation.Resource;
  * @author 芋道源码
  */
 @Component
-@TenantJob
 @Slf4j
 public class PayOrderExpireJob {
 
@@ -24,6 +23,7 @@ public class PayOrderExpireJob {
     private PayOrderService orderService;
 
     @XxlJob("payOrderExpireJob")
+    @TenantJob // 多租户
     public void execute(String param) {
         int count = orderService.expireOrder();
         log.info("[execute][支付过期 ({}) 个]", count);

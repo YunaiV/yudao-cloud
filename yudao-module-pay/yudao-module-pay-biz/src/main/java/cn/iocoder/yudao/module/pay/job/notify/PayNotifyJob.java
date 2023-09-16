@@ -15,7 +15,6 @@ import javax.annotation.Resource;
  * @author 芋道源码
  */
 @Component
-@TenantJob // 多租户
 @Slf4j
 public class PayNotifyJob {
 
@@ -23,6 +22,7 @@ public class PayNotifyJob {
     private PayNotifyService payNotifyService;
 
     @XxlJob("payNotifyJob")
+    @TenantJob // 多租户
     public void execute() throws Exception {
         int notifyCount = payNotifyService.executeNotify();
         log.info("[execute][执行支付通知 ({}) 个]", notifyCount);

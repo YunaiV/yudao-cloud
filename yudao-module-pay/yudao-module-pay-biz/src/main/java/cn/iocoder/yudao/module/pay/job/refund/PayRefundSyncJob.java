@@ -16,7 +16,6 @@ import javax.annotation.Resource;
  * @author 芋道源码
  */
 @Component
-@TenantJob
 @Slf4j
 public class PayRefundSyncJob {
 
@@ -24,6 +23,7 @@ public class PayRefundSyncJob {
     private PayRefundService refundService;
 
     @XxlJob("payRefundSyncJob")
+    @TenantJob // 多租户
     public void execute() {
         int count = refundService.syncRefund();
         log.info("[execute][同步退款订单 ({}) 个]", count);

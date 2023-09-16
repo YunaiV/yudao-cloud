@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
  * @author 芋道源码
  */
 @Component
-@TenantJob
 @Slf4j
 public class PayOrderSyncJob {
 
@@ -35,6 +34,7 @@ public class PayOrderSyncJob {
     private PayOrderService orderService;
 
     @XxlJob("payOrderSyncJob")
+    @TenantJob // 多租户
     public void execute() {
         LocalDateTime minCreateTime = LocalDateTime.now().minus(CREATE_TIME_DURATION_BEFORE);
         int count = orderService.syncOrder(minCreateTime);

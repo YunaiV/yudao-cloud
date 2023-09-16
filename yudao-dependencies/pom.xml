@@ -67,7 +67,6 @@
         <commons-net.version>3.9.0</commons-net.version>
         <jsch.version>0.1.55</jsch.version>
         <tika-core.version>2.7.0</tika-core.version>
-        <netty-all.version>4.1.90.Final</netty-all.version>
         <ip2region.version>2.7.0</ip2region.version>
         <reflections.version>0.10.2</reflections.version>
         <!-- 三方云服务相关 -->
@@ -578,12 +577,6 @@
                 <groupId>com.jcraft</groupId>
                 <artifactId>jsch</artifactId> <!-- 解决 sftp 连接 -->
                 <version>${jsch.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-all</artifactId>
-                <version>${netty-all.version}</version>
             </dependency>
 
             <dependency>

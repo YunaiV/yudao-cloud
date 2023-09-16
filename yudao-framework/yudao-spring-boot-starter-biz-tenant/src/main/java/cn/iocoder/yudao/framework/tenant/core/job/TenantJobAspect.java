@@ -7,16 +7,13 @@ import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.framework.tenant.core.service.TenantFrameworkService;
 import cn.iocoder.yudao.framework.tenant.core.util.TenantUtils;
 import com.xxl.job.core.context.XxlJobHelper;
-import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.reflect.MethodSignature;
 
-import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,20 +33,8 @@ public class TenantJobAspect {
 
     private final TenantFrameworkService tenantFrameworkService;
 
-    @Around("@annotation(xxlJob)")
-    public Object around(ProceedingJoinPoint joinPoint, XxlJob xxlJob) throws Throwable {
-        // 如果非多租户 Job，则跳过
-        TenantJob tenantJob = getClassAnnotation(joinPoint, TenantJob.class);
-        if (tenantJob == null) {
-            return joinPoint.proceed();
-        }
-
-        // 如果是多租户 Job，则会按照租户逐个执行 Job 的逻辑
-        execute(joinPoint, xxlJob);
-        return null; // JobHandler 无返回
-    }
-
-    private void execute(ProceedingJoinPoint joinPoint, XxlJob xxlJob) {
+    @Around("@annotation(tenantJob)")
+    public void around(ProceedingJoinPoint joinPoint, TenantJob tenantJob) {
         // 获得租户列表
         List<Long> tenantIds = tenantFrameworkService.getTenantIds();
         if (CollUtil.isEmpty(tenantIds)) {
@@ -67,7 +52,7 @@ public class TenantJobAspect {
                     results.put(tenantId, ExceptionUtil.getRootCauseMessage(e));
                     // 打印异常
                     XxlJobHelper.log(StrUtil.format("[多租户({}) 执行任务({})，发生异常：{}]",
-                            tenantId, xxlJob.value(), ExceptionUtils.getStackTrace(e)));
+                            tenantId, joinPoint.getSignature(), ExceptionUtils.getStackTrace(e)));
                 }
             });
         });
@@ -75,11 +60,6 @@ public class TenantJobAspect {
         if (CollUtil.isNotEmpty(results)) {
             XxlJobHelper.handleFail(JsonUtils.toJsonString(results));
         }
-    }
-
-    @SuppressWarnings("SameParameterValue")
-    private static <T extends Annotation> T getClassAnnotation(ProceedingJoinPoint joinPoint, Class<T> annotationClass) {
-        return ((MethodSignature) joinPoint.getSignature()).getMethod().getDeclaringClass().getAnnotation(annotationClass);
     }
 
 }

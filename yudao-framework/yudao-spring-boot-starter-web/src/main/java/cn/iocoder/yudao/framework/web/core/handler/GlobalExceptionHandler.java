@@ -32,6 +32,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Objects;
 
 import static cn.iocoder.yudao.framework.common.exception.enums.GlobalErrorCodeConstants.*;
 
@@ -82,9 +83,6 @@ public class GlobalExceptionHandler {
         if (ex instanceof HttpRequestMethodNotSupportedException) {
             return httpRequestMethodNotSupportedExceptionHandler((HttpRequestMethodNotSupportedException) ex);
         }
-//        if (ex instanceof RequestNotPermitted) {
-//            return requestNotPermittedExceptionHandler(request, (RequestNotPermitted) ex);
-//        }
         if (ex instanceof ServiceException) {
             return serviceExceptionHandler((ServiceException) ex);
         }
@@ -182,15 +180,13 @@ public class GlobalExceptionHandler {
         return CommonResult.error(METHOD_NOT_ALLOWED.getCode(), String.format("请求方法不正确:%s", ex.getMessage()));
     }
 
-    // TODO 芋艿：暂时去掉
-//    /**
-//     * 处理 Resilience4j 限流抛出的异常
-//     */
-//    @ExceptionHandler(value = RequestNotPermitted.class)
-//    public CommonResult<?> requestNotPermittedExceptionHandler(HttpServletRequest req, RequestNotPermitted ex) {
-//        log.warn("[requestNotPermittedExceptionHandler][url({}) 访问过于频繁]", req.getRequestURL(), ex);
-//        return CommonResult.error(TOO_MANY_REQUESTS);
-//    }
+    /**
+     * 处理 Resilience4j 限流抛出的异常
+     */
+    public CommonResult<?> requestNotPermittedExceptionHandler(HttpServletRequest req, Throwable ex) {
+        log.warn("[requestNotPermittedExceptionHandler][url({}) 访问过于频繁]", req.getRequestURL(), ex);
+        return CommonResult.error(TOO_MANY_REQUESTS);
+    }
 
     /**
      * 处理 Spring Security 权限不足的异常
@@ -226,7 +222,12 @@ public class GlobalExceptionHandler {
             return tableNotExistsResult;
         }
 
-        // 情况二：处理异常
+        // 情况二：部分特殊的库的处理
+        if (Objects.equals("io.github.resilience4j.ratelimiter.RequestNotPermitted", ex.getClass().getName())) {
+            return requestNotPermittedExceptionHandler(req, ex);
+        }
+
+        // 情况三：处理异常
         log.error("[defaultExceptionHandler]", ex);
         // 插入异常日志
         this.createExceptionLog(req, ex);

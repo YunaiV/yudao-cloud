@@ -6,8 +6,8 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils;
+import cn.iocoder.yudao.framework.common.util.number.MoneyUtils;
 import cn.iocoder.yudao.framework.pay.core.client.PayClient;
-import cn.iocoder.yudao.framework.pay.core.client.PayClientFactory;
 import cn.iocoder.yudao.framework.pay.core.client.dto.order.PayOrderRespDTO;
 import cn.iocoder.yudao.framework.pay.core.client.dto.order.PayOrderUnifiedReqDTO;
 import cn.iocoder.yudao.framework.pay.core.enums.order.PayOrderStatusRespEnum;
@@ -31,7 +31,6 @@ import cn.iocoder.yudao.module.pay.framework.pay.config.PayProperties;
 import cn.iocoder.yudao.module.pay.service.app.PayAppService;
 import cn.iocoder.yudao.module.pay.service.channel.PayChannelService;
 import cn.iocoder.yudao.module.pay.service.notify.PayNotifyService;
-import cn.iocoder.yudao.module.pay.util.MoneyUtils;
 import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -59,9 +58,6 @@ public class PayOrderServiceImpl implements PayOrderService {
 
     @Resource
     private PayProperties payProperties;
-
-    @Resource
-    private PayClientFactory payClientFactory;
 
     @Resource
     private PayOrderMapper orderMapper;
@@ -134,7 +130,7 @@ public class PayOrderServiceImpl implements PayOrderService {
         PayOrderDO order = validateOrderCanSubmit(reqVO.getId());
         // 1.32 校验支付渠道是否有效
         PayChannelDO channel = validateChannelCanSubmit(order.getAppId(), reqVO.getChannelCode());
-        PayClient client = payClientFactory.getPayClient(channel.getId());
+        PayClient client = channelService.getPayClient(channel.getId());
 
         // 2. 插入 PayOrderExtensionDO
         String no = noRedisDAO.generate(payProperties.getOrderNoPrefix());
@@ -205,7 +201,7 @@ public class PayOrderServiceImpl implements PayOrderService {
                 throw exception(ORDER_EXTENSION_IS_PAID);
             }
             // 情况二：调用三方接口，查询支付单状态，是不是已支付
-            PayClient payClient = payClientFactory.getPayClient(orderExtension.getChannelId());
+            PayClient payClient = channelService.getPayClient(orderExtension.getChannelId());
             if (payClient == null) {
                 log.error("[validateOrderCanSubmit][渠道编号({}) 找不到对应的支付客户端]", orderExtension.getChannelId());
                 return;
@@ -224,7 +220,7 @@ public class PayOrderServiceImpl implements PayOrderService {
         appService.validPayApp(appId);
         // 校验支付渠道是否有效
         PayChannelDO channel = channelService.validPayChannel(appId, channelCode);
-        PayClient client = payClientFactory.getPayClient(channel.getId());
+        PayClient client = channelService.getPayClient(channel.getId());
         if (client == null) {
             log.error("[validatePayChannelCanSubmit][渠道编号({}) 找不到对应的支付客户端]", channel.getId());
             throw exception(CHANNEL_NOT_FOUND);
@@ -324,7 +320,7 @@ public class PayOrderServiceImpl implements PayOrderService {
      * @return 是否之前已经成功回调
      */
     private Boolean updateOrderSuccess(PayChannelDO channel, PayOrderExtensionDO orderExtension,
-                                                         PayOrderRespDTO notify) {
+                                       PayOrderRespDTO notify) {
         // 1. 判断 PayOrderDO 是否处于待支付
         PayOrderDO order = orderMapper.selectById(orderExtension.getOrderId());
         if (order == null) {
@@ -345,7 +341,8 @@ public class PayOrderServiceImpl implements PayOrderService {
                         .channelId(channel.getId()).channelCode(channel.getCode())
                         .successTime(notify.getSuccessTime()).extensionId(orderExtension.getId()).no(orderExtension.getNo())
                         .channelOrderNo(notify.getChannelOrderNo()).channelUserId(notify.getChannelUserId())
-                        .channelFeeRate(channel.getFeeRate()).channelFeePrice(MoneyUtils.calculateRatePrice(order.getPrice(), channel.getFeeRate()))
+                        .channelFeeRate(channel.getFeeRate())
+                        .channelFeePrice(MoneyUtils.calculateRatePrice(order.getPrice(), channel.getFeeRate()))
                         .build());
         if (updateCounts == 0) { // 校验状态，必须是待支付
             throw exception(ORDER_STATUS_IS_NOT_WAITING);
@@ -411,8 +408,25 @@ public class PayOrderServiceImpl implements PayOrderService {
     }
 
     @Override
+    public void updatePayOrderPriceById(Long payOrderId, Integer payPrice) {
+        // TODO @puhui999：不能直接这样修改哈；应该只有未支付状态的订单才可以改；另外，如果价格如果没变，可以直接 return 哈；
+        PayOrderDO order = orderMapper.selectById(payOrderId);
+        if (order == null) {
+            throw exception(ORDER_NOT_FOUND);
+        }
+
+        order.setPrice(payPrice);
+        orderMapper.updateById(order);
+    }
+
+    @Override
     public PayOrderExtensionDO getOrderExtension(Long id) {
         return orderExtensionMapper.selectById(id);
+    }
+
+    @Override
+    public PayOrderExtensionDO getOrderExtensionByNo(String no) {
+        return orderExtensionMapper.selectByNo(no);
     }
 
     @Override
@@ -440,7 +454,7 @@ public class PayOrderServiceImpl implements PayOrderService {
     private boolean syncOrder(PayOrderExtensionDO orderExtension) {
         try {
             // 1.1 查询支付订单信息
-            PayClient payClient = payClientFactory.getPayClient(orderExtension.getChannelId());
+            PayClient payClient = channelService.getPayClient(orderExtension.getChannelId());
             if (payClient == null) {
                 log.error("[syncOrder][渠道编号({}) 找不到对应的支付客户端]", orderExtension.getChannelId());
                 return false;
@@ -495,7 +509,7 @@ public class PayOrderServiceImpl implements PayOrderService {
                     return false;
                 }
                 // 情况二：调用三方接口，查询支付单状态，是不是已支付/已退款
-                PayClient payClient = payClientFactory.getPayClient(orderExtension.getChannelId());
+                PayClient payClient = channelService.getPayClient(orderExtension.getChannelId());
                 if (payClient == null) {
                     log.error("[expireOrder][渠道编号({}) 找不到对应的支付客户端]", orderExtension.getChannelId());
                     return false;

@@ -14,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;
+
 import java.time.LocalDateTime;
 
 import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildTime;
@@ -138,4 +139,5 @@ public class FileServiceImplTest extends BaseDbUnitTest {
         // 断言
         assertSame(result, content);
     }
+
 }

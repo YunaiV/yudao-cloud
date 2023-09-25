@@ -2,7 +2,6 @@ package cn.iocoder.yudao.module.system.controller.admin.user.vo.profile;
 
 import cn.iocoder.yudao.module.system.controller.admin.user.vo.user.UserBaseVO;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

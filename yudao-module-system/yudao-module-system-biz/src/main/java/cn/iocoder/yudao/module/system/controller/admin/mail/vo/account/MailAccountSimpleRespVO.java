@@ -1,7 +1,6 @@
 package cn.iocoder.yudao.module.system.controller.admin.mail.vo.account;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Schema(description = "管理后台 - 邮箱账号的精简 Response VO")

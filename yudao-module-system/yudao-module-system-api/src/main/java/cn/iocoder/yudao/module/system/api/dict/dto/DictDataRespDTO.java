@@ -1,7 +1,5 @@
 package cn.iocoder.yudao.module.system.api.dict.dto;
 
-import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

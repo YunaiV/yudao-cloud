@@ -5,7 +5,6 @@ import cn.iocoder.yudao.module.infra.controller.admin.codegen.vo.column.CodegenC
 import cn.iocoder.yudao.module.infra.controller.admin.codegen.vo.table.CodegenTableBaseVO;
 import cn.iocoder.yudao.module.infra.enums.codegen.CodegenSceneEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

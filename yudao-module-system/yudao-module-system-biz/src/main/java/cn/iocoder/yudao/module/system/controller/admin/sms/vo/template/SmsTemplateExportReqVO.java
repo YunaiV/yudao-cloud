@@ -1,7 +1,6 @@
 package cn.iocoder.yudao.module.system.controller.admin.sms.vo.template;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 

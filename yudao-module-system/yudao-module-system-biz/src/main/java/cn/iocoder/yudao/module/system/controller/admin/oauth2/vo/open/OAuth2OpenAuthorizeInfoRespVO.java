@@ -2,7 +2,6 @@ package cn.iocoder.yudao.module.system.controller.admin.oauth2.vo.open;
 
 import cn.iocoder.yudao.framework.common.core.KeyValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

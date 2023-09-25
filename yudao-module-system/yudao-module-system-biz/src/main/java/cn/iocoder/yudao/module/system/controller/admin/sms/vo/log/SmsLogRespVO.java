@@ -1,7 +1,6 @@
 package cn.iocoder.yudao.module.system.controller.admin.sms.vo.log;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;

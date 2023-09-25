@@ -18,11 +18,10 @@
         <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
         <!-- 统一依赖管理 -->
         <spring.boot.version>2.7.16</spring.boot.version>
-        <spring.cloud.version>2021.0.5</spring.cloud.version>
-        <spring.cloud.alibaba.version>2021.0.4.0</spring.cloud.alibaba.version>
+        <spring.cloud.version>2021.0.8</spring.cloud.version>
+        <spring.cloud.alibaba.version>2021.1</spring.cloud.alibaba.version>
         <!-- Web 相关 -->
         <servlet.versoin>2.5</servlet.versoin>
-        <swagger.version>2.2.15</swagger.version>
         <springdoc.version>1.7.0</springdoc.version>
         <knife4j.version>4.3.0</knife4j.version>
         <!-- DB 相关 -->
@@ -52,7 +51,7 @@
         <!-- Bpm 工作流相关 -->
         <flowable.version>6.8.0</flowable.version>
         <!-- 工具类相关 -->
-        <captcha-plus.version>1.0.7</captcha-plus.version>
+        <captcha-plus.version>1.0.8</captcha-plus.version>
         <jsoup.version>1.16.1</jsoup.version>
         <lombok.version>1.18.30</lombok.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
@@ -77,8 +76,8 @@
         <aliyun-java-sdk-core.version>4.6.4</aliyun-java-sdk-core.version>
         <aliyun-java-sdk-dysmsapi.version>2.2.1</aliyun-java-sdk-dysmsapi.version>
         <tencentcloud-sdk-java.version>3.1.853</tencentcloud-sdk-java.version>
-        <justauth.version>1.0.4</justauth.version>
-        <jimureport.version>1.5.8</jimureport.version>
+        <justauth.version>1.0.5</justauth.version>
+        <jimureport.version>1.6.1</jimureport.version>
         <xercesImpl.version>2.12.2</xercesImpl.version>
         <weixin-java.version>4.5.0</weixin-java.version>
     </properties>
@@ -202,16 +201,6 @@
                 <version>${revision}</version>
             </dependency>
 
-            <dependency>
-                <groupId>io.swagger.core.v3</groupId> <!-- 接口文档：使用最新版本的 Swagger 模型 -->
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.swagger.core.v3</groupId> <!-- 接口文档：使用最新版本的 Swagger 模型 -->
-                <artifactId>swagger-models</artifactId>
-                <version>${swagger.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId> <!-- 接口文档 UI：默认 -->
                 <artifactId>springdoc-openapi-ui</artifactId>

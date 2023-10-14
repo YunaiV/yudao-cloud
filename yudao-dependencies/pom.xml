@@ -22,7 +22,7 @@
         <spring.cloud.alibaba.version>2021.0.4.0</spring.cloud.alibaba.version>
         <!-- Web 相关 -->
         <servlet.versoin>2.5</servlet.versoin>
-        <springdoc.version>1.7.0</springdoc.version>
+        <springdoc.version>1.6.15</springdoc.version>
         <knife4j.version>4.3.0</knife4j.version>
         <!-- DB 相关 -->
         <druid.version>1.2.19</druid.version>

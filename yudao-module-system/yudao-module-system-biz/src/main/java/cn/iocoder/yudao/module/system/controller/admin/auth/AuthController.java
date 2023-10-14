@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.system.controller.admin.auth;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
@@ -29,6 +30,7 @@ import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -100,6 +102,9 @@ public class AuthController {
 
         // 1.2 获得角色列表
         Set<Long> roleIds = permissionService.getUserRoleIdListByUserId(getLoginUserId());
+        if (CollUtil.isEmpty(roleIds)) {
+            return success(AuthConvert.INSTANCE.convert(user, Collections.emptyList(), Collections.emptyList()));
+        }
         List<RoleDO> roles = roleService.getRoleList(roleIds);
         roles.removeIf(role -> !CommonStatusEnum.ENABLE.getStatus().equals(role.getStatus())); // 移除禁用的角色
 

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.time.LocalDateTime;
@@ -44,11 +45,13 @@ public class ErrorCodeLoaderImpl implements ErrorCodeLoader {
     private LocalDateTime maxUpdateTime;
 
     @EventListener(ApplicationReadyEvent.class)
+    @Async // 异步，保证项目的启动过程，毕竟非关键流程
     public void loadErrorCodes() {
         this.loadErrorCodes0();
     }
 
     @Scheduled(fixedDelay = REFRESH_ERROR_CODE_PERIOD, initialDelay = REFRESH_ERROR_CODE_PERIOD)
+    @Override
     public void refreshErrorCodes() {
         this.loadErrorCodes0();
     }

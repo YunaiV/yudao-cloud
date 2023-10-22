@@ -84,6 +84,19 @@ spring:
             - Path=/admin-api/mp/**
           filters:
             - RewritePath=/admin-api/mp/v3/api-docs, /v3/api-docs
+        ## member-server 服务
+        - id: product-admin-api # 路由的编号
+          uri: grayLb://product-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/admin-api/product/**
+          filters:
+            - RewritePath=/admin-api/product/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
+        - id: product-app-api # 路由的编号
+          uri: grayLb://product-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/app-api/product/**
+          filters:
+            - RewritePath=/app-api/product/v3/api-docs, /v3/api-docs
       x-forwarded:
         prefix-enabled: false # 避免 Swagger 重复带上额外的 /admin-api/system 前缀
 
@@ -110,3 +123,6 @@ knife4j:
       - name: mp-server
         service-name: mp-server
         url: /admin-api/mp/v3/api-docs
+      - name: member-server
+        service-name: member-server
+        url: /admin-api/member/v3/api-docs

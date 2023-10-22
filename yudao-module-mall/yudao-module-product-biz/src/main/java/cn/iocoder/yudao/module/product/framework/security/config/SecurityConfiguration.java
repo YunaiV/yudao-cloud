@@ -1,7 +1,7 @@
-package cn.iocoder.yudao.module.member.framework.security.config;
+package cn.iocoder.yudao.module.product.framework.security.config;
 
 import cn.iocoder.yudao.framework.security.config.AuthorizeRequestsCustomizer;
-import cn.iocoder.yudao.module.member.enums.ApiConstants;
+import cn.iocoder.yudao.module.product.enums.ApiConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,10 +10,10 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 /**
  * Member 模块的 Security 配置
  */
-@Configuration("memberSecurityConfiguration")
+@Configuration("productSecurityConfiguration")
 public class SecurityConfiguration {
 
-    @Bean("memberAuthorizeRequestsCustomizer")
+    @Bean("productAuthorizeRequestsCustomizer")
     public AuthorizeRequestsCustomizer authorizeRequestsCustomizer() {
         return new AuthorizeRequestsCustomizer() {
 

@@ -1,6 +1,6 @@
 package cn.iocoder.yudao.module.product.api.sku;
 
-import cn.hutool.core.collection.CollUtil;
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.product.api.sku.dto.ProductSkuRespDTO;
 import cn.iocoder.yudao.module.product.api.sku.dto.ProductSkuUpdateStockReqDTO;
 import cn.iocoder.yudao.module.product.convert.sku.ProductSkuConvert;
@@ -11,8 +11,9 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
 /**
  * 商品 SKU API 实现类
@@ -28,32 +29,27 @@ public class ProductSkuApiImpl implements ProductSkuApi {
     private ProductSkuService productSkuService;
 
     @Override
-    public ProductSkuRespDTO getSku(Long id) {
+    public CommonResult<ProductSkuRespDTO> getSku(Long id) {
         ProductSkuDO sku = productSkuService.getSku(id);
-        return ProductSkuConvert.INSTANCE.convert02(sku);
+        return success(ProductSkuConvert.INSTANCE.convert02(sku));
     }
 
     @Override
-    public List<ProductSkuRespDTO> getSkuList(Collection<Long> ids) {
-        if (CollUtil.isEmpty(ids)) {
-            return Collections.emptyList();
-        }
+    public CommonResult<List<ProductSkuRespDTO>> getSkuList(Collection<Long> ids) {
         List<ProductSkuDO> skus = productSkuService.getSkuList(ids);
-        return ProductSkuConvert.INSTANCE.convertList04(skus);
+        return success(ProductSkuConvert.INSTANCE.convertList04(skus));
     }
 
     @Override
-    public List<ProductSkuRespDTO> getSkuListBySpuId(Collection<Long> spuIds) {
-        if (CollUtil.isEmpty(spuIds)) {
-            return Collections.emptyList();
-        }
+    public CommonResult<List<ProductSkuRespDTO>> getSkuListBySpuId(Collection<Long> spuIds) {
         List<ProductSkuDO> skus = productSkuService.getSkuListBySpuId(spuIds);
-        return ProductSkuConvert.INSTANCE.convertList04(skus);
+        return success(ProductSkuConvert.INSTANCE.convertList04(skus));
     }
 
     @Override
-    public void updateSkuStock(ProductSkuUpdateStockReqDTO updateStockReqDTO) {
+    public CommonResult<Boolean> updateSkuStock(ProductSkuUpdateStockReqDTO updateStockReqDTO) {
         productSkuService.updateSkuStock(updateStockReqDTO);
+        return success(true);
     }
 
 }

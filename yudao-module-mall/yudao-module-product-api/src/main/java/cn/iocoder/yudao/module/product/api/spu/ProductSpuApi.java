@@ -1,43 +1,37 @@
 package cn.iocoder.yudao.module.product.api.spu;
 
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.product.api.spu.dto.ProductSpuRespDTO;
+import cn.iocoder.yudao.module.product.enums.ApiConstants;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
 import java.util.List;
 
-/**
- * 商品 SPU API 接口
- *
- * @author LeeYan9
- * @since 2022-08-26
- */
+@FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
+@Tag(name = "RPC 服务 - 商品 SPU")
 public interface ProductSpuApi {
 
-    /**
-     * 批量查询 SPU 数组
-     *
-     * @param ids SPU 编号列表
-     * @return SPU 数组
-     */
-    List<ProductSpuRespDTO> getSpuList(Collection<Long> ids);
+    String PREFIX = ApiConstants.PREFIX + "/spu";
 
-    /**
-     * 批量查询 SPU 数组，并且校验是否 SPU 是否有效。
-     *
-     * 如下情况，视为无效：
-     * 1. 商品编号不存在
-     * 2. 商品被禁用
-     *
-     * @param ids SPU 编号列表
-     * @return SPU 数组
-     */
-    List<ProductSpuRespDTO> validateSpuList(Collection<Long> ids);
+    @GetMapping(PREFIX + "/list")
+    @Schema(description = "批量查询 SPU 数组")
+    @Parameter(name = "ids", description = "SPU 编号列表", required = true, example = "1,3,5")
+    CommonResult<List<ProductSpuRespDTO>> getSpuList(@RequestParam("ids") Collection<Long> ids);
 
-    /**
-     * 获得 SPU
-     *
-     * @return SPU
-     */
-    ProductSpuRespDTO getSpu(Long id);
+    @GetMapping(PREFIX + "/valid")
+    @Schema(description = "批量查询 SPU 数组，并且校验是否 SPU 是否有效")
+    @Parameter(name = "ids", description = "SPU 编号列表", required = true, example = "1,3,5")
+    CommonResult<List<ProductSpuRespDTO>> validateSpuList(@RequestParam("ids") Collection<Long> ids);
+
+    @GetMapping(PREFIX + "/get")
+    @Schema(description = "获得 SPU")
+    @Parameter(name = "id", description = "SPU 编号", required = true, example = "1")
+    CommonResult<ProductSpuRespDTO> getSpu(@RequestParam("id") Long id);
 
 }

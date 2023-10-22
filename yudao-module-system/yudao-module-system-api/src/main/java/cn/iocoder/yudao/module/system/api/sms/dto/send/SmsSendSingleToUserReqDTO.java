@@ -13,11 +13,11 @@ public class SmsSendSingleToUserReqDTO {
 
     @Schema(description = "用户编号", example = "1024")
     private Long userId;
-    @Schema(description = "手机号", required = true, example = "15601691300")
+    @Schema(description = "手机号", requiredMode = Schema.RequiredMode.REQUIRED, example = "15601691300")
     @Mobile
     private String mobile;
 
-    @Schema(description = "短信模板编号", required = true, example = "USER_SEND")
+    @Schema(description = "短信模板编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "USER_SEND")
     @NotEmpty(message = "短信模板编号不能为空")
     private String templateCode;
     @Schema(description = "短信模板参数")

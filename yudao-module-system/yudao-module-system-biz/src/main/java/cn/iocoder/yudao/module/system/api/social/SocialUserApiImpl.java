@@ -27,7 +27,7 @@ public class SocialUserApiImpl implements SocialUserApi {
     @Override
     public CommonResult<Boolean> unbindSocialUser(SocialUserUnbindReqDTO reqDTO) {
         socialUserService.unbindSocialUser(reqDTO.getUserId(), reqDTO.getUserType(),
-                reqDTO.getType(), reqDTO.getUnionId());
+                reqDTO.getSocialType(), reqDTO.getOpenid());
         return success(true);
     }
 

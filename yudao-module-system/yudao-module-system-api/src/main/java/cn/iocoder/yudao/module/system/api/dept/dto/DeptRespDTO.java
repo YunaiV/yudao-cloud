@@ -1,37 +1,25 @@
 package cn.iocoder.yudao.module.system.api.dept.dto;
 
-import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-/**
- * 部门 Response DTO
- *
- * @author 芋道源码
- */
+@Schema(description = "RPC 服务 - 部门 Response DTO")
 @Data
 public class DeptRespDTO {
 
-    /**
-     * 部门编号
-     */
+    @Schema(description = "部门编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
-    /**
-     * 部门名称
-     */
+
+    @Schema(description = "部门名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "研发部")
     private String name;
-    /**
-     * 父部门编号
-     */
+
+    @Schema(description = "父部门编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long parentId;
-    /**
-     * 负责人的用户编号
-     */
+
+    @Schema(description = "负责人的用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long leaderUserId;
-    /**
-     * 部门状态
-     *
-     * 枚举 {@link CommonStatusEnum}
-     */
-    private Integer status;
+
+    @Schema(description = "部门状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    private Integer status; // 参见 CommonStatusEnum 枚举
 
 }

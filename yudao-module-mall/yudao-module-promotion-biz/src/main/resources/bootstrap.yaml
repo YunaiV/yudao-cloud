@@ -1,6 +1,6 @@
 spring:
   application:
-    name: promtoion-server
+    name: promotion-server
 
   profiles:
     active: local

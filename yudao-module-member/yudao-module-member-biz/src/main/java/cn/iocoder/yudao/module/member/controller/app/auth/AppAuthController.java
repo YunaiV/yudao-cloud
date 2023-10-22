@@ -121,7 +121,7 @@ public class AppAuthController {
             description = "参考 https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html 文档")
     public CommonResult<SocialWxJsapiSignatureRespDTO> createWeixinMpJsapiSignature(@RequestParam("url") String url) {
         SocialWxJsapiSignatureRespDTO signature = socialClientApi.createWxMpJsapiSignature(
-                UserTypeEnum.MEMBER.getValue(), url);
+                UserTypeEnum.MEMBER.getValue(), url).getCheckedData();
         return success(AuthConvert.INSTANCE.convert(signature));
     }
 

@@ -69,7 +69,7 @@ public class MemberAuthServiceImpl implements MemberAuthService {
         String openid = null;
         if (reqVO.getSocialType() != null) {
             openid = socialUserApi.bindSocialUser(new SocialUserBindReqDTO(user.getId(), getUserType().getValue(),
-                    reqVO.getSocialType(), reqVO.getSocialCode(), reqVO.getSocialState()));
+                    reqVO.getSocialType(), reqVO.getSocialCode(), reqVO.getSocialState())).getCheckedData();
         }
 
         // 创建 Token 令牌，记录登录日志
@@ -91,7 +91,7 @@ public class MemberAuthServiceImpl implements MemberAuthService {
         String openid = null;
         if (reqVO.getSocialType() != null) {
             openid = socialUserApi.bindSocialUser(new SocialUserBindReqDTO(user.getId(), getUserType().getValue(),
-                    reqVO.getSocialType(), reqVO.getSocialCode(), reqVO.getSocialState()));
+                    reqVO.getSocialType(), reqVO.getSocialCode(), reqVO.getSocialState())).getCheckedData();
         }
 
         // 创建 Token 令牌，记录登录日志
@@ -102,7 +102,7 @@ public class MemberAuthServiceImpl implements MemberAuthService {
     public AppAuthLoginRespVO socialLogin(AppAuthSocialLoginReqVO reqVO) {
         // 使用 code 授权码，进行登录。然后，获得到绑定的用户编号
         SocialUserRespDTO socialUser = socialUserApi.getSocialUser(UserTypeEnum.MEMBER.getValue(), reqVO.getType(),
-                reqVO.getCode(), reqVO.getState());
+                reqVO.getCode(), reqVO.getState()).getCheckedData();
         if (socialUser == null) {
             throw exception(AUTH_THIRD_LOGIN_NOT_BIND);
         }
@@ -121,7 +121,7 @@ public class MemberAuthServiceImpl implements MemberAuthService {
     public AppAuthLoginRespVO weixinMiniAppLogin(AppAuthWeixinMiniAppLoginReqVO reqVO) {
         // 获得对应的手机号信息
         SocialWxPhoneNumberInfoRespDTO phoneNumberInfo = socialClientApi.getWxMaPhoneNumberInfo(
-                UserTypeEnum.MEMBER.getValue(), reqVO.getPhoneCode());
+                UserTypeEnum.MEMBER.getValue(), reqVO.getPhoneCode()).getCheckedData();
         Assert.notNull(phoneNumberInfo, "获得手机信息失败，结果为空");
 
         // 获得获得注册用户
@@ -131,7 +131,7 @@ public class MemberAuthServiceImpl implements MemberAuthService {
 
         // 绑定社交用户
         String openid = socialUserApi.bindSocialUser(new SocialUserBindReqDTO(user.getId(), getUserType().getValue(),
-                SocialTypeEnum.WECHAT_MINI_APP.getType(), reqVO.getLoginCode(), ""));
+                SocialTypeEnum.WECHAT_MINI_APP.getType(), reqVO.getLoginCode(), "")).getCheckedData();
 
         // 创建 Token 令牌，记录登录日志
         return createTokenAfterLoginSuccess(user, user.getMobile(), LoginLogTypeEnum.LOGIN_SOCIAL, openid);
@@ -144,14 +144,14 @@ public class MemberAuthServiceImpl implements MemberAuthService {
         // 创建 Token 令牌
         OAuth2AccessTokenRespDTO accessTokenRespDTO = oauth2TokenApi.createAccessToken(new OAuth2AccessTokenCreateReqDTO()
                 .setUserId(user.getId()).setUserType(getUserType().getValue())
-                .setClientId(OAuth2ClientConstants.CLIENT_ID_DEFAULT));
+                .setClientId(OAuth2ClientConstants.CLIENT_ID_DEFAULT)).getCheckedData();
         // 构建返回结果
         return AuthConvert.INSTANCE.convert(accessTokenRespDTO, openid);
     }
 
     @Override
     public String getSocialAuthorizeUrl(Integer type, String redirectUri) {
-        return socialClientApi.getAuthorizeUrl(type, UserTypeEnum.MEMBER.getValue(), redirectUri);
+        return socialClientApi.getAuthorizeUrl(type, UserTypeEnum.MEMBER.getValue(), redirectUri).getCheckedData();
     }
 
     private MemberUserDO login0(String mobile, String password) {
@@ -195,7 +195,7 @@ public class MemberAuthServiceImpl implements MemberAuthService {
     @Override
     public void logout(String token) {
         // 删除访问令牌
-        OAuth2AccessTokenRespDTO accessTokenRespDTO = oauth2TokenApi.removeAccessToken(token);
+        OAuth2AccessTokenRespDTO accessTokenRespDTO = oauth2TokenApi.removeAccessToken(token).getCheckedData();
         if (accessTokenRespDTO == null) {
             return;
         }
@@ -232,7 +232,7 @@ public class MemberAuthServiceImpl implements MemberAuthService {
     @Override
     public AppAuthLoginRespVO refreshToken(String refreshToken) {
         OAuth2AccessTokenRespDTO accessTokenDO = oauth2TokenApi.refreshAccessToken(refreshToken,
-                OAuth2ClientConstants.CLIENT_ID_DEFAULT);
+                OAuth2ClientConstants.CLIENT_ID_DEFAULT).getCheckedData();
         return AuthConvert.INSTANCE.convert(accessTokenDO, null);
     }
 

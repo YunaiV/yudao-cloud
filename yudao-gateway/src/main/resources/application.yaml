@@ -37,6 +37,19 @@ spring:
           uri: grayLb://infra-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/admin/**
+        ## member-server 服务
+        - id: member-admin-api # 路由的编号
+          uri: grayLb://member-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/admin-api/member/**
+          filters:
+            - RewritePath=/admin-api/member/v3/api-docs, /v3/api-docs
+        - id: member-app-api # 路由的编号
+          uri: grayLb://member-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/app-api/member/**
+          filters:
+            - RewritePath=/app-api/member/v3/api-docs, /v3/api-docs
         ## bpm-server 服务
         - id: bpm-admin-api # 路由的编号
           uri: grayLb://bpm-server
@@ -85,6 +98,9 @@ knife4j:
       - name: infra-server
         service-name: infra-server
         url: /admin-api/infra/v3/api-docs
+      - name: member-server
+        service-name: member-server
+        url: /admin-api/member/v3/api-docs
       - name: bpm-server
         service-name: bpm-server
         url: /admin-api/bpm/v3/api-docs

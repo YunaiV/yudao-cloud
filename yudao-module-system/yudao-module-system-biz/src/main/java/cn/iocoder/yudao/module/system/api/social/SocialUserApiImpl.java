@@ -2,6 +2,7 @@ package cn.iocoder.yudao.module.system.api.social;
 
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialUserBindReqDTO;
+import cn.iocoder.yudao.module.system.api.social.dto.SocialUserRespDTO;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialUserUnbindReqDTO;
 import cn.iocoder.yudao.module.system.service.social.SocialUserService;
 import org.springframework.validation.annotation.Validated;
@@ -19,14 +20,8 @@ public class SocialUserApiImpl implements SocialUserApi {
     private SocialUserService socialUserService;
 
     @Override
-    public CommonResult<String> getAuthorizeUrl(Integer type, String redirectUri) {
-        return success(socialUserService.getAuthorizeUrl(type, redirectUri));
-    }
-
-    @Override
-    public CommonResult<Boolean> bindSocialUser(SocialUserBindReqDTO reqDTO) {
-        socialUserService.bindSocialUser(reqDTO);
-        return success(true);
+    public CommonResult<String> bindSocialUser(SocialUserBindReqDTO reqDTO) {
+        return success(socialUserService.bindSocialUser(reqDTO));
     }
 
     @Override
@@ -37,8 +32,8 @@ public class SocialUserApiImpl implements SocialUserApi {
     }
 
     @Override
-    public CommonResult<Long> getBindUserId(Integer userType, Integer type, String code, String state) {
-       return success(socialUserService.getBindUserId(userType, type, code, state));
+    public CommonResult<SocialUserRespDTO> getSocialUser(Integer userType, Integer socialType, String code, String state) {
+       return success(socialUserService.getSocialUser(userType, socialType, code, state));
     }
 
 }

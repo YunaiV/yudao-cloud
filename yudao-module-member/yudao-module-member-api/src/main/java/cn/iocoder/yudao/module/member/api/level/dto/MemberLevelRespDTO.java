@@ -1,41 +1,28 @@
 package cn.iocoder.yudao.module.member.api.level.dto;
 
-import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-/**
- * 会员等级 Resp DTO
- *
- * @author 芋道源码
- */
+@Schema(description = "RPC 服务 - 会员等级 Response DTO")
 @Data
 public class MemberLevelRespDTO {
 
-    /**
-     * 编号
-     */
+    @Schema(description = "编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long id;
-    /**
-     * 等级名称
-     */
+
+    @Schema(description = "等级名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "普通会员")
     private String name;
-    /**
-     * 等级
-     */
+
+    @Schema(description = "等级", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Integer level;
-    /**
-     * 升级经验
-     */
+
+    @Schema(description = "升级经验", requiredMode = Schema.RequiredMode.REQUIRED, example = "100")
     private Integer experience;
-    /**
-     * 享受折扣
-     */
+
+    @Schema(description = "享受折扣", requiredMode = Schema.RequiredMode.REQUIRED, example = "100")
     private Integer discountPercent;
-    /**
-     * 状态
-     *
-     * 枚举 {@link CommonStatusEnum}
-     */
-    private Integer status;
+
+    @Schema(description = "状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    private Integer status; // 参见 CommonStatusEnum 枚举
 
 }

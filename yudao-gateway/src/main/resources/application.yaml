@@ -123,6 +123,19 @@ spring:
             - Path=/app-api/trade/**
           filters:
             - RewritePath=/app-api/trade/v3/api-docs, /v3/api-docs
+        ## statistics-server 服务
+        - id: statistics-admin-api # 路由的编号
+          uri: grayLb://statistics-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/admin-api/statistics/**
+          filters:
+            - RewritePath=/admin-api/statistics/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
+        - id: statistics-app-api # 路由的编号
+          uri: grayLb://statistics-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/app-api/statistics/**
+          filters:
+            - RewritePath=/app-api/statistics/v3/api-docs, /v3/api-docs
       x-forwarded:
         prefix-enabled: false # 避免 Swagger 重复带上额外的 /admin-api/system 前缀
 
@@ -158,3 +171,6 @@ knife4j:
       - name: trade-server
         service-name: trade-server
         url: /admin-api/trade/v3/api-docs
+      - name: statistics-server
+        service-name: statistics-server
+        url: /admin-api/statistics/v3/api-docs

@@ -18,18 +18,20 @@ import java.util.List;
 @Tag(name = "RPC 服务 - 订单")
 public interface TradeOrderApi {
 
-    @GetMapping("/list")
+    String PREFIX = ApiConstants.PREFIX + "/order";
+
+    @GetMapping(PREFIX + "/list")
     @Operation(summary = "获得订单列表")
     @Parameter(name = "ids", description = "订单编号数组", required = true)
     List<TradeOrderRespDTO> getOrderList(@RequestParam("ids") Collection<Long> ids);
 
-    @GetMapping("/get")
+    @GetMapping(PREFIX + "/get")
     @Operation(summary = "获得订单")
     @Parameter(name = "id", description = "订单编号", required = true)
     TradeOrderRespDTO getOrder(@RequestParam("id") Long id);
 
     // TODO 芋艿：需要优化下；
-    @PutMapping("/cancel-paid")
+    @PutMapping(PREFIX + "/cancel-paid")
     @Parameters({
             @Parameter(name = "userId", description = "用户编号", required = true, example = "1024"),
             @Parameter(name = "orderId", description = "订单编号", required = true, example = "2048"),

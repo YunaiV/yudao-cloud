@@ -127,9 +127,4 @@ public class CouponTemplateServiceImpl implements CouponTemplateService {
         return couponTemplateMapper.selectList(canTakeTypes, productScope, productScopeValue, count);
     }
 
-    @Override
-    public List<CouponTemplateDO> getCouponTemplateListByIds(Collection<Long> ids) {
-        return couponTemplateMapper.selectListByIds(ids);
-    }
-
 }

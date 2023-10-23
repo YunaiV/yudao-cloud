@@ -139,3 +139,4 @@ yudao:
   error-code: # 错误码相关配置项
     enable: false
   demo: false # 关闭演示模式
+  tencent-lbs-key: TVDBZ-TDILD-4ON4B-PFDZA-RNLKH-VVF6E # QQ 地图的密钥 https://lbs.qq.com/service/staticV2/staticGuide/staticDoc

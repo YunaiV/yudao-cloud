@@ -1,24 +1,26 @@
 package cn.iocoder.yudao.module.promotion.api.reward;
 
 import cn.iocoder.yudao.module.promotion.api.reward.dto.RewardActivityMatchRespDTO;
+import cn.iocoder.yudao.module.promotion.enums.ApiConstants;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
 import java.util.List;
 
-/**
- * 满减送活动 API 接口
- *
- * @author 芋道源码
- */
+@FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
+@Tag(name = "RPC 服务 - 满减送")
 public interface RewardActivityApi {
 
+    String PREFIX = ApiConstants.PREFIX + "/reward-activity";
 
-    /**
-     * 基于指定的 SPU 编号数组，获得它们匹配的满减送活动
-     *
-     * @param spuIds SPU 编号数组
-     * @return 满减送活动列表
-     */
-    List<RewardActivityMatchRespDTO> getMatchRewardActivityList(Collection<Long> spuIds);
+    @GetMapping(PREFIX + "/list-by-spu-id")
+    @Operation(summary = "获得商品匹配的的满减送活动信息")
+    @Parameter(name = "spuIds", description = "商品 SPU 编号数组", required = true, example = "[1, 2]")
+    List<RewardActivityMatchRespDTO> getMatchRewardActivityList(@RequestParam("spuIds") Collection<Long> spuIds);
 
 }

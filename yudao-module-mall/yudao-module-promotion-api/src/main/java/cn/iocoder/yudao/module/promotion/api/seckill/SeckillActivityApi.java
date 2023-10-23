@@ -1,42 +1,53 @@
 package cn.iocoder.yudao.module.promotion.api.seckill;
 
 import cn.iocoder.yudao.module.promotion.api.seckill.dto.SeckillValidateJoinRespDTO;
+import cn.iocoder.yudao.module.promotion.enums.ApiConstants;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-/**
- * 秒杀活动 API 接口
- *
- * @author HUIHUI
- */
+@FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
+@Tag(name = "RPC 服务 - 秒杀活动")
 public interface SeckillActivityApi {
 
-    /**
-     * 更新秒杀库存（减少）
-     *
-     * @param id    活动编号
-     * @param skuId sku 编号
-     * @param count 数量(正数)
-     */
-    void updateSeckillStockDecr(Long id, Long skuId, Integer count);
+    String PREFIX = ApiConstants.PREFIX + "/discount-activity";
 
-    /**
-     * 更新秒杀库存（增加）
-     *
-     * @param id    活动编号
-     * @param skuId sku 编号
-     * @param count 数量(正数)
-     */
-    void updateSeckillStockIncr(Long id, Long skuId, Integer count);
+    @PutMapping(PREFIX + "/update-stock-decr")
+    @Operation(summary = "更新秒杀库存（减少）")
+    @Parameters({
+            @Parameter(name = "id", description = "活动编号", required = true, example = "1"),
+            @Parameter(name = "skuId", description = "SKU 编号", required = true, example = "2"),
+            @Parameter(name = "count", description = "数量", required = true, example = "3"),
+    })
+    void updateSeckillStockDecr(@RequestParam("id") Long id,
+                                @RequestParam("skuId") Long skuId,
+                                @RequestParam("count")Integer count);
 
-    /**
-     * 【下单前】校验是否参与秒杀活动
-     *
-     * 如果校验失败，则抛出业务异常
-     *
-     * @param activityId 活动编号
-     * @param skuId      SKU 编号
-     * @param count      数量
-     * @return 秒杀信息
-     */
-    SeckillValidateJoinRespDTO validateJoinSeckill(Long activityId, Long skuId, Integer count);
+    @PutMapping(PREFIX + "/update-stock-incr")
+    @Operation(summary = "更新秒杀库存（增加）")
+    @Parameters({
+            @Parameter(name = "id", description = "活动编号", required = true, example = "1"),
+            @Parameter(name = "skuId", description = "SKU 编号", required = true, example = "2"),
+            @Parameter(name = "count", description = "数量", required = true, example = "3"),
+    })
+    void updateSeckillStockIncr(@RequestParam("id") Long id,
+                                @RequestParam("skuId") Long skuId,
+                                @RequestParam("count")Integer count);
+
+    @GetMapping("/validate-join")
+    @Operation(summary = "【下单前】校验是否参与秒杀活动") // 如果校验失败，则抛出业务异常
+    @Parameters({
+            @Parameter(name = "activityId", description = "活动编号", required = true, example = "1"),
+            @Parameter(name = "skuId", description = "SKU 编号", required = true, example = "2"),
+            @Parameter(name = "count", description = "数量", required = true, example = "3"),
+    })
+    SeckillValidateJoinRespDTO validateJoinSeckill(@RequestParam("activityId") Long activityId,
+                                                   @RequestParam("skuId") Long skuId,
+                                                   @RequestParam("count")Integer count);
 
 }

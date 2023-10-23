@@ -408,6 +408,24 @@ public class PayOrderServiceImpl implements PayOrderService {
     }
 
     @Override
+    public void updatePayOrderPrice(Long id, Integer payPrice) {
+        PayOrderDO order = orderMapper.selectById(id);
+        if (order == null) {
+            throw exception(ORDER_NOT_FOUND);
+        }
+        if (ObjectUtil.notEqual(PayOrderStatusEnum.WAITING.getStatus(), order.getStatus())) {
+            throw exception(ORDER_STATUS_IS_NOT_WAITING);
+        }
+        if (ObjectUtil.equal(order.getPrice(), payPrice)) {
+            return;
+        }
+
+        // TODO 芋艿：应该 new 出来更新
+        order.setPrice(payPrice);
+        orderMapper.updateById(order);
+    }
+
+    @Override
     public void updatePayOrderPriceById(Long payOrderId, Integer payPrice) {
         // TODO @puhui999：不能直接这样修改哈；应该只有未支付状态的订单才可以改；另外，如果价格如果没变，可以直接 return 哈；
         PayOrderDO order = orderMapper.selectById(payOrderId);

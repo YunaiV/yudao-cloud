@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 @Data
 public class PayOrderCreateReqDTO implements Serializable {
 
+    public static final int SUBJECT_MAX_LENGTH = 32;
+
     @Schema(description = "应用编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @NotNull(message = "应用编号不能为空")
     private Long appId;

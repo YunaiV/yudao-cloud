@@ -44,7 +44,8 @@ public interface DeptApi {
      * @return 部门 Map
      */
     default Map<Long, DeptRespDTO> getDeptMap(Set<Long> ids) {
-        return CollectionUtils.convertMap(getDeptList(ids).getCheckedData(), DeptRespDTO::getId);
+        List<DeptRespDTO> list = getDeptList(ids).getCheckedData();
+        return CollectionUtils.convertMap(list, DeptRespDTO::getId);
     }
 
 }

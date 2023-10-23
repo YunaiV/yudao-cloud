@@ -39,7 +39,8 @@ public interface MemberUserApi {
      * @return 会员用户 Map
      */
     default Map<Long, MemberUserRespDTO> getUserMap(Collection<Long> ids) {
-        return convertMap(getUserList(ids).getCheckedData(), MemberUserRespDTO::getId);
+        List<MemberUserRespDTO> list = getUserList(ids).getCheckedData();
+        return convertMap(list, MemberUserRespDTO::getId);
     }
 
     @GetMapping(PREFIX + "/list-by-nickname")

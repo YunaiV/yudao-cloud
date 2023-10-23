@@ -49,7 +49,8 @@ public interface AdminUserApi {
      * @return 用户 Map
      */
     default Map<Long, AdminUserRespDTO> getUserMap(Collection<Long> ids) {
-        return CollectionUtils.convertMap(getUsers(ids).getCheckedData(), AdminUserRespDTO::getId);
+        List<AdminUserRespDTO> users = getUsers(ids).getCheckedData();
+        return CollectionUtils.convertMap(users, AdminUserRespDTO::getId);
     }
 
     @GetMapping(PREFIX + "/valid")

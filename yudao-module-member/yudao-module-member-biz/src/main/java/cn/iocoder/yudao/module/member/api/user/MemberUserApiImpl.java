@@ -5,8 +5,8 @@ import cn.iocoder.yudao.module.member.api.user.dto.MemberUserRespDTO;
 import cn.iocoder.yudao.module.member.convert.user.MemberUserConvert;
 import cn.iocoder.yudao.module.member.dal.dataobject.user.MemberUserDO;
 import cn.iocoder.yudao.module.member.service.user.MemberUserService;
-import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -19,7 +19,7 @@ import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
  *
  * @author 芋道源码
  */
-@Service
+@RestController // 提供 RESTful API 接口，给 Feign 调用
 @Validated
 public class MemberUserApiImpl implements MemberUserApi {
 

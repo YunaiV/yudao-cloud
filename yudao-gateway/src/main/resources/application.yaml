@@ -110,6 +110,19 @@ spring:
             - Path=/app-api/promotion/**
           filters:
             - RewritePath=/app-api/promotion/v3/api-docs, /v3/api-docs
+        ## trade-server 服务
+        - id: trade-admin-api # 路由的编号
+          uri: grayLb://trade-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/admin-api/trade/**
+          filters:
+            - RewritePath=/admin-api/trade/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
+        - id: trade-app-api # 路由的编号
+          uri: grayLb://trade-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/app-api/trade/**
+          filters:
+            - RewritePath=/app-api/trade/v3/api-docs, /v3/api-docs
       x-forwarded:
         prefix-enabled: false # 避免 Swagger 重复带上额外的 /admin-api/system 前缀
 
@@ -142,3 +155,6 @@ knife4j:
       - name: promotion-server
         service-name: promotion-server
         url: /admin-api/promotion/v3/api-docs
+      - name: trade-server
+        service-name: trade-server
+        url: /admin-api/trade/v3/api-docs

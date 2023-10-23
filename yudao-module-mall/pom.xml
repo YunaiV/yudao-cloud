@@ -24,8 +24,8 @@
         <module>yudao-module-product-biz</module>
         <module>yudao-module-trade-api</module>
         <module>yudao-module-trade-biz</module>
-<!--        <module>yudao-module-statistics-api</module>-->
-<!--        <module>yudao-module-statistics-biz</module>-->
+        <module>yudao-module-statistics-api</module>
+        <module>yudao-module-statistics-biz</module>
     </modules>
 
 </project>

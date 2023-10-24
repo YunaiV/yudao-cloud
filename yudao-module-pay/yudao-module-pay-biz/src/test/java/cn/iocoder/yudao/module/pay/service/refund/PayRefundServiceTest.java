@@ -219,7 +219,7 @@ public class PayRefundServiceTest extends BaseDbAndRedisUnitTest {
 
         // 调用，并断言异常
         assertServiceException(() -> refundService.createPayRefund(reqDTO),
-                ORDER_NOT_FOUND);
+                PAY_ORDER_NOT_FOUND);
     }
 
     @Test
@@ -245,7 +245,7 @@ public class PayRefundServiceTest extends BaseDbAndRedisUnitTest {
 
         // 调用，并断言异常
         assertServiceException(() -> refundService.createPayRefund(reqDTO),
-                ORDER_REFUND_FAIL_STATUS_ERROR);
+                PAY_ORDER_REFUND_FAIL_STATUS_ERROR);
     }
 
     @Test
@@ -418,7 +418,7 @@ public class PayRefundServiceTest extends BaseDbAndRedisUnitTest {
                 assertNotNull(unifiedReqDTO.getOutRefundNo());
                 assertThat(unifiedReqDTO)
                         .extracting("payPrice", "refundPrice", "outTradeNo",
-                                 "notifyUrl", "reason")
+                                "notifyUrl", "reason")
                         .containsExactly(order.getPrice(), reqDTO.getPrice(), order.getNo(),
                                 "http://127.0.0.1/10", reqDTO.getReason());
                 return true;

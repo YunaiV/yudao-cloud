@@ -242,7 +242,7 @@ public class TradeOrderUpdateServiceImpl implements TradeOrderUpdateService {
         // 创建支付单，用于后续的支付
         PayOrderCreateReqDTO payOrderCreateReqDTO = TradeOrderConvert.INSTANCE.convert(
                 order, orderItems, tradeOrderProperties);
-        Long payOrderId = payOrderApi.createOrder(payOrderCreateReqDTO);
+        Long payOrderId = payOrderApi.createOrder(payOrderCreateReqDTO).getCheckedData();
 
         // 更新到交易单上
         tradeOrderMapper.updateById(new TradeOrderDO().setId(order.getId()).setPayOrderId(payOrderId));
@@ -302,7 +302,7 @@ public class TradeOrderUpdateServiceImpl implements TradeOrderUpdateService {
         }
 
         // 校验支付单是否存在
-        PayOrderRespDTO payOrder = payOrderApi.getOrder(payOrderId);
+        PayOrderRespDTO payOrder = payOrderApi.getOrder(payOrderId).getCheckedData();
         if (payOrder == null) {
             log.error("[validateOrderPaid][order({}) payOrder({}) 不存在，请进行处理！]", id, payOrderId);
             throw exception(ORDER_NOT_FOUND);

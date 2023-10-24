@@ -369,7 +369,7 @@ public class AfterSaleServiceImpl implements AfterSaleService {
             public void afterCommit() {
                 // 创建退款单
                 PayRefundCreateReqDTO createReqDTO = AfterSaleConvert.INSTANCE.convert(userIp, afterSale, tradeOrderProperties);
-                Long payRefundId = payRefundApi.createRefund(createReqDTO);
+                Long payRefundId = payRefundApi.createRefund(createReqDTO).getCheckedData();
                 // 更新售后单的退款单号
                 tradeAfterSaleMapper.updateById(new AfterSaleDO().setId(afterSale.getId()).setPayRefundId(payRefundId));
             }

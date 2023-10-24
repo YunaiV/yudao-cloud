@@ -1,26 +1,33 @@
 package cn.iocoder.yudao.module.bpm.convert.task;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
+import cn.iocoder.yudao.framework.common.util.collection.MapUtils;
 import cn.iocoder.yudao.framework.common.util.date.DateUtils;
 import cn.iocoder.yudao.framework.common.util.number.NumberUtils;
-import cn.iocoder.yudao.module.bpm.controller.admin.task.vo.task.BpmTaskDonePageItemRespVO;
-import cn.iocoder.yudao.module.bpm.controller.admin.task.vo.task.BpmTaskRespVO;
-import cn.iocoder.yudao.module.bpm.controller.admin.task.vo.task.BpmTaskTodoPageItemRespVO;
+import cn.iocoder.yudao.module.bpm.controller.admin.task.vo.task.*;
 import cn.iocoder.yudao.module.bpm.dal.dataobject.task.BpmTaskExtDO;
 import cn.iocoder.yudao.module.bpm.service.message.dto.BpmMessageSendWhenTaskCreatedReqDTO;
 import cn.iocoder.yudao.module.system.api.dept.dto.DeptRespDTO;
 import cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO;
+import org.flowable.bpmn.model.FlowElement;
 import org.flowable.common.engine.impl.db.SuspensionState;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.history.HistoricTaskInstance;
+import org.flowable.task.service.impl.persistence.entity.TaskEntityImpl;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertMultiMap;
+import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.filterList;
 
 /**
  * Bpm 任务 Convert
@@ -47,8 +54,6 @@ public interface BpmTaskConvert {
     }
 
     @Mapping(source = "suspended", target = "suspensionState", qualifiedByName = "convertSuspendedToSuspensionState")
-        // @Mapping(target = "claimTime", expression = "java(bean.getClaimTime()==null?null: LocalDateTime.ofInstant(bean.getClaimTime().toInstant(),ZoneId.systemDefault()))")
-        // @Mapping(target = "createTime", expression = "java(bean.getCreateTime()==null?null:LocalDateTime.ofInstant(bean.getCreateTime().toInstant(),ZoneId.systemDefault()))")
     BpmTaskTodoPageItemRespVO convert1(Task bean);
 
     @Named("convertSuspendedToSuspensionState")
@@ -107,8 +112,6 @@ public interface BpmTaskConvert {
     }
 
     @Mapping(source = "taskDefinitionKey", target = "definitionKey")
-        // @Mapping(target = "createTime", expression = "java(bean.getCreateTime() == null ? null : LocalDateTime.ofInstant(bean.getCreateTime().toInstant(), ZoneId.systemDefault()))")
-        // @Mapping(target = "endTime", expression = "java(bean.getEndTime() == null ? null : LocalDateTime.ofInstant(bean.getEndTime().toInstant(), ZoneId.systemDefault()))")
     BpmTaskRespVO convert3(HistoricTaskInstance bean);
 
     BpmTaskRespVO.User convert3(AdminUserRespDTO bean);
@@ -140,6 +143,59 @@ public interface BpmTaskConvert {
                 .setStartUserNickname(startUser.getNickname()).setTaskId(task.getId()).setTaskName(task.getName())
                 .setAssigneeUserId(NumberUtils.parseLong(task.getAssignee()));
         return reqDTO;
+    }
+
+    default List<BpmTaskSimpleRespVO> convertList(List<? extends FlowElement> elementList) {
+        return CollectionUtils.convertList(elementList, element -> new BpmTaskSimpleRespVO()
+                .setName(element.getName())
+                .setDefinitionKey(element.getId()));
+    }
+
+    //此处不用 mapstruct 映射，因为 TaskEntityImpl 还有很多其他属性，这里我们只设置我们需要的
+    //使用 mapstruct 会将里面嵌套的各个属性值都设置进去，会出现意想不到的问题
+    default TaskEntityImpl convert(TaskEntityImpl task,TaskEntityImpl parentTask){
+        task.setCategory(parentTask.getCategory());
+        task.setDescription(parentTask.getDescription());
+        task.setTenantId(parentTask.getTenantId());
+        task.setName(parentTask.getName());
+        task.setParentTaskId(parentTask.getId());
+        task.setProcessDefinitionId(parentTask.getProcessDefinitionId());
+        task.setProcessInstanceId(parentTask.getProcessInstanceId());
+        task.setTaskDefinitionKey(parentTask.getTaskDefinitionKey());
+        task.setTaskDefinitionId(parentTask.getTaskDefinitionId());
+        task.setPriority(parentTask.getPriority());
+        task.setCreateTime(new Date());
+        return task;
+    }
+
+    default List<BpmTaskSubSignRespVO> convertList(List<BpmTaskExtDO> bpmTaskExtDOList,
+                                                   Map<Long, AdminUserRespDTO> userMap,
+                                                   Map<String, Task> idTaskMap){
+        return CollectionUtils.convertList(bpmTaskExtDOList, task -> {
+            BpmTaskSubSignRespVO bpmTaskSubSignRespVO = new BpmTaskSubSignRespVO()
+                    .setId(task.getTaskId()).setName(task.getName());
+            // 后加签任务不会直接设置 assignee ,所以不存在 assignee 的情况，则去取 owner
+            Task sourceTask = idTaskMap.get(task.getTaskId());
+            String assignee = ObjectUtil.defaultIfBlank(sourceTask.getOwner(),sourceTask.getAssignee());
+            MapUtils.findAndThen(userMap,NumberUtils.parseLong(assignee),
+                    assignUser-> bpmTaskSubSignRespVO.setAssigneeUser(convert3(assignUser)));
+            return bpmTaskSubSignRespVO;
+        });
+    }
+
+    /**
+     * 转换任务为父子级
+     *
+     * @param sourceList 原始数据
+     * @return 转换后的父子级数组
+     */
+    default List<BpmTaskRespVO> convertChildrenList(List<BpmTaskRespVO> sourceList) {
+        List<BpmTaskRespVO> childrenTaskList = filterList(sourceList, r -> StrUtil.isNotEmpty(r.getParentTaskId()));
+        Map<String, List<BpmTaskRespVO>> parentChildrenTaskListMap = convertMultiMap(childrenTaskList, BpmTaskRespVO::getParentTaskId);
+        for (BpmTaskRespVO bpmTaskRespVO : sourceList) {
+            bpmTaskRespVO.setChildren(parentChildrenTaskListMap.get(bpmTaskRespVO.getId()));
+        }
+        return filterList(sourceList, r -> StrUtil.isEmpty(r.getParentTaskId()));
     }
 
 }

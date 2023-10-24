@@ -1,6 +1,5 @@
 package cn.iocoder.yudao.module.bpm.service.oa;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.module.bpm.api.task.BpmProcessInstanceApi;
@@ -57,7 +56,7 @@ public class BpmOALeaveServiceImpl implements BpmOALeaveService {
         processInstanceVariables.put("day", day);
         String processInstanceId = processInstanceApi.createProcessInstance(userId,
                 new BpmProcessInstanceCreateReqDTO().setProcessDefinitionKey(PROCESS_KEY)
-                        .setVariables(processInstanceVariables).setBusinessKey(String.valueOf(leave.getId())));
+                        .setVariables(processInstanceVariables).setBusinessKey(String.valueOf(leave.getId()))).getCheckedData();
 
         // 将工作流的编号，更新到 OA 请假单中
         leaveMapper.updateById(new BpmOALeaveDO().setId(leave.getId()).setProcessInstanceId(processInstanceId));

@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.bpm.api.task;
 
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.bpm.api.task.dto.BpmProcessInstanceCreateReqDTO;
 import cn.iocoder.yudao.module.bpm.enums.ApiConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,7 +22,7 @@ public interface BpmProcessInstanceApi {
     @PostMapping(PREFIX + "/create")
     @Operation(summary = "创建流程实例（提供给内部），返回实例编号")
     @Parameter(name = "userId", description = "用户编号", required = true, example = "1")
-    String createProcessInstance(@RequestParam("userId") Long userId,
-                                 @Valid @RequestBody BpmProcessInstanceCreateReqDTO reqDTO);
+    CommonResult<String> createProcessInstance(@RequestParam("userId") Long userId,
+                                               @Valid @RequestBody BpmProcessInstanceCreateReqDTO reqDTO);
 
 }

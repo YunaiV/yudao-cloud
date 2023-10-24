@@ -4,7 +4,7 @@ import cn.iocoder.yudao.framework.common.exception.ErrorCode;
 
 /**
  * Bpm 错误码枚举类
- *
+ * <p>
  * bpm 系统，使用 1-009-000-000 段
  */
 public interface ErrorCodeConstants {
@@ -43,8 +43,17 @@ public interface ErrorCodeConstants {
     ErrorCode PROCESS_INSTANCE_CANCEL_FAIL_NOT_SELF = new ErrorCode(1_009_004_002, "流程取消失败，该流程不是你发起的");
 
     // ========== 流程任务 1-009-005-000 ==========
-    ErrorCode TASK_COMPLETE_FAIL_NOT_EXISTS = new ErrorCode(1_009_005_000, "审批任务失败，原因：该任务不处于未审批");
-    ErrorCode TASK_COMPLETE_FAIL_ASSIGN_NOT_SELF = new ErrorCode(1_009_005_001, "审批任务失败，原因：该任务的审批人不是你");
+    ErrorCode TASK_OPERATE_FAIL_ASSIGN_NOT_SELF = new ErrorCode(1_009_005_001, "操作失败，原因：该任务的审批人不是你");
+    ErrorCode TASK_NOT_EXISTS = new ErrorCode(1_009_005_002, "流程任务不存在");
+    ErrorCode TASK_IS_PENDING = new ErrorCode(1_009_005_003, "当前任务处于挂起状态，不能操作");
+    ErrorCode TASK_TARGET_NODE_NOT_EXISTS = new ErrorCode(1_009_005_004, " 目标节点不存在");
+    ErrorCode TASK_RETURN_FAIL_SOURCE_TARGET_ERROR = new ErrorCode(1_009_005_006, "回退任务失败，目标节点是在并行网关上或非同一路线上，不可跳转");
+    ErrorCode TASK_DELEGATE_FAIL_USER_REPEAT = new ErrorCode(1_009_005_007, "任务委派失败，委派人和当前审批人为同一人");
+    ErrorCode TASK_DELEGATE_FAIL_USER_NOT_EXISTS = new ErrorCode(1_009_005_008, "任务委派失败，被委派人不存在");
+    ErrorCode TASK_ADD_SIGN_USER_NOT_EXIST = new ErrorCode(1_009_005_009, "任务加签：选择的用户不存在");
+    ErrorCode TASK_ADD_SIGN_TYPE_ERROR = new ErrorCode(1_009_005_010, "任务加签：当前任务已经{}，不能{}");
+    ErrorCode TASK_ADD_SIGN_USER_REPEAT = new ErrorCode(1_009_005_011, "任务加签失败，加签人与现有审批人[{}]重复");
+    ErrorCode TASK_SUB_SIGN_NO_PARENT = new ErrorCode(1_009_005_011, "任务减签失败，被减签的任务必须是通过加签生成的任务");
 
     // ========== 流程任务分配规则 1-009-006-000 ==========
     ErrorCode TASK_ASSIGN_RULE_EXISTS = new ErrorCode(1_009_006_000, "流程({}) 的任务({}) 已经存在分配规则");

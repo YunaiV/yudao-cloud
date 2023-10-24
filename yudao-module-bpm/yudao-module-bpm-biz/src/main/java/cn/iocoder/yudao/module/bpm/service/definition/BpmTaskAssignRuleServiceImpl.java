@@ -7,7 +7,7 @@ import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
 import cn.iocoder.yudao.framework.common.util.object.ObjectUtils;
 import cn.iocoder.yudao.framework.datapermission.core.annotation.DataPermission;
-import cn.iocoder.yudao.framework.flowable.core.util.FlowableUtils;
+import cn.iocoder.yudao.framework.flowable.core.util.BpmnModelUtils;
 import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.rule.BpmTaskAssignRuleCreateReqVO;
 import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.rule.BpmTaskAssignRuleRespVO;
 import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.rule.BpmTaskAssignRuleUpdateReqVO;
@@ -15,8 +15,8 @@ import cn.iocoder.yudao.module.bpm.convert.definition.BpmTaskAssignRuleConvert;
 import cn.iocoder.yudao.module.bpm.dal.dataobject.definition.BpmTaskAssignRuleDO;
 import cn.iocoder.yudao.module.bpm.dal.dataobject.definition.BpmUserGroupDO;
 import cn.iocoder.yudao.module.bpm.dal.mysql.definition.BpmTaskAssignRuleMapper;
-import cn.iocoder.yudao.module.bpm.enums.definition.BpmTaskAssignRuleTypeEnum;
 import cn.iocoder.yudao.module.bpm.enums.DictTypeConstants;
+import cn.iocoder.yudao.module.bpm.enums.definition.BpmTaskAssignRuleTypeEnum;
 import cn.iocoder.yudao.module.bpm.framework.flowable.core.behavior.script.BpmTaskAssignScript;
 import cn.iocoder.yudao.module.system.api.dept.DeptApi;
 import cn.iocoder.yudao.module.system.api.dept.PostApi;
@@ -114,7 +114,7 @@ public class BpmTaskAssignRuleServiceImpl implements BpmTaskAssignRuleService {
             return Collections.emptyList();
         }
         // 获得用户任务，只有用户任务才可以设置分配规则
-        List<UserTask> userTasks = FlowableUtils.getBpmnModelElements(model, UserTask.class);
+        List<UserTask> userTasks = BpmnModelUtils.getBpmnModelElements(model, UserTask.class);
         if (CollUtil.isEmpty(userTasks)) {
             return Collections.emptyList();
         }

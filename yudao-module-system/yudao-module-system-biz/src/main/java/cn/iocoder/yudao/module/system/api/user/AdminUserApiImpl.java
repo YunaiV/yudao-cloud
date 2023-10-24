@@ -29,7 +29,7 @@ public class AdminUserApiImpl implements AdminUserApi {
     }
 
     @Override
-    public CommonResult<List<AdminUserRespDTO>> getUsers(Collection<Long> ids) {
+    public CommonResult<List<AdminUserRespDTO>> getUserList(Collection<Long> ids) {
         List<AdminUserDO> users = userService.getUserList(ids);
         return success(UserConvert.INSTANCE.convertList4(users));
     }

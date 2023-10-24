@@ -30,7 +30,7 @@ public interface AdminUserApi {
     @GetMapping(PREFIX + "/list")
     @Operation(summary = "通过用户 ID 查询用户们")
     @Parameter(name = "ids", description = "部门编号数组", example = "1,2", required = true)
-    CommonResult<List<AdminUserRespDTO>> getUsers(@RequestParam("ids") Collection<Long> ids);
+    CommonResult<List<AdminUserRespDTO>> getUserList(@RequestParam("ids") Collection<Long> ids);
 
     @GetMapping(PREFIX + "/list-by-dept-id")
     @Operation(summary = "获得指定部门的用户数组")
@@ -49,7 +49,7 @@ public interface AdminUserApi {
      * @return 用户 Map
      */
     default Map<Long, AdminUserRespDTO> getUserMap(Collection<Long> ids) {
-        List<AdminUserRespDTO> users = getUsers(ids).getCheckedData();
+        List<AdminUserRespDTO> users = getUserList(ids).getCheckedData();
         return CollectionUtils.convertMap(users, AdminUserRespDTO::getId);
     }
 

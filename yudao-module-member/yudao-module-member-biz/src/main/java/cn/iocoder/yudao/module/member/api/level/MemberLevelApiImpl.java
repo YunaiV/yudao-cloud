@@ -5,8 +5,8 @@ import cn.iocoder.yudao.module.member.api.level.dto.MemberLevelRespDTO;
 import cn.iocoder.yudao.module.member.convert.level.MemberLevelConvert;
 import cn.iocoder.yudao.module.member.enums.MemberExperienceBizTypeEnum;
 import cn.iocoder.yudao.module.member.service.level.MemberLevelService;
-import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
@@ -19,7 +19,7 @@ import static cn.iocoder.yudao.module.member.enums.ErrorCodeConstants.EXPERIENCE
  *
  * @author owen
  */
-@Service
+@RestController // 提供 RESTful API 接口，给 Feign 调用
 @Validated
 public class MemberLevelApiImpl implements MemberLevelApi {
 

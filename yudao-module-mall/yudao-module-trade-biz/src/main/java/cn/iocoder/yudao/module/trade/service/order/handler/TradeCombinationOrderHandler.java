@@ -67,7 +67,7 @@ public class TradeCombinationOrderHandler implements TradeOrderHandler {
         // 2. 创建拼团记录
         TradeOrderItemDO item = orderItems.get(0);
         CombinationRecordCreateRespDTO combinationRecord = combinationRecordApi.createCombinationRecord(
-                TradeOrderConvert.INSTANCE.convert(order, item));
+                TradeOrderConvert.INSTANCE.convert(order, item)).getCheckedData();
 
         // 3. 更新拼团相关信息到订单。为什么几个字段都要更新？
         // 原因是：如果创建订单时自己是团长的情况下 combinationHeadId 是为 null 的，设置团长编号这个操作时在订单是否后创建拼团记录时才设置的。
@@ -81,7 +81,7 @@ public class TradeCombinationOrderHandler implements TradeOrderHandler {
             return;
         }
         // 校验订单拼团是否成功
-        if (!combinationRecordApi.isCombinationRecordSuccess(order.getUserId(), order.getId())) {
+        if (!combinationRecordApi.isCombinationRecordSuccess(order.getUserId(), order.getId()).getCheckedData()) {
             throw exception(ORDER_DELIVERY_FAIL_COMBINATION_RECORD_STATUS_NOT_SUCCESS);
         }
     }

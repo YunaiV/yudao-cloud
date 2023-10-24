@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.promotion.api.coupon;
 
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.promotion.api.coupon.dto.CouponRespDTO;
 import cn.iocoder.yudao.module.promotion.api.coupon.dto.CouponUseReqDTO;
 import cn.iocoder.yudao.module.promotion.api.coupon.dto.CouponValidReqDTO;
@@ -23,14 +24,14 @@ public interface CouponApi {
 
     @PutMapping(PREFIX + "/use")
     @Operation(summary = "使用优惠劵")
-    void useCoupon(@RequestBody @Valid CouponUseReqDTO useReqDTO);
+    CommonResult<Boolean> useCoupon(@RequestBody @Valid CouponUseReqDTO useReqDTO);
 
     @PutMapping(PREFIX + "/return-used")
     @Parameter(name = "id", description = "优惠券编号", required = true, example = "1")
-    void returnUsedCoupon(@RequestParam("id") Long id);
+    CommonResult<Boolean> returnUsedCoupon(@RequestParam("id") Long id);
 
-    @GetMapping(PREFIX + "/get")
+    @GetMapping(PREFIX + "/validate")
     @Operation(summary = "校验优惠劵")
-    CouponRespDTO validateCoupon(@Valid CouponValidReqDTO validReqDTO);
+    CommonResult<CouponRespDTO> validateCoupon(@Valid CouponValidReqDTO validReqDTO);
 
 }

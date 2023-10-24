@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Tag(name = "RPC 服务 - 会员等级")
 public interface MemberLevelApi {
 
-    String PREFIX = ApiConstants.PREFIX + "/address";
+    String PREFIX = ApiConstants.PREFIX + "/level";
 
     @GetMapping(PREFIX + "/get")
     @Operation(summary = "获得会员等级")

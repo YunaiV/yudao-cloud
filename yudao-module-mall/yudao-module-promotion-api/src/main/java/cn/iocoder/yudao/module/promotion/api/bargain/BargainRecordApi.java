@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.promotion.api.bargain;
 
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.promotion.api.bargain.dto.BargainValidateJoinRespDTO;
 import cn.iocoder.yudao.module.promotion.enums.ApiConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,9 +25,9 @@ public interface BargainRecordApi {
             @Parameter(name = "bargainRecordId", description = "砍价记录编号", required = true, example = "2048"),
             @Parameter(name = "skuId", description = "SKU 编号", required = true, example = "4096"),
     })
-    BargainValidateJoinRespDTO validateJoinBargain(@RequestParam("userId") Long userId,
-                                                   @RequestParam("bargainRecordId") Long bargainRecordId,
-                                                   @RequestParam("skuId") Long skuId);
+    CommonResult<BargainValidateJoinRespDTO> validateJoinBargain(@RequestParam("userId") Long userId,
+                                                                 @RequestParam("bargainRecordId") Long bargainRecordId,
+                                                                 @RequestParam("skuId") Long skuId);
 
     @PutMapping(PREFIX + "/update-order-id")
     @Operation(summary = "更新砍价记录的订单编号") // 在砍价成功后，用户发起订单后，会记录该订单编号
@@ -34,7 +35,7 @@ public interface BargainRecordApi {
             @Parameter(name = "id", description = "砍价记录编号", required = true, example = "1024"),
             @Parameter(name = "orderId", description = "订单编号", required = true, example = "2048"),
     })
-    void updateBargainRecordOrderId(@RequestParam("id") Long id,
-                                    @RequestParam("oderId") Long orderId);
+    CommonResult<Boolean> updateBargainRecordOrderId(@RequestParam("id") Long id,
+                                                     @RequestParam("oderId") Long orderId);
 
 }

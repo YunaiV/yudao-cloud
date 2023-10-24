@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.promotion.api.seckill;
 
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.promotion.api.seckill.dto.SeckillValidateJoinRespDTO;
 import cn.iocoder.yudao.module.promotion.enums.ApiConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,9 +25,9 @@ public interface SeckillActivityApi {
             @Parameter(name = "skuId", description = "SKU 编号", required = true, example = "2"),
             @Parameter(name = "count", description = "数量", required = true, example = "3"),
     })
-    void updateSeckillStockDecr(@RequestParam("id") Long id,
-                                @RequestParam("skuId") Long skuId,
-                                @RequestParam("count")Integer count);
+    CommonResult<Boolean> updateSeckillStockDecr(@RequestParam("id") Long id,
+                                                 @RequestParam("skuId") Long skuId,
+                                                 @RequestParam("count")Integer count);
 
     @PutMapping(PREFIX + "/update-stock-incr")
     @Operation(summary = "更新秒杀库存（增加）")
@@ -35,9 +36,9 @@ public interface SeckillActivityApi {
             @Parameter(name = "skuId", description = "SKU 编号", required = true, example = "2"),
             @Parameter(name = "count", description = "数量", required = true, example = "3"),
     })
-    void updateSeckillStockIncr(@RequestParam("id") Long id,
-                                @RequestParam("skuId") Long skuId,
-                                @RequestParam("count")Integer count);
+    CommonResult<Boolean> updateSeckillStockIncr(@RequestParam("id") Long id,
+                                                 @RequestParam("skuId") Long skuId,
+                                                 @RequestParam("count")Integer count);
 
     @GetMapping("/validate-join")
     @Operation(summary = "【下单前】校验是否参与秒杀活动") // 如果校验失败，则抛出业务异常
@@ -46,8 +47,8 @@ public interface SeckillActivityApi {
             @Parameter(name = "skuId", description = "SKU 编号", required = true, example = "2"),
             @Parameter(name = "count", description = "数量", required = true, example = "3"),
     })
-    SeckillValidateJoinRespDTO validateJoinSeckill(@RequestParam("activityId") Long activityId,
-                                                   @RequestParam("skuId") Long skuId,
-                                                   @RequestParam("count")Integer count);
+    CommonResult<SeckillValidateJoinRespDTO> validateJoinSeckill(@RequestParam("activityId") Long activityId,
+                                                                 @RequestParam("skuId") Long skuId,
+                                                                 @RequestParam("count")Integer count);
 
 }

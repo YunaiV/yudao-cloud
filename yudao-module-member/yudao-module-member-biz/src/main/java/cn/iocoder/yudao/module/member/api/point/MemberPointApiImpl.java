@@ -4,8 +4,8 @@ import cn.hutool.core.lang.Assert;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.member.enums.point.MemberPointBizTypeEnum;
 import cn.iocoder.yudao.module.member.service.point.MemberPointRecordService;
-import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
@@ -18,7 +18,7 @@ import static cn.iocoder.yudao.module.member.enums.ErrorCodeConstants.POINT_RECO
  *
  * @author owen
  */
-@Service
+@RestController // 提供 RESTful API 接口，给 Feign 调用
 @Validated
 public class MemberPointApiImpl implements MemberPointApi {
 

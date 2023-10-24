@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.promotion.api.discount;
 
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.promotion.api.discount.dto.DiscountProductRespDTO;
 import cn.iocoder.yudao.module.promotion.enums.ApiConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,6 +22,6 @@ public interface DiscountActivityApi {
     @GetMapping(PREFIX + "/list-by-sku-id")
     @Operation(summary = "获得商品匹配的的限时折扣信息")
     @Parameter(name = "skuIds", description = "商品 SKU 编号数组", required = true, example = "[1, 2]")
-    List<DiscountProductRespDTO> getMatchDiscountProductList(@RequestParam("skuIds") Collection<Long> skuIds);
+    CommonResult<List<DiscountProductRespDTO>> getMatchDiscountProductList(@RequestParam("skuIds") Collection<Long> skuIds);
 
 }

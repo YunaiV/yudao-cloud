@@ -40,7 +40,7 @@ public class TradeRewardActivityPriceCalculator implements TradePriceCalculator 
         }
         // 获得 SKU 对应的满减送活动
         List<RewardActivityMatchRespDTO> rewardActivities = rewardActivityApi.getMatchRewardActivityList(
-                convertSet(result.getItems(), TradePriceCalculateRespBO.OrderItem::getSpuId));
+                convertSet(result.getItems(), TradePriceCalculateRespBO.OrderItem::getSpuId)).getCheckedData();
         if (CollUtil.isEmpty(rewardActivities)) {
             return;
         }

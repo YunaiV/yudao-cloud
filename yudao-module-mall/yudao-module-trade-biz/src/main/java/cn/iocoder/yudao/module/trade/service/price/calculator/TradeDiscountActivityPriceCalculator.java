@@ -41,7 +41,7 @@ public class TradeDiscountActivityPriceCalculator implements TradePriceCalculato
         }
         // 获得 SKU 对应的限时折扣活动
         List<DiscountProductRespDTO> discountProducts = discountActivityApi.getMatchDiscountProductList(
-                convertSet(result.getItems(), TradePriceCalculateRespBO.OrderItem::getSkuId));
+                convertSet(result.getItems(), TradePriceCalculateRespBO.OrderItem::getSkuId)).getCheckedData();
         if (CollUtil.isEmpty(discountProducts)) {
             return;
         }

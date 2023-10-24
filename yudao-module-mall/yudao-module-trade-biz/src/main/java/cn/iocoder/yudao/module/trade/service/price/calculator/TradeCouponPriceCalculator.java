@@ -45,7 +45,7 @@ public class TradeCouponPriceCalculator implements TradePriceCalculator {
             return;
         }
         CouponRespDTO coupon = couponApi.validateCoupon(new CouponValidReqDTO()
-                .setId(param.getCouponId()).setUserId(param.getUserId()));
+                .setId(param.getCouponId()).setUserId(param.getUserId())).getCheckedData();
         Assert.notNull(coupon, "校验通过的优惠劵({})，不能为空", param.getCouponId());
         // 1.2 只有【普通】订单，才允许使用优惠劵
         if (ObjectUtil.notEqual(result.getType(), TradeOrderTypeEnum.NORMAL.getType())) {

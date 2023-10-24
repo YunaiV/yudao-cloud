@@ -101,7 +101,7 @@ public class AppBargainRecordController {
         Integer helpAction = getHelpAction(userId, record, activityId);
         // 3. 如果是自己的订单，则查询订单信息
         TradeOrderRespDTO order = record != null && record.getOrderId() != null && record.getUserId().equals(getLoginUserId())
-                ? tradeOrderApi.getOrder(record.getOrderId()) : null;
+                ? tradeOrderApi.getOrder(record.getOrderId()).getCheckedData() : null;
         // TODO 继续查询别的字段
 
         // 拼接返回
@@ -147,7 +147,7 @@ public class AppBargainRecordController {
         List<ProductSpuRespDTO> spuList = productSpuApi.getSpuList(
                 convertSet(pageResult.getList(), BargainRecordDO::getSpuId)).getCheckedData();
         List<TradeOrderRespDTO> orderList = tradeOrderApi.getOrderList(
-                convertSet(pageResult.getList(), BargainRecordDO::getOrderId));
+                convertSet(pageResult.getList(), BargainRecordDO::getOrderId)).getCheckedData();
         return success(BargainRecordConvert.INSTANCE.convertPage02(pageResult, activityList, spuList, orderList));
     }
 

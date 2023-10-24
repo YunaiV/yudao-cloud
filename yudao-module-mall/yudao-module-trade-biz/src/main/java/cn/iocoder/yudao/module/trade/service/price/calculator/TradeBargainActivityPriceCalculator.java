@@ -38,7 +38,7 @@ public class TradeBargainActivityPriceCalculator implements TradePriceCalculator
         // 2. 校验是否可以参与砍价
         TradePriceCalculateRespBO.OrderItem orderItem = result.getItems().get(0);
         BargainValidateJoinRespDTO bargainActivity = bargainRecordApi.validateJoinBargain(
-                param.getUserId(), param.getBargainRecordId(), orderItem.getSkuId());
+                param.getUserId(), param.getBargainRecordId(), orderItem.getSkuId()).getCheckedData();
 
         // 3.1 记录优惠明细
         Integer discountPrice = orderItem.getPayPrice() - bargainActivity.getBargainPrice() * orderItem.getCount();

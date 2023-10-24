@@ -37,7 +37,7 @@ public class TradeCombinationActivityPriceCalculator implements TradePriceCalcul
         TradePriceCalculateRespBO.OrderItem orderItem = result.getItems().get(0);
         CombinationValidateJoinRespDTO combinationActivity = combinationRecordApi.validateJoinCombination(
                 param.getUserId(), param.getCombinationActivityId(), param.getCombinationHeadId(),
-                orderItem.getSkuId(), orderItem.getCount());
+                orderItem.getSkuId(), orderItem.getCount()).getCheckedData();
 
         // 3.1 记录优惠明细
         Integer discountPrice = orderItem.getPayPrice() - combinationActivity.getCombinationPrice() * orderItem.getCount();

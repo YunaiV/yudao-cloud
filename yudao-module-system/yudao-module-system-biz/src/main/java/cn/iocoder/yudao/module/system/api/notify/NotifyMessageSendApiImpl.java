@@ -1,7 +1,6 @@
-package cn.iocoder.yudao.module.system.api.notify.notify;
+package cn.iocoder.yudao.module.system.api.notify;
 
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
-import cn.iocoder.yudao.module.system.api.notify.NotifyMessageSendApi;
 import cn.iocoder.yudao.module.system.api.notify.dto.NotifySendSingleToUserReqDTO;
 import cn.iocoder.yudao.module.system.service.notify.NotifySendService;
 import org.springframework.validation.annotation.Validated;

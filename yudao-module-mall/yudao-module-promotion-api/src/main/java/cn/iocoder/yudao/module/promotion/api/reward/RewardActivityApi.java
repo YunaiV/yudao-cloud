@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.promotion.api.reward;
 
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.promotion.api.reward.dto.RewardActivityMatchRespDTO;
 import cn.iocoder.yudao.module.promotion.enums.ApiConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,6 +22,6 @@ public interface RewardActivityApi {
     @GetMapping(PREFIX + "/list-by-spu-id")
     @Operation(summary = "获得商品匹配的的满减送活动信息")
     @Parameter(name = "spuIds", description = "商品 SPU 编号数组", required = true, example = "[1, 2]")
-    List<RewardActivityMatchRespDTO> getMatchRewardActivityList(@RequestParam("spuIds") Collection<Long> spuIds);
+    CommonResult<List<RewardActivityMatchRespDTO>> getMatchRewardActivityList(@RequestParam("spuIds") Collection<Long> spuIds);
 
 }

@@ -26,12 +26,6 @@ public interface MemberAddressApi {
     CommonResult<MemberAddressRespDTO> getAddress(@RequestParam("id") Long id,
                                                   @RequestParam("userId") Long userId);
 
-    /**
-     * 获得用户默认收件地址
-     *
-     * @param userId 用户编号
-     * @return 用户收件地址
-     */
     @GetMapping(PREFIX + "/get-default")
     @Operation(summary = "获得用户默认收件地址")
     @Parameter(name = "userId", description = "用户编号", required = true, example = "2048")

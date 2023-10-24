@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.trade.api.order;
 
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.trade.api.order.dto.TradeOrderRespDTO;
 import cn.iocoder.yudao.module.trade.enums.ApiConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,12 +24,12 @@ public interface TradeOrderApi {
     @GetMapping(PREFIX + "/list")
     @Operation(summary = "获得订单列表")
     @Parameter(name = "ids", description = "订单编号数组", required = true)
-    List<TradeOrderRespDTO> getOrderList(@RequestParam("ids") Collection<Long> ids);
+    CommonResult<List<TradeOrderRespDTO>> getOrderList(@RequestParam("ids") Collection<Long> ids);
 
     @GetMapping(PREFIX + "/get")
     @Operation(summary = "获得订单")
     @Parameter(name = "id", description = "订单编号", required = true)
-    TradeOrderRespDTO getOrder(@RequestParam("id") Long id);
+    CommonResult<TradeOrderRespDTO> getOrder(@RequestParam("id") Long id);
 
     // TODO 芋艿：需要优化下；
     @PutMapping(PREFIX + "/cancel-paid")
@@ -36,7 +37,7 @@ public interface TradeOrderApi {
             @Parameter(name = "userId", description = "用户编号", required = true, example = "1024"),
             @Parameter(name = "orderId", description = "订单编号", required = true, example = "2048"),
     })
-    void cancelPaidOrder(@RequestParam("userId") Long userId,
-                         @RequestParam("orderId") Long orderId);
+    CommonResult<Boolean> cancelPaidOrder(@RequestParam("userId") Long userId,
+                                          @RequestParam("orderId") Long orderId);
 
 }

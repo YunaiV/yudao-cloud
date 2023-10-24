@@ -3,6 +3,7 @@ package cn.iocoder.yudao.module.system.convert.dict;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.module.system.api.dict.dto.DictDataRespDTO;
 import cn.iocoder.yudao.module.system.controller.admin.dict.vo.data.*;
+import cn.iocoder.yudao.module.system.controller.app.dict.vo.AppDictDataRespVO;
 import cn.iocoder.yudao.module.system.dal.dataobject.dict.DictDataDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -28,5 +29,6 @@ public interface DictDataConvert {
 
     DictDataRespDTO convert02(DictDataDO bean);
 
+    List<AppDictDataRespVO> convertList03(List<DictDataDO> list);
 
 }

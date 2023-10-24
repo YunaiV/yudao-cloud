@@ -9,10 +9,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -26,10 +23,10 @@ public interface PayOrderApi {
     @Operation(summary = "创建支付单")
     CommonResult<Long> createOrder(@Valid @RequestBody PayOrderCreateReqDTO reqDTO);
 
-    @PostMapping(PREFIX + "/get")
+    @GetMapping(PREFIX + "/get")
     @Operation(summary = "获得支付单")
     @Parameter(name = "id", description = "支付单编号", example = "1", required = true)
-    CommonResult<PayOrderRespDTO> getOrder(Long id);
+    CommonResult<PayOrderRespDTO> getOrder(@RequestParam("id") Long id);
 
     @PutMapping(PREFIX + "/update-price")
     @Operation(summary = "更新支付订单价格")

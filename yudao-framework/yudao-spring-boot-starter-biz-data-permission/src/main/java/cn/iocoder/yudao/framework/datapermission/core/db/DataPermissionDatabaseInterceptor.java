@@ -507,7 +507,7 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
             // 单条规则的条件
             String tableName = MyBatisUtils.getTableName(table);
             Expression oneExpress = rule.getExpression(tableName, table.getAlias());
-            if(oneExpress == null){
+            if (oneExpress == null){
                 continue;
             }
             // 拼接到 allExpression 中

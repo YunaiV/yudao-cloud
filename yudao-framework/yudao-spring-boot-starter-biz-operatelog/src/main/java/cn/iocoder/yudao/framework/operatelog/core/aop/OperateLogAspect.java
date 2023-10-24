@@ -227,7 +227,8 @@ public class OperateLogAspect {
     private static void fillMethodFields(OperateLog operateLogObj,
                                          ProceedingJoinPoint joinPoint,
                                          cn.iocoder.yudao.framework.operatelog.core.annotations.OperateLog operateLog,
-                                         LocalDateTime startTime, Object result, Throwable exception) {MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+                                         LocalDateTime startTime, Object result, Throwable exception) {
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         operateLogObj.setJavaMethod(methodSignature.toString());
         if (operateLog == null || operateLog.logArgs()) {
             operateLogObj.setJavaMethodArgs(obtainMethodArgs(joinPoint));

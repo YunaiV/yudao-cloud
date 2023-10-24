@@ -1,7 +1,6 @@
-package cn.iocoder.yudao.framework.datapermission.core.utils;
+package cn.iocoder.yudao.framework.datapermission.core.util;
 
 import cn.iocoder.yudao.framework.datapermission.core.aop.DataPermissionContextHolder;
-import cn.iocoder.yudao.framework.datapermission.core.util.DataPermissionUtils;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

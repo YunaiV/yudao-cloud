@@ -12,25 +12,31 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>
-        消息队列：
-            1. 基于 Spring Cloud Stream 实现异步消息
-            2. 基于 Spring Cloud Bus 实现事件总线
-    </description>
+    <description>消息队列，支持 Redis、RocketMQ、RabbitMQ、Kafka 四种</description>
     <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
 
     <dependencies>
-        <!-- MQ 相关 -->
+        <!-- DB 相关 -->
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <!-- 引入 Spring Cloud Alibaba Stream RocketMQ 相关依赖，将 RocketMQ 作为消息队列，并实现对其的自动配置 -->
-            <artifactId>spring-cloud-starter-stream-rocketmq</artifactId>
+            <groupId>cn.iocoder.cloud</groupId>
+            <artifactId>yudao-spring-boot-starter-redis</artifactId>
         </dependency>
 
+        <!-- 消息队列相关 -->
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <!-- 引入基于 RocketMQ 的 Spring Cloud Bus 的实现的依赖，并实现对其的自动配置 -->
-            <artifactId>spring-cloud-starter-bus-rocketmq</artifactId>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-spring-boot-starter</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

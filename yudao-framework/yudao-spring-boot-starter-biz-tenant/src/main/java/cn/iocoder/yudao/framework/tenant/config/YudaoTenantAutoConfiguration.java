@@ -6,6 +6,9 @@ import cn.iocoder.yudao.framework.redis.config.YudaoCacheProperties;
 import cn.iocoder.yudao.framework.tenant.core.aop.TenantIgnoreAspect;
 import cn.iocoder.yudao.framework.tenant.core.db.TenantDatabaseInterceptor;
 import cn.iocoder.yudao.framework.tenant.core.job.TenantJobAspect;
+import cn.iocoder.yudao.framework.tenant.core.mq.rabbitmq.TenantRabbitMQInitializer;
+import cn.iocoder.yudao.framework.tenant.core.mq.redis.TenantRedisMessageInterceptor;
+import cn.iocoder.yudao.framework.tenant.core.mq.rocketmq.TenantRocketMQInitializer;
 import cn.iocoder.yudao.framework.tenant.core.redis.TenantRedisCacheManager;
 import cn.iocoder.yudao.framework.tenant.core.security.TenantSecurityWebFilter;
 import cn.iocoder.yudao.framework.tenant.core.service.TenantFrameworkService;
@@ -91,6 +94,25 @@ public class YudaoTenantAutoConfiguration {
     @ConditionalOnClass(name = "com.xxl.job.core.handler.annotation.XxlJob")
     public TenantJobAspect tenantJobAspect(TenantFrameworkService tenantFrameworkService) {
         return new TenantJobAspect(tenantFrameworkService);
+    }
+
+    // ========== MQ ==========
+
+    @Bean
+    public TenantRedisMessageInterceptor tenantRedisMessageInterceptor() {
+        return new TenantRedisMessageInterceptor();
+    }
+
+    @Bean
+    @ConditionalOnClass(name = "org.springframework.amqp.rabbit.core.RabbitTemplate")
+    public TenantRabbitMQInitializer tenantRabbitMQInitializer() {
+        return new TenantRabbitMQInitializer();
+    }
+
+    @Bean
+    @ConditionalOnClass(name = "org.apache.rocketmq.spring.core.RocketMQTemplate")
+    public TenantRocketMQInitializer tenantRocketMQInitializer() {
+        return new TenantRocketMQInitializer();
     }
 
     // ========== Redis ==========

@@ -101,10 +101,6 @@
         </dependency>
 
         <!-- 消息队列相关 -->
-        <dependency>
-            <groupId>cn.iocoder.cloud</groupId>
-            <artifactId>yudao-spring-boot-starter-mq</artifactId>
-        </dependency>
 
         <!-- Test 测试相关 -->
         <dependency>

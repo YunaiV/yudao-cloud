@@ -17,7 +17,7 @@
         <revision>1.8.3-snapshot</revision>
         <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
         <!-- 统一依赖管理 -->
-        <spring.boot.version>2.7.16</spring.boot.version>
+        <spring.boot.version>2.7.17</spring.boot.version>
         <spring.cloud.version>2021.0.5</spring.cloud.version>
         <spring.cloud.alibaba.version>2021.0.4.0</spring.cloud.alibaba.version>
         <!-- Web 相关 -->
@@ -32,6 +32,8 @@
         <mybatis-plus-join-boot-starter.version>1.4.6</mybatis-plus-join-boot-starter.version>
         <redisson.version>3.18.0</redisson.version>
         <dm8.jdbc.version>8.1.2.141</dm8.jdbc.version>
+        <!-- 消息队列 -->
+        <rocketmq-spring.version>2.2.3</rocketmq-spring.version>
         <!-- RPC 相关 -->
         <!-- Config 配置中心相关 -->
         <apollo.version>1.9.2</apollo.version>
@@ -301,6 +303,12 @@
                 <groupId>cn.iocoder.cloud</groupId>
                 <artifactId>yudao-spring-boot-starter-mq</artifactId>
                 <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-spring-boot-starter</artifactId>
+                <version>${rocketmq-spring.version}</version>
             </dependency>
 
             <!-- 服务保障相关 -->

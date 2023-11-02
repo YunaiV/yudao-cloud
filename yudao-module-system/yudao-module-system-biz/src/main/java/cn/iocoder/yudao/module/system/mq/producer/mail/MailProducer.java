@@ -1,9 +1,8 @@
 package cn.iocoder.yudao.module.system.mq.producer.mail;
 
-import cn.iocoder.yudao.framework.mq.core.bus.AbstractBusProducer;
 import cn.iocoder.yudao.module.system.mq.message.mail.MailSendMessage;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -16,10 +15,10 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @Component
-public class MailProducer extends AbstractBusProducer {
+public class MailProducer {
 
     @Resource
-    private StreamBridge streamBridge;
+    private ApplicationContext applicationContext;
 
     /**
      * 发送 {@link MailSendMessage} 消息
@@ -36,7 +35,7 @@ public class MailProducer extends AbstractBusProducer {
         MailSendMessage message = new MailSendMessage()
                 .setLogId(sendLogId).setMail(mail).setAccountId(accountId)
                 .setNickname(nickname).setTitle(title).setContent(content);
-        streamBridge.send("mailSend-out-0", message);
+        applicationContext.publishEvent(message);
     }
 
 }

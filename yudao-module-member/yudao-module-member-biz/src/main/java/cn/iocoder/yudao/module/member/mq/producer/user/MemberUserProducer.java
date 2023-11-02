@@ -1,9 +1,8 @@
 package cn.iocoder.yudao.module.member.mq.producer.user;
 
-import cn.iocoder.yudao.framework.mq.core.bus.AbstractBusProducer;
-import cn.iocoder.yudao.module.member.mq.message.user.UserCreateMessage;
+import cn.iocoder.yudao.module.member.message.user.MemberUserCreateMessage;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -15,19 +14,18 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @Component
-public class MemberUserProducer extends AbstractBusProducer {
+public class MemberUserProducer {
 
     @Resource
-    private StreamBridge streamBridge;
+    private ApplicationContext applicationContext;
 
-    // TODO 芋艿：后续要在细看下；
     /**
-     * 发送 {@link UserCreateMessage} 消息
+     * 发送 {@link MemberUserCreateMessage} 消息
      *
      * @param userId 用户编号
      */
     public void sendUserCreateMessage(Long userId) {
-        streamBridge.send("member-create-out-0",new UserCreateMessage().setUserId(userId));
+        applicationContext.publishEvent(new MemberUserCreateMessage().setUserId(userId));
     }
 
 }

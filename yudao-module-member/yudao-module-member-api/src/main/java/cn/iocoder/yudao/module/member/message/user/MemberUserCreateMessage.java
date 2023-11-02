@@ -1,4 +1,4 @@
-package cn.iocoder.yudao.module.promotion.mq.message.coupon;
+package cn.iocoder.yudao.module.member.message.user;
 
 import lombok.Data;
 
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
  * @author owen
  */
 @Data
-public class UserCreateMessage {
+public class MemberUserCreateMessage {
 
     /**
      * 用户编号

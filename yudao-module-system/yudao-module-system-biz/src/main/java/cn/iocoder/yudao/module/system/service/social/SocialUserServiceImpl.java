@@ -3,8 +3,10 @@ package cn.iocoder.yudao.module.system.service.social;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.iocoder.yudao.framework.common.exception.ServiceException;
+import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialUserBindReqDTO;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialUserRespDTO;
+import cn.iocoder.yudao.module.system.controller.admin.socail.vo.user.SocialUserPageReqVO;
 import cn.iocoder.yudao.module.system.dal.dataobject.social.SocialUserBindDO;
 import cn.iocoder.yudao.module.system.dal.dataobject.social.SocialUserDO;
 import cn.iocoder.yudao.module.system.dal.mysql.social.SocialUserBindMapper;
@@ -113,8 +115,8 @@ public class SocialUserServiceImpl implements SocialUserService {
      *
      * @param socialType 社交平台的类型 {@link SocialTypeEnum}
      * @param userType 用户类型
-     * @param code 授权码
-     * @param state state
+     * @param code     授权码
+     * @param state    state
      * @return 授权用户
      */
     @NotNull
@@ -144,6 +146,18 @@ public class SocialUserServiceImpl implements SocialUserService {
             socialUserMapper.updateById(socialUser);
         }
         return socialUser;
+    }
+
+    // ==================== 社交用户 CRUD ====================
+
+    @Override
+    public SocialUserDO getSocialUser(Long id) {
+        return socialUserMapper.selectById(id);
+    }
+
+    @Override
+    public PageResult<SocialUserDO> getSocialUserPage(SocialUserPageReqVO pageReqVO) {
+        return socialUserMapper.selectPage(pageReqVO);
     }
 
 }

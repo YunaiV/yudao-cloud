@@ -20,6 +20,8 @@
         <module>yudao-module-report</module>
         <module>yudao-module-mp</module>
         <module>yudao-module-mall</module>
+        <module>yudao-module-seckill</module>
+        <module>yudao-module-store</module>
     </modules>
 
     <name>${project.artifactId}</name>
@@ -124,17 +126,17 @@
     </build>
 
     <!-- 使用 huawei / aliyun 的 Maven 源，提升下载速度 -->
-    <repositories>
-        <repository>
-            <id>huaweicloud</id>
-            <name>huawei</name>
-            <url>https://mirrors.huaweicloud.com/repository/maven/</url>
-        </repository>
-        <repository>
-            <id>aliyunmaven</id>
-            <name>aliyun</name>
-            <url>https://maven.aliyun.com/repository/public</url>
-        </repository>
-    </repositories>
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            <id>huaweicloud</id>-->
+<!--            <name>huawei</name>-->
+<!--            <url>https://mirrors.huaweicloud.com/repository/maven/</url>-->
+<!--        </repository>-->
+<!--        <repository>-->
+<!--            <id>aliyunmaven</id>-->
+<!--            <name>aliyun</name>-->
+<!--            <url>https://maven.aliyun.com/repository/public</url>-->
+<!--        </repository>-->
+<!--    </repositories>-->
 
 </project>

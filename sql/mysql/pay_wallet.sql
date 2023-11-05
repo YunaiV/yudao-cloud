@@ -70,7 +70,11 @@ CREATE TABLE `pay_demo_transfer`  (
   `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
   `tenant_id` bigint NOT NULL DEFAULT 0 COMMENT '租户编号',
    PRIMARY KEY (`id`) USING BTREE
+<<<<<<< Updated upstream
 ) ENGINE = InnoDB  COMMENT = '示例业务转账订单';
+=======
+) ENGINE = InnoDB  COMMENT = '示例业务转账订单\n';
+>>>>>>> Stashed changes
 
 
 ALTER TABLE `pay_channel`

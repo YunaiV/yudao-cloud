@@ -7,6 +7,19 @@ spring:
     gateway:
       # 路由配置项，对应 RouteDefinition 数组
       routes:
+        ## seckill-server 服务
+        - id: seckill-admin-api # 路由的编号
+          uri: grayLb://seckill-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/admin-api/seckill/**
+          filters:
+            - RewritePath=/admin-api/system/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
+        - id: seckill-app-api # 路由的编号
+          uri: grayLb://seckill-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/app-api/seckill/**
+          filters:
+            - RewritePath=/app-api/seckill/v3/api-docs, /v3/api-docs
         ## system-server 服务
         - id: system-admin-api # 路由的编号
           uri: grayLb://system-server
@@ -144,6 +157,9 @@ knife4j:
   gateway:
     enabled: true
     routes:
+      - name: seckill-server
+        service-name: seckill-server
+        url: /admin-api/seckill/v3/api-docs
       - name: system-server
         service-name: system-server
         url: /admin-api/system/v3/api-docs

@@ -49,8 +49,8 @@ public class CodegenBuilder {
                     .put("status", CodegenColumnHtmlTypeEnum.RADIO)
                     .put("sex", CodegenColumnHtmlTypeEnum.RADIO)
                     .put("type", CodegenColumnHtmlTypeEnum.SELECT)
-                    .put("image", CodegenColumnHtmlTypeEnum.UPLOAD_IMAGE)
-                    .put("file", CodegenColumnHtmlTypeEnum.UPLOAD_FILE)
+                    .put("image", CodegenColumnHtmlTypeEnum.IMAGE_UPLOAD)
+                    .put("file", CodegenColumnHtmlTypeEnum.FILE_UPLOAD)
                     .put("content", CodegenColumnHtmlTypeEnum.EDITOR)
                     .put("description", CodegenColumnHtmlTypeEnum.EDITOR)
                     .put("demo", CodegenColumnHtmlTypeEnum.EDITOR)
@@ -63,7 +63,7 @@ public class CodegenBuilder {
      */
     public static final String TENANT_ID_FIELD = "tenantId";
     /**
-     * {@link cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO} 的字段
+     * {@link BaseDO} 的字段
      */
     public static final Set<String> BASE_DO_FIELDS = new HashSet<>();
     /**
@@ -118,7 +118,7 @@ public class CodegenBuilder {
         table.setClassName(upperFirst(toCamelCase(subAfter(tableName, '_', false))));
         // 去除结尾的表，作为类描述
         table.setClassComment(StrUtil.removeSuffixIgnoreCase(table.getTableComment(), "表"));
-        table.setTemplateType(CodegenTemplateTypeEnum.CRUD.getType());
+        table.setTemplateType(CodegenTemplateTypeEnum.ONE.getType());
     }
 
     public List<CodegenColumnDO> buildColumns(Long tableId, List<TableField> tableFields) {

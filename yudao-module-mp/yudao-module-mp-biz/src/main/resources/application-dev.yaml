@@ -68,7 +68,19 @@ spring:
 lock4j:
   acquire-timeout: 3000 # 获取分布式锁超时时间，默认为 3000 毫秒
   expire: 30000 # 分布式锁的超时时间，默认为 30 毫秒
-
+--- #################### wx ####################
+wx:
+  miniapp: # 小程序配置（必填），参见 https://github.com/Wechat-Group/WxJava/blob/develop/spring-boot-starters/wx-java-miniapp-spring-boot-starter/README.md 文档
+    #    appid: wx62056c0d5e8db250
+    #    secret: 333ae72f41552af1e998fe1f54e1584a
+    appid: wx63c280fe3248a3e7 # wenhualian的接口测试号
+    secret: 6f270509224a7ae1296bbf1c8cb97aed
+    token: evol
+    aes-key: 2a7b3b20c537e52e74afd395eb85f61f
+    config-storage:
+      type: RedisTemplate # 采用 RedisTemplate 操作 Redis，会自动从 Spring 中获取
+      key-prefix: wa # Redis Key 的前缀
+      http-client-type: HttpClient # 采用 HttpClient 请求微信公众号平台
 --- #################### 监控相关配置 ####################
 
 # Actuator 监控端点的配置项

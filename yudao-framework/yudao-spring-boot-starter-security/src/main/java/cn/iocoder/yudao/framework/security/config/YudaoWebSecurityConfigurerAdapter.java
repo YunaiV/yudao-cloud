@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.framework.security.config;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.iocoder.yudao.framework.security.core.filter.TokenAuthenticationFilter;
 import cn.iocoder.yudao.framework.web.config.WebProperties;
 import com.google.common.collect.HashMultimap;
@@ -161,13 +162,14 @@ public class YudaoWebSecurityConfigurerAdapter {
                 continue;
             }
             Set<String> urls = entry.getKey().getPatternsCondition().getPatterns();
-            //未指定请求方法则将4个Restful方法均添加到 result 结果
+            // 特殊：使用 @RequestMapping 注解，并且未写 method 属性，此时认为都需要免登录
             Set<RequestMethod> methods = entry.getKey().getMethodsCondition().getMethods();
-            if (methods.isEmpty()) {
+            if (CollUtil.isEmpty(methods)) { //
                 result.putAll(HttpMethod.GET, urls);
                 result.putAll(HttpMethod.POST, urls);
                 result.putAll(HttpMethod.PUT, urls);
                 result.putAll(HttpMethod.DELETE, urls);
+                continue;
             }
             // 根据请求方法，添加到 result 结果
             methods.forEach(requestMethod -> {

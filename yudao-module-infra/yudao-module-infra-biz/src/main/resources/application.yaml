@@ -119,7 +119,7 @@ yudao:
   websocket:
     enable: true # websocket的开关
     path: /infra/ws # 路径
-    sender-type: redis # 消息发送的类型，可选值为 local、redis、rocketmq、kafka、rabbitmq
+    sender-type: local # 消息发送的类型，可选值为 local、redis、rocketmq、kafka、rabbitmq
     sender-rocketmq:
       topic: ${spring.application.name}-websocket # 消息发送的 RocketMQ Topic
       consumer-group: ${spring.application.name}-websocket-consumer # 消息发送的 RocketMQ Consumer Group

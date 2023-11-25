@@ -17,6 +17,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -160,8 +161,16 @@ public class YudaoWebSecurityConfigurerAdapter {
                 continue;
             }
             Set<String> urls = entry.getKey().getPatternsCondition().getPatterns();
+            //未指定请求方法则将4个Restful方法均添加到 result 结果
+            Set<RequestMethod> methods = entry.getKey().getMethodsCondition().getMethods();
+            if (methods.isEmpty()) {
+                result.putAll(HttpMethod.GET, urls);
+                result.putAll(HttpMethod.POST, urls);
+                result.putAll(HttpMethod.PUT, urls);
+                result.putAll(HttpMethod.DELETE, urls);
+            }
             // 根据请求方法，添加到 result 结果
-            entry.getKey().getMethodsCondition().getMethods().forEach(requestMethod -> {
+            methods.forEach(requestMethod -> {
                 switch (requestMethod) {
                     case GET:
                         result.putAll(HttpMethod.GET, urls);

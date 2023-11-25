@@ -64,7 +64,7 @@ public class CodegenBuilder {
      */
     public static final String TENANT_ID_FIELD = "tenantId";
     /**
-     * {@link BaseDO} 的字段
+     * {@link cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO} 的字段
      */
     public static final Set<String> BASE_DO_FIELDS = new HashSet<>();
     /**

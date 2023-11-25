@@ -61,6 +61,11 @@
             <artifactId>yudao-spring-boot-starter-security</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>cn.iocoder.cloud</groupId>
+            <artifactId>yudao-spring-boot-starter-websocket</artifactId>
+        </dependency>
+
         <!-- DB 相关 -->
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>
@@ -101,6 +106,10 @@
         </dependency>
 
         <!-- 消息队列相关 -->
+        <dependency>
+            <groupId>cn.iocoder.cloud</groupId>
+            <artifactId>yudao-spring-boot-starter-mq</artifactId>
+        </dependency>
 
         <!-- Test 测试相关 -->
         <dependency>

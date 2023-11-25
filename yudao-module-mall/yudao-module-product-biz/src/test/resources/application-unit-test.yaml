@@ -28,7 +28,7 @@ spring:
 
 mybatis-plus:
   lazy-initialization: true # 单元测试，设置 MyBatis Mapper 延迟加载，加速每个单元测试
-  type-aliases-package: ${yudao.info.base-package}.module.*.dal.dataobject
+  type-aliases-package: ${yudao.info.base-package}.dal.dataobject
 
 --- #################### 定时任务相关配置 ####################
 
@@ -47,4 +47,4 @@ mybatis-plus:
 # 芋道配置项，设置当前项目所有自定义的配置
 yudao:
   info:
-    base-package: cn.iocoder.yudao
+    base-package: cn.iocoder.yudao.module.product

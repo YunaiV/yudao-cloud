@@ -48,10 +48,6 @@
         </dependency>
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>
-            <artifactId>yudao-spring-boot-starter-biz-weixin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.iocoder.cloud</groupId>
             <artifactId>yudao-spring-boot-starter-biz-tenant</artifactId>
         </dependency>
 
@@ -114,6 +110,11 @@
             <artifactId>yudao-spring-boot-starter-excel</artifactId>
         </dependency>
 
+        <!-- 三方云服务相关 -->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>wx-java-mp-spring-boot-starter</artifactId> <!-- 微信登录（公众号） -->
+        </dependency>
     </dependencies>
 
 </project>

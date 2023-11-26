@@ -78,7 +78,7 @@
         <aliyun-java-sdk-core.version>4.6.4</aliyun-java-sdk-core.version>
         <aliyun-java-sdk-dysmsapi.version>2.2.1</aliyun-java-sdk-dysmsapi.version>
         <tencentcloud-sdk-java.version>3.1.853</tencentcloud-sdk-java.version>
-        <justauth.version>1.0.5</justauth.version>
+        <justauth.version>1.0.8</justauth.version>
         <jimureport.version>1.6.1</jimureport.version>
         <xercesImpl.version>2.12.2</xercesImpl.version>
         <weixin-java.version>4.5.0</weixin-java.version>
@@ -148,11 +148,6 @@
             <dependency>
                 <groupId>cn.iocoder.cloud</groupId>
                 <artifactId>yudao-spring-boot-starter-biz-data-permission</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.iocoder.cloud</groupId>
-                <artifactId>yudao-spring-boot-starter-biz-social</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>

@@ -64,6 +64,20 @@
 | [yudao-ui-admin-uniapp](https://gitee.com/yudaocode/yudao-ui-admin-uniapp) | [![Gitee star](https://gitee.com/yudaocode/yudao-ui-admin-uniapp/badge/star.svg?theme=white)](https://gitee.com/yudaocode/yudao-ui-admin-uniapp) [![GitHub stars](https://img.shields.io/github/stars/yudaocode/yudao-ui-admin-uniapp.svg?style=social&label=Stars)](https://github.com/yudaocode/yudao-ui-admin-uniapp) | 基于 Vue2 + element-ui 实现的管理后台           |
 | [yudao-ui-go-view](https://gitee.com/yudaocode/yudao-ui-go-view)           | [![Gitee star](https://gitee.com/yudaocode/yudao-ui-go-view/badge/star.svg?theme=white)](https://gitee.com/yudaocode/yudao-ui-go-view) [![GitHub stars](https://img.shields.io/github/stars/yudaocode/yudao-ui-go-view.svg?style=social&label=Stars)](https://github.com/yudaocode/yudao-ui-go-view)                     | 基于 Vue3 + naive-ui 实现的大屏报表             |
 
+## 🐰 分支说明
+
+|       | JDK 8 完整版                                               | JDK 17 完整版                                                                       |
+|-------|---------------------------------------------------------|----------------------------------------------------------------------------------|
+| 分支    | [`master`](https://gitee.com/zhijiantianya/yudao-cloud) | [`master-boot3`](https://gitee.com/zhijiantianya/yudao-cloud/tree/master-boot3/) |
+| 说明    | 包括所有功能                                                  | 适配 Spring Boot 3.X                                                               |
+| 系统功能  | √                                                       | √                                                                                |
+| 基础设施  | √                                                       | √                                                                                |
+| 会员中心  | √                                                       | √                                                                                |
+| 工作流程  | √                                                       | √                                                                                |
+| 数据报表  | √                                                       | 适配中                                                                              |
+| 商城系统  | √                                                       | √                                                                                |
+| 微信公众号 | √                                                       | √                                                                                |
+
 ## 😎 开源协议
 
 **为什么推荐使用本项目？**

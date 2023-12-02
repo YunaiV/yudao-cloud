@@ -2,9 +2,9 @@ package cn.iocoder.yudao.module.system.api.social;
 
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
+import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialWxJsapiSignatureRespDTO;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialWxPhoneNumberInfoRespDTO;
-import cn.iocoder.yudao.module.system.convert.social.SocialClientConvert;
 import cn.iocoder.yudao.module.system.service.social.SocialClientService;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import org.springframework.validation.annotation.Validated;
@@ -34,13 +34,13 @@ public class SocialClientApiImpl implements SocialClientApi {
     @Override
     public CommonResult<SocialWxJsapiSignatureRespDTO> createWxMpJsapiSignature(Integer userType, String url) {
         WxJsapiSignature signature = socialClientService.createWxMpJsapiSignature(userType, url);
-        return success(SocialClientConvert.INSTANCE.convert(signature));
+        return success(BeanUtils.toBean(signature, SocialWxJsapiSignatureRespDTO.class));
     }
 
     @Override
     public CommonResult<SocialWxPhoneNumberInfoRespDTO> getWxMaPhoneNumberInfo(Integer userType, String phoneCode) {
         WxMaPhoneNumberInfo info = socialClientService.getWxMaPhoneNumberInfo(userType, phoneCode);
-        return success(SocialClientConvert.INSTANCE.convert(info));
+        return success(BeanUtils.toBean(info, SocialWxPhoneNumberInfoRespDTO.class));
     }
 
 }

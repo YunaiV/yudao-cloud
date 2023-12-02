@@ -29,5 +29,4 @@ public class TenantPackagePageReqVO extends PageParam {
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
     @Schema(description = "创建时间")
     private LocalDateTime[] createTime;
-
 }

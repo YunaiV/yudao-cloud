@@ -1,16 +1,22 @@
 package cn.iocoder.yudao.module.system.service.user;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
 import cn.iocoder.yudao.module.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
 import cn.iocoder.yudao.module.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.user.vo.user.*;
-import cn.iocoder.yudao.framework.common.pojo.PageResult;
+import cn.iocoder.yudao.module.system.controller.admin.user.vo.user.UserImportExcelVO;
+import cn.iocoder.yudao.module.system.controller.admin.user.vo.user.UserImportRespVO;
+import cn.iocoder.yudao.module.system.controller.admin.user.vo.user.UserPageReqVO;
+import cn.iocoder.yudao.module.system.controller.admin.user.vo.user.UserSaveReqVO;
 import cn.iocoder.yudao.module.system.dal.dataobject.user.AdminUserDO;
 
 import javax.validation.Valid;
 import java.io.InputStream;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 后台用户 Service 接口
@@ -22,17 +28,17 @@ public interface AdminUserService {
     /**
      * 创建用户
      *
-     * @param reqVO 用户信息
+     * @param createReqVO 用户信息
      * @return 用户编号
      */
-    Long createUser(@Valid UserCreateReqVO reqVO);
+    Long createUser(@Valid UserSaveReqVO createReqVO);
 
     /**
      * 修改用户
      *
-     * @param reqVO 用户信息
+     * @param updateReqVO 用户信息
      */
-    void updateUser(@Valid UserUpdateReqVO reqVO);
+    void updateUser(@Valid UserSaveReqVO updateReqVO);
 
     /**
      * 更新用户的最后登陆信息
@@ -166,14 +172,6 @@ public interface AdminUserService {
         }
         return CollectionUtils.convertMap(getUserList(ids), AdminUserDO::getId);
     }
-
-    /**
-     * 获得用户列表
-     *
-     * @param reqVO 列表请求
-     * @return 用户列表
-     */
-    List<AdminUserDO> getUserList(UserExportReqVO reqVO);
 
     /**
      * 获得用户列表，基于昵称模糊匹配

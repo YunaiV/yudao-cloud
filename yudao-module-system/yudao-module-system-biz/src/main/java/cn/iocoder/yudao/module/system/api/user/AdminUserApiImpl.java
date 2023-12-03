@@ -1,8 +1,8 @@
 package cn.iocoder.yudao.module.system.api.user;
 
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
+import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO;
-import cn.iocoder.yudao.module.system.convert.user.UserConvert;
 import cn.iocoder.yudao.module.system.dal.dataobject.user.AdminUserDO;
 import cn.iocoder.yudao.module.system.service.user.AdminUserService;
 import org.springframework.validation.annotation.Validated;
@@ -25,25 +25,25 @@ public class AdminUserApiImpl implements AdminUserApi {
     @Override
     public CommonResult<AdminUserRespDTO> getUser(Long id) {
         AdminUserDO user = userService.getUser(id);
-        return success(UserConvert.INSTANCE.convert4(user));
+        return success(BeanUtils.toBean(user, AdminUserRespDTO.class));
     }
 
     @Override
     public CommonResult<List<AdminUserRespDTO>> getUserList(Collection<Long> ids) {
         List<AdminUserDO> users = userService.getUserList(ids);
-        return success(UserConvert.INSTANCE.convertList4(users));
+        return success(BeanUtils.toBean(users, AdminUserRespDTO.class));
     }
 
     @Override
     public CommonResult<List<AdminUserRespDTO>> getUserListByDeptIds(Collection<Long> deptIds) {
         List<AdminUserDO> users = userService.getUserListByDeptIds(deptIds);
-        return success(UserConvert.INSTANCE.convertList4(users));
+        return success(BeanUtils.toBean(users, AdminUserRespDTO.class));
     }
 
     @Override
     public CommonResult<List<AdminUserRespDTO>> getUserListByPostIds(Collection<Long> postIds) {
         List<AdminUserDO> users = userService.getUserListByPostIds(postIds);
-        return success(UserConvert.INSTANCE.convertList4(users));
+        return success(BeanUtils.toBean(users, AdminUserRespDTO.class));
     }
 
     @Override

@@ -11,9 +11,8 @@ import cn.iocoder.yudao.framework.file.core.client.local.LocalFileClient;
 import cn.iocoder.yudao.framework.file.core.client.local.LocalFileClientConfig;
 import cn.iocoder.yudao.framework.file.core.enums.FileStorageEnum;
 import cn.iocoder.yudao.framework.test.core.ut.BaseDbUnitTest;
-import cn.iocoder.yudao.module.infra.controller.admin.file.vo.config.FileConfigCreateReqVO;
 import cn.iocoder.yudao.module.infra.controller.admin.file.vo.config.FileConfigPageReqVO;
-import cn.iocoder.yudao.module.infra.controller.admin.file.vo.config.FileConfigUpdateReqVO;
+import cn.iocoder.yudao.module.infra.controller.admin.file.vo.config.FileConfigSaveReqVO;
 import cn.iocoder.yudao.module.infra.dal.dataobject.file.FileConfigDO;
 import cn.iocoder.yudao.module.infra.dal.mysql.file.FileConfigMapper;
 import lombok.Data;
@@ -64,8 +63,9 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         Map<String, Object> config = MapUtil.<String, Object>builder().put("basePath", "/yunai")
                 .put("domain", "https://www.iocoder.cn").build();
-        FileConfigCreateReqVO reqVO = randomPojo(FileConfigCreateReqVO.class,
-                o -> o.setStorage(FileStorageEnum.LOCAL.getStorage()).setConfig(config));
+        FileConfigSaveReqVO reqVO = randomPojo(FileConfigSaveReqVO.class,
+                o -> o.setStorage(FileStorageEnum.LOCAL.getStorage()).setConfig(config))
+                .setId(null); // 避免 id 被赋值
 
         // 调用
         Long fileConfigId = fileConfigService.createFileConfig(reqVO);
@@ -73,7 +73,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
         assertNotNull(fileConfigId);
         // 校验记录的属性是否正确
         FileConfigDO fileConfig = fileConfigMapper.selectById(fileConfigId);
-        assertPojoEquals(reqVO, fileConfig, "config");
+        assertPojoEquals(reqVO, fileConfig, "id", "config");
         assertFalse(fileConfig.getMaster());
         assertEquals("/yunai", ((LocalFileClientConfig) fileConfig.getConfig()).getBasePath());
         assertEquals("https://www.iocoder.cn", ((LocalFileClientConfig) fileConfig.getConfig()).getDomain());
@@ -88,8 +88,9 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
                 .setConfig(new LocalFileClientConfig().setBasePath("/yunai").setDomain("https://www.iocoder.cn")));
         fileConfigMapper.insert(dbFileConfig);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        FileConfigUpdateReqVO reqVO = randomPojo(FileConfigUpdateReqVO.class, o -> {
+        FileConfigSaveReqVO reqVO = randomPojo(FileConfigSaveReqVO.class, o -> {
             o.setId(dbFileConfig.getId()); // 设置更新的 ID
+            o.setStorage(FileStorageEnum.LOCAL.getStorage());
             Map<String, Object> config = MapUtil.<String, Object>builder().put("basePath", "/yunai2")
                     .put("domain", "https://doc.iocoder.cn").build();
             o.setConfig(config);
@@ -109,7 +110,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateFileConfig_notExists() {
         // 准备参数
-        FileConfigUpdateReqVO reqVO = randomPojo(FileConfigUpdateReqVO.class);
+        FileConfigSaveReqVO reqVO = randomPojo(FileConfigSaveReqVO.class);
 
         // 调用, 并断言异常
         assertServiceException(() -> fileConfigService.updateFileConfig(reqVO), FILE_CONFIG_NOT_EXISTS);

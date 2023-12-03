@@ -43,7 +43,8 @@ public class PostServiceImplTest extends BaseDbUnitTest {
     public void testCreatePost_success() {
         // 准备参数
         PostSaveReqVO reqVO = randomPojo(PostSaveReqVO.class,
-                o -> o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()));
+                o -> o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()))
+                .setId(null); // 防止 id 被设置
         // 调用
         Long postId = postService.createPost(reqVO);
 
@@ -51,7 +52,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         assertNotNull(postId);
         // 校验记录的属性是否正确
         PostDO post = postMapper.selectById(postId);
-        assertPojoEquals(reqVO, post);
+        assertPojoEquals(reqVO, post, "id");
     }
 
     @Test
@@ -102,8 +103,8 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         postMapper.insert(postDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
         PostSaveReqVO reqVO = randomPojo(PostSaveReqVO.class,
-                // 模拟 name 重复
-                o -> o.setName(postDO.getName()));
+            // 模拟 name 重复
+            o -> o.setName(postDO.getName()));
         assertServiceException(() -> postService.createPost(reqVO), POST_NAME_DUPLICATE);
     }
 
@@ -225,4 +226,5 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         };
         return randomPojo(PostDO.class, ArrayUtils.append(consumer, consumers));
     }
+
 }

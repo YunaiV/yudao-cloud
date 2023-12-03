@@ -1,8 +1,8 @@
 package cn.iocoder.yudao.module.system.api.dept;
 
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
+import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.module.system.api.dept.dto.DeptRespDTO;
-import cn.iocoder.yudao.module.system.convert.dept.DeptConvert;
 import cn.iocoder.yudao.module.system.dal.dataobject.dept.DeptDO;
 import cn.iocoder.yudao.module.system.service.dept.DeptService;
 import org.springframework.validation.annotation.Validated;
@@ -24,13 +24,13 @@ public class DeptApiImpl implements DeptApi {
     @Override
     public CommonResult<DeptRespDTO> getDept(Long id) {
         DeptDO dept = deptService.getDept(id);
-        return success(DeptConvert.INSTANCE.convert03(dept));
+        return success(BeanUtils.toBean(dept, DeptRespDTO.class));
     }
 
     @Override
     public CommonResult<List<DeptRespDTO>> getDeptList(Collection<Long> ids) {
         List<DeptDO> depts = deptService.getDeptList(ids);
-        return success(DeptConvert.INSTANCE.convertList03(depts));
+        return success(BeanUtils.toBean(depts, DeptRespDTO.class));
     }
 
     @Override

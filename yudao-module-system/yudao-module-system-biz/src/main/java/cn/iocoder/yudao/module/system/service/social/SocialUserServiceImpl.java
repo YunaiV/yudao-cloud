@@ -59,7 +59,7 @@ public class SocialUserServiceImpl implements SocialUserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public String bindSocialUser(SocialUserBindReqDTO reqDTO) {
         // 获得社交用户
         SocialUserDO socialUser = authSocialUser(reqDTO.getSocialType(), reqDTO.getUserType(),
@@ -108,7 +108,6 @@ public class SocialUserServiceImpl implements SocialUserService {
         return new SocialUserRespDTO(socialUser.getOpenid(), socialUserBind.getUserId());
     }
 
-    // TODO 芋艿：调整下单测
     /**
      * 授权获得对应的社交用户
      * 如果授权失败，则会抛出 {@link ServiceException} 异常

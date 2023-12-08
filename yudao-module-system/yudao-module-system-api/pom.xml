@@ -24,9 +24,9 @@
 
         <!-- Web 相关 -->
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <scope>provided</scope> <!-- 设置为 provided，主要是 PageParam 使用到 -->
+            <groupId>org.springdoc</groupId> <!-- 接口文档：使用最新版本的 Swagger 模型 -->
+            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- 参数校验 -->

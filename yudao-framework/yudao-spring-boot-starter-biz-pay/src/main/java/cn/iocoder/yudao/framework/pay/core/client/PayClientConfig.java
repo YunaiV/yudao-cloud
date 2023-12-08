@@ -2,7 +2,7 @@ package cn.iocoder.yudao.framework.pay.core.client;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-import javax.validation.Validator;
+import jakarta.validation.Validator;
 
 /**
  * 支付客户端的配置，本质是支付渠道的配置

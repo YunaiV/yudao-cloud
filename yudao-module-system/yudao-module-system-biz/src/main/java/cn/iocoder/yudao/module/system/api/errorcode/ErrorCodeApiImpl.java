@@ -7,7 +7,7 @@ import cn.iocoder.yudao.module.system.service.errorcode.ErrorCodeService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 

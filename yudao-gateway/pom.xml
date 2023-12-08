@@ -52,11 +52,6 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>com.github.xiaoymin</groupId> <!-- 接口文档 -->
             <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
         </dependency>

@@ -3,7 +3,7 @@ package cn.iocoder.yudao.module.infra.api.logger.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Schema(description = "RPC 服务 - API 访问日志创建 Request DTO")

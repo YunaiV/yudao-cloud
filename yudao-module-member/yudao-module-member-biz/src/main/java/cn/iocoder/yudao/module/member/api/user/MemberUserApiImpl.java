@@ -8,7 +8,7 @@ import cn.iocoder.yudao.module.member.service.user.MemberUserService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 

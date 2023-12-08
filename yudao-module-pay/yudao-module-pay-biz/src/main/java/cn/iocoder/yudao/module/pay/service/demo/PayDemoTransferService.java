@@ -2,7 +2,7 @@ package cn.iocoder.yudao.module.pay.service.demo;
 
 import cn.iocoder.yudao.module.pay.controller.admin.demo.vo.transfer.PayDemoTransferCreateReqVO;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * 示例转账业务 Service 接口

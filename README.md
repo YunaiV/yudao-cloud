@@ -1,3 +1,10 @@
+<p align="center">
+ <img src="https://img.shields.io/badge/Spring%20Cloud-2023-blue.svg" alt="Coverage Status">
+ <img src="https://img.shields.io/badge/Spring%20Boot-3.2-blue.svg" alt="Downloads">
+ <img src="https://img.shields.io/badge/Vue-3.2-blue.svg" alt="Downloads">
+ <img src="https://img.shields.io/github/license/YunaiV/yudao-cloud" alt="Downloads" />
+</p>
+
 **严肃声明：现在、未来都不会有商业版本，所有代码全部开源！**
 
 **「我喜欢写代码，乐此不疲」**  
@@ -25,6 +32,7 @@
 
 ![架构图](/.image/common/yudao-cloud-architecture.png)
 
+* Java 后端：`master` 分支为 JDK 21 + Spring Boot 3.2.0，`master-jdk8` 分支为 JDK8 + Spring Boot 2.7.18
 * 管理后台的电脑端：Vue3 提供 [element-plus](https://gitee.com/yudaocode/yudao-ui-admin-vue3)、[vben(ant-design-vue)](https://gitee.com/yudaocode/yudao-ui-admin-vben) 两个版本，Vue2 提供 [element-ui](https://gitee.com/zhijiantianya/ruoyi-vue-pro/tree/master/yudao-ui-admin) 版本
 * 管理后台的移动端：采用 [uni-app](https://github.com/dcloudio/uni-app) 方案，一份代码多终端适配，同时支持 APP、小程序、H5！
 * 后端采用 Spring Cloud Alibaba 微服务架构，注册中心 + 配置中心 Nacos，定时任务 XXL-Job，服务保障 Sentinel，服务网关 Gateway，分布式事务 Seata
@@ -66,17 +74,8 @@
 
 ## 🐰 分支说明
 
-|       | JDK 8 完整版                                               | JDK 17 完整版                                                                       |
-|-------|---------------------------------------------------------|----------------------------------------------------------------------------------|
-| 分支    | [`master`](https://gitee.com/zhijiantianya/yudao-cloud) | [`master-boot3`](https://gitee.com/zhijiantianya/yudao-cloud/tree/master-boot3/) |
-| 说明    | 包括所有功能                                                  | 适配 Spring Boot 3.X                                                               |
-| 系统功能  | √                                                       | √                                                                                |
-| 基础设施  | √                                                       | √                                                                                |
-| 会员中心  | √                                                       | √                                                                                |
-| 工作流程  | √                                                       | √                                                                                |
-| 数据报表  | √                                                       | 适配中                                                                              |
-| 商城系统  | √                                                       | √                                                                                |
-| 微信公众号 | √                                                       | √                                                                                |
+* JDK 21 + Spring Boot 3.2.0 版本：<https://gitee.com/zhijiantianya/yudao-cloud> 的 `master` 分支
+* JDK 8 + Spring Boot 2.7.18 版本：<https://gitee.com/zhijiantianya/yudao-cloud> 的 `master-jdk8` 分支
 
 ## 😎 开源协议
 
@@ -255,31 +254,31 @@ _前端基于 crmeb uniapp 经过授权重构，优化代码实现，接入芋�
 
 | 框架                                                                                          | 说明               | 版本          | 学习指南                                                                |
 |---------------------------------------------------------------------------------------------|------------------|-------------|---------------------------------------------------------------------|
-| [Spring Cloud Alibaba](https://github.com/alibaba/spring-cloud-alibaba)                     | 微服务框架            | 2021.0.4.0  | [文档](https://github.com/YunaiV/SpringBoot-Labs)                     |
-| [Nacos](https://github.com/alibaba/nacos)                                                   | 配置中心 & 注册中心      | 2.0.4       | [文档](https://www.iocoder.cn/categories/Nacos/?yudao)                |
+| [Spring Cloud Alibaba](https://github.com/alibaba/spring-cloud-alibaba)                     | 微服务框架            | 2022.0.0.0  | [文档](https://github.com/YunaiV/SpringBoot-Labs)                     |
+| [Nacos](https://github.com/alibaba/nacos)                                                   | 配置中心 & 注册中心      | 2.2.1       | [文档](https://www.iocoder.cn/categories/Nacos/?yudao)                |
 | [RocketMQ](https://github.com/apache/rocketmq)                                              | 消息队列             | 4.9.4       | [文档](https://www.iocoder.cn/categories/RocketMQ/?yudao)             |
 | [Sentinel](https://github.com/alibaba/sentinel)                                             | 服务保障             | 1.8.6       | [文档](https://www.iocoder.cn/categories/Sentinel/?yudao)             |
-| [XXL Job](https://github.com/xuxueli/xxl-job)                                               | 定时任务             | 2.3.1       | [文档](https://www.iocoder.cn/XXL-JOB/good-collection/?yudao)         |
-| [Spring Cloud Gateway](https://github.com/spring-cloud/spring-cloud-gateway)                | 服务网关             | 3.4.1       | [文档](https://www.iocoder.cn/categories/Spring-Cloud-Gateway/?yudao) |
+| [XXL Job](https://github.com/xuxueli/xxl-job)                                               | 定时任务             | 2.4.0       | [文档](https://www.iocoder.cn/XXL-JOB/good-collection/?yudao)         |
+| [Spring Cloud Gateway](https://github.com/spring-cloud/spring-cloud-gateway)                | 服务网关             | 4.1.0       | [文档](https://www.iocoder.cn/categories/Spring-Cloud-Gateway/?yudao) |
 | [Seata](https://github.com/seata/seata)                                                     | 分布式事务            | 1.6.1       | [文档](https://www.iocoder.cn/categories/Seata/?yudao)                |
 | [MySQL](https://www.mysql.com/cn/)                                                          | 数据库服务器           | 5.7 / 8.0+  |                                                                     |
-| [Druid](https://github.com/alibaba/druid)                                                   | JDBC 连接池、监控组件    | 1.2.19      | [文档](http://www.iocoder.cn/Spring-Boot/datasource-pool/?yudao)      |
-| [MyBatis Plus](https://mp.baomidou.com/)                                                    | MyBatis 增强工具包    | 3.5.3.1     | [文档](http://www.iocoder.cn/Spring-Boot/MyBatis/?yudao)              |
-| [Dynamic Datasource](https://dynamic-datasource.com/)                                       | 动态数据源            | 3.6.0       | [文档](http://www.iocoder.cn/Spring-Boot/datasource-pool/?yudao)      |
+| [Druid](https://github.com/alibaba/druid)                                                   | JDBC 连接池、监控组件    | 1.2.20      | [文档](http://www.iocoder.cn/Spring-Boot/datasource-pool/?yudao)      |
+| [MyBatis Plus](https://mp.baomidou.com/)                                                    | MyBatis 增强工具包    | 3.5.4.1     | [文档](http://www.iocoder.cn/Spring-Boot/MyBatis/?yudao)              |
+| [Dynamic Datasource](https://dynamic-datasource.com/)                                       | 动态数据源            | 4.2.0       | [文档](http://www.iocoder.cn/Spring-Boot/datasource-pool/?yudao)      |
 | [Redis](https://redis.io/)                                                                  | key-value 数据库    | 5.0 / 6.0   |                                                                     |
-| [Redisson](https://github.com/redisson/redisson)                                            | Redis 客户端        | 3.18.0      | [文档](http://www.iocoder.cn/Spring-Boot/Redis/?yudao)                |
-| [Spring MVC](https://github.com/spring-projects/spring-framework/tree/master/spring-webmvc) | MVC 框架           | 5.3.24      | [文档](http://www.iocoder.cn/SpringMVC/MVC/?yudao)                    |
-| [Spring Security](https://github.com/spring-projects/spring-security)                       | Spring 安全框架      | 5.7.5       | [文档](http://www.iocoder.cn/Spring-Boot/Spring-Security/?yudao)      |
-| [Hibernate Validator](https://github.com/hibernate/hibernate-validator)                     | 参数校验组件           | 6.2.5       | [文档](http://www.iocoder.cn/Spring-Boot/Validation/?yudao)           |
-| [Flowable](https://github.com/flowable/flowable-engine)                                     | 工作流引擎            | 6.7.2       | [文档](https://doc.iocoder.cn/bpm/)                                   |
-| [Knife4j](https://gitee.com/xiaoym/knife4j)                                                 | Swagger 增强 UI 实现 | 4.0.0       | [文档](http://www.iocoder.cn/Spring-Boot/Swagger/?yudao)              |
-| [SkyWalking](https://skywalking.apache.org/)                                                | 分布式应用追踪系统        | 8.12.0      | [文档](http://www.iocoder.cn/Spring-Boot/SkyWalking/?yudao)           |
-| [Spring Boot Admin](https://github.com/codecentric/spring-boot-admin)                       | Spring Boot 监控平台 | 2.7.10      | [文档](http://www.iocoder.cn/Spring-Boot/Admin/?yudao)                |
-| [Jackson](https://github.com/FasterXML/jackson)                                             | JSON 工具库         | 2.13.3      |                                                                     |
+| [Redisson](https://github.com/redisson/redisson)                                            | Redis 客户端        | 3.25.0      | [文档](http://www.iocoder.cn/Spring-Boot/Redis/?yudao)                |
+| [Spring MVC](https://github.com/spring-projects/spring-framework/tree/master/spring-webmvc) | MVC 框架           | 6.1.1       | [文档](http://www.iocoder.cn/SpringMVC/MVC/?yudao)                    |
+| [Spring Security](https://github.com/spring-projects/spring-security)                       | Spring 安全框架      | 6.2.0       | [文档](http://www.iocoder.cn/Spring-Boot/Spring-Security/?yudao)      |
+| [Hibernate Validator](https://github.com/hibernate/hibernate-validator)                     | 参数校验组件           | 8.0.1       | [文档](http://www.iocoder.cn/Spring-Boot/Validation/?yudao)           |
+| [Flowable](https://github.com/flowable/flowable-engine)                                     | 工作流引擎            | 7.0.0       | [文档](https://doc.iocoder.cn/bpm/)                                   |
+| [Knife4j](https://gitee.com/xiaoym/knife4j)                                                 | Swagger 增强 UI 实现 | 4.4.0       | [文档](http://www.iocoder.cn/Spring-Boot/Swagger/?yudao)              |
+| [SkyWalking](https://skywalking.apache.org/)                                                | 分布式应用追踪系统        | 9.0.0       | [文档](http://www.iocoder.cn/Spring-Boot/SkyWalking/?yudao)           |
+| [Spring Boot Admin](https://github.com/codecentric/spring-boot-admin)                       | Spring Boot 监控平台 | 3.6.1       | [文档](http://www.iocoder.cn/Spring-Boot/Admin/?yudao)                |
+| [Jackson](https://github.com/FasterXML/jackson)                                             | JSON 工具库         | 2.15.3      |                                                                     |
 | [MapStruct](https://mapstruct.org/)                                                         | Java Bean 转换     | 1.5.5.Final | [文档](http://www.iocoder.cn/Spring-Boot/MapStruct/?yudao)            |
-| [Lombok](https://projectlombok.org/)                                                        | 消除冗长的 Java 代码    | 1.18.26     | [文档](http://www.iocoder.cn/Spring-Boot/Lombok/?yudao)               |
-| [JUnit](https://junit.org/junit5/)                                                          | Java 单元测试框架      | 5.8.2       | -                                                                   |
-| [Mockito](https://github.com/mockito/mockito)                                               | Java Mock 框架     | 4.8.0       | -                                                                   |
+| [Lombok](https://projectlombok.org/)                                                        | 消除冗长的 Java 代码    | 1.18.30     | [文档](http://www.iocoder.cn/Spring-Boot/Lombok/?yudao)               |
+| [JUnit](https://junit.org/junit5/)                                                          | Java 单元测试框架      | 5.10.1      | -                                                                   |
+| [Mockito](https://github.com/mockito/mockito)                                               | Java Mock 框架     | 5.7.0       | -                                                                   |
 
 ## 🐷 演示图
 

@@ -3,7 +3,7 @@ package cn.iocoder.yudao.module.product.api.comment.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 @Schema(description = "RPC 服务 - 商品评论创建 Request DTO")

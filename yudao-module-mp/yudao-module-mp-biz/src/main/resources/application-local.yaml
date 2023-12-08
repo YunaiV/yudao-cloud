@@ -3,7 +3,6 @@ spring:
   # 数据源配置项
   autoconfigure:
     exclude:
-      - com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure # 排除 Druid 的自动配置，使用 dynamic-datasource-spring-boot-starter 配置多数据源
       - de.codecentric.boot.admin.client.config.SpringBootAdminClientAutoConfiguration # 禁用 Spring Boot Admin 的 Client 的自动配置
   datasource:
     druid: # Druid 【监控】相关的全局配置
@@ -63,11 +62,12 @@ spring:
   #          password: JSm:g(*%lU4ZAkz06cd52KqT3)i1?H7W
 
   # Redis 配置。Redisson 默认的配置足够使用，一般不需要进行调优
-  redis:
-    host: 127.0.0.1 # 地址
-    port: 6379 # 端口
-    database: 0 # 数据库索引
-#    password: 123456 # 密码，建议生产环境开启
+  data:
+    redis:
+      host: 127.0.0.1 # 地址
+      port: 6379 # 端口
+      database: 0 # 数据库索引
+#      password: 123456 # 密码，建议生产环境开启
 
 --- #################### MQ 消息队列相关配置 ####################
 

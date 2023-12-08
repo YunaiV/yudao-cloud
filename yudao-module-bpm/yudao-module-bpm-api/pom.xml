@@ -24,8 +24,8 @@
 
         <!-- Web 相关 -->
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
+            <groupId>org.springdoc</groupId> <!-- 接口文档：使用最新版本的 Swagger 模型 -->
+            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
             <scope>provided</scope>
         </dependency>
 

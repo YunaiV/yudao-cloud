@@ -68,6 +68,10 @@ spring:
             - Path=/admin-api/report/**
           filters:
             - RewritePath=/admin-api/report/v3/api-docs, /v3/api-docs
+        - id: report-jimu # 路由的编号（积木报表）
+          uri: grayLb://report-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/jmreport/**
         ## pay-server 服务
         - id: pay-admin-api # 路由的编号
           uri: grayLb://pay-server

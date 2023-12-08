@@ -1,3 +1,10 @@
+<p align="center">
+ <img src="https://img.shields.io/badge/Spring%20Cloud-2021-blue.svg" alt="Coverage Status">
+ <img src="https://img.shields.io/badge/Spring%20Boot-2.7.18-blue.svg" alt="Downloads">
+ <img src="https://img.shields.io/badge/Vue-3.2-blue.svg" alt="Downloads">
+ <img src="https://img.shields.io/github/license/YunaiV/yudao-cloud" alt="Downloads" />
+</p>
+
 **严肃声明：现在、未来都不会有商业版本，所有代码全部开源！**
 
 **「我喜欢写代码，乐此不疲」**  
@@ -25,6 +32,7 @@
 
 ![架构图](/.image/common/yudao-cloud-architecture.png)
 
+* Java 后端：`master` 分支为 JDK 21 + Spring Boot 3.2.0，`master-jdk8` 分支为 JDK8 + Spring Boot 2.7.18
 * 管理后台的电脑端：Vue3 提供 [element-plus](https://gitee.com/yudaocode/yudao-ui-admin-vue3)、[vben(ant-design-vue)](https://gitee.com/yudaocode/yudao-ui-admin-vben) 两个版本，Vue2 提供 [element-ui](https://gitee.com/zhijiantianya/ruoyi-vue-pro/tree/master/yudao-ui-admin) 版本
 * 管理后台的移动端：采用 [uni-app](https://github.com/dcloudio/uni-app) 方案，一份代码多终端适配，同时支持 APP、小程序、H5！
 * 后端采用 Spring Cloud Alibaba 微服务架构，注册中心 + 配置中心 Nacos，定时任务 XXL-Job，服务保障 Sentinel，服务网关 Gateway，分布式事务 Seata
@@ -66,17 +74,8 @@
 
 ## 🐰 分支说明
 
-|       | JDK 8 完整版                                               | JDK 17 完整版                                                                       |
-|-------|---------------------------------------------------------|----------------------------------------------------------------------------------|
-| 分支    | [`master`](https://gitee.com/zhijiantianya/yudao-cloud) | [`master-boot3`](https://gitee.com/zhijiantianya/yudao-cloud/tree/master-boot3/) |
-| 说明    | 包括所有功能                                                  | 适配 Spring Boot 3.X                                                               |
-| 系统功能  | √                                                       | √                                                                                |
-| 基础设施  | √                                                       | √                                                                                |
-| 会员中心  | √                                                       | √                                                                                |
-| 工作流程  | √                                                       | √                                                                                |
-| 数据报表  | √                                                       | 适配中                                                                              |
-| 商城系统  | √                                                       | √                                                                                |
-| 微信公众号 | √                                                       | √                                                                                |
+* JDK 21 + Spring Boot 3.2.0 版本：<https://gitee.com/zhijiantianya/yudao-cloud> 的 `master` 分支
+* JDK 8 + Spring Boot 2.7.18 版本：<https://gitee.com/zhijiantianya/yudao-cloud> 的 `master-jdk8` 分支
 
 ## 😎 开源协议
 

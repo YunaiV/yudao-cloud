@@ -3,7 +3,7 @@ package cn.iocoder.yudao.module.bpm.controller.admin.task.vo.instance;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import jakarta.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 import java.util.Map;
 
 @Schema(description = "管理后台 - 流程实例的创建 Request VO")

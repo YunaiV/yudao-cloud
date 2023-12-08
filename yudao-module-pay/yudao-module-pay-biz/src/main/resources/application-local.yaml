@@ -3,6 +3,7 @@ spring:
   # 数据源配置项
   autoconfigure:
     exclude:
+      - com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure # 排除 Druid 的自动配置，使用 dynamic-datasource-spring-boot-starter 配置多数据源
       - de.codecentric.boot.admin.client.config.SpringBootAdminClientAutoConfiguration # 禁用 Spring Boot Admin 的 Client 的自动配置
   datasource:
     druid: # Druid 【监控】相关的全局配置

@@ -3,8 +3,8 @@ package cn.iocoder.yudao.module.pay.controller.admin.transfer.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Schema(description = "管理后台 - 转账单提交 Request VO")

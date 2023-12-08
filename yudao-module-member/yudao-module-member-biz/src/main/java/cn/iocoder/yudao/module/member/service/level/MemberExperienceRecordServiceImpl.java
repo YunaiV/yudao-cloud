@@ -11,7 +11,9 @@ import cn.iocoder.yudao.module.member.enums.MemberExperienceBizTypeEnum;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 会员经验记录 Service 实现类

@@ -46,12 +46,12 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+            <groupId>com.github.xiaoymin</groupId> <!-- 接口文档 -->
+            <artifactId>knife4j-openapi3-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+            <groupId>org.springdoc</groupId>  <!-- 接口文档 -->
+            <artifactId>springdoc-openapi-ui</artifactId>
         </dependency>
 
         <!-- RPC 远程调用相关 -->
@@ -67,13 +67,6 @@
             <artifactId>yudao-module-infra-api</artifactId> <!-- 需要使用它，进行操作日志的记录 -->
             <version>${revision}</version>
         </dependency>
-
-        <!-- xss -->
-        <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-        </dependency>
-
     </dependencies>
 
 </project>

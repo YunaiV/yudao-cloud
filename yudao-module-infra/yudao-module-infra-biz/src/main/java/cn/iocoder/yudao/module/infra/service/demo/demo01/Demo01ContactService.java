@@ -5,7 +5,7 @@ import cn.iocoder.yudao.module.infra.controller.admin.demo.demo01.vo.Demo01Conta
 import cn.iocoder.yudao.module.infra.controller.admin.demo.demo01.vo.Demo01ContactSaveReqVO;
 import cn.iocoder.yudao.module.infra.dal.dataobject.demo.demo01.Demo01ContactDO;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 
 /**
  * 示例联系人 Service 接口

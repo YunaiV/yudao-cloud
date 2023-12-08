@@ -6,7 +6,7 @@ import cn.iocoder.yudao.module.pay.controller.admin.wallet.vo.rechargepackage.Wa
 import cn.iocoder.yudao.module.pay.controller.admin.wallet.vo.rechargepackage.WalletRechargePackageUpdateReqVO;
 import cn.iocoder.yudao.module.pay.dal.dataobject.wallet.PayWalletRechargePackageDO;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 
 /**
  * 钱包充值套餐 Service 接口

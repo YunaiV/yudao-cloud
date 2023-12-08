@@ -6,7 +6,7 @@ import cn.iocoder.yudao.module.promotion.service.coupon.CouponService;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 
 // TODO 芋艿：配置一个 Job
 /**

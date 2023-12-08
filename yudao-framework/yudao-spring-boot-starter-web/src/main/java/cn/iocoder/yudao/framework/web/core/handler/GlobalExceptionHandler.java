@@ -3,7 +3,6 @@ package cn.iocoder.yudao.framework.web.core.handler;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.iocoder.yudao.framework.apilog.core.service.ApiErrorLog;
 import cn.iocoder.yudao.framework.common.exception.ServiceException;
@@ -27,10 +26,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.ValidationException;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
@@ -270,12 +269,12 @@ public class GlobalExceptionHandler {
         errorLog.setApplicationName(applicationName);
         errorLog.setRequestUrl(request.getRequestURI());
         Map<String, Object> requestParams = MapUtil.<String, Object>builder()
-                .put("query", JakartaServletUtil.getParamMap(request))
-                .put("body", JakartaServletUtil.getBody(request)).build();
+                .put("query", ServletUtil.getParamMap(request))
+                .put("body", ServletUtil.getBody(request)).build();
         errorLog.setRequestParams(JsonUtils.toJsonString(requestParams));
         errorLog.setRequestMethod(request.getMethod());
         errorLog.setUserAgent(ServletUtils.getUserAgent(request));
-        errorLog.setUserIp(JakartaServletUtil.getClientIP(request));
+        errorLog.setUserIp(ServletUtil.getClientIP(request));
         errorLog.setExceptionTime(LocalDateTime.now());
     }
 

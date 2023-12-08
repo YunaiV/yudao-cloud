@@ -4,7 +4,7 @@ import cn.iocoder.yudao.module.pay.api.transfer.dto.PayTransferCreateReqDTO;
 import cn.iocoder.yudao.module.pay.controller.admin.transfer.vo.PayTransferSubmitReqVO;
 import cn.iocoder.yudao.module.pay.controller.admin.transfer.vo.PayTransferSubmitRespVO;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 
 /**
  * 转账 Service 接口

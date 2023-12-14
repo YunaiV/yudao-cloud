@@ -30,8 +30,8 @@ public interface CouponApi {
     @Parameter(name = "id", description = "优惠券编号", required = true, example = "1")
     CommonResult<Boolean> returnUsedCoupon(@RequestParam("id") Long id);
 
-    @GetMapping(PREFIX + "/validate")
+    @PostMapping(PREFIX + "/validate")
     @Operation(summary = "校验优惠劵")
-    CommonResult<CouponRespDTO> validateCoupon(@Valid CouponValidReqDTO validReqDTO);
+    CommonResult<CouponRespDTO> validateCoupon(@RequestBody @Valid CouponValidReqDTO validReqDTO);
 
 }

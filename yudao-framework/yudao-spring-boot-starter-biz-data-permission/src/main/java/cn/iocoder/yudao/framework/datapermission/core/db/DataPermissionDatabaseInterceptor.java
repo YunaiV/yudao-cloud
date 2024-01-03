@@ -495,7 +495,6 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
         // 生成条件
         Expression allExpression = null;
         for (DataPermissionRule rule : ContextHolder.getRules()) {
-
             String tableName = MyBatisUtils.getTableName(table);
             // 判断表名是否匹配
             if (!rule.getTableNames().contains(tableName)) {

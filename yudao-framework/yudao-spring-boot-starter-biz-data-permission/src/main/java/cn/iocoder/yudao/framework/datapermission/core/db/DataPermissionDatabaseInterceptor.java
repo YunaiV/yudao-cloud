@@ -495,8 +495,10 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
         // 生成条件
         Expression allExpression = null;
         for (DataPermissionRule rule : ContextHolder.getRules()) {
+
+            String tableName = MyBatisUtils.getTableName(table);
             // 判断表名是否匹配
-            if (!rule.getTableNames().contains(table.getName())) {
+            if (!rule.getTableNames().contains(tableName)) {
                 continue;
             }
             // 如果有匹配的规则，说明可重写。
@@ -505,7 +507,6 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
             ContextHolder.setRewrite(true);
 
             // 单条规则的条件
-            String tableName = MyBatisUtils.getTableName(table);
             Expression oneExpress = rule.getExpression(tableName, table.getAlias());
             if (oneExpress == null){
                 continue;

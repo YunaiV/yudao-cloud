@@ -244,7 +244,8 @@ public class MemberLevelServiceImpl implements MemberLevelService {
         MemberLevelRecordDO levelRecord = new MemberLevelRecordDO()
                 .setUserId(user.getId())
                 .setExperience(experience)
-                .setUserExperience(userExperience);
+                .setUserExperience(userExperience)
+                .setLevelId(user.getLevelId());
         memberExperienceRecordService.createExperienceRecord(userId, experience, userExperience,
                 bizType, bizId);
 

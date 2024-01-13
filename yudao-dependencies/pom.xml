@@ -26,10 +26,10 @@
         <knife4j.version>4.3.0</knife4j.version>
         <!-- DB 相关 -->
         <druid.version>1.2.19</druid.version>
-        <mybatis-plus.version>3.5.3.2</mybatis-plus.version>
-        <mybatis-plus-generator.version>3.5.3.2</mybatis-plus-generator.version>
+        <mybatis-plus.version>3.5.4.1</mybatis-plus.version>
+        <mybatis-plus-generator.version>3.5.4.1</mybatis-plus-generator.version>
         <dynamic-datasource.version>3.6.1</dynamic-datasource.version>
-        <mybatis-plus-join-boot-starter.version>1.4.6</mybatis-plus-join-boot-starter.version>
+        <mybatis-plus-join-boot-starter.version>1.4.8</mybatis-plus-join-boot-starter.version>
         <redisson.version>3.18.0</redisson.version>
         <dm8.jdbc.version>8.1.2.141</dm8.jdbc.version>
         <!-- 消息队列 -->

@@ -30,7 +30,7 @@ public class DiscountActivityRespVO extends DiscountActivityBaseVO {
     private Long spuId;
 
     @Schema(description = "限时折扣商品", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<Product> products;
+    private List<DiscountActivityBaseVO.Product> products;
 
     // ========== 商品字段 ==========
 

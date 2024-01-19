@@ -2,10 +2,11 @@ package cn.iocoder.yudao.module.product.controller.app.comment.vo;
 
 import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+import javax.validation.constraints.NotNull;
 
 @Schema(description = "用户 App - 商品评价分页 Request VO")
 @Data

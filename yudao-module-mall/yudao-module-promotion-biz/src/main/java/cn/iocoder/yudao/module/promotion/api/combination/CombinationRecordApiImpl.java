@@ -27,22 +27,22 @@ import static cn.iocoder.yudao.module.promotion.enums.ErrorCodeConstants.COMBINA
 public class CombinationRecordApiImpl implements CombinationRecordApi {
 
     @Resource
-    private CombinationRecordService recordService;
+    private CombinationRecordService combinationRecordService;
 
     @Override
     public CommonResult<Boolean> validateCombinationRecord(Long userId, Long activityId, Long headId, Long skuId, Integer count) {
-        recordService.validateCombinationRecord(userId, activityId, headId, skuId, count);
+        combinationRecordService.validateCombinationRecord(userId, activityId, headId, skuId, count);
         return success(true);
     }
 
     @Override
     public CommonResult<CombinationRecordCreateRespDTO> createCombinationRecord(CombinationRecordCreateReqDTO reqDTO) {
-        return success(CombinationActivityConvert.INSTANCE.convert4(recordService.createCombinationRecord(reqDTO)));
+        return success(CombinationActivityConvert.INSTANCE.convert4(combinationRecordService.createCombinationRecord(reqDTO)));
     }
 
     @Override
     public CommonResult<Boolean> isCombinationRecordSuccess(Long userId, Long orderId) {
-        CombinationRecordDO record = recordService.getCombinationRecord(userId, orderId);
+        CombinationRecordDO record = combinationRecordService.getCombinationRecord(userId, orderId);
         if (record == null) {
             throw exception(COMBINATION_RECORD_NOT_EXISTS);
         }
@@ -52,7 +52,7 @@ public class CombinationRecordApiImpl implements CombinationRecordApi {
     @Override
     public CommonResult<CombinationValidateJoinRespDTO> validateJoinCombination(
             Long userId, Long activityId, Long headId, Long skuId, Integer count) {
-        return success(recordService.validateJoinCombination(userId, activityId, headId, skuId, count));
+        return success(combinationRecordService.validateJoinCombination(userId, activityId, headId, skuId, count));
     }
 
 }

@@ -2,11 +2,11 @@ package cn.iocoder.yudao.module.promotion.controller.admin.combination.vo.activi
 
 import cn.iocoder.yudao.module.promotion.controller.admin.combination.vo.product.CombinationProductBaseVO;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Schema(description = "管理后台 - 拼团活动创建 Request VO")

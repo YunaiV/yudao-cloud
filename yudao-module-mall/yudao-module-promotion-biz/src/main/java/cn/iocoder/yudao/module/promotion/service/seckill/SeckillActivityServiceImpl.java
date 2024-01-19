@@ -23,11 +23,11 @@ import cn.iocoder.yudao.module.promotion.dal.dataobject.seckill.SeckillConfigDO;
 import cn.iocoder.yudao.module.promotion.dal.dataobject.seckill.SeckillProductDO;
 import cn.iocoder.yudao.module.promotion.dal.mysql.seckill.seckillactivity.SeckillActivityMapper;
 import cn.iocoder.yudao.module.promotion.dal.mysql.seckill.seckillactivity.SeckillProductMapper;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -296,7 +296,7 @@ public class SeckillActivityServiceImpl implements SeckillActivityService {
     public SeckillValidateJoinRespDTO validateJoinSeckill(Long activityId, Long skuId, Integer count) {
         // 1.1 校验秒杀活动是否存在
         SeckillActivityDO activity = validateSeckillActivityExists(activityId);
-        if (ObjectUtil.notEqual(activity.getStatus(), CommonStatusEnum.ENABLE.getStatus())) {
+        if (CommonStatusEnum.isDisable(activity.getStatus())) {
             throw exception(SECKILL_JOIN_ACTIVITY_STATUS_CLOSED);
         }
         // 1.2 是否在活动时间范围内

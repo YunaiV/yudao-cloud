@@ -19,12 +19,12 @@ import cn.iocoder.yudao.module.promotion.dal.mysql.coupon.CouponMapper;
 import cn.iocoder.yudao.module.promotion.enums.coupon.CouponStatusEnum;
 import cn.iocoder.yudao.module.promotion.enums.coupon.CouponTakeTypeEnum;
 import cn.iocoder.yudao.module.promotion.enums.coupon.CouponTemplateValidityTypeEnum;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -70,7 +70,7 @@ public class CouponServiceImpl implements CouponService {
             throw exception(COUPON_STATUS_NOT_UNUSED);
         }
         // 校验有效期；为避免定时器没跑，实际优惠劵已经过期
-        if (LocalDateTimeUtils.isBetween(coupon.getValidStartTime(), coupon.getValidEndTime())) {
+        if (!LocalDateTimeUtils.isBetween(coupon.getValidStartTime(), coupon.getValidEndTime())) {
             throw exception(COUPON_VALID_TIME_NOT_NOW);
         }
     }
@@ -111,7 +111,7 @@ public class CouponServiceImpl implements CouponService {
             throw exception(COUPON_NOT_EXISTS);
         }
         // 校验状态
-        if (ObjectUtil.notEqual(coupon.getTemplateId(), CouponStatusEnum.USED.getStatus())) {
+        if (ObjectUtil.notEqual(coupon.getStatus(), CouponStatusEnum.USED.getStatus())) {
             throw exception(COUPON_STATUS_NOT_USED);
         }
 
@@ -313,6 +313,11 @@ public class CouponServiceImpl implements CouponService {
         // 移除达到领取限制的用户
         Map<Long, Integer> userTakeCountMap = CollStreamUtil.groupBy(alreadyTakeCoupons, CouponDO::getUserId, Collectors.summingInt(c -> 1));
         userIds.removeIf(userId -> MapUtil.getInt(userTakeCountMap, userId, 0) >= couponTemplate.getTakeLimitCount());
+    }
+
+    @Override
+    public CouponDO getCoupon(Long userId, Long id) {
+        return couponMapper.selectByIdAndUserId(id, userId);
     }
 
     /**

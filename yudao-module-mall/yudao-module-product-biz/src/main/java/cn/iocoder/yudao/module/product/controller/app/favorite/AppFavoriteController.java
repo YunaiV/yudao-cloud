@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.security.core.annotations.PreAuthenticated;
-import cn.iocoder.yudao.module.product.controller.app.favorite.vo.AppFavoriteBatchReqVO;
 import cn.iocoder.yudao.module.product.controller.app.favorite.vo.AppFavoritePageReqVO;
 import cn.iocoder.yudao.module.product.controller.app.favorite.vo.AppFavoriteReqVO;
 import cn.iocoder.yudao.module.product.controller.app.favorite.vo.AppFavoriteRespVO;
@@ -15,10 +14,10 @@ import cn.iocoder.yudao.module.product.service.favorite.ProductFavoriteService;
 import cn.iocoder.yudao.module.product.service.spu.ProductSpuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
@@ -42,28 +41,11 @@ public class AppFavoriteController {
         return success(productFavoriteService.createFavorite(getLoginUserId(), reqVO.getSpuId()));
     }
 
-    @PostMapping(value = "/create-list")
-    @Operation(summary = "添加多个商品收藏")
-    @PreAuthenticated
-    public CommonResult<Boolean> createFavoriteList(@RequestBody @Valid AppFavoriteBatchReqVO reqVO) {
-        // todo @jason：待实现；如果有已经收藏的，不用报错，忽略即可；
-        return success(true);
-    }
-
     @DeleteMapping(value = "/delete")
     @Operation(summary = "取消单个商品收藏")
     @PreAuthenticated
     public CommonResult<Boolean> deleteFavorite(@RequestBody @Valid AppFavoriteReqVO reqVO) {
         productFavoriteService.deleteFavorite(getLoginUserId(), reqVO.getSpuId());
-        return success(Boolean.TRUE);
-    }
-
-    @DeleteMapping(value = "/delete-list")
-    @Operation(summary = "取消多个商品收藏")
-    @PreAuthenticated
-    public CommonResult<Boolean> deleteFavoriteList(@RequestBody @Valid AppFavoriteBatchReqVO reqVO) {
-        // todo @jason：待实现
-//        productFavoriteService.deleteFavorite(getLoginUserId(), reqVO.getSpuId());
         return success(Boolean.TRUE);
     }
 

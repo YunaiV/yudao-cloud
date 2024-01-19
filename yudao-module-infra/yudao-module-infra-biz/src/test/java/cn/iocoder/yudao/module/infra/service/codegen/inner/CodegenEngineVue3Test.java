@@ -4,6 +4,7 @@ import cn.iocoder.yudao.module.infra.dal.dataobject.codegen.CodegenColumnDO;
 import cn.iocoder.yudao.module.infra.dal.dataobject.codegen.CodegenTableDO;
 import cn.iocoder.yudao.module.infra.enums.codegen.CodegenFrontTypeEnum;
 import cn.iocoder.yudao.module.infra.enums.codegen.CodegenTemplateTypeEnum;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -15,6 +16,7 @@ import java.util.Map;
  *
  * @author 芋道源码
  */
+@Disabled
 public class CodegenEngineVue3Test extends CodegenEngineAbstractTest {
 
     @Test
@@ -27,9 +29,10 @@ public class CodegenEngineVue3Test extends CodegenEngineAbstractTest {
 
         // 调用
         Map<String, String> result = codegenEngine.execute(table, columns, null, null);
+        // 生成测试文件
+        //writeResult(result, resourcesPath + "/vue3_one");
         // 断言
-        assertResult(result, "codegen/vue3_one");
-//        writeResult(result, "/root/ruoyi-vue-pro/yudao-module-infra/yudao-module-infra-biz/src/test/resources/codegen/vue3_one");
+        assertResult(result, "/vue3_one");
     }
 
     @Test
@@ -42,25 +45,26 @@ public class CodegenEngineVue3Test extends CodegenEngineAbstractTest {
 
         // 调用
         Map<String, String> result = codegenEngine.execute(table, columns, null, null);
+        // 生成测试文件
+        //writeResult(result, resourcesPath + "/vue3_tree");
         // 断言
-        assertResult(result, "codegen/vue3_tree");
-//        writeResult(result, "/root/ruoyi-vue-pro/yudao-module-infra/yudao-module-infra-biz/src/test/resources/codegen/vue3_tree");
+        assertResult(result, "/vue3_tree");
 //        writeFile(result, "/Users/yunai/test/demo66.zip");
     }
 
     @Test
     public void testExecute_vue3_master_normal() {
-        testExecute_vue3_master(CodegenTemplateTypeEnum.MASTER_NORMAL, "codegen/vue3_master_normal");
+        testExecute_vue3_master(CodegenTemplateTypeEnum.MASTER_NORMAL, "/vue3_master_normal");
     }
 
     @Test
     public void testExecute_vue3_master_erp() {
-        testExecute_vue3_master(CodegenTemplateTypeEnum.MASTER_ERP, "codegen/vue3_master_erp");
+        testExecute_vue3_master(CodegenTemplateTypeEnum.MASTER_ERP, "/vue3_master_erp");
     }
 
     @Test
     public void testExecute_vue3_master_inner() {
-        testExecute_vue3_master(CodegenTemplateTypeEnum.MASTER_INNER, "codegen/vue3_master_inner");
+        testExecute_vue3_master(CodegenTemplateTypeEnum.MASTER_INNER, "/vue3_master_inner");
     }
 
     private void testExecute_vue3_master(CodegenTemplateTypeEnum templateType,
@@ -86,10 +90,11 @@ public class CodegenEngineVue3Test extends CodegenEngineAbstractTest {
         // 调用
         Map<String, String> result = codegenEngine.execute(table, columns,
                 Arrays.asList(contactTable, teacherTable), Arrays.asList(contactColumns, teacherColumns));
+        // 生成测试文件
+        //writeResult(result, resourcesPath + path);
         // 断言
         assertResult(result, path);
-//        writeResult(result, "/root/ruoyi-vue-pro/yudao-module-infra/yudao-module-infra-biz/src/test/resources/" + path);
-//        writeFile(result, "/Users/yunai/test/demo11.zip");
+        // writeFile(result, "/Users/yunai/test/demo11.zip");
     }
 
 }

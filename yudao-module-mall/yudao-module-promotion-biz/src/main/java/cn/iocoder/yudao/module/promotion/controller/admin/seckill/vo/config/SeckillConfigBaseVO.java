@@ -2,10 +2,10 @@ package cn.iocoder.yudao.module.promotion.controller.admin.seckill.vo.config;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.NotNull;
 import java.time.LocalTime;
 import java.util.List;
 

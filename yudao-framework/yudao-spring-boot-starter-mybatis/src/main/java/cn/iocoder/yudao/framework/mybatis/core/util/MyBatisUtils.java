@@ -34,7 +34,7 @@ public class MyBatisUtils {
         // 排序字段
         if (!CollectionUtil.isEmpty(sortingFields)) {
             page.addOrder(sortingFields.stream().map(sortingField -> SortingField.ORDER_ASC.equals(sortingField.getOrder()) ?
-                    OrderItem.asc(sortingField.getField()) : OrderItem.desc(sortingField.getField()))
+                            OrderItem.asc(sortingField.getField()) : OrderItem.desc(sortingField.getField()))
                     .collect(Collectors.toList()));
         }
         return page;
@@ -45,8 +45,8 @@ public class MyBatisUtils {
      * 由于 MybatisPlusInterceptor 不支持添加拦截器，所以只能全量设置
      *
      * @param interceptor 链
-     * @param inner 拦截器
-     * @param index 位置
+     * @param inner       拦截器
+     * @param index       位置
      */
     public static void addInterceptor(MybatisPlusInterceptor interceptor, InnerInterceptor inner, int index) {
         List<InnerInterceptor> inners = new ArrayList<>(interceptor.getInterceptors());
@@ -73,9 +73,9 @@ public class MyBatisUtils {
     /**
      * 构建 Column 对象
      *
-     * @param tableName 表名
+     * @param tableName  表名
      * @param tableAlias 别名
-     * @param column 字段名
+     * @param column     字段名
      * @return Column 对象
      */
     public static Column buildColumn(String tableName, Alias tableAlias, String column) {

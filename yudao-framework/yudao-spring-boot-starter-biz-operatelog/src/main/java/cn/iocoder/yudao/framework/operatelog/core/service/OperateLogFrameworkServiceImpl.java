@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Async;
 /**
  * 操作日志 Framework Service 实现类
  *
- * 基于 {@link OperateLogApi} 远程服务，记录操作日志
+ * 基于 {@link OperateLogApi} 实现，记录操作日志
  *
  * @author 芋道源码
  */

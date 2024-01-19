@@ -7,8 +7,8 @@ import cn.iocoder.yudao.module.promotion.controller.admin.combination.vo.activit
 import cn.iocoder.yudao.module.promotion.controller.admin.combination.vo.activity.CombinationActivityUpdateReqVO;
 import cn.iocoder.yudao.module.promotion.dal.dataobject.combination.CombinationActivityDO;
 import cn.iocoder.yudao.module.promotion.dal.dataobject.combination.CombinationProductDO;
+import jakarta.validation.Valid;
 
-import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,7 +36,12 @@ public interface CombinationActivityService {
      */
     void updateCombinationActivity(@Valid CombinationActivityUpdateReqVO updateReqVO);
 
-    // TODO @puhui999：这里少了一个关闭活动的接口；因为关闭的活动，才可以删除
+    /**
+     * 关闭拼团活动
+     *
+     * @param id 拼团活动编号
+     */
+    void closeCombinationActivityById(Long id);
 
     /**
      * 删除拼团活动

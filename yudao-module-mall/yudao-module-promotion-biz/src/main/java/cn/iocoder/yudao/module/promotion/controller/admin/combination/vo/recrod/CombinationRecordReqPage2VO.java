@@ -2,11 +2,10 @@ package cn.iocoder.yudao.module.promotion.controller.admin.combination.vo.recrod
 
 import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
-import javax.validation.constraints.NotNull;
 
 @Schema(description = "管理后台 - 拼团记录分页 Request VO")
 @Data

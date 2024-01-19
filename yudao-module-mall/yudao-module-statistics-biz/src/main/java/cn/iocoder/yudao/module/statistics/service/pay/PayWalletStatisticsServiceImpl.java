@@ -1,8 +1,8 @@
 package cn.iocoder.yudao.module.statistics.service.pay;
 
+import cn.iocoder.yudao.module.pay.enums.wallet.PayWalletBizTypeEnum;
 import cn.iocoder.yudao.module.pay.enums.order.PayOrderStatusEnum;
 import cn.iocoder.yudao.module.pay.enums.refund.PayRefundStatusEnum;
-import cn.iocoder.yudao.module.pay.enums.wallet.PayWalletBizTypeEnum;
 import cn.iocoder.yudao.module.statistics.dal.mysql.pay.PayWalletStatisticsMapper;
 import cn.iocoder.yudao.module.statistics.service.pay.bo.RechargeSummaryRespBO;
 import cn.iocoder.yudao.module.statistics.service.trade.bo.WalletSummaryRespBO;

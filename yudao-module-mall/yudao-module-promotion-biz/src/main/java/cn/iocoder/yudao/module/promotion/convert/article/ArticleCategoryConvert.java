@@ -1,7 +1,10 @@
 package cn.iocoder.yudao.module.promotion.convert.article;
 
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
-import cn.iocoder.yudao.module.promotion.controller.admin.article.vo.category.*;
+import cn.iocoder.yudao.module.promotion.controller.admin.article.vo.category.ArticleCategoryCreateReqVO;
+import cn.iocoder.yudao.module.promotion.controller.admin.article.vo.category.ArticleCategoryRespVO;
+import cn.iocoder.yudao.module.promotion.controller.admin.article.vo.category.ArticleCategorySimpleRespVO;
+import cn.iocoder.yudao.module.promotion.controller.admin.article.vo.category.ArticleCategoryUpdateReqVO;
 import cn.iocoder.yudao.module.promotion.controller.app.article.vo.category.AppArticleCategoryRespVO;
 import cn.iocoder.yudao.module.promotion.dal.dataobject.article.ArticleCategoryDO;
 import org.mapstruct.Mapper;

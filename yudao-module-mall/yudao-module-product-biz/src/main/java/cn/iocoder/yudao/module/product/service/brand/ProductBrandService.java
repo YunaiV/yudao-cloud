@@ -1,10 +1,13 @@
 package cn.iocoder.yudao.module.product.service.brand;
 
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
-import cn.iocoder.yudao.module.product.controller.admin.brand.vo.*;
+import cn.iocoder.yudao.module.product.controller.admin.brand.vo.ProductBrandCreateReqVO;
+import cn.iocoder.yudao.module.product.controller.admin.brand.vo.ProductBrandListReqVO;
+import cn.iocoder.yudao.module.product.controller.admin.brand.vo.ProductBrandPageReqVO;
+import cn.iocoder.yudao.module.product.controller.admin.brand.vo.ProductBrandUpdateReqVO;
 import cn.iocoder.yudao.module.product.dal.dataobject.brand.ProductBrandDO;
+import jakarta.validation.Valid;
 
-import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
 

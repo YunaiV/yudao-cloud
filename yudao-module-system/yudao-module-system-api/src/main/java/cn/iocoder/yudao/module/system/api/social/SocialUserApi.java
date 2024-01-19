@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.system.api.social;
 
+import cn.iocoder.yudao.framework.common.exception.ServiceException;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialUserBindReqDTO;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialUserRespDTO;
@@ -28,17 +29,28 @@ public interface SocialUserApi {
     @Operation(summary = "取消绑定社交用户")
     CommonResult<Boolean> unbindSocialUser(@Valid @RequestBody SocialUserUnbindReqDTO reqDTO);
 
-    @GetMapping(PREFIX + "/get")
-    @Operation(summary = "获得社交用户的绑定用户编号")
+    @GetMapping(PREFIX + "/get-by-user-id")
+    @Operation(summary = "获得社交用户，基于 userId")
+    @Parameters({
+            @Parameter(name = "userType", description = "用户类型", example = "2", required = true),
+            @Parameter(name = "userId", description = "用户编号", example = "1024", required = true),
+            @Parameter(name = "socialType", description = "社交平台的类型", example = "1", required = true),
+    })
+    CommonResult<SocialUserRespDTO> getSocialUserByUserId(@RequestParam("userType") Integer userType,
+                                                          @RequestParam("userId") Long userId,
+                                                          @RequestParam("socialType") Integer socialType);
+
+    @GetMapping(PREFIX + "/get-by-code")
+    @Operation(summary = "获得社交用") // 在认证信息不正确的情况下，也会抛出 {@link ServiceException} 业务异常
     @Parameters({
             @Parameter(name = "userType", description = "用户类型", example = "2", required = true),
             @Parameter(name = "socialType", description = "社交平台的类型", example = "1", required = true),
-            @Parameter(name = "code", description = "授权码", required = true, example = "tudou"),
-            @Parameter(name = "state", description = "state", required = true, example = "coke")
+            @Parameter(name = "code", description = "授权码", example = "88888", required = true),
+            @Parameter(name = "state", description = "state", example = "666", required = true),
     })
-    CommonResult<SocialUserRespDTO> getSocialUser(@RequestParam("userType") Integer userType,
-                                                  @RequestParam("socialType") Integer socialType,
-                                                  @RequestParam("code") String code,
-                                                  @RequestParam("state") String state);
+    CommonResult<SocialUserRespDTO> getSocialUserByCode(@RequestParam("userType") Integer userType,
+                                                        @RequestParam("socialType") Integer socialType,
+                                                        @RequestParam("code") String code,
+                                                        @RequestParam("state") String state);
 
 }

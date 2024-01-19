@@ -10,8 +10,7 @@ import java.util.Map;
 @Data
 public class FileConfigSaveReqVO {
 
-    @Schema(description = "编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    @NotNull(message = "编号不能为空")
+    @Schema(description = "编号", example = "1")
     private Long id;
 
     @Schema(description = "配置名", requiredMode = Schema.RequiredMode.REQUIRED, example = "S3 - 阿里云")

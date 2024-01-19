@@ -9,12 +9,14 @@ import cn.iocoder.yudao.module.promotion.service.coupon.CouponTemplateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
+import java.util.Collection;
+import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
@@ -75,4 +77,14 @@ public class CouponTemplateController {
         PageResult<CouponTemplateDO> pageResult = couponTemplateService.getCouponTemplatePage(pageVO);
         return success(CouponTemplateConvert.INSTANCE.convertPage(pageResult));
     }
+
+    @GetMapping("/list")
+    @Operation(summary = "获得优惠劵模板列表")
+    @Parameter(name = "ids", description = "编号列表", required = true, example = "1024,2048")
+    @PreAuthorize("@ss.hasPermission('promotion:coupon-template:query')")
+    public CommonResult<List<CouponTemplateRespVO>> getCouponTemplateList(@RequestParam("ids") Collection<Long> ids) {
+        List<CouponTemplateDO> list = couponTemplateService.getCouponTemplateList(ids);
+        return success(CouponTemplateConvert.INSTANCE.convertList(list));
+    }
+
 }

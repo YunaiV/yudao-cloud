@@ -1,9 +1,8 @@
 package cn.iocoder.yudao.module.product.controller.app.favorite.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
-import javax.validation.constraints.NotNull;
 
 import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 

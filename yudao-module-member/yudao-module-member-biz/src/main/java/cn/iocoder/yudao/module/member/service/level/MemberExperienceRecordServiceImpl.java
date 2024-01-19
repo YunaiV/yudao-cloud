@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import jakarta.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 会员经验记录 Service 实现类

@@ -3,16 +3,15 @@ package cn.iocoder.yudao.framework.common.util.servlet;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import cn.hutool.extra.servlet.ServletUtil;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Map;
@@ -88,8 +87,6 @@ public class ServletUtils {
         }
         return JakartaServletUtil.getClientIP(request);
     }
-
-    // TODO @疯狂：terminal 还是从 ServletUtils 里拿，更容易全局治理；
 
     public static boolean isJsonRequest(ServletRequest request) {
         return StrUtil.startWithIgnoreCase(request.getContentType(), MediaType.APPLICATION_JSON_VALUE);

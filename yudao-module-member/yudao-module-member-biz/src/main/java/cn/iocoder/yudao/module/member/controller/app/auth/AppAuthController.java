@@ -73,9 +73,8 @@ public class AppAuthController {
 
     @PostMapping("/sms-login")
     @Operation(summary = "使用手机 + 验证码登录")
-    public CommonResult<AppAuthLoginRespVO> smsLogin(@RequestBody @Valid AppAuthSmsLoginReqVO reqVO,
-                                                     @RequestHeader Integer terminal) {
-        return success(authService.smsLogin(reqVO, terminal));
+    public CommonResult<AppAuthLoginRespVO> smsLogin(@RequestBody @Valid AppAuthSmsLoginReqVO reqVO) {
+        return success(authService.smsLogin(reqVO));
     }
 
     @PostMapping("/send-sms-code")
@@ -122,7 +121,7 @@ public class AppAuthController {
             description = "参考 https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/JS-SDK.html 文档")
     public CommonResult<SocialWxJsapiSignatureRespDTO> createWeixinMpJsapiSignature(@RequestParam("url") String url) {
         SocialWxJsapiSignatureRespDTO signature = socialClientApi.createWxMpJsapiSignature(
-                UserTypeEnum.MEMBER.getValue(), url).getCheckedData();
+                UserTypeEnum.MEMBER.getValue(), url);
         return success(AuthConvert.INSTANCE.convert(signature));
     }
 

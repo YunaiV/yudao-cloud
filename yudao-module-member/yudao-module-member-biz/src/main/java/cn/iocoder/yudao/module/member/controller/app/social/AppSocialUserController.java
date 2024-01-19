@@ -37,7 +37,7 @@ public class AppSocialUserController {
     public CommonResult<String> socialBind(@RequestBody @Valid AppSocialUserBindReqVO reqVO) {
         SocialUserBindReqDTO reqDTO = new SocialUserBindReqDTO(getLoginUserId(), UserTypeEnum.MEMBER.getValue(),
                 reqVO.getType(), reqVO.getCode(), reqVO.getState());
-        String openid = socialUserApi.bindSocialUser(reqDTO);
+        String openid = socialUserApi.bindSocialUser(reqDTO).getCheckedData();
         return success(openid);
     }
 
@@ -47,7 +47,7 @@ public class AppSocialUserController {
     public CommonResult<Boolean> socialUnbind(@RequestBody AppSocialUserUnbindReqVO reqVO) {
         SocialUserUnbindReqDTO reqDTO = new SocialUserUnbindReqDTO(getLoginUserId(), UserTypeEnum.MEMBER.getValue(),
                 reqVO.getType(), reqVO.getOpenid());
-        socialUserApi.unbindSocialUser(reqDTO);
+        socialUserApi.unbindSocialUser(reqDTO).getCheckedData();
         return success(true);
     }
 
@@ -56,7 +56,7 @@ public class AppSocialUserController {
     @Parameter(name = "type", description = "社交平台的类型，参见 SocialTypeEnum 枚举值", required = true, example = "10")
     @PreAuthenticated
     public CommonResult<AppSocialUserRespVO> getSocialUser(@RequestParam("type") Integer type) {
-        SocialUserRespDTO socialUser = socialUserApi.getSocialUserByUserId(UserTypeEnum.MEMBER.getValue(), getLoginUserId(), type);
+        SocialUserRespDTO socialUser = socialUserApi.getSocialUserByUserId(UserTypeEnum.MEMBER.getValue(), getLoginUserId(), type).getCheckedData();
         return success(BeanUtils.toBean(socialUser, AppSocialUserRespVO.class));
     }
 

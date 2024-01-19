@@ -10,7 +10,7 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 
 /**
- * 时间工具类，用于 {@link LocalDateTime}
+ * 时间工具类，用于 {@link java.time.LocalDateTime}
  *
  * @author 芋道源码
  */

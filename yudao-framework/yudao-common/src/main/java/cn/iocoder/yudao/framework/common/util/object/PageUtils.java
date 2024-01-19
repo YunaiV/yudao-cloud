@@ -12,7 +12,7 @@ import org.springframework.util.Assert;
 import static java.util.Collections.singletonList;
 
 /**
- * {@link PageParam} 工具类
+ * {@link cn.iocoder.yudao.framework.common.pojo.PageParam} 工具类
  *
  * @author 芋道源码
  */

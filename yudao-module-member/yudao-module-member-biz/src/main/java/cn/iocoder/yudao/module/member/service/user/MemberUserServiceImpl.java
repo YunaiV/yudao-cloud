@@ -172,7 +172,7 @@ public class MemberUserServiceImpl implements MemberUserService {
     public void updateUserMobileByWeixin(Long userId, AppMemberUserUpdateMobileByWeixinReqVO reqVO) {
         // 1.1 获得对应的手机号信息
         SocialWxPhoneNumberInfoRespDTO phoneNumberInfo = socialClientApi.getWxMaPhoneNumberInfo(
-                UserTypeEnum.MEMBER.getValue(), reqVO.getCode());
+                UserTypeEnum.MEMBER.getValue(), reqVO.getCode()).getCheckedData();
         Assert.notNull(phoneNumberInfo, "获得手机信息失败，结果为空");
         // 1.2 校验新手机是否已经被绑定
         validateMobileUnique(userId, phoneNumberInfo.getPhoneNumber());

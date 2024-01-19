@@ -1,9 +1,8 @@
 package cn.iocoder.yudao.module.promotion.controller.app.banner.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 @Schema(description = "用户 App - Banner Response VO")
 @Data

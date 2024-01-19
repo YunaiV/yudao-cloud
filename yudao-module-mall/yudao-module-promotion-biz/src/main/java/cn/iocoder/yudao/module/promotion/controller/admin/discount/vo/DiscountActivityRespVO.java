@@ -1,11 +1,11 @@
 package cn.iocoder.yudao.module.promotion.controller.admin.discount.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class DiscountActivityRespVO extends DiscountActivityBaseVO {
     private Long spuId;
 
     @Schema(description = "限时折扣商品", requiredMode = Schema.RequiredMode.REQUIRED)
-    private List<DiscountActivityBaseVO.Product> products;
+    private List<Product> products;
 
     // ========== 商品字段 ==========
 

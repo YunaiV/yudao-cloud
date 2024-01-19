@@ -4,9 +4,7 @@ import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.module.promotion.api.coupon.dto.CouponRespDTO;
 import cn.iocoder.yudao.module.promotion.controller.admin.coupon.vo.coupon.CouponPageItemRespVO;
 import cn.iocoder.yudao.module.promotion.controller.admin.coupon.vo.coupon.CouponPageReqVO;
-import cn.iocoder.yudao.module.promotion.controller.app.coupon.vo.coupon.AppCouponMatchRespVO;
 import cn.iocoder.yudao.module.promotion.controller.app.coupon.vo.coupon.AppCouponPageReqVO;
-import cn.iocoder.yudao.module.promotion.controller.app.coupon.vo.coupon.AppCouponRespVO;
 import cn.iocoder.yudao.module.promotion.dal.dataobject.coupon.CouponDO;
 import cn.iocoder.yudao.module.promotion.dal.dataobject.coupon.CouponTemplateDO;
 import cn.iocoder.yudao.module.promotion.enums.coupon.CouponStatusEnum;
@@ -16,7 +14,6 @@ import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * 优惠劵 Convert
@@ -57,9 +54,5 @@ public interface CouponConvert {
     }
 
     CouponPageReqVO convert(AppCouponPageReqVO pageReqVO, Collection<Long> userIds);
-
-    PageResult<AppCouponRespVO> convertAppPage(PageResult<CouponDO> pageResult);
-
-    List<AppCouponMatchRespVO> convertList(List<CouponDO> list);
 
 }

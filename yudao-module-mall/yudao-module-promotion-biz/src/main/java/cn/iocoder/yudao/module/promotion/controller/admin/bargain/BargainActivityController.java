@@ -15,12 +15,12 @@ import cn.iocoder.yudao.module.promotion.service.bargain.BargainRecordService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +56,15 @@ public class BargainActivityController {
     @PreAuthorize("@ss.hasPermission('promotion:bargain-activity:update')")
     public CommonResult<Boolean> updateBargainActivity(@Valid @RequestBody BargainActivityUpdateReqVO updateReqVO) {
         bargainActivityService.updateBargainActivity(updateReqVO);
+        return success(true);
+    }
+
+    @PutMapping("/close")
+    @Operation(summary = "关闭砍价活动")
+    @Parameter(name = "id", description = "编号", required = true)
+    @PreAuthorize("@ss.hasPermission('promotion:bargain-activity:close')")
+    public CommonResult<Boolean> closeSeckillActivity(@RequestParam("id") Long id) {
+        bargainActivityService.closeBargainActivityById(id);
         return success(true);
     }
 

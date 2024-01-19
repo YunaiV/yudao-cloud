@@ -1,10 +1,10 @@
 package cn.iocoder.yudao.module.promotion.controller.app.coupon.vo.coupon;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
 import java.util.List;
 
 @Schema(description = "用户 App - 优惠劵的匹配 Request VO")

@@ -12,11 +12,11 @@ import cn.iocoder.yudao.module.promotion.dal.dataobject.coupon.CouponTemplateDO;
 import cn.iocoder.yudao.module.promotion.dal.mysql.coupon.CouponTemplateMapper;
 import cn.iocoder.yudao.module.promotion.enums.common.PromotionProductScopeEnum;
 import cn.iocoder.yudao.module.promotion.enums.coupon.CouponTakeTypeEnum;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
-
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -125,6 +125,11 @@ public class CouponTemplateServiceImpl implements CouponTemplateService {
     public List<CouponTemplateDO> getCouponTemplateList(List<Integer> canTakeTypes, Integer productScope,
                                                         Long productScopeValue, Integer count) {
         return couponTemplateMapper.selectList(canTakeTypes, productScope, productScopeValue, count);
+    }
+
+    @Override
+    public List<CouponTemplateDO> getCouponTemplateList(Collection<Long> ids) {
+        return couponTemplateMapper.selectBatchIds(ids);
     }
 
 }

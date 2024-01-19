@@ -1,11 +1,11 @@
 package cn.iocoder.yudao.module.promotion.controller.admin.coupon.vo.coupon;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.ToString;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import java.util.Set;
 
 @Schema(description = "管理后台 - 优惠劵发放 Request VO")

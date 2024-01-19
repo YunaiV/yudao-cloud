@@ -1,7 +1,10 @@
 package cn.iocoder.yudao.module.promotion.controller.admin.bargain.vo.help;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 import java.time.LocalDateTime;
 
 @Schema(description = "管理后台 - 砍价助力 Response VO")

@@ -1,11 +1,11 @@
 package cn.iocoder.yudao.module.promotion.controller.admin.bargain.vo.activity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Schema(description = "管理后台 - 砍价活动的分页项 Response VO")

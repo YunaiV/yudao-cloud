@@ -6,8 +6,8 @@ import cn.iocoder.yudao.module.promotion.controller.admin.bargain.vo.activity.Ba
 import cn.iocoder.yudao.module.promotion.controller.admin.bargain.vo.activity.BargainActivityPageReqVO;
 import cn.iocoder.yudao.module.promotion.controller.admin.bargain.vo.activity.BargainActivityUpdateReqVO;
 import cn.iocoder.yudao.module.promotion.dal.dataobject.bargain.BargainActivityDO;
-
 import jakarta.validation.Valid;
+
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -44,6 +44,13 @@ public interface BargainActivityService {
      * @param count 购买数量
      */
     void updateBargainActivityStock(Long id, Integer count);
+
+    /**
+     * 关闭砍价活动
+     *
+     * @param id 砍价活动编号
+     */
+    void closeBargainActivityById(Long id);
 
     /**
      * 删除砍价活动

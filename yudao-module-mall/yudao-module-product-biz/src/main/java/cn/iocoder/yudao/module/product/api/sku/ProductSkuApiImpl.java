@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.product.api.sku;
 
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
+import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.module.product.api.sku.dto.ProductSkuRespDTO;
 import cn.iocoder.yudao.module.product.api.sku.dto.ProductSkuUpdateStockReqDTO;
 import cn.iocoder.yudao.module.product.convert.sku.ProductSkuConvert;
@@ -31,19 +32,19 @@ public class ProductSkuApiImpl implements ProductSkuApi {
     @Override
     public CommonResult<ProductSkuRespDTO> getSku(Long id) {
         ProductSkuDO sku = productSkuService.getSku(id);
-        return success(ProductSkuConvert.INSTANCE.convert02(sku));
+        return success(BeanUtils.toBean(sku, ProductSkuRespDTO.class));
     }
 
     @Override
     public CommonResult<List<ProductSkuRespDTO>> getSkuList(Collection<Long> ids) {
         List<ProductSkuDO> skus = productSkuService.getSkuList(ids);
-        return success(ProductSkuConvert.INSTANCE.convertList04(skus));
+        return success(BeanUtils.toBean(skus, ProductSkuRespDTO.class));
     }
 
     @Override
     public CommonResult<List<ProductSkuRespDTO>> getSkuListBySpuId(Collection<Long> spuIds) {
         List<ProductSkuDO> skus = productSkuService.getSkuListBySpuId(spuIds);
-        return success(ProductSkuConvert.INSTANCE.convertList04(skus));
+        return success(BeanUtils.toBean(skus, ProductSkuRespDTO.class));
     }
 
     @Override

@@ -111,14 +111,14 @@ public class CodegenServiceImpl implements CodegenService {
             throw exception(CODEGEN_IMPORT_TABLE_NULL);
         }
         if (StrUtil.isEmpty(tableInfo.getComment())) {
-            throw exception(CODEGEN_TABLE_INFO_TABLE_COMMENT_IS_NULL);
+            throw exception(CODEGEN_TABLE_INFO_TABLE_COMMENT_IS_NULL, tableInfo.getName());
         }
         if (CollUtil.isEmpty(tableInfo.getFields())) {
-            throw exception(CODEGEN_IMPORT_COLUMNS_NULL);
+            throw exception(CODEGEN_IMPORT_COLUMNS_NULL, tableInfo.getName());
         }
         tableInfo.getFields().forEach(field -> {
             if (StrUtil.isEmpty(field.getComment())) {
-                throw exception(CODEGEN_TABLE_INFO_COLUMN_COMMENT_IS_NULL, field.getName());
+                throw exception(CODEGEN_TABLE_INFO_COLUMN_COMMENT_IS_NULL, tableInfo.getName(),field.getName());
             }
         });
     }

@@ -35,13 +35,13 @@ public interface ErrorCodeConstants {
     // ========== 代码生成器 1-001-004-000 ==========
     ErrorCode CODEGEN_TABLE_EXISTS = new ErrorCode(1_003_001_000, "表定义已经存在");
     ErrorCode CODEGEN_IMPORT_TABLE_NULL = new ErrorCode(1_003_001_001, "导入的表不存在");
-    ErrorCode CODEGEN_IMPORT_COLUMNS_NULL = new ErrorCode(1_003_001_002, "导入的字段不存在");
+    ErrorCode CODEGEN_IMPORT_COLUMNS_NULL = new ErrorCode(1_003_001_002, "({})表导入的字段不存在");
     ErrorCode CODEGEN_TABLE_NOT_EXISTS = new ErrorCode(1_003_001_004, "表定义不存在");
     ErrorCode CODEGEN_COLUMN_NOT_EXISTS = new ErrorCode(1_003_001_005, "字段义不存在");
     ErrorCode CODEGEN_SYNC_COLUMNS_NULL = new ErrorCode(1_003_001_006, "同步的字段不存在");
     ErrorCode CODEGEN_SYNC_NONE_CHANGE = new ErrorCode(1_003_001_007, "同步失败，不存在改变");
-    ErrorCode CODEGEN_TABLE_INFO_TABLE_COMMENT_IS_NULL = new ErrorCode(1_003_001_008, "数据库的表注释未填写");
-    ErrorCode CODEGEN_TABLE_INFO_COLUMN_COMMENT_IS_NULL = new ErrorCode(1_003_001_009, "数据库的表字段({})注释未填写");
+    ErrorCode CODEGEN_TABLE_INFO_TABLE_COMMENT_IS_NULL = new ErrorCode(1_003_001_008, "数据库的({})表注释未填写");
+    ErrorCode CODEGEN_TABLE_INFO_COLUMN_COMMENT_IS_NULL = new ErrorCode(1_003_001_009, "数据库的({})表字段({})注释未填写");
     ErrorCode CODEGEN_MASTER_TABLE_NOT_EXISTS = new ErrorCode(1_003_001_010, "主表(id={})定义不存在，请检查");
     ErrorCode CODEGEN_SUB_COLUMN_NOT_EXISTS = new ErrorCode(1_003_001_011, "子表的字段(id={})不存在，请检查");
     ErrorCode CODEGEN_MASTER_GENERATION_FAIL_NO_SUB_TABLE = new ErrorCode(1_003_001_012, "主表生成代码失败，原因：它没有子表");

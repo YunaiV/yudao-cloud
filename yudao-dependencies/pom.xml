@@ -133,11 +133,6 @@
             </dependency>
             <dependency>
                 <groupId>cn.iocoder.cloud</groupId>
-                <artifactId>yudao-spring-boot-starter-biz-sms</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.iocoder.cloud</groupId>
                 <artifactId>yudao-spring-boot-starter-biz-pay</artifactId>
                 <version>${revision}</version>
             </dependency>

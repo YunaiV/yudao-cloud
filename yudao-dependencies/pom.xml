@@ -112,11 +112,6 @@
             <!-- 业务组件 -->
             <dependency>
                 <groupId>cn.iocoder.cloud</groupId>
-                <artifactId>yudao-spring-boot-starter-banner</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.iocoder.cloud</groupId>
                 <artifactId>yudao-spring-boot-starter-biz-operatelog</artifactId>
                 <version>${revision}</version>
             </dependency>
@@ -154,11 +149,6 @@
             <dependency>
                 <groupId>cn.iocoder.cloud</groupId>
                 <artifactId>yudao-spring-boot-starter-biz-data-permission</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.iocoder.cloud</groupId>
-                <artifactId>yudao-spring-boot-starter-biz-error-code</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>

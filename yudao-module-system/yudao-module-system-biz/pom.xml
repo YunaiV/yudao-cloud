@@ -44,10 +44,6 @@
         <!-- 业务组件 -->
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>
-            <artifactId>yudao-spring-boot-starter-banner</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.iocoder.cloud</groupId>
             <artifactId>yudao-spring-boot-starter-biz-operatelog</artifactId>
         </dependency>
         <dependency>
@@ -65,10 +61,6 @@
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>
             <artifactId>yudao-spring-boot-starter-biz-tenant</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.iocoder.cloud</groupId>
-            <artifactId>yudao-spring-boot-starter-biz-error-code</artifactId>
         </dependency>
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>

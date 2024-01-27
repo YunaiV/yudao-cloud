@@ -182,3 +182,9 @@ knife4j:
       - name: statistics-server
         service-name: statistics-server
         url: /admin-api/statistics/v3/api-docs
+
+--- #################### 芋道相关配置 ####################
+
+yudao:
+  info:
+    version: 1.0.0

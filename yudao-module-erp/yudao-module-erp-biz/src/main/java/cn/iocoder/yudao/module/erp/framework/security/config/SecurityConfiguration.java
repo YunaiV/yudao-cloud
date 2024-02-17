@@ -8,12 +8,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 
 /**
- * Pay 模块的 Security 配置
+ * Erp 模块的 Security 配置
  */
-@Configuration("paySecurityConfiguration")
+@Configuration("erpSecurityConfiguration")
 public class SecurityConfiguration {
 
-    @Bean("payAuthorizeRequestsCustomizer")
+    @Bean("erpAuthorizeRequestsCustomizer")
     public AuthorizeRequestsCustomizer authorizeRequestsCustomizer() {
         return new AuthorizeRequestsCustomizer() {
 

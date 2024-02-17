@@ -20,6 +20,7 @@
         <module>yudao-module-report</module>
         <module>yudao-module-mp</module>
         <module>yudao-module-mall</module>
+        <module>yudao-module-crm</module>
         <module>yudao-module-erp</module>
     </modules>
 

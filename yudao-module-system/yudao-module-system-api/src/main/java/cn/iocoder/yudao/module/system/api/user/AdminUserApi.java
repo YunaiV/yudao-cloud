@@ -24,6 +24,11 @@ public interface AdminUserApi {
     @Parameter(name = "id", description = "用户编号", example = "1", required = true)
     CommonResult<AdminUserRespDTO> getUser(@RequestParam("id") Long id);
 
+    @GetMapping(PREFIX + "/list-by-subordinate")
+    @Operation(summary = "通过用户 ID 查询用户下属")
+    @Parameter(name = "id", description = "用户编号", example = "1", required = true)
+    CommonResult<List<AdminUserRespDTO>> getUserListBySubordinate(@RequestParam("id") Long id);
+
     @GetMapping(PREFIX + "/list")
     @Operation(summary = "通过用户 ID 查询用户们")
     @Parameter(name = "ids", description = "部门编号数组", example = "1,2", required = true)
@@ -64,6 +69,6 @@ public interface AdminUserApi {
     @GetMapping(PREFIX + "/valid")
     @Operation(summary = "校验用户们是否有效")
     @Parameter(name = "ids", description = "用户编号数组", example = "3,5", required = true)
-    CommonResult<Boolean> validateUserList(@RequestParam("ids") Set<Long> ids);
+    CommonResult<Boolean> validateUserList(@RequestParam("ids") Collection<Long> ids);
 
 }

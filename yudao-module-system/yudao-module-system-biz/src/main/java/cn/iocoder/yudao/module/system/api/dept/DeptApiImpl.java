@@ -5,6 +5,7 @@ import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.module.system.api.dept.dto.DeptRespDTO;
 import cn.iocoder.yudao.module.system.dal.dataobject.dept.DeptDO;
 import cn.iocoder.yudao.module.system.service.dept.DeptService;
+import org.springframework.context.annotation.Bean;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,6 +38,12 @@ public class DeptApiImpl implements DeptApi {
     public CommonResult<Boolean> validateDeptList(Collection<Long> ids) {
         deptService.validateDeptList(ids);
         return success(true);
+    }
+
+    @Override
+    public CommonResult<List<DeptRespDTO>> getChildDeptList(Long id) {
+        List<DeptDO> depts = deptService.getChildDeptList(id);
+        return success(BeanUtils.toBean(depts, DeptRespDTO.class));
     }
 
 }

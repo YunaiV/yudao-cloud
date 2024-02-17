@@ -13,7 +13,7 @@ import cn.iocoder.yudao.module.crm.framework.permission.core.util.CrmPermissionU
 import cn.iocoder.yudao.module.crm.service.permission.bo.CrmPermissionCreateReqBO;
 import cn.iocoder.yudao.module.crm.service.permission.bo.CrmPermissionTransferReqBO;
 import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -169,7 +169,7 @@ public class CrmPermissionServiceImpl implements CrmPermissionService {
             throw exception(CRM_PERMISSION_DELETE_FAIL);
         }
         // 校验操作人是否为负责人
-        CrmPermissionDO permission = permissionMapper.selectByBizIdAndUserId(permissions.getFirst().getBizId(), userId);
+        CrmPermissionDO permission = permissionMapper.selectByBizIdAndUserId(permissions.get(0).getBizId(), userId);
         if (permission == null) {
             throw exception(CRM_PERMISSION_DELETE_DENIED);
         }

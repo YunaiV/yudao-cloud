@@ -4,7 +4,7 @@ import cn.iocoder.yudao.module.crm.framework.operatelog.core.CrmProductStatusPar
 import cn.iocoder.yudao.module.crm.framework.operatelog.core.CrmProductUnitParseFunction;
 import com.mzt.logapi.starter.annotation.DiffLogField;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 @Schema(description = "管理后台 - CRM 产品创建/修改 Request VO")

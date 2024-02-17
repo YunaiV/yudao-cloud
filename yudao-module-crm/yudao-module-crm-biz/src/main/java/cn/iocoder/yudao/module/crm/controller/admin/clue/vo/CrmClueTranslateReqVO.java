@@ -1,7 +1,7 @@
 package cn.iocoder.yudao.module.crm.controller.admin.clue.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 
 import java.util.Set;

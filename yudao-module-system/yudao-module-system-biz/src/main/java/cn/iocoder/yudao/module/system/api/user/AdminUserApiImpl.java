@@ -12,7 +12,7 @@ import cn.iocoder.yudao.module.system.service.user.AdminUserService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 
 import java.util.*;
 

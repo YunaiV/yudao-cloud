@@ -11,9 +11,9 @@ import cn.iocoder.yudao.module.crm.framework.operatelog.core.CrmCustomerSourcePa
 import cn.iocoder.yudao.module.crm.framework.operatelog.core.SysAreaParseFunction;
 import com.mzt.logapi.starter.annotation.DiffLogField;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 

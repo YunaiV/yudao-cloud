@@ -4,7 +4,7 @@ import cn.iocoder.yudao.module.crm.framework.operatelog.core.SysAdminUserParseFu
 import cn.iocoder.yudao.module.crm.framework.operatelog.core.SysDeptParseFunction;
 import com.mzt.logapi.starter.annotation.DiffLogField;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.List;

@@ -11,10 +11,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
 @Tag(name = "RPC 服务 - 管理员用户")
@@ -26,6 +23,11 @@ public interface AdminUserApi {
     @Operation(summary = "通过用户 ID 查询用户")
     @Parameter(name = "id", description = "用户编号", example = "1", required = true)
     CommonResult<AdminUserRespDTO> getUser(@RequestParam("id") Long id);
+
+    @GetMapping(PREFIX + "/list-by-subordinate")
+    @Operation(summary = "通过用户 ID 查询用户下属")
+    @Parameter(name = "id", description = "用户编号", example = "1", required = true)
+    CommonResult<List<AdminUserRespDTO>> getUserListBySubordinate(@RequestParam("id") Long id);
 
     @GetMapping(PREFIX + "/list")
     @Operation(summary = "通过用户 ID 查询用户们")
@@ -53,9 +55,20 @@ public interface AdminUserApi {
         return CollectionUtils.convertMap(users, AdminUserRespDTO::getId);
     }
 
+    /**
+     * 校验用户是否有效。如下情况，视为无效：
+     * 1. 用户编号不存在
+     * 2. 用户被禁用
+     *
+     * @param id 用户编号
+     */
+    default void validateUser(Long id) {
+        validateUserList(Collections.singleton(id));
+    }
+
     @GetMapping(PREFIX + "/valid")
     @Operation(summary = "校验用户们是否有效")
     @Parameter(name = "ids", description = "用户编号数组", example = "3,5", required = true)
-    CommonResult<Boolean> validateUserList(@RequestParam("ids") Set<Long> ids);
+    CommonResult<Boolean> validateUserList(@RequestParam("ids") Collection<Long> ids);
 
 }

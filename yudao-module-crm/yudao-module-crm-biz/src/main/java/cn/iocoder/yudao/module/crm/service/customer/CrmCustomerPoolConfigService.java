@@ -2,7 +2,6 @@ package cn.iocoder.yudao.module.crm.service.customer;
 
 import cn.iocoder.yudao.module.crm.controller.admin.customer.vo.poolconfig.CrmCustomerPoolConfigSaveReqVO;
 import cn.iocoder.yudao.module.crm.dal.dataobject.customer.CrmCustomerPoolConfigDO;
-
 import jakarta.validation.Valid;
 
 /**

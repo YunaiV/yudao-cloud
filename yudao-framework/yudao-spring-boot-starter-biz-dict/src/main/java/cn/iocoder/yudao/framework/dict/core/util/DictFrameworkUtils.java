@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
 
+import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildAsyncReloadingCache;
+
 /**
  * 字典工具类
  *
@@ -27,7 +29,7 @@ public class DictFrameworkUtils {
     /**
      * 针对 {@link #getDictDataLabel(String, String)} 的缓存
      */
-    private static final LoadingCache<KeyValue<String, String>, DictDataRespDTO> GET_DICT_DATA_CACHE = CacheUtils.buildAsyncReloadingCache(
+    private static final LoadingCache<KeyValue<String, String>, DictDataRespDTO> GET_DICT_DATA_CACHE = buildAsyncReloadingCache(
             Duration.ofMinutes(1L), // 过期时间 1 分钟
             new CacheLoader<KeyValue<String, String>, DictDataRespDTO>() {
 
@@ -42,7 +44,7 @@ public class DictFrameworkUtils {
     /**
      * 针对 {@link #parseDictDataValue(String, String)} 的缓存
      */
-    private static final LoadingCache<KeyValue<String, String>, DictDataRespDTO> PARSE_DICT_DATA_CACHE = CacheUtils.buildAsyncReloadingCache(
+    private static final LoadingCache<KeyValue<String, String>, DictDataRespDTO> PARSE_DICT_DATA_CACHE = buildAsyncReloadingCache(
             Duration.ofMinutes(1L), // 过期时间 1 分钟
             new CacheLoader<KeyValue<String, String>, DictDataRespDTO>() {
 

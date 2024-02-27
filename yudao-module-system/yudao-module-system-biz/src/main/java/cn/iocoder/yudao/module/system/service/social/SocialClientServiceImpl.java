@@ -46,6 +46,7 @@ import java.time.Duration;
 import java.util.Objects;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
+import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildAsyncReloadingCache;
 import static cn.iocoder.yudao.framework.common.util.json.JsonUtils.toJsonString;
 import static cn.iocoder.yudao.module.system.enums.ErrorCodeConstants.*;
 
@@ -75,7 +76,7 @@ public class SocialClientServiceImpl implements SocialClientService {
      *
      * 为什么要做 WxMpService 缓存？因为 WxMpService 构建成本比较大，所以尽量保证它是单例。
      */
-    private final LoadingCache<String, WxMpService> wxMpServiceCache = CacheUtils.buildAsyncReloadingCache(
+    private final LoadingCache<String, WxMpService> wxMpServiceCache = buildAsyncReloadingCache(
             Duration.ofSeconds(10L),
             new CacheLoader<String, WxMpService>() {
 
@@ -96,7 +97,7 @@ public class SocialClientServiceImpl implements SocialClientService {
      *
      * 说明同 {@link #wxMpServiceCache} 变量
      */
-    private final LoadingCache<String, WxMaService> wxMaServiceCache = CacheUtils.buildAsyncReloadingCache(
+    private final LoadingCache<String, WxMaService> wxMaServiceCache = buildAsyncReloadingCache(
             Duration.ofSeconds(10L),
             new CacheLoader<String, WxMaService>() {
 

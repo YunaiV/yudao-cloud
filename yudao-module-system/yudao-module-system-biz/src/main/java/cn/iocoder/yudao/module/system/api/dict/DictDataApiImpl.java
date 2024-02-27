@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.Collection;
+import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
@@ -36,6 +37,12 @@ public class DictDataApiImpl implements DictDataApi {
     public CommonResult<DictDataRespDTO> parseDictData(String dictType, String label) {
         DictDataDO dictData = dictDataService.parseDictData(dictType, label);
         return success(BeanUtils.toBean(dictData, DictDataRespDTO.class));
+    }
+
+    @Override
+    public CommonResult<List<DictDataRespDTO>> getDictDataList(String dictType) {
+        List<DictDataDO> list = dictDataService.getDictDataListByDictType(dictType);
+        return success(BeanUtils.toBean(list, DictDataRespDTO.class));
     }
 
 }

@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
+import java.util.List;
+
+import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertList;
 
 @FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
 @Tag(name = "RPC 服务 - 字典数据")
@@ -45,5 +48,21 @@ public interface DictDataApi {
     })
     CommonResult<DictDataRespDTO> parseDictData(@RequestParam("dictType") String dictType,
                                                 @RequestParam("label") String label);
+
+    @GetMapping(PREFIX + "/list")
+    @Operation(summary = "获得指定字典类型的字典数据列表")
+    @Parameter(name = "dictType", description = "字典类型", example = "SEX", required = true)
+    CommonResult<List<DictDataRespDTO>> getDictDataList(@RequestParam("dictType") String dictType);
+
+    /**
+     * 获得字典数据标签列表
+     *
+     * @param dictType 字典类型
+     * @return 字典数据标签列表
+     */
+    default List<String> getDictDataLabelList(String dictType) {
+        List<DictDataRespDTO> list = getDictDataList(dictType).getData();
+        return convertList(list, DictDataRespDTO::getLabel);
+    }
 
 }

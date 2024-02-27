@@ -220,7 +220,7 @@
 
 ![功能图](/.image/common/mall-preview.png)
 
-演示地址：<https://doc.iocoder.cn/mall-preview/>
+演示地址：<https://cloud.iocoder.cn/mall-preview/>
 
 ### 会员中心
 
@@ -236,13 +236,13 @@
 
 ![功能图](/.image/common/erp-feature.png)
 
-演示地址：<https://doc.iocoder.cn/erp-preview/>
+演示地址：<https://cloud.iocoder.cn/erp-preview/>
 
 ### ERP 系统
 
 ![功能图](/.image/common/crm-feature.png)
 
-演示地址：<https://doc.iocoder.cn/crm-preview/>
+演示地址：<https://cloud.iocoder.cn/crm-preview/>
 
 ## 🐨 技术栈
 

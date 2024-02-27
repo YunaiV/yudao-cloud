@@ -32,6 +32,7 @@ import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildAsyncReloadingCache;
+import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildCache;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertList;
 
 @Tag(name = "用户 APP - 拼团活动")
@@ -43,7 +44,7 @@ public class AppCombinationActivityController {
     /**
      * {@link AppCombinationActivityRespVO} 缓存，通过它异步刷新 {@link #getCombinationActivityList0(Integer)} 所要的首页数据
      */
-    private final LoadingCache<Integer, List<AppCombinationActivityRespVO>> combinationActivityListCache = buildAsyncReloadingCache(Duration.ofSeconds(10L),
+    private final LoadingCache<Integer, List<AppCombinationActivityRespVO>> combinationActivityListCache = buildCache(Duration.ofSeconds(10L),
             new CacheLoader<Integer, List<AppCombinationActivityRespVO>>() {
 
                 @Override

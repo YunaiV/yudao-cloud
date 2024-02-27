@@ -39,6 +39,7 @@ import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildAsyncReloadingCache;
+import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildCache;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertList;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.findFirst;
 import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.isBetween;
@@ -52,7 +53,7 @@ public class AppSeckillActivityController {
     /**
      * {@link AppSeckillActivityNowRespVO} 缓存，通过它异步刷新 {@link #getNowSeckillActivity()} 所要的首页数据
      */
-    private final LoadingCache<String, AppSeckillActivityNowRespVO> nowSeckillActivityCache = buildAsyncReloadingCache(Duration.ofSeconds(10L),
+    private final LoadingCache<String, AppSeckillActivityNowRespVO> nowSeckillActivityCache = buildCache(Duration.ofSeconds(10L),
             new CacheLoader<String, AppSeckillActivityNowRespVO>() {
 
                 @Override

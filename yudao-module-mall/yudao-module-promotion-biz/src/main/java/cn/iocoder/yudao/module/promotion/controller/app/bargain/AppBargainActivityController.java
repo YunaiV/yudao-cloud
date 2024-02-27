@@ -31,6 +31,7 @@ import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildAsyncReloadingCache;
+import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildCache;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertList;
 
 @Tag(name = "用户 App - 砍价活动")
@@ -42,7 +43,7 @@ public class AppBargainActivityController {
     /**
      * {@link AppBargainActivityRespVO} 缓存，通过它异步刷新 {@link #getBargainActivityList0(Integer)} 所要的首页数据
      */
-    private final LoadingCache<Integer, List<AppBargainActivityRespVO>> bargainActivityListCache = buildAsyncReloadingCache(Duration.ofSeconds(10L),
+    private final LoadingCache<Integer, List<AppBargainActivityRespVO>> bargainActivityListCache = buildCache(Duration.ofSeconds(10L),
             new CacheLoader<Integer, List<AppBargainActivityRespVO>>() {
 
                 @Override

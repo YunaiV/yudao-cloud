@@ -238,6 +238,12 @@
 
 演示地址：<https://doc.iocoder.cn/erp-preview/>
 
+### ERP 系统
+
+![功能图](/.image/common/crm-feature.png)
+
+演示地址：<https://doc.iocoder.cn/crm-preview/>
+
 ## 🐨 技术栈
 
 ### 微服务

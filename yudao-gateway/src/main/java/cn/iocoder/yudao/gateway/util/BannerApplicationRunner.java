@@ -35,14 +35,16 @@ public class BannerApplicationRunner implements ApplicationRunner {
             System.out.println("[报表模块 yudao-module-report 教程][参考 https://cloud.iocoder.cn/report/ 开启]");
             // 工作流
             System.out.println("[工作流模块 yudao-module-bpm 教程][参考 https://cloud.iocoder.cn/bpm/ 开启]");
-            // 微信公众号
-            System.out.println("[微信公众号 yudao-module-mp 教程][参考 https://cloud.iocoder.cn/mp/build/ 开启]");
             // 商城系统
             System.out.println("[商城系统 yudao-module-mall 教程][参考 https://cloud.iocoder.cn/mall/build/ 开启]");
             // ERP 系统
-            System.out.println("[ERP 系统 yudao-module-erp - 已禁用][参考 https://doc.iocoder.cn/erp/build/ 开启]");
+            System.out.println("[ERP 系统 yudao-module-erp - 教程][参考 https://cloud.iocoder.cn/erp/build/ 开启]");
+            // CRM 系统
+            System.out.println("[CRM 系统 yudao-module-crm - 教程][参考 https://cloud.iocoder.cn/crm/build/ 开启]");
+            // 微信公众号
+            System.out.println("[微信公众号 yudao-module-mp 教程][参考 https://cloud.iocoder.cn/mp/build/ 开启]");
             // 支付平台
-            System.out.println("[支付系统 yudao-module-pay - 已禁用][参考 https://doc.iocoder.cn/pay/build/ 开启]");
+            System.out.println("[支付系统 yudao-module-pay - 教程][参考 https://doc.iocoder.cn/pay/build/ 开启]");
         });
     }
 

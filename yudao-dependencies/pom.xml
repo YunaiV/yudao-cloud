@@ -151,16 +151,6 @@
                 <artifactId>yudao-spring-boot-starter-biz-ip</artifactId>
                 <version>${revision}</version>
             </dependency>
-            <dependency>
-                <groupId>cn.iocoder.cloud</groupId>
-                <artifactId>yudao-spring-boot-starter-captcha</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.iocoder.cloud</groupId>
-                <artifactId>yudao-spring-boot-starter-desensitize</artifactId>
-                <version>${revision}</version>
-            </dependency>
 
             <!-- Spring 核心 -->
             <dependency>

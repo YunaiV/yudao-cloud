@@ -32,6 +32,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertPojoEquals;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomPojo;
@@ -208,8 +209,15 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
     public void testSmsLogin_success() {
         // 准备参数
         String mobile = randomString();
-        String scene = randomString();
-        AuthSmsLoginReqVO reqVO = new AuthSmsLoginReqVO(mobile, scene);
+        String code = randomString();
+        AuthSmsLoginReqVO reqVO = new AuthSmsLoginReqVO(mobile, code);
+        // mock 方法（校验验证码）
+        when(smsCodeApi.useSmsCode(argThat(reqDTO -> {
+            assertEquals(mobile, reqDTO.getMobile());
+            assertEquals(code, reqDTO.getCode());
+            assertEquals(SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), reqDTO.getScene());
+            return true;
+        }))).thenReturn(success(true));
         // mock 方法（用户信息）
         AdminUserDO user = randomPojo(AdminUserDO.class, o -> o.setId(1L));
         when(userService.getUserByMobile(eq(mobile))).thenReturn(user);

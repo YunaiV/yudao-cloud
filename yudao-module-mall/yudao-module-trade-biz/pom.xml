@@ -86,12 +86,6 @@
             <artifactId>yudao-spring-boot-starter-security</artifactId>
         </dependency>
 
-        <!-- TODO 芋艿：引入依赖要优化下： -->
-        <dependency>
-            <groupId>cn.iocoder.cloud</groupId>
-            <artifactId>yudao-spring-boot-starter-biz-pay</artifactId>
-        </dependency>
-
         <!-- DB 相关 -->
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>

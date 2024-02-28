@@ -104,8 +104,10 @@
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>
             <artifactId>yudao-spring-boot-starter-flowable</artifactId>
+            <version>${revision}</version>
         </dependency>
     </dependencies>
+
     <build>
         <!-- 设置构建的 jar 包名 -->
         <finalName>${project.artifactId}</finalName>

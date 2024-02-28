@@ -133,11 +133,6 @@
             </dependency>
             <dependency>
                 <groupId>cn.iocoder.cloud</groupId>
-                <artifactId>yudao-spring-boot-starter-biz-pay</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.iocoder.cloud</groupId>
                 <artifactId>yudao-spring-boot-starter-biz-tenant</artifactId>
                 <version>${revision}</version>
             </dependency>
@@ -420,11 +415,6 @@
             </dependency>
 
             <!-- 工作流相关 -->
-            <dependency>
-                <groupId>cn.iocoder.cloud</groupId>
-                <artifactId>yudao-spring-boot-starter-flowable</artifactId>
-                <version>${revision}</version>
-            </dependency>
             <dependency>
                 <groupId>org.flowable</groupId>
                 <artifactId>flowable-spring-boot-starter-process</artifactId>

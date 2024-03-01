@@ -1,19 +1,17 @@
 package cn.iocoder.yudao.framework.dict.core.util;
 
 import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
+import cn.iocoder.yudao.framework.dict.core.DictFrameworkUtils;
 import cn.iocoder.yudao.framework.test.core.ut.BaseMockitoUnitTest;
-import cn.iocoder.yudao.framework.test.core.util.RandomUtils;
 import cn.iocoder.yudao.module.system.api.dict.DictDataApi;
 import cn.iocoder.yudao.module.system.api.dict.dto.DictDataRespDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomPojo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -32,7 +30,7 @@ public class DictFrameworkUtilsTest extends BaseMockitoUnitTest {
     @Test
     public void testGetDictDataLabel() {
         // mock 数据
-        DictDataRespDTO dataRespDTO = RandomUtils.randomPojo(DictDataRespDTO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
+        DictDataRespDTO dataRespDTO = randomPojo(DictDataRespDTO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         // mock 方法
         when(dictDataApi.getDictData(dataRespDTO.getDictType(), dataRespDTO.getValue())).thenReturn(success(dataRespDTO));
 
@@ -43,7 +41,7 @@ public class DictFrameworkUtilsTest extends BaseMockitoUnitTest {
     @Test
     public void testParseDictDataValue() {
         // mock 数据
-        DictDataRespDTO resp = RandomUtils.randomPojo(DictDataRespDTO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
+        DictDataRespDTO resp = randomPojo(DictDataRespDTO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         // mock 方法
         when(dictDataApi.parseDictData(resp.getDictType(), resp.getLabel())).thenReturn(success(resp));
         // 断言返回值

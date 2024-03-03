@@ -158,11 +158,11 @@ public class MemberUserServiceImpl implements MemberUserService {
         // 补充说明：从安全性来说，老手机也校验 oldCode 验证码会更安全。但是由于 uni-app 商城界面暂时没做，所以这里不强制校验
         if (StrUtil.isNotEmpty(reqVO.getOldCode())) {
             smsCodeApi.useSmsCode(new SmsCodeUseReqDTO().setMobile(user.getMobile()).setCode(reqVO.getOldCode())
-                    .setScene(SmsSceneEnum.MEMBER_UPDATE_MOBILE.getScene()).setUsedIp(getClientIP()));
+                    .setScene(SmsSceneEnum.MEMBER_UPDATE_MOBILE.getScene()).setUsedIp(getClientIP())).getCheckedData();
         }
         // 2.2 使用新验证码
         smsCodeApi.useSmsCode(new SmsCodeUseReqDTO().setMobile(reqVO.getMobile()).setCode(reqVO.getCode())
-                .setScene(SmsSceneEnum.MEMBER_UPDATE_MOBILE.getScene()).setUsedIp(getClientIP()));
+                .setScene(SmsSceneEnum.MEMBER_UPDATE_MOBILE.getScene()).setUsedIp(getClientIP())).getCheckedData();
 
         // 3. 更新用户手机
         memberUserMapper.updateById(MemberUserDO.builder().id(userId).mobile(reqVO.getMobile()).build());
@@ -187,7 +187,7 @@ public class MemberUserServiceImpl implements MemberUserService {
         MemberUserDO user = validateUserExists(userId);
         // 校验验证码
         smsCodeApi.useSmsCode(new SmsCodeUseReqDTO().setMobile(user.getMobile()).setCode(reqVO.getCode())
-                .setScene(SmsSceneEnum.MEMBER_UPDATE_PASSWORD.getScene()).setUsedIp(getClientIP()));
+                .setScene(SmsSceneEnum.MEMBER_UPDATE_PASSWORD.getScene()).setUsedIp(getClientIP())).getCheckedData();
 
         // 更新用户密码
         memberUserMapper.updateById(MemberUserDO.builder().id(userId)
@@ -201,7 +201,7 @@ public class MemberUserServiceImpl implements MemberUserService {
 
         // 使用验证码
         smsCodeApi.useSmsCode(AuthConvert.INSTANCE.convert(reqVO, SmsSceneEnum.MEMBER_RESET_PASSWORD,
-                getClientIP()));
+                getClientIP())).getCheckedData();
 
         // 更新密码
         memberUserMapper.updateById(MemberUserDO.builder().id(user.getId())

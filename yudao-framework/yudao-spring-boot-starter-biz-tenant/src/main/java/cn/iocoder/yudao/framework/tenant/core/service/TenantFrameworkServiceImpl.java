@@ -11,6 +11,8 @@ import lombok.SneakyThrows;
 import java.time.Duration;
 import java.util.List;
 
+import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildAsyncReloadingCache;
+
 /**
  * Tenant 框架 Service 实现类
  *
@@ -24,7 +26,7 @@ public class TenantFrameworkServiceImpl implements TenantFrameworkService {
     /**
      * 针对 {@link #getTenantIds()} 的缓存
      */
-    private final LoadingCache<Object, List<Long>> getTenantIdsCache = CacheUtils.buildAsyncReloadingCache(
+    private final LoadingCache<Object, List<Long>> getTenantIdsCache = buildAsyncReloadingCache(
             Duration.ofMinutes(1L), // 过期时间 1 分钟
             new CacheLoader<Object, List<Long>>() {
 
@@ -38,7 +40,7 @@ public class TenantFrameworkServiceImpl implements TenantFrameworkService {
     /**
      * 针对 {@link #validTenant(Long)} 的缓存
      */
-    private final LoadingCache<Long, CommonResult<Boolean>> validTenantCache = CacheUtils.buildAsyncReloadingCache(
+    private final LoadingCache<Long, CommonResult<Boolean>> validTenantCache = buildAsyncReloadingCache(
             Duration.ofMinutes(1L), // 过期时间 1 分钟
             new CacheLoader<Long, CommonResult<Boolean>>() {
 

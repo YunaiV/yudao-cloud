@@ -169,4 +169,11 @@ public class DictDataServiceImpl implements DictDataService {
         return dictDataMapper.selectByDictTypeAndLabel(dictType, label);
     }
 
+    @Override
+    public List<DictDataDO> getDictDataListByDictType(String dictType) {
+        List<DictDataDO> list = dictDataMapper.selectList(DictDataDO::getDictType, dictType);
+        list.sort(Comparator.comparing(DictDataDO::getSort));
+        return list;
+    }
+
 }

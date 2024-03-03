@@ -26,6 +26,9 @@ import java.time.Duration;
 import java.util.Objects;
 import java.util.function.Function;
 
+import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildAsyncReloadingCache;
+import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildCache;
+
 /**
  * Token 过滤器，验证 token 的有效性
  * 1. 验证通过时，将 userId、userType、tenantId 通过 Header 转发给服务
@@ -59,7 +62,7 @@ public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
      * key1：多租户的编号
      * key2：访问令牌
      */
-    private final LoadingCache<KeyValue<Long, String>, LoginUser> loginUserCache = CacheUtils.buildAsyncReloadingCache(Duration.ofMinutes(1),
+    private final LoadingCache<KeyValue<Long, String>, LoginUser> loginUserCache = buildAsyncReloadingCache(Duration.ofMinutes(1),
             new CacheLoader<KeyValue<Long, String>, LoginUser>() {
 
                 @Override

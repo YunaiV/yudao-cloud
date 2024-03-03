@@ -20,6 +20,8 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
+import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildAsyncReloadingCache;
+import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildCache;
 import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
 /**
@@ -35,7 +37,7 @@ public class SecurityFrameworkServiceImpl implements SecurityFrameworkService {
     /**
      * 针对 {@link #hasAnyRoles(String...)} 的缓存
      */
-    private final LoadingCache<KeyValue<Long, List<String>>, Boolean> hasAnyRolesCache = CacheUtils.buildAsyncReloadingCache(
+    private final LoadingCache<KeyValue<Long, List<String>>, Boolean> hasAnyRolesCache = buildCache(
             Duration.ofMinutes(1L), // 过期时间 1 分钟
             new CacheLoader<KeyValue<Long, List<String>>, Boolean>() {
 
@@ -49,7 +51,7 @@ public class SecurityFrameworkServiceImpl implements SecurityFrameworkService {
     /**
      * 针对 {@link #hasAnyPermissions(String...)} 的缓存
      */
-    private final LoadingCache<KeyValue<Long, List<String>>, Boolean> hasAnyPermissionsCache = CacheUtils.buildAsyncReloadingCache(
+    private final LoadingCache<KeyValue<Long, List<String>>, Boolean> hasAnyPermissionsCache = buildCache(
             Duration.ofMinutes(1L), // 过期时间 1 分钟
             new CacheLoader<KeyValue<Long, List<String>>, Boolean>() {
 

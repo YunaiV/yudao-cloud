@@ -17,6 +17,9 @@ public class MpUserRespVO  {
     @Schema(description = "公众号粉丝标识", requiredMode = Schema.RequiredMode.REQUIRED, example = "o6_bmjrPTlm6_2sgVt7hMZOPfL2M")
     private String openid;
 
+     @Schema(description = "微信生态唯一标识", requiredMode = Schema.RequiredMode.REQUIRED, example = "o6_bmjrPTlm6_2sgVt7hMZOPfL2M")
+    private String unionid;
+
     @Schema(description = "关注状态 参见 CommonStatusEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Integer subscribeStatus;
     @Schema(description = "关注时间", requiredMode = Schema.RequiredMode.REQUIRED)

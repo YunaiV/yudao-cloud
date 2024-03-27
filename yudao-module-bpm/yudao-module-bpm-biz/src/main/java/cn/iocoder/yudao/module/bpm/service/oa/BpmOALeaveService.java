@@ -5,8 +5,7 @@ import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.module.bpm.controller.admin.oa.vo.BpmOALeaveCreateReqVO;
 import cn.iocoder.yudao.module.bpm.controller.admin.oa.vo.BpmOALeavePageReqVO;
 import cn.iocoder.yudao.module.bpm.dal.dataobject.oa.BpmOALeaveDO;
-
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * 请假申请 Service 接口
@@ -29,9 +28,9 @@ public interface BpmOALeaveService {
      * 更新请假申请的状态
      *
      * @param id 编号
-     * @param result 结果
+     * @param status 结果
      */
-    void updateLeaveResult(Long id, Integer result);
+    void updateLeaveStatus(Long id, Integer status);
 
     /**
      * 获得请假申请

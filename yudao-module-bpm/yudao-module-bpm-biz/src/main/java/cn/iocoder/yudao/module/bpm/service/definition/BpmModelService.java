@@ -1,10 +1,12 @@
 package cn.iocoder.yudao.module.bpm.service.definition;
 
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
-import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.model.*;
+import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.model.BpmModelCreateReqVO;
+import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.model.BpmModelPageReqVO;
+import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.model.BpmModelUpdateReqVO;
+import jakarta.validation.Valid;
 import org.flowable.bpmn.model.BpmnModel;
-
-import javax.validation.Valid;
+import org.flowable.engine.repository.Model;
 
 /**
  * Flowable流程模型接口
@@ -19,7 +21,7 @@ public interface BpmModelService {
      * @param pageVO 分页查询
      * @return 流程模型分页
      */
-    PageResult<BpmModelPageItemRespVO> getModelPage(BpmModelPageReqVO pageVO);
+    PageResult<Model> getModelPage(BpmModelPageReqVO pageVO);
 
     /**
      * 创建流程模型
@@ -36,7 +38,15 @@ public interface BpmModelService {
      * @param id 编号
      * @return 流程模型
      */
-    BpmModelRespVO getModel(String id);
+    Model getModel(String id);
+
+    /**
+     * 获得流程模型的 BPMN XML
+     *
+     * @param id 编号
+     * @return BPMN XML
+     */
+    byte[] getModelBpmnXML(String id);
 
     /**
      * 修改流程模型
@@ -62,18 +72,10 @@ public interface BpmModelService {
     /**
      * 修改模型的状态，实际更新的部署的流程定义的状态
      *
-     * @param id 编号
+     * @param id    编号
      * @param state 状态
      */
     void updateModelState(String id, Integer state);
-
-    /**
-     * 获得流程模型编号对应的 BPMN Model
-     *
-     * @param id 流程模型编号
-     * @return BPMN Model
-     */
-    BpmnModel getBpmnModel(String id);
 
     /**
      * 获得流程定义编号对应的 BPMN Model

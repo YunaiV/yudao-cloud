@@ -29,7 +29,7 @@ public interface OperateLogApi {
 
     @PostMapping(PREFIX + "/create-v2")
     @Operation(summary = "创建操作日志")
-    CommonResult<Boolean> createOperateLogV2(@Valid OperateLogV2CreateReqDTO createReqDTO);
+    CommonResult<Boolean> createOperateLogV2(@Valid @RequestBody OperateLogV2CreateReqDTO createReqDTO);
 
     @PostMapping(PREFIX + "/page")
     @Operation(summary = "获取指定模块的指定数据的操作日志分页")

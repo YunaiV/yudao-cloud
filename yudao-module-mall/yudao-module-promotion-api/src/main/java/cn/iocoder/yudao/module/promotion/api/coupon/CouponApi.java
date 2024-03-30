@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,6 +33,6 @@ public interface CouponApi {
 
     @GetMapping(PREFIX + "/validate")
     @Operation(summary = "校验优惠劵")
-    CommonResult<CouponRespDTO> validateCoupon(@Valid CouponValidReqDTO validReqDTO);
+    CommonResult<CouponRespDTO> validateCoupon(@Valid @SpringQueryMap CouponValidReqDTO validReqDTO);
 
 }

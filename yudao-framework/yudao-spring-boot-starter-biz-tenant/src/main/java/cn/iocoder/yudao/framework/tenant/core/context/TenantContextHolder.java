@@ -31,16 +31,6 @@ public class TenantContextHolder {
     }
 
     /**
-     * 获得租户编号 String
-     *
-     * @return 租户编号
-     */
-    public static String getTenantIdStr() {
-        Long tenantId = getTenantId();
-        return StrUtil.toStringOrNull(tenantId);
-    }
-
-    /**
      * 获得租户编号。如果不存在，则抛出 NullPointerException 异常
      *
      * @return 租户编号

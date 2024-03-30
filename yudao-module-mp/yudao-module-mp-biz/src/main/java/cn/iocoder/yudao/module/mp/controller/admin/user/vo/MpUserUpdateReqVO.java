@@ -1,9 +1,9 @@
 package cn.iocoder.yudao.module.mp.controller.admin.user.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Schema(description = "管理后台 - 公众号粉丝更新 Request VO")

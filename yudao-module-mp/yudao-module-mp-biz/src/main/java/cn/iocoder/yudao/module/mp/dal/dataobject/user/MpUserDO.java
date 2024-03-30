@@ -44,6 +44,10 @@ public class MpUserDO extends BaseDO {
      */
     private String unionid;
     /**
+     * 微信生态唯一标识
+     */
+    private String unionId;
+    /**
      * 关注状态
      *
      * 枚举 {@link CommonStatusEnum}

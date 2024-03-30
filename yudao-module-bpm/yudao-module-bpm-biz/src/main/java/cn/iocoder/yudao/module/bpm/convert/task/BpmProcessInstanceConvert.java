@@ -53,8 +53,10 @@ public interface BpmProcessInstanceConvert {
             // user
             if (userMap != null) {
                 AdminUserRespDTO startUser = userMap.get(NumberUtils.parseLong(pageResult.getList().get(i).getStartUserId()));
-                respVO.setStartUser(BeanUtils.toBean(startUser, BpmProcessInstanceRespVO.User.class));
-                MapUtils.findAndThen(deptMap, startUser.getDeptId(), dept -> respVO.getStartUser().setDeptName(dept.getName()));
+                if (startUser != null) {
+                    respVO.setStartUser(BeanUtils.toBean(startUser, BpmProcessInstanceRespVO.User.class));
+                    MapUtils.findAndThen(deptMap, startUser.getDeptId(), dept -> respVO.getStartUser().setDeptName(dept.getName()));
+                }
             }
         }
         return vpPageResult;
@@ -105,10 +107,10 @@ public interface BpmProcessInstanceConvert {
 
     default BpmMessageSendWhenProcessInstanceRejectReqDTO buildProcessInstanceRejectMessage(ProcessInstance instance, String reason) {
         return new BpmMessageSendWhenProcessInstanceRejectReqDTO()
-            .setProcessInstanceName(instance.getName())
-            .setProcessInstanceId(instance.getId())
-            .setReason(reason)
-            .setStartUserId(NumberUtils.parseLong(instance.getStartUserId()));
+                .setProcessInstanceName(instance.getName())
+                .setProcessInstanceId(instance.getId())
+                .setReason(reason)
+                .setStartUserId(NumberUtils.parseLong(instance.getStartUserId()));
     }
 
 }

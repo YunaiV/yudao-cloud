@@ -29,7 +29,7 @@ public interface MpUserConvert {
 
     @Mappings(value = {
             @Mapping(source = "openId", target = "openid"),
-            @Mapping(source = "unionId", target = "unionid"),
+            @Mapping(source = "unionId", target = "unionId"),
             @Mapping(source = "headImgUrl", target = "headImageUrl"),
             @Mapping(target = "subscribeTime", ignore = true), // 单独转换
     })

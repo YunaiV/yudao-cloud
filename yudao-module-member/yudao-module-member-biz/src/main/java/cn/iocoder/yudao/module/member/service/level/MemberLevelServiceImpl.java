@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -241,11 +241,8 @@ public class MemberLevelServiceImpl implements MemberLevelService {
         MemberUserDO user = memberUserService.getUser(userId);
         Integer userExperience = ObjUtil.defaultIfNull(user.getExperience(), 0);
         userExperience = NumberUtil.max(userExperience + experience, 0); // 防止扣出负数
-        MemberLevelRecordDO levelRecord = new MemberLevelRecordDO()
-                .setUserId(user.getId())
-                .setExperience(experience)
-                .setUserExperience(userExperience)
-                .setLevelId(user.getLevelId());
+        MemberLevelRecordDO levelRecord = new MemberLevelRecordDO().setUserId(user.getId())
+                .setExperience(experience).setUserExperience(userExperience).setLevelId(user.getLevelId());
         memberExperienceRecordService.createExperienceRecord(userId, experience, userExperience,
                 bizType, bizId);
 

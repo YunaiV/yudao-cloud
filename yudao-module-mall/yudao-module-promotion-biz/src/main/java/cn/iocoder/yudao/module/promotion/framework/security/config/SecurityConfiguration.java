@@ -9,12 +9,12 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 
 /**
- * Member 模块的 Security 配置
+ * Promotion 模块的 Security 配置
  */
-@Configuration("memberSecurityConfiguration")
+@Configuration("promotionSecurityConfiguration")
 public class SecurityConfiguration {
 
-    @Bean("memberAuthorizeRequestsCustomizer")
+    @Bean("promotionAuthorizeRequestsCustomizer")
     public AuthorizeRequestsCustomizer authorizeRequestsCustomizer() {
         return new AuthorizeRequestsCustomizer() {
 

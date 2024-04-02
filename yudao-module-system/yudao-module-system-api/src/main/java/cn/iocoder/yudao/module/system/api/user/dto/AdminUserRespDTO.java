@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.system.api.user.dto;
 
+import com.fhs.core.trans.vo.VO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -7,7 +8,7 @@ import java.util.Set;
 
 @Schema(description = "RPC 服务 - Admin 用户 Response DTO")
 @Data
-public class AdminUserRespDTO {
+public class AdminUserRespDTO implements VO {
 
     @Schema(description = "用户 ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;

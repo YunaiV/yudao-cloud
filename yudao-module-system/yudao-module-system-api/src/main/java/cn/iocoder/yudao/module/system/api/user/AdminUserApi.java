@@ -7,7 +7,7 @@ import cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO;
 import cn.iocoder.yudao.module.system.enums.ApiConstants;
 import com.fhs.core.trans.anno.AutoTrans;
 import com.fhs.trans.service.AutoTransable;
-import feign.FeignIgnore;
+import feign.RequestLine;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Operation;
@@ -79,13 +79,13 @@ public interface AdminUserApi extends AutoTransable<AdminUserRespDTO> {
     CommonResult<Boolean> validateUserList(@RequestParam("ids") Collection<Long> ids);
 
     @Override
-    @FeignIgnore
+    @GetMapping("select")
     default List<AdminUserRespDTO> selectByIds(List<?> ids) {
         return getUserList(Convert.toList(Long.class, ids)).getCheckedData();
     }
 
     @Override
-    @FeignIgnore
+    @GetMapping("select-list")
     default AdminUserRespDTO selectById(Object id) {
         return getUser(Convert.toLong(id)).getCheckedData();
     }

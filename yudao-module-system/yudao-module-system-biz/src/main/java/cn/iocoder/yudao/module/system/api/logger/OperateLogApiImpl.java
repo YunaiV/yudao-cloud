@@ -9,9 +9,10 @@ import cn.iocoder.yudao.module.system.api.logger.dto.OperateLogV2PageReqDTO;
 import cn.iocoder.yudao.module.system.api.logger.dto.OperateLogV2RespDTO;
 import cn.iocoder.yudao.module.system.dal.dataobject.logger.OperateLogV2DO;
 import cn.iocoder.yudao.module.system.service.logger.OperateLogService;
-import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 

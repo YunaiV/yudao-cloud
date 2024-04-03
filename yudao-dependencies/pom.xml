@@ -112,11 +112,6 @@
 
             <!-- 业务组件 -->
             <dependency>
-                <groupId>cn.iocoder.cloud</groupId>
-                <artifactId>yudao-spring-boot-starter-biz-operatelog</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
                 <groupId>io.github.mouzt</groupId>
                 <artifactId>bizlog-sdk</artifactId>
                 <version>${bizlog-sdk.version}</version>

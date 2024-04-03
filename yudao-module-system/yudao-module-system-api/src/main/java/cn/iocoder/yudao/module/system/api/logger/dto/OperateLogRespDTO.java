@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Schema(name = "RPC 服务 - 系统操作日志 Response DTO")
 @Data
-public class OperateLogV2RespDTO implements VO {
+public class OperateLogRespDTO implements VO {
 
     @Schema(description = "日志编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;

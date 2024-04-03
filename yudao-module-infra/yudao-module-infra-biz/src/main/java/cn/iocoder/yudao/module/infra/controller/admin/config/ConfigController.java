@@ -1,10 +1,10 @@
 package cn.iocoder.yudao.module.infra.controller.admin.config;
 
+import cn.iocoder.yudao.framework.apilog.core.annotations.ApiAccessLog;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.excel.core.util.ExcelUtils;
-import cn.iocoder.yudao.framework.operatelog.core.annotations.OperateLog;
 import cn.iocoder.yudao.module.infra.controller.admin.config.vo.ConfigPageReqVO;
 import cn.iocoder.yudao.module.infra.controller.admin.config.vo.ConfigRespVO;
 import cn.iocoder.yudao.module.infra.controller.admin.config.vo.ConfigSaveReqVO;
@@ -15,19 +15,19 @@ import cn.iocoder.yudao.module.infra.service.config.ConfigService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
+import static cn.iocoder.yudao.framework.apilog.core.enums.OperateTypeEnum.EXPORT;
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
-import static cn.iocoder.yudao.framework.operatelog.core.enums.OperateTypeEnum.EXPORT;
 
 @Tag(name = "管理后台 - 参数配置")
 @RestController
@@ -95,7 +95,7 @@ public class ConfigController {
     @GetMapping("/export")
     @Operation(summary = "导出参数配置")
     @PreAuthorize("@ss.hasPermission('infra:config:export')")
-    @OperateLog(type = EXPORT)
+    @ApiAccessLog(operateType = EXPORT)
     public void exportConfig(@Valid ConfigPageReqVO exportReqVO,
                              HttpServletResponse response) throws IOException {
         exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);

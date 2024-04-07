@@ -3,7 +3,6 @@ package cn.iocoder.yudao.gateway.filter.security;
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.core.KeyValue;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
-import cn.iocoder.yudao.framework.common.util.cache.CacheUtils;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.gateway.util.SecurityFrameworkUtils;
 import cn.iocoder.yudao.gateway.util.WebFrameworkUtils;
@@ -27,7 +26,6 @@ import java.util.Objects;
 import java.util.function.Function;
 
 import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildAsyncReloadingCache;
-import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildCache;
 
 /**
  * Token 过滤器，验证 token 的有效性
@@ -154,6 +152,7 @@ public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
         // 创建登录用户
         OAuth2AccessTokenCheckRespDTO tokenInfo = result.getData();
         return new LoginUser().setId(tokenInfo.getUserId()).setUserType(tokenInfo.getUserType())
+                .setInfo(tokenInfo.getUserInfo()) // 额外的用户信息
                 .setTenantId(tokenInfo.getTenantId()).setScopes(tokenInfo.getScopes());
     }
 

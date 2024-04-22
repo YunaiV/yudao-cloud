@@ -10,10 +10,11 @@ import cn.iocoder.yudao.module.system.api.dept.DeptApi;
 import cn.iocoder.yudao.module.system.api.dept.dto.DeptRespDTO;
 import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
 import cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO;
-import jakarta.annotation.Resource;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -310,7 +311,7 @@ public class CrmStatisticsCustomerServiceImpl implements CrmStatisticsCustomerSe
     private List<Long> getUserIds(CrmStatisticsCustomerReqVO reqVO) {
         // 情况一：选中某个用户
         if (ObjUtil.isNotNull(reqVO.getUserId())) {
-            return List.of(reqVO.getUserId());
+            return Lists.newArrayList(reqVO.getUserId());
         }
         // 情况二：选中某个部门
         // 2.1 获得部门列表

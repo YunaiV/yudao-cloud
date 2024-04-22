@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * 商机 Mapper
@@ -55,6 +56,12 @@ public interface CrmBusinessMapper extends BaseMapperX<CrmBusinessDO> {
 
     default Long selectCountByStatusTypeId(Long statusTypeId) {
         return selectCount(CrmBusinessDO::getStatusTypeId, statusTypeId);
+    }
+
+    default List<CrmBusinessDO> selectListByCustomerIdOwnerUserId(Long customerId, Long ownerUserId){
+        return selectList(new LambdaQueryWrapperX<CrmBusinessDO>()
+                .eq(CrmBusinessDO::getCustomerId, customerId)
+                .eq(CrmBusinessDO::getOwnerUserId, ownerUserId));
     }
 
 }

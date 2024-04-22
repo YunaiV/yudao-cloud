@@ -101,9 +101,6 @@ yudao:
     base-package: ${yudao.info.base-package}
   captcha:
     enable: true # 验证码的开关，默认为 true；
-  error-code: # 错误码相关配置项
-    constants-class-list:
-      - cn.iocoder.yudao.module.promotion.enums.ErrorCodeConstants
   tenant: # 多租户相关配置项
     enable: true
     ignore-urls:

@@ -128,6 +128,4 @@ yudao:
     enable: false
   access-log: # 访问日志的配置项
     enable: false
-  error-code: # 错误码相关配置项
-    enable: false
   demo: false # 关闭演示模式

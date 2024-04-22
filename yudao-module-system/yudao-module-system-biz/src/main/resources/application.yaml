@@ -147,9 +147,6 @@ yudao:
     base-package: ${yudao.info.base-package}
   captcha:
     enable: true # 验证码的开关，默认为 true；
-  error-code: # 错误码相关配置项
-    constants-class-list:
-      - cn.iocoder.yudao.module.system.enums.ErrorCodeConstants
   tenant: # 多租户相关配置项
     enable: true
     ignore-urls:
@@ -161,7 +158,6 @@ yudao:
       - /admin-api/system/sms/callback/* # 短信回调接口，无法带上租户编号
       - /rpc-api/system/tenant/valid # 防止递归。避免调用 /rpc-api/system/tenant/valid 接口时，又去触发 /rpc-api/system/tenant/valid 去校验
       - /rpc-api/system/tenant/id-list # 获得租户列表的时候，无需传递租户编号
-      - /rpc-api/system/error-code/* # 错误码的自动创建与下载的接口，无法带上租户编号
       - /rpc-api/system/oauth2/token/check # 访问令牌校验时，无需传递租户编号；主要解决上传文件的场景，前端不会传递 tenant-id！
     ignore-tables:
       - system_tenant

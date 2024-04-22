@@ -117,9 +117,6 @@ yudao:
     timeout: 5m
     width: 160
     height: 60
-  error-code: # 错误码相关配置项
-    constants-class-list:
-      - cn.iocoder.yudao.module.bpm.enums.ErrorCodeConstants
   tenant: # 多租户相关配置项
     enable: true
 

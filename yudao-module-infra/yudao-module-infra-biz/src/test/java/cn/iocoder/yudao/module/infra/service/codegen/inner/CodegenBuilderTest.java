@@ -54,7 +54,6 @@ public class CodegenBuilderTest extends BaseMockitoUnitTest {
         when(metaInfo.getJdbcType()).thenReturn(JdbcType.BIGINT);
         when(tableField.getComment()).thenReturn("编号");
         when(tableField.isKeyFlag()).thenReturn(true);
-        when(tableField.isKeyIdentityFlag()).thenReturn(true);
         IColumnType columnType = mock(IColumnType.class);
         when(tableField.getColumnType()).thenReturn(columnType);
         when(columnType.getType()).thenReturn("Long");

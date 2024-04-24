@@ -1,10 +1,9 @@
 package cn.iocoder.yudao.module.system.controller.admin.mail.vo.account;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 @Schema(description = "管理后台 - 邮箱账号创建/修改 Request VO")
 @Data
@@ -37,5 +36,9 @@ public class MailAccountSaveReqVO {
     @Schema(description = "是否开启 ssl", requiredMode = Schema.RequiredMode.REQUIRED, example = "true")
     @NotNull(message = "是否开启 ssl 必填")
     private Boolean sslEnable;
+
+    @Schema(description = "是否开启 starttls", requiredMode = Schema.RequiredMode.REQUIRED, example = "true")
+    @NotNull(message = "是否开启 starttls 必填")
+    private Boolean starttlsEnable;
 
 }

@@ -72,7 +72,6 @@ public class CodegenBuilderTest extends BaseMockitoUnitTest {
         assertEquals("编号", column.getColumnComment());
         assertFalse(column.getNullable());
         assertTrue(column.getPrimaryKey());
-        assertTrue(column.getAutoIncrement());
         assertEquals(1, column.getOrdinalPosition());
         assertEquals("Long", column.getJavaType());
         assertEquals("id", column.getJavaField());

@@ -19,10 +19,8 @@ import cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import javax.annotation.Resource;
-import javax.validation.Valid;
-
-import org.springframework.security.access.prepost.PreAuthorize;
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +51,6 @@ public class CrmFollowUpRecordController {
 
     @PostMapping("/create")
     @Operation(summary = "创建跟进记录")
-    @PreAuthorize("@ss.hasPermission('crm:follow-up-record:create')")
     public CommonResult<Long> createFollowUpRecord(@Valid @RequestBody CrmFollowUpRecordSaveReqVO createReqVO) {
         return success(followUpRecordService.createFollowUpRecord(createReqVO));
     }
@@ -61,7 +58,6 @@ public class CrmFollowUpRecordController {
     @DeleteMapping("/delete")
     @Operation(summary = "删除跟进记录")
     @Parameter(name = "id", description = "编号", required = true)
-    @PreAuthorize("@ss.hasPermission('crm:follow-up-record:delete')")
     public CommonResult<Boolean> deleteFollowUpRecord(@RequestParam("id") Long id) {
         followUpRecordService.deleteFollowUpRecord(id, getLoginUserId());
         return success(true);
@@ -70,7 +66,6 @@ public class CrmFollowUpRecordController {
     @GetMapping("/get")
     @Operation(summary = "获得跟进记录")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
-    @PreAuthorize("@ss.hasPermission('crm:follow-up-record:query')")
     public CommonResult<CrmFollowUpRecordRespVO> getFollowUpRecord(@RequestParam("id") Long id) {
         CrmFollowUpRecordDO followUpRecord = followUpRecordService.getFollowUpRecord(id);
         return success(BeanUtils.toBean(followUpRecord, CrmFollowUpRecordRespVO.class));
@@ -78,7 +73,6 @@ public class CrmFollowUpRecordController {
 
     @GetMapping("/page")
     @Operation(summary = "获得跟进记录分页")
-    @PreAuthorize("@ss.hasPermission('crm:follow-up-record:query')")
     public CommonResult<PageResult<CrmFollowUpRecordRespVO>> getFollowUpRecordPage(@Valid CrmFollowUpRecordPageReqVO pageReqVO) {
         PageResult<CrmFollowUpRecordDO> pageResult = followUpRecordService.getFollowUpRecordPage(pageReqVO);
         // 1.1 查询联系人和商机

@@ -2,7 +2,6 @@ package cn.iocoder.yudao.module.infra.controller.admin.logger.vo.apiaccesslog;
 
 import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -27,7 +26,7 @@ public class ApiAccessLogPageReqVO extends PageParam {
     @Schema(description = "应用名", example = "dashboard")
     private String applicationName;
 
-    @Schema(description = "请求地址,模糊匹配", example = "/xxx/yyy")
+    @Schema(description = "请求地址，模糊匹配", example = "/xxx/yyy")
     private String requestUrl;
 
     @Schema(description = "开始时间", example = "[2022-07-01 00:00:00, 2022-07-01 23:59:59]")

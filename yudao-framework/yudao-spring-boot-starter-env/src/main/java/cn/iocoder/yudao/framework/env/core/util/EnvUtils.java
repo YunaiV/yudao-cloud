@@ -1,14 +1,13 @@
 package cn.iocoder.yudao.framework.env.core.util;
 
-import cn.hutool.core.net.NetUtil;
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.env.config.EnvProperties;
 import feign.RequestTemplate;
+import lombok.SneakyThrows;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.core.env.Environment;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.InetAddress;
 import java.util.Objects;
 
 /**
@@ -44,8 +43,14 @@ public class EnvUtils {
         requestTemplate.header(HEADER_TAG, tag);
     }
 
+    /**
+     * 获得 hostname 主机名
+     *
+     * @return 主机名
+     */
+    @SneakyThrows
     public static String getHostName() {
-        return StrUtil.blankToDefault(NetUtil.getLocalHostName(), IdUtil.fastSimpleUUID());
+        return InetAddress.getLocalHost().getHostName();
     }
 
 }

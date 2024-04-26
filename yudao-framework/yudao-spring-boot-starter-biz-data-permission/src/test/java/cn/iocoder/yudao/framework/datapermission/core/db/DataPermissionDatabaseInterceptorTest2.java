@@ -525,9 +525,9 @@ public class DataPermissionDatabaseInterceptorTest2 extends BaseMockitoUnitTest 
 
         // 没有 On 的 inner join
         assertSql("SELECT * FROM entity,entity1 " +
-                        "WHERE entity.id = entity1.id",
-                "SELECT * FROM entity, entity1 " +
-                        "WHERE entity.id = entity1.id AND entity.tenant_id = 1 AND entity1.tenant_id = 1");
+                "WHERE entity.id = entity1.id",
+            "SELECT * FROM entity, entity1 " +
+                    "WHERE entity.id = entity1.id AND entity.tenant_id = 1 AND entity1.tenant_id = 1");
     }
 
 }

@@ -14,6 +14,8 @@ import cn.iocoder.yudao.framework.web.core.util.WebFrameworkUtils;
 import cn.iocoder.yudao.module.system.api.oauth2.OAuth2TokenApi;
 import cn.iocoder.yudao.module.system.api.oauth2.dto.OAuth2AccessTokenCheckRespDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -22,6 +24,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Token 过滤器，验证 token 的有效性
@@ -30,6 +34,7 @@ import java.io.IOException;
  * @author 芋道源码
  */
 @RequiredArgsConstructor
+@Slf4j
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final SecurityProperties securityProperties;
@@ -48,7 +53,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         // 情况二，基于 Token 获得用户
         // 注意，这里主要满足直接使用 Nginx 直接转发到 Spring Cloud 服务的场景。
         if (loginUser == null) {
-            String token = SecurityFrameworkUtils.obtainAuthorization(request, securityProperties.getTokenHeader());
+            String token = SecurityFrameworkUtils.obtainAuthorization(request,
+                    securityProperties.getTokenHeader(), securityProperties.getTokenParameter());
             if (StrUtil.isNotEmpty(token)) {
                 Integer userType = WebFrameworkUtils.getLoginUserType(request);
                 try {
@@ -82,11 +88,15 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 return null;
             }
             // 用户类型不匹配，无权限
-            if (ObjectUtil.notEqual(accessToken.getUserType(), userType)) {
+            // 注意：只有 /admin-api/* 和 /app-api/* 有 userType，才需要比对用户类型
+            // 类似 WebSocket 的 /ws/* 连接地址，是不需要比对用户类型的
+            if (userType != null
+                    && ObjectUtil.notEqual(accessToken.getUserType(), userType)) {
                 throw new AccessDeniedException("错误的用户类型");
             }
             // 构建登录用户
             return new LoginUser().setId(accessToken.getUserId()).setUserType(accessToken.getUserType())
+                    .setInfo(accessToken.getUserInfo()) // 额外的用户信息
                     .setTenantId(accessToken.getTenantId()).setScopes(accessToken.getScopes());
         } catch (ServiceException serviceException) {
             // 校验 Token 不通过时，考虑到一些接口是无需登录的，所以直接返回 null 即可
@@ -118,9 +128,19 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 .setTenantId(WebFrameworkUtils.getTenantId(request));
     }
 
+    @SneakyThrows
     private LoginUser buildLoginUserByHeader(HttpServletRequest request) {
         String loginUserStr = request.getHeader(SecurityFrameworkUtils.LOGIN_USER_HEADER);
-        return StrUtil.isNotEmpty(loginUserStr) ? JsonUtils.parseObject(loginUserStr, LoginUser.class) : null;
+        if (StrUtil.isEmpty(loginUserStr)) {
+            return null;
+        }
+        try {
+            loginUserStr = URLDecoder.decode(loginUserStr, StandardCharsets.UTF_8.name()); // 解码，解决中文乱码问题
+            return JsonUtils.parseObject(loginUserStr, LoginUser.class);
+        } catch (Exception ex) {
+            log.error("[buildLoginUserByHeader][解析 LoginUser({}) 发生异常]", loginUserStr, ex);  ;
+            throw ex;
+        }
     }
 
 }

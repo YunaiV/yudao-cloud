@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * Tracer 配置类
@@ -46,7 +45,6 @@ public class YudaoTracerAutoConfiguration {
      * 创建 TraceFilter 过滤器，响应 header 设置 traceId
      */
     @Bean
-    @ConditionalOnClass(name = "javax.servlet.Filter")
     public FilterRegistrationBean<TraceFilter> traceFilter() {
         FilterRegistrationBean<TraceFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new TraceFilter());

@@ -1,7 +1,6 @@
 package cn.iocoder.yudao.module.system.controller.admin.ip.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.List;
@@ -10,10 +9,10 @@ import java.util.List;
 @Data
 public class AreaNodeRespVO {
 
-    @Schema(description = "编号", required = true, example = "110000")
+    @Schema(description = "编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "110000")
     private Integer id;
 
-    @Schema(description = "名字", required = true, example = "北京")
+    @Schema(description = "名字", requiredMode = Schema.RequiredMode.REQUIRED, example = "北京")
     private String name;
 
     /**

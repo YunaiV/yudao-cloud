@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.framework.apilog.config;
 
 import cn.iocoder.yudao.framework.apilog.core.filter.ApiAccessLogFilter;
+import cn.iocoder.yudao.framework.apilog.core.interceptor.ApiAccessLogInterceptor;
 import cn.iocoder.yudao.framework.apilog.core.service.ApiAccessLogFrameworkService;
 import cn.iocoder.yudao.framework.apilog.core.service.ApiAccessLogFrameworkServiceImpl;
 import cn.iocoder.yudao.framework.apilog.core.service.ApiErrorLogFrameworkService;
@@ -12,23 +13,25 @@ import cn.iocoder.yudao.module.infra.api.logger.ApiAccessLogApi;
 import cn.iocoder.yudao.module.infra.api.logger.ApiErrorLogApi;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.Filter;
 
-@AutoConfiguration
-@AutoConfigureAfter(YudaoWebAutoConfiguration.class)
-public class YudaoApiLogAutoConfiguration {
+@AutoConfiguration(after = YudaoWebAutoConfiguration.class)
+public class YudaoApiLogAutoConfiguration implements WebMvcConfigurer {
 
     @Bean
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     public ApiAccessLogFrameworkService apiAccessLogFrameworkService(ApiAccessLogApi apiAccessLogApi) {
         return new ApiAccessLogFrameworkServiceImpl(apiAccessLogApi);
     }
 
     @Bean
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     public ApiErrorLogFrameworkService apiErrorLogFrameworkService(ApiErrorLogApi apiErrorLogApi) {
         return new ApiErrorLogFrameworkServiceImpl(apiErrorLogApi);
     }
@@ -49,6 +52,11 @@ public class YudaoApiLogAutoConfiguration {
         FilterRegistrationBean<T> bean = new FilterRegistrationBean<>(filter);
         bean.setOrder(order);
         return bean;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new ApiAccessLogInterceptor());
     }
 
 }

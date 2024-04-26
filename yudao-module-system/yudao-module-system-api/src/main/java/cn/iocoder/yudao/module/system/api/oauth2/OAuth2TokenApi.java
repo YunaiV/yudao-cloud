@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
-@Tag(name =  "RPC 服务 - OAuth2.0 令牌")
+@Tag(name = "RPC 服务 - OAuth2.0 令牌")
 public interface OAuth2TokenApi {
 
     String PREFIX = ApiConstants.PREFIX + "/oauth2/token";

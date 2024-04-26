@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 
 @FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
-@Tag(name =  "RPC 服务 - 短信发送")
+@Tag(name = "RPC 服务 - 短信发送")
 public interface SmsSendApi {
 
     String PREFIX = ApiConstants.PREFIX + "/sms/send";

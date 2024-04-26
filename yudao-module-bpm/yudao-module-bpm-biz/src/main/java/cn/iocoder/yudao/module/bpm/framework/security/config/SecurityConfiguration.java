@@ -1,19 +1,18 @@
 package cn.iocoder.yudao.module.bpm.framework.security.config;
 
 import cn.iocoder.yudao.framework.security.config.AuthorizeRequestsCustomizer;
-import cn.iocoder.yudao.module.system.enums.ApiConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 
 /**
- * System 模块的 Security 配置
+ * Bpm 模块的 Security 配置
  */
-@Configuration(proxyBeanMethods = false, value = "systemSecurityConfiguration")
+@Configuration(proxyBeanMethods = false, value = "bpmSecurityConfiguration")
 public class SecurityConfiguration {
 
-    @Bean("systemAuthorizeRequestsCustomizer")
+    @Bean("bpmAuthorizeRequestsCustomizer")
     public AuthorizeRequestsCustomizer authorizeRequestsCustomizer() {
         return new AuthorizeRequestsCustomizer() {
 
@@ -28,8 +27,6 @@ public class SecurityConfiguration {
                 // Spring Boot Actuator 的安全配置
                 registry.antMatchers("/actuator").anonymous()
                         .antMatchers("/actuator/**").anonymous();
-                // RPC 服务的安全配置
-                registry.antMatchers(ApiConstants.PREFIX + "/**").permitAll();
             }
 
         };

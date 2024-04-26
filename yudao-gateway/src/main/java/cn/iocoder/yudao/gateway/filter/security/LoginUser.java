@@ -3,6 +3,7 @@ package cn.iocoder.yudao.gateway.filter.security;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 登录用户信息
@@ -22,6 +23,10 @@ public class LoginUser {
      * 用户类型
      */
     private Integer userType;
+    /**
+     * 额外的用户信息
+     */
+    private Map<String, String> info;
     /**
      * 租户编号
      */

@@ -21,7 +21,7 @@ public class EnvLoadBalancerClientFactory extends LoadBalancerClientFactory {
 
     @Override
     public ReactiveLoadBalancer<ServiceInstance> getInstance(String serviceId) {
-        ReactiveLoadBalancer<ServiceInstance> reactiveLoadBalancer =  super.getInstance(serviceId);
+        ReactiveLoadBalancer<ServiceInstance> reactiveLoadBalancer = super.getInstance(serviceId);
         // 参考 {@link com.alibaba.cloud.nacos.loadbalancer.NacosLoadBalancerClientConfiguration#nacosLoadBalancer(Environment, LoadBalancerClientFactory, NacosDiscoveryProperties)} 方法
         return new EnvLoadBalancerClient(super.getLazyProvider(serviceId, ServiceInstanceListSupplier.class),
                 serviceId, reactiveLoadBalancer);

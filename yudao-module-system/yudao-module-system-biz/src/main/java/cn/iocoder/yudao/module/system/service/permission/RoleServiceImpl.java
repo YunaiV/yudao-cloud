@@ -3,38 +3,36 @@ package cn.iocoder.yudao.module.system.service.permission;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
-import cn.iocoder.yudao.framework.tenant.core.util.TenantUtils;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RoleCreateReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RoleExportReqVO;
+import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
+import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RolePageReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RoleUpdateReqVO;
-import cn.iocoder.yudao.module.system.convert.permission.RoleConvert;
+import cn.iocoder.yudao.module.system.controller.admin.permission.vo.role.RoleSaveReqVO;
 import cn.iocoder.yudao.module.system.dal.dataobject.permission.RoleDO;
 import cn.iocoder.yudao.module.system.dal.mysql.permission.RoleMapper;
+import cn.iocoder.yudao.module.system.dal.redis.RedisKeyConstants;
 import cn.iocoder.yudao.module.system.enums.permission.DataScopeEnum;
 import cn.iocoder.yudao.module.system.enums.permission.RoleCodeEnum;
 import cn.iocoder.yudao.module.system.enums.permission.RoleTypeEnum;
-import cn.iocoder.yudao.module.system.mq.producer.permission.RoleProducer;
 import com.google.common.annotations.VisibleForTesting;
-import lombok.Getter;
+import com.mzt.logapi.context.LogRecordContext;
+import com.mzt.logapi.starter.annotation.LogRecord;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.Nullable;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionSynchronization;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertMap;
 import static cn.iocoder.yudao.module.system.enums.ErrorCodeConstants.*;
+import static cn.iocoder.yudao.module.system.enums.LogRecordConstants.*;
 
 /**
  * 角色 Service 实现类
@@ -45,90 +43,52 @@ import static cn.iocoder.yudao.module.system.enums.ErrorCodeConstants.*;
 @Slf4j
 public class RoleServiceImpl implements RoleService {
 
-    /**
-     * 角色缓存
-     * key：角色编号 {@link RoleDO#getId()}
-     *
-     * 这里声明 volatile 修饰的原因是，每次刷新时，直接修改指向
-     */
-    @Getter
-    private volatile Map<Long, RoleDO> roleCache;
-
     @Resource
     private PermissionService permissionService;
 
     @Resource
     private RoleMapper roleMapper;
 
-    @Resource
-    private RoleProducer roleProducer;
-
-    /**
-     * 初始化 {@link #roleCache} 缓存
-     */
     @Override
-    @PostConstruct
-    public void initLocalCache() {
-        // 注意：忽略自动多租户，因为要全局初始化缓存
-        TenantUtils.executeIgnore(() -> {
-            // 第一步：查询数据
-            List<RoleDO> roleList = roleMapper.selectList();
-            log.info("[initLocalCache][缓存角色，数量为:{}]", roleList.size());
+    @Transactional(rollbackFor = Exception.class)
+    @LogRecord(type = SYSTEM_ROLE_TYPE, subType = SYSTEM_ROLE_CREATE_SUB_TYPE, bizNo = "{{#role.id}}",
+            success = SYSTEM_ROLE_CREATE_SUCCESS)
+    public Long createRole(RoleSaveReqVO createReqVO, Integer type) {
+        // 1. 校验角色
+        validateRoleDuplicate(createReqVO.getName(), createReqVO.getCode(), null);
 
-            // 第二步：构建缓存
-            roleCache = convertMap(roleList, RoleDO::getId);
-        });
-    }
-
-    @Override
-    @Transactional
-    public Long createRole(RoleCreateReqVO reqVO, Integer type) {
-        // 校验角色
-        validateRoleDuplicate(reqVO.getName(), reqVO.getCode(), null);
-        // 插入到数据库
-        RoleDO role = RoleConvert.INSTANCE.convert(reqVO);
-        role.setType(ObjectUtil.defaultIfNull(type, RoleTypeEnum.CUSTOM.getType()));
-        role.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        role.setDataScope(DataScopeEnum.ALL.getScope()); // 默认可查看所有数据。原因是，可能一些项目不需要项目权限
+        // 2. 插入到数据库
+        RoleDO role = BeanUtils.toBean(createReqVO, RoleDO.class)
+                .setType(ObjectUtil.defaultIfNull(type, RoleTypeEnum.CUSTOM.getType()))
+                .setStatus(CommonStatusEnum.ENABLE.getStatus())
+                .setDataScope(DataScopeEnum.ALL.getScope()); // 默认可查看所有数据。原因是，可能一些项目不需要项目权限
         roleMapper.insert(role);
-        // 发送刷新消息
-        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
-            @Override
-            public void afterCommit() {
-                roleProducer.sendRoleRefreshMessage();
-            }
-        });
-        // 返回
+
+        // 3. 记录操作日志上下文
+        LogRecordContext.putVariable("role", role);
         return role.getId();
     }
 
     @Override
-    public void updateRole(RoleUpdateReqVO reqVO) {
-        // 校验是否可以更新
-        validateRoleForUpdate(reqVO.getId());
-        // 校验角色的唯一字段是否重复
-        validateRoleDuplicate(reqVO.getName(), reqVO.getCode(), reqVO.getId());
+    @CacheEvict(value = RedisKeyConstants.ROLE, key = "#updateReqVO.id")
+    @LogRecord(type = SYSTEM_ROLE_TYPE, subType = SYSTEM_ROLE_UPDATE_SUB_TYPE, bizNo = "{{#updateReqVO.id}}",
+            success = SYSTEM_ROLE_UPDATE_SUCCESS)
+    public void updateRole(RoleSaveReqVO updateReqVO) {
+        // 1.1 校验是否可以更新
+        RoleDO role = validateRoleForUpdate(updateReqVO.getId());
+        // 1.2 校验角色的唯一字段是否重复
+        validateRoleDuplicate(updateReqVO.getName(), updateReqVO.getCode(), updateReqVO.getId());
 
-        // 更新到数据库
-        RoleDO updateObj = RoleConvert.INSTANCE.convert(reqVO);
+        // 2. 更新到数据库
+        RoleDO updateObj = BeanUtils.toBean(updateReqVO, RoleDO.class);
         roleMapper.updateById(updateObj);
-        // 发送刷新消息
-        roleProducer.sendRoleRefreshMessage();
+
+        // 3. 记录操作日志上下文
+        LogRecordContext.putVariable("role", role);
     }
 
     @Override
-    public void updateRoleStatus(Long id, Integer status) {
-        // 校验是否可以更新
-        validateRoleForUpdate(id);
-
-        // 更新状态
-        RoleDO updateObj = new RoleDO().setId(id).setStatus(status);
-        roleMapper.updateById(updateObj);
-        // 发送刷新消息
-        roleProducer.sendRoleRefreshMessage();
-    }
-
-    @Override
+    @CacheEvict(value = RedisKeyConstants.ROLE, key = "#id")
     public void updateRoleDataScope(Long id, Integer dataScope, Set<Long> dataScopeDeptIds) {
         // 校验是否可以更新
         validateRoleForUpdate(id);
@@ -139,73 +99,24 @@ public class RoleServiceImpl implements RoleService {
         updateObject.setDataScope(dataScope);
         updateObject.setDataScopeDeptIds(dataScopeDeptIds);
         roleMapper.updateById(updateObject);
-        // 发送刷新消息
-        roleProducer.sendRoleRefreshMessage();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = RedisKeyConstants.ROLE, key = "#id")
+    @LogRecord(type = SYSTEM_ROLE_TYPE, subType = SYSTEM_ROLE_DELETE_SUB_TYPE, bizNo = "{{#id}}",
+            success = SYSTEM_ROLE_DELETE_SUCCESS)
     public void deleteRole(Long id) {
-        // 校验是否可以更新
-        validateRoleForUpdate(id);
-        // 标记删除
+        // 1. 校验是否可以更新
+        RoleDO role = validateRoleForUpdate(id);
+
+        // 2.1 标记删除
         roleMapper.deleteById(id);
-        // 删除相关数据
+        // 2.2 删除相关数据
         permissionService.processRoleDeleted(id);
-        // 发送刷新消息. 注意，需要事务提交后，在进行发送刷新消息。不然 db 还未提交，结果缓存先刷新了
-        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
 
-            @Override
-            public void afterCommit() {
-                roleProducer.sendRoleRefreshMessage();
-            }
-
-        });
-    }
-
-    @Override
-    public RoleDO getRoleFromCache(Long id) {
-        return roleCache.get(id);
-    }
-
-    @Override
-    public List<RoleDO> getRoleListByStatus(@Nullable Collection<Integer> statuses) {
-        if (CollUtil.isEmpty(statuses)) {
-            return roleMapper.selectList();
-        }
-        return roleMapper.selectListByStatus(statuses);
-    }
-
-    @Override
-    public List<RoleDO> getRoleListFromCache(Collection<Long> ids) {
-        if (CollectionUtil.isEmpty(ids)) {
-            return Collections.emptyList();
-        }
-        return roleCache.values().stream().filter(roleDO -> ids.contains(roleDO.getId()))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public boolean hasAnySuperAdmin(Collection<RoleDO> roleList) {
-        if (CollectionUtil.isEmpty(roleList)) {
-            return false;
-        }
-        return roleList.stream().anyMatch(role -> RoleCodeEnum.isSuperAdmin(role.getCode()));
-    }
-
-    @Override
-    public RoleDO getRole(Long id) {
-        return roleMapper.selectById(id);
-    }
-
-    @Override
-    public PageResult<RoleDO> getRolePage(RolePageReqVO reqVO) {
-        return roleMapper.selectPage(reqVO);
-    }
-
-    @Override
-    public List<RoleDO> getRoleList(RoleExportReqVO reqVO) {
-        return roleMapper.selectList(reqVO);
+        // 3. 记录操作日志上下文
+        LogRecordContext.putVariable("role", role);
     }
 
     /**
@@ -246,15 +157,74 @@ public class RoleServiceImpl implements RoleService {
      * @param id 角色编号
      */
     @VisibleForTesting
-    void validateRoleForUpdate(Long id) {
-        RoleDO roleDO = roleMapper.selectById(id);
-        if (roleDO == null) {
+    RoleDO validateRoleForUpdate(Long id) {
+        RoleDO role = roleMapper.selectById(id);
+        if (role == null) {
             throw exception(ROLE_NOT_EXISTS);
         }
         // 内置角色，不允许删除
-        if (RoleTypeEnum.SYSTEM.getType().equals(roleDO.getType())) {
+        if (RoleTypeEnum.SYSTEM.getType().equals(role.getType())) {
             throw exception(ROLE_CAN_NOT_UPDATE_SYSTEM_TYPE_ROLE);
         }
+        return role;
+    }
+
+    @Override
+    public RoleDO getRole(Long id) {
+        return roleMapper.selectById(id);
+    }
+
+    @Override
+    @Cacheable(value = RedisKeyConstants.ROLE, key = "#id",
+            unless = "#result == null")
+    public RoleDO getRoleFromCache(Long id) {
+        return roleMapper.selectById(id);
+    }
+
+
+    @Override
+    public List<RoleDO> getRoleListByStatus(Collection<Integer> statuses) {
+        return roleMapper.selectListByStatus(statuses);
+    }
+
+    @Override
+    public List<RoleDO> getRoleList() {
+        return roleMapper.selectList();
+    }
+
+    @Override
+    public List<RoleDO> getRoleList(Collection<Long> ids) {
+        if (CollectionUtil.isEmpty(ids)) {
+            return Collections.emptyList();
+        }
+        return roleMapper.selectBatchIds(ids);
+    }
+
+    @Override
+    public List<RoleDO> getRoleListFromCache(Collection<Long> ids) {
+        if (CollectionUtil.isEmpty(ids)) {
+            return Collections.emptyList();
+        }
+        // 这里采用 for 循环从缓存中获取，主要考虑 Spring CacheManager 无法批量操作的问题
+        RoleServiceImpl self = getSelf();
+        return CollectionUtils.convertList(ids, self::getRoleFromCache);
+    }
+
+    @Override
+    public PageResult<RoleDO> getRolePage(RolePageReqVO reqVO) {
+        return roleMapper.selectPage(reqVO);
+    }
+
+    @Override
+    public boolean hasAnySuperAdmin(Collection<Long> ids) {
+        if (CollectionUtil.isEmpty(ids)) {
+            return false;
+        }
+        RoleServiceImpl self = getSelf();
+        return ids.stream().anyMatch(id -> {
+            RoleDO role = self.getRoleFromCache(id);
+            return role != null && RoleCodeEnum.isSuperAdmin(role.getCode());
+        });
     }
 
     @Override
@@ -276,4 +246,14 @@ public class RoleServiceImpl implements RoleService {
             }
         });
     }
+
+    /**
+     * 获得自身的代理对象，解决 AOP 生效问题
+     *
+     * @return 自己
+     */
+    private RoleServiceImpl getSelf() {
+        return SpringUtil.getBean(getClass());
+    }
+
 }

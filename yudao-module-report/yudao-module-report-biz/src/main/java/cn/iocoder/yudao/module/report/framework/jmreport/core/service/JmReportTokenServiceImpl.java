@@ -128,4 +128,20 @@ public class JmReportTokenServiceImpl implements JmReportTokenServiceI {
         return user;
     }
 
+    @Override
+    public String[] getRoles(String s) {
+        // 暂时不用实现，因为不用 JmReport 的角色
+        return null;
+    }
+
+    @Override
+    public String getTenantId() {
+        // 补充说明：不能直接通过 TenantContext 获取，因为 jimu 报表前端请求时，没有带上 tenant-id Header
+        LoginUser loginUser = SecurityFrameworkUtils.getLoginUser();
+        if (loginUser == null) {
+            return null;
+        }
+        return StrUtil.toStringOrNull(loginUser.getTenantId());
+    }
+
 }

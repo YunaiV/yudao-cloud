@@ -1,7 +1,6 @@
 package cn.iocoder.yudao.framework.test.config;
 
 import com.github.fppt.jedismock.RedisServer;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +14,7 @@ import java.io.IOException;
  *
  * @author 芋道源码
  */
-@AutoConfiguration
+@Configuration(proxyBeanMethods = false)
 @Lazy(false) // 禁止延迟加载
 @EnableConfigurationProperties(RedisProperties.class)
 public class RedisTestConfiguration {

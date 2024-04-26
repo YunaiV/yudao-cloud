@@ -15,9 +15,12 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.google.common.collect.Sets;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static cn.hutool.core.text.CharSequenceUtil.*;
+import static cn.hutool.core.util.RandomUtil.randomEle;
+import static cn.hutool.core.util.RandomUtil.randomInt;
 
 /**
  * 代码生成器的 Builder，负责：
@@ -47,8 +50,8 @@ public class CodegenBuilder {
                     .put("status", CodegenColumnHtmlTypeEnum.RADIO)
                     .put("sex", CodegenColumnHtmlTypeEnum.RADIO)
                     .put("type", CodegenColumnHtmlTypeEnum.SELECT)
-                    .put("image", CodegenColumnHtmlTypeEnum.UPLOAD_IMAGE)
-                    .put("file", CodegenColumnHtmlTypeEnum.UPLOAD_FILE)
+                    .put("image", CodegenColumnHtmlTypeEnum.IMAGE_UPLOAD)
+                    .put("file", CodegenColumnHtmlTypeEnum.FILE_UPLOAD)
                     .put("content", CodegenColumnHtmlTypeEnum.EDITOR)
                     .put("description", CodegenColumnHtmlTypeEnum.EDITOR)
                     .put("demo", CodegenColumnHtmlTypeEnum.EDITOR)
@@ -116,7 +119,7 @@ public class CodegenBuilder {
         table.setClassName(upperFirst(toCamelCase(subAfter(tableName, '_', false))));
         // 去除结尾的表，作为类描述
         table.setClassComment(StrUtil.removeSuffixIgnoreCase(table.getTableComment(), "表"));
-        table.setTemplateType(CodegenTemplateTypeEnum.CRUD.getType());
+        table.setTemplateType(CodegenTemplateTypeEnum.ONE.getType());
     }
 
     public List<CodegenColumnDO> buildColumns(Long tableId, List<TableField> tableFields) {
@@ -125,9 +128,14 @@ public class CodegenBuilder {
         for (CodegenColumnDO column : columns) {
             column.setTableId(tableId);
             column.setOrdinalPosition(index++);
+            // 特殊处理：Byte => Integer
+            if (Byte.class.getSimpleName().equals(column.getJavaType())) {
+                column.setJavaType(Integer.class.getSimpleName());
+            }
             // 初始化 Column 列的默认字段
             processColumnOperation(column); // 处理 CRUD 相关的字段的默认值
             processColumnUI(column); // 处理 UI 相关的字段的默认值
+            processColumnExample(column); // 处理字段的 swagger example 示例
         }
         return columns;
     }
@@ -159,13 +167,54 @@ public class CodegenBuilder {
                 .filter(entry -> StrUtil.endWithIgnoreCase(column.getJavaField(), entry.getKey()))
                 .findFirst().ifPresent(entry -> column.setHtmlType(entry.getValue().getType()));
         // 如果是 Boolean 类型时，设置为 radio 类型.
-        // 其它类型，因为字段名可以相对保障，所以不进行处理。例如说 date 对应 datetime 类型.
         if (Boolean.class.getSimpleName().equals(column.getJavaType())) {
             column.setHtmlType(CodegenColumnHtmlTypeEnum.RADIO.getType());
+        }
+        // 如果是 LocalDateTime 类型，则设置为 datetime 类型
+        if (LocalDateTime.class.getSimpleName().equals(column.getJavaType())) {
+            column.setHtmlType(CodegenColumnHtmlTypeEnum.DATETIME.getType());
         }
         // 兜底，设置默认为 input 类型
         if (column.getHtmlType() == null) {
             column.setHtmlType(CodegenColumnHtmlTypeEnum.INPUT.getType());
+        }
+    }
+
+    /**
+     * 处理字段的 swagger example 示例
+     *
+     * @param column 字段
+     */
+    private void processColumnExample(CodegenColumnDO column) {
+        // id、price、count 等可能是整数的后缀
+        if (StrUtil.endWithAnyIgnoreCase(column.getJavaField(), "id", "price", "count")) {
+            column.setExample(String.valueOf(randomInt(1, Short.MAX_VALUE)));
+            return;
+        }
+        // name
+        if (StrUtil.endWithIgnoreCase(column.getJavaField(), "name")) {
+            column.setExample(randomEle(new String[]{"张三", "李四", "王五", "赵六", "芋艿"}));
+            return;
+        }
+        // status
+        if (StrUtil.endWithAnyIgnoreCase(column.getJavaField(), "status", "type")) {
+            column.setExample(randomEle(new String[]{"1", "2"}));
+            return;
+        }
+        // url
+        if (StrUtil.endWithIgnoreCase(column.getColumnName(), "url")) {
+            column.setExample("https://www.iocoder.cn");
+            return;
+        }
+        // reason
+        if (StrUtil.endWithIgnoreCase(column.getColumnName(), "reason")) {
+            column.setExample(randomEle(new String[]{"不喜欢", "不对", "不好", "不香"}));
+            return;
+        }
+        // description、memo、remark
+        if (StrUtil.endWithAnyIgnoreCase(column.getColumnName(), "description", "memo", "remark")) {
+            column.setExample(randomEle(new String[]{"你猜", "随便", "你说的对"}));
+            return;
         }
     }
 

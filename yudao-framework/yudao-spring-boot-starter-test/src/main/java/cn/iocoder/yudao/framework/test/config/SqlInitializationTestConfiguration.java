@@ -1,6 +1,5 @@
 package cn.iocoder.yudao.framework.test.config;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnSingleCandidate;
@@ -24,7 +23,7 @@ import javax.sql.DataSource;
  *
  * @author 芋道源码
  */
-@AutoConfiguration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnMissingBean(AbstractScriptDatabaseInitializer.class)
 @ConditionalOnSingleCandidate(DataSource.class)
 @ConditionalOnClass(name = "org.springframework.jdbc.datasource.init.DatabasePopulator")

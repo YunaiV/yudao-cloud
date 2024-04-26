@@ -6,19 +6,20 @@ import cn.iocoder.yudao.framework.mybatis.core.type.JsonLongSetTypeHandler;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 /**
- * Bpm 用户组
+ * BPM 用户组
  *
  * @author 芋道源码
  */
 @TableName(value = "bpm_user_group", autoResultMap = true)
 @Data
-@EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -47,6 +48,6 @@ public class BpmUserGroupDO extends BaseDO {
      * 成员用户编号数组
      */
     @TableField(typeHandler = JsonLongSetTypeHandler.class)
-    private Set<Long> memberUserIds;
+    private Set<Long> userIds;
 
 }

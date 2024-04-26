@@ -1,29 +1,22 @@
 package cn.iocoder.yudao.module.system.api.permission.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * 部门的数据权限 Response DTO
- *
- * @author 芋道源码
- */
+@Schema(description = "RPC 服务 - 部门的数据权限 Response DTO")
 @Data
 public class DeptDataPermissionRespDTO {
 
-    /**
-     * 是否可查看全部数据
-     */
+    @Schema(description = "是否可查看全部数据", requiredMode = Schema.RequiredMode.REQUIRED, example = "true")
     private Boolean all;
-    /**
-     * 是否可查看自己的数据
-     */
+
+    @Schema(description = "是否可查看自己的数据", requiredMode = Schema.RequiredMode.REQUIRED, example = "true")
     private Boolean self;
-    /**
-     * 可查看的部门编号数组
-     */
+
+    @Schema(description = "可查看的部门编号数组", requiredMode = Schema.RequiredMode.REQUIRED, example = "[1, 3]")
     private Set<Long> deptIds;
 
     public DeptDataPermissionRespDTO() {

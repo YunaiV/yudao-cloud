@@ -1,6 +1,6 @@
 package cn.iocoder.yudao.module.bpm.controller.admin.task.vo.instance;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.process.BpmProcessDefinitionRespVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -12,31 +12,33 @@ import java.util.Map;
 @Data
 public class BpmProcessInstanceRespVO {
 
-    @Schema(description = "流程实例的编号", required = true, example = "1024")
+    @Schema(description = "流程实例的编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private String id;
 
-    @Schema(description = "流程名称", required = true, example = "芋道")
+    @Schema(description = "流程名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
     private String name;
 
-    @Schema(description = "流程分类,参见 bpm_model_category 数据字典", required = true, example = "1")
+    @Schema(description = "流程分类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private String category;
+    @Schema(description = "流程分类名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "请假")
+    private String categoryName;
 
-    @Schema(description = "流程实例的状态,参见 bpm_process_instance_status", required = true, example = "1")
-    private Integer status;
+    @Schema(description = "流程实例的状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
+    private Integer status; // 参见 BpmProcessInstanceStatusEnum 枚举
 
-    @Schema(description = "流程实例的结果,参见 bpm_process_instance_result", required = true, example = "2")
-    private Integer result;
+    @Schema(description = "发起时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    private LocalDateTime startTime;
 
-    @Schema(description = "提交时间", required = true)
-    private LocalDateTime createTime;
-
-    @Schema(description = "结束时间", required = true)
+    @Schema(description = "结束时间", requiredMode = Schema.RequiredMode.REQUIRED)
     private LocalDateTime endTime;
 
-    @Schema(description = "提交的表单值", required = true)
+    @Schema(description = "持续时间", example = "1000")
+    private Long durationInMillis;
+
+    @Schema(description = "提交的表单值", requiredMode = Schema.RequiredMode.REQUIRED)
     private Map<String, Object> formVariables;
 
-    @Schema(description = "业务的唯一标识,例如说，请假申请的编号", example = "1")
+    @Schema(description = "业务的唯一标识-例如说，请假申请的编号", example = "1")
     private String businessKey;
 
     /**
@@ -44,49 +46,43 @@ public class BpmProcessInstanceRespVO {
      */
     private User startUser;
 
+    @Schema(description = "流程定义的编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "2048")
+    private String processDefinitionId;
     /**
      * 流程定义
      */
-    private ProcessDefinition processDefinition;
+    private BpmProcessDefinitionRespVO processDefinition;
+
+    /**
+     * 当前审批中的任务
+     */
+    private List<Task> tasks; // 仅在流程实例分页才返回
 
     @Schema(description = "用户信息")
     @Data
     public static class User {
 
-        @Schema(description = "用户编号", required = true, example = "1")
+        @Schema(description = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
         private Long id;
-        @Schema(description = "用户昵称", required = true, example = "芋艿")
+        @Schema(description = "用户昵称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋艿")
         private String nickname;
 
-        @Schema(description = "部门编号", required = true, example = "1")
+        @Schema(description = "部门编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
         private Long deptId;
-        @Schema(description = "部门名称", required = true, example = "研发部")
+        @Schema(description = "部门名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "研发部")
         private String deptName;
 
     }
 
-    @Schema(description = "流程定义信息")
+    @Schema(description = "流程任务")
     @Data
-    public static class ProcessDefinition {
+    public static class Task {
 
-        @Schema(description = "编号", required = true, example = "1024")
+        @Schema(description = "流程任务的编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
         private String id;
 
-        @Schema(description = "表单类型,参见 bpm_model_form_type 数据字典", example = "1")
-        private Integer formType;
-        @Schema(description = "表单编号,在表单类型为 {@link BpmModelFormTypeEnum#CUSTOM} 时，必须非空", example = "1024")
-        private Long formId;
-        @Schema(description = "表单的配置,JSON 字符串。在表单类型为 {@link BpmModelFormTypeEnum#CUSTOM} 时，必须非空", required = true)
-        private String formConf;
-        @Schema(description = "表单项的数组,JSON 字符串的数组。在表单类型为 {@link BpmModelFormTypeEnum#CUSTOM} 时，必须非空", required = true)
-        private List<String> formFields;
-        @Schema(description = "自定义表单的提交路径，使用 Vue 的路由地址,在表单类型为 {@link BpmModelFormTypeEnum#CUSTOM} 时，必须非空", example = "/bpm/oa/leave/create")
-        private String formCustomCreatePath;
-        @Schema(description = "自定义表单的查看路径，使用 Vue 的路由地址,在表单类型为 {@link BpmModelFormTypeEnum#CUSTOM} 时，必须非空", example = "/bpm/oa/leave/view")
-        private String formCustomViewPath;
-
-        @Schema(description = "BPMN XML", required = true)
-        private String bpmnXml;
+        @Schema(description = "任务名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+        private String name;
 
     }
 

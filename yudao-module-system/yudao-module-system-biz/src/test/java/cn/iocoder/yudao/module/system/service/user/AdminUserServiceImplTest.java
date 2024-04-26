@@ -10,7 +10,10 @@ import cn.iocoder.yudao.framework.test.core.ut.BaseDbUnitTest;
 import cn.iocoder.yudao.module.infra.api.file.FileApi;
 import cn.iocoder.yudao.module.system.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
 import cn.iocoder.yudao.module.system.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
-import cn.iocoder.yudao.module.system.controller.admin.user.vo.user.*;
+import cn.iocoder.yudao.module.system.controller.admin.user.vo.user.UserImportExcelVO;
+import cn.iocoder.yudao.module.system.controller.admin.user.vo.user.UserImportRespVO;
+import cn.iocoder.yudao.module.system.controller.admin.user.vo.user.UserPageReqVO;
+import cn.iocoder.yudao.module.system.controller.admin.user.vo.user.UserSaveReqVO;
 import cn.iocoder.yudao.module.system.dal.dataobject.dept.DeptDO;
 import cn.iocoder.yudao.module.system.dal.dataobject.dept.PostDO;
 import cn.iocoder.yudao.module.system.dal.dataobject.dept.UserPostDO;
@@ -80,11 +83,11 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreatUser_success() {
         // 准备参数
-        UserCreateReqVO reqVO = randomPojo(UserCreateReqVO.class, o -> {
+        UserSaveReqVO reqVO = randomPojo(UserSaveReqVO.class, o -> {
             o.setSex(RandomUtil.randomEle(SexEnum.values()).getSex());
             o.setMobile(randomString());
             o.setPostIds(asSet(1L, 2L));
-        });
+        }).setId(null); // 避免 id 被赋值
         // mock 账户额度充足
         TenantDO tenant = randomPojo(TenantDO.class, o -> o.setAccountCount(1));
         doNothing().when(tenantService).handleTenantInfo(argThat(handler -> {
@@ -111,7 +114,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         Long userId = userService.createUser(reqVO);
         // 断言
         AdminUserDO user = userMapper.selectById(userId);
-        assertPojoEquals(reqVO, user, "password");
+        assertPojoEquals(reqVO, user, "password", "id");
         assertEquals("yudaoyuanma", user.getPassword());
         assertEquals(CommonStatusEnum.ENABLE.getStatus(), user.getStatus());
         // 断言关联岗位
@@ -123,7 +126,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreatUser_max() {
         // 准备参数
-        UserCreateReqVO reqVO = randomPojo(UserCreateReqVO.class);
+        UserSaveReqVO reqVO = randomPojo(UserSaveReqVO.class);
         // mock 账户额度不足
         TenantDO tenant = randomPojo(TenantDO.class, o -> o.setAccountCount(-1));
         doNothing().when(tenantService).handleTenantInfo(argThat(handler -> {
@@ -143,7 +146,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         userPostMapper.insert(new UserPostDO().setUserId(dbUser.getId()).setPostId(1L));
         userPostMapper.insert(new UserPostDO().setUserId(dbUser.getId()).setPostId(2L));
         // 准备参数
-        UserUpdateReqVO reqVO = randomPojo(UserUpdateReqVO.class, o -> {
+        UserSaveReqVO reqVO = randomPojo(UserSaveReqVO.class, o -> {
             o.setId(dbUser.getId());
             o.setSex(RandomUtil.randomEle(SexEnum.values()).getSex());
             o.setMobile(randomString());
@@ -167,7 +170,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         userService.updateUser(reqVO);
         // 断言
         AdminUserDO user = userMapper.selectById(reqVO.getId());
-        assertPojoEquals(reqVO, user);
+        assertPojoEquals(reqVO, user, "password");
         // 断言关联岗位
         List<UserPostDO> userPosts = userPostMapper.selectListByUserId(user.getId());
         assertEquals(2L, userPosts.get(0).getPostId());
@@ -345,7 +348,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         reqVO.setDeptId(1L); // 其中，1L 是 2L 的父部门
         // mock 方法
         List<DeptDO> deptList = newArrayList(randomPojo(DeptDO.class, o -> o.setId(2L)));
-        when(deptService.getDeptListByParentIdFromCache(eq(reqVO.getDeptId()), eq(true))).thenReturn(deptList);
+        when(deptService.getChildDeptList(eq(reqVO.getDeptId()))).thenReturn(deptList);
 
         // 调用
         PageResult<AdminUserDO> pageResult = userService.getUserPage(reqVO);
@@ -353,28 +356,6 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
         assertPojoEquals(dbUser, pageResult.getList().get(0));
-    }
-
-    @Test
-    public void testGetUserList_export() {
-        // mock 数据
-        AdminUserDO dbUser = initGetUserPageData();
-        // 准备参数
-        UserExportReqVO reqVO = new UserExportReqVO();
-        reqVO.setUsername("tu");
-        reqVO.setMobile("1560");
-        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        reqVO.setCreateTime(buildBetweenTime(2020, 12, 1, 2020, 12, 24));
-        reqVO.setDeptId(1L); // 其中，1L 是 2L 的父部门
-        // mock 方法
-        List<DeptDO> deptList = newArrayList(randomPojo(DeptDO.class, o -> o.setId(2L)));
-        when(deptService.getDeptListByParentIdFromCache(eq(reqVO.getDeptId()), eq(true))).thenReturn(deptList);
-
-        // 调用
-        List<AdminUserDO> list = userService.getUserList(reqVO);
-        // 断言
-        assertEquals(1, list.size());
-        assertPojoEquals(dbUser, list.get(0));
     }
 
     /**

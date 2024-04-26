@@ -2,11 +2,9 @@ package cn.iocoder.yudao.module.system.api.sms.dto.send;
 
 import cn.iocoder.yudao.framework.common.validation.Mobile;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Schema(description = "RPC 服务 - 短信发送给 Admin 或者 Member 用户 Request DTO")
@@ -15,11 +13,11 @@ public class SmsSendSingleToUserReqDTO {
 
     @Schema(description = "用户编号", example = "1024")
     private Long userId;
-    @Schema(description = "手机号", required = true, example = "15601691300")
+    @Schema(description = "手机号", requiredMode = Schema.RequiredMode.REQUIRED, example = "15601691300")
     @Mobile
     private String mobile;
 
-    @Schema(description = "短信模板编号", required = true, example = "USER_SEND")
+    @Schema(description = "短信模板编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "USER_SEND")
     @NotEmpty(message = "短信模板编号不能为空")
     private String templateCode;
     @Schema(description = "短信模板参数")

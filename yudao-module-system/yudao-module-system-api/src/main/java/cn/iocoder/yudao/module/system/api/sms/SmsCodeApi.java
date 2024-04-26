@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 
 @FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
-@Tag(name =  "RPC 服务 - 短信验证码")
+@Tag(name = "RPC 服务 - 短信验证码")
 public interface SmsCodeApi {
 
     String PREFIX = ApiConstants.PREFIX + "/oauth2/sms/code";

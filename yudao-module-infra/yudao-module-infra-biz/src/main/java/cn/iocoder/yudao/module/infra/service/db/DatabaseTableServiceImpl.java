@@ -56,7 +56,7 @@ public class DatabaseTableServiceImpl implements DatabaseTableService {
             // 移除工作流和定时任务前缀的表名 // TODO 未来做成可配置
             strategyConfig.addExclude("ACT_[\\S\\s]+|QRTZ_[\\S\\s]+|FLW_[\\S\\s]+");
         }
-        GlobalConfig globalConfig = new GlobalConfig.Builder().dateType(DateType.ONLY_DATE).build(); // 只使用 LocalDateTime 类型，不使用 LocalDate
+        GlobalConfig globalConfig = new GlobalConfig.Builder().dateType(DateType.TIME_PACK).build(); // 只使用 LocalDateTime 类型，不使用 LocalDate
         ConfigBuilder builder = new ConfigBuilder(null, dataSourceConfig, strategyConfig.build(),
                 null, globalConfig, null);
         // 按照名字排序

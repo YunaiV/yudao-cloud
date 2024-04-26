@@ -1,6 +1,5 @@
 package cn.iocoder.yudao.framework.datapermission.config;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.iocoder.yudao.framework.datapermission.core.rule.dept.DeptDataPermissionRule;
 import cn.iocoder.yudao.framework.datapermission.core.rule.dept.DeptDataPermissionRuleCustomizer;
@@ -12,7 +11,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 基于部门的数据权限 AutoConfiguration

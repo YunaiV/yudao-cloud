@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.framework.security.config;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.iocoder.yudao.framework.security.core.filter.TokenAuthenticationFilter;
 import cn.iocoder.yudao.framework.web.config.WebProperties;
 import com.google.common.collect.HashMultimap;
@@ -11,12 +12,14 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -33,7 +36,7 @@ import java.util.Set;
  * @author 芋道源码
  */
 @AutoConfiguration
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableMethodSecurity(securedEnabled = true)
 public class YudaoWebSecurityConfigurerAdapter {
 
     @Resource
@@ -60,7 +63,7 @@ public class YudaoWebSecurityConfigurerAdapter {
     /**
      * 自定义的权限映射 Bean 们
      *
-     * @see #configure(HttpSecurity)
+     * @see #filterChain(HttpSecurity)
      */
     @Resource
     private List<AuthorizeRequestsCustomizer> authorizeRequestsCustomizers;
@@ -95,7 +98,7 @@ public class YudaoWebSecurityConfigurerAdapter {
      * authenticated       |   用户登录后可访问
      */
     @Bean
-    protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
+    protected SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         // 登出
         httpSecurity
                 // 开启跨域
@@ -116,16 +119,16 @@ public class YudaoWebSecurityConfigurerAdapter {
         httpSecurity
                 // ①：全局共享规则
                 .authorizeRequests()
-                // 静态资源，可匿名访问
+                // 1.1 静态资源，可匿名访问
                 .antMatchers(HttpMethod.GET, "/*.html", "/**/*.html", "/**/*.css", "/**/*.js").permitAll()
-                // 设置 @PermitAll 无需认证
+                // 1.2 设置 @PermitAll 无需认证
                 .antMatchers(HttpMethod.GET, permitAllUrls.get(HttpMethod.GET).toArray(new String[0])).permitAll()
                 .antMatchers(HttpMethod.POST, permitAllUrls.get(HttpMethod.POST).toArray(new String[0])).permitAll()
                 .antMatchers(HttpMethod.PUT, permitAllUrls.get(HttpMethod.PUT).toArray(new String[0])).permitAll()
                 .antMatchers(HttpMethod.DELETE, permitAllUrls.get(HttpMethod.DELETE).toArray(new String[0])).permitAll()
-                // 基于 yudao.security.permit-all-urls 无需认证
+                // 1.3 基于 yudao.security.permit-all-urls 无需认证
                 .antMatchers(securityProperties.getPermitAllUrls().toArray(new String[0])).permitAll()
-                // 设置 App API 无需认证
+                // 1.4 设置 App API 无需认证
                 .antMatchers(buildAppApi("/**")).permitAll()
                 // ②：每个项目的自定义规则
                 .and().authorizeRequests(registry -> // 下面，循环设置自定义规则
@@ -135,7 +138,7 @@ public class YudaoWebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
         ;
 
-        // 添加 JWT Filter
+        // 添加 Token Filter
         httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
@@ -160,8 +163,17 @@ public class YudaoWebSecurityConfigurerAdapter {
                 continue;
             }
             Set<String> urls = entry.getKey().getPatternsCondition().getPatterns();
+            // 特殊：使用 @RequestMapping 注解，并且未写 method 属性，此时认为都需要免登录
+            Set<RequestMethod> methods = entry.getKey().getMethodsCondition().getMethods();
+            if (CollUtil.isEmpty(methods)) { //
+                result.putAll(HttpMethod.GET, urls);
+                result.putAll(HttpMethod.POST, urls);
+                result.putAll(HttpMethod.PUT, urls);
+                result.putAll(HttpMethod.DELETE, urls);
+                continue;
+            }
             // 根据请求方法，添加到 result 结果
-            entry.getKey().getMethodsCondition().getMethods().forEach(requestMethod -> {
+            methods.forEach(requestMethod -> {
                 switch (requestMethod) {
                     case GET:
                         result.putAll(HttpMethod.GET, urls);

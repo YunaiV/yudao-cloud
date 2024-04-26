@@ -2,6 +2,7 @@ package cn.iocoder.yudao.gateway.util;
 
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +45,7 @@ public class WebFrameworkUtils {
 
     public static Long getTenantId(ServerWebExchange exchange) {
         String tenantId = exchange.getRequest().getHeaders().getFirst(HEADER_TENANT_ID);
-        return tenantId != null ? Long.parseLong(tenantId) : null;
+        return NumberUtil.isNumber(tenantId) ? Long.valueOf(tenantId) : null;
     }
 
     /**

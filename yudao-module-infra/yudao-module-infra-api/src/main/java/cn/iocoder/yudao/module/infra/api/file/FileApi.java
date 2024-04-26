@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.Valid;
 
 @FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
-@Tag(name =  "RPC 服务 - 文件")
+@Tag(name = "RPC 服务 - 文件")
 public interface FileApi {
 
     String PREFIX = ApiConstants.PREFIX + "/file";

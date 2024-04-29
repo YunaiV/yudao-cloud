@@ -12,7 +12,6 @@ import cn.iocoder.yudao.framework.tenant.core.service.TenantFrameworkService;
 import cn.iocoder.yudao.framework.web.config.WebProperties;
 import cn.iocoder.yudao.framework.web.core.filter.ApiRequestFilter;
 import cn.iocoder.yudao.framework.web.core.handler.GlobalExceptionHandler;
-import cn.iocoder.yudao.framework.web.core.util.WebFrameworkUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,8 +27,6 @@ import java.util.Objects;
  * 1. 如果是登陆的用户，校验是否有权限访问该租户，避免越权问题。
  * 2. 如果请求未带租户的编号，检查是否是忽略的 URL，否则也不允许访问。
  * 3. 校验租户是合法，例如说被禁用、到期
- *
- * 校验用户访问的租户，是否是其所在的租户，
  *
  * @author 芋道源码
  */
@@ -58,7 +55,6 @@ public class TenantSecurityWebFilter extends ApiRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         Long tenantId = TenantContextHolder.getTenantId();
-        boolean isRpcRequest = WebFrameworkUtils.isRpcRequest(request);
         // 1. 登陆的用户，校验是否有权限访问该租户，避免越权问题。
         LoginUser user = SecurityFrameworkUtils.getLoginUser();
         if (user != null) {

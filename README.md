@@ -16,8 +16,15 @@
 
 ## 🐰 版本说明
 
-* JDK 8 + Spring Boot 2.7 版本：<https://gitee.com/zhijiantianya/yudao-cloud> 的 `master` 分支
-* JDK 17/21 + Spring Boot 3.2 版本：<https://gitee.com/zhijiantianya/yudao-cloud> 的 `master-jdk17` 分支
+| 版本                                                                    | JDK 8 + Spring Boot 2.7                                                  | JDK 17/21 + Spring Boot 3.2                                                          |
+|-----------------------------------------------------------------------|--------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
+| 【完整版】[yudao-cloud](https://gitee.com/zhijiantianya/yudao-cloud)       | [`master`](https://gitee.com/zhijiantianya/yudao-cloud/tree/master/) 分支  | [`master-jdk17`](https://gitee.com/zhijiantianya/yudao-cloud/tree/master-jdk17/) 分支  |
+| 【精简版】[yudao-cloud-mini](https://gitee.com/yudaocode/yudao-cloud-mini) | [`master`](https://gitee.com/yudaocode/yudao-cloud-mini/tree/master/) 分支 | [`master-jdk17`](https://gitee.com/yudaocode/yudao-cloud-mini/tree/master-jdk17/) 分支 |
+
+* 【完整版】：包括系统功能、基础设施、会员中心、数据报表、工作流程、商城系统、微信公众号、CRM、ERP 等功能
+* 【精简版】：只包括系统功能、基础设施功能，不包括会员中心、数据报表、工作流程、商城系统、微信公众号、CRM、ERP 等功能
+
+可参考 [《迁移文档》](https://cloud.iocoder.cn/migrate-module/) ，只需要 5-10 分钟，即可将【完整版】按需迁移到【精简版】
 
 ## 🐶 新手必读
 

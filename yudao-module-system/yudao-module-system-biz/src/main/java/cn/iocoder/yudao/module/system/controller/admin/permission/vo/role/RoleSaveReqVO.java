@@ -2,10 +2,11 @@ package cn.iocoder.yudao.module.system.controller.admin.permission.vo.role;
 
 import com.mzt.logapi.starter.annotation.DiffLogField;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Schema(description = "管理后台 - 角色创建/更新 Request VO")
 @Data

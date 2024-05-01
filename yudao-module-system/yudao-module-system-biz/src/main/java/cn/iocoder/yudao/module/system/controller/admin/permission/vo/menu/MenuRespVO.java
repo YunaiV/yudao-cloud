@@ -1,11 +1,11 @@
 package cn.iocoder.yudao.module.system.controller.admin.permission.vo.menu;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Schema(description = "管理后台 - 菜单信息 Response VO")
@@ -28,7 +28,7 @@ public class MenuRespVO {
     @NotNull(message = "菜单类型不能为空")
     private Integer type;
 
-    @Schema(description = "显示顺序不能为空", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    @Schema(description = "显示顺序", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @NotNull(message = "显示顺序不能为空")
     private Integer sort;
 

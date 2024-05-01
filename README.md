@@ -14,6 +14,11 @@
 
 如果这个项目让你有所收获，记得 Star 关注哦，这对我是非常不错的鼓励与支持。
 
+## 🐰 版本说明
+
+* JDK 8 + Spring Boot 2.7 版本：<https://gitee.com/zhijiantianya/yudao-cloud> 的 `master` 分支
+* JDK 17/21 + Spring Boot 3.2 版本：<https://gitee.com/zhijiantianya/yudao-cloud> 的 `master-jdk17` 分支
+
 ## 🐶 新手必读
 
 * 演示地址【Vue3 + element-plus】：<http://dashboard-vue3.yudao.iocoder.cn>
@@ -32,7 +37,7 @@
 
 ![架构图](/.image/common/yudao-cloud-architecture.png)
 
-* Java 后端：`master` 分支为 JDK 8 + Spring Boot 2.7.18，`master-jdk21` 分支为 JDK21 + Spring Boot 3.2.0
+* Java 后端：`master` 分支为 JDK 8 + Spring Boot 2.7，`master-jdk17` 分支为 JDK 17/21 + Spring Boot 3.2
 * 管理后台的电脑端：Vue3 提供 [element-plus](https://gitee.com/yudaocode/yudao-ui-admin-vue3)、[vben(ant-design-vue)](https://gitee.com/yudaocode/yudao-ui-admin-vben) 两个版本，Vue2 提供 [element-ui](https://gitee.com/zhijiantianya/ruoyi-vue-pro/tree/master/yudao-ui-admin) 版本
 * 管理后台的移动端：采用 [uni-app](https://github.com/dcloudio/uni-app) 方案，一份代码多终端适配，同时支持 APP、小程序、H5！
 * 后端采用 Spring Cloud Alibaba 微服务架构，注册中心 + 配置中心 Nacos，定时任务 XXL-Job，服务保障 Sentinel，服务网关 Gateway，分布式事务 Seata
@@ -72,11 +77,6 @@
 | [yudao-ui-admin-uniapp](https://gitee.com/yudaocode/yudao-ui-admin-uniapp) | [![Gitee star](https://gitee.com/yudaocode/yudao-ui-admin-uniapp/badge/star.svg?theme=white)](https://gitee.com/yudaocode/yudao-ui-admin-uniapp) [![GitHub stars](https://img.shields.io/github/stars/yudaocode/yudao-ui-admin-uniapp.svg?style=social&label=Stars)](https://github.com/yudaocode/yudao-ui-admin-uniapp) | 基于 Vue2 + element-ui 实现的管理后台           |
 | [yudao-ui-go-view](https://gitee.com/yudaocode/yudao-ui-go-view)           | [![Gitee star](https://gitee.com/yudaocode/yudao-ui-go-view/badge/star.svg?theme=white)](https://gitee.com/yudaocode/yudao-ui-go-view) [![GitHub stars](https://img.shields.io/github/stars/yudaocode/yudao-ui-go-view.svg?style=social&label=Stars)](https://github.com/yudaocode/yudao-ui-go-view)                     | 基于 Vue3 + naive-ui 实现的大屏报表             |
 
-## 🐰 分支说明
-
-* JDK 8 + Spring Boot 2.7.18 版本：<https://gitee.com/zhijiantianya/yudao-cloud> 的 `master` 分支
-* JDK 21 + Spring Boot 3.2.0 版本：<https://gitee.com/zhijiantianya/yudao-cloud> 的 `master-jdk21` 分支
-
 ## 😎 开源协议
 
 **为什么推荐使用本项目？**
@@ -103,16 +103,9 @@
 
 ![功能分层](/.image/common/ruoyi-vue-pro-biz.png)
 
-* 系统功能
-* 基础设施
-* 工作流程
-* 支付系统
-* 会员中心
-* 数据报表
-* 商城系统
-* 微信公众号
-* ERP 系统
-* CRM 系统
+* 通用模块（必选）：系统功能、基础设施
+* 通用模块（可选）：工作流程、支付系统、数据报表、会员中心
+* 业务系统（按需）：ERP 系统、CRM 系统、商城系统、微信公众号
 
 > 友情提示：本项目基于 RuoYi-Vue 修改，**重构优化**后端的代码，**美化**前端的界面。
 >

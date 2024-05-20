@@ -37,6 +37,7 @@ public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
                 .region(buildRegion()) // Region
                 .credentials(config.getAccessKey(), config.getAccessSecret()) // 认证密钥
                 .build();
+        client.enableVirtualStyleEndpoint();
     }
 
     /**

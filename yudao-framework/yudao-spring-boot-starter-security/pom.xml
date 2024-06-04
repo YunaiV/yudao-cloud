@@ -73,6 +73,7 @@
             <groupId>io.github.mouzt</groupId>
             <artifactId>bizlog-sdk</artifactId>
         </dependency>
+
     </dependencies>
 
 </project>

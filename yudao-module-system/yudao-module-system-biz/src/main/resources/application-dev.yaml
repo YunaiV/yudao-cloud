@@ -142,6 +142,8 @@ yudao:
     pay-return-url: http://niubi.natapp1.cc/api/pay/order/return
     refund-notify-url: http://niubi.natapp1.cc/api/pay/refund/notify
   demo: true # 开启演示模式
+  wxa-code:
+    env-version: release # 小程序版本: 正式版为 "release"；体验版为 "trial"；开发版为 "develop"
 
 justauth:
   enabled: true

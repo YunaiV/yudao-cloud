@@ -3,11 +3,13 @@ package cn.iocoder.yudao.module.system.api.social;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialWxJsapiSignatureRespDTO;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialWxPhoneNumberInfoRespDTO;
+import cn.iocoder.yudao.module.system.api.social.dto.SocialWxQrcodeReqDTO;
 import cn.iocoder.yudao.module.system.enums.ApiConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,5 +48,9 @@ public interface SocialClientApi {
     })
     CommonResult<SocialWxPhoneNumberInfoRespDTO> getWxMaPhoneNumberInfo(@RequestParam("userType") Integer userType,
                                                                         @RequestParam("phoneCode") String phoneCode);
+
+    @GetMapping(PREFIX + "/get-wxa-qrcode")
+    @Operation(summary = "获得小程序二维码")
+    CommonResult<byte[]> getWxaQrcode(@Valid SocialWxQrcodeReqDTO reqVO);
 
 }

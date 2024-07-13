@@ -5,6 +5,7 @@ import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialWxJsapiSignatureRespDTO;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialWxPhoneNumberInfoRespDTO;
+import cn.iocoder.yudao.module.system.api.social.dto.SocialWxQrcodeReqDTO;
 import cn.iocoder.yudao.module.system.service.social.SocialClientService;
 import me.chanjar.weixin.common.bean.WxJsapiSignature;
 import org.springframework.validation.annotation.Validated;
@@ -41,6 +42,11 @@ public class SocialClientApiImpl implements SocialClientApi {
     public CommonResult<SocialWxPhoneNumberInfoRespDTO> getWxMaPhoneNumberInfo(Integer userType, String phoneCode) {
         WxMaPhoneNumberInfo info = socialClientService.getWxMaPhoneNumberInfo(userType, phoneCode);
         return success(BeanUtils.toBean(info, SocialWxPhoneNumberInfoRespDTO.class));
+    }
+
+    @Override
+    public CommonResult<byte[]> getWxaQrcode(SocialWxQrcodeReqDTO reqVO) {
+        return success(socialClientService.getWxaQrcode(reqVO));
     }
 
 }

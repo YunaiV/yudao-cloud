@@ -17,17 +17,17 @@
         <revision>2.1.0-snapshot</revision>
         <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
         <!-- 统一依赖管理 -->
-        <spring.boot.version>3.2.1</spring.boot.version>
+        <spring.boot.version>3.3.1</spring.boot.version>
         <spring.cloud.version>2023.0.0</spring.cloud.version>
         <spring.cloud.alibaba.version>2022.0.0.0</spring.cloud.alibaba.version>
         <!-- Web 相关 -->
         <springdoc.version>2.2.0</springdoc.version>
         <knife4j.version>4.3.0</knife4j.version>
         <!-- DB 相关 -->
-        <druid.version>1.2.21</druid.version>
+        <druid.version>1.2.23</druid.version>
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
         <mybatis-plus-generator.version>3.5.5</mybatis-plus-generator.version>
-        <dynamic-datasource.version>4.3.0</dynamic-datasource.version>
+        <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
         <mybatis-plus-join.version>1.4.10</mybatis-plus-join.version>
         <easy-trans.version>2.2.11</easy-trans.version>
         <redisson.version>3.26.0</redisson.version>
@@ -42,7 +42,7 @@
         <lock4j.version>2.2.7</lock4j.version>
         <!-- 监控相关 -->
         <skywalking.version>9.0.0</skywalking.version>
-        <spring-boot-admin.version>3.2.1</spring-boot-admin.version>
+        <spring-boot-admin.version>3.3.1</spring-boot-admin.version>
         <opentracing.version>0.33.0</opentracing.version>
         <!-- Test 测试相关 -->
         <podam.version>8.0.1.RELEASE</podam.version>
@@ -59,10 +59,8 @@
         <hutool-6.version>6.0.0-M10</hutool-6.version>
         <easyexcel.verion>3.3.3</easyexcel.verion>
         <velocity.version>2.3</velocity.version>
-        <screw.version>1.0.5</screw.version>
         <fastjson.version>1.2.83</fastjson.version>
         <guava.version>33.0.0-jre</guava.version>
-        <guice.version>5.1.0</guice.version>
         <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
         <commons-net.version>3.10.0</commons-net.version>
         <jsch.version>0.1.55</jsch.version>

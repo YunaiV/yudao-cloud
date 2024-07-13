@@ -22,6 +22,8 @@
         <module>yudao-module-mall</module>
         <module>yudao-module-erp</module>
         <module>yudao-module-crm</module>
+        <!-- 友情提示：基于 Spring AI 实现 LLM 大模型的接入，需要使用 JDK17 版本，详细可见 https://doc.iocoder.cn/ai/build/ -->
+<!--        <module>yudao-module-ai</module>-->
     </modules>
 
     <name>${project.artifactId}</name>

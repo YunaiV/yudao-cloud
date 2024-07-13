@@ -25,10 +25,10 @@
         <springdoc.version>1.6.15</springdoc.version>
         <knife4j.version>4.3.0</knife4j.version>
         <!-- DB 相关 -->
-        <druid.version>1.2.21</druid.version>
+        <druid.version>1.2.23</druid.version>
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
         <mybatis-plus-generator.version>3.5.5</mybatis-plus-generator.version>
-        <dynamic-datasource.version>4.3.0</dynamic-datasource.version>
+        <dynamic-datasource.version>4.3.1</dynamic-datasource.version>
         <mybatis-plus-join.version>1.4.10</mybatis-plus-join.version>
         <easy-trans.version>2.2.11</easy-trans.version>
         <redisson.version>3.18.0</redisson.version> <!-- Spring Boot 2.X 最多使用 3.18.0 版本，否则会报 Tuple NoClassDefFoundError -->
@@ -60,10 +60,8 @@
         <hutool.version>5.8.25</hutool.version>
         <easyexcel.verion>3.3.3</easyexcel.verion>
         <velocity.version>2.3</velocity.version>
-        <screw.version>1.0.5</screw.version>
         <fastjson.version>1.2.83</fastjson.version>
         <guava.version>33.0.0-jre</guava.version>
-        <guice.version>5.1.0</guice.version>
         <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
         <commons-net.version>3.10.0</commons-net.version>
         <jsch.version>0.1.55</jsch.version>

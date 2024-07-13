@@ -4,9 +4,11 @@ import cn.iocoder.yudao.framework.datapermission.core.rule.DataPermissionRule;
 import cn.iocoder.yudao.framework.datapermission.core.rule.DataPermissionRuleFactory;
 import cn.iocoder.yudao.framework.mybatis.core.util.MyBatisUtils;
 import cn.iocoder.yudao.framework.test.core.ut.BaseMockitoUnitTest;
+import com.baomidou.mybatisplus.extension.plugins.inner.DataPermissionInterceptor;
 import net.sf.jsqlparser.expression.Alias;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
+import net.sf.jsqlparser.expression.Parenthesis;
 import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
 import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.expression.operators.relational.InExpression;
@@ -21,24 +23,30 @@ import java.util.Set;
 
 import static cn.iocoder.yudao.framework.common.util.collection.SetUtils.asSet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 /**
- * {@link DataPermissionDatabaseInterceptor} 的单元测试
+ * {@link DataPermissionRuleHandler} 的单元测试
  * 主要复用了 MyBatis Plus 的 TenantLineInnerInterceptorTest 的单元测试
  * 不过它的单元测试不是很规范，考虑到是复用的，所以暂时不进行修改~
  *
  * @author 芋道源码
  */
-public class DataPermissionDatabaseInterceptorTest2 extends BaseMockitoUnitTest {
+public class DataPermissionRuleHandlerTest extends BaseMockitoUnitTest {
 
     @InjectMocks
-    private DataPermissionDatabaseInterceptor interceptor;
+    private DataPermissionRuleHandler handler;
 
     @Mock
     private DataPermissionRuleFactory ruleFactory;
 
+    private DataPermissionInterceptor interceptor;
+
     @BeforeEach
     public void setUp() {
+        interceptor = new DataPermissionInterceptor(handler);
+
         // 租户的数据权限规则
         DataPermissionRule tenantRule = new DataPermissionRule() {
 
@@ -71,14 +79,14 @@ public class DataPermissionDatabaseInterceptorTest2 extends BaseMockitoUnitTest 
             @Override
             public Expression getExpression(String tableName, Alias tableAlias) {
                 Column column = MyBatisUtils.buildColumn(tableName, tableAlias, COLUMN);
-                ExpressionList values = new ExpressionList(new LongValue(10L),
+                ExpressionList<LongValue> values = new ExpressionList<>(new LongValue(10L),
                         new LongValue(20L));
-                return new InExpression(column, values);
+                return new InExpression(column, new Parenthesis((values)));
             }
 
         };
-        // 设置到上下文，保证
-        DataPermissionDatabaseInterceptor.ContextHolder.init(Arrays.asList(tenantRule, deptRule));
+        // 设置到上下文
+        when(ruleFactory.getDataPermissionRule(any())).thenReturn(Arrays.asList(tenantRule, deptRule));
     }
 
     @Test
@@ -262,7 +270,7 @@ public class DataPermissionDatabaseInterceptorTest2 extends BaseMockitoUnitTest 
                         "right join entity2 e2 on e1.id = e2.id",
                 "SELECT * FROM entity e " +
                         "LEFT JOIN entity1 e1 ON e1.id = e.id AND e1.tenant_id = 1 " +
-                        "RIGHT JOIN entity2 e2 ON e1.id = e2.id AND e1.tenant_id = 1 " +
+                        "RIGHT JOIN entity2 e2 ON e1.id = e2.id AND e.tenant_id = 1 " +
                         "WHERE e2.tenant_id = 1");
 
         assertSql("SELECT * FROM entity e " +
@@ -446,7 +454,6 @@ public class DataPermissionDatabaseInterceptorTest2 extends BaseMockitoUnitTest 
     private void assertSql(String sql, String targetSql) {
         assertEquals(targetSql, interceptor.parserSingle(sql, null));
     }
-
 
     // ========== 额外的测试 ==========
 

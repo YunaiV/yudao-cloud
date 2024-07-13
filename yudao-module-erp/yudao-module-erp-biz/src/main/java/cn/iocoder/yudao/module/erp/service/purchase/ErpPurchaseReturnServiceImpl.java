@@ -82,7 +82,7 @@ public class ErpPurchaseReturnServiceImpl implements ErpPurchaseReturnService {
 
         // 2.1 插入退货
         ErpPurchaseReturnDO purchaseReturn = BeanUtils.toBean(createReqVO, ErpPurchaseReturnDO.class, in -> in
-                .setNo(no).setStatus(ErpAuditStatus.PROCESS.getStatus()))
+                        .setNo(no).setStatus(ErpAuditStatus.PROCESS.getStatus()))
                 .setOrderNo(purchaseOrder.getNo()).setSupplierId(purchaseOrder.getSupplierId());
         calculateTotalPrice(purchaseReturn, purchaseReturnItems);
         purchaseReturnMapper.insert(purchaseReturn);
@@ -136,7 +136,7 @@ public class ErpPurchaseReturnServiceImpl implements ErpPurchaseReturnService {
             purchaseReturn.setDiscountPercent(BigDecimal.ZERO);
         }
         purchaseReturn.setDiscountPrice(MoneyUtils.priceMultiplyPercent(purchaseReturn.getTotalPrice(), purchaseReturn.getDiscountPercent()));
-        purchaseReturn.setTotalPrice(purchaseReturn.getTotalPrice().subtract(purchaseReturn.getDiscountPrice().add(purchaseReturn.getOtherPrice())));
+        purchaseReturn.setTotalPrice(purchaseReturn.getTotalPrice().subtract(purchaseReturn.getDiscountPrice()).add(purchaseReturn.getOtherPrice()));
     }
 
     private void updatePurchaseOrderReturnCount(Long orderId) {

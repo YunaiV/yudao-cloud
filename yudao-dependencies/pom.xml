@@ -18,8 +18,8 @@
         <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
         <!-- 统一依赖管理 -->
         <spring.boot.version>2.7.18</spring.boot.version>
-        <spring.cloud.version>2021.0.5</spring.cloud.version>
-        <spring.cloud.alibaba.version>2021.0.4.0</spring.cloud.alibaba.version>
+        <spring.cloud.version>2021.0.9</spring.cloud.version>
+        <spring.cloud.alibaba.version>2021.0.6.1</spring.cloud.alibaba.version>
         <!-- Web 相关 -->
         <servlet.versoin>2.5</servlet.versoin>
         <springdoc.version>1.6.15</springdoc.version>

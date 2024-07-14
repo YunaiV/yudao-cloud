@@ -18,10 +18,11 @@
     <dependencies>
         <!-- Spring Cloud 基础 -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+            <groupId>cn.iocoder.cloud</groupId>
+            <artifactId>yudao-spring-boot-starter-env</artifactId>
         </dependency>
 
+        <!-- 依赖服务 -->
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>
             <artifactId>yudao-module-bpm-api</artifactId>

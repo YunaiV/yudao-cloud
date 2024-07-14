@@ -1,3 +1,20 @@
+--- #################### 注册中心 + 配置中心相关配置 ####################
+
+spring:
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848 # Nacos 服务器地址
+      username: # Nacos 账号
+      password: # Nacos 密码
+      discovery: # 【配置中心】配置项
+        namespace: dev # 命名空间。这里使用 dev 开发环境
+        group: DEFAULT_GROUP # 使用的 Nacos 配置分组，默认为 DEFAULT_GROUP
+        metadata:
+          version: 1.0.0 # 服务实例的版本号，可用于灰度发布
+      config: # 【注册中心】配置项
+        namespace: dev # 命名空间。这里使用 dev 开发环境
+        group: DEFAULT_GROUP # 使用的 Nacos 配置分组，默认为 DEFAULT_GROUP
+
 --- #################### 数据库相关配置 ####################
 spring:
   # 数据源配置项
@@ -106,6 +123,7 @@ logging:
     # 配置自己写的 MyBatis Mapper 打印日志
     cn.iocoder.yudao.module.pay.dal.mysql: debug
     cn.iocoder.yudao.module.pay.dal.mysql.notify.PayNotifyTaskMapper: INFO # 配置 PayNotifyTaskMapper 的日志级别为 info
+    org.springframework.context.support.PostProcessorRegistrationDelegate: ERROR # TODO 芋艿：先禁用，Spring Boot 3.X 存在部分错误的 WARN 提示
 
 --- #################### 芋道相关配置 ####################
 

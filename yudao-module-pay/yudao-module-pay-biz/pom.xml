@@ -24,7 +24,6 @@
             <artifactId>yudao-spring-boot-starter-env</artifactId>
         </dependency>
 
-
         <!-- 依赖服务 -->
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>

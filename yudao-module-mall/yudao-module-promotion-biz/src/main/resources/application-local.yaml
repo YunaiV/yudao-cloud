@@ -105,9 +105,7 @@ spring:
 logging:
   level:
     # 配置自己写的 MyBatis Mapper 打印日志
-    cn.iocoder.yudao.module.system.dal.mysql: debug
-    cn.iocoder.yudao.module.system.dal.mysql.sensitiveword.SensitiveWordMapper: INFO # 配置 SensitiveWordMapper 的日志级别为 info
-    cn.iocoder.yudao.module.system.dal.mysql.sms.SmsChannelMapper: INFO # 配置 SmsChannelMapper 的日志级别为 info
+    cn.iocoder.yudao.module.promotion.dal.mysql: debug
 
 --- #################### 芋道相关配置 ####################
 

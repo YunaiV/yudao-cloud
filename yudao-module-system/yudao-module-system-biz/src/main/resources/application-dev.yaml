@@ -1,3 +1,20 @@
+--- #################### 注册中心 + 配置中心相关配置 ####################
+
+spring:
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848 # Nacos 服务器地址
+      username: # Nacos 账号
+      password: # Nacos 密码
+      discovery: # 【配置中心】配置项
+        namespace: dev # 命名空间。这里使用 dev 开发环境
+        group: DEFAULT_GROUP # 使用的 Nacos 配置分组，默认为 DEFAULT_GROUP
+        metadata:
+          version: 1.0.0 # 服务实例的版本号，可用于灰度发布
+      config: # 【注册中心】配置项
+        namespace: dev # 命名空间。这里使用 dev 开发环境
+        group: DEFAULT_GROUP # 使用的 Nacos 配置分组，默认为 DEFAULT_GROUP
+
 --- #################### 数据库相关配置 ####################
 spring:
   # 数据源配置项
@@ -106,6 +123,11 @@ spring:
       # Spring Boot Admin Server 服务端的相关配置
       context-path: /admin # 配置 Spring
 
+# 日志文件配置
+logging:
+  file:
+    name: ${user.home}/logs/${spring.application.name}.log # 日志文件名，全路径
+
 --- #################### 微信公众号、小程序相关配置 ####################
 wx:
   mp: # 公众号配置（必填），参见 https://github.com/Wechat-Group/WxJava/blob/develop/spring-boot-starters/wx-java-mp-spring-boot-starter/README.md 文档
@@ -137,10 +159,6 @@ yudao:
     exclude-urls: # 如下两个 url，仅仅是为了演示，去掉配置也没关系
       - ${spring.boot.admin.context-path}/** # 不处理 Spring Boot Admin 的请求
       - ${management.endpoints.web.base-path}/** # 不处理 Actuator 的请求
-  pay:
-    pay-notify-url: http://niubi.natapp1.cc/api/pay/order/notify
-    pay-return-url: http://niubi.natapp1.cc/api/pay/order/return
-    refund-notify-url: http://niubi.natapp1.cc/api/pay/refund/notify
   demo: true # 开启演示模式
   wxa-code:
     env-version: release # 小程序版本: 正式版为 "release"；体验版为 "trial"；开发版为 "develop"

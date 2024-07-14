@@ -16,12 +16,6 @@
     <url>https://github.com/YunaiV/yudao-cloud</url>
 
     <dependencies>
-        <!-- Spring Cloud 基础 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bootstrap</artifactId>
-        </dependency>
-
         <!-- 业务组件 -->
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>

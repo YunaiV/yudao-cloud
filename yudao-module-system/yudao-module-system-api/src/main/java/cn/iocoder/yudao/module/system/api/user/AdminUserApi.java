@@ -5,6 +5,7 @@ import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
 import cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO;
 import cn.iocoder.yudao.module.system.enums.ApiConstants;
+import com.fhs.core.trans.anno.AutoTrans;
 import com.fhs.trans.service.AutoTransable;
 import feign.FeignIgnore;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,9 +20,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static cn.iocoder.yudao.module.system.api.user.AdminUserApi.PREFIX;
+
 @FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
 @Tag(name = "RPC 服务 - 管理员用户")
-//@AutoTrans(namespace = PREFIX, fields = {"nickname"}) // TODO @芋艿：需要 easy-trans 做个 bugfix
+@AutoTrans(namespace = PREFIX, fields = {"nickname"}) // TODO @芋艿：需要 easy-trans 做个 bugfix
 public interface AdminUserApi extends AutoTransable<AdminUserRespDTO> {
 
     String PREFIX = ApiConstants.PREFIX + "/user";

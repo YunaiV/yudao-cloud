@@ -86,7 +86,6 @@ mybatis-plus-join:
 # VO 转换（数据翻译）相关
 easy-trans:
   is-enable-global: true # 启用全局翻译（拦截所有 SpringMVC ResponseBody 进行自动翻译 )。如果对于性能要求很高可关闭此配置，或通过 @IgnoreTrans 忽略某个接口
-  is-enable-cloud: false # 禁用 TransType.RPC 微服务模式
 
 --- #################### RPC 远程调用相关配置 ####################
 

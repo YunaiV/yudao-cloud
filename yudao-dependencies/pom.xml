@@ -21,8 +21,8 @@
         <spring.cloud.version>2023.0.3</spring.cloud.version>
         <spring.cloud.alibaba.version>2023.0.1.2</spring.cloud.alibaba.version>
         <!-- Web 相关 -->
-        <springdoc.version>2.2.0</springdoc.version>
-        <knife4j.version>4.3.0</knife4j.version>
+        <springdoc.version>2.3.0</springdoc.version>
+        <knife4j.version>4.5.0</knife4j.version>
         <!-- DB 相关 -->
         <druid.version>1.2.23</druid.version>
         <mybatis.version>3.5.16</mybatis.version>

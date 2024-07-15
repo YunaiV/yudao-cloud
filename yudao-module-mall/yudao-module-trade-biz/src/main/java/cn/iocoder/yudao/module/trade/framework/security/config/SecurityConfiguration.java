@@ -21,8 +21,10 @@ public class SecurityConfiguration {
             @Override
             public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry) {
                 // Swagger 接口文档
-                registry.requestMatchers("/v3/api-docs/**").permitAll() // 元数据
-                        .requestMatchers("/swagger-ui.html").permitAll(); // Swagger UI
+                registry.requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers("/webjars/**").permitAll()
+                        .requestMatchers("/swagger-ui").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll();
                 // Spring Boot Actuator 的安全配置
                 registry.requestMatchers("/actuator").anonymous()
                         .requestMatchers("/actuator/**").anonymous();

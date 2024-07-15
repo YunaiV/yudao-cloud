@@ -39,7 +39,7 @@
         <!-- RPC 相关 -->
         <!-- Config 配置中心相关 -->
         <!-- Job 定时任务相关 -->
-        <xxl-job.version>2.3.1</xxl-job.version>
+        <xxl-job.version>2.4.0</xxl-job.version>
         <!-- 服务保障相关 -->
         <lock4j.version>2.2.7</lock4j.version>
         <!-- 监控相关 -->

@@ -16,6 +16,7 @@ spring:
         group: DEFAULT_GROUP # 使用的 Nacos 配置分组，默认为 DEFAULT_GROUP
 
 --- #################### 数据库相关配置 ####################
+spring:
   # 数据源配置项
   autoconfigure:
     exclude:

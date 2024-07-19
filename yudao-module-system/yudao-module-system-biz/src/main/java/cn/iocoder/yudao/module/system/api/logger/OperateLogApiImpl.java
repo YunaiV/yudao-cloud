@@ -29,8 +29,8 @@ public class OperateLogApiImpl implements OperateLogApi {
     }
 
     @Override
-    public CommonResult<PageResult<OperateLogRespDTO>> getOperateLogPage(OperateLogPageReqDTO pageReqVO) {
-        PageResult<OperateLogDO> operateLogPage = operateLogService.getOperateLogPage(pageReqVO);
+    public CommonResult<PageResult<OperateLogRespDTO>> getOperateLogPage(OperateLogPageReqDTO pageReqDTO) {
+        PageResult<OperateLogDO> operateLogPage = operateLogService.getOperateLogPage(pageReqDTO);
         return success(BeanUtils.toBean(operateLogPage, OperateLogRespDTO.class));
     }
 

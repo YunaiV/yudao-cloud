@@ -131,14 +131,8 @@ logging:
 yudao:
   env: # 多环境的配置项
     tag: ${HOSTNAME}
-  web:
-    admin-ui:
-      url: http://dashboard.yudao.iocoder.cn # Admin 管理后台 UI 的地址
   security:
     mock-enable: true
-  xss:
-    enable: false
   access-log: # 访问日志的配置项
     enable: false
-  demo: false # 关闭演示模式
   tencent-lbs-key: TVDBZ-TDILD-4ON4B-PFDZA-RNLKH-VVF6E # QQ 地图的密钥 https://lbs.qq.com/service/staticV2/staticGuide/staticDoc

@@ -135,6 +135,11 @@ yudao:
   web:
     admin-ui:
       url: http://dashboard.yudao.iocoder.cn # Admin 管理后台 UI 的地址
+  xss:
+    enable: false
+    exclude-urls: # 如下两个 url，仅仅是为了演示，去掉配置也没关系
+      - ${spring.boot.admin.context-path}/** # 不处理 Spring Boot Admin 的请求
+      - ${management.endpoints.web.base-path}/** # 不处理 Actuator 的请求
   websocket:
     enable: true # websocket的开关
     path: /infra/ws # 路径
@@ -152,7 +157,6 @@ yudao:
     title: 管理后台
     description: 提供管理员管理的所有功能
     version: ${yudao.info.version}
-    base-package: ${yudao.info.base-package}
   codegen:
     base-package: cn.iocoder.yudao
     db-schemas: ${spring.datasource.dynamic.datasource.master.name}

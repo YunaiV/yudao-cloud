@@ -154,15 +154,14 @@ yudao:
   web:
     admin-ui:
       url: http://dashboard.yudao.iocoder.cn # Admin 管理后台 UI 的地址
+  xss:
+    enable: false
+    exclude-urls: # 如下 url，仅仅是为了演示，去掉配置也没关系
+      - ${management.endpoints.web.base-path}/** # 不处理 Actuator 的请求
   swagger:
     title: 管理后台
     description: 提供管理员管理的所有功能
     version: ${yudao.info.version}
-    base-package: ${yudao.info.base-package}
-  captcha:
-    enable: true # 验证码的开关，默认为 true；
-  wxa-code:
-    env-version: release # 小程序版本: 正式版为 "release"；体验版为 "trial"；开发版为 "develop"。默认为 release
   tenant: # 多租户相关配置项
     enable: true
     ignore-urls:

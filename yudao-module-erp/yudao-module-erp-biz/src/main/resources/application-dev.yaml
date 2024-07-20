@@ -105,11 +105,6 @@ spring:
 
 # 芋道配置项，设置当前项目所有自定义的配置
 yudao:
-  xss:
-    enable: false
-    exclude-urls: # 如下两个 url，仅仅是为了演示，去掉配置也没关系
-      - ${spring.boot.admin.context-path}/** # 不处理 Spring Boot Admin 的请求
-      - ${management.endpoints.web.base-path}/** # 不处理 Actuator 的请求
   access-log: # 访问日志的配置项
     enable: false
   demo: false # 关闭演示模式

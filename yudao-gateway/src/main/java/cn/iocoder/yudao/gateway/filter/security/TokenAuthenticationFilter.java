@@ -96,7 +96,7 @@ public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
         return getLoginUser(exchange, token).defaultIfEmpty(LOGIN_USER_EMPTY).flatMap(user -> {
             // 1. 无用户，直接 filter 继续请求
             if (user == LOGIN_USER_EMPTY || // 下面 expiresTime 的判断，为了解决 token 实际已经过期的情况
-                    user.getExpiresTime() == null || LocalDateTimeUtils.afterNow(user.getExpiresTime())) {
+                    user.getExpiresTime() == null || LocalDateTimeUtils.beforeNow(user.getExpiresTime())) {
                 return chain.filter(exchange);
             }
 

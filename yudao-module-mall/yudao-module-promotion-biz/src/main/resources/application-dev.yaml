@@ -112,9 +112,4 @@ spring:
 
 # 芋道配置项，设置当前项目所有自定义的配置
 yudao:
-  xss:
-    enable: false
-  web:
-    admin-ui:
-      url: http://dashboard.yudao.iocoder.cn # Admin 管理后台 UI 的地址
   demo: true # 开启演示模式

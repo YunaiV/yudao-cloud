@@ -1,4 +1,4 @@
-package cn.iocoder.yudao.framework.jackson.config;
+package cn.iocoder.yudao.gateway.jackson;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
@@ -12,20 +12,19 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-@AutoConfiguration
+@Configuration
 @Slf4j
-public class YudaoJacksonAutoConfiguration {
+public class JacksonAutoConfiguration {
 
     @Bean
-    @SuppressWarnings("InstantiationOfUtilityClass")
     public JsonUtils jsonUtils(List<ObjectMapper> objectMappers) {
         // 1.1 创建 SimpleModule 对象
         SimpleModule simpleModule = new SimpleModule();

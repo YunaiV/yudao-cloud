@@ -9,10 +9,11 @@ import cn.iocoder.yudao.module.pay.controller.admin.order.vo.PayOrderSubmitReqVO
 import cn.iocoder.yudao.module.pay.controller.admin.order.vo.PayOrderSubmitRespVO;
 import cn.iocoder.yudao.module.pay.dal.dataobject.order.PayOrderDO;
 import cn.iocoder.yudao.module.pay.dal.dataobject.order.PayOrderExtensionDO;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -38,6 +39,14 @@ public interface PayOrderService {
      * @return 支付订单
      */
     PayOrderDO getOrder(Long appId, String merchantOrderId);
+
+    /**
+     * 获得支付订单列表
+     *
+     * @param ids 编号数组
+     * @return 支付订单列表
+     */
+    List<PayOrderDO> getOrderList(Collection<Long> ids);
 
     /**
      * 获得指定应用的订单数量

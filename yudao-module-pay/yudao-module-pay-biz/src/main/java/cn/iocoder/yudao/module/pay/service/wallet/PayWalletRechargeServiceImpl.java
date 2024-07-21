@@ -1,6 +1,8 @@
 package cn.iocoder.yudao.module.pay.service.wallet;
 
 import cn.hutool.core.lang.Assert;
+import cn.iocoder.yudao.framework.common.pojo.PageParam;
+import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.pay.core.enums.refund.PayRefundStatusRespEnum;
 import cn.iocoder.yudao.module.pay.api.order.dto.PayOrderCreateReqDTO;
 import cn.iocoder.yudao.module.pay.api.refund.dto.PayRefundCreateReqDTO;
@@ -16,11 +18,11 @@ import cn.iocoder.yudao.module.pay.enums.refund.PayRefundStatusEnum;
 import cn.iocoder.yudao.module.pay.enums.wallet.PayWalletBizTypeEnum;
 import cn.iocoder.yudao.module.pay.service.order.PayOrderService;
 import cn.iocoder.yudao.module.pay.service.refund.PayRefundService;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -64,11 +66,6 @@ public class PayWalletRechargeServiceImpl implements PayWalletRechargeService {
     @Transactional(rollbackFor = Exception.class)
     public PayWalletRechargeDO createWalletRecharge(Long userId, Integer userType, String userIp,
                                                     AppPayWalletRechargeCreateReqVO reqVO) {
-
-        if (Objects.isNull(reqVO.getPayPrice()) && Objects.isNull(reqVO.getPackageId())) {
-            //  TODO @jason @AssertTrue 貌似没有效果。需要查下原因
-            throw exception(WALLET_RECHARGE_PACKAGE_AND_PRICE_IS_EMPTY);
-        }
         // 1.1 计算充值金额
         int payPrice;
         int bonusPrice = 0;
@@ -95,6 +92,13 @@ public class PayWalletRechargeServiceImpl implements PayWalletRechargeService {
         walletRechargeMapper.updateById(new PayWalletRechargeDO().setId(recharge.getId()).setPayOrderId(payOrderId));
         recharge.setPayOrderId(payOrderId);
         return recharge;
+    }
+
+    @Override
+    public PageResult<PayWalletRechargeDO> getWalletRechargePackagePage(Long userId, Integer userType,
+                                                                               PageParam pageReqVO, Boolean payStatus) {
+        PayWalletDO wallet = payWalletService.getOrCreateWallet(userId, userType);
+        return walletRechargeMapper.selectPage(pageReqVO, wallet.getId(), payStatus);
     }
 
     @Override

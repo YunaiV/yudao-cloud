@@ -1,7 +1,7 @@
-package cn.iocoder.yudao.module.pay.controller.admin.demo.vo;
+package cn.iocoder.yudao.module.pay.controller.admin.demo.vo.order;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 

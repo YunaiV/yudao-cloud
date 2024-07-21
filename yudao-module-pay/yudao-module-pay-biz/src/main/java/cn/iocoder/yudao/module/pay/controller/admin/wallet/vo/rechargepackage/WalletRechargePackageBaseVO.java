@@ -1,9 +1,8 @@
 package cn.iocoder.yudao.module.pay.controller.admin.wallet.vo.rechargepackage;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 /**
  * 充值套餐 Base VO，提供给添加、修改、详细的子 VO 使用

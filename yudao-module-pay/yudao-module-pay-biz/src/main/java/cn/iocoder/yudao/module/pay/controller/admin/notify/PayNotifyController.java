@@ -21,14 +21,14 @@ import cn.iocoder.yudao.module.pay.service.refund.PayRefundService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import jakarta.annotation.security.PermitAll;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.annotation.Resource;
-import jakarta.annotation.security.PermitAll;
-import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -79,8 +79,8 @@ public class PayNotifyController {
     @Operation(summary = "支付渠道的统一【退款】回调")
     @PermitAll
     public String notifyRefund(@PathVariable("channelId") Long channelId,
-                               @RequestParam(required = false) Map<String, String> params,
-                               @RequestBody(required = false) String body) {
+                              @RequestParam(required = false) Map<String, String> params,
+                              @RequestBody(required = false) String body) {
         log.info("[notifyRefund][channelId({}) 回调数据({}/{})]", channelId, params, body);
         // 1. 校验支付渠道是否存在
         PayClient payClient = channelService.getPayClient(channelId);

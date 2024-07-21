@@ -12,12 +12,12 @@ import cn.iocoder.yudao.module.pay.enums.wallet.PayWalletBizTypeEnum;
 import cn.iocoder.yudao.module.pay.service.order.PayOrderService;
 import cn.iocoder.yudao.module.pay.service.refund.PayRefundService;
 import cn.iocoder.yudao.module.pay.service.wallet.bo.WalletTransactionCreateReqBO;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
@@ -36,13 +36,15 @@ public class PayWalletServiceImpl implements  PayWalletService {
 
     @Resource
     private PayWalletMapper walletMapper;
+
     @Resource
+    @Lazy // 延迟加载，避免循环依赖
     private PayWalletTransactionService walletTransactionService;
     @Resource
-    @Lazy
+    @Lazy // 延迟加载，避免循环依赖
     private PayOrderService orderService;
     @Resource
-    @Lazy
+    @Lazy // 延迟加载，避免循环依赖
     private PayRefundService refundService;
 
     @Override
@@ -63,8 +65,8 @@ public class PayWalletServiceImpl implements  PayWalletService {
     }
 
     @Override
-    public PageResult<PayWalletDO> getWalletPage(Integer userType,PayWalletPageReqVO pageReqVO) {
-        return walletMapper.selectPage(userType, pageReqVO);
+    public PageResult<PayWalletDO> getWalletPage(PayWalletPageReqVO pageReqVO) {
+        return walletMapper.selectPage(pageReqVO);
     }
 
     @Override

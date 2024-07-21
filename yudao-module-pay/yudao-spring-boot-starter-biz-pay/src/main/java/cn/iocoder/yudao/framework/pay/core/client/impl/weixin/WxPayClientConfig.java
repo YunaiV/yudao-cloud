@@ -3,10 +3,10 @@ package cn.iocoder.yudao.framework.pay.core.client.impl.weixin;
 import cn.hutool.core.io.IoUtil;
 import cn.iocoder.yudao.framework.common.util.validation.ValidationUtils;
 import cn.iocoder.yudao.framework.pay.core.client.PayClientConfig;
-import lombok.Data;
-
 import jakarta.validation.Validator;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 

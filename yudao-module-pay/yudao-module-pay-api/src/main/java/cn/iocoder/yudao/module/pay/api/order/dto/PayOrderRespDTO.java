@@ -1,29 +1,44 @@
 package cn.iocoder.yudao.module.pay.api.order.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.iocoder.yudao.module.pay.enums.order.PayOrderStatusEnum;
 import lombok.Data;
 
-@Schema(description = "RPC 服务 - 支付单信息 Response DTO")
+/**
+ * 支付单信息 Response DTO
+ *
+ * @author 芋道源码
+ */
 @Data
 public class PayOrderRespDTO {
 
-    @Schema(description = "订单编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
+    /**
+     * 订单编号，数据库自增
+     */
     private Long id;
-
-    @Schema(description = "渠道编码", requiredMode = Schema.RequiredMode.REQUIRED, example = "wx_pub") // PayChannelEnum 枚举
+    /**
+     * 渠道编码
+     *
+     * 枚举 PayChannelEnum
+     */
     private String channelCode;
 
     // ========== 商户相关字段 ==========
-
-    @Schema(description = "商户订单编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "M101") // 例如说，内部系统 A 的订单号。需要保证每个 PayMerchantDO 唯一
+    /**
+     * 商户订单编号
+     * 例如说，内部系统 A 的订单号。需要保证每个 PayMerchantDO 唯一
+     */
     private String merchantOrderId;
 
     // ========== 订单相关字段 ==========
-
-    @Schema(description = "支付金额，单位：分", requiredMode = Schema.RequiredMode.REQUIRED, example = "101")
+    /**
+     * 支付金额，单位：分
+     */
     private Integer price;
-
-    @Schema(description = "支付状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "10") // PayOrderStatusEnum 枚举
+    /**
+     * 支付状态
+     *
+     * 枚举 {@link PayOrderStatusEnum}
+     */
     private Integer status;
 
     // ========== 渠道相关字段 ==========

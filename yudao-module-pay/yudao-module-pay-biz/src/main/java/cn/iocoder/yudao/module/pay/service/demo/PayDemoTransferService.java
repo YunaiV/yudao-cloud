@@ -4,7 +4,8 @@ import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.module.pay.controller.admin.demo.vo.transfer.PayDemoTransferCreateReqVO;
 import cn.iocoder.yudao.module.pay.dal.dataobject.demo.PayDemoTransferDO;
-import jakarta.validation.Valid;
+
+import javax.validation.Valid;
 
 /**
  * 示例转账业务 Service 接口

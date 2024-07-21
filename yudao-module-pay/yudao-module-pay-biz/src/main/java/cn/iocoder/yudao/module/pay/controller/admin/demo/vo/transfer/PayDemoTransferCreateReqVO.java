@@ -4,11 +4,12 @@ import cn.iocoder.yudao.framework.common.util.validation.ValidationUtils;
 import cn.iocoder.yudao.framework.common.validation.InEnum;
 import cn.iocoder.yudao.framework.pay.core.enums.transfer.PayTransferTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.Validator;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+
+import javax.validation.Validator;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import static cn.iocoder.yudao.module.pay.enums.transfer.PayTransferTypeEnum.Alipay;
 import static cn.iocoder.yudao.module.pay.enums.transfer.PayTransferTypeEnum.WxPay;

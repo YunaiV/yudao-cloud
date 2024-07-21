@@ -1,10 +1,10 @@
 package cn.iocoder.yudao.module.pay.controller.app.wallet.vo.recharge;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.Min;
 import lombok.Data;
 
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.Min;
 import java.util.Objects;
 
 @Schema(description = "用户 APP - 创建钱包充值 Request VO")

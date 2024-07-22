@@ -61,11 +61,6 @@ public class BrokerageUserServiceImpl implements BrokerageUserService {
     }
 
     @Override
-    public List<BrokerageUserDO> getBrokerageUserList(Collection<Long> ids) {
-        return brokerageUserMapper.selectBatchIds(ids);
-    }
-
-    @Override
     public PageResult<BrokerageUserDO> getBrokerageUserPage(BrokerageUserPageReqVO pageReqVO) {
         List<Long> childIds = getChildUserIdsByLevel(pageReqVO.getBindUserId(), pageReqVO.getLevel());
         // 有”绑定用户编号“查询条件时，没有查到下级会员，直接返回空

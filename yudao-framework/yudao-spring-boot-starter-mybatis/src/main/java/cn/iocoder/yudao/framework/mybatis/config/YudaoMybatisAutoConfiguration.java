@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.core.incrementer.IKeyGenerator;
 import com.baomidou.mybatisplus.extension.incrementer.*;
+import com.baomidou.mybatisplus.extension.parser.JsqlParserGlobal;
+import com.baomidou.mybatisplus.extension.parser.cache.JdkSerialCaffeineJsqlParseCache;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,6 +17,8 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.ConfigurableEnvironment;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * MyBaits 配置类
@@ -61,4 +65,10 @@ public class YudaoMybatisAutoConfiguration {
         throw new IllegalArgumentException(StrUtil.format("DbType{} 找不到合适的 IKeyGenerator 实现类", dbType));
     }
 
+    static {
+        JsqlParserGlobal.setJsqlParseCache(new JdkSerialCaffeineJsqlParseCache(
+                (cache) -> cache.maximumSize(1024)
+                        .expireAfterWrite(5, TimeUnit.SECONDS))
+        );
+    }
 }

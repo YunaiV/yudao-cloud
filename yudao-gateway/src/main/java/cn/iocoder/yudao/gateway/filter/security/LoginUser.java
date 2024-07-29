@@ -2,6 +2,7 @@ package cn.iocoder.yudao.gateway.filter.security;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -35,5 +36,9 @@ public class LoginUser {
      * 授权范围
      */
     private List<String> scopes;
+    /**
+     * 过期时间
+     */
+    private LocalDateTime expiresTime;
 
 }

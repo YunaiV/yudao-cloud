@@ -1,10 +1,10 @@
 package cn.iocoder.yudao.module.pay.controller.app.wallet.vo.recharge;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Min;
+import lombok.Data;
+
 import java.util.Objects;
 
 @Schema(description = "用户 APP - 创建钱包充值 Request VO")
@@ -19,7 +19,8 @@ public class AppPayWalletRechargeCreateReqVO {
     private Long packageId;
 
     @AssertTrue(message = "充值金额和充钱套餐不能同时为空")
-    public boolean validatePayPriceAndPackageId() {
+    public boolean isValidPayPriceAndPackageId() {
         return Objects.nonNull(payPrice) || Objects.nonNull(packageId);
     }
+
 }

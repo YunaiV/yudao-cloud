@@ -1,26 +1,32 @@
 package cn.iocoder.yudao.module.pay.api.notify.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-
-@Schema(description = "RPC 服务 - 支付单的通知 Request DTO")
+/**
+ * 支付单的通知 Request DTO
+ *
+ * @author 芋道源码
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class PayOrderNotifyReqDTO {
 
-    @Schema(description = "商户订单编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "M101")
+    /**
+     * 商户订单编号
+     */
     @NotEmpty(message = "商户订单号不能为空")
     private String merchantOrderId;
 
-    @Schema(description = "支付订单编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "P202")
+    /**
+     * 支付订单编号
+     */
     @NotNull(message = "支付订单编号不能为空")
     private Long payOrderId;
 

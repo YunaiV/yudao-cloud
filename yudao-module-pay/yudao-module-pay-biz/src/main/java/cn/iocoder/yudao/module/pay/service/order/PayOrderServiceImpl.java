@@ -32,13 +32,15 @@ import cn.iocoder.yudao.module.pay.service.app.PayAppService;
 import cn.iocoder.yudao.module.pay.service.channel.PayChannelService;
 import cn.iocoder.yudao.module.pay.service.notify.PayNotifyService;
 import com.google.common.annotations.VisibleForTesting;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -81,6 +83,14 @@ public class PayOrderServiceImpl implements PayOrderService {
     @Override
     public PayOrderDO getOrder(Long appId, String merchantOrderId) {
         return orderMapper.selectByAppIdAndMerchantOrderId(appId, merchantOrderId);
+    }
+
+    @Override
+    public List<PayOrderDO> getOrderList(Collection<Long> ids) {
+        if (CollUtil.isEmpty(ids)) {
+            return Collections.emptyList();
+        }
+        return orderMapper.selectBatchIds(ids);
     }
 
     @Override
@@ -438,7 +448,7 @@ public class PayOrderServiceImpl implements PayOrderService {
 
     @Override
     public int syncOrder(LocalDateTime minCreateTime) {
-        // 1. 查询指定创建时间内的待支付订单
+        // 1. 查询指定创建时间前的待支付订单
         List<PayOrderExtensionDO> orderExtensions = orderExtensionMapper.selectListByStatusAndCreateTimeGe(
                 PayOrderStatusEnum.WAITING.getStatus(), minCreateTime);
         if (CollUtil.isEmpty(orderExtensions)) {
@@ -467,6 +477,14 @@ public class PayOrderServiceImpl implements PayOrderService {
                 return false;
             }
             PayOrderRespDTO respDTO = payClient.getOrder(orderExtension.getNo());
+            // 如果查询到订单不存在，PayClient 返回的状态为关闭。但此时不能关闭订单。存在以下一种场景：
+            //  拉起渠道支付后，短时间内用户未及时完成支付，但是该订单同步定时任务恰巧自动触发了，主动查询结果为订单不存在。
+            //  当用户支付成功之后，该订单状态在渠道的回调中无法从已关闭改为已支付，造成重大影响。
+            // 考虑此定时任务是异常场景的兜底操作，因此这里不做变更，优先以回调为准。
+            // 让订单自动随着支付渠道那边一起等到过期，确保渠道先过期关闭支付入口，而后通过订单过期定时任务关闭自己的订单。
+            if (PayOrderStatusRespEnum.isClosed(respDTO.getStatus())) {
+                return false;
+            }
             // 1.2 回调支付结果
             notifyOrder(orderExtension.getChannelId(), respDTO);
 

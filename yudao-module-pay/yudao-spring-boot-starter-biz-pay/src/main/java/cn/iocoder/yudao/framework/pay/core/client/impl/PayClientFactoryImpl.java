@@ -44,6 +44,7 @@ public class PayClientFactoryImpl implements PayClientFactory {
         clientClass.put(WX_APP, WxAppPayClient.class);
         clientClass.put(WX_BAR, WxBarPayClient.class);
         clientClass.put(WX_NATIVE, WxNativePayClient.class);
+        clientClass.put(WX_WAP, WxWapPayClient.class);
         // 支付包支付客户端
         clientClass.put(ALIPAY_WAP, AlipayWapPayClient.class);
         clientClass.put(ALIPAY_QR, AlipayQrPayClient.class);
@@ -70,8 +71,8 @@ public class PayClientFactoryImpl implements PayClientFactory {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <Config extends PayClientConfig> void createOrUpdatePayClient(Long channelId, String channelCode,
-                                                                         Config config) {
+    public <Config extends PayClientConfig> PayClient createOrUpdatePayClient(Long channelId, String channelCode,
+                                                                              Config config) {
         AbstractPayClient<Config> client = (AbstractPayClient<Config>) clients.get(channelId);
         if (client == null) {
             client = this.createPayClient(channelId, channelCode, config);
@@ -80,6 +81,7 @@ public class PayClientFactoryImpl implements PayClientFactory {
         } else {
             client.refresh(config);
         }
+        return client;
     }
 
     @SuppressWarnings("unchecked")

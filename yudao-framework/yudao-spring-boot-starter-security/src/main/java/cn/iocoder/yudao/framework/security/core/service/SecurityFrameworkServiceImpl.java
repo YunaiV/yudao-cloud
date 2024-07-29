@@ -1,13 +1,7 @@
 package cn.iocoder.yudao.framework.security.core.service;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.collection.ListUtil;
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.HashUtil;
-import cn.hutool.core.util.ObjectUtil;
 import cn.iocoder.yudao.framework.common.core.KeyValue;
-import cn.iocoder.yudao.framework.common.pojo.CommonResult;
-import cn.iocoder.yudao.framework.common.util.cache.CacheUtils;
 import cn.iocoder.yudao.framework.security.core.LoginUser;
 import cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils;
 import cn.iocoder.yudao.module.system.api.permission.PermissionApi;
@@ -20,7 +14,6 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
-import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildAsyncReloadingCache;
 import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildCache;
 import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
@@ -70,7 +63,11 @@ public class SecurityFrameworkServiceImpl implements SecurityFrameworkService {
     @Override
     @SneakyThrows
     public boolean hasAnyPermissions(String... permissions) {
-        return hasAnyPermissionsCache.get(new KeyValue<>(getLoginUserId(), Arrays.asList(permissions)));
+        Long userId = getLoginUserId();
+        if (userId == null) {
+            return false;
+        }
+        return hasAnyPermissionsCache.get(new KeyValue<>(userId, Arrays.asList(permissions)));
     }
 
     @Override
@@ -81,7 +78,11 @@ public class SecurityFrameworkServiceImpl implements SecurityFrameworkService {
     @Override
     @SneakyThrows
     public boolean hasAnyRoles(String... roles) {
-        return hasAnyRolesCache.get(new KeyValue<>(getLoginUserId(), Arrays.asList(roles)));
+        Long userId = getLoginUserId();
+        if (userId == null) {
+            return false;
+        }
+        return hasAnyRolesCache.get(new KeyValue<>(userId, Arrays.asList(roles)));
     }
 
     @Override

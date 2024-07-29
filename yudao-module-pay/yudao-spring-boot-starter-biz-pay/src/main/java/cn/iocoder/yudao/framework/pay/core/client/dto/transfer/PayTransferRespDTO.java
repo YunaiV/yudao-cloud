@@ -29,7 +29,7 @@ public class PayTransferRespDTO {
     /**
      * 支付渠道编号
      */
-    private String channelOrderNo;
+    private String channelTransferNo;
 
     /**
      * 支付成功时间
@@ -53,11 +53,24 @@ public class PayTransferRespDTO {
     /**
      * 创建【WAITING】状态的转账返回
      */
-    public static PayTransferRespDTO waitingOf(String channelOrderNo,
+    public static PayTransferRespDTO waitingOf(String channelTransferNo,
                                              String outTransferNo, Object rawData) {
         PayTransferRespDTO respDTO = new PayTransferRespDTO();
         respDTO.status = PayTransferStatusRespEnum.WAITING.getStatus();
-        respDTO.channelOrderNo = channelOrderNo;
+        respDTO.channelTransferNo = channelTransferNo;
+        respDTO.outTransferNo = outTransferNo;
+        respDTO.rawData = rawData;
+        return respDTO;
+    }
+
+    /**
+     * 创建【IN_PROGRESS】状态的转账返回
+     */
+    public static PayTransferRespDTO dealingOf(String channelTransferNo,
+                                               String outTransferNo, Object rawData) {
+        PayTransferRespDTO respDTO = new PayTransferRespDTO();
+        respDTO.status = PayTransferStatusRespEnum.IN_PROGRESS.getStatus();
+        respDTO.channelTransferNo = channelTransferNo;
         respDTO.outTransferNo = outTransferNo;
         respDTO.rawData = rawData;
         return respDTO;
@@ -85,7 +98,7 @@ public class PayTransferRespDTO {
                                              String outTransferNo, Object rawData) {
         PayTransferRespDTO respDTO = new PayTransferRespDTO();
         respDTO.status = PayTransferStatusRespEnum.SUCCESS.getStatus();
-        respDTO.channelOrderNo = channelTransferNo;
+        respDTO.channelTransferNo = channelTransferNo;
         respDTO.successTime = successTime;
         // 相对通用的字段
         respDTO.outTransferNo = outTransferNo;

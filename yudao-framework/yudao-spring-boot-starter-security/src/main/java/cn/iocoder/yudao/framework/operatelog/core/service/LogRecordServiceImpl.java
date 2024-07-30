@@ -8,8 +8,8 @@ import cn.iocoder.yudao.module.system.api.logger.OperateLogApi;
 import cn.iocoder.yudao.module.system.api.logger.dto.OperateLogCreateReqDTO;
 import com.mzt.logapi.beans.LogRecord;
 import com.mzt.logapi.service.ILogRecordService;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -21,11 +21,11 @@ import java.util.List;
  *
  * @author HUIHUI
  */
+@RequiredArgsConstructor
 @Slf4j
 public class LogRecordServiceImpl implements ILogRecordService {
 
-    @Resource
-    private OperateLogApi operateLogApi;
+    private final OperateLogApi operateLogApi;
 
     @Override
     public void record(LogRecord logRecord) {

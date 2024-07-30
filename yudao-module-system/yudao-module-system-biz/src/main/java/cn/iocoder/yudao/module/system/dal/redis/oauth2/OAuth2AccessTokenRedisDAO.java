@@ -4,6 +4,8 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.module.system.dal.dataobject.oauth2.OAuth2AccessTokenDO;
+import cn.iocoder.yudao.module.system.util.datetimeconvert.DateTimeConverter;
+import cn.iocoder.yudao.module.system.util.oauth2.OAuth2Utils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -29,7 +31,11 @@ public class OAuth2AccessTokenRedisDAO {
 
     public OAuth2AccessTokenDO get(String accessToken) {
         String redisKey = formatKey(accessToken);
-        return JsonUtils.parseObject(stringRedisTemplate.opsForValue().get(redisKey), OAuth2AccessTokenDO.class);
+        String s = stringRedisTemplate.opsForValue().get(redisKey);
+        OAuth2AccessTokenDO oAuth2AccessTokenDO = JsonUtils.parseObject(s, OAuth2AccessTokenDO.class);
+        LocalDateTime localDateTime = DateTimeConverter.convertToLocalDateTime(OAuth2Utils.extractExpiresTime(s)); // JsonUtils.parseObject无论时间数组是否正确都会将日期转换为1970-01-01T08:00，此方法用于正确处理
+        oAuth2AccessTokenDO.setExpiresTime(localDateTime);
+        return oAuth2AccessTokenDO;
     }
 
     public void set(OAuth2AccessTokenDO accessTokenDO) {

@@ -9,6 +9,8 @@ import cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * OAuth2 相关的工具类
@@ -100,4 +102,28 @@ public class OAuth2Utils {
         return StrUtil.split(scope, ' ');
     }
 
+    /**
+     * 提取 JSON 字符串中的过期时间
+     *
+     * 为了解决 ExpiresTime 无法正常从 数组 转换为 LocalDateTime 的问题，所以提供此方法进行手动处理
+     *
+     * @param jsonString JSON 字符串
+     * @return 过期时间数组
+     */
+    public static int[] extractExpiresTime(String jsonString) {
+        // 定义正则表达式匹配 "expiresTime":[2024,8,5,15,45,14,35]
+        Pattern pattern = Pattern.compile("\"expiresTime\":\\[(\\d+),(\\d+),(\\d+),(\\d+),(\\d+),(\\d+),(\\d+)]");
+        Matcher matcher = pattern.matcher(jsonString);
+
+        if (matcher.find()) {
+            // 提取匹配到的数字并转换为 int 数组
+            int[] dateTimeArray = new int[7];
+            for (int i = 0; i < 7; i++) {
+                dateTimeArray[i] = Integer.parseInt(matcher.group(i + 1));
+            }
+            return dateTimeArray;
+        } else {
+            throw new IllegalArgumentException("Invalid JSON string: expiresTime not found");
+        }
+    }
 }

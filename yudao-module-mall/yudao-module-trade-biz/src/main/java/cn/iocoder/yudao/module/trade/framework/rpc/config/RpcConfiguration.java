@@ -19,6 +19,7 @@ import cn.iocoder.yudao.module.promotion.api.discount.DiscountActivityApi;
 import cn.iocoder.yudao.module.promotion.api.reward.RewardActivityApi;
 import cn.iocoder.yudao.module.promotion.api.seckill.SeckillActivityApi;
 import cn.iocoder.yudao.module.system.api.notify.NotifyMessageSendApi;
+import cn.iocoder.yudao.module.system.api.social.SocialClientApi;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Configuration;
 
@@ -29,7 +30,7 @@ import org.springframework.context.annotation.Configuration;
         MemberUserApi.class, MemberPointApi.class, MemberLevelApi.class, MemberAddressApi.class, MemberConfigApi.class,
         ProductSpuApi.class, ProductSkuApi.class, ProductCommentApi.class, ProductCategoryApi.class,
         PayOrderApi.class, PayRefundApi.class,
-        NotifyMessageSendApi.class
+        NotifyMessageSendApi.class, SocialClientApi.class
 })
 public class RpcConfiguration {
 }

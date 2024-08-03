@@ -4,11 +4,7 @@ import cn.iocoder.yudao.framework.desensitize.core.base.annotation.DesensitizeBy
 import cn.iocoder.yudao.framework.desensitize.core.slider.handler.DefaultDesensitizationHandler;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * 滑动脱敏注解
@@ -40,4 +36,12 @@ public @interface SliderDesensitize {
      * 前缀保留长度
      */
     int prefixKeep() default 0;
+
+    /**
+     * 是否禁用脱敏
+     *
+     * 支持 Spring EL 表达式，如果返回 true 则跳过脱敏
+     */
+    String disable() default "";
+
 }

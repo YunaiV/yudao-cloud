@@ -4,11 +4,7 @@ import cn.iocoder.yudao.framework.desensitize.core.base.annotation.DesensitizeBy
 import cn.iocoder.yudao.framework.desensitize.core.slider.handler.ChineseNameDesensitization;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * 中文名
@@ -36,5 +32,12 @@ public @interface ChineseNameDesensitize {
      * 替换规则，中文名;比如：刘子豪脱敏之后为刘**
      */
     String replacer() default "*";
+
+    /**
+     * 是否禁用脱敏
+     *
+     * 支持 Spring EL 表达式，如果返回 true 则跳过脱敏
+     */
+    String disable() default "";
 
 }

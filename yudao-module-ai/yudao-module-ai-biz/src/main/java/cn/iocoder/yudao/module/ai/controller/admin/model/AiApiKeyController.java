@@ -8,7 +8,6 @@ import cn.iocoder.yudao.module.ai.controller.admin.model.vo.apikey.AiApiKeyRespV
 import cn.iocoder.yudao.module.ai.controller.admin.model.vo.apikey.AiApiKeySaveReqVO;
 import cn.iocoder.yudao.module.ai.controller.admin.model.vo.chatModel.AiChatModelRespVO;
 import cn.iocoder.yudao.module.ai.dal.dataobject.model.AiApiKeyDO;
-import cn.iocoder.yudao.module.ai.dal.dataobject.model.AiChatModelDO;
 import cn.iocoder.yudao.module.ai.service.model.AiApiKeyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

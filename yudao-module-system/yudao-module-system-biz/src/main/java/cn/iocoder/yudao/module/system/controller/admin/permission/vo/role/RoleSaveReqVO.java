@@ -1,5 +1,7 @@
 package cn.iocoder.yudao.module.system.controller.admin.permission.vo.role;
 
+import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
+import cn.iocoder.yudao.framework.common.validation.InEnum;
 import com.mzt.logapi.starter.annotation.DiffLogField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -30,6 +32,12 @@ public class RoleSaveReqVO {
     @NotNull(message = "显示顺序不能为空")
     @DiffLogField(name = "显示顺序")
     private Integer sort;
+
+    @Schema(description = "状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "0")
+    @DiffLogField(name = "状态")
+    @NotNull(message = "状态不能为空")
+    @InEnum(value = CommonStatusEnum.class, message = "状态必须是 {value}")
+    private Integer status;
 
     @Schema(description = "备注", example = "我是一个角色")
     @DiffLogField(name = "备注")

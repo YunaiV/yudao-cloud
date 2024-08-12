@@ -1,13 +1,13 @@
 package cn.iocoder.yudao.module.ai.dal.dataobject.chat;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import org.springframework.ai.chat.messages.MessageType;
 import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
 import cn.iocoder.yudao.module.ai.dal.dataobject.model.AiChatModelDO;
 import cn.iocoder.yudao.module.ai.dal.dataobject.model.AiChatRoleDO;
 import com.baomidou.mybatisplus.annotation.KeySequence;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
+import org.springframework.ai.chat.messages.MessageType;
 
 /**
  * AI Chat 消息 DO

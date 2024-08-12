@@ -40,6 +40,7 @@ public class RoleSaveReqVO {
     private Integer status;
 
     @Schema(description = "备注", example = "我是一个角色")
+    @Size(max = 500, message = "备注长度不能超过 500 个字符")
     @DiffLogField(name = "备注")
     private String remark;
 

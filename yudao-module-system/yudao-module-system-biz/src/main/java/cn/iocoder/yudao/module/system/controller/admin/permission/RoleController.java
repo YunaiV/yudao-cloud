@@ -93,8 +93,8 @@ public class RoleController {
         exportReqVO.setPageSize(PageParam.PAGE_SIZE_NONE);
         List<RoleDO> list = roleService.getRolePage(exportReqVO).getList();
         // 输出
-        ExcelUtils.write(response, "角色数据.xls", "数据", RoleRespVO.class,
-                BeanUtils.toBean(list, RoleRespVO.class));
+        ExcelUtils.write(response, "角色数据.xls", "数据", RoleExportExcelVO.class,
+                BeanUtils.toBean(list, RoleExportExcelVO.class));
     }
 
 }

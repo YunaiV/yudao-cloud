@@ -1,7 +1,10 @@
 package cn.iocoder.yudao.module.ai.service.music;
 
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
-import cn.iocoder.yudao.module.ai.controller.admin.music.vo.*;
+import cn.iocoder.yudao.module.ai.controller.admin.music.vo.AiMusicPageReqVO;
+import cn.iocoder.yudao.module.ai.controller.admin.music.vo.AiMusicUpdateMyReqVO;
+import cn.iocoder.yudao.module.ai.controller.admin.music.vo.AiMusicUpdateReqVO;
+import cn.iocoder.yudao.module.ai.controller.admin.music.vo.AiSunoGenerateReqVO;
 import cn.iocoder.yudao.module.ai.dal.dataobject.music.AiMusicDO;
 
 import javax.validation.Valid;

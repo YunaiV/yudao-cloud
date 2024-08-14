@@ -8,7 +8,6 @@ import cn.iocoder.yudao.module.ai.controller.admin.model.vo.chatModel.AiChatMode
 import cn.iocoder.yudao.module.ai.dal.dataobject.model.AiChatModelDO;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.Collection;
 import java.util.List;
 
 /**

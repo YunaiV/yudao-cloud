@@ -3,10 +3,9 @@ package cn.iocoder.yudao.module.ai.controller.admin.model.vo.chatModel;
 import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.common.validation.InEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 @Schema(description = "管理后台 - API 聊天模型新增/修改 Request VO")
 @Data

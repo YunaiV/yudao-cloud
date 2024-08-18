@@ -15,10 +15,10 @@ import org.hibernate.validator.constraints.Length;
 public class PayRefundCreateReqDTO {
 
     /**
-     * 应用编号
+     * 应用标识
      */
-    @NotNull(message = "应用编号不能为空")
-    private Long appId;
+    @NotNull(message = "应用标识不能为空")
+    private String appKey;
     /**
      * 用户 IP
      */

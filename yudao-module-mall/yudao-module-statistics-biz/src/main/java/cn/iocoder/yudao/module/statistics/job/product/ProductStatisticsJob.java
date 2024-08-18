@@ -10,8 +10,6 @@ import com.xxl.job.core.handler.annotation.XxlJob;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
-// TODO 芋艿：缺个 Job 的配置；等和 Product 一起配置
-
 /**
  * 商品统计 Job
  *

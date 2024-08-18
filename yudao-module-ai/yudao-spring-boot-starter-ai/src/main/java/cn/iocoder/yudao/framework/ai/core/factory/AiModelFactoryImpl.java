@@ -188,7 +188,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
      * 可参考 {@link TongYiAutoConfiguration#tongYiChatClient(Generation, TongYiChatProperties, TongYiConnectionProperties)}
      */
     private static TongYiChatModel buildTongYiChatModel(String key) {
-        Generation generation = SpringUtil.getBean(Generation.class);
+        com.alibaba.dashscope.aigc.generation.Generation generation = SpringUtil.getBean(Generation.class);
         TongYiChatProperties chatOptions = SpringUtil.getBean(TongYiChatProperties.class);
         // TODO @芋艿：貌似 apiKey 是全局唯一的？？？得测试下
         // TODO @芋艿：貌似阿里云不是增量返回的

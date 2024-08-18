@@ -1,11 +1,10 @@
 package cn.iocoder.yudao.module.system.framework.sms.core.property;
 
 import cn.iocoder.yudao.module.system.framework.sms.core.enums.SmsChannelEnum;
-import lombok.Data;
-import org.springframework.validation.annotation.Validated;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import org.springframework.validation.annotation.Validated;
 
 /**
  * 短信渠道配置类

@@ -3,6 +3,7 @@ package cn.iocoder.yudao.module.pay.controller.admin.app.vo;
 import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.common.validation.InEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
@@ -13,6 +14,10 @@ import org.hibernate.validator.constraints.URL;
 */
 @Data
 public class PayAppBaseVO {
+
+    @Schema(description = "应用标识", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
+    @NotEmpty(message = "应用标识不能为空")
+    private String appKey;
 
     @Schema(description = "应用名", requiredMode = Schema.RequiredMode.REQUIRED, example = "小豆")
     @NotNull(message = "应用名不能为空")

@@ -24,7 +24,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mockStatic;
 
 /**
- * {@link AliyunSmsClient} 的单元测试
+ * {@link cn.iocoder.yudao.module.system.framework.sms.core.client.impl.AliyunSmsClient} 的单元测试
  *
  * @author 芋道源码
  */
@@ -37,15 +37,6 @@ public class AliyunSmsClientTest extends BaseMockitoUnitTest {
 
     @InjectMocks
     private final AliyunSmsClient smsClient = new AliyunSmsClient(properties);
-
-    @Test
-    public void testDoInit() {
-        // 准备参数
-        // mock 方法
-
-        // 调用
-        smsClient.doInit();
-    }
 
     @Test
     public void tesSendSms_success() throws Throwable {

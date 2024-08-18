@@ -37,7 +37,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -111,11 +111,11 @@ public class PayOrderServiceImpl implements PayOrderService {
     @Override
     public Long createOrder(PayOrderCreateReqDTO reqDTO) {
         // 校验 App
-        PayAppDO app = appService.validPayApp(reqDTO.getAppId());
+        PayAppDO app = appService.validPayApp(reqDTO.getAppKey());
 
         // 查询对应的支付交易单是否已经存在。如果是，则直接返回
         PayOrderDO order = orderMapper.selectByAppIdAndMerchantOrderId(
-                reqDTO.getAppId(), reqDTO.getMerchantOrderId());
+                app.getId(), reqDTO.getMerchantOrderId());
         if (order != null) {
             log.warn("[createOrder][appId({}) merchantOrderId({}) 已经存在对应的支付单({})]", order.getAppId(),
                     order.getMerchantOrderId(), toJsonString(order)); // 理论来说，不会出现这个情况

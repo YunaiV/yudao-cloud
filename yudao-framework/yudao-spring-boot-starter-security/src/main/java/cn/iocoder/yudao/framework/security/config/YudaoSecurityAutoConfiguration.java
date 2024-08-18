@@ -1,6 +1,5 @@
 package cn.iocoder.yudao.framework.security.config;
 
-import cn.hutool.extra.spring.SpringUtil;
 import cn.iocoder.yudao.framework.security.core.aop.PreAuthenticatedAspect;
 import cn.iocoder.yudao.framework.security.core.context.TransmittableThreadLocalSecurityContextHolderStrategy;
 import cn.iocoder.yudao.framework.security.core.filter.TokenAuthenticationFilter;
@@ -80,27 +79,11 @@ public class YudaoSecurityAutoConfiguration {
     @Bean
     public TokenAuthenticationFilter authenticationTokenFilter(GlobalExceptionHandler globalExceptionHandler,
                                                                OAuth2TokenApi oauth2TokenApi) {
-        // Cloud 专属逻辑：优先使用本地的 oauth2TokenApi 实现类，而不是 Feign 调用
-        try {
-            OAuth2TokenApi oAuth2TokenApiImpl = SpringUtil.getBean("OAuth2TokenApiImpl", OAuth2TokenApi.class);
-            if (oAuth2TokenApiImpl != null) {
-                oauth2TokenApi = oAuth2TokenApiImpl;
-            }
-        } catch (Exception ignored) {
-        }
         return new TokenAuthenticationFilter(securityProperties, globalExceptionHandler, oauth2TokenApi);
     }
 
     @Bean("ss") // 使用 Spring Security 的缩写，方便使用
     public SecurityFrameworkService securityFrameworkService(PermissionApi permissionApi) {
-        // Cloud 专属逻辑：优先使用本地的 permissionApi 实现类，而不是 Feign 调用
-        try {
-            PermissionApi permissionApiImpl = SpringUtil.getBean("permissionApiImpl", PermissionApi.class);
-            if (permissionApiImpl != null) {
-                permissionApi = permissionApiImpl;
-            }
-        } catch (Exception ignored) {
-        }
         return new SecurityFrameworkServiceImpl(permissionApi);
     }
 

@@ -1,6 +1,5 @@
 package cn.iocoder.yudao.framework.apilog.config;
 
-import cn.hutool.extra.spring.SpringUtil;
 import cn.iocoder.yudao.framework.apilog.core.filter.ApiAccessLogFilter;
 import cn.iocoder.yudao.framework.apilog.core.interceptor.ApiAccessLogInterceptor;
 import cn.iocoder.yudao.framework.apilog.core.service.ApiAccessLogFrameworkService;
@@ -27,26 +26,12 @@ public class YudaoApiLogAutoConfiguration implements WebMvcConfigurer {
     @Bean
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     public ApiAccessLogFrameworkService apiAccessLogFrameworkService(ApiAccessLogApi apiAccessLogApi) {
-        // Cloud 专属逻辑：优先使用本地的 apiAccessLogApiImpl 实现类，而不是 Feign 调用
-        try {
-            ApiAccessLogApi apiImpl = SpringUtil.getBean("apiAccessLogApiImpl", ApiAccessLogApi.class);
-            if (apiImpl != null) {
-                apiAccessLogApi =  apiImpl;
-            }
-        } catch (Exception ignored) {}
         return new ApiAccessLogFrameworkServiceImpl(apiAccessLogApi);
     }
 
     @Bean
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     public ApiErrorLogFrameworkService apiErrorLogFrameworkService(ApiErrorLogApi apiErrorLogApi) {
-        // Cloud 专属逻辑：优先使用本地的 apiErrorLogApiImpl 实现类，而不是 Feign 调用
-        try {
-            ApiErrorLogApi apiImpl = SpringUtil.getBean("apiErrorLogApiImpl", ApiErrorLogApi.class);
-            if (apiImpl != null) {
-                apiErrorLogApi =  apiImpl;
-            }
-        } catch (Exception ignored) {}
         return new ApiErrorLogFrameworkServiceImpl(apiErrorLogApi);
     }
 

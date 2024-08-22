@@ -18,7 +18,7 @@ public class OperateLogRespDTO implements VO {
     @Schema(description = "链路追踪编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "89aca178-a370-411c-ae02-3f0d672be4ab")
     private String traceId;
     @Schema(description = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "666")
-    @Trans(type = TransType.RPC, targetClassName = "cn.iocoder.yudao.module.system.dal.dataobject.user.AdminUserDO",
+    @Trans(type = TransType.AUTO_TRANS, key = AdminUserApi.PREFIX,
             fields = "nickname", ref = "userName")
     private Long userId;
     @Schema(description = "用户名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")

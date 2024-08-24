@@ -28,11 +28,6 @@ public class OperateLogServiceImpl implements OperateLogService {
     @Override
     public void createOperateLog(OperateLogCreateReqDTO createReqDTO) {
         OperateLogDO log = BeanUtils.toBean(createReqDTO, OperateLogDO.class);
-        if (log.getUserId() != null) {
-            String userIdStr = log.getUserId().toString();
-            log.setCreator(userIdStr);
-            log.setUpdater(userIdStr);
-        }
         operateLogMapper.insert(log);
     }
 

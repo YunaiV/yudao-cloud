@@ -53,4 +53,9 @@ public interface MemberUserApi {
     @Parameter(name = "mobile", description = "基于手机号，精准匹配用户", required = true, example = "1560")
     CommonResult<MemberUserRespDTO> getUserByMobile(@RequestParam("mobile") String mobile);
 
+    @GetMapping(PREFIX + "/valid")
+    @Operation(summary = "校验用户是否存在")
+    @Parameter(name = "id", description = "用户编号", required = true, example = "1")
+    CommonResult<Boolean> validateUser(@RequestParam("id") Long id);
+
 }

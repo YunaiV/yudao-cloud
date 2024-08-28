@@ -50,8 +50,3 @@ mybatis-plus:
 yudao:
   info:
     base-package: cn.iocoder.yudao.module
-  captcha:
-    timeout: 5m
-    width: 160
-    height: 60
-    enable: true

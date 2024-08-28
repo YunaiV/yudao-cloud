@@ -45,6 +45,8 @@ public class BannerApplicationRunner implements ApplicationRunner {
             System.out.println("[微信公众号 yudao-module-mp 教程][参考 https://cloud.iocoder.cn/mp/build/ 开启]");
             // 支付平台
             System.out.println("[支付系统 yudao-module-pay - 教程][参考 https://doc.iocoder.cn/pay/build/ 开启]");
+            // AI 大模型
+            System.out.println("[AI 大模型 yudao-module-ai - 教程][参考 https://cloud.iocoder.cn/ai/build/ 开启]");
         });
     }
 

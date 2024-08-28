@@ -9,7 +9,7 @@ import cn.iocoder.yudao.module.pay.api.order.dto.PayOrderRespDTO;
 import cn.iocoder.yudao.module.pay.api.refund.PayRefundApi;
 import cn.iocoder.yudao.module.pay.api.refund.dto.PayRefundCreateReqDTO;
 import cn.iocoder.yudao.module.pay.api.refund.dto.PayRefundRespDTO;
-import cn.iocoder.yudao.module.pay.controller.admin.demo.vo.PayDemoOrderCreateReqVO;
+import cn.iocoder.yudao.module.pay.controller.admin.demo.vo.order.PayDemoOrderCreateReqVO;
 import cn.iocoder.yudao.module.pay.dal.dataobject.demo.PayDemoOrderDO;
 import cn.iocoder.yudao.module.pay.dal.mysql.demo.PayDemoOrderMapper;
 import cn.iocoder.yudao.module.pay.enums.order.PayOrderStatusEnum;
@@ -43,11 +43,11 @@ import static cn.iocoder.yudao.module.pay.enums.ErrorCodeConstants.*;
 public class PayDemoOrderServiceImpl implements PayDemoOrderService {
 
     /**
-     * 接入的实力应用编号
+     * 接入的支付应用标识
      *
      * 从 [支付管理 -> 应用信息] 里添加
      */
-    private static final Long PAY_APP_ID = 7L;
+    private static final String PAY_APP_KEY = "demo";
 
     /**
      * 商品信息 Map
@@ -88,7 +88,7 @@ public class PayDemoOrderServiceImpl implements PayDemoOrderService {
 
         // 2.1 创建支付单
         Long payOrderId = payOrderApi.createOrder(new PayOrderCreateReqDTO()
-                .setAppId(PAY_APP_ID).setUserIp(getClientIP()) // 支付应用
+                .setAppKey(PAY_APP_KEY).setUserIp(getClientIP()) // 支付应用
                 .setMerchantOrderId(demoOrder.getId().toString()) // 业务的订单编号
                 .setSubject(spuName).setBody("").setPrice(price) // 价格信息
                 .setExpireTime(addTime(Duration.ofHours(2L)))).getCheckedData(); // 支付的过期时间
@@ -190,7 +190,7 @@ public class PayDemoOrderServiceImpl implements PayDemoOrderService {
         String refundId = order.getId() + "-refund";
         // 2.2 创建退款单
         Long payRefundId = payRefundApi.createRefund(new PayRefundCreateReqDTO()
-                .setAppId(PAY_APP_ID).setUserIp(getClientIP()) // 支付应用
+                .setAppKey(PAY_APP_KEY).setUserIp(getClientIP()) // 支付应用
                 .setMerchantOrderId(String.valueOf(order.getId())) // 支付单号
                 .setMerchantRefundId(refundId)
                 .setReason("想退钱").setPrice(order.getPrice())).getCheckedData();// 价格信息
@@ -232,7 +232,7 @@ public class PayDemoOrderServiceImpl implements PayDemoOrderService {
             throw exception(DEMO_ORDER_NOT_FOUND);
         }
         // 1.2 校验退款订单匹配
-        if (Objects.equals(order.getPayOrderId(), payRefundId)) {
+        if (Objects.equals(order.getPayRefundId(), payRefundId)) {
             log.error("[validateDemoOrderCanRefunded][order({}) 退款单不匹配({})，请进行处理！order 数据是：{}]",
                     id, payRefundId, toJsonString(order));
             throw exception(DEMO_ORDER_REFUND_FAIL_REFUND_ORDER_ID_ERROR);

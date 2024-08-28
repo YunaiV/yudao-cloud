@@ -20,8 +20,10 @@ public class SecurityConfiguration {
             public void customize(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry) {
                 // TODO 芋艿：这个每个项目都需要重复配置，得捉摸有没通用的方案
                 // Swagger 接口文档
-                registry.antMatchers("/v3/api-docs/**").permitAll() // 元数据
-                        .antMatchers("/swagger-ui.html").permitAll(); // Swagger UI
+                registry.antMatchers("/v3/api-docs/**").permitAll()
+                        .antMatchers("/webjars/**").permitAll()
+                        .antMatchers("/swagger-ui").permitAll()
+                        .antMatchers("/swagger-ui/**").permitAll();
                 // Druid 监控
                 registry.antMatchers("/druid/**").anonymous();
                 // Spring Boot Actuator 的安全配置

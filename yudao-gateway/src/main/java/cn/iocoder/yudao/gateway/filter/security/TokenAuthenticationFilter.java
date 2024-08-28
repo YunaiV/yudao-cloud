@@ -3,6 +3,7 @@ package cn.iocoder.yudao.gateway.filter.security;
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.core.KeyValue;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
+import cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.gateway.util.SecurityFrameworkUtils;
 import cn.iocoder.yudao.gateway.util.WebFrameworkUtils;
@@ -94,7 +95,8 @@ public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
         // 重要说明：defaultIfEmpty 作用，保证 Mono.empty() 情况，可以继续执行 `flatMap 的 chain.filter(exchange)` 逻辑，避免返回给前端空的 Response！！
         return getLoginUser(exchange, token).defaultIfEmpty(LOGIN_USER_EMPTY).flatMap(user -> {
             // 1. 无用户，直接 filter 继续请求
-            if (user == LOGIN_USER_EMPTY) {
+            if (user == LOGIN_USER_EMPTY || // 下面 expiresTime 的判断，为了解决 token 实际已经过期的情况
+                    user.getExpiresTime() == null || LocalDateTimeUtils.beforeNow(user.getExpiresTime())) {
                 return chain.filter(exchange);
             }
 
@@ -153,7 +155,8 @@ public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
         OAuth2AccessTokenCheckRespDTO tokenInfo = result.getData();
         return new LoginUser().setId(tokenInfo.getUserId()).setUserType(tokenInfo.getUserType())
                 .setInfo(tokenInfo.getUserInfo()) // 额外的用户信息
-                .setTenantId(tokenInfo.getTenantId()).setScopes(tokenInfo.getScopes());
+                .setTenantId(tokenInfo.getTenantId()).setScopes(tokenInfo.getScopes())
+                .setExpiresTime(tokenInfo.getExpiresTime());
     }
 
     @Override

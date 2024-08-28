@@ -1,8 +1,7 @@
 package cn.iocoder.yudao.module.statistics.service.pay;
 
-import cn.iocoder.yudao.module.pay.enums.wallet.PayWalletBizTypeEnum;
-import cn.iocoder.yudao.module.pay.enums.order.PayOrderStatusEnum;
 import cn.iocoder.yudao.module.pay.enums.refund.PayRefundStatusEnum;
+import cn.iocoder.yudao.module.pay.enums.wallet.PayWalletBizTypeEnum;
 import cn.iocoder.yudao.module.statistics.dal.mysql.pay.PayWalletStatisticsMapper;
 import cn.iocoder.yudao.module.statistics.service.pay.bo.RechargeSummaryRespBO;
 import cn.iocoder.yudao.module.statistics.service.trade.bo.WalletSummaryRespBO;
@@ -46,7 +45,7 @@ public class PayWalletStatisticsServiceImpl implements PayWalletStatisticsServic
 
     @Override
     public Integer getRechargePriceSummary() {
-        return payWalletStatisticsMapper.selectRechargePriceSummary(PayOrderStatusEnum.SUCCESS.getStatus());
+        return payWalletStatisticsMapper.selectRechargePriceSummary(Boolean.TRUE);
     }
 
 }

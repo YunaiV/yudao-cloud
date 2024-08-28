@@ -112,7 +112,7 @@ public class AppProductSpuController {
         productBrowseHistoryService.createBrowseHistory(getLoginUserId(), id);
 
         // 拼接返回
-        spu.setBrowseCount(spu.getBrowseCount() + spu.getVirtualSalesCount());
+        spu.setSalesCount(spu.getSalesCount() + spu.getVirtualSalesCount());
         AppProductSpuDetailRespVO spuVO = BeanUtils.toBean(spu, AppProductSpuDetailRespVO.class)
                 .setSkus(BeanUtils.toBean(skus, AppProductSpuDetailRespVO.Sku.class));
         // 处理 vip 价格
@@ -148,5 +148,4 @@ public class AppProductSpuController {
         return price - newPrice;
     }
 
-    // TODO 芋艿：商品的浏览记录；
 }

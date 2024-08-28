@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -25,5 +26,8 @@ public class OAuth2AccessTokenCheckRespDTO implements Serializable {
 
     @Schema(description = "授权范围的数组", example = "user_info")
     private List<String> scopes;
+
+    @Schema(description = "过期时间", requiredMode = Schema.RequiredMode.REQUIRED)
+    private LocalDateTime expiresTime;
 
 }

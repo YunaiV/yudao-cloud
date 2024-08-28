@@ -30,14 +30,13 @@ public interface PayWalletService {
      */
     PayWalletDO getWallet(Long walletId);
 
-
     /**
      * 获得会员钱包分页
      *
      * @param pageReqVO 分页查询
      * @return 会员钱包分页
      */
-    PageResult<PayWalletDO> getWalletPage(Integer userType, PayWalletPageReqVO pageReqVO);
+    PageResult<PayWalletDO> getWalletPage(PayWalletPageReqVO pageReqVO);
 
     /**
      * 钱包订单支付

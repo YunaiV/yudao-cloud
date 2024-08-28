@@ -1,7 +1,18 @@
 spring:
+  application:
+    name: trade-server
+
+  profiles:
+    active: local
+
   main:
     allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
     allow-bean-definition-overriding: true # 允许 Bean 覆盖，例如说 Feign 等会存在重复定义的服务
+
+  config:
+    import:
+      - optional:classpath:application-${spring.profiles.active}.yaml # 加载【本地】配置
+      - optional:nacos:${spring.application.name}-${spring.profiles.active}.yaml # 加载【Nacos】的配置
 
   # Servlet 配置
   servlet:
@@ -9,9 +20,6 @@ spring:
     multipart:
       max-file-size: 16MB # 单个文件大小
       max-request-size: 32MB # 设置总上传的文件大小
-  mvc:
-    pathmatch:
-      matching-strategy: ANT_PATH_MATCHER # 解决 SpringFox 与 SpringBoot 2.6.x 不兼容的问题，参见 SpringFoxHandlerProviderBeanPostProcessor 类
 
   # Jackson 配置项
   jackson:
@@ -27,6 +35,13 @@ spring:
     redis:
       time-to-live: 1h # 设置过期时间为 1 小时
 
+server:
+  port: 48102
+
+logging:
+  file:
+    name: ${user.home}/logs/${spring.application.name}.log # 日志文件名，全路径
+
 --- #################### 接口文档配置 ####################
 
 springdoc:
@@ -35,7 +50,7 @@ springdoc:
     path: /v3/api-docs
   swagger-ui:
     enabled: true # 2.1 是否开启 Swagger 文档的官方 UI 界面
-    path: /swagger-ui.html
+    path: /swagger-ui
   default-flat-param-object: true # 参见 https://doc.xiaominfo.com/docs/faq/v4/knife4j-parameterobject-flat-param 文档
 
 knife4j:
@@ -73,7 +88,6 @@ spring:
 # VO 转换（数据翻译）相关
 easy-trans:
   is-enable-global: true # 启用全局翻译（拦截所有 SpringMVC ResponseBody 进行自动翻译 )。如果对于性能要求很高可关闭此配置，或通过 @IgnoreTrans 忽略某个接口
-  is-enable-cloud: false # 禁用 TransType.RPC 微服务模式
 
 --- #################### RPC 远程调用相关配置 ####################
 
@@ -94,20 +108,23 @@ yudao:
   info:
     version: 1.0.0
     base-package: cn.iocoder.yudao.module.trade
+  web:
+    admin-ui:
+      url: http://dashboard.yudao.iocoder.cn # Admin 管理后台 UI 的地址
+  xss:
+    enable: false
+    exclude-urls: # 如下 url，仅仅是为了演示，去掉配置也没关系
+      - ${management.endpoints.web.base-path}/** # 不处理 Actuator 的请求
   swagger:
     title: 管理后台
     description: 提供管理员管理的所有功能
     version: ${yudao.info.version}
-    base-package: ${yudao.info.base-package}
-  captcha:
-    enable: true # 验证码的开关，默认为 true；
   tenant: # 多租户相关配置项
     enable: true
     ignore-urls:
     ignore-tables:
   trade:
     order:
-      app-id: 1 # 商户编号
       pay-expire-time: 2h # 支付的过期时间
       receive-expire-time: 14d # 收货的过期时间
       comment-expire-time: 7d # 评论的过期时间

@@ -79,8 +79,8 @@ public class PayNotifyController {
     @Operation(summary = "支付渠道的统一【退款】回调")
     @PermitAll
     public String notifyRefund(@PathVariable("channelId") Long channelId,
-                               @RequestParam(required = false) Map<String, String> params,
-                               @RequestBody(required = false) String body) {
+                              @RequestParam(required = false) Map<String, String> params,
+                              @RequestBody(required = false) String body) {
         log.info("[notifyRefund][channelId({}) 回调数据({}/{})]", channelId, params, body);
         // 1. 校验支付渠道是否存在
         PayClient payClient = channelService.getPayClient(channelId);

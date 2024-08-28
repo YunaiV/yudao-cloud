@@ -135,7 +135,7 @@ public class BpmProcessInstanceController {
                 processDefinitionService.getProcessDefinitionBpmnModel(processInstance.getProcessDefinitionId()));
         AdminUserRespDTO startUser = adminUserApi.getUser(NumberUtils.parseLong(processInstance.getStartUserId())).getCheckedData();
         DeptRespDTO dept = null;
-        if (startUser != null) {
+        if (startUser != null && startUser.getDeptId() != null) {
             dept = deptApi.getDept(startUser.getDeptId()).getCheckedData();
         }
         return success(BpmProcessInstanceConvert.INSTANCE.buildProcessInstance(processInstance,

@@ -5,6 +5,7 @@ import cn.hutool.core.util.ObjUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.iocoder.yudao.framework.common.core.KeyValue;
 import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
+import cn.iocoder.yudao.framework.common.enums.UserTypeEnum;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.module.member.api.user.MemberUserApi;
@@ -23,9 +24,12 @@ import cn.iocoder.yudao.module.promotion.dal.dataobject.combination.CombinationP
 import cn.iocoder.yudao.module.promotion.dal.dataobject.combination.CombinationRecordDO;
 import cn.iocoder.yudao.module.promotion.dal.mysql.combination.CombinationRecordMapper;
 import cn.iocoder.yudao.module.promotion.enums.combination.CombinationRecordStatusEnum;
+import cn.iocoder.yudao.module.system.api.social.SocialClientApi;
+import cn.iocoder.yudao.module.system.api.social.dto.SocialWxaSubscribeMessageSendReqDTO;
 import cn.iocoder.yudao.module.trade.api.order.TradeOrderApi;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -33,13 +37,17 @@ import org.springframework.validation.annotation.Validated;
 import javax.annotation.Nullable;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.*;
 import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.afterNow;
 import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.beforeNow;
 import static cn.iocoder.yudao.module.promotion.enums.ErrorCodeConstants.*;
+import static cn.iocoder.yudao.module.promotion.enums.MessageTemplateConstants.COMBINATION_SUCCESS;
 
 // TODO 芋艿：等拼团记录做完，完整 review 下
 
@@ -64,10 +72,11 @@ public class CombinationRecordServiceImpl implements CombinationRecordService {
     private ProductSpuApi productSpuApi;
     @Resource
     private ProductSkuApi productSkuApi;
-
     @Resource
-    @Lazy
+    @Lazy // 延迟加载，避免循环依赖
     private TradeOrderApi tradeOrderApi;
+    @Resource
+    public SocialClientApi socialClientApi;
 
     // TODO @芋艿：在详细预览下；
     @Override
@@ -205,7 +214,25 @@ public class CombinationRecordServiceImpl implements CombinationRecordService {
             }
             updateRecords.add(updateRecord);
         });
-        combinationRecordMapper.updateBatch(updateRecords);
+        Boolean updateSuccess = combinationRecordMapper.updateBatch(updateRecords);
+
+        // 3. 拼团成功发送订阅消息
+        if (updateSuccess && isFull) {
+            records.forEach(item -> {
+                getSelf().sendCombinationResultMessage(item);
+            });
+        }
+    }
+
+    @Async
+    public void sendCombinationResultMessage(CombinationRecordDO record) {
+        // 构建并发送模版消息
+        socialClientApi.sendWxaSubscribeMessage(new SocialWxaSubscribeMessageSendReqDTO()
+                .setUserId(record.getUserId()).setUserType(UserTypeEnum.MEMBER.getValue())
+                .setTemplateTitle(COMBINATION_SUCCESS)
+                .setPage("pages/order/detail?id=" + record.getOrderId()) // 订单详情页
+                .addMessage("thing1", "商品拼团活动") // 活动标题
+                .addMessage("thing2", "恭喜您拼团成功！我们将尽快为您发货。")); // 温馨提示
     }
 
     @Override
@@ -262,61 +289,6 @@ public class CombinationRecordServiceImpl implements CombinationRecordService {
     public Map<Long, Integer> getCombinationRecordCountMapByActivity(Collection<Long> activityIds,
                                                                      @Nullable Integer status, @Nullable Long headId) {
         return combinationRecordMapper.selectCombinationRecordCountMapByActivityIdAndStatusAndHeadId(activityIds, status, headId);
-    }
-
-    @Override
-    public CombinationRecordDO getCombinationRecordByIdAndUser(Long userId, Long id) {
-        return combinationRecordMapper.selectOne(CombinationRecordDO::getUserId, userId, CombinationRecordDO::getId, id);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void cancelCombinationRecord(Long userId, Long id, Long headId) {
-        // 删除记录
-        combinationRecordMapper.deleteById(id);
-
-        // 需要更新的记录
-        List<CombinationRecordDO> updateRecords = new ArrayList<>();
-        // 如果它是团长，则顺序（下单时间）继承
-        if (Objects.equals(headId, CombinationRecordDO.HEAD_ID_GROUP)) { // 情况一：团长
-            // 团员
-            List<CombinationRecordDO> list = getCombinationRecordListByHeadId(id);
-            if (CollUtil.isEmpty(list)) {
-                return;
-            }
-            // 按照创建时间升序排序
-            list.sort(Comparator.comparing(CombinationRecordDO::getCreateTime)); // 影响原 list
-            CombinationRecordDO newHead = list.get(0); // 新团长继位
-            list.forEach(item -> {
-                CombinationRecordDO recordDO = new CombinationRecordDO();
-                recordDO.setId(item.getId());
-                if (ObjUtil.equal(item.getId(), newHead.getId())) { // 新团长
-                    recordDO.setHeadId(CombinationRecordDO.HEAD_ID_GROUP);
-                } else {
-                    recordDO.setHeadId(newHead.getId());
-                }
-                recordDO.setUserCount(list.size());
-                updateRecords.add(recordDO);
-            });
-        } else { // 情况二：团员
-            // 团长
-            CombinationRecordDO recordHead = combinationRecordMapper.selectById(headId);
-            // 团员
-            List<CombinationRecordDO> records = getCombinationRecordListByHeadId(headId);
-            if (CollUtil.isEmpty(records)) {
-                return;
-            }
-            records.add(recordHead); // 加入团长，团长数据也需要更新
-            records.forEach(item -> {
-                CombinationRecordDO recordDO = new CombinationRecordDO();
-                recordDO.setId(item.getId());
-                recordDO.setUserCount(records.size());
-                updateRecords.add(recordDO);
-            });
-        }
-
-        // 更新拼团记录
-        combinationRecordMapper.updateBatch(updateRecords);
     }
 
     @Override

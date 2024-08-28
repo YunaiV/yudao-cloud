@@ -1,5 +1,7 @@
 package cn.iocoder.yudao.module.system.api.dict;
 
+import cn.hutool.core.util.ObjUtil;
+import cn.hutool.core.util.StrUtil;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -39,6 +41,21 @@ public interface DictDataApi {
     })
     CommonResult<DictDataRespDTO> getDictData(@RequestParam("dictType") String dictType,
                                               @RequestParam("value") String value);
+
+    /**
+     * 获得指定的字典标签，从缓存中
+     *
+     * @param type  字典类型
+     * @param value 字典数据值
+     * @return 字典标签
+     */
+    default String getDictDataLabel(String type, Integer value) {
+        DictDataRespDTO dictData = getDictData(type, String.valueOf(value)).getData();
+        if (ObjUtil.isNull(dictData)) {
+            return StrUtil.EMPTY;
+        }
+        return dictData.getLabel();
+    }
 
     @GetMapping(PREFIX + "/parse")
     @Operation(summary = "解析获得指定的字典数据")

@@ -1,6 +1,17 @@
 spring:
+  application:
+    name: gateway-server
+
+  profiles:
+    active: local
+
   main:
     allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
+
+  config:
+    import:
+      - optional:classpath:application-${spring.profiles.active}.yaml # 加载【本地】配置
+      - optional:nacos:${spring.application.name}-${spring.profiles.active}.yaml # 加载【Nacos】的配置
 
   cloud:
     # Spring Cloud Gateway 配置项，对应 GatewayProperties 类
@@ -152,8 +163,22 @@ spring:
             - Path=/admin-api/crm/**
           filters:
             - RewritePath=/admin-api/crm/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
+        ## ai-server 服务
+        - id: ai-admin-api # 路由的编号
+          uri: grayLb://ai-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/admin-api/ai/**
+          filters:
+            - RewritePath=/admin-api/ai/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
       x-forwarded:
         prefix-enabled: false # 避免 Swagger 重复带上额外的 /admin-api/system 前缀
+
+server:
+  port: 48080
+
+logging:
+  file:
+    name: ${user.home}/logs/${spring.application.name}.log # 日志文件名，全路径
 
 knife4j:
   # 聚合 Swagger 文档，参考 https://doc.xiaominfo.com/docs/action/springcloud-gateway 文档
@@ -194,6 +219,9 @@ knife4j:
         service-name: erp-server
         url: /admin-api/erp/v3/api-docs
       - name: crm-server
+        service-name: crm-server
+        url: /admin-api/crm/v3/api-docs
+      - name: ai-server
         service-name: crm-server
         url: /admin-api/crm/v3/api-docs
 

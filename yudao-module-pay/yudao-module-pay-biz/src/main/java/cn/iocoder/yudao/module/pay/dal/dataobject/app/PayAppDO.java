@@ -32,6 +32,10 @@ public class PayAppDO extends BaseDO {
     @TableId
     private Long id;
     /**
+     * 应用标识
+     */
+    private String appKey;
+    /**
      * 应用名
      */
     private String name;
@@ -53,5 +57,10 @@ public class PayAppDO extends BaseDO {
      * 退款结果的回调地址
      */
     private String refundNotifyUrl;
+
+    /**
+     * 转账结果的回调地址
+     */
+    private String transferNotifyUrl;
 
 }

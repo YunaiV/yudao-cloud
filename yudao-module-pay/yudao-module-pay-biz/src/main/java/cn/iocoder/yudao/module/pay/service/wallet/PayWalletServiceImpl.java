@@ -36,13 +36,15 @@ public class PayWalletServiceImpl implements  PayWalletService {
 
     @Resource
     private PayWalletMapper walletMapper;
+
     @Resource
+    @Lazy // 延迟加载，避免循环依赖
     private PayWalletTransactionService walletTransactionService;
     @Resource
-    @Lazy
+    @Lazy // 延迟加载，避免循环依赖
     private PayOrderService orderService;
     @Resource
-    @Lazy
+    @Lazy // 延迟加载，避免循环依赖
     private PayRefundService refundService;
 
     @Override
@@ -63,8 +65,8 @@ public class PayWalletServiceImpl implements  PayWalletService {
     }
 
     @Override
-    public PageResult<PayWalletDO> getWalletPage(Integer userType,PayWalletPageReqVO pageReqVO) {
-        return walletMapper.selectPage(userType, pageReqVO);
+    public PageResult<PayWalletDO> getWalletPage(PayWalletPageReqVO pageReqVO) {
+        return walletMapper.selectPage(pageReqVO);
     }
 
     @Override

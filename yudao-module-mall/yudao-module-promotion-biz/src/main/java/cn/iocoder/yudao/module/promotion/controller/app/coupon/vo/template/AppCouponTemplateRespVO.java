@@ -17,6 +17,9 @@ public class AppCouponTemplateRespVO {
     @Schema(description = "优惠劵名", requiredMode = Schema.RequiredMode.REQUIRED, example = "春节送送送")
     private String name;
 
+    @Schema(description = "优惠券说明", example = "优惠券使用说明")
+    private String description;
+
     @Schema(description = "每人限领个数", requiredMode = Schema.RequiredMode.REQUIRED, example = "66") // -1 - 则表示不限制
     private Integer takeLimitCount;
 

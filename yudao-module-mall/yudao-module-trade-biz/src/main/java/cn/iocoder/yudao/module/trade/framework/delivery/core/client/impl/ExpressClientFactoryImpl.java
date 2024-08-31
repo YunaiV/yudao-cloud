@@ -3,10 +3,10 @@ package cn.iocoder.yudao.module.trade.framework.delivery.core.client.impl;
 import cn.hutool.core.lang.Assert;
 import cn.iocoder.yudao.module.trade.framework.delivery.config.TradeExpressProperties;
 import cn.iocoder.yudao.module.trade.framework.delivery.core.client.ExpressClient;
+import cn.iocoder.yudao.module.trade.framework.delivery.core.client.ExpressClientFactory;
 import cn.iocoder.yudao.module.trade.framework.delivery.core.client.impl.kd100.Kd100ExpressClient;
 import cn.iocoder.yudao.module.trade.framework.delivery.core.client.impl.kdniao.KdNiaoExpressClient;
 import cn.iocoder.yudao.module.trade.framework.delivery.core.enums.ExpressClientEnum;
-import cn.iocoder.yudao.module.trade.framework.delivery.core.client.ExpressClientFactory;
 import lombok.AllArgsConstructor;
 import org.springframework.web.client.RestTemplate;
 

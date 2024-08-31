@@ -4,19 +4,21 @@ import cn.iocoder.yudao.framework.common.util.monitor.TracerUtils;
 import cn.iocoder.yudao.framework.common.util.servlet.ServletUtils;
 import cn.iocoder.yudao.framework.security.core.LoginUser;
 import cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils;
+import cn.iocoder.yudao.module.system.api.logger.OperateLogApi;
 import cn.iocoder.yudao.module.system.api.logger.dto.OperateLogCreateReqDTO;
 import com.mzt.logapi.beans.LogRecord;
 import com.mzt.logapi.service.ILogRecordService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
 
 /**
  * 操作日志 ILogRecordService 实现类
  *
- * 基于 {@link OperateLogFrameworkService}实现， 记录操作日志
+ * 基于 {@link OperateLogApi} 实现，记录操作日志
  *
  * @author HUIHUI
  */
@@ -24,22 +26,27 @@ import java.util.List;
 public class LogRecordServiceImpl implements ILogRecordService {
 
     @Resource
-    OperateLogFrameworkService operateLogFrameworkService;
+    private OperateLogApi operateLogApi;
 
     @Override
+    @Async
     public void record(LogRecord logRecord) {
-        // 1. 补全通用字段
         OperateLogCreateReqDTO reqDTO = new OperateLogCreateReqDTO();
-        reqDTO.setTraceId(TracerUtils.getTraceId());
-        // 补充用户信息
-        fillUserFields(reqDTO);
-        // 补全模块信息
-        fillModuleFields(reqDTO, logRecord);
-        // 补全请求信息
-        fillRequestFields(reqDTO);
+        try {
+            reqDTO.setTraceId(TracerUtils.getTraceId());
+            // 补充用户信息
+            fillUserFields(reqDTO);
+            // 补全模块信息
+            fillModuleFields(reqDTO, logRecord);
+            // 补全请求信息
+            fillRequestFields(reqDTO);
 
-        // 2. 异步记录日志
-        operateLogFrameworkService.createOperateLog(reqDTO);
+            // 2. 异步记录日志
+            operateLogApi.createOperateLog(reqDTO).getCheckedData();
+        } catch (Throwable ex) {
+            // 由于 @Async 异步调用，这里打印下日志，更容易跟进
+            log.error("[record][url({}) log({}) 发生异常]", reqDTO.getRequestUrl(), reqDTO, ex);
+        }
     }
 
     private static void fillUserFields(OperateLogCreateReqDTO reqDTO) {

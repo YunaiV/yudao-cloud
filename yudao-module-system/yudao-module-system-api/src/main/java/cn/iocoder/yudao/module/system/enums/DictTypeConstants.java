@@ -13,6 +13,7 @@ public interface DictTypeConstants {
     // ========== SYSTEM 模块 ==========
 
     String USER_SEX = "system_user_sex"; // 用户性别
+    String DATA_SCOPE = "system_data_scope"; // 数据范围
 
     String LOGIN_TYPE = "system_login_type"; // 登录日志的类型
     String LOGIN_RESULT = "system_login_result"; // 登录结果

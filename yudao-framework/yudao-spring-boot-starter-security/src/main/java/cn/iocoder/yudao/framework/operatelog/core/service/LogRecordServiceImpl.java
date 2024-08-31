@@ -4,7 +4,6 @@ import cn.iocoder.yudao.framework.common.util.monitor.TracerUtils;
 import cn.iocoder.yudao.framework.common.util.servlet.ServletUtils;
 import cn.iocoder.yudao.framework.security.core.LoginUser;
 import cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils;
-import cn.iocoder.yudao.module.system.api.logger.OperateLogApi;
 import cn.iocoder.yudao.module.system.api.logger.dto.OperateLogCreateReqDTO;
 import com.mzt.logapi.beans.LogRecord;
 import com.mzt.logapi.service.ILogRecordService;
@@ -17,7 +16,7 @@ import java.util.List;
 /**
  * 操作日志 ILogRecordService 实现类
  *
- * 基于 {@link OperateLogApi} 实现，记录操作日志
+ * 基于 {@link OperateLogFrameworkService}实现， 记录操作日志
  *
  * @author HUIHUI
  */
@@ -25,7 +24,7 @@ import java.util.List;
 public class LogRecordServiceImpl implements ILogRecordService {
 
     @Resource
-    private OperateLogApi operateLogApi;
+    OperateLogFrameworkService operateLogFrameworkService;
 
     @Override
     public void record(LogRecord logRecord) {
@@ -40,7 +39,7 @@ public class LogRecordServiceImpl implements ILogRecordService {
         fillRequestFields(reqDTO);
 
         // 2. 异步记录日志
-        operateLogApi.createOperateLog(reqDTO);
+        operateLogFrameworkService.createOperateLog(reqDTO);
     }
 
     private static void fillUserFields(OperateLogCreateReqDTO reqDTO) {

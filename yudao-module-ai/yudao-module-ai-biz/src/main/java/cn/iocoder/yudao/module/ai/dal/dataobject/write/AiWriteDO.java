@@ -3,7 +3,6 @@ package cn.iocoder.yudao.module.ai.dal.dataobject.write;
 import cn.iocoder.yudao.framework.ai.core.enums.AiPlatformEnum;
 import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
 import cn.iocoder.yudao.module.ai.enums.write.AiWriteTypeEnum;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -20,7 +19,7 @@ public class AiWriteDO extends BaseDO {
     /**
      * 编号
      */
-    @TableId(type = IdType.AUTO)
+    @TableId
     private Long id;
 
     /**

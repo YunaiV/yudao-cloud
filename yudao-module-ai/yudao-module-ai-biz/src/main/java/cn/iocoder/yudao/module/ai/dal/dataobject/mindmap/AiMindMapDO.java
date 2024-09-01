@@ -2,7 +2,6 @@ package cn.iocoder.yudao.module.ai.dal.dataobject.mindmap;
 
 import cn.iocoder.yudao.framework.ai.core.enums.AiPlatformEnum;
 import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -19,7 +18,7 @@ public class AiMindMapDO extends BaseDO {
     /**
      * 编号
      */
-    @TableId(type = IdType.AUTO)
+    @TableId
     private Long id;
 
     /**

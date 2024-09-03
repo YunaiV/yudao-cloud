@@ -60,7 +60,7 @@ public class CrmProductServiceImpl implements CrmProductService {
             success = CRM_PRODUCT_CREATE_SUCCESS)
     public Long createProduct(CrmProductSaveReqVO createReqVO) {
         // 1. 校验产品
-        adminUserApi.validateUserList(Collections.singleton(createReqVO.getOwnerUserId()));
+        adminUserApi.validateUserList(Collections.singleton(createReqVO.getOwnerUserId())).checkError();
         validateProductNoDuplicate(null, createReqVO.getNo());
         validateProductCategoryExists(createReqVO.getCategoryId());
 

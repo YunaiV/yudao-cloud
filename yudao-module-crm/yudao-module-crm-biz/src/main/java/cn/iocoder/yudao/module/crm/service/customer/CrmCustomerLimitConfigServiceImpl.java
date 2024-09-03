@@ -110,8 +110,8 @@ public class CrmCustomerLimitConfigServiceImpl implements CrmCustomerLimitConfig
      * @param deptIds 部门 ids
      */
     private void validateUserAndDept(Collection<Long> userIds, Collection<Long> deptIds) {
-        deptApi.validateDeptList(deptIds);
-        adminUserApi.validateUserList(userIds);
+        deptApi.validateDeptList(deptIds).checkError();
+        adminUserApi.validateUserList(userIds).checkError();
     }
 
     @Override

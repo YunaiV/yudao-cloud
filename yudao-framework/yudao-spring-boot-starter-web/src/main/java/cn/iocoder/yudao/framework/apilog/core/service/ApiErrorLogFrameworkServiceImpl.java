@@ -23,7 +23,7 @@ public class ApiErrorLogFrameworkServiceImpl implements ApiErrorLogFrameworkServ
     @Async
     public void createApiErrorLog(ApiErrorLogCreateReqDTO reqDTO) {
         try {
-            apiErrorLogApi.createApiErrorLog(reqDTO);
+            apiErrorLogApi.createApiErrorLog(reqDTO).checkError();
         } catch (Throwable ex) {
             // 由于 @Async 异步调用，这里打印下日志，更容易跟进
             log.error("[createApiErrorLog][url({}) log({}) 发生异常]", reqDTO.getRequestUrl(), reqDTO, ex);

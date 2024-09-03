@@ -157,7 +157,7 @@ public class CrmPermissionServiceImpl implements CrmPermissionService {
     private Long createPermission0(CrmPermissionCreateReqBO createReqBO) {
         validatePermissionNotExists(Collections.singletonList(createReqBO));
         // 1. 校验用户是否存在
-        adminUserApi.validateUserList(Collections.singletonList(createReqBO.getUserId()));
+        adminUserApi.validateUserList(Collections.singletonList(createReqBO.getUserId())).checkError();
         // 2. 插入权限
         CrmPermissionDO permission = BeanUtils.toBean(createReqBO, CrmPermissionDO.class);
         permissionMapper.insert(permission);
@@ -168,7 +168,7 @@ public class CrmPermissionServiceImpl implements CrmPermissionService {
     public void createPermissionBatch(List<CrmPermissionCreateReqBO> createReqBOs) {
         validatePermissionNotExists(createReqBOs);
         // 1. 校验用户是否存在
-        adminUserApi.validateUserList(convertSet(createReqBOs, CrmPermissionCreateReqBO::getUserId));
+        adminUserApi.validateUserList(convertSet(createReqBOs, CrmPermissionCreateReqBO::getUserId)).checkError();
 
         // 2. 创建
         List<CrmPermissionDO> permissions = BeanUtils.toBean(createReqBOs, CrmPermissionDO.class);
@@ -219,7 +219,7 @@ public class CrmPermissionServiceImpl implements CrmPermissionService {
             throw exception(CRM_PERMISSION_MODEL_TRANSFER_FAIL_OWNER_USER_EXISTS, bizTypeName);
         }
         // 1.2 校验新负责人是否存在
-        adminUserApi.validateUserList(Collections.singletonList(transferReqBO.getNewOwnerUserId()));
+        adminUserApi.validateUserList(Collections.singletonList(transferReqBO.getNewOwnerUserId())).checkError();
 
         // 2. 修改新负责人的权限
         List<CrmPermissionDO> permissions = permissionMapper.selectByBizTypeAndBizId(

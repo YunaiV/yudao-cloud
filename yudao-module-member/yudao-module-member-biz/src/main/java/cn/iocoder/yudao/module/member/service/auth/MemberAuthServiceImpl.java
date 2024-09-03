@@ -81,7 +81,7 @@ public class MemberAuthServiceImpl implements MemberAuthService {
     public AppAuthLoginRespVO smsLogin(AppAuthSmsLoginReqVO reqVO) {
         // 校验验证码
         String userIp = getClientIP();
-        smsCodeApi.useSmsCode(AuthConvert.INSTANCE.convert(reqVO, SmsSceneEnum.MEMBER_LOGIN.getScene(), userIp));
+        smsCodeApi.useSmsCode(AuthConvert.INSTANCE.convert(reqVO, SmsSceneEnum.MEMBER_LOGIN.getScene(), userIp)).checkError();
 
         // 获得获得注册用户
         MemberUserDO user = userService.createUserIfAbsent(reqVO.getMobile(), userIp, getTerminal());
@@ -122,7 +122,7 @@ public class MemberAuthServiceImpl implements MemberAuthService {
         } else {
             user = userService.createUser(socialUser.getNickname(), socialUser.getAvatar(), getClientIP(), getTerminal());
             socialUserApi.bindSocialUser(new SocialUserBindReqDTO(user.getId(), getUserType().getValue(),
-                    reqVO.getType(), reqVO.getCode(), reqVO.getState()));
+                    reqVO.getType(), reqVO.getCode(), reqVO.getState())).checkError();
         }
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
@@ -200,7 +200,7 @@ public class MemberAuthServiceImpl implements MemberAuthService {
         reqDTO.setUserAgent(ServletUtils.getUserAgent());
         reqDTO.setUserIp(getClientIP());
         reqDTO.setResult(loginResult.getResult());
-        loginLogApi.createLoginLog(reqDTO);
+        loginLogApi.createLoginLog(reqDTO).checkError();
         // 更新最后登录时间
         if (userId != null && Objects.equals(LoginResultEnum.SUCCESS.getResult(), loginResult.getResult())) {
             userService.updateUserLogin(userId, getClientIP());
@@ -242,7 +242,7 @@ public class MemberAuthServiceImpl implements MemberAuthService {
         }
 
         // 执行发送
-        smsCodeApi.sendSmsCode(AuthConvert.INSTANCE.convert(reqVO).setCreateIp(getClientIP()));
+        smsCodeApi.sendSmsCode(AuthConvert.INSTANCE.convert(reqVO).setCreateIp(getClientIP())).checkError();
     }
 
     @Override
@@ -267,7 +267,7 @@ public class MemberAuthServiceImpl implements MemberAuthService {
         reqDTO.setUserAgent(ServletUtils.getUserAgent());
         reqDTO.setUserIp(getClientIP());
         reqDTO.setResult(LoginResultEnum.SUCCESS.getResult());
-        loginLogApi.createLoginLog(reqDTO);
+        loginLogApi.createLoginLog(reqDTO).checkError();
     }
 
     private String getMobile(Long userId) {

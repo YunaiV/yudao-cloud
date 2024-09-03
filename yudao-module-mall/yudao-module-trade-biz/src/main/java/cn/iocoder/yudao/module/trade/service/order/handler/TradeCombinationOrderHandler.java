@@ -49,7 +49,7 @@ public class TradeCombinationOrderHandler implements TradeOrderHandler {
         // 1. 校验是否满足拼团活动相关限制
         TradeOrderItemDO item = orderItems.get(0);
         combinationRecordApi.validateCombinationRecord(order.getUserId(), order.getCombinationActivityId(),
-                order.getCombinationHeadId(), item.getSkuId(), item.getCount());
+                order.getCombinationHeadId(), item.getSkuId(), item.getCount()).checkError();
 
         // 2. 校验该用户是否存在未支付的拼团活动订单，避免一个拼团可以下多个单子了
         TradeOrderDO activityOrder = orderQueryService.getOrderByUserIdAndStatusAndCombination(

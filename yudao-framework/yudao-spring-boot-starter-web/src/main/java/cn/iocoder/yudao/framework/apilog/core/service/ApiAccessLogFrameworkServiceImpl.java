@@ -23,7 +23,7 @@ public class ApiAccessLogFrameworkServiceImpl implements ApiAccessLogFrameworkSe
     @Async
     public void createApiAccessLog(ApiAccessLogCreateReqDTO reqDTO) {
         try {
-            apiAccessLogApi.createApiAccessLog(reqDTO);
+            apiAccessLogApi.createApiAccessLog(reqDTO).checkError();
         } catch (Throwable ex) {
             // 由于 @Async 异步调用，这里打印下日志，更容易跟进
             log.error("[createApiAccessLog][url({}) log({}) 发生异常]", reqDTO.getRequestUrl(), reqDTO, ex);

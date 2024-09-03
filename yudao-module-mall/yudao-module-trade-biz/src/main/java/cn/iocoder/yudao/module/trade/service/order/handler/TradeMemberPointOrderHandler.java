@@ -46,7 +46,7 @@ public class TradeMemberPointOrderHandler implements TradeOrderHandler {
 
         // 增加用户经验
         memberLevelApi.addExperience(order.getUserId(), order.getPayPrice(),
-                MemberExperienceBizTypeEnum.ORDER_GIVE.getType(), String.valueOf(order.getId()));
+                MemberExperienceBizTypeEnum.ORDER_GIVE.getType(), String.valueOf(order.getId())).checkError();
     }
 
     @Override
@@ -73,7 +73,7 @@ public class TradeMemberPointOrderHandler implements TradeOrderHandler {
         // 扣减（回滚）用户经验
         int payPrice = order.getPayPrice() - order.getRefundPrice();
         memberLevelApi.addExperience(order.getUserId(), payPrice,
-                MemberExperienceBizTypeEnum.ORDER_GIVE_CANCEL.getType(), String.valueOf(order.getId()));
+                MemberExperienceBizTypeEnum.ORDER_GIVE_CANCEL.getType(), String.valueOf(order.getId())).checkError();
     }
 
     @Override
@@ -86,7 +86,7 @@ public class TradeMemberPointOrderHandler implements TradeOrderHandler {
         // 扣减（回滚）用户经验
         AfterSaleDO afterSale = afterSaleService.getAfterSale(orderItem.getAfterSaleId());
         memberLevelApi.reduceExperience(order.getUserId(), afterSale.getRefundPrice(),
-                MemberExperienceBizTypeEnum.ORDER_GIVE_CANCEL_ITEM.getType(), String.valueOf(orderItem.getId()));
+                MemberExperienceBizTypeEnum.ORDER_GIVE_CANCEL_ITEM.getType(), String.valueOf(orderItem.getId())).checkError();
     }
 
     /**
@@ -111,7 +111,7 @@ public class TradeMemberPointOrderHandler implements TradeOrderHandler {
 
     protected void reducePoint(Long userId, Integer point, MemberPointBizTypeEnum bizType, Long bizId) {
         if (point != null && point > 0) {
-            memberPointApi.reducePoint(userId, point, bizType.getType(), String.valueOf(bizId));
+            memberPointApi.reducePoint(userId, point, bizType.getType(), String.valueOf(bizId)).checkError();
         }
     }
 

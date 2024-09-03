@@ -3,7 +3,6 @@ package cn.iocoder.yudao.module.system.service.auth;
 import cn.hutool.core.util.ReflectUtil;
 import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.common.enums.UserTypeEnum;
-import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.test.core.ut.BaseDbUnitTest;
 import cn.iocoder.yudao.module.system.api.sms.SmsCodeApi;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialUserBindReqDTO;
@@ -22,15 +21,14 @@ import cn.iocoder.yudao.module.system.service.social.SocialUserService;
 import cn.iocoder.yudao.module.system.service.user.AdminUserService;
 import com.xingyuv.captcha.model.common.ResponseModel;
 import com.xingyuv.captcha.service.CaptchaService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
-
 import jakarta.annotation.Resource;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
@@ -195,6 +193,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         // mock 方法（用户信息）
         AdminUserDO user = randomPojo(AdminUserDO.class);
         when(userService.getUserByMobile(eq(mobile))).thenReturn(user);
+        when(smsCodeApi.sendSmsCode(any())).thenReturn(success(true));
 
         // 调用
         authService.sendSmsCode(reqVO);

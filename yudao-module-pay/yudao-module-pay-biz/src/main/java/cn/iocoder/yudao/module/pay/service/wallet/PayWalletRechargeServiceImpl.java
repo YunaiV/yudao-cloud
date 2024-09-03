@@ -152,7 +152,7 @@ public class PayWalletRechargeServiceImpl implements PayWalletRechargeService {
                 .addMessage("character_string1", String.valueOf(payOrderId)) // 支付单编号
                 .addMessage("amount2", fenToYuanStr(walletRecharge.getTotalPrice())) // 充值金额
                 .addMessage("time3", LocalDateTimeUtil.formatNormal(walletRecharge.getCreateTime())) // 充值时间
-                .addMessage("phrase4", "充值成功")); // 充值状态
+                .addMessage("phrase4", "充值成功")).checkError(); // 充值状态
     }
 
     @Override

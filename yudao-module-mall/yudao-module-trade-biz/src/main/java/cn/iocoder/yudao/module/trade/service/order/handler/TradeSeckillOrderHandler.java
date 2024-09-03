@@ -32,7 +32,7 @@ public class TradeSeckillOrderHandler implements TradeOrderHandler {
 
         // 扣减秒杀活动的库存
         seckillActivityApi.updateSeckillStockDecr(order.getSeckillActivityId(),
-                orderItems.get(0).getSkuId(), orderItems.get(0).getCount());
+                orderItems.get(0).getSkuId(), orderItems.get(0).getCount()).checkError();
     }
 
     @Override
@@ -58,7 +58,7 @@ public class TradeSeckillOrderHandler implements TradeOrderHandler {
         }
         // 恢复秒杀活动的库存
         seckillActivityApi.updateSeckillStockIncr(order.getSeckillActivityId(),
-                orderItem.getSkuId(), orderItem.getCount());
+                orderItem.getSkuId(), orderItem.getCount()).checkError();
     }
 
 }

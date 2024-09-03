@@ -35,7 +35,7 @@ public class TradeBargainOrderHandler implements TradeOrderHandler {
 
         // 扣减砍价活动的库存
         bargainActivityApi.updateBargainActivityStock(order.getBargainActivityId(),
-                -orderItems.get(0).getCount());
+                -orderItems.get(0).getCount()).checkError();
     }
 
     @Override
@@ -47,7 +47,7 @@ public class TradeBargainOrderHandler implements TradeOrderHandler {
         Assert.isTrue(orderItems.size() == 1, "砍价时，只允许选择一个商品");
 
         // 记录砍价记录对应的订单编号
-        bargainRecordApi.updateBargainRecordOrderId(order.getBargainRecordId(), order.getId());
+        bargainRecordApi.updateBargainRecordOrderId(order.getBargainRecordId(), order.getId()).checkError();
     }
 
     @Override
@@ -72,7 +72,7 @@ public class TradeBargainOrderHandler implements TradeOrderHandler {
             return;
         }
         // 恢复（增加）砍价活动的库存
-        bargainActivityApi.updateBargainActivityStock(order.getBargainActivityId(), orderItem.getCount());
+        bargainActivityApi.updateBargainActivityStock(order.getBargainActivityId(), orderItem.getCount()).checkError();
     }
 
 }

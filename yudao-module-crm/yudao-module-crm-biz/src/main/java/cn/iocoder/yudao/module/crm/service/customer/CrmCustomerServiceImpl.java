@@ -396,7 +396,7 @@ public class CrmCustomerServiceImpl implements CrmCustomerService {
             throw exception(CUSTOMER_NOT_EXISTS);
         }
         // 1.2 校验负责人是否存在
-        adminUserApi.validateUserList(singletonList(ownerUserId));
+        adminUserApi.validateUserList(singletonList(ownerUserId)).checkError();
         // 1.3 校验状态
         customers.forEach(customer -> {
             // 校验是否已有负责人

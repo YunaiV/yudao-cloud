@@ -91,7 +91,7 @@ public class ApiAccessLogFilter extends ApiRequestFilter {
             if (!enable) {
                 return;
             }
-            apiAccessLogApi.createApiAccessLog(accessLog);
+            apiAccessLogApi.createApiAccessLogAsync(accessLog);
         } catch (Throwable th) {
             log.error("[createApiAccessLog][url({}) log({}) 发生异常]", request.getRequestURI(), toJsonString(accessLog), th);
         }

@@ -6,6 +6,7 @@ import cn.iocoder.yudao.module.infra.enums.ApiConstants;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -20,5 +21,15 @@ public interface ApiAccessLogApi {
     @PostMapping(PREFIX + "/create")
     @Operation(summary = "创建 API 访问日志")
     CommonResult<Boolean> createApiAccessLog(@Valid @RequestBody ApiAccessLogCreateReqDTO createDTO);
+
+    /**
+     * 【异步】创建 API 访问日志
+     *
+     * @param createDTO 访问日志 DTO
+     */
+    @Async
+    default void createApiAccessLogAsync(ApiAccessLogCreateReqDTO createDTO) {
+        createApiAccessLog(createDTO).checkError();
+    }
 
 }

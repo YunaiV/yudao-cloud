@@ -5,7 +5,6 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import cn.iocoder.yudao.framework.apilog.core.service.ApiErrorLogFrameworkService;
 import cn.iocoder.yudao.framework.common.exception.ServiceException;
 import cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
@@ -14,6 +13,7 @@ import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.framework.common.util.monitor.TracerUtils;
 import cn.iocoder.yudao.framework.common.util.servlet.ServletUtils;
 import cn.iocoder.yudao.framework.web.core.util.WebFrameworkUtils;
+import cn.iocoder.yudao.module.infra.api.logger.ApiErrorLogApi;
 import cn.iocoder.yudao.module.infra.api.logger.dto.ApiErrorLogCreateReqDTO;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private final String applicationName;
 
-    private final ApiErrorLogFrameworkService apiErrorLogFrameworkService;
+    private final ApiErrorLogApi apiErrorLogApi;
 
     /**
      * 处理所有异常，主要是提供给 Filter 使用
@@ -288,7 +288,7 @@ public class GlobalExceptionHandler {
             // 初始化 errorLog
             buildExceptionLog(errorLog, req, e);
             // 执行插入 errorLog
-            apiErrorLogFrameworkService.createApiErrorLog(errorLog);
+            apiErrorLogApi.createApiErrorLogAsync(errorLog);
         } catch (Throwable th) {
             log.error("[createExceptionLog][url({}) log({}) 发生异常]", req.getRequestURI(),  JsonUtils.toJsonString(errorLog), th);
         }

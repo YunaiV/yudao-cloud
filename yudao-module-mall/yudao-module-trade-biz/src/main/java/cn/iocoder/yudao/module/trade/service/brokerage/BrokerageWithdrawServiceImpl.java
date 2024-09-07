@@ -20,12 +20,12 @@ import cn.iocoder.yudao.module.trade.enums.brokerage.BrokerageWithdrawStatusEnum
 import cn.iocoder.yudao.module.trade.enums.brokerage.BrokerageWithdrawTypeEnum;
 import cn.iocoder.yudao.module.trade.service.brokerage.bo.BrokerageWithdrawSummaryRespBO;
 import cn.iocoder.yudao.module.trade.service.config.TradeConfigService;
+import jakarta.annotation.Resource;
+import jakarta.validation.Validator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
-import jakarta.validation.Validator;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -96,10 +96,10 @@ public class BrokerageWithdrawServiceImpl implements BrokerageWithdrawService {
         Map<String, Object> templateParams = MapUtil.<String, Object>builder()
                 .put("createTime", LocalDateTimeUtil.formatNormal(withdraw.getCreateTime()))
                 .put("price", MoneyUtils.fenToYuanStr(withdraw.getPrice()))
-                .put("reason", withdraw.getAuditReason())
+                .put("reason", auditReason)
                 .build();
         notifyMessageSendApi.sendSingleMessageToMember(new NotifySendSingleToUserReqDTO()
-                .setUserId(withdraw.getUserId()).setTemplateCode(templateCode).setTemplateParams(templateParams)).checkError();
+                .setUserId(withdraw.getUserId()).setTemplateCode(templateCode).setTemplateParams(templateParams));
     }
 
     private BrokerageWithdrawDO validateBrokerageWithdrawExists(Integer id) {

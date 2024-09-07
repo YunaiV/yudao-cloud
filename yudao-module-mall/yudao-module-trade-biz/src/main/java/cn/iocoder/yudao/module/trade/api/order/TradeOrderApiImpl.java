@@ -39,8 +39,8 @@ public class TradeOrderApiImpl implements TradeOrderApi {
     }
 
     @Override
-    public CommonResult<Boolean> cancelPaidOrder(Long userId, Long orderId) {
-        tradeOrderUpdateService.cancelPaidOrder(userId, orderId);
+    public CommonResult<Boolean> cancelPaidOrder(Long userId, Long orderId, Integer cancelType) {
+        tradeOrderUpdateService.cancelPaidOrder(userId, orderId, cancelType);
         return success(true);
     }
 

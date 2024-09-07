@@ -99,7 +99,7 @@ public class BrokerageWithdrawServiceImpl implements BrokerageWithdrawService {
                 .put("reason", auditReason)
                 .build();
         notifyMessageSendApi.sendSingleMessageToMember(new NotifySendSingleToUserReqDTO()
-                .setUserId(withdraw.getUserId()).setTemplateCode(templateCode).setTemplateParams(templateParams));
+                .setUserId(withdraw.getUserId()).setTemplateCode(templateCode).setTemplateParams(templateParams)).checkError();
     }
 
     private BrokerageWithdrawDO validateBrokerageWithdrawExists(Integer id) {

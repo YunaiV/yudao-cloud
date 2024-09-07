@@ -31,13 +31,13 @@ public interface TradeOrderApi {
     @Parameter(name = "id", description = "订单编号", required = true)
     CommonResult<TradeOrderRespDTO> getOrder(@RequestParam("id") Long id);
 
-    // TODO 芋艿：需要优化下；
     @PutMapping(PREFIX + "/cancel-paid")
     @Parameters({
             @Parameter(name = "userId", description = "用户编号", required = true, example = "1024"),
             @Parameter(name = "orderId", description = "订单编号", required = true, example = "2048"),
     })
     CommonResult<Boolean> cancelPaidOrder(@RequestParam("userId") Long userId,
-                                          @RequestParam("orderId") Long orderId);
+                                          @RequestParam("orderId") Long orderId,
+                                          @RequestParam("cancelType") Integer cancelType);
 
 }

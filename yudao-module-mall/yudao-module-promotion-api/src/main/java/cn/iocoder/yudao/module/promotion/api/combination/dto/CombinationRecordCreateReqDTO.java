@@ -1,8 +1,7 @@
 package cn.iocoder.yudao.module.promotion.api.combination.dto;
 
-import lombok.Data;
-
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 /**
  * 拼团记录的创建 Request DTO

@@ -31,6 +31,7 @@ import static cn.iocoder.yudao.framework.web.core.util.WebFrameworkUtils.getLogi
 @Validated
 @Slf4j
 public class AppBrokerageRecordController {
+
     @Resource
     private BrokerageRecordService brokerageRecordService;
 
@@ -45,6 +46,7 @@ public class AppBrokerageRecordController {
 
     @GetMapping("/get-product-brokerage-price")
     @Operation(summary = "获得商品的分销金额")
+    @PreAuthenticated
     public CommonResult<AppBrokerageProductPriceRespVO> getProductBrokeragePrice(@RequestParam("spuId") Long spuId) {
         return success(brokerageRecordService.calculateProductBrokeragePrice(getLoginUserId(), spuId));
     }

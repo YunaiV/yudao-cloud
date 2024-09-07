@@ -160,7 +160,7 @@ yudao:
   codegen:
     base-package: cn.iocoder.yudao
     db-schemas: ${spring.datasource.dynamic.datasource.master.name}
-    front-type: 10 # 前端模版的类型，参见 CodegenFrontTypeEnum 枚举类
+    front-type: 20 # 前端模版的类型，参见 CodegenFrontTypeEnum 枚举类
   tenant: # 多租户相关配置项
     enable: true
     ignore-urls:

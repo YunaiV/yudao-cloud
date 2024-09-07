@@ -38,7 +38,7 @@ public class TradeMessageServiceImpl implements TradeMessageService {
                 new NotifySendSingleToUserReqDTO()
                         .setUserId(reqBO.getUserId())
                         .setTemplateCode(MessageTemplateConstants.SMS_ORDER_DELIVERY)
-                        .setTemplateParams(msgMap));
+                        .setTemplateParams(msgMap)).checkError();
     }
 
 }

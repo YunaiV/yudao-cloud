@@ -27,6 +27,9 @@ import cn.iocoder.yudao.module.promotion.enums.combination.CombinationRecordStat
 import cn.iocoder.yudao.module.system.api.social.SocialClientApi;
 import cn.iocoder.yudao.module.system.api.social.dto.SocialWxaSubscribeMessageSendReqDTO;
 import cn.iocoder.yudao.module.trade.api.order.TradeOrderApi;
+import cn.iocoder.yudao.module.trade.enums.order.TradeOrderCancelTypeEnum;
+import jakarta.annotation.Nullable;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
@@ -34,8 +37,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.annotation.Nullable;
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -232,7 +233,7 @@ public class CombinationRecordServiceImpl implements CombinationRecordService {
                 .setTemplateTitle(COMBINATION_SUCCESS)
                 .setPage("pages/order/detail?id=" + record.getOrderId()) // 订单详情页
                 .addMessage("thing1", "商品拼团活动") // 活动标题
-                .addMessage("thing2", "恭喜您拼团成功！我们将尽快为您发货。")); // 温馨提示
+                .addMessage("thing2", "恭喜您拼团成功！我们将尽快为您发货。")).checkError(); // 温馨提示
     }
 
     @Override
@@ -338,7 +339,8 @@ public class CombinationRecordServiceImpl implements CombinationRecordService {
         List<CombinationRecordDO> headAndRecords = updateBatchCombinationRecords(headRecord,
                 CombinationRecordStatusEnum.FAILED);
         // 2. 订单取消
-        headAndRecords.forEach(item -> tradeOrderApi.cancelPaidOrder(item.getUserId(), item.getOrderId()));
+        headAndRecords.forEach(item -> tradeOrderApi.cancelPaidOrder(item.getUserId(), item.getOrderId(),
+                TradeOrderCancelTypeEnum.COMBINATION_CLOSE.getType()).checkError());
     }
 
     /**

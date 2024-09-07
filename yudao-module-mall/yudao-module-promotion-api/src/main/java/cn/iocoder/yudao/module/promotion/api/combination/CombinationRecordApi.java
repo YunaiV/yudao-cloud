@@ -3,6 +3,7 @@ package cn.iocoder.yudao.module.promotion.api.combination;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.promotion.api.combination.dto.CombinationRecordCreateReqDTO;
 import cn.iocoder.yudao.module.promotion.api.combination.dto.CombinationRecordCreateRespDTO;
+import cn.iocoder.yudao.module.promotion.api.combination.dto.CombinationRecordRespDTO;
 import cn.iocoder.yudao.module.promotion.api.combination.dto.CombinationValidateJoinRespDTO;
 import cn.iocoder.yudao.module.promotion.enums.ApiConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,14 +44,14 @@ public interface CombinationRecordApi {
     CommonResult<CombinationRecordCreateRespDTO> createCombinationRecord(
             @RequestBody @Valid CombinationRecordCreateReqDTO reqDTO);
 
-    @GetMapping(PREFIX + "/is-success")
-    @Operation(summary = "查询拼团记录是否成功")
+    @GetMapping(PREFIX + "/get-by-order-id")
+    @Operation(summary = "基于订单编号，查询拼团记录")
     @Parameters({
             @Parameter(name = "userId", description = "用户编号", required = true, example = "1024"),
             @Parameter(name = "orderId", description = "订单编号", required = true, example = "2048"),
     })
-    CommonResult<Boolean> isCombinationRecordSuccess(@RequestParam("userId") Long userId,
-                                                     @RequestParam("orderId") Long orderId);
+    CommonResult<CombinationRecordRespDTO> getCombinationRecordByOrderId(@RequestParam("userId") Long userId,
+                                                                         @RequestParam("orderId") Long orderId);
 
     @GetMapping(PREFIX + "/validate-join")
     @Operation(summary = "【下单前】校验是否满足拼团活动条件") // 如果校验失败，则抛出业务异常

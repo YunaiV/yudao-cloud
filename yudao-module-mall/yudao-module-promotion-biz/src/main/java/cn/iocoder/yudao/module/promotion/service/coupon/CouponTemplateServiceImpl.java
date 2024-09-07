@@ -95,9 +95,9 @@ public class CouponTemplateServiceImpl implements CouponTemplateService {
 
     private void validateProductScope(Integer productScope, List<Long> productScopeValues) {
         if (Objects.equals(PromotionProductScopeEnum.SPU.getScope(), productScope)) {
-            productSpuApi.validateSpuList(productScopeValues);
+            productSpuApi.validateSpuList(productScopeValues).checkError();
         } else if (Objects.equals(PromotionProductScopeEnum.CATEGORY.getScope(), productScope)) {
-            productCategoryApi.validateCategoryList(productScopeValues);
+            productCategoryApi.validateCategoryList(productScopeValues).checkError();
         }
     }
 

@@ -32,7 +32,7 @@ public class BpmTaskCandidateRoleStrategy implements BpmTaskCandidateStrategy {
     @Override
     public void validateParam(String param) {
         Set<Long> roleIds = StrUtils.splitToLongSet(param);
-        roleApi.validRoleList(roleIds);
+        roleApi.validRoleList(roleIds).checkError();
     }
 
     @Override

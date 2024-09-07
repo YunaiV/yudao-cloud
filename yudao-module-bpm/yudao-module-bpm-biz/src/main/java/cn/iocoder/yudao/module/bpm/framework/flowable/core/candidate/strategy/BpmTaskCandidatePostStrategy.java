@@ -36,7 +36,7 @@ public class BpmTaskCandidatePostStrategy implements BpmTaskCandidateStrategy {
     @Override
     public void validateParam(String param) {
         Set<Long> postIds = StrUtils.splitToLongSet(param);
-        postApi.validPostList(postIds);
+        postApi.validPostList(postIds).checkError();
     }
 
     @Override

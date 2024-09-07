@@ -116,7 +116,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
             throw exception(AUTH_MOBILE_NOT_EXISTS);
         }
         // 发送验证码
-        smsCodeApi.sendSmsCode(AuthConvert.INSTANCE.convert(reqVO).setCreateIp(getClientIP()));
+        smsCodeApi.sendSmsCode(AuthConvert.INSTANCE.convert(reqVO).setCreateIp(getClientIP())).checkError();
     }
 
     @Override

@@ -143,4 +143,21 @@ public class HttpUtils {
         }
     }
 
+    /**
+     * HTTP get 请求，基于 {@link cn.hutool.http.HttpUtil} 实现
+     *
+     * 为什么要封装该方法，因为 HttpUtil 默认封装的方法，没有允许传递 headers 参数
+     *
+     * @param url URL
+     * @param headers 请求头
+     * @return 请求结果
+     */
+    public static String get(String url, Map<String, String> headers) {
+        try (HttpResponse response = HttpRequest.get(url)
+                .addHeaders(headers)
+                .execute()) {
+            return response.body();
+        }
+    }
+
 }

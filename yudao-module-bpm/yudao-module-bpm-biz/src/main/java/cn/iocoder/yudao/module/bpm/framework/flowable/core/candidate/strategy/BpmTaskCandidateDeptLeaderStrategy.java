@@ -33,7 +33,7 @@ public class BpmTaskCandidateDeptLeaderStrategy implements BpmTaskCandidateStrat
     @Override
     public void validateParam(String param) {
         Set<Long> deptIds = StrUtils.splitToLongSet(param);
-        deptApi.validateDeptList(deptIds);
+        deptApi.validateDeptList(deptIds).checkError();
     }
 
     @Override

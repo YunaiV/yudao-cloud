@@ -2,16 +2,16 @@ package cn.iocoder.yudao.module.promotion.api.coupon;
 
 
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
+import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.module.promotion.api.coupon.dto.CouponRespDTO;
 import cn.iocoder.yudao.module.promotion.api.coupon.dto.CouponUseReqDTO;
-import cn.iocoder.yudao.module.promotion.api.coupon.dto.CouponValidReqDTO;
-import cn.iocoder.yudao.module.promotion.convert.coupon.CouponConvert;
-import cn.iocoder.yudao.module.promotion.dal.dataobject.coupon.CouponDO;
 import cn.iocoder.yudao.module.promotion.service.coupon.CouponService;
+import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
@@ -28,6 +28,11 @@ public class CouponApiImpl implements CouponApi {
     private CouponService couponService;
 
     @Override
+    public CommonResult<List<CouponRespDTO>> getCouponListByUserId(Long userId, Integer status) {
+        return success(BeanUtils.toBean(couponService.getCouponList(userId, status), CouponRespDTO.class));
+    }
+
+    @Override
     public CommonResult<Boolean> useCoupon(CouponUseReqDTO useReqDTO) {
         couponService.useCoupon(useReqDTO.getId(), useReqDTO.getUserId(), useReqDTO.getOrderId());
         return success(true);
@@ -40,9 +45,14 @@ public class CouponApiImpl implements CouponApi {
     }
 
     @Override
-    public CommonResult<CouponRespDTO> validateCoupon(CouponValidReqDTO validReqDTO) {
-        CouponDO coupon = couponService.validCoupon(validReqDTO.getId(), validReqDTO.getUserId());
-        return success(CouponConvert.INSTANCE.convert(coupon));
+    public CommonResult<List<Long>> takeCouponsByAdmin(Map<Long, Integer> giveCoupons, Long userId) {
+        return success(couponService.takeCouponsByAdmin(giveCoupons, userId));
+    }
+
+    @Override
+    public CommonResult<Boolean> invalidateCouponsByAdmin(List<Long> giveCouponIds, Long userId) {
+        couponService.invalidateCouponsByAdmin(giveCouponIds, userId);
+        return success(true);
     }
 
 }

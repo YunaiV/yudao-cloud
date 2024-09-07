@@ -6,6 +6,7 @@ import cn.iocoder.yudao.module.infra.enums.ApiConstants;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -20,5 +21,15 @@ public interface ApiErrorLogApi {
     @PostMapping(PREFIX + "/create")
     @Operation(summary = "创建 API 异常日志")
     CommonResult<Boolean> createApiErrorLog(@Valid @RequestBody ApiErrorLogCreateReqDTO createDTO);
+
+    /**
+     * 【异步】创建 API 异常日志
+     *
+     * @param createDTO 异常日志 DTO
+     */
+    @Async
+    default void createApiErrorLogAsync(ApiErrorLogCreateReqDTO createDTO) {
+        createApiErrorLog(createDTO).checkError();
+    }
 
 }

@@ -151,6 +151,11 @@
             <groupId>org.dromara.hutool</groupId>
             <artifactId>hutool-extra</artifactId> <!-- 邮件 -->
         </dependency>
+        <dependency>
+            <groupId>org.threeten</groupId>
+            <artifactId>threetenbp</artifactId>
+            <version>1.3.6</version>
+        </dependency>
 
     </dependencies>
 

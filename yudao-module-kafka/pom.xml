@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cn.iocoder.cloud</groupId>
+        <artifactId>yudao</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <groupId>com.zyh</groupId>
+    <artifactId>yudao-module-kafka</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>yudao-module-kafka-biz</module>
+        <module>yudao-moudle-kafka-api</module>
+    </modules>
+
+
+    <name>${project.artifactId}</name>
+    <description>
+        kafka 模块,主要实现消息队列
+    </description>
+
+</project>

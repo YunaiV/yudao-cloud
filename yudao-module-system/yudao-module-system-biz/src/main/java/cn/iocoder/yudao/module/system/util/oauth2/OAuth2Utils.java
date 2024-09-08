@@ -2,12 +2,12 @@ package cn.iocoder.yudao.module.system.util.oauth2;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
+
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.util.http.HttpUtils;
 import cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 /**
@@ -58,9 +58,9 @@ public class OAuth2Utils {
         if (state != null) {
             vars.put("state", state);
         }
-        if (expireTime != null) {
-            vars.put("expires_in", getExpiresIn(expireTime));
-        }
+//        if (expireTime != null) {
+//            vars.put("expires_in", getExpiresIn(expireTime));
+//        }
         if (CollUtil.isNotEmpty(scopes)) {
             vars.put("scope", buildScopeStr(scopes));
         }

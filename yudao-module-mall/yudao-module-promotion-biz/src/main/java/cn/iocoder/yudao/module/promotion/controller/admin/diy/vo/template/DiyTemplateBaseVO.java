@@ -1,9 +1,9 @@
 package cn.iocoder.yudao.module.promotion.controller.admin.diy.vo.template;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**

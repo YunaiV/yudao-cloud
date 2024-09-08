@@ -5,7 +5,7 @@ import cn.iocoder.yudao.module.crm.enums.ApiConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 
 /**
  * Crm 模块的 Security 配置
@@ -18,19 +18,19 @@ public class SecurityConfiguration {
         return new AuthorizeRequestsCustomizer() {
 
             @Override
-            public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry) {
+            public void customize(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry) {
                 // Swagger 接口文档
-                registry.requestMatchers("/v3/api-docs/**").permitAll()
-                        .requestMatchers("/webjars/**").permitAll()
-                        .requestMatchers("/swagger-ui").permitAll()
-                        .requestMatchers("/swagger-ui/**").permitAll();
+                registry.antMatchers("/v3/api-docs/**").permitAll()
+                        .antMatchers("/webjars/**").permitAll()
+                        .antMatchers("/swagger-ui").permitAll()
+                        .antMatchers("/swagger-ui/**").permitAll();
                 // Spring Boot Actuator 的安全配置
-                registry.requestMatchers("/actuator").permitAll()
-                        .requestMatchers("/actuator/**").permitAll();
+                registry.antMatchers("/actuator").permitAll()
+                        .antMatchers("/actuator/**").permitAll();
                 // Druid 监控
-                registry.requestMatchers("/druid/**").permitAll();
+                registry.antMatchers("/druid/**").permitAll();
                 // RPC 服务的安全配置
-                registry.requestMatchers(ApiConstants.PREFIX + "/**").permitAll();
+                registry.antMatchers(ApiConstants.PREFIX + "/**").permitAll();
             }
 
         };

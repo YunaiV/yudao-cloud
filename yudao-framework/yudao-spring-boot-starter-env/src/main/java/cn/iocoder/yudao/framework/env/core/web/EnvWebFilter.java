@@ -5,14 +5,14 @@ import cn.iocoder.yudao.framework.env.core.context.EnvContextHolder;
 import cn.iocoder.yudao.framework.env.core.util.EnvUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 环境的 {@link jakarta.servlet.Filter} 实现类
+ * 环境的 {@link javax.servlet.Filter} 实现类
  * 当有 tag 请求头时，设置到 {@link EnvContextHolder} 的标签上下文
  *
  * @author 芋道源码

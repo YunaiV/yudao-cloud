@@ -9,7 +9,7 @@ import cn.iocoder.yudao.module.statistics.service.trade.TradeStatisticsService;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 
 /**
  * 交易统计 Job

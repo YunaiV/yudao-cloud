@@ -55,7 +55,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
         // TODO 芋艿：这里要精细化翻译，默认返回用户是看不懂的
         ServerHttpRequest request = exchange.getRequest();
         log.error("[responseStatusExceptionHandler][uri({}/{}) 发生异常]", request.getURI(), request.getMethod(), ex);
-        return CommonResult.error(ex.getStatusCode().value(), ex.getReason());
+        return CommonResult.error(ex.getRawStatusCode(), ex.getReason());
     }
 
     /**

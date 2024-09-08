@@ -3,11 +3,13 @@ package cn.iocoder.yudao.gateway.util;
 import cn.hutool.core.map.MapUtil;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.gateway.filter.security.LoginUser;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
@@ -104,10 +106,11 @@ public class SecurityFrameworkUtils {
      * @param builder 请求
      * @param user 用户
      */
+    @SneakyThrows
     public static void setLoginUserHeader(ServerHttpRequest.Builder builder, LoginUser user) {
         try {
             String userStr = JsonUtils.toJsonString(user);
-            userStr = URLEncoder.encode(userStr, StandardCharsets.UTF_8); // 编码，避免中文乱码
+            userStr = URLEncoder.encode(userStr, StandardCharsets.UTF_8.name()); // 编码，避免中文乱码
             builder.header(LOGIN_USER_HEADER, userStr);
         } catch (Exception ex) {
             log.error("[setLoginUserHeader][序列化 user({}) 发生异常]", user, ex);

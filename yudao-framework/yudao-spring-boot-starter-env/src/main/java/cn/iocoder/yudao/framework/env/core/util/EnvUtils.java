@@ -6,7 +6,7 @@ import lombok.SneakyThrows;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.core.env.Environment;
 
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.util.Objects;
 

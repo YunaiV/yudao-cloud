@@ -3,7 +3,7 @@ package cn.iocoder.yudao.module.crm.job.customer;
 import cn.iocoder.yudao.framework.tenant.core.job.TenantJob;
 import cn.iocoder.yudao.module.crm.service.customer.CrmCustomerService;
 import com.xxl.job.core.handler.annotation.XxlJob;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 /**

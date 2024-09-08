@@ -7,7 +7,7 @@ import cn.iocoder.yudao.module.infra.api.websocket.dto.WebSocketSendReqDTO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 

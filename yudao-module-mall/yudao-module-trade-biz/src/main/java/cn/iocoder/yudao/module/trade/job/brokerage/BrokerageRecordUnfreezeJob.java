@@ -6,7 +6,7 @@ import cn.iocoder.yudao.module.trade.service.brokerage.BrokerageRecordService;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 
 /**
  * 佣金解冻 Job

@@ -2,9 +2,10 @@ package cn.iocoder.yudao.module.ai.job.image;
 
 import cn.iocoder.yudao.module.ai.service.image.AiImageService;
 import com.xxl.job.core.handler.annotation.XxlJob;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 /**
  * Midjourney 同步 Job：定时拉去 midjourney 绘制状态

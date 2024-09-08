@@ -38,6 +38,11 @@ public class MpUserDO extends BaseDO {
      * 粉丝标识
      */
     private String openid;
+
+     /**
+     * 微信生态唯一标识
+     */
+    private String unionid;
     /**
      * 微信生态唯一标识
      */

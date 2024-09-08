@@ -6,8 +6,8 @@ import cn.iocoder.yudao.module.product.controller.admin.brand.vo.ProductBrandLis
 import cn.iocoder.yudao.module.product.controller.admin.brand.vo.ProductBrandPageReqVO;
 import cn.iocoder.yudao.module.product.controller.admin.brand.vo.ProductBrandUpdateReqVO;
 import cn.iocoder.yudao.module.product.dal.dataobject.brand.ProductBrandDO;
-import jakarta.validation.Valid;
 
+import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
 

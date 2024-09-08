@@ -1,10 +1,11 @@
 package cn.iocoder.yudao.module.promotion.controller.admin.diy.vo.template;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.ToString;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Schema(description = "管理后台 - 装修模板属性更新 Request VO")
 @Data

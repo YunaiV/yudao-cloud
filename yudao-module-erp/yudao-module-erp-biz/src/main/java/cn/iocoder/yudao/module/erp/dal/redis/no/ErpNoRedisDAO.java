@@ -3,7 +3,7 @@ package cn.iocoder.yudao.module.erp.dal.redis.no;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.iocoder.yudao.module.erp.dal.redis.RedisKeyConstants;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 

@@ -4,7 +4,7 @@ import cn.iocoder.yudao.framework.common.validation.Mobile;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import jakarta.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 import java.util.Map;
 
 @Schema(description = "RPC 服务 - 短信发送给 Admin 或者 Member 用户 Request DTO")

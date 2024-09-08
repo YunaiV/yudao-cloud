@@ -4,7 +4,8 @@ import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.module.product.controller.admin.favorite.vo.ProductFavoritePageReqVO;
 import cn.iocoder.yudao.module.product.controller.app.favorite.vo.AppFavoritePageReqVO;
 import cn.iocoder.yudao.module.product.dal.dataobject.favorite.ProductFavoriteDO;
-import jakarta.validation.Valid;
+
+import javax.validation.Valid;
 
 /**
  * 商品收藏 Service 接口

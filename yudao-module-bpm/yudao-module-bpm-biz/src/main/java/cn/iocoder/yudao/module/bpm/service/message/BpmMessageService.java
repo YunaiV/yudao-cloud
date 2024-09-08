@@ -3,7 +3,8 @@ package cn.iocoder.yudao.module.bpm.service.message;
 import cn.iocoder.yudao.module.bpm.service.message.dto.BpmMessageSendWhenProcessInstanceApproveReqDTO;
 import cn.iocoder.yudao.module.bpm.service.message.dto.BpmMessageSendWhenProcessInstanceRejectReqDTO;
 import cn.iocoder.yudao.module.bpm.service.message.dto.BpmMessageSendWhenTaskCreatedReqDTO;
-import jakarta.validation.Valid;
+
+import javax.validation.Valid;
 
 /**
  * BPM 消息 Service 接口

@@ -22,8 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
-import jakarta.validation.Validator;
+import javax.annotation.Resource;
+import javax.validation.Validator;
 import java.time.Duration;
 import java.util.Map;
 import java.util.Objects;

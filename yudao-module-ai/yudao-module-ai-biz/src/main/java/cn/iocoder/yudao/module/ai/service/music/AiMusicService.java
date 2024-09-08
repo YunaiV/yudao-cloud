@@ -6,8 +6,8 @@ import cn.iocoder.yudao.module.ai.controller.admin.music.vo.AiMusicUpdateMyReqVO
 import cn.iocoder.yudao.module.ai.controller.admin.music.vo.AiMusicUpdateReqVO;
 import cn.iocoder.yudao.module.ai.controller.admin.music.vo.AiSunoGenerateReqVO;
 import cn.iocoder.yudao.module.ai.dal.dataobject.music.AiMusicDO;
-import jakarta.validation.Valid;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**

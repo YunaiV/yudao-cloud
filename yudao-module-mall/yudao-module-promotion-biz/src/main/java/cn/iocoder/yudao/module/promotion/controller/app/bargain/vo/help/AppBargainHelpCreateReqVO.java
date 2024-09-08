@@ -1,8 +1,9 @@
 package cn.iocoder.yudao.module.promotion.controller.app.bargain.vo.help;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
 
 @Schema(description = "用户 App - 砍价助力的创建 Request VO")
 @Data

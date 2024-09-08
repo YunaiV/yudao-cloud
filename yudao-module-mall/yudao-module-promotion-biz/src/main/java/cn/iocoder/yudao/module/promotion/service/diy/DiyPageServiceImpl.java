@@ -11,10 +11,10 @@ import cn.iocoder.yudao.module.promotion.controller.admin.diy.vo.page.DiyPageUpd
 import cn.iocoder.yudao.module.promotion.convert.diy.DiyPageConvert;
 import cn.iocoder.yudao.module.promotion.dal.dataobject.diy.DiyPageDO;
 import cn.iocoder.yudao.module.promotion.dal.mysql.diy.DiyPageMapper;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 

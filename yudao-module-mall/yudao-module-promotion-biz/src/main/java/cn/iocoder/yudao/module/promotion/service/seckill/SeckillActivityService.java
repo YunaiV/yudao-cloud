@@ -98,7 +98,7 @@ public interface SeckillActivityService {
      * @param activityIds 活动编号
      * @return 活动商品列表
      */
-    List<SeckillProductDO> getSeckillProductListByActivityId(Collection<Long> activityIds);
+    List<SeckillProductDO> getSeckillProductListByActivityIds(Collection<Long> activityIds);
 
     /**
      * 通过活动时段编号获取指定 status 的秒杀活动
@@ -138,5 +138,13 @@ public interface SeckillActivityService {
      * @return 秒杀活动列表
      */
     List<SeckillActivityDO> getSeckillActivityBySpuIdsAndStatusAndDateTimeLt(Collection<Long> spuIds, Integer status, LocalDateTime dateTime);
+
+    /**
+     * 获得拼团活动列表
+     *
+     * @param ids 拼团活动编号数组
+     * @return 拼团活动的列表
+     */
+    List<SeckillActivityDO> getSeckillActivityListByIds(Collection<Long> ids);
 
 }

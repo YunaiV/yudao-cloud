@@ -41,7 +41,7 @@ public interface CouponApi {
             @Parameter(name = "giveCoupons", description = "key: 优惠劵模版编号，value：对应的数量", required = true),
             @Parameter(name = "userId", description = "用户编号", required = true)
     })
-    CommonResult<List<Long>> takeCouponsByAdmin(@RequestParam("giveCoupons") Map<Long, Integer> giveCoupons,
+    CommonResult<List<Long>> takeCouponsByAdmin(@RequestBody Map<Long, Integer> giveCoupons,
                                                 @RequestParam("userId") Long userId);
 
     @PostMapping(PREFIX + "/invalidate-by-admin")

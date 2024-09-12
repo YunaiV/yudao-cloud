@@ -47,7 +47,8 @@ public class TenantJobAspect {
             // TODO 芋艿：先通过 parallel 实现并行；1）多个租户，是一条执行日志；2）异常的情况
             TenantUtils.execute(tenantId, () -> {
                 try {
-                    joinPoint.proceed();
+                    Object result = joinPoint.proceed();
+                    results.put(tenantId, StrUtil.toStringOrNull(result));
                 } catch (Throwable e) {
                     results.put(tenantId, ExceptionUtil.getRootCauseMessage(e));
                     // 打印异常

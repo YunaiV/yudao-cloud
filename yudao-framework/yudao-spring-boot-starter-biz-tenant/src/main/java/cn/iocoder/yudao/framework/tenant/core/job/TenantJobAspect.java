@@ -42,15 +42,16 @@ public class TenantJobAspect {
         }
 
         // 逐个租户，执行 Job
-        Map<Long, String> results = new ConcurrentHashMap<>();
+        Map<Long, String> success = new ConcurrentHashMap<>();
+        Map<Long, String> fail = new ConcurrentHashMap<>();
         tenantIds.parallelStream().forEach(tenantId -> {
             // TODO 芋艿：先通过 parallel 实现并行；1）多个租户，是一条执行日志；2）异常的情况
             TenantUtils.execute(tenantId, () -> {
                 try {
                     Object result = joinPoint.proceed();
-                    results.put(tenantId, StrUtil.toStringOrNull(result));
+                    success.put(tenantId, StrUtil.toStringOrNull(result));
                 } catch (Throwable e) {
-                    results.put(tenantId, ExceptionUtil.getRootCauseMessage(e));
+                    fail.put(tenantId, ExceptionUtil.getRootCauseMessage(e));
                     // 打印异常
                     XxlJobHelper.log(StrUtil.format("[多租户({}) 执行任务({})，发生异常：{}]",
                             tenantId, joinPoint.getSignature(), ExceptionUtils.getStackTrace(e)));
@@ -58,8 +59,11 @@ public class TenantJobAspect {
             });
         });
         // 如果 results 非空，说明发生了异常，标记 XXL-Job 执行失败
-        if (CollUtil.isNotEmpty(results)) {
-            XxlJobHelper.handleFail(JsonUtils.toJsonString(results));
+        if (CollUtil.isNotEmpty(fail)) {
+            XxlJobHelper.handleFail(JsonUtils.toJsonString(fail));
+        }
+        else {
+            XxlJobHelper.handleSuccess(JsonUtils.toJsonString(success));
         }
     }
 

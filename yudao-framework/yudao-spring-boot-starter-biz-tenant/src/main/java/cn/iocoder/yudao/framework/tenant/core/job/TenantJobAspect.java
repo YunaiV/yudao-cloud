@@ -17,6 +17,7 @@ import org.aspectj.lang.annotation.Aspect;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 多租户 JobHandler AOP
@@ -42,28 +43,28 @@ public class TenantJobAspect {
         }
 
         // 逐个租户，执行 Job
-        Map<Long, String> success = new ConcurrentHashMap<>();
-        Map<Long, String> fail = new ConcurrentHashMap<>();
+        Map<Long, String> results = new ConcurrentHashMap<>();
+        AtomicBoolean success = new AtomicBoolean(true); // 标记，是否存在失败的情况
         tenantIds.parallelStream().forEach(tenantId -> {
             // TODO 芋艿：先通过 parallel 实现并行；1）多个租户，是一条执行日志；2）异常的情况
             TenantUtils.execute(tenantId, () -> {
                 try {
                     Object result = joinPoint.proceed();
-                    success.put(tenantId, StrUtil.toStringOrNull(result));
+                    results.put(tenantId, StrUtil.toStringOrNull(result));
                 } catch (Throwable e) {
-                    fail.put(tenantId, ExceptionUtil.getRootCauseMessage(e));
+                    results.put(tenantId, ExceptionUtil.getRootCauseMessage(e));
+                    success.set(false);
                     // 打印异常
                     XxlJobHelper.log(StrUtil.format("[多租户({}) 执行任务({})，发生异常：{}]",
                             tenantId, joinPoint.getSignature(), ExceptionUtils.getStackTrace(e)));
                 }
             });
         });
-        // 如果 results 非空，说明发生了异常，标记 XXL-Job 执行失败
-        if (CollUtil.isNotEmpty(fail)) {
-            XxlJobHelper.handleFail(JsonUtils.toJsonString(fail));
-        }
-        else {
-            XxlJobHelper.handleSuccess(JsonUtils.toJsonString(success));
+        // 记录执行结果
+        if (success.get()) {
+            XxlJobHelper.handleSuccess(JsonUtils.toJsonString(results));
+        } else {
+            XxlJobHelper.handleFail(JsonUtils.toJsonString(results));
         }
     }
 

@@ -1,12 +1,11 @@
 package cn.iocoder.yudao.module.trade.framework.security.config;
 
 import cn.iocoder.yudao.framework.security.config.AuthorizeRequestsCustomizer;
-import cn.iocoder.yudao.module.member.enums.ApiConstants;
+import cn.iocoder.yudao.module.trade.enums.ApiConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 
 /**
  * Trade 模块的 Security 配置

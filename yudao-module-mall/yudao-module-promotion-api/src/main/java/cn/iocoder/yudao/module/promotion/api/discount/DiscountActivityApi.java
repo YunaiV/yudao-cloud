@@ -22,6 +22,6 @@ public interface DiscountActivityApi {
     @GetMapping(PREFIX + "/list-by-sku-id")
     @Operation(summary = "获得商品匹配的的限时折扣信息")
     @Parameter(name = "skuIds", description = "商品 SKU 编号数组", required = true, example = "[1, 2]")
-    CommonResult<List<DiscountProductRespDTO>> getMatchDiscountProductList(@RequestParam("skuIds") Collection<Long> skuIds);
+    CommonResult<List<DiscountProductRespDTO>> getMatchDiscountProductListBySkuIds(@RequestParam("skuIds") Collection<Long> skuIds);
 
 }

@@ -25,8 +25,8 @@ public class RewardActivityApiImpl implements RewardActivityApi {
     private RewardActivityService rewardActivityService;
 
     @Override
-    public CommonResult<List<RewardActivityMatchRespDTO>> getMatchRewardActivityList(Collection<Long> spuIds) {
-        return success(rewardActivityService.getMatchRewardActivityList(spuIds));
+    public CommonResult<List<RewardActivityMatchRespDTO>> getMatchRewardActivityListBySpuIds(Collection<Long> spuIds) {
+        return success(rewardActivityService.getMatchRewardActivityListBySpuIds(spuIds));
     }
 
 }

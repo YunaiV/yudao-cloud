@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+
+import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertMap;
 
 @FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
 @Tag(name = "RPC 服务 - 商品 SPU")
@@ -23,6 +26,16 @@ public interface ProductSpuApi {
     @Schema(description = "批量查询 SPU 数组")
     @Parameter(name = "ids", description = "SPU 编号列表", required = true, example = "1,3,5")
     CommonResult<List<ProductSpuRespDTO>> getSpuList(@RequestParam("ids") Collection<Long> ids);
+
+    /**
+     * 批量查询 SPU MAP
+     *
+     * @param ids SPU 编号列表
+     * @return SPU MAP
+     */
+    default Map<Long, ProductSpuRespDTO> getSpusMap(Collection<Long> ids) {
+        return convertMap(getSpuList(ids).getCheckedData(), ProductSpuRespDTO::getId);
+    }
 
     @GetMapping(PREFIX + "/valid")
     @Schema(description = "批量查询 SPU 数组，并且校验是否 SPU 是否有效")

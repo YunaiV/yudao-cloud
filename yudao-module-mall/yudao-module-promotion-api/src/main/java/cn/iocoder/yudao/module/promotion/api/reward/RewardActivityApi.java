@@ -22,6 +22,6 @@ public interface RewardActivityApi {
     @GetMapping(PREFIX + "/list-by-spu-id")
     @Operation(summary = "获得商品匹配的的满减送活动信息")
     @Parameter(name = "spuIds", description = "商品 SPU 编号数组", required = true, example = "[1, 2]")
-    CommonResult<List<RewardActivityMatchRespDTO>> getMatchRewardActivityList(@RequestParam("spuIds") Collection<Long> spuIds);
+    CommonResult<List<RewardActivityMatchRespDTO>> getMatchRewardActivityListBySpuIds(@RequestParam("spuIds") Collection<Long> spuIds);
 
 }

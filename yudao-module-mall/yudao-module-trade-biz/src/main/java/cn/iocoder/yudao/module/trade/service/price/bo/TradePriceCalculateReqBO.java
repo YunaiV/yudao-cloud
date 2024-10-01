@@ -1,11 +1,11 @@
 package cn.iocoder.yudao.module.trade.service.price.bo;
 
 import cn.iocoder.yudao.module.trade.enums.delivery.DeliveryTypeEnum;
-import lombok.Data;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
 import java.util.List;
 
 /**

@@ -2,6 +2,7 @@ package cn.iocoder.yudao.module.bpm.framework.flowable.core.util;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.util.number.NumberUtils;
 import cn.iocoder.yudao.module.bpm.framework.flowable.core.enums.BpmnModelConstants;
 import org.flowable.bpmn.converter.BpmnXMLConverter;
@@ -9,10 +10,7 @@ import org.flowable.bpmn.model.Process;
 import org.flowable.bpmn.model.*;
 import org.flowable.common.engine.impl.util.io.BytesStreamSource;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 流程模型转操作工具类
@@ -111,7 +109,14 @@ public class BpmnModelUtils {
             return null;
         }
         BpmnXMLConverter converter = new BpmnXMLConverter();
-        return new String(converter.convertToXML(model));
+        return StrUtil.utf8Str(converter.convertToXML(model));
+    }
+
+    public static String getBpmnXml(byte[] bpmnBytes) {
+        if (ArrayUtil.isEmpty(bpmnBytes)) {
+            return null;
+        }
+        return StrUtil.utf8Str(bpmnBytes);
     }
 
     // ========== 遍历相关的方法 ==========

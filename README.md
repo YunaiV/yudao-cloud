@@ -5,7 +5,7 @@
  <img src="https://img.shields.io/github/license/YunaiV/yudao-cloud" alt="Downloads" />
 </p>
 
-**严肃声明：现在、未来都不会有商业版本，所有代码全部开源！**
+**严肃声明：现在、未来都不会有商业版本，所有代码全部开源!！**
 
 **「我喜欢写代码，乐此不疲」**  
 **「我喜欢做开源，以此为乐」**
@@ -13,6 +13,16 @@
 我 🐶 在上海艰苦奋斗，早中晚在 top3 大厂认真搬砖，夜里为开源做贡献。
 
 如果这个项目让你有所收获，记得 Star 关注哦，这对我是非常不错的鼓励与支持。
+
+可参考 [《迁移文档》](https://cloud.iocoder.cn/migrate-module/) ，只需要 5-10 分钟，即可将【完整版】按需迁移到【精简版】
+
+## 🐶 新手必读
+
+* 演示地址【Vue3 + element-plus】：<http://dashboard-vue3.yudao.iocoder.cn>
+* 演示地址【Vue3 + vben(ant-design-vue)】：<http://dashboard-vben.yudao.iocoder.cn>
+* 演示地址【Vue2 + element-ui】：<http://dashboard.yudao.iocoder.cn>
+* 启动文档：<https://cloud.iocoder.cn/quick-start/>
+* 视频教程：<https://cloud.iocoder.cn/video/>
 
 ## 🐰 版本说明
 
@@ -25,14 +35,6 @@
 * 【精简版】：只包括系统功能、基础设施功能，不包括会员中心、数据报表、工作流程、商城系统、微信公众号、CRM、ERP 等功能
 
 可参考 [《迁移文档》](https://cloud.iocoder.cn/migrate-module/) ，只需要 5-10 分钟，即可将【完整版】按需迁移到【精简版】
-
-## 🐶 新手必读
-
-* 演示地址【Vue3 + element-plus】：<http://dashboard-vue3.yudao.iocoder.cn>
-* 演示地址【Vue3 + vben(ant-design-vue)】：<http://dashboard-vben.yudao.iocoder.cn>
-* 演示地址【Vue2 + element-ui】：<http://dashboard.yudao.iocoder.cn>
-* 启动文档：<https://cloud.iocoder.cn/quick-start/>
-* 视频教程：<https://cloud.iocoder.cn/video/>
 
 ## 🐯 平台简介
 
@@ -52,7 +54,8 @@
 * 消息队列可使用 Event、Redis、RabbitMQ、Kafka、RocketMQ 等
 * 权限认证使用 Spring Security & Token & Redis，支持多终端、多种用户的认证系统，支持 SSO 单点登录
 * 支持加载动态权限菜单，按钮级别权限控制，Redis 缓存提升性能
-* 支持 SaaS 多租户系统，可自定义每个租户的权限，提供透明化的多租户底层封装
+* 支持 SaaS 多租户，可自定义每个租户的权限，提供透明化的多租户底层封装
+* 工作流使用 Flowable，支持动态表单、在线设计流程、会签 / 或签、多种任务分配方式
 * 高效率开发，使用代码生成器可以一键生成 Java、Vue 前后端代码、SQL 脚本、接口文档，支持单表、树表、主子表
 * 实时通信，采用 Spring WebSocket 实现，内置 Token 身份校验，支持 WebSocket 集群
 * 集成微信小程序、微信公众号、企业微信、钉钉等三方登陆，集成支付宝、微信等支付与退款
@@ -94,7 +97,7 @@
 
 ![开源项目对比](/.image/common/project-vs.png)
 
-③ 代码整洁、架构整洁，遵循《阿里巴巴 Java 开发手册》规范，代码注释详细，57000 行 Java 代码，22000 行代码注释。
+③ 代码整洁、架构整洁，遵循《阿里巴巴 Java 开发手册》规范，代码注释详细，113770 行 Java 代码，42462 行代码注释。
 
 ## 🤝 项目外包
 
@@ -112,7 +115,7 @@
 
 * 通用模块（必选）：系统功能、基础设施
 * 通用模块（可选）：工作流程、支付系统、数据报表、会员中心
-* 业务系统（按需）：ERP 系统、CRM 系统、商城系统、微信公众号
+* 业务系统（按需）：ERP 系统、CRM 系统、商城系统、微信公众号、AI 大模型
 
 > 友情提示：本项目基于 RuoYi-Vue 修改，**重构优化**后端的代码，**美化**前端的界面。
 >
@@ -173,26 +176,26 @@
 
 ### 基础设施
 
-|    | 功能        | 描述                                           |
-|----|-----------|----------------------------------------------|
-| 🚀 | 代码生成      | 前后端代码的生成（Java、Vue、SQL、单元测试），支持 CRUD 下载       |
-| 🚀 | 系统接口      | 基于 Swagger 自动生成相关的 RESTful API 接口文档          |
-| 🚀 | 数据库文档     | 基于 Screw 自动生成数据库文档，支持导出 Word、HTML、MD 格式      |
-|    | 表单构建      | 拖动表单元素生成相应的 HTML 代码，支持导出 JSON、Vue 文件         |
-| 🚀 | 配置管理      | 对系统动态配置常用参数，支持 SpringBoot 加载                 |
-| ⭐️ | 定时任务      | 在线（添加、修改、删除)任务调度包含执行结果日志                     |
-| 🚀 | 文件服务      | 支持将文件存储到 S3（MinIO、阿里云、腾讯云、七牛云）、本地、FTP、数据库等   | 
-| 🚀 | WebSocket | 提供 WebSocket 接入示例，支持一对一、一对多发送方式              |
-| 🚀 | API 日志    | 包括 RESTful API 访问日志、异常日志两部分，方便排查 API 相关的问题   |
-|    | MySQL 监控  | 监视当前系统数据库连接池状态，可进行分析SQL找出系统性能瓶颈              |
-|    | Redis 监控  | 监控 Redis 数据库的使用情况，使用的 Redis Key 管理           |
-| 🚀 | 消息队列      | 基于 Redis 实现消息队列，Stream 提供集群消费，Pub/Sub 提供广播消费 |
-| 🚀 | Java 监控   | 基于 Spring Boot Admin 实现 Java 应用的监控           |
-| 🚀 | 链路追踪      | 接入 SkyWalking 组件，实现链路追踪                      |
-| 🚀 | 日志中心      | 接入 SkyWalking 组件，实现日志中心                      |
-| 🚀 | 服务保障      | 基于 Redis 实现分布式锁、幂等、限流功能，满足高并发场景              |
-| 🚀 | 日志服务      | 轻量级日志中心，查看远程服务器的日志                           |
-| 🚀 | 单元测试      | 基于 JUnit + Mockito 实现单元测试，保证功能的正确性、代码的质量等    |
+|     | 功能        | 描述                                           |
+|-----|-----------|----------------------------------------------|
+| 🚀  | 代码生成      | 前后端代码的生成（Java、Vue、SQL、单元测试），支持 CRUD 下载       |
+| 🚀  | 系统接口      | 基于 Swagger 自动生成相关的 RESTful API 接口文档          |
+| 🚀  | 数据库文档     | 基于 Screw 自动生成数据库文档，支持导出 Word、HTML、MD 格式      |
+|     | 表单构建      | 拖动表单元素生成相应的 HTML 代码，支持导出 JSON、Vue 文件         |
+| 🚀  | 配置管理      | 对系统动态配置常用参数，支持 SpringBoot 加载                 |
+| ⭐️  | 定时任务      | 在线（添加、修改、删除)任务调度包含执行结果日志                     |
+| 🚀  | 文件服务      | 支持将文件存储到 S3（MinIO、阿里云、腾讯云、七牛云）、本地、FTP、数据库等   | 
+| 🚀  | WebSocket | 提供 WebSocket 接入示例，支持一对一、一对多发送方式              | 
+| 🚀  | API 日志    | 包括 RESTful API 访问日志、异常日志两部分，方便排查 API 相关的问题   |
+|     | MySQL 监控  | 监视当前系统数据库连接池状态，可进行分析SQL找出系统性能瓶颈              |
+|     | Redis 监控  | 监控 Redis 数据库的使用情况，使用的 Redis Key 管理           |
+| 🚀  | 消息队列      | 基于 Redis 实现消息队列，Stream 提供集群消费，Pub/Sub 提供广播消费 |
+| 🚀  | Java 监控   | 基于 Spring Boot Admin 实现 Java 应用的监控           |
+| 🚀  | 链路追踪      | 接入 SkyWalking 组件，实现链路追踪                      |
+| 🚀  | 日志中心      | 接入 SkyWalking 组件，实现日志中心                      |
+| 🚀  | 服务保障      | 基于 Redis 实现分布式锁、幂等、限流功能，满足高并发场景              |
+| 🚀  | 日志服务      | 轻量级日志中心，查看远程服务器的日志                           |
+| 🚀  | 单元测试      | 基于 JUnit + Mockito 实现单元测试，保证功能的正确性、代码的质量等    |
 
 ![功能图](/.image/common/infra-feature.png)
 
@@ -271,9 +274,11 @@
 | `yudao-module-bpm`    | 工作流程的 Module 模块    |
 | `yudao-module-pay`    | 支付系统的 Module 模块    |
 | `yudao-module-mall`   | 商城系统的 Module 模块    |
+| `yudao-module-erp`    | ERP 系统的 Module 模块  |
+| `yudao-module-crm`    | CRM 系统的 Module 模块  |
+| `yudao-module-ai`     | AI 大模型的 Module 模块  |
 | `yudao-module-mp`     | 微信公众号的 Module 模块   |
 | `yudao-module-report` | 大屏报表 Module 模块     |
-| `yudao-module-ai`     | AI 大模型 Module 模块   |
 
 ### 框架
 

@@ -5,33 +5,33 @@ import cn.iocoder.yudao.module.system.enums.ApiConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 
 /**
- * System 模块的 Security 配置
+ * MP 模块的 Security 配置
  */
-@Configuration(proxyBeanMethods = false, value = "systemSecurityConfiguration")
+@Configuration(proxyBeanMethods = false, value = "mpSecurityConfiguration")
 public class SecurityConfiguration {
 
-    @Bean("systemAuthorizeRequestsCustomizer")
+    @Bean("mpAuthorizeRequestsCustomizer")
     public AuthorizeRequestsCustomizer authorizeRequestsCustomizer() {
         return new AuthorizeRequestsCustomizer() {
 
             @Override
-            public void customize(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry) {
+            public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry) {
                 // TODO 芋艿：这个每个项目都需要重复配置，得捉摸有没通用的方案
                 // Swagger 接口文档
-                registry.antMatchers("/v3/api-docs/**").permitAll()
-                        .antMatchers("/webjars/**").permitAll()
-                        .antMatchers("/swagger-ui").permitAll()
-                        .antMatchers("/swagger-ui/**").permitAll();
+                registry.requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers("/webjars/**").permitAll()
+                        .requestMatchers("/swagger-ui").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll();
                 // Druid 监控
-                registry.antMatchers("/druid/**").anonymous();
+                registry.requestMatchers("/druid/**").permitAll();
                 // Spring Boot Actuator 的安全配置
-                registry.antMatchers("/actuator").anonymous()
-                        .antMatchers("/actuator/**").anonymous();
+                registry.requestMatchers("/actuator").permitAll()
+                        .requestMatchers("/actuator/**").permitAll();
                 // RPC 服务的安全配置
-                registry.antMatchers(ApiConstants.PREFIX + "/**").permitAll();
+                registry.requestMatchers(ApiConstants.PREFIX + "/**").permitAll();
             }
 
         };

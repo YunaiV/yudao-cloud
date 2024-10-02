@@ -11,13 +11,13 @@ import cn.iocoder.yudao.module.system.dal.dataobject.dept.DeptDO;
 import cn.iocoder.yudao.module.system.dal.mysql.dept.DeptMapper;
 import cn.iocoder.yudao.module.system.dal.redis.RedisKeyConstants;
 import com.google.common.annotations.VisibleForTesting;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import jakarta.annotation.Resource;
 import java.util.*;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
@@ -170,10 +170,10 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public List<DeptDO> getChildDeptList(Long id) {
+    public List<DeptDO> getChildDeptList(Collection<Long> ids) {
         List<DeptDO> children = new LinkedList<>();
         // 遍历每一层
-        Collection<Long> parentIds = Collections.singleton(id);
+        Collection<Long> parentIds = ids;
         for (int i = 0; i < Short.MAX_VALUE; i++) { // 使用 Short.MAX_VALUE 避免 bug 场景下，存在死循环
             // 查询当前层，所有的子部门
             List<DeptDO> depts = deptMapper.selectListByParentId(parentIds);
@@ -186,6 +186,11 @@ public class DeptServiceImpl implements DeptService {
             parentIds = convertSet(depts, DeptDO::getId);
         }
         return children;
+    }
+
+    @Override
+    public List<DeptDO> getDeptListByLeaderUserId(Long id) {
+        return deptMapper.selectListByLeaderUserId(id);
     }
 
     @Override

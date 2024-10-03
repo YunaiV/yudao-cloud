@@ -4,30 +4,33 @@ import cn.iocoder.yudao.framework.security.config.AuthorizeRequestsCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 
 /**
  * Statistics 模块的 Security 配置
  */
-@Configuration("statisticsSecurityConfiguration")
+@Configuration("reportSecurityConfiguration")
 public class SecurityConfiguration {
 
-    @Bean("statisticsAuthorizeRequestsCustomizer")
+    @Bean("reportAuthorizeRequestsCustomizer")
     public AuthorizeRequestsCustomizer authorizeRequestsCustomizer() {
         return new AuthorizeRequestsCustomizer() {
 
             @Override
-            public void customize(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry) {
+            public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry) {
                 // Swagger 接口文档
-                registry.antMatchers("/v3/api-docs/**").permitAll()
-                        .antMatchers("/webjars/**").permitAll()
-                        .antMatchers("/swagger-ui").permitAll()
-                        .antMatchers("/swagger-ui/**").permitAll();
+                registry.requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers("/webjars/**").permitAll()
+                        .requestMatchers("/swagger-ui").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll();
                 // Spring Boot Actuator 的安全配置
-                registry.antMatchers("/actuator").anonymous()
-                        .antMatchers("/actuator/**").anonymous();
+                registry.requestMatchers("/actuator").permitAll()
+                        .requestMatchers("/actuator/**").permitAll();
                 // Druid 监控
-                registry.antMatchers("/druid/**").anonymous();
+                registry.requestMatchers("/druid/**").permitAll();
+                // 积木报表
+                registry.requestMatchers("/jmreport/**").permitAll();
             }
 
         };

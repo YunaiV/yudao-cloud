@@ -40,7 +40,7 @@ public interface SeckillActivityApi {
                                                  @RequestParam("skuId") Long skuId,
                                                  @RequestParam("count")Integer count);
 
-    @GetMapping("/validate-join")
+    @GetMapping(PREFIX + "/validate-join")
     @Operation(summary = "【下单前】校验是否参与秒杀活动") // 如果校验失败，则抛出业务异常
     @Parameters({
             @Parameter(name = "activityId", description = "活动编号", required = true, example = "1"),

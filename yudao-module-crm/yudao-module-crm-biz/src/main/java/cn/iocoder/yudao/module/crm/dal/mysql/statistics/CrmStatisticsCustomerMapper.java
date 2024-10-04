@@ -130,9 +130,9 @@ public interface CrmStatisticsCustomerMapper {
         List<CrmStatisticsPoolSummaryByDateRespVO> voList = new ArrayList<>();
         while (currrentDate.isBefore(endDate)) {
             voList.add(new CrmStatisticsPoolSummaryByDateRespVO()
-                    .setTime(LocalDateTimeUtil.format(currrentDate, "yyyy-MM-dd"))
-                    .setCustomerPutCount(RandomUtil.randomInt(0, 10))
-                    .setCustomerTakeCount(RandomUtil.randomInt(0, 10)));
+                .setTime(LocalDateTimeUtil.format(currrentDate, "yyyy-MM-dd"))
+                .setCustomerPutCount(RandomUtil.randomInt(0, 10))
+                .setCustomerTakeCount(RandomUtil.randomInt(0, 10)));
             currrentDate = currrentDate.plusDays(1);
         }
 
@@ -159,10 +159,10 @@ public interface CrmStatisticsCustomerMapper {
     // TODO: @芋艿 模拟数据, 需要增加 crm_owner_record 表
     default List<CrmStatisticsPoolSummaryByUserRespVO> selectPoolCustomerPutCountByUser(CrmStatisticsCustomerReqVO reqVO) {
         return convertList(reqVO.getUserIds(), userId ->
-                (CrmStatisticsPoolSummaryByUserRespVO) new CrmStatisticsPoolSummaryByUserRespVO()
-                        .setCustomerPutCount(RandomUtil.randomInt(0, 10))
-                        .setCustomerTakeCount(RandomUtil.randomInt(0, 10))
-                        .setOwnerUserId(userId));
+            (CrmStatisticsPoolSummaryByUserRespVO) new CrmStatisticsPoolSummaryByUserRespVO()
+                .setCustomerPutCount(RandomUtil.randomInt(0, 10))
+                .setCustomerTakeCount(RandomUtil.randomInt(0, 10))
+                .setOwnerUserId(userId));
     }
 
     /**

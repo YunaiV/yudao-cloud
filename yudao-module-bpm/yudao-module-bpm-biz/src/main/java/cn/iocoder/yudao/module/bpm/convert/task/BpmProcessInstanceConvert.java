@@ -89,11 +89,6 @@ public interface BpmProcessInstanceConvert {
     @Mapping(source = "from.id", target = "to.id", ignore = true)
     void copyTo(BpmProcessDefinitionInfoDO from, @MappingTarget BpmProcessDefinitionRespVO to);
 
-    default BpmProcessInstanceStatusEvent buildProcessInstanceStatusEvent(Object source, HistoricProcessInstance instance, Integer status) {
-        return new BpmProcessInstanceStatusEvent(source).setId(instance.getId()).setStatus(status)
-                .setProcessDefinitionKey(instance.getProcessDefinitionKey()).setBusinessKey(instance.getBusinessKey());
-    }
-
     default BpmProcessInstanceStatusEvent buildProcessInstanceStatusEvent(Object source, ProcessInstance instance, Integer status) {;
         return new BpmProcessInstanceStatusEvent(source).setId(instance.getId()).setStatus(status)
                 .setProcessDefinitionKey(instance.getProcessDefinitionKey()).setBusinessKey(instance.getBusinessKey());
@@ -108,10 +103,10 @@ public interface BpmProcessInstanceConvert {
 
     default BpmMessageSendWhenProcessInstanceRejectReqDTO buildProcessInstanceRejectMessage(ProcessInstance instance, String reason) {
         return new BpmMessageSendWhenProcessInstanceRejectReqDTO()
-                .setProcessInstanceName(instance.getName())
-                .setProcessInstanceId(instance.getId())
-                .setReason(reason)
-                .setStartUserId(NumberUtils.parseLong(instance.getStartUserId()));
+            .setProcessInstanceName(instance.getName())
+            .setProcessInstanceId(instance.getId())
+            .setReason(reason)
+            .setStartUserId(NumberUtils.parseLong(instance.getStartUserId()));
     }
 
 }

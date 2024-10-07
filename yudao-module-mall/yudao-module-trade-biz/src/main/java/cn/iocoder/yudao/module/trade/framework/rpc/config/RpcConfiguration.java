@@ -16,6 +16,7 @@ import cn.iocoder.yudao.module.promotion.api.bargain.BargainRecordApi;
 import cn.iocoder.yudao.module.promotion.api.combination.CombinationRecordApi;
 import cn.iocoder.yudao.module.promotion.api.coupon.CouponApi;
 import cn.iocoder.yudao.module.promotion.api.discount.DiscountActivityApi;
+import cn.iocoder.yudao.module.promotion.api.point.PointActivityApi;
 import cn.iocoder.yudao.module.promotion.api.reward.RewardActivityApi;
 import cn.iocoder.yudao.module.promotion.api.seckill.SeckillActivityApi;
 import cn.iocoder.yudao.module.system.api.notify.NotifyMessageSendApi;
@@ -26,7 +27,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 @EnableFeignClients(clients = {
         BargainActivityApi.class, BargainRecordApi.class, CombinationRecordApi.class,
-        CouponApi.class, DiscountActivityApi.class, RewardActivityApi.class, SeckillActivityApi.class,
+        CouponApi.class, DiscountActivityApi.class, RewardActivityApi.class, SeckillActivityApi.class, PointActivityApi.class,
         MemberUserApi.class, MemberPointApi.class, MemberLevelApi.class, MemberAddressApi.class, MemberConfigApi.class,
         ProductSpuApi.class, ProductSkuApi.class, ProductCommentApi.class, ProductCategoryApi.class,
         PayOrderApi.class, PayRefundApi.class,

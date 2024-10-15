@@ -124,7 +124,7 @@ public class CodegenBuilder {
 
     public List<CodegenColumnDO> buildColumns(Long tableId, List<TableField> tableFields) {
         List<CodegenColumnDO> columns = CodegenConvert.INSTANCE.convertList(tableFields);
-        int index = 1;
+        int index = 0;
         for (CodegenColumnDO column : columns) {
             column.setTableId(tableId);
             column.setOrdinalPosition(index++);

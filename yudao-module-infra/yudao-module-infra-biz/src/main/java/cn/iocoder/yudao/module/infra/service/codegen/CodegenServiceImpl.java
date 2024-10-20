@@ -180,12 +180,12 @@ public class CodegenServiceImpl implements CodegenService {
                         && tableField.getMetaInfo().isNullable() == codegenColumn.getNullable()
                         && tableField.isKeyFlag() == codegenColumn.getPrimaryKey()
                         && tableField.getComment().equals(codegenColumn.getColumnComment());
-        Set<String> modifyFieldNames = IntStream.range(0, tableFields.size()).mapToObj(index -> {
+        IntStream.range(0, tableFields.size()).forEach(index -> {
             TableField tableField = tableFields.get(index);
             String columnName = tableField.getColumnName();
             CodegenColumnDO codegenColumn = codegenColumnDOMap.get(columnName);
             if (codegenColumn == null) {
-                return null;
+                return;
             }
             if (!primaryKeyPredicate.test(tableField, codegenColumn) || codegenColumn.getOrdinalPosition() != index) {
                 //如果只是序号不同，则更新序号
@@ -196,17 +196,14 @@ public class CodegenServiceImpl implements CodegenService {
                     codegenColumn.setColumnComment(tableField.getComment());
                     codegenColumn.setOrdinalPosition(index);
                     codegenColumnMapper.updateById(codegenColumn);
-                }else{
-                    return columnName;
                 }
             }
-            return null;
-        }).filter(Objects::nonNull).collect(Collectors.toSet());
+        });
 
         // 3.2 计算需要【删除】的字段
         Set<String> tableFieldNames = convertSet(tableFields, TableField::getName);
         Set<Long> deleteColumnIds = codegenColumns.stream()
-                .filter(column -> (!tableFieldNames.contains(column.getColumnName())) || modifyFieldNames.contains(column.getColumnName()))
+                .filter(column -> (!tableFieldNames.contains(column.getColumnName())))
                 .map(CodegenColumnDO::getId).collect(Collectors.toSet());
 
         // 3.3 计算需要【新增】的字段和排序号

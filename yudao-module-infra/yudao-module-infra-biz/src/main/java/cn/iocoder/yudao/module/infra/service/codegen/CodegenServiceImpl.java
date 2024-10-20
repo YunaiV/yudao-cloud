@@ -35,6 +35,7 @@ import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionU
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertMap;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertSet;
 import static cn.iocoder.yudao.module.infra.enums.ErrorCodeConstants.*;
+
 /**
  * 代码生成 Service 实现类
  *
@@ -187,40 +188,23 @@ public class CodegenServiceImpl implements CodegenService {
                 return null;
             }
             if (!primaryKeyPredicate.test(tableField, codegenColumn) || codegenColumn.getOrdinalPosition() != index) {
-                //如果只是序号不同，则更新序号
-                if (primaryKeyPredicate.test(tableField, codegenColumn) && codegenColumn.getOrdinalPosition() != index) {
-                    codegenColumn.setDataType(tableField.getMetaInfo().getJdbcType().name());
-                    codegenColumn.setNullable(tableField.getMetaInfo().isNullable());
-                    codegenColumn.setPrimaryKey(tableField.isKeyFlag());
-                    codegenColumn.setColumnComment(tableField.getComment());
-                    codegenColumn.setOrdinalPosition(index);
-                    codegenColumnMapper.updateById(codegenColumn);
-                }else{
-                    return columnName;
-                }
+                return columnName;
             }
             return null;
         }).filter(Objects::nonNull).collect(Collectors.toSet());
-
         // 3.2 计算需要【删除】的字段
         Set<String> tableFieldNames = convertSet(tableFields, TableField::getName);
         Set<Long> deleteColumnIds = codegenColumns.stream()
                 .filter(column -> (!tableFieldNames.contains(column.getColumnName())) || modifyFieldNames.contains(column.getColumnName()))
                 .map(CodegenColumnDO::getId).collect(Collectors.toSet());
-
-        // 3.3 计算需要【新增】的字段和排序号
-        List<Integer> insertTableFieldIndexs = new ArrayList<>();
-        List<TableField> insertTableFields = new ArrayList<>();
-        for(int i = 0; i < tableFields.size(); i++){
-            TableField tableField = tableFields.get(i);
-            if(!codegenColumnNames.contains(tableField.getColumnName())){
-                //表里边不存在就新增
-                insertTableFields.add(tableField);
-                //记录字段的排序号
-                insertTableFieldIndexs.add(i);
-            }
+        // 移除已经存在的字段
+        tableFields.removeIf(column -> codegenColumnNames.contains(column.getColumnName()) && (!modifyFieldNames.contains(column.getColumnName())));
+        if (CollUtil.isEmpty(tableFields) && CollUtil.isEmpty(deleteColumnIds)) {
+            throw exception(CODEGEN_SYNC_NONE_CHANGE);
         }
-        List<CodegenColumnDO> columns = codegenBuilder.buildColumnsByIndex(tableId, insertTableFields, insertTableFieldIndexs);
+
+        // 4.1 插入新增的字段
+        List<CodegenColumnDO> columns = codegenBuilder.buildColumns(tableId, tableFields);
         codegenColumnMapper.insertBatch(columns);
         // 4.2 删除不存在的字段
         if (CollUtil.isNotEmpty(deleteColumnIds)) {

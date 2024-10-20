@@ -64,7 +64,7 @@ public class CodegenBuilder {
      */
     public static final String TENANT_ID_FIELD = "tenantId";
     /**
-     * {@link cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO} 的字段
+     * {@link com.ims.framework.mybatis.core.dataobject.BaseDO} 的字段
      */
     public static final Set<String> BASE_DO_FIELDS = new HashSet<>();
     /**
@@ -123,19 +123,34 @@ public class CodegenBuilder {
     }
 
     public List<CodegenColumnDO> buildColumns(Long tableId, List<TableField> tableFields) {
+        return buildColumnsByIndex(tableId, tableFields, 0);
+    }
+
+    public List<CodegenColumnDO> buildColumnsByIndex(Long tableId, List<TableField> tableFields, int index) {
         List<CodegenColumnDO> columns = CodegenConvert.INSTANCE.convertList(tableFields);
-        int index = 0;
         for (CodegenColumnDO column : columns) {
-            column.setTableId(tableId);
-            column.setOrdinalPosition(index++);
-            // 特殊处理：Byte => Integer
-            if (Byte.class.getSimpleName().equals(column.getJavaType())) {
-                column.setJavaType(Integer.class.getSimpleName());
-            }
-            // 初始化 Column 列的默认字段
-            processColumnOperation(column); // 处理 CRUD 相关的字段的默认值
-            processColumnUI(column); // 处理 UI 相关的字段的默认值
-            processColumnExample(column); // 处理字段的 swagger example 示例
+            buildColumns(tableId, index++, column);
+        }
+        return columns;
+    }
+
+    private void buildColumns(Long tableId, int index, CodegenColumnDO column) {
+        column.setTableId(tableId);
+        column.setOrdinalPosition(index);
+        // 特殊处理：Byte => Integer
+        if (Byte.class.getSimpleName().equals(column.getJavaType())) {
+            column.setJavaType(Integer.class.getSimpleName());
+        }
+        // 初始化 Column 列的默认字段
+        processColumnOperation(column); // 处理 CRUD 相关的字段的默认值
+        processColumnUI(column); // 处理 UI 相关的字段的默认值
+        processColumnExample(column); // 处理字段的 swagger example 示例
+    }
+
+    public List<CodegenColumnDO> buildColumnsByIndex(Long tableId, List<TableField> tableFields, List<Integer> index) {
+        List<CodegenColumnDO> columns = CodegenConvert.INSTANCE.convertList(tableFields);
+        for (int i = 0; i < columns.size(); i++) {
+            buildColumns(tableId, index.get(i), columns.get(i));
         }
         return columns;
     }

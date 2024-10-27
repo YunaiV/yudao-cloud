@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.pay.job.order;
 
+import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.tenant.core.job.TenantJob;
 import cn.iocoder.yudao.module.pay.service.order.PayOrderService;
 import com.xxl.job.core.handler.annotation.XxlJob;
@@ -24,9 +25,10 @@ public class PayOrderExpireJob {
 
     @XxlJob("payOrderExpireJob")
     @TenantJob // 多租户
-    public void execute(String param) {
+    public String execute(String param) {
         int count = orderService.expireOrder();
         log.info("[execute][支付过期 ({}) 个]", count);
+        return StrUtil.format("支付过期 ({}) 个",count);
     }
 
 }

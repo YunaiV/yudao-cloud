@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.pay.job.order;
 
+import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.tenant.core.job.TenantJob;
 import cn.iocoder.yudao.module.pay.service.order.PayOrderService;
 import com.xxl.job.core.handler.annotation.XxlJob;
@@ -35,10 +36,11 @@ public class PayOrderSyncJob {
 
     @XxlJob("payOrderSyncJob")
     @TenantJob // 多租户
-    public void execute() {
+    public String execute() {
         LocalDateTime minCreateTime = LocalDateTime.now().minus(CREATE_TIME_DURATION_BEFORE);
         int count = orderService.syncOrder(minCreateTime);
         log.info("[execute][同步支付订单 ({}) 个]", count);
+        return StrUtil.format("同步支付订单 ({}) 个",count);
     }
 
 }

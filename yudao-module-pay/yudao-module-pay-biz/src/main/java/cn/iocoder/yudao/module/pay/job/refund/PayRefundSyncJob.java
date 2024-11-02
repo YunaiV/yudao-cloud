@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.pay.job.refund;
 
+import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.tenant.core.job.TenantJob;
 import cn.iocoder.yudao.module.pay.service.refund.PayRefundService;
 import com.xxl.job.core.handler.annotation.XxlJob;
@@ -24,9 +25,10 @@ public class PayRefundSyncJob {
 
     @XxlJob("payRefundSyncJob")
     @TenantJob // 多租户
-    public void execute() {
+    public String execute() {
         int count = refundService.syncRefund();
         log.info("[execute][同步退款订单 ({}) 个]", count);
+        return StrUtil.format("同步退款订单 ({}) 个",count);
     }
 
 }

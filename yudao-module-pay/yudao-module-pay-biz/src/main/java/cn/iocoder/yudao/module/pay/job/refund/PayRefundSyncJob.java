@@ -4,10 +4,9 @@ import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.tenant.core.job.TenantJob;
 import cn.iocoder.yudao.module.pay.service.refund.PayRefundService;
 import com.xxl.job.core.handler.annotation.XxlJob;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * 退款订单的同步 Job

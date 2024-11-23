@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.bpm.framework.flowable.core.candidate.strategy.dept;
 
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.iocoder.yudao.framework.test.core.ut.BaseMockitoUnitTest;
 import cn.iocoder.yudao.module.bpm.framework.flowable.core.enums.BpmnVariableConstants;
@@ -41,7 +42,7 @@ public class BpmTaskCandidateStartUserSelectStrategyTest extends BaseMockitoUnit
         // mock 方法（FlowableUtils）
         Map<String, Object> processVariables = new HashMap<>();
         processVariables.put(BpmnVariableConstants.PROCESS_INSTANCE_VARIABLE_START_USER_SELECT_ASSIGNEES,
-                MapUtil.of("activity_001", List.of(1L, 2L)));
+                MapUtil.of("activity_001", ListUtil.of(1L, 2L)));
         when(processInstance.getProcessVariables()).thenReturn(processVariables);
 
         // 调用
@@ -56,7 +57,7 @@ public class BpmTaskCandidateStartUserSelectStrategyTest extends BaseMockitoUnit
         String activityId = "activity_001";
         Map<String, Object> processVariables = new HashMap<>();
         processVariables.put(BpmnVariableConstants.PROCESS_INSTANCE_VARIABLE_START_USER_SELECT_ASSIGNEES,
-                MapUtil.of("activity_001", List.of(1L, 2L)));
+                MapUtil.of("activity_001", ListUtil.of(1L, 2L)));
 
         // 调用
         Set<Long> userIds = strategy.calculateUsersByActivity(null, activityId, null,

@@ -115,7 +115,7 @@ public class BpmCategoryServiceImpl implements BpmCategoryService {
     @Transactional(rollbackFor = Exception.class)
     public void updateCategorySortBatch(List<Long> ids) {
         // 校验分类都存在
-        List<BpmCategoryDO> categories = bpmCategoryMapper.selectByIds(ids);
+        List<BpmCategoryDO> categories = bpmCategoryMapper.selectBatchIds(ids);
         if (categories.size() != ids.size()) {
             throw exception(CATEGORY_NOT_EXISTS);
         }

@@ -222,8 +222,8 @@ knife4j:
         service-name: crm-server
         url: /admin-api/crm/v3/api-docs
       - name: ai-server
-        service-name: crm-server
-        url: /admin-api/crm/v3/api-docs
+        service-name: ai-server
+        url: /admin-api/ai/v3/api-docs
 
 --- #################### 芋道相关配置 ####################
 

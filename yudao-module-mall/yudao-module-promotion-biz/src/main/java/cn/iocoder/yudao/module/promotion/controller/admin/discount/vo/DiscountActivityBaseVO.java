@@ -5,20 +5,20 @@ import cn.iocoder.yudao.framework.common.validation.InEnum;
 import cn.iocoder.yudao.module.promotion.enums.common.PromotionDiscountTypeEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 import static cn.iocoder.yudao.framework.common.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
 /**
-* 限时折扣活动 Base VO，提供给添加、修改、详细的子 VO 使用
-* 如果子 VO 存在差异的字段，请不要添加到这里，影响 Swagger 文档生成
-*/
+ * 限时折扣活动 Base VO，提供给添加、修改、详细的子 VO 使用
+ * 如果子 VO 存在差异的字段，请不要添加到这里，影响 Swagger 文档生成
+ */
 @Data
 public class DiscountActivityBaseVO {
 
@@ -63,11 +63,11 @@ public class DiscountActivityBaseVO {
         @Min(value = 0, message = "优惠金额需要大于等于 0")
         private Integer discountPrice;
 
-        @AssertTrue(message = "折扣百分比需要大于等于 1，小于等于 99")
+        @AssertTrue(message = "折扣百分比需要大于等于 0.01%，小于等于 99.99%")
         @JsonIgnore
         public boolean isDiscountPercentValid() {
             return ObjectUtil.notEqual(discountType, PromotionDiscountTypeEnum.PERCENT.getType())
-                    || (discountPercent != null && discountPercent >= 1 && discountPercent<= 99);
+                    || (discountPercent != null && discountPercent >= 1 && discountPercent <= 9999);
         }
 
         @AssertTrue(message = "优惠金额不能为空")

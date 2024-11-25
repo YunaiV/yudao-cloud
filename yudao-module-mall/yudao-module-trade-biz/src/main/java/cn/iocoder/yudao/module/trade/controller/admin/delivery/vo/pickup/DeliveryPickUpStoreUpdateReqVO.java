@@ -1,10 +1,11 @@
 package cn.iocoder.yudao.module.trade.controller.admin.delivery.vo.pickup;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+import javax.validation.constraints.NotNull;
 
 @Schema(description = "管理后台 - 自提门店更新 Request VO")
 @Data

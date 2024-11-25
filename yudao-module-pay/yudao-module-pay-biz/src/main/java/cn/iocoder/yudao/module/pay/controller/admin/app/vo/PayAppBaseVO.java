@@ -1,17 +1,16 @@
 package cn.iocoder.yudao.module.pay.controller.admin.app.vo;
-
 import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.common.validation.InEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.validator.constraints.URL;
 
+import jakarta.validation.constraints.*;
+
 /**
-* 支付应用信息 Base VO，提供给添加、修改、详细的子 VO 使用
-* 如果子 VO 存在差异的字段，请不要添加到这里，影响 Swagger 文档生成
-*/
+ * 支付应用信息 Base VO，提供给添加、修改、详细的子 VO 使用
+ * 如果子 VO 存在差异的字段，请不要添加到这里，影响 Swagger 文档生成
+ */
 @Data
 public class PayAppBaseVO {
 
@@ -40,5 +39,9 @@ public class PayAppBaseVO {
     @NotNull(message = "退款结果的回调地址不能为空")
     @URL(message = "退款结果的回调地址必须为 URL 格式")
     private String refundNotifyUrl;
+
+    @Schema(description = "转账结果的回调地址", example = "http://127.0.0.1:48080/transfer-callback")
+    @URL(message = "转账结果的回调地址必须为 URL 格式")
+    private String transferNotifyUrl;
 
 }

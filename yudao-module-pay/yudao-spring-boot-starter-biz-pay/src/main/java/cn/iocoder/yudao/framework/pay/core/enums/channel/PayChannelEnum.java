@@ -1,8 +1,8 @@
 package cn.iocoder.yudao.framework.pay.core.enums.channel;
 
 import cn.hutool.core.util.ArrayUtil;
-import cn.iocoder.yudao.framework.pay.core.client.PayClientConfig;
 import cn.iocoder.yudao.framework.pay.core.client.impl.NonePayClientConfig;
+import cn.iocoder.yudao.framework.pay.core.client.PayClientConfig;
 import cn.iocoder.yudao.framework.pay.core.client.impl.alipay.AlipayPayClientConfig;
 import cn.iocoder.yudao.framework.pay.core.client.impl.weixin.WxPayClientConfig;
 import lombok.AllArgsConstructor;

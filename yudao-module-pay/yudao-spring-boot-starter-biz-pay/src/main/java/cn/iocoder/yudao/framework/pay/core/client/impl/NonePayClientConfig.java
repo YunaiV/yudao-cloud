@@ -1,8 +1,9 @@
 package cn.iocoder.yudao.framework.pay.core.client.impl;
 
 import cn.iocoder.yudao.framework.pay.core.client.PayClientConfig;
-import jakarta.validation.Validator;
 import lombok.Data;
+
+import jakarta.validation.Validator;
 
 /**
  * 无需任何配置 PayClientConfig 实现类

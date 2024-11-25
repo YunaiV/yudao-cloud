@@ -1,10 +1,9 @@
 package cn.iocoder.yudao.module.trade.controller.admin.brokerage.vo.user;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.ToString;
-
-import jakarta.validation.constraints.NotNull;
 
 @Schema(description = "管理后台 - 分销用户 - 修改推广员 Request VO")
 @Data

@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.framework.pay.core.client;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import jakarta.validation.Validator;
 
 /**

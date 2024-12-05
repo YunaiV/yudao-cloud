@@ -50,12 +50,6 @@ public class TenantJobAspect {
             TenantUtils.execute(tenantId, () -> {
                 try {
                     Object result = joinPoint.proceed();
-                    if(null == result){
-                        XxlJobHelper.log(StrUtil.format("[多租户({}) 执行任务({})，结果为：null]",
-                                tenantId, joinPoint.getSignature()));
-                        //避免ConcurrentHashMap put空指针异常
-                        result = "";
-                    }
                     results.put(tenantId, StrUtil.toStringOrEmpty(result));
                 } catch (Throwable e) {
                     results.put(tenantId, ExceptionUtil.getRootCauseMessage(e));

@@ -28,4 +28,9 @@ public class TenantApiImpl implements TenantApi {
         return success(true);
     }
 
+    @Override
+    public CommonResult<Boolean> validBuiltInSystem(Long id) {
+        tenantService.validBuiltInSystem(id);
+        return success(true);
+    }
 }

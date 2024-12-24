@@ -76,7 +76,7 @@ public class CommonDataPermissionRule implements DataPermissionRule {
     /**
      * LoginUser 的 Context 缓存 Key
      */
-    protected static final String CONTEXT_KEY = DeptDataPermissionRule.class.getSimpleName();
+    protected static final String CONTEXT_KEY = CommonDataPermissionRule.class.getSimpleName();
 
     static final Expression EXPRESSION_NULL = new NullValue();
 

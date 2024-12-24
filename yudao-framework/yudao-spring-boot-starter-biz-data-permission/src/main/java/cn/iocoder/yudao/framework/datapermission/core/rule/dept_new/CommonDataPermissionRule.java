@@ -1,11 +1,9 @@
 package cn.iocoder.yudao.framework.datapermission.core.rule.dept_new;
 
-import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.ReflectUtil;
 import cn.iocoder.yudao.framework.common.enums.UserTypeEnum;
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.framework.datapermission.core.rule.DataPermissionRule;
@@ -16,10 +14,8 @@ import cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils;
 import cn.iocoder.yudao.module.system.api.permission.PermissionApi;
 import cn.iocoder.yudao.module.system.api.permission.dto.DeptDataPermissionRespDTO;
 import cn.iocoder.yudao.module.system.api.tenant.TenantApi;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import com.baomidou.mybatisplus.core.toolkit.AnnotationUtils;
 import com.baomidou.mybatisplus.core.toolkit.LambdaUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
 import com.baomidou.mybatisplus.core.toolkit.support.LambdaMeta;
@@ -29,8 +25,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.*;
-import net.sf.jsqlparser.expression.operators.arithmetic.BitwiseLeftShift;
-import net.sf.jsqlparser.expression.operators.conditional.AndExpression;
 import net.sf.jsqlparser.expression.operators.conditional.OrExpression;
 import net.sf.jsqlparser.expression.operators.relational.*;
 import net.sf.jsqlparser.schema.Column;
@@ -38,7 +32,6 @@ import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.select.PlainSelect;
 // import net.sf.jsqlparser.statement.select.SubSelect;
 import net.sf.jsqlparser.util.SelectUtils;
-import org.apache.el.parser.AstBracketSuffix;
 import org.apache.ibatis.reflection.property.PropertyNamer;
 
 import java.util.*;
@@ -62,7 +55,7 @@ import java.util.*;
  */
 @AllArgsConstructor
 @Slf4j
-public class DeptDataPermissionRuleTwo implements DataPermissionRule {
+public class CommonDataPermissionRule implements DataPermissionRule {
 
     @Data
     @NoArgsConstructor
@@ -73,11 +66,11 @@ public class DeptDataPermissionRuleTwo implements DataPermissionRule {
         //  user_channel中的通道编码对应
         //  数据权限字段 user_id dept_id tenant_id 和
         //  数据关系表user_channel
-        private String tableName; // 表名称
-        private String tableFieldName; // 源表-关联字段名称
-        private String dataPermissionFieldName;// 数据关系表-关联字段名称
-        private String dataPermissionTableName;//数据关系表名称
-        private String dataPermissionJudgementFieldName;// 数据关系表-判断名称
+        private String tableName; // 共享数据表名称
+        private String tableFieldName; // 共享数据表和数据关系表 - 关联的字段名称（共享数据表字段）
+        private String dataPermissionFieldName;// 数据关系表和共享数据表 - 关联字段名称（数据关系表字段）
+        private String dataPermissionTableName;// 数据关系表名称
+        private String dataPermissionJudgementFieldName;// 数据关系表-用于校验数据权限字段（dept_id/user_id）
     }
 
     /**
@@ -88,6 +81,7 @@ public class DeptDataPermissionRuleTwo implements DataPermissionRule {
     static final Expression EXPRESSION_NULL = new NullValue();
 
     private final PermissionApi permissionApi;
+    private final TenantApi tenantApi;
 
     /**
      * 基于部门的表字段配置
@@ -154,8 +148,13 @@ public class DeptDataPermissionRuleTwo implements DataPermissionRule {
         // 情况一，如果是 ALL 可查看全部，则无需拼接条件
         // 如果开启数据权限 那么关联表中的数据也需要有租户ID的信息  非关联表（原始数据表中可以没有对应的租户编号-注明：由于覆盖性太低，数据与租户之间非一对多关系）
         if (deptDataPermission.getAll()) {
-            Expression expression = buildTenantExpression(tableName, tableAlias, loginUser.getTenantId());
-            return new Parenthesis(expression);
+            CommonResult<Boolean> validBuiltInSystem = tenantApi.validBuiltInSystem(loginUser.getTenantId());
+            if(validBuiltInSystem.isSuccess()){
+                return null;
+            } else {
+                Expression expression = buildTenantExpression(tableName, tableAlias, loginUser.getTenantId());
+                return expression;
+            }
         }
 
         // 情况二，即不能查看部门，又不能查看自己，则说明 100% 无权限

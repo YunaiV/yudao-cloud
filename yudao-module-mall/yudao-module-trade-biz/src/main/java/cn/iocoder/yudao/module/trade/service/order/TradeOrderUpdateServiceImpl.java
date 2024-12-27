@@ -329,7 +329,7 @@ public class TradeOrderUpdateServiceImpl implements TradeOrderUpdateService {
     /**
      * 校验支付订单的合法性
      *
-     * @param order 交易订单
+     * @param order      交易订单
      * @param payOrderId 支付订单编号
      * @return 支付订单
      */
@@ -688,8 +688,9 @@ public class TradeOrderUpdateServiceImpl implements TradeOrderUpdateService {
         List<TradeOrderItemDO> updateItems = new ArrayList<>();
         for (int i = 0; i < orderOrderItems.size(); i++) {
             TradeOrderItemDO item = orderOrderItems.get(i);
-            updateItems.add(new TradeOrderItemDO().setId(item.getId()).setAdjustPrice(item.getAdjustPrice() + dividePrices.get(i))
-                    .setPayPrice((item.getPayPrice() - item.getAdjustPrice()) + dividePrices.get(i)));
+            updateItems.add(new TradeOrderItemDO().setId(item.getId())
+                    .setAdjustPrice(item.getAdjustPrice() + dividePrices.get(i))
+                    .setPayPrice(item.getPayPrice() + dividePrices.get(i)));
         }
         tradeOrderItemMapper.updateBatch(updateItems);
 
@@ -747,7 +748,7 @@ public class TradeOrderUpdateServiceImpl implements TradeOrderUpdateService {
         }
         DeliveryPickUpStoreDO deliveryPickUpStore = pickUpStoreService.getDeliveryPickUpStore(order.getPickUpStoreId());
         if (deliveryPickUpStore == null
-            || !CollUtil.contains(deliveryPickUpStore.getVerifyUserIds(), userId)) {
+                || !CollUtil.contains(deliveryPickUpStore.getVerifyUserIds(), userId)) {
             throw exception(ORDER_PICK_UP_FAIL_NOT_VERIFY_USER);
         }
 

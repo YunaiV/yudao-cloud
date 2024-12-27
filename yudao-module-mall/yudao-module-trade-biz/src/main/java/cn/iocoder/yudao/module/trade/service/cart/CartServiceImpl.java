@@ -55,7 +55,7 @@ public class CartServiceImpl implements CartService {
             cartMapper.updateById(new CartDO().setId(cart.getId()).setSelected(true)
                     .setCount(cart.getCount() + count));
             return cart.getId();
-        // 情况二：不存在，则进行插入
+            // 情况二：不存在，则进行插入
         } else {
             cart = new CartDO().setUserId(userId).setSelected(true)
                     .setSpuId(sku.getSpuId()).setSkuId(sku.getId()).setCount(count);
@@ -121,7 +121,7 @@ public class CartServiceImpl implements CartService {
         }
 
         // 批量标记删除
-        cartMapper.deleteBatchIds(ids);
+        cartMapper.deleteByIds(convertSet(carts, CartDO::getId));
     }
 
     @Override

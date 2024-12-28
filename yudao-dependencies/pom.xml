@@ -17,9 +17,9 @@
         <revision>2.3.0-SNAPSHOT</revision>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
         <!-- 统一依赖管理 -->
-        <spring.boot.version>3.3.4</spring.boot.version>
-        <spring.cloud.version>2023.0.3</spring.cloud.version>
-        <spring.cloud.alibaba.version>2023.0.1.2</spring.cloud.alibaba.version>
+        <spring.boot.version>3.4.1</spring.boot.version>
+        <spring.cloud.version>2024.0.0</spring.cloud.version>
+        <spring.cloud.alibaba.version>2023.0.3.2</spring.cloud.alibaba.version>
         <!-- Web 相关 -->
         <springdoc.version>2.3.0</springdoc.version>
         <knife4j.version>4.5.0</knife4j.version>

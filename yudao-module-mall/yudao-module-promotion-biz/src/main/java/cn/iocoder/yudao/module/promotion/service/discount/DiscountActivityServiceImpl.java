@@ -156,7 +156,7 @@ public class DiscountActivityServiceImpl implements DiscountActivityService {
     private void validateProductExists(List<DiscountActivityBaseVO.Product> products) {
         // 1.获得商品所有的 sku
         List<ProductSkuRespDTO> skus = productSkuApi.getSkuListBySpuId(
-                convertList(products, DiscountActivityBaseVO.Product::getSpuId));
+                convertList(products, DiscountActivityBaseVO.Product::getSpuId)).getCheckedData();
         Map<Long, ProductSkuRespDTO> skuMap = convertMap(skus, ProductSkuRespDTO::getId);
         // 2. 校验商品 sku 都存在
         products.forEach(product -> {

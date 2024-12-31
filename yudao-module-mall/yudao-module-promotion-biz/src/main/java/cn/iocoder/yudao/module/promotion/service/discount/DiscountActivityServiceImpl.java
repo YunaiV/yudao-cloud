@@ -156,7 +156,7 @@ public class DiscountActivityServiceImpl implements DiscountActivityService {
     private void validateProductExists(List<DiscountActivityBaseVO.Product> products) {
         // 1.获得商品所有的 sku
         List<ProductSkuRespDTO> skus = productSkuApi.getSkuListBySpuId(
-                convertList(products, DiscountActivityBaseVO.Product::getSpuId)).getCheckedData();
+                convertList(products, DiscountActivityBaseVO.Product::getSpuId));
         Map<Long, ProductSkuRespDTO> skuMap = convertMap(skus, ProductSkuRespDTO::getId);
         // 2. 校验商品 sku 都存在
         products.forEach(product -> {
@@ -220,11 +220,17 @@ public class DiscountActivityServiceImpl implements DiscountActivityService {
 
     @Override
     public List<DiscountProductDO> getDiscountProductsByActivityId(Collection<Long> activityIds) {
+        if (CollUtil.isEmpty(activityIds)) {
+            return CollUtil.newArrayList();
+        }
         return discountProductMapper.selectList(DiscountProductDO::getActivityId, activityIds);
     }
 
     @Override
     public List<DiscountProductDO> getMatchDiscountProductListBySkuIds(Collection<Long> skuIds) {
+        if (CollUtil.isEmpty(skuIds)) {
+            return CollUtil.newArrayList();
+        }
         return discountProductMapper.selectListBySkuIdsAndStatusAndNow(skuIds, CommonStatusEnum.ENABLE.getStatus());
     }
 

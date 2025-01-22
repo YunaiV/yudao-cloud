@@ -4,16 +4,6 @@
  <img src="https://img.shields.io/badge/Vue-3.2-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/github/license/YunaiV/yudao-cloud" alt="Downloads" />
 </p>
-
-**严肃声明：现在、未来都不会有商业版本，所有代码全部开源!！**
-
-**「我喜欢写代码，乐此不疲」**  
-**「我喜欢做开源，以此为乐」**
-
-我 🐶 在上海艰苦奋斗，早中晚在 top3 大厂认真搬砖，夜里为开源做贡献。
-
-如果这个项目让你有所收获，记得 Star 关注哦，这对我是非常不错的鼓励与支持。
-
 可参考 [《迁移文档》](https://cloud.iocoder.cn/migrate-module/) ，只需要 5-10 分钟，即可将【完整版】按需迁移到【精简版】
 
 ## 🐶 新手必读

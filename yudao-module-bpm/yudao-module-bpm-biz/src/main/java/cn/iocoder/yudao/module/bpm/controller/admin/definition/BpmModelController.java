@@ -99,7 +99,8 @@ public class BpmModelController {
             return null;
         }
         byte[] bpmnBytes = modelService.getModelBpmnXML(id);
-        return success(BpmModelConvert.INSTANCE.buildModel(model, bpmnBytes));
+        BpmSimpleModelNodeVO simpleModel = modelService.getSimpleModel(id);
+        return success(BpmModelConvert.INSTANCE.buildModel(model, bpmnBytes, simpleModel));
     }
 
     @PostMapping("/create")
@@ -108,7 +109,6 @@ public class BpmModelController {
     public CommonResult<String> createModel(@Valid @RequestBody BpmModelSaveReqVO createRetVO) {
         return success(modelService.createModel(createRetVO));
     }
-
 
     @PutMapping("/update")
     @Operation(summary = "修改模型")
@@ -143,6 +143,7 @@ public class BpmModelController {
         return success(true);
     }
 
+    @Deprecated
     @PutMapping("/update-bpmn")
     @Operation(summary = "修改模型的 BPMN")
     @PreAuthorize("@ss.hasPermission('bpm:model:update')")
@@ -160,6 +161,15 @@ public class BpmModelController {
         return success(true);
     }
 
+    @DeleteMapping("/clean")
+    @Operation(summary = "清理模型")
+    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @PreAuthorize("@ss.hasPermission('bpm:model:clean')")
+    public CommonResult<Boolean> cleanModel(@RequestParam("id") String id) {
+        modelService.cleanModel(getLoginUserId(), id);
+        return success(true);
+    }
+
     // ========== 仿钉钉/飞书的精简模型 =========
 
     @GetMapping("/simple/get")
@@ -169,6 +179,7 @@ public class BpmModelController {
         return success(modelService.getSimpleModel(modelId));
     }
 
+    @Deprecated
     @PostMapping("/simple/update")
     @Operation(summary = "保存仿钉钉流程设计模型")
     @PreAuthorize("@ss.hasPermission('bpm:model:update')")

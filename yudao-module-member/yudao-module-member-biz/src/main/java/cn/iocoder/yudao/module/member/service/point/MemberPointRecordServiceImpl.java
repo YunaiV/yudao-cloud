@@ -2,7 +2,6 @@ package cn.iocoder.yudao.module.member.service.point;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.module.member.controller.admin.point.vo.recrod.MemberPointRecordPageReqVO;
 import cn.iocoder.yudao.module.member.controller.app.point.vo.AppMemberPointRecordPageReqVO;
@@ -75,7 +74,9 @@ public class MemberPointRecordServiceImpl implements MemberPointRecordService {
         Integer userPoint = ObjectUtil.defaultIfNull(user.getPoint(), 0);
         int totalPoint = userPoint + point; // 用户变动后的积分
         if (totalPoint < 0) {
-            throw exception(USER_POINT_NOT_ENOUGH);
+            log.error("[createPointRecord][userId({}) point({}) bizType({}) bizId({}) {}]", userId, point, bizType, bizId,
+                    USER_POINT_NOT_ENOUGH);
+            return;
         }
 
         // 2. 更新用户积分

@@ -15,6 +15,9 @@ public class BpmTaskPageReqVO extends PageParam {
     @Schema(description = "流程任务名", example = "芋道")
     private String name;
 
+    @Schema(description = "流程分类", example = "1")
+    private String category;
+
     @Schema(description = "创建时间")
     @DateTimeFormat(pattern = DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
     private LocalDateTime[] createTime;

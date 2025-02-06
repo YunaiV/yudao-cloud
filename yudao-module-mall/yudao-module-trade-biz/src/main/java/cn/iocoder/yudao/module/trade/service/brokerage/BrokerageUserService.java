@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.trade.service.brokerage;
 
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
+import cn.iocoder.yudao.module.trade.controller.admin.brokerage.vo.user.BrokerageUserCreateReqVO;
 import cn.iocoder.yudao.module.trade.controller.admin.brokerage.vo.user.BrokerageUserPageReqVO;
 import cn.iocoder.yudao.module.trade.controller.app.brokerage.vo.user.AppBrokerageUserChildSummaryPageReqVO;
 import cn.iocoder.yudao.module.trade.controller.app.brokerage.vo.user.AppBrokerageUserChildSummaryRespVO;
@@ -8,6 +9,7 @@ import cn.iocoder.yudao.module.trade.controller.app.brokerage.vo.user.AppBrokera
 import cn.iocoder.yudao.module.trade.controller.app.brokerage.vo.user.AppBrokerageUserRankPageReqVO;
 import cn.iocoder.yudao.module.trade.dal.dataobject.brokerage.BrokerageUserDO;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -107,6 +109,14 @@ public interface BrokerageUserService {
      * @return 是否绑定
      */
     boolean bindBrokerageUser(@NotNull Long userId, @NotNull Long bindUserId);
+
+    /**
+     * 【管理员】创建分销用户
+     *
+     * @param createReqVO 请求
+     * @return 编号
+     */
+    Long createBrokerageUser(@Valid BrokerageUserCreateReqVO createReqVO);
 
     /**
      * 获取用户是否有分销资格

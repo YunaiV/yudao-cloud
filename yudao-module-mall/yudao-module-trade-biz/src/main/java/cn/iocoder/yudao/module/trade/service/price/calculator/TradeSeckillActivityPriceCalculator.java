@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.module.promotion.api.seckill.SeckillActivityApi;
 import cn.iocoder.yudao.module.promotion.api.seckill.dto.SeckillValidateJoinRespDTO;
 import cn.iocoder.yudao.module.promotion.enums.common.PromotionTypeEnum;
+import cn.iocoder.yudao.module.trade.enums.order.TradeOrderTypeEnum;
 import cn.iocoder.yudao.module.trade.service.order.TradeOrderQueryService;
 import cn.iocoder.yudao.module.trade.service.price.bo.TradePriceCalculateReqBO;
 import cn.iocoder.yudao.module.trade.service.price.bo.TradePriceCalculateRespBO;
@@ -17,6 +18,7 @@ import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionU
 import static cn.iocoder.yudao.module.trade.enums.ErrorCodeConstants.PRICE_CALCULATE_SECKILL_TOTAL_LIMIT_COUNT;
 
 // TODO huihui：单测需要补充
+
 /**
  * 秒杀活动的 {@link TradePriceCalculator} 实现类
  *
@@ -61,7 +63,7 @@ public class TradeSeckillActivityPriceCalculator implements TradePriceCalculator
         // 1. 校验是否可以参与秒杀
         SeckillValidateJoinRespDTO seckillActivity = seckillActivityApi.validateJoinSeckill(activityId, skuId, count).getCheckedData();
         // 2. 校验总限购数量，目前只有 trade 有具体下单的数据，需要交给 trade 价格计算使用
-        int seckillProductCount = tradeOrderQueryService.getSeckillProductCount(userId, activityId);
+        int seckillProductCount = tradeOrderQueryService.getActivityProductCount(userId, activityId, TradeOrderTypeEnum.SECKILL);
         if (seckillProductCount + count > seckillActivity.getTotalLimitCount()) {
             throw exception(PRICE_CALCULATE_SECKILL_TOTAL_LIMIT_COUNT);
         }

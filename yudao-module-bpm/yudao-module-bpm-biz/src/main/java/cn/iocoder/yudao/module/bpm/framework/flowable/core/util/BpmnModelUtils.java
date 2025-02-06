@@ -1,19 +1,19 @@
 package cn.iocoder.yudao.module.bpm.framework.flowable.core.util;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
+import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.framework.common.util.number.NumberUtils;
 import cn.iocoder.yudao.framework.common.util.string.StrUtils;
 import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.model.simple.BpmSimpleModelNodeVO;
 import cn.iocoder.yudao.module.bpm.controller.admin.task.vo.task.BpmTaskRespVO;
-import cn.iocoder.yudao.module.bpm.enums.definition.BpmUserTaskApproveTypeEnum;
-import cn.iocoder.yudao.module.bpm.enums.definition.BpmUserTaskAssignEmptyHandlerTypeEnum;
-import cn.iocoder.yudao.module.bpm.enums.definition.BpmUserTaskAssignStartUserHandlerTypeEnum;
-import cn.iocoder.yudao.module.bpm.enums.definition.BpmUserTaskRejectHandlerType;
+import cn.iocoder.yudao.module.bpm.enums.definition.*;
 import cn.iocoder.yudao.module.bpm.framework.flowable.core.enums.BpmnModelConstants;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +22,7 @@ import org.flowable.bpmn.model.Process;
 import org.flowable.bpmn.model.*;
 import org.flowable.common.engine.api.FlowableException;
 import org.flowable.common.engine.impl.util.io.BytesStreamSource;
+import org.flowable.engine.impl.el.FixedValue;
 
 import java.util.*;
 
@@ -73,7 +74,6 @@ public class BpmnModelUtils {
         extensionElement.setName(name);
         attributes.forEach((key, value) -> {
             ExtensionAttribute extensionAttribute = new ExtensionAttribute(key, value);
-            extensionAttribute.setNamespace(FLOWABLE_EXTENSIONS_NAMESPACE);
             extensionElement.addAttribute(extensionAttribute);
         });
         element.addExtensionElement(extensionElement);
@@ -171,9 +171,9 @@ public class BpmnModelUtils {
      * @param userTask 任务节点
      * @return 任务拒绝处理类型
      */
-    public static BpmUserTaskRejectHandlerType parseRejectHandlerType(FlowElement userTask) {
+    public static BpmUserTaskRejectHandlerTypeEnum parseRejectHandlerType(FlowElement userTask) {
         Integer rejectHandlerType = NumberUtils.parseInt(parseExtensionElement(userTask, USER_TASK_REJECT_HANDLER_TYPE));
-        return BpmUserTaskRejectHandlerType.typeOf(rejectHandlerType);
+        return BpmUserTaskRejectHandlerTypeEnum.typeOf(rejectHandlerType);
     }
 
     /**
@@ -278,8 +278,8 @@ public class BpmnModelUtils {
         }
         Map<String, String> fieldsPermission = MapUtil.newHashMap();
         extensionElements.forEach(element -> {
-            String field = element.getAttributeValue(FLOWABLE_EXTENSIONS_NAMESPACE, FORM_FIELD_PERMISSION_ELEMENT_FIELD_ATTRIBUTE);
-            String permission = element.getAttributeValue(FLOWABLE_EXTENSIONS_NAMESPACE, FORM_FIELD_PERMISSION_ELEMENT_PERMISSION_ATTRIBUTE);
+            String field = element.getAttributeValue(null, FORM_FIELD_PERMISSION_ELEMENT_FIELD_ATTRIBUTE);
+            String permission = element.getAttributeValue(null, FORM_FIELD_PERMISSION_ELEMENT_PERMISSION_ATTRIBUTE);
             if (StrUtil.isNotEmpty(field) && StrUtil.isNotEmpty(permission)) {
                 fieldsPermission.put(field, permission);
             }
@@ -321,9 +321,9 @@ public class BpmnModelUtils {
         }
         Map<Integer, BpmTaskRespVO.OperationButtonSetting> buttonSettings = Maps.newHashMapWithExpectedSize(extensionElements.size());
         extensionElements.forEach(element -> {
-            String id = element.getAttributeValue(FLOWABLE_EXTENSIONS_NAMESPACE, BUTTON_SETTING_ELEMENT_ID_ATTRIBUTE);
-            String displayName = element.getAttributeValue(FLOWABLE_EXTENSIONS_NAMESPACE, BUTTON_SETTING_ELEMENT_DISPLAY_NAME_ATTRIBUTE);
-            String enable = element.getAttributeValue(FLOWABLE_EXTENSIONS_NAMESPACE, BUTTON_SETTING_ELEMENT_ENABLE_ATTRIBUTE);
+            String id = element.getAttributeValue(null, BUTTON_SETTING_ELEMENT_ID_ATTRIBUTE);
+            String displayName = element.getAttributeValue(null, BUTTON_SETTING_ELEMENT_DISPLAY_NAME_ATTRIBUTE);
+            String enable = element.getAttributeValue(null, BUTTON_SETTING_ELEMENT_ENABLE_ATTRIBUTE);
             if (StrUtil.isNotEmpty(id)) {
                 BpmTaskRespVO.OperationButtonSetting setting = new BpmTaskRespVO.OperationButtonSetting();
                 buttonSettings.put(Integer.valueOf(id), setting.setDisplayName(displayName).setEnable(Boolean.parseBoolean(enable)));
@@ -345,6 +345,62 @@ public class BpmnModelUtils {
         }
         ExtensionElement extensionElement = CollUtil.getFirst(boundaryEvent.getExtensionElements().get(customElement));
         return Optional.ofNullable(extensionElement).map(ExtensionElement::getElementText).orElse(null);
+    }
+
+    public static void addSignEnable(Boolean signEnable, FlowElement userTask) {
+        addExtensionElement(userTask, SIGN_ENABLE,
+                ObjUtil.isNotNull(signEnable) ? signEnable.toString() : Boolean.FALSE.toString());
+    }
+
+    public static Boolean parseSignEnable(BpmnModel bpmnModel, String flowElementId) {
+        FlowElement flowElement = getFlowElementById(bpmnModel, flowElementId);
+        if (flowElement == null) {
+            return false;
+        }
+        List<ExtensionElement> extensionElements = flowElement.getExtensionElements().get(SIGN_ENABLE);
+        if (CollUtil.isEmpty(extensionElements)) {
+            return false;
+        }
+        return Convert.toBool(extensionElements.get(0).getElementText(), false);
+    }
+
+    public static void addReasonRequire(Boolean reasonRequire, FlowElement userTask) {
+        addExtensionElement(userTask, REASON_REQUIRE,
+                ObjUtil.isNotNull(reasonRequire) ? reasonRequire.toString() : Boolean.FALSE.toString());
+    }
+
+    public static Boolean parseReasonRequire(BpmnModel bpmnModel, String flowElementId) {
+        FlowElement flowElement = getFlowElementById(bpmnModel, flowElementId);
+        if (flowElement == null) {
+            return false;
+        }
+        List<ExtensionElement> extensionElements = flowElement.getExtensionElements().get(REASON_REQUIRE);
+        if (CollUtil.isEmpty(extensionElements)) {
+            return false;
+        }
+        return Convert.toBool(extensionElements.get(0).getElementText(), false);
+    }
+
+    public static void addListenerConfig(FlowableListener flowableListener, BpmSimpleModelNodeVO.ListenerHandler handler) {
+        FieldExtension fieldExtension = new FieldExtension();
+        fieldExtension.setFieldName("listenerConfig");
+        fieldExtension.setStringValue(JsonUtils.toJsonString(handler));
+        flowableListener.getFieldExtensions().add(fieldExtension);
+    }
+
+    public static BpmSimpleModelNodeVO.ListenerHandler parseListenerConfig(FixedValue fixedValue) {
+        String expressionText = fixedValue.getExpressionText();
+        Assert.notNull(expressionText, "监听器扩展字段({})不能为空", expressionText);
+        return JsonUtils.parseObject(expressionText, BpmSimpleModelNodeVO.ListenerHandler.class);
+    }
+
+    public static BpmTriggerTypeEnum parserTriggerType(FlowElement flowElement) {
+        Integer triggerType = NumberUtils.parseInt(parseExtensionElement(flowElement, TRIGGER_TYPE));
+        return BpmTriggerTypeEnum.typeOf(triggerType);
+    }
+
+    public static String parserTriggerParam(FlowElement flowElement) {
+        return parseExtensionElement(flowElement, TRIGGER_PARAM);
     }
 
     // ========== BPM 简单查找相关的方法 ==========
@@ -720,7 +776,7 @@ public class BpmnModelUtils {
                             && evalConditionExpress(variables, flow.getConditionExpression()));
             if (matchSequenceFlow == null) {
                 matchSequenceFlow = CollUtil.findOne(gateway.getOutgoingFlows(),
-                        flow -> ObjUtil.notEqual(gateway.getDefaultFlow(), flow.getId()));
+                        flow -> ObjUtil.equal(gateway.getDefaultFlow(), flow.getId()));
                 // 特殊：没有默认的情况下，并且只有 1 个条件，则认为它是默认的
                 if (matchSequenceFlow == null && gateway.getOutgoingFlows().size() == 1) {
                     matchSequenceFlow = gateway.getOutgoingFlows().get(0);
@@ -742,7 +798,7 @@ public class BpmnModelUtils {
                             && evalConditionExpress(variables, flow.getConditionExpression()));
             if (CollUtil.isEmpty(matchSequenceFlows)) {
                 matchSequenceFlows = CollUtil.filterNew(gateway.getOutgoingFlows(),
-                        flow -> ObjUtil.notEqual(gateway.getDefaultFlow(), flow.getId()));
+                        flow -> ObjUtil.equal(gateway.getDefaultFlow(), flow.getId()));
                 // 特殊：没有默认的情况下，并且只有 1 个条件，则认为它是默认的
                 if (CollUtil.isEmpty(matchSequenceFlows) && gateway.getOutgoingFlows().size() == 1) {
                     matchSequenceFlows = gateway.getOutgoingFlows();
@@ -778,7 +834,7 @@ public class BpmnModelUtils {
             Object result = FlowableUtils.getExpressionValue(variables, express);
             return Boolean.TRUE.equals(result);
         } catch (FlowableException ex) {
-            log.error("[evalConditionExpress][条件表达式({}) 变量({}) 解析报错", express, variables, ex);
+            log.error("[evalConditionExpress][条件表达式({}) 变量({}) 解析报错]", express, variables, ex);
             return Boolean.FALSE;
         }
     }

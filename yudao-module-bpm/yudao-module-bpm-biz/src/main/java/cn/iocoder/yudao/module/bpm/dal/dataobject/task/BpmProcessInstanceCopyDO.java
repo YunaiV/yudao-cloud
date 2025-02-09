@@ -4,12 +4,12 @@ import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import org.flowable.bpmn.model.FlowNode;
+import org.flowable.task.api.history.HistoricTaskInstance;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.flowable.bpmn.model.FlowNode;
-import org.flowable.task.api.history.HistoricTaskInstance;
 
 /**
  * 流程抄送 DO
@@ -49,6 +49,12 @@ public class BpmProcessInstanceCopyDO extends BaseDO {
      * 关联 ProcessInstance 的 id 属性
      */
     private String processInstanceId;
+    /**
+     * 流程实例的流程定义编号
+     *
+     * 关联 ProcessInstance 的 processDefinitionId 属性
+     */
+    private String processDefinitionId;
     /**
      * 流程分类
      *

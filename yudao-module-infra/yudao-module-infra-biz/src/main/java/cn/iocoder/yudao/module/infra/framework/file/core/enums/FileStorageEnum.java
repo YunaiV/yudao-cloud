@@ -7,6 +7,8 @@ import cn.iocoder.yudao.module.infra.framework.file.core.client.db.DBFileClient;
 import cn.iocoder.yudao.module.infra.framework.file.core.client.db.DBFileClientConfig;
 import cn.iocoder.yudao.module.infra.framework.file.core.client.ftp.FtpFileClient;
 import cn.iocoder.yudao.module.infra.framework.file.core.client.ftp.FtpFileClientConfig;
+import cn.iocoder.yudao.module.infra.framework.file.core.client.hbase.HbaseFileClient;
+import cn.iocoder.yudao.module.infra.framework.file.core.client.hbase.HbaseFileClientConfig;
 import cn.iocoder.yudao.module.infra.framework.file.core.client.local.LocalFileClient;
 import cn.iocoder.yudao.module.infra.framework.file.core.client.local.LocalFileClientConfig;
 import cn.iocoder.yudao.module.infra.framework.file.core.client.s3.S3FileClient;
@@ -32,6 +34,7 @@ public enum FileStorageEnum {
     SFTP(12, SftpFileClientConfig.class, SftpFileClient.class),
 
     S3(20, S3FileClientConfig.class, S3FileClient.class),
+    HBASE(21, HbaseFileClientConfig.class, HbaseFileClient.class),
     ;
 
     /**

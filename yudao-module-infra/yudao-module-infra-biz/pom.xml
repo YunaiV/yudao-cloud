@@ -143,6 +143,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-client</artifactId><!-- 文件客户端：解决 Hbase 连接 -->
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId> <!-- 文件客户端：文件类型的识别 -->
         </dependency>

@@ -127,4 +127,5 @@ public interface TenantService {
      */
     void validTenant(Long id);
 
+    void validBuiltInSystem(Long id);
 }

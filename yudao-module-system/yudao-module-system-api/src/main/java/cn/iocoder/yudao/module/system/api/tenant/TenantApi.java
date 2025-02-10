@@ -26,4 +26,9 @@ public interface TenantApi {
     @Parameter(name = "id", description = "租户编号", required = true, example = "1024")
     CommonResult<Boolean> validTenant(@RequestParam("id") Long id);
 
+    @GetMapping(PREFIX + "/valid-built-in-system")
+    @Operation(summary = "校验租户是否系统内置")
+    @Parameter(name = "id", description = "租户编号", required = true, example = "1024")
+    CommonResult<Boolean> validBuiltInSystem(@RequestParam("id") Long id);
+
 }

@@ -2,7 +2,10 @@ package cn.iocoder.yudao.module.infra.framework.file.core.client.hbase;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.digest.MD5;
 import cn.iocoder.yudao.framework.common.exception.ErrorCode;
 import cn.iocoder.yudao.framework.common.exception.ServiceException;
 import cn.iocoder.yudao.module.infra.framework.file.core.client.AbstractFileClient;
@@ -13,6 +16,7 @@ import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -21,7 +25,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Ftp 文件客户端
+ * Hbase 文件客户端
+ * 调优策略 - 依据使用场景进行调整 针对 预分区数量
+ * 注意：RowKey 设计为 MD5(filename) : filename
  *
  * @author sur1-123
  */
@@ -58,9 +64,6 @@ public class HbaseFileClient extends AbstractFileClient<HbaseFileClientConfig> {
         org.apache.hadoop.conf.Configuration configuration = HBaseConfiguration.create();
 
         configuration.set(HBASE_QUORUM, config.getQuorum());
-        if(StrUtil.isNotEmpty(config.getRootDir())){
-            configuration.set(HBASE_ROOTDIR, config.getRootDir());
-        }
 
         try {
             connection = ConnectionFactory.createConnection(configuration);
@@ -70,25 +73,20 @@ public class HbaseFileClient extends AbstractFileClient<HbaseFileClientConfig> {
             throw new RuntimeException(e);
         }
 
-        log.info("获取HBase连接成功!,HBASE_QUORUM: [{}],HBASE_ROOTDIR: [{}], columnTimeToLive：[{}]", config.getQuorum(), config.getRootDir(), columnTimeToLive);
+        log.info("获取HBase连接成功!,HBASE_QUORUM: [{}], columnTimeToLive：[{}]", config.getQuorum(), columnTimeToLive);
     }
 
     // 插入时检查path是否携带日期  不携带报错！！！
     @Override
     public String upload(byte[] content, String path, String type) {
-        // 强行限制一下 rowkey ， 其实本来此处就是 一个文件名 + 类型
-        if(path.split("/").length != 1){
-            throw new ServiceException(new ErrorCode(-1, "上传路径不正确"));
-        }
+        // path 为 RowKey (如果重名 新数据会覆盖旧数据)
         // 执行写入
         String fileTable = getFileTable(path);
+        // 初始化 path 如果没有后缀 为其补充后缀
         String fileRowKey = getFileRowKey(path);
+        // 后续可以考虑增加限制 如果多次出现 RowKey 长度异常时 不新增此数据
+        // 塞入 图片数据
         putData(fileTable, fileRowKey, config.getFamily(), config.getColumn(), content);
-        // 拼接返回路径
-        String fileExtName = FileUtil.extName(path);
-        if(StrUtil.isEmpty(fileExtName)){
-            path = path.concat("." + type);
-        }
         return super.formatFileUrl(config.getDomain(), path);
     }
 
@@ -115,7 +113,9 @@ public class HbaseFileClient extends AbstractFileClient<HbaseFileClientConfig> {
     }
 
     private String getFileRowKey(String path) {
-        return FileUtil.mainName(path);
+        String filename = FileUtil.getName(path);
+        String md5 = MD5.create().digestHex16(filename);
+        return md5.concat(":").concat(filename);
     }
 
     private String getFileTable(String path) {
@@ -131,9 +131,11 @@ public class HbaseFileClient extends AbstractFileClient<HbaseFileClientConfig> {
             List<ColumnFamilyDescriptor> cfDesc = new ArrayList<>(columnFamily.size());
             // 给每个列族设置存活时间
             columnFamily.forEach(cf -> {
-                cfDesc.add(ColumnFamilyDescriptorBuilder.newBuilder(
-                        Bytes.toBytes(cf))
-                        .setTimeToLive(columnTimeToLive).build());
+                ColumnFamilyDescriptorBuilder columnFamilyDescriptorBuilder = ColumnFamilyDescriptorBuilder.newBuilder(Bytes.toBytes(cf));
+                if(ObjUtil.isNotEmpty(config.getColumnTimeToLive()) && config.getColumnTimeToLive() > 0){
+                    columnFamilyDescriptorBuilder.setTimeToLive(columnTimeToLive);
+                }
+                cfDesc.add(columnFamilyDescriptorBuilder.build());
             });
             // 表 table
             TableDescriptor tableDesc = TableDescriptorBuilder
@@ -142,15 +144,7 @@ public class HbaseFileClient extends AbstractFileClient<HbaseFileClientConfig> {
             if (admin.tableExists(TableName.valueOf(tableName))) {
                 log.debug("table Exists!");
             } else {
-                // 指定分区 0000000000000000000000 - 1990000000000000000000
-                String tmp;
-                byte[][] splitkey = new byte[200][22];
-                for (Integer i = 0; i <= 199; i++) {
-                    tmp = String.format("%03d", i) + "0000000000000000000";
-                    splitkey[i] = Bytes.toBytes(tmp);
-                }
-                // admin.createTable(tableDesc);
-                admin.createTable(tableDesc, splitkey);
+                admin.createTable(tableDesc, generateRowKeyPartition());
                 log.debug("create table Success!");
             }
         } catch (IOException e) {
@@ -160,6 +154,23 @@ public class HbaseFileClient extends AbstractFileClient<HbaseFileClientConfig> {
             close(admin, null, null);
         }
         return true;
+    }
+
+    /**
+     * TODO 根据需求调整此处的 预分区长度 一般取前两位 作为分区数 数量就够了
+     *  如果取前三位 则会有 4096个 分区
+     * 生成预分区键（取MD5前2位，范围：00到FF）
+     * 生成预分区键（取MD5前3位，范围：000到FFF）
+     */
+    private byte[][] generateRowKeyPartition() {
+        List<byte[]> splitKeys = new ArrayList<>();
+        for (int i = 0; i < 256; i++) {
+            // 将整数转换为2位十六进制字符串
+            String hex = String.format("%02X", i);
+            // 将十六进制字符串转换为字节数组
+            splitKeys.add(Bytes.toBytes(hex));
+        }
+        return splitKeys.toArray(new byte[0][]);
     }
 
     /**
@@ -250,7 +261,7 @@ public class HbaseFileClient extends AbstractFileClient<HbaseFileClientConfig> {
             // 如果表不存在 则创建表 tableExists-->如果表存在则返回true 所以如果返回true则不执行if内代码
             if (!admin.tableExists(TableName.valueOf(tableName))) {
                 log.info("表不存在，创建表！:[{}]", tableName);
-                creatTable(tableName, Collections.singletonList(familyName));
+                creatTable(tableName, Arrays.asList(familyName));
             }
             table = getTable(tableName);
             // 如果列族不存在则创建列族
@@ -312,9 +323,6 @@ public class HbaseFileClient extends AbstractFileClient<HbaseFileClientConfig> {
             }
         }
         if (rs != null) {
-            rs.close();
-        }
-        if (table != null) {
             rs.close();
         }
         if (table != null) {

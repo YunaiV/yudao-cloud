@@ -2,6 +2,7 @@ package cn.iocoder.yudao.framework.signature.core.aop;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.DigestUtil;
@@ -70,7 +71,7 @@ public class ApiSignatureAspect {
 
         // 3. 将 nonce 记入缓存，防止重复使用（重点二：此处需要将 ttl 设定为允许 timestamp 时间差的值 x 2 ）
         String nonce = request.getHeader(signature.nonce());
-        if (!signatureRedisDAO.setNonce(appId, nonce, signature.timeout() * 2, signature.timeUnit())) {
+        if (BooleanUtil.isFalse(signatureRedisDAO.setNonce(appId, nonce, signature.timeout() * 2, signature.timeUnit()))) {
             String timestamp = request.getHeader(signature.timestamp());
             log.info("[verifySignature][appId({}) timestamp({}) nonce({}) sign({}) 存在重复请求]", appId, timestamp, nonce, clientSignature);
             throw new ServiceException(GlobalErrorCodeConstants.REPEATED_REQUESTS.getCode(), "存在重复请求");

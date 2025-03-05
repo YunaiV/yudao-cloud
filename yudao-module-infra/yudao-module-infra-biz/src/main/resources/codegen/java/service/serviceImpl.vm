@@ -1,5 +1,6 @@
 package ${basePackage}.module.${table.moduleName}.service.${table.businessName};
 
+import cn.hutool.core.collection.CollUtil;
 import org.springframework.stereotype.Service;
 import ${jakartaPackage}.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
@@ -318,9 +319,16 @@ public class ${table.className}ServiceImpl implements ${table.className}Service 
     }
 
     private void update${subSimpleClassName}List(${primaryColumn.javaType} ${subJoinColumn.javaField}, List<${subTable.className}DO> list) {
-        delete${subSimpleClassName}By${SubJoinColumnName}(${subJoinColumn.javaField});
-		list.forEach(o -> o.setId(null).setUpdater(null).setUpdateTime(null)); // 解决更新情况下：1）id 冲突；2）updateTime 不更新
-        create${subSimpleClassName}List(${subJoinColumn.javaField}, list);
+        if (CollUtil.isEmpty(list)) return;
+##        delete${subSimpleClassName}By${SubJoinColumnName}(${subJoinColumn.javaField});
+##		list.forEach(o -> o.setId(null).setUpdater(null).setUpdateTime(null)); // 解决更新情况下：1）id 冲突；2）updateTime 不更新
+##        create${subSimpleClassName}List(${subJoinColumn.javaField}, list);
+        List<${subTable.className}DO> dbList = ${subClassNameVars.get($index)}Mapper.selectList(${subTable.className}DO::get${SubJoinColumnName}, ${subJoinColumn.javaField});
+
+        ${subClassNameVars.get($index)}Mapper.subListUpdateBatch(
+                ${subJoinColumn.javaField}, ${subTable.className}DO::setId,
+                list, dbList, ${subTable.className}DO::getId
+        );
     }
 
     #else

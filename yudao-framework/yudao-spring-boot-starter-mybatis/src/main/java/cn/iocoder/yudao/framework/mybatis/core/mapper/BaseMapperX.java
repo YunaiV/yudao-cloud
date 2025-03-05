@@ -5,6 +5,7 @@ import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.pojo.SortablePageParam;
 import cn.iocoder.yudao.framework.common.pojo.SortingField;
+import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
 import cn.iocoder.yudao.framework.mybatis.core.util.JdbcUtils;
 import cn.iocoder.yudao.framework.mybatis.core.util.MyBatisUtils;
 import com.baomidou.mybatisplus.annotation.DbType;
@@ -22,10 +23,17 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertSet;
 
 /**
  * 在 MyBatis Plus 的 BaseMapper 的基础上拓展，提供更多的能力
- *
+ * <p>
  * 1. {@link BaseMapper} 为 MyBatis Plus 的基础接口，提供基础的 CRUD 能力
  * 2. {@link MPJBaseMapper} 为 MyBatis Plus Join 的基础接口，提供连表 Join 能力
  */
@@ -187,6 +195,55 @@ public interface BaseMapperX<T> extends MPJBaseMapper<T> {
 
     default int delete(SFunction<T, ?> field, Object value) {
         return delete(new LambdaQueryWrapper<T>().eq(field, value));
+    }
+
+    /**
+     * 通用的子表批量更新方法(设置父级ID并清空更新人和更新时间)
+     *
+     * @param parentId       父级ID
+     * @param parentIdSetter 设置父级ID的函数
+     * @param newList        新的数据列表
+     * @param dbList         数据库中已存在的数据列表
+     * @param idGetter       子表获取ID的函数
+     * @param <ID>           ID类型
+     * @param <P>            父级ID类型
+     */
+    default <P, ID> void subListUpdateBatch(P parentId,
+                                            BiConsumer<T, P> parentIdSetter,
+                                            List<T> newList,
+                                            List<T> dbList,
+                                            Function<T, ID> idGetter) {
+        if (CollUtil.isEmpty(newList)) return;
+
+        // 设置父级ID和清空一些字段
+        newList.forEach(item -> {
+            parentIdSetter.accept(item, parentId);
+            if (item instanceof BaseDO) {
+                ((BaseDO) item).setUpdater(null).setUpdateTime(null); // 解决更新情况下：updateTime 不更新
+            }
+        });
+
+        Set<ID> dbIds = convertSet(dbList, idGetter);
+        Set<ID> ids = convertSet(newList, idGetter);
+
+        // 1. 带id的是需要修改的 2. 没有id的是需要添加的
+        // 根据是否有Id进行分类 (True: 需要更新  False: 需要新增)
+        Map<Boolean, List<T>> partitioned = newList.stream()
+                .collect(Collectors.partitioningBy(o -> idGetter.apply(o) != null));
+
+        // 3. 数据库存的比前端传多的数据需要删除
+        Collection<ID> deleteIds = CollUtil.subtract(dbIds, CollUtil.emptyIfNull(ids));
+
+        // 批量操作
+        if (CollUtil.isNotEmpty(partitioned.get(true))) {
+            updateBatch(partitioned.get(true));
+        }
+        if (CollUtil.isNotEmpty(partitioned.get(false))) {
+            insertBatch(partitioned.get(false));
+        }
+        if (CollUtil.isNotEmpty(deleteIds)) {
+            deleteByIds(deleteIds);
+        }
     }
 
 }

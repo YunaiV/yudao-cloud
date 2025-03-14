@@ -1,10 +1,9 @@
 package cn.iocoder.yudao.module.ai.controller.admin.model.vo.apikey;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import lombok.*;
+import java.util.*;
+import jakarta.validation.constraints.*;
 
 @Schema(description = "管理后台 - AI API 密钥新增/修改 Request VO")
 @Data

@@ -24,7 +24,7 @@
         <spring.cloud.alibaba.version>2021.0.6.2</spring.cloud.alibaba.version>
         <!-- Web 相关 -->
         <servlet.versoin>2.5</servlet.versoin>
-        <springdoc.version>1.7.0</springdoc.version>
+        <springdoc.version>1.8.0</springdoc.version>
         <knife4j.version>4.5.0</knife4j.version>
         <!-- DB 相关 -->
         <druid.version>1.2.24</druid.version>

@@ -24,8 +24,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static cn.iocoder.yudao.module.trade.enums.ErrorCodeConstants.EXPRESS_API_QUERY_ERROR;
 import static cn.iocoder.yudao.module.trade.enums.ErrorCodeConstants.EXPRESS_API_QUERY_FAILED;
+import static cn.iocoder.yudao.module.trade.enums.ErrorCodeConstants.EXPRESS_API_QUERY_ERROR;
 import static cn.iocoder.yudao.module.trade.framework.delivery.core.client.convert.ExpressQueryConvert.INSTANCE;
 
 /**
@@ -38,11 +38,6 @@ import static cn.iocoder.yudao.module.trade.framework.delivery.core.client.conve
 public class KdNiaoExpressClient implements ExpressClient {
 
     private static final String REAL_TIME_QUERY_URL = "https://api.kdniao.com/Ebusiness/EbusinessOrderHandle.aspx";
-
-    /**
-     * 快递鸟即时查询免费版 RequestType
-     */
-    private static final String REAL_TIME_FREE_REQ_TYPE = "1002";
 
     private final RestTemplate restTemplate;
     private final TradeExpressProperties.KdNiaoConfig config;
@@ -67,7 +62,7 @@ public class KdNiaoExpressClient implements ExpressClient {
                 && StrUtil.length(reqDTO.getPhone()) >= 4) {
             requestDTO.setCustomerName(StrUtil.subSufByLength(reqDTO.getPhone(), 4));
         }
-        KdNiaoExpressQueryRespDTO respDTO = httpRequest(REAL_TIME_QUERY_URL, REAL_TIME_FREE_REQ_TYPE,
+        KdNiaoExpressQueryRespDTO respDTO = httpRequest(REAL_TIME_QUERY_URL, config.getRequestType(),
                 requestDTO, KdNiaoExpressQueryRespDTO.class);
 
         // 处理结果

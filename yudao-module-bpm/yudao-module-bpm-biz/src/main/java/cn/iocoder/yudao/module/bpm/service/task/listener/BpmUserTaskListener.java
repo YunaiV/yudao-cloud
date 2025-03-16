@@ -12,7 +12,6 @@ import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.service.delegate.DelegateTask;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 
@@ -33,9 +32,6 @@ public class BpmUserTaskListener implements TaskListener {
 
     @Resource
     private BpmProcessInstanceService processInstanceService;
-
-    @Resource
-    private RestTemplate restTemplate;
 
     @Setter
     private FixedValue listenerConfig;
@@ -60,9 +56,7 @@ public class BpmUserTaskListener implements TaskListener {
                 listenerHandler.getPath(),
                 listenerHandler.getHeader(),
                 listenerHandler.getBody(),
-                false, null,
-                restTemplate,
-                processInstanceService);
+                false, null);
 
         // 3. 是否需要后续操作？TODO 芋艿：待定！
     }

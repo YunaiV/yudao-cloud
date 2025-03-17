@@ -170,6 +170,13 @@ spring:
             - Path=/admin-api/ai/**
           filters:
             - RewritePath=/admin-api/ai/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
+        ## iot-server 服务
+        - id: iot-admin-api # 路由的编号
+          uri: grayLb://iot-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/admin-api/iot/**
+          filters:
+            - RewritePath=/admin-api/iot/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
       x-forwarded:
         prefix-enabled: false # 避免 Swagger 重复带上额外的 /admin-api/system 前缀
 
@@ -224,6 +231,9 @@ knife4j:
       - name: ai-server
         service-name: ai-server
         url: /admin-api/ai/v3/api-docs
+      - name: iot-server
+        service-name: iot-server
+        url: /admin-api/iot/v3/api-docs
 
 --- #################### 芋道相关配置 ####################
 

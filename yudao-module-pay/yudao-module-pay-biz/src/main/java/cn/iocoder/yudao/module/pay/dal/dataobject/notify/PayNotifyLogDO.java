@@ -1,7 +1,7 @@
 package cn.iocoder.yudao.module.pay.dal.dataobject.notify;
 
-import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
 import cn.iocoder.yudao.module.pay.enums.notify.PayNotifyStatusEnum;
+import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
@@ -44,7 +44,7 @@ public class PayNotifyLogDO extends BaseDO {
     /**
      * 支付通知状态
      *
-     * 外键 {@link PayNotifyStatusEnum}
+     * 枚举 {@link PayNotifyStatusEnum}
      */
     private Integer status;
 

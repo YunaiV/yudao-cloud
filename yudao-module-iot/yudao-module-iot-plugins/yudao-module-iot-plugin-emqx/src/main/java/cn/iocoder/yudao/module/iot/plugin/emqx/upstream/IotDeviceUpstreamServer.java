@@ -108,7 +108,7 @@ public class IotDeviceUpstreamServer {
 
         // 3. 等待所有服务启动完成
         CompletableFuture.allOf(httpFuture, mqttFuture)
-                .orTimeout(CONNECTION_TIMEOUT_MS, TimeUnit.MILLISECONDS) // TODO @芋艿：JDK8 不兼容
+//                .orTimeout(CONNECTION_TIMEOUT_MS, TimeUnit.MILLISECONDS) // TODO @芋艿：JDK8 不兼容
                 .whenComplete((result, error) -> {
                     if (error != null) {
                         log.error("[start][服务启动失败]", error);

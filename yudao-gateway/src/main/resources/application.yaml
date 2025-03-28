@@ -5,6 +5,10 @@ spring:
   profiles:
     active: local
 
+  # 调整缓冲区大小,解决报错 org.springframework.core.io.buffer.DataBufferLimitException: Exceeded limit on max bytes to buffer : 262144
+  codec:
+    max-in-memory-size: 10MB
+
   main:
     allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
 

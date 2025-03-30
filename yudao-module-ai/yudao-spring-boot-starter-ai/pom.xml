@@ -15,6 +15,7 @@
     <description>AI 大模型拓展，接入国内外大模型</description>
     <properties>
         <spring-ai.version>1.0.0-M6</spring-ai.version>
+        <tinyflow.version>1.0.0-rc.3</tinyflow.version>
     </properties>
 
     <dependencies>
@@ -104,6 +105,13 @@
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-tika-document-reader</artifactId>
             <version>${spring-ai.version}</version>
+        </dependency>
+
+        <!-- TinyFlow：AI 工作流 -->
+        <dependency>
+            <groupId>dev.tinyflow</groupId>
+            <artifactId>tinyflow-java-core</artifactId>
+            <version>${tinyflow.version}</version>
         </dependency>
 
         <!-- Test 测试相关 -->

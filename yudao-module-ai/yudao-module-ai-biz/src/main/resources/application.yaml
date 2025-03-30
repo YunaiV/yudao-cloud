@@ -169,15 +169,19 @@ yudao:
       appKey: 75b161ed2aef4719b275d6e7f2a4d4cd
       secretKey: YWYxYWI2MTA4ODI2NGZlYTQyNjAzZTcz
       model: generalv3.5
+    baichuan: # 百川智能
+      enable: true
+      api-key: sk-abc
+      model: Baichuan4-Turbo
     midjourney:
       enable: true
-      #    base-url: https://api.holdai.top/mj-relax/mj
+  #    base-url: https://api.holdai.top/mj-relax/mj
       base-url: https://api.holdai.top/mj
       api-key: sk-dZEPiVaNcT3FHhef51996bAa0bC74806BeAb620dA5Da10Bf
       notify-url: http://java.nat300.top/admin-api/ai/image/midjourney/notify
     suno:
       enable: true
-      #    base-url: https://suno-55ishh05u-status2xxs-projects.vercel.app
+  #    base-url: https://suno-55ishh05u-status2xxs-projects.vercel.app
       base-url: http://127.0.0.1:3001
 
 --- #################### 芋道相关配置 ####################

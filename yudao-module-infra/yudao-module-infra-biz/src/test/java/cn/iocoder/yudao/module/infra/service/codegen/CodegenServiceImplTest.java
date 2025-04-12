@@ -34,7 +34,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildBetweenTime;
 import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildTime;
 import static cn.iocoder.yudao.framework.common.util.object.ObjectUtils.cloneIgnoreId;
@@ -100,13 +99,13 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
         when(codegenBuilder.buildTable(same(tableInfo))).thenReturn(table);
         // mock 方法（AdminUserRespDTO）
         AdminUserRespDTO user = randomPojo(AdminUserRespDTO.class, o -> o.setNickname("芋头"));
-        when(userApi.getUser(eq(userId))).thenReturn(success(user));
+        when(userApi.getUser(eq(userId))).thenReturn(user);
         // mock 方法（CodegenColumnDO）
         List<CodegenColumnDO> columns = randomPojoList(CodegenColumnDO.class);
         when(codegenBuilder.buildColumns(eq(table.getId()), same(fields)))
                 .thenReturn(columns);
         // mock 方法（CodegenProperties）
-        when(codegenProperties.getFrontType()).thenReturn(CodegenFrontTypeEnum.VUE3.getType());
+        when(codegenProperties.getFrontType()).thenReturn(CodegenFrontTypeEnum.VUE3_ELEMENT_PLUS.getType());
 
         // 调用
         List<Long> result = codegenService.createCodegenList(userId, reqVO);
@@ -117,7 +116,7 @@ public class CodegenServiceImplTest extends BaseDbUnitTest {
         assertPojoEquals(table, dbTable);
         assertEquals(1L, dbTable.getDataSourceConfigId());
         assertEquals(CodegenSceneEnum.ADMIN.getScene(), dbTable.getScene());
-        assertEquals(CodegenFrontTypeEnum.VUE3.getType(), dbTable.getFrontType());
+        assertEquals(CodegenFrontTypeEnum.VUE3_ELEMENT_PLUS.getType(), dbTable.getFrontType());
         assertEquals("芋头", dbTable.getAuthor());
         // 断言（CodegenColumnDO）
         List<CodegenColumnDO> dbColumns = codegenColumnMapper.selectList();

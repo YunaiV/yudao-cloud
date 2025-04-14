@@ -95,6 +95,23 @@ public class TenantServiceImpl implements TenantService {
     }
 
     @Override
+    public void validBuiltInSystem(Long id) {
+        TenantDO tenant = getTenant(id);
+        if (tenant == null) {
+            throw exception(TENANT_NOT_EXISTS);
+        }
+        if (tenant.getPackageId() != TenantDO.PACKAGE_ID_SYSTEM) {
+            throw exception(TENANT_NOT_BUILT_IN_SYSTEM, tenant.getName());
+        }
+        if (tenant.getStatus().equals(CommonStatusEnum.DISABLE.getStatus())) {
+            throw exception(TENANT_DISABLE, tenant.getName());
+        }
+        if (DateUtils.isExpired(tenant.getExpireTime())) {
+            throw exception(TENANT_EXPIRE, tenant.getName());
+        }
+    }
+
+    @Override
     @DSTransactional // 多数据源，使用 @DSTransactional 保证本地事务，以及数据源的切换
     public Long createTenant(TenantSaveReqVO createReqVO) {
         // 校验租户名称是否重复

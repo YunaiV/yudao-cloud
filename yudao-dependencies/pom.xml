@@ -81,7 +81,8 @@
         <commons-io.version>2.17.0</commons-io.version>
         <commons-compress.version>1.27.1</commons-compress.version>
         <awssdk.version>2.30.14</awssdk.version>
-        <justauth.version>1.0.8</justauth.version>
+        <justauth.version>1.16.7</justauth.version>
+        <justauth-starter.version>1.4.0</justauth-starter.version>
         <jimureport.version>1.7.8</jimureport.version>
         <weixin-java.version>4.7.2.B</weixin-java.version>
         <!-- 专属于 JDK8 安全漏洞升级 -->
@@ -583,22 +584,6 @@
             </dependency>
 
             <dependency>
-                <groupId>cn.smallbun.screw</groupId>
-                <artifactId>screw-core</artifactId> <!-- 实现数据库文档 -->
-                <version>${screw.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.freemarker</groupId>
-                        <artifactId>freemarker</artifactId> <!-- 移除 Freemarker 依赖，采用 Velocity 作为模板引擎 -->
-                    </exclusion>
-                    <exclusion>
-                        <groupId>com.alibaba</groupId>
-                        <artifactId>fastjson</artifactId> <!-- 最新版screw-core1.0.5依赖fastjson1.2.73存在漏洞，移除。 -->
-                    </exclusion>
-                </exclusions>
-            </dependency>
-
-            <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
@@ -669,15 +654,14 @@
             </dependency>
 
             <dependency>
-                <groupId>com.xingyuv</groupId>
-                <artifactId>spring-boot-starter-justauth</artifactId> <!-- 社交登陆（例如说，个人微信、企业微信等等） -->
+                <groupId>me.zhyd.oauth</groupId>
+                <artifactId>JustAuth</artifactId> <!-- 社交登陆（例如说，个人微信、企业微信等等） -->
                 <version>${justauth.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>cn.hutool</groupId>
-                        <artifactId>hutool-core</artifactId>
-                    </exclusion>
-                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.xkcoding.justauth</groupId>
+                <artifactId>justauth-spring-boot-starter</artifactId>
+                <version>${justauth-starter.version}</version>
             </dependency>
 
             <!-- 积木报表-->

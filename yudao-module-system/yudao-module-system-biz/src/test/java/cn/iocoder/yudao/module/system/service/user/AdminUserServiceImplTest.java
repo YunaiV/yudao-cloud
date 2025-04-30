@@ -213,6 +213,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         UserProfileUpdateReqVO reqVO = randomPojo(UserProfileUpdateReqVO.class, o -> {
             o.setMobile(randomString());
             o.setSex(RandomUtil.randomEle(SexEnum.values()).getSex());
+            o.setAvatar(randomURL());
         });
 
         // 调用

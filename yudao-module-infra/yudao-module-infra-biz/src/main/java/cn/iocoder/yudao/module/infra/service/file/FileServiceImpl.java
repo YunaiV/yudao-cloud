@@ -16,7 +16,7 @@ import cn.iocoder.yudao.module.infra.framework.file.core.client.FileClient;
 import cn.iocoder.yudao.module.infra.framework.file.core.client.s3.FilePresignedUrlRespDTO;
 import cn.iocoder.yudao.module.infra.framework.file.core.utils.FileTypeUtils;
 import com.google.common.annotations.VisibleForTesting;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 

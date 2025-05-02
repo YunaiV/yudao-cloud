@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.validation.Valid;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+
+import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertMap;
 
 @FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
 @Tag(name = "RPC 服务 - 商品 SKU")
@@ -32,6 +35,16 @@ public interface ProductSkuApi {
     @Operation(summary = "批量查询 SKU 信息")
     @Parameter(name = "ids", description = "SKU 编号列表", required = true, example = "1024,2048")
     CommonResult<List<ProductSkuRespDTO>> getSkuList(@RequestParam("ids") Collection<Long> ids);
+
+    /**
+     * 批量查询 SKU MAP
+     *
+     * @param ids SKU 编号列表
+     * @return SKU MAP
+     */
+    default Map<Long, ProductSkuRespDTO> getSkuMap(Collection<Long> ids) {
+        return convertMap(getSkuList(ids).getCheckedData(), ProductSkuRespDTO::getId);
+    }
 
     @GetMapping(PREFIX + "/list-by-spu-id")
     @Operation(summary = "批量查询 SKU 信息")

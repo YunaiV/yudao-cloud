@@ -30,6 +30,9 @@ public class SecurityConfiguration {
                 registry.requestMatchers("/druid/**").permitAll();
                 // 积木报表
                 registry.requestMatchers("/jmreport/**").permitAll();
+                // 积木仪表盘
+                registry.requestMatchers("/drag/**").permitAll();
+                registry.requestMatchers("/jimubi/**").permitAll();
             }
 
         };

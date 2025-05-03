@@ -17,11 +17,11 @@
         <revision>2.4.2-SNAPSHOT</revision>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
         <!-- 统一依赖管理 -->
-        <spring.boot.version>3.4.1</spring.boot.version>
-        <spring.cloud.version>2024.0.0</spring.cloud.version>
+        <spring.boot.version>3.4.5</spring.boot.version>
+        <spring.cloud.version>2024.0.1</spring.cloud.version>
         <spring.cloud.alibaba.version>2023.0.3.2</spring.cloud.alibaba.version>
         <!-- Web 相关 -->
-        <springdoc.version>2.7.0</springdoc.version>
+        <springdoc.version>2.8.3</springdoc.version>
         <knife4j.version>4.6.0</knife4j.version>
         <!-- DB 相关 -->
         <druid.version>1.2.24</druid.version>
@@ -36,7 +36,7 @@
         <opengauss.jdbc.version>5.1.0</opengauss.jdbc.version>
         <taos.version>3.3.3</taos.version>
         <!-- 消息队列 -->
-        <rocketmq-spring.version>2.3.1</rocketmq-spring.version>
+        <rocketmq-spring.version>2.3.2</rocketmq-spring.version>
         <!-- RPC 相关 -->
         <!-- Config 配置中心相关 -->
         <!-- Job 定时任务相关 -->
@@ -45,7 +45,7 @@
         <lock4j.version>2.2.7</lock4j.version>
         <!-- 监控相关 -->
         <skywalking.version>9.0.0</skywalking.version>
-        <spring-boot-admin.version>3.4.1</spring-boot-admin.version>
+        <spring-boot-admin.version>3.4.5</spring-boot-admin.version>
         <opentracing.version>0.33.0</opentracing.version>
         <!-- Test 测试相关 -->
         <podam.version>8.0.2.RELEASE</podam.version>

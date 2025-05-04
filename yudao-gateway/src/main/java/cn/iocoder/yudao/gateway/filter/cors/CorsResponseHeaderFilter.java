@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +34,7 @@ public class CorsResponseHeaderFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         return chain.filter(exchange).then(Mono.defer(() -> {
+            // https://gitee.com/zhijiantianya/yudao-cloud/pulls/177/
             List<String> keysToModify = exchange.getResponse().getHeaders().entrySet().stream()
                     .filter(kv -> (kv.getValue() != null && kv.getValue().size() > 1))
                     .filter(kv -> (kv.getKey().equals(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN)

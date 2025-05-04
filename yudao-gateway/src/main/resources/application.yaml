@@ -5,9 +5,16 @@ spring:
   profiles:
     active: local
 
-  # 调整缓冲区大小,解决报错 org.springframework.core.io.buffer.DataBufferLimitException: Exceeded limit on max bytes to buffer : 262144
   codec:
-    max-in-memory-size: 10MB
+    max-in-memory-size: 10MB # 调整缓冲区大小https://gitee.com/zhijiantianya/yudao-cloud/pulls/176
+
+  # Jackson 配置项
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true # 设置 LocalDateTime 的格式，使用时间戳
+      write-date-timestamps-as-nanoseconds: false # 设置不使用 nanoseconds 的格式。例如说 1611460870.401，而是直接 1611460870401
+      write-durations-as-timestamps: true # 设置 Duration 的格式，使用时间戳
+      fail-on-empty-beans: false # 允许序列化无属性的 Bean
 
   main:
     allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。

@@ -5,7 +5,7 @@ import cn.iocoder.yudao.module.member.api.user.MemberUserApi;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration(proxyBeanMethods = false)
+@Configuration(value = "productRpcConfiguration", proxyBeanMethods = false)
 @EnableFeignClients(clients = {MemberUserApi.class, MemberLevelApi.class})
 public class RpcConfiguration {
 }

@@ -28,7 +28,7 @@ import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration(proxyBeanMethods = false)
+@Configuration(value = "tradeRpcConfiguration", proxyBeanMethods = false)
 @EnableFeignClients(clients = {
         BargainActivityApi.class, BargainRecordApi.class, CombinationRecordApi.class,
         CouponApi.class, DiscountActivityApi.class, RewardActivityApi.class, SeckillActivityApi.class, PointActivityApi.class,

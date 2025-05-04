@@ -7,7 +7,7 @@ import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration(proxyBeanMethods = false)
+@Configuration(value = "crmRpcConfiguration", proxyBeanMethods = false)
 @EnableFeignClients(clients = {AdminUserApi.class, DeptApi.class, PostApi.class,
         BpmProcessInstanceApi.class})
 public class RpcConfiguration {

@@ -11,6 +11,8 @@
         <module>yudao-dependencies</module>
         <module>yudao-gateway</module>
         <module>yudao-framework</module>
+        <!-- Server 主项目 -->
+        <module>yudao-server</module>
         <!--  各种 module 拓展 -->
         <module>yudao-module-system</module>
         <module>yudao-module-infra</module>

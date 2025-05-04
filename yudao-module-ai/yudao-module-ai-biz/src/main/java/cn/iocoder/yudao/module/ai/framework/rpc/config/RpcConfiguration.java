@@ -6,7 +6,7 @@ import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration(proxyBeanMethods = false)
+@Configuration(value = "aiRpcConfiguration", proxyBeanMethods = false)
 @EnableFeignClients(clients = {DictDataApi.class, FileApi.class, AdminUserApi.class})
 public class RpcConfiguration {
 }

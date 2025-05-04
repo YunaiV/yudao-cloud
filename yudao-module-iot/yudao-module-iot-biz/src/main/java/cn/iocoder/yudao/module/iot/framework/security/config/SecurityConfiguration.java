@@ -8,12 +8,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 
 /**
- * Erp 模块的 Security 配置
+ * IoT 模块的 Security 配置
  */
-@Configuration("erpSecurityConfiguration")
+@Configuration("iotSecurityConfiguration")
 public class SecurityConfiguration {
 
-    @Bean("erpAuthorizeRequestsCustomizer")
+    @Bean("iotAuthorizeRequestsCustomizer")
     public AuthorizeRequestsCustomizer authorizeRequestsCustomizer() {
         return new AuthorizeRequestsCustomizer() {
 

@@ -13,7 +13,8 @@ public interface MailAccountMapper extends BaseMapperX<MailAccountDO> {
     default PageResult<MailAccountDO> selectPage(MailAccountPageReqVO pageReqVO) {
         return selectPage(pageReqVO, new LambdaQueryWrapperX<MailAccountDO>()
                 .likeIfPresent(MailAccountDO::getMail, pageReqVO.getMail())
-                .likeIfPresent(MailAccountDO::getUsername , pageReqVO.getUsername()));
+                .likeIfPresent(MailAccountDO::getUsername , pageReqVO.getUsername())
+                .orderByDesc(MailAccountDO::getId));
     }
 
 }

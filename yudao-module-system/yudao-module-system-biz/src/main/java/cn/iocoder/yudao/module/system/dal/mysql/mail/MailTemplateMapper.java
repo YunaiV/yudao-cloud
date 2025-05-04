@@ -16,7 +16,8 @@ public interface MailTemplateMapper extends BaseMapperX<MailTemplateDO> {
                 .likeIfPresent(MailTemplateDO::getCode, pageReqVO.getCode())
                 .likeIfPresent(MailTemplateDO::getName, pageReqVO.getName())
                 .eqIfPresent(MailTemplateDO::getAccountId, pageReqVO.getAccountId())
-                .betweenIfPresent(MailTemplateDO::getCreateTime, pageReqVO.getCreateTime()));
+                .betweenIfPresent(MailTemplateDO::getCreateTime, pageReqVO.getCreateTime())
+                .orderByDesc(MailTemplateDO::getId));
     }
 
     default Long selectCountByAccountId(Long accountId) {

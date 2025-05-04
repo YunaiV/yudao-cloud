@@ -135,6 +135,13 @@
         <dependency>
             <groupId>com.xkcoding.justauth</groupId>
             <artifactId>justauth-spring-boot-starter</artifactId>
+            <exclusions>
+                <!-- 移除，避免和项目里的 hutool-all 冲突 -->
+                <exclusion>
+                    <groupId>cn.hutool</groupId>
+                    <artifactId>hutool-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

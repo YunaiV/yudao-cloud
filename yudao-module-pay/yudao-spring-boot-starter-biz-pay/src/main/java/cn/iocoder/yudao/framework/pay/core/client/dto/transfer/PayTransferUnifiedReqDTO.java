@@ -2,18 +2,18 @@ package cn.iocoder.yudao.framework.pay.core.client.dto.transfer;
 
 import cn.iocoder.yudao.framework.common.validation.InEnum;
 import cn.iocoder.yudao.framework.pay.core.enums.transfer.PayTransferTypeEnum;
-import lombok.Data;
-import org.hibernate.validator.constraints.Length;
-
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.URL;
 
 import java.util.Map;
 
-import static cn.iocoder.yudao.framework.pay.core.enums.transfer.PayTransferTypeEnum.*;
+import static cn.iocoder.yudao.framework.pay.core.enums.transfer.PayTransferTypeEnum.Alipay;
+import static cn.iocoder.yudao.framework.pay.core.enums.transfer.PayTransferTypeEnum.WxPay;
 
 /**
  * 统一转账 Request DTO

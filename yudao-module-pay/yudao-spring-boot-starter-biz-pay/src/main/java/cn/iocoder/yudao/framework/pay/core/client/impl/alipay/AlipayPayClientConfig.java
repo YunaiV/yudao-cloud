@@ -2,11 +2,10 @@ package cn.iocoder.yudao.framework.pay.core.client.impl.alipay;
 
 import cn.iocoder.yudao.framework.common.util.validation.ValidationUtils;
 import cn.iocoder.yudao.framework.pay.core.client.PayClientConfig;
-import lombok.Data;
-
 import jakarta.validation.Validator;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 /**
  * 支付宝的 PayClientConfig 实现类

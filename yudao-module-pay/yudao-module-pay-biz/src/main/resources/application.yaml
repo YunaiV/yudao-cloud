@@ -120,6 +120,5 @@ yudao:
   tenant: # 多租户相关配置项
     enable: true
     ignore-urls:
-      - /admin-api/pay/notify/** # 支付回调通知，不携带租户编号
 
 debug: false

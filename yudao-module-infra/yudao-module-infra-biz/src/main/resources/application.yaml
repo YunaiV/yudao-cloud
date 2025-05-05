@@ -166,15 +166,5 @@ yudao:
     enable: true
     ignore-urls:
     ignore-tables:
-      - infra_codegen_column
-      - infra_codegen_table
-      - infra_config
-      - infra_file_config
-      - infra_file
-      - infra_file_content
-      - infra_job
-      - infra_job_log
-      - infra_job_log
-      - infra_data_source_config
 
 debug: false

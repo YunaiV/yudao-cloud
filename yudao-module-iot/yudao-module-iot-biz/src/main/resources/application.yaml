@@ -147,8 +147,6 @@ yudao:
     enable: true
     ignore-urls:
     ignore-tables:
-      - iot_plugin_info
-      - iot_plugin_instance
     ignore-caches:
       - iot:device
       - iot:thing_model_list

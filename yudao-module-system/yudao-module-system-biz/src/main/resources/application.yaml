@@ -165,6 +165,9 @@ yudao:
   tenant: # 多租户相关配置项
     enable: true
     ignore-urls:
+    ignore-visit-urls:
+      - /admin-api/system/user/profile/**
+      - /admin-api/system/auth/**
     ignore-tables:
     ignore-caches:
       - user_role_ids

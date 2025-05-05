@@ -16,6 +16,7 @@ import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildCache;
 import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
+import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.skipPermissionCheck;
 
 /**
  * 默认的 {@link SecurityFrameworkService} 实现类
@@ -63,6 +64,12 @@ public class SecurityFrameworkServiceImpl implements SecurityFrameworkService {
     @Override
     @SneakyThrows
     public boolean hasAnyPermissions(String... permissions) {
+        // 特殊：跨租户访问
+        if (skipPermissionCheck()) {
+            return true;
+        }
+
+        // 权限校验
         Long userId = getLoginUserId();
         if (userId == null) {
             return false;
@@ -78,6 +85,12 @@ public class SecurityFrameworkServiceImpl implements SecurityFrameworkService {
     @Override
     @SneakyThrows
     public boolean hasAnyRoles(String... roles) {
+        // 特殊：跨租户访问
+        if (skipPermissionCheck()) {
+            return true;
+        }
+
+        // 权限校验
         Long userId = getLoginUserId();
         if (userId == null) {
             return false;
@@ -92,6 +105,12 @@ public class SecurityFrameworkServiceImpl implements SecurityFrameworkService {
 
     @Override
     public boolean hasAnyScopes(String... scope) {
+        // 特殊：跨租户访问
+        if (skipPermissionCheck()) {
+            return true;
+        }
+
+        // 权限校验
         LoginUser user = SecurityFrameworkUtils.getLoginUser();
         if (user == null) {
             return false;

@@ -41,7 +41,7 @@ public class MPJLambdaWrapperX<T> extends MPJLambdaWrapper<T> {
     }
 
     public <S> MPJLambdaWrapperX<T> eqIfPresent(SFunction<S, ?> column, Object val) {
-        if (val != null) {
+        if (ObjectUtil.isNotEmpty(val)) {
             return (MPJLambdaWrapperX<T>) super.eq(column, val);
         }
         return this;

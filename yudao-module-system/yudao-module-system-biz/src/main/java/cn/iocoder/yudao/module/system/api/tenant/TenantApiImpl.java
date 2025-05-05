@@ -26,7 +26,7 @@ public class TenantApiImpl implements TenantApi {
     }
 
     @Override
-    @GetMapping // 获得租户列表的时候，无需传递租户编号
+    @TenantIgnore // 获得租户列表的时候，无需传递租户编号
     public CommonResult<Boolean> validTenant(Long id) {
         tenantService.validTenant(id);
         return success(true);

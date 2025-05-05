@@ -313,14 +313,22 @@ public class ${table.className}ServiceImpl implements ${table.className}Service 
 #else
     #if ( $subTable.subJoinMany)
     private void create${subSimpleClassName}List(${primaryColumn.javaType} ${subJoinColumn.javaField}, List<${subTable.className}DO> list) {
+        if (list == null) return;
         list.forEach(o -> o.set$SubJoinColumnName(${subJoinColumn.javaField}));
         ${subClassNameVars.get($index)}Mapper.insertBatch(list);
     }
 
     private void update${subSimpleClassName}List(${primaryColumn.javaType} ${subJoinColumn.javaField}, List<${subTable.className}DO> list) {
-        delete${subSimpleClassName}By${SubJoinColumnName}(${subJoinColumn.javaField});
-		list.forEach(o -> o.setId(null).setUpdater(null).setUpdateTime(null)); // 解决更新情况下：1）id 冲突；2）updateTime 不更新
-        create${subSimpleClassName}List(${subJoinColumn.javaField}, list);
+        if (list == null) return;
+##        delete${subSimpleClassName}By${SubJoinColumnName}(${subJoinColumn.javaField});
+##		list.forEach(o -> o.setId(null).setUpdater(null).setUpdateTime(null)); // 解决更新情况下：1）id 冲突；2）updateTime 不更新
+##        create${subSimpleClassName}List(${subJoinColumn.javaField}, list);
+        List<${subTable.className}DO> dbList = ${subClassNameVars.get($index)}Mapper.selectList(${subTable.className}DO::get${SubJoinColumnName}, ${subJoinColumn.javaField});
+
+        ${subClassNameVars.get($index)}Mapper.subListUpdateBatch(
+                ${subJoinColumn.javaField}, ${subTable.className}DO::setId,
+                list, dbList, ${subTable.className}DO::getId
+        );
     }
 
     #else

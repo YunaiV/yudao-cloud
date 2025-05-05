@@ -165,25 +165,7 @@ yudao:
   tenant: # 多租户相关配置项
     enable: true
     ignore-urls:
-#      - /rpc-api/system/tenant/valid # 防止递归。避免调用 /rpc-api/system/tenant/valid 接口时，又去触发 /rpc-api/system/tenant/valid 去校验
-#      - /rpc-api/system/tenant/id-list # 获得租户列表的时候，无需传递租户编号
-#      - /rpc-api/system/oauth2/token/check # 访问令牌校验时，无需传递租户编号；主要解决上传文件的场景，前端不会传递 tenant-id！
     ignore-tables:
-      - system_tenant
-      - system_tenant_package
-      - system_dict_data
-      - system_dict_type
-      - system_error_code
-      - system_menu
-      - system_sms_channel
-      - system_sms_template
-      - system_sms_log
-      - system_sensitive_word
-      - system_oauth2_client
-      - system_mail_account
-      - system_mail_template
-      - system_mail_log
-      - system_notify_template
     ignore-caches:
       - user_role_ids
       - permission_menu_ids

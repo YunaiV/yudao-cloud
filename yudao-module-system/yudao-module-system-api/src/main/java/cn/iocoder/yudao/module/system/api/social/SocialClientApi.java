@@ -64,4 +64,20 @@ public interface SocialClientApi {
     @Operation(summary = "发送微信小程序订阅消息")
     CommonResult<Boolean> sendWxaSubscribeMessage(@Valid @RequestBody SocialWxaSubscribeMessageSendReqDTO reqDTO);
 
+    /**
+     * 上传订单发货到微信小程序
+     *
+     * @param userType 用户类型
+     * @param reqDTO 请求
+     */
+    @PostMapping(PREFIX + "/upload-wxa-order-shipping-info")
+    @Operation(summary = "上传订单发货到微信小程序")
+    CommonResult<Boolean> uploadWxaOrderShippingInfo(@RequestParam("userType") Integer userType,
+                                                     @Valid @RequestBody SocialWxaOrderUploadShippingInfoReqDTO reqDTO);
+
+    @PostMapping(PREFIX + "/notify-wxa-order-confirm-receive")
+    @Operation(summary = "通知订单收货到微信小程序")
+    CommonResult<Boolean>  notifyWxaOrderConfirmReceive(@RequestParam("userType") Integer userType,
+                                                        @Valid @RequestBody SocialWxaOrderNotifyConfirmReceiveReqDTO reqDTO);
+
 }

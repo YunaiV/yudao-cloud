@@ -2,9 +2,9 @@ package cn.iocoder.yudao.framework.pay.core.client.impl.alipay;
 
 import cn.iocoder.yudao.framework.common.util.validation.ValidationUtils;
 import cn.iocoder.yudao.framework.pay.core.client.PayClientConfig;
-import jakarta.validation.Validator;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.Validator;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 /**

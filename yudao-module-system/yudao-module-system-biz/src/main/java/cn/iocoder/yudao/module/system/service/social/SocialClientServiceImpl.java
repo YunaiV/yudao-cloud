@@ -314,6 +314,28 @@ public class SocialClientServiceImpl implements SocialClientService {
         }
     }
 
+    /**
+     * 构建发送消息请求参数
+     *
+     * @param reqDTO     请求
+     * @param templateId 模版编号
+     * @param openId     会员 openId
+     * @return 微信小程序订阅消息请求参数
+     */
+    private WxMaSubscribeMessage buildMessageSendReqDTO(SocialWxaSubscribeMessageSendReqDTO reqDTO,
+                                                        String templateId, String openId) {
+        // 设置订阅消息基本参数
+        WxMaSubscribeMessage subscribeMessage = new WxMaSubscribeMessage().setLang(WxMaConstants.MiniProgramLang.ZH_CN)
+                .setMiniprogramState(miniprogramState).setTemplateId(templateId).setToUser(openId).setPage(reqDTO.getPage());
+        // 设置具体消息参数
+        Map<String, String> messages = reqDTO.getMessages();
+        if (CollUtil.isNotEmpty(messages)) {
+            reqDTO.getMessages().keySet().forEach(key -> findAndThen(messages, key, value ->
+                    subscribeMessage.addData(new WxMaSubscribeMessage.MsgData(key, value))));
+        }
+        return subscribeMessage;
+    }
+
     @Override
     public void uploadWxaOrderShippingInfo(Integer userType, SocialWxaOrderUploadShippingInfoReqDTO reqDTO) {
         WxMaService service = getWxMaService(userType);
@@ -370,28 +392,6 @@ public class SocialClientServiceImpl implements SocialClientService {
             log.error("[notifyWxaOrderConfirmReceive][确认收货提醒到微信小程序失败：request({})]", request, ex);
             throw exception(SOCIAL_CLIENT_WEIXIN_MINI_APP_ORDER_NOTIFY_CONFIRM_RECEIVE_ERROR, ex.getError().getErrorMsg());
         }
-    }
-
-    /**
-     * 构建发送消息请求参数
-     *
-     * @param reqDTO     请求
-     * @param templateId 模版编号
-     * @param openId     会员 openId
-     * @return 微信小程序订阅消息请求参数
-     */
-    private WxMaSubscribeMessage buildMessageSendReqDTO(SocialWxaSubscribeMessageSendReqDTO reqDTO,
-                                                        String templateId, String openId) {
-        // 设置订阅消息基本参数
-        WxMaSubscribeMessage subscribeMessage = new WxMaSubscribeMessage().setLang(WxMaConstants.MiniProgramLang.ZH_CN)
-                .setMiniprogramState(miniprogramState).setTemplateId(templateId).setToUser(openId).setPage(reqDTO.getPage());
-        // 设置具体消息参数
-        Map<String, String> messages = reqDTO.getMessages();
-        if (CollUtil.isNotEmpty(messages)) {
-            reqDTO.getMessages().keySet().forEach(key -> findAndThen(messages, key, value ->
-                    subscribeMessage.addData(new WxMaSubscribeMessage.MsgData(key, value))));
-        }
-        return subscribeMessage;
     }
 
     /**

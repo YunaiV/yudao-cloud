@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.pay.service.demo;
 
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
@@ -231,7 +232,7 @@ public class PayDemoOrderServiceImpl implements PayDemoOrderService {
             throw exception(DEMO_ORDER_NOT_FOUND);
         }
         // 1.2 校验退款订单匹配
-        if (Objects.equals(order.getPayRefundId(), payRefundId)) {
+        if (ObjUtil.notEqual(order.getPayRefundId(), payRefundId)) {
             log.error("[validateDemoOrderCanRefunded][order({}) 退款单不匹配({})，请进行处理！order 数据是：{}]",
                     id, payRefundId, toJsonString(order));
             throw exception(DEMO_ORDER_REFUND_FAIL_REFUND_ORDER_ID_ERROR);

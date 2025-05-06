@@ -96,4 +96,16 @@ public class SocialClientApiImpl implements SocialClientApi {
         return success(true);
     }
 
+    @Override
+    public CommonResult<Boolean> uploadWxaOrderShippingInfo(Integer userType, SocialWxaOrderUploadShippingInfoReqDTO reqDTO) {
+        socialClientService.uploadWxaOrderShippingInfo(userType, reqDTO);
+        return success(true);
+    }
+
+    @Override
+    public CommonResult<Boolean> notifyWxaOrderConfirmReceive(Integer userType, SocialWxaOrderNotifyConfirmReceiveReqDTO reqDTO) {
+        socialClientService.notifyWxaOrderConfirmReceive(userType, reqDTO);
+        return success(true);
+    }
+
 }

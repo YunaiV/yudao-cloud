@@ -2,7 +2,10 @@ package cn.iocoder.yudao.module.pay.api.notify.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 转账单的通知 Request DTO
@@ -10,6 +13,9 @@ import lombok.Data;
  * @author jason
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PayTransferNotifyReqDTO {
 
     /**
@@ -23,4 +29,5 @@ public class PayTransferNotifyReqDTO {
      */
     @NotNull(message = "转账订单编号不能为空")
     private Long payTransferId;
+
 }

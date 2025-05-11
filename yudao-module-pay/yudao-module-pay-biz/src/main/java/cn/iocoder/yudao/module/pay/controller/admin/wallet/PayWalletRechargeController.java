@@ -7,12 +7,13 @@ import cn.iocoder.yudao.module.pay.service.wallet.PayWalletRechargeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
-import jakarta.annotation.security.PermitAll;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.annotation.Resource;
+import jakarta.annotation.security.PermitAll;
+import jakarta.validation.Valid;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.common.util.servlet.ServletUtils.getClientIP;
@@ -36,8 +37,7 @@ public class PayWalletRechargeController {
         return success(true);
     }
 
-    // TODO @jason：发起退款，要 post 操作哈；
-    @GetMapping("/refund")
+    @PostMapping("/refund")
     @Operation(summary = "发起钱包充值退款")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     public CommonResult<Boolean> refundWalletRecharge(@RequestParam("id") Long id) {
@@ -50,7 +50,9 @@ public class PayWalletRechargeController {
     @PermitAll // 无需登录， 内部校验实现
     public CommonResult<Boolean> updateWalletRechargeRefunded(@RequestBody PayRefundNotifyReqDTO notifyReqDTO) {
         walletRechargeService.updateWalletRechargeRefunded(
-                Long.valueOf(notifyReqDTO.getMerchantOrderId()), notifyReqDTO.getPayRefundId());
+                Long.valueOf(notifyReqDTO.getMerchantOrderId()),
+                Long.valueOf(notifyReqDTO.getMerchantRefundId()),
+                notifyReqDTO.getPayRefundId());
         return success(true);
     }
 

@@ -2,6 +2,7 @@ package cn.iocoder.yudao.module.pay.api.transfer;
 
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.pay.api.transfer.dto.PayTransferCreateReqDTO;
+import cn.iocoder.yudao.module.pay.api.transfer.dto.PayTransferCreateRespDTO;
 import cn.iocoder.yudao.module.pay.api.transfer.dto.PayTransferRespDTO;
 import cn.iocoder.yudao.module.pay.enums.ApiConstants;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,7 +24,7 @@ public interface PayTransferApi {
 
     @PostMapping(PREFIX + "/create")
     @Operation(summary = "创建转账单")
-    CommonResult<Long> createTransfer(@Valid @RequestBody PayTransferCreateReqDTO reqDTO);
+    CommonResult<PayTransferCreateRespDTO> createTransfer(@Valid @RequestBody PayTransferCreateReqDTO reqDTO);
 
     @GetMapping(PREFIX + "/get")
     @Operation(summary = "获得转账单")

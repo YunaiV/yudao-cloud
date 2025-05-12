@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.framework.tenant.config;
 
+import cn.hutool.extra.spring.SpringUtil;
 import cn.iocoder.yudao.framework.common.enums.WebFilterOrderEnum;
 import cn.iocoder.yudao.framework.mybatis.core.util.MyBatisUtils;
 import cn.iocoder.yudao.framework.redis.config.YudaoCacheProperties;
@@ -60,6 +61,13 @@ public class YudaoTenantAutoConfiguration {
 
     @Bean
     public TenantFrameworkService tenantFrameworkService(TenantApi tenantApi) {
+        // 参见 https://gitee.com/zhijiantianya/yudao-cloud/issues/IC6YZF
+        try {
+            TenantApi tenantApiImpl = SpringUtil.getBean("tenantApiImpl", TenantApi.class);
+            if (tenantApiImpl != null) {
+                tenantApi = tenantApiImpl;
+            }
+        } catch (Exception ignored) {}
         return new TenantFrameworkServiceImpl(tenantApi);
     }
 

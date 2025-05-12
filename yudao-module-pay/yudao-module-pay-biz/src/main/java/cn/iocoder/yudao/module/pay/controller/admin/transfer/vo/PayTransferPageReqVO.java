@@ -1,12 +1,9 @@
 package cn.iocoder.yudao.module.pay.controller.admin.transfer.vo;
 
-import cn.iocoder.yudao.framework.common.pojo.PageParam;
+import lombok.*;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import java.time.LocalDateTime;
 
 import static cn.iocoder.yudao.framework.common.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
@@ -27,16 +24,16 @@ public class PayTransferPageReqVO extends PageParam {
     private String channelCode;
 
     @Schema(description = "商户转账单编号", example = "17481")
-    private String merchantTransferId;
-
-    @Schema(description = "类型", example = "2")
-    private Integer type;
+    private String merchantOrderId;
 
     @Schema(description = "转账状态", example = "2")
     private Integer status;
 
     @Schema(description = "收款人姓名", example = "王五")
     private String userName;
+
+    @Schema(description = "收款人账号", example = "26589")
+    private String userAccount;
 
     @Schema(description = "渠道转账单号")
     private String channelTransferNo;

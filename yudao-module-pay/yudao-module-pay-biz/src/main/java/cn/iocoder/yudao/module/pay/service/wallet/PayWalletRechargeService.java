@@ -15,7 +15,7 @@ public interface PayWalletRechargeService {
     /**
      * 创建钱包充值记录（发起充值）
      *
-     * @param userId      用户 id
+     * @param userId      用户编号
      * @param userType    用户类型
      * @param createReqVO 钱包充值请求 VO
      * @param userIp  用户Ip
@@ -39,8 +39,8 @@ public interface PayWalletRechargeService {
     /**
      * 更新钱包充值成功
      *
-     * @param id         钱包充值记录 id
-     * @param payOrderId 支付订单 id
+     * @param id         钱包充值记录编号
+     * @param payOrderId 支付订单编号
      */
     void updateWalletRechargerPaid(Long id, Long payOrderId);
 
@@ -55,9 +55,10 @@ public interface PayWalletRechargeService {
     /**
      * 更新钱包充值记录为已退款
      *
-     * @param id          钱包充值 id
+     * @param id          钱包充值记录编号
+     * @param refundId    钱包充值退款编号（实际和 id 相同）
      * @param payRefundId 退款单id
      */
-    void updateWalletRechargeRefunded(Long id, Long payRefundId);
+    void updateWalletRechargeRefunded(Long id, Long refundId, Long payRefundId);
 
 }

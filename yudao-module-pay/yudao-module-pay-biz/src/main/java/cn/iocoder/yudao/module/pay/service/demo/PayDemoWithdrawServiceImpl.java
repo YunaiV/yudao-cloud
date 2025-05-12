@@ -84,7 +84,7 @@ public class PayDemoWithdrawServiceImpl implements PayDemoWithdrawService {
             transferReqDTO.setChannelExtras(PayTransferCreateReqDTO.buildWeiXinChannelExtra1000(
                     "测试活动", "测试奖励"));
         }
-        PayTransferCreateRespDTO transferRespDTO = payTransferApi.createTransfer(transferReqDTO);
+        PayTransferCreateRespDTO transferRespDTO = payTransferApi.createTransfer(transferReqDTO).getCheckedData();
 
         // 2.2 更新转账单到 demo 示例提现单，并将状态更新为转账中
         demoTransferMapper.updateByIdAndStatus(withdraw.getId(), withdraw.getStatus(),
@@ -159,7 +159,7 @@ public class PayDemoWithdrawServiceImpl implements PayDemoWithdrawService {
 
     private PayTransferRespDTO validateDemoTransferStatusCanUpdate(PayDemoWithdrawDO withdraw, Long payTransferId) {
         // 1. 校验转账单是否存在
-        PayTransferRespDTO payTransfer = payTransferApi.getTransfer(payTransferId);
+        PayTransferRespDTO payTransfer = payTransferApi.getTransfer(payTransferId).getCheckedData();
         if (payTransfer == null) {
             log.error("[validateDemoTransferStatusCanUpdate][withdraw({}) payTransfer({}) 不存在，请进行处理！]", withdraw.getId(), payTransferId);
             throw exception(PAY_TRANSFER_NOT_FOUND);

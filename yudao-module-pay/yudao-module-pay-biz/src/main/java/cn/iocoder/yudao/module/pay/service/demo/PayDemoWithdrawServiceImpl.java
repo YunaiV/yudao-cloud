@@ -35,7 +35,7 @@ import static cn.iocoder.yudao.module.pay.enums.ErrorCodeConstants.*;
 @Service
 @Validated
 @Slf4j
-public class PayDemoTransferServiceImpl implements PayDemoWithdrawService {
+public class PayDemoWithdrawServiceImpl implements PayDemoWithdrawService {
 
     /**
      * 接入的支付应用标识
@@ -84,7 +84,7 @@ public class PayDemoTransferServiceImpl implements PayDemoWithdrawService {
             transferReqDTO.setChannelExtras(PayTransferCreateReqDTO.buildWeiXinChannelExtra1000(
                     "测试活动", "测试奖励"));
         }
-        PayTransferCreateRespDTO transferRespDTO = payTransferApi.createTransfer(transferReqDTO).getCheckedData();
+        PayTransferCreateRespDTO transferRespDTO = payTransferApi.createTransfer(transferReqDTO);
 
         // 2.2 更新转账单到 demo 示例提现单，并将状态更新为转账中
         demoTransferMapper.updateByIdAndStatus(withdraw.getId(), withdraw.getStatus(),
@@ -159,7 +159,7 @@ public class PayDemoTransferServiceImpl implements PayDemoWithdrawService {
 
     private PayTransferRespDTO validateDemoTransferStatusCanUpdate(PayDemoWithdrawDO withdraw, Long payTransferId) {
         // 1. 校验转账单是否存在
-        PayTransferRespDTO payTransfer = payTransferApi.getTransfer(payTransferId).getCheckedData();
+        PayTransferRespDTO payTransfer = payTransferApi.getTransfer(payTransferId);
         if (payTransfer == null) {
             log.error("[validateDemoTransferStatusCanUpdate][withdraw({}) payTransfer({}) 不存在，请进行处理！]", withdraw.getId(), payTransferId);
             throw exception(PAY_TRANSFER_NOT_FOUND);

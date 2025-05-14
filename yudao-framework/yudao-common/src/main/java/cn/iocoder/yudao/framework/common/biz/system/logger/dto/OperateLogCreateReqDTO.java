@@ -1,4 +1,4 @@
-package cn.iocoder.yudao.module.system.api.logger.dto;
+package cn.iocoder.yudao.framework.common.biz.system.logger.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;

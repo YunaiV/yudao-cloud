@@ -1,4 +1,4 @@
-package cn.iocoder.yudao.module.system.api.dict.dto;
+package cn.iocoder.yudao.framework.common.biz.system.dict.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package cn.iocoder.yudao.module.system.api.permission.dto;
+package cn.iocoder.yudao.framework.common.biz.system.permission.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

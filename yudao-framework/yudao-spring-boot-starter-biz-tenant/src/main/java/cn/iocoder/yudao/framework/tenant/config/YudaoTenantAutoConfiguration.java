@@ -20,7 +20,7 @@ import cn.iocoder.yudao.framework.tenant.core.web.TenantContextWebFilter;
 import cn.iocoder.yudao.framework.tenant.core.web.TenantVisitContextInterceptor;
 import cn.iocoder.yudao.framework.web.config.WebProperties;
 import cn.iocoder.yudao.framework.web.core.handler.GlobalExceptionHandler;
-import cn.iocoder.yudao.module.system.api.tenant.TenantApi;
+import cn.iocoder.yudao.framework.common.biz.system.tenant.TenantCommonApi;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 import jakarta.annotation.Resource;
@@ -60,10 +60,10 @@ public class YudaoTenantAutoConfiguration {
     private ApplicationContext applicationContext;
 
     @Bean
-    public TenantFrameworkService tenantFrameworkService(TenantApi tenantApi) {
+    public TenantFrameworkService tenantFrameworkService(TenantCommonApi tenantApi) {
         // 参见 https://gitee.com/zhijiantianya/yudao-cloud/issues/IC6YZF
         try {
-            TenantApi tenantApiImpl = SpringUtil.getBean("tenantApiImpl", TenantApi.class);
+            TenantCommonApi tenantApiImpl = SpringUtil.getBean("tenantApiImpl", TenantCommonApi.class);
             if (tenantApiImpl != null) {
                 tenantApi = tenantApiImpl;
             }

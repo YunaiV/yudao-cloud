@@ -28,6 +28,11 @@
         <!-- 依赖服务 -->
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>
+            <artifactId>yudao-module-system-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.iocoder.cloud</groupId>
             <artifactId>yudao-module-iot-api</artifactId>
             <version>${revision}</version>
         </dependency>

@@ -1,8 +1,7 @@
 package cn.iocoder.yudao.framework.tenant.core.service;
 
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
-import cn.iocoder.yudao.framework.common.util.cache.CacheUtils;
-import cn.iocoder.yudao.module.system.api.tenant.TenantApi;
+import cn.iocoder.yudao.framework.common.biz.system.tenant.TenantCommonApi;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,7 @@ import static cn.iocoder.yudao.framework.common.util.cache.CacheUtils.buildAsync
 @RequiredArgsConstructor
 public class TenantFrameworkServiceImpl implements TenantFrameworkService {
 
-    private final TenantApi tenantApi;
+    private final TenantCommonApi tenantApi;
 
     /**
      * 针对 {@link #getTenantIds()} 的缓存

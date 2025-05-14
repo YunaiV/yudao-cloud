@@ -180,7 +180,7 @@ yudao:
   security:
     mock-enable: true
   access-log: # 访问日志的配置项
-    enable: false
+    enable: true
   wxa-code:
     env-version: develop # 小程序版本: 正式版为 "release"；体验版为 "trial"；开发版为 "develop"
   wxa-subscribe-message:

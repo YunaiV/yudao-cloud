@@ -156,4 +156,4 @@ yudao:
   security:
     mock-enable: true
   access-log: # 访问日志的配置项
-    enable: false
+    enable: true

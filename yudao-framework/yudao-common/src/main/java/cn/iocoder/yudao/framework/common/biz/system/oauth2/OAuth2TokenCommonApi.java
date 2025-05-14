@@ -1,10 +1,10 @@
-package cn.iocoder.yudao.module.system.api.oauth2;
+package cn.iocoder.yudao.framework.common.biz.system.oauth2;
 
+import cn.iocoder.yudao.framework.common.enums.RpcConstants;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
-import cn.iocoder.yudao.module.system.api.oauth2.dto.OAuth2AccessTokenCheckRespDTO;
-import cn.iocoder.yudao.module.system.api.oauth2.dto.OAuth2AccessTokenCreateReqDTO;
-import cn.iocoder.yudao.module.system.api.oauth2.dto.OAuth2AccessTokenRespDTO;
-import cn.iocoder.yudao.module.system.enums.ApiConstants;
+import cn.iocoder.yudao.framework.common.biz.system.oauth2.dto.OAuth2AccessTokenCheckRespDTO;
+import cn.iocoder.yudao.framework.common.biz.system.oauth2.dto.OAuth2AccessTokenCreateReqDTO;
+import cn.iocoder.yudao.framework.common.biz.system.oauth2.dto.OAuth2AccessTokenRespDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 
-@FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
+@FeignClient(name = RpcConstants.SYSTEM_NAME) // TODO 芋艿：fallbackFactory =
 @Tag(name = "RPC 服务 - OAuth2.0 令牌")
-public interface OAuth2TokenApi {
+public interface OAuth2TokenCommonApi {
 
-    String PREFIX = ApiConstants.PREFIX + "/oauth2/token";
+    String PREFIX = RpcConstants.SYSTEM_PREFIX + "/oauth2/token";
 
     /**
      * 校验 Token 的 URL 地址，主要是提供给 Gateway 使用
      */
     @SuppressWarnings("HttpUrlsUsage")
-    String URL_CHECK = "http://" + ApiConstants.NAME + PREFIX + "/check";
+    String URL_CHECK = "http://" + RpcConstants.SYSTEM_NAME + PREFIX + "/check";
 
     @PostMapping(PREFIX + "/create")
     @Operation(summary = "创建访问令牌")

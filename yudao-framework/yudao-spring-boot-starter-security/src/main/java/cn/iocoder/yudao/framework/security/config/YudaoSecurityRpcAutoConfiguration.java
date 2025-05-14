@@ -1,8 +1,8 @@
 package cn.iocoder.yudao.framework.security.config;
 
+import cn.iocoder.yudao.framework.common.biz.system.permission.PermissionCommonApi;
 import cn.iocoder.yudao.framework.security.core.rpc.LoginUserRequestInterceptor;
-import cn.iocoder.yudao.module.system.api.oauth2.OAuth2TokenApi;
-import cn.iocoder.yudao.module.system.api.permission.PermissionApi;
+import cn.iocoder.yudao.framework.common.biz.system.oauth2.OAuth2TokenCommonApi;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Bean;
  * @author 芋道源码
  */
 @AutoConfiguration
-@EnableFeignClients(clients = {OAuth2TokenApi.class, // 主要是引入相关的 API 服务
-        PermissionApi.class})
+@EnableFeignClients(clients = {OAuth2TokenCommonApi.class, // 主要是引入相关的 API 服务
+        PermissionCommonApi.class})
 public class YudaoSecurityRpcAutoConfiguration {
 
     @Bean

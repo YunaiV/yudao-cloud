@@ -1,6 +1,6 @@
 package cn.iocoder.yudao.framework.dict.config;
 
-import cn.iocoder.yudao.module.system.api.dict.DictDataApi;
+import cn.iocoder.yudao.framework.common.biz.system.dict.DictDataCommonApi;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
@@ -10,6 +10,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author 芋道源码
  */
 @AutoConfiguration
-@EnableFeignClients(clients = DictDataApi.class) // 主要是引入相关的 API 服务
+@EnableFeignClients(clients = DictDataCommonApi.class) // 主要是引入相关的 API 服务
 public class YudaoDictRpcAutoConfiguration {
 }

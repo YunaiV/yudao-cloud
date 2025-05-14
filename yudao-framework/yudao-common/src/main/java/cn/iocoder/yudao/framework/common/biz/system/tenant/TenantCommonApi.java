@@ -1,7 +1,7 @@
-package cn.iocoder.yudao.module.system.api.tenant;
+package cn.iocoder.yudao.framework.common.biz.system.tenant;
 
+import cn.iocoder.yudao.framework.common.enums.RpcConstants;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
-import cn.iocoder.yudao.module.system.enums.ApiConstants;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
+@FeignClient(name = RpcConstants.SYSTEM_NAME) // TODO 芋艿：fallbackFactory =
 @Tag(name = "RPC 服务 - 多租户")
-public interface TenantApi {
+public interface TenantCommonApi {
 
-    String PREFIX = ApiConstants.PREFIX + "/tenant";
+    String PREFIX = RpcConstants.SYSTEM_PREFIX + "/tenant";
 
     @GetMapping(PREFIX + "/id-list")
     @Operation(summary = "获得所有租户编号")

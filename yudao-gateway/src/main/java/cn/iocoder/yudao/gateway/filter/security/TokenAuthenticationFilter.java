@@ -7,8 +7,8 @@ import cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.gateway.util.SecurityFrameworkUtils;
 import cn.iocoder.yudao.gateway.util.WebFrameworkUtils;
-import cn.iocoder.yudao.module.system.api.oauth2.OAuth2TokenApi;
-import cn.iocoder.yudao.module.system.api.oauth2.dto.OAuth2AccessTokenCheckRespDTO;
+import cn.iocoder.yudao.framework.common.biz.system.oauth2.OAuth2TokenCommonApi;
+import cn.iocoder.yudao.framework.common.biz.system.oauth2.dto.OAuth2AccessTokenCheckRespDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -133,7 +133,7 @@ public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
 
     private Mono<String> checkAccessToken(Long tenantId, String token) {
         return webClient.get()
-                .uri(OAuth2TokenApi.URL_CHECK, uriBuilder -> uriBuilder.queryParam("accessToken", token).build())
+                .uri(OAuth2TokenCommonApi.URL_CHECK, uriBuilder -> uriBuilder.queryParam("accessToken", token).build())
                 .headers(httpHeaders -> WebFrameworkUtils.setTenantIdHeader(tenantId, httpHeaders)) // 设置租户的 Header
                 .retrieve().bodyToMono(String.class);
     }

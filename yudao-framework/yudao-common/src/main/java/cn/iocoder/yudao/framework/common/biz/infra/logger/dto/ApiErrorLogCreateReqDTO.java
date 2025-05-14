@@ -1,9 +1,9 @@
 package cn.iocoder.yudao.framework.common.biz.infra.logger.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Schema(description = "RPC 服务 - API 错误日志创建 Request DTO")

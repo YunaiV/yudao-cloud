@@ -23,12 +23,12 @@
     <dependencies>
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>
-            <artifactId>yudao-module-system-biz</artifactId>
+            <artifactId>yudao-module-system-server</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>
-            <artifactId>yudao-module-infra-biz</artifactId>
+            <artifactId>yudao-module-infra-server</artifactId>
             <version>${revision}</version>
         </dependency>
 

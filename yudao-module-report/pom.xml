@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>yudao-module-report-api</module>
-        <module>yudao-module-report-biz</module>
+        <module>yudao-module-report-server</module>
     </modules>
     <artifactId>yudao-module-report</artifactId>
     <packaging>pom</packaging>

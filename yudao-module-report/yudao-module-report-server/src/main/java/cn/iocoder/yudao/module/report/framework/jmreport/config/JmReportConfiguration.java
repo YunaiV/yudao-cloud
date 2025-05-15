@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.report.framework.jmreport.config;
 
+import cn.iocoder.yudao.framework.common.biz.system.permission.PermissionCommonApi;
 import cn.iocoder.yudao.framework.security.config.SecurityProperties;
 import cn.iocoder.yudao.module.report.framework.jmreport.core.service.JmOnlDragExternalServiceImpl;
 import cn.iocoder.yudao.module.report.framework.jmreport.core.service.JmReportTokenServiceImpl;
@@ -22,7 +23,7 @@ public class JmReportConfiguration {
 
     @Bean
     public JmReportTokenServiceI jmReportTokenService(OAuth2TokenCommonApi oAuth2TokenApi,
-                                                      PermissionApi permissionApi,
+                                                      PermissionCommonApi permissionApi,
                                                       SecurityProperties securityProperties) {
         return new JmReportTokenServiceImpl(oAuth2TokenApi, permissionApi, securityProperties);
     }

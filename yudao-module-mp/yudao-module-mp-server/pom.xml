@@ -8,7 +8,7 @@
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>yudao-module-mp-biz</artifactId>
+    <artifactId>yudao-module-mp-server</artifactId>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>

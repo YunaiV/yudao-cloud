@@ -18,7 +18,7 @@
     </description>
     <modules>
         <module>yudao-module-mp-api</module>
-        <module>yudao-module-mp-biz</module>
+        <module>yudao-module-mp-server</module>
     </modules>
 
 </project>

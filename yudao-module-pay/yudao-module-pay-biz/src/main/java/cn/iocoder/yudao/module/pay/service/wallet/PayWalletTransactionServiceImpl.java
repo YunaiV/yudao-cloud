@@ -55,7 +55,7 @@ public class PayWalletTransactionServiceImpl implements PayWalletTransactionServ
     public PageResult<PayWalletTransactionDO> getWalletTransactionPage(PayWalletTransactionPageReqVO pageVO) {
         // 基于 userId + userType 查询钱包
         if (pageVO.getWalletId() == null
-                && ObjectUtil.isAllNotEmpty(pageVO.getUserId(), pageVO.getUserType())) {
+            && ObjectUtil.isAllNotEmpty(pageVO.getUserId(), pageVO.getUserType())) {
             PayWalletDO wallet = payWalletService.getOrCreateWallet(pageVO.getUserId(), pageVO.getUserType());
             if (wallet != null) {
                 pageVO.setWalletId(wallet.getId());

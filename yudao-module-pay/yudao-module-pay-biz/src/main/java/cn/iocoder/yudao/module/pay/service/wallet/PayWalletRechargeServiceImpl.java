@@ -6,7 +6,6 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
-import cn.iocoder.yudao.framework.pay.core.enums.refund.PayRefundStatusRespEnum;
 import cn.iocoder.yudao.module.pay.api.order.dto.PayOrderCreateReqDTO;
 import cn.iocoder.yudao.module.pay.api.refund.PayRefundApi;
 import cn.iocoder.yudao.module.pay.api.refund.dto.PayRefundCreateReqDTO;
@@ -167,7 +166,7 @@ public class PayWalletRechargeServiceImpl implements PayWalletRechargeService {
                 .addMessage("character_string1", String.valueOf(payOrderId)) // 支付单编号
                 .addMessage("amount2", fenToYuanStr(walletRecharge.getTotalPrice())) // 充值金额
                 .addMessage("time3", LocalDateTimeUtil.formatNormal(walletRecharge.getCreateTime())) // 充值时间
-                .addMessage("phrase4", "充值成功")).checkError(); // 充值状态
+                .addMessage("phrase4", "充值成功")); // 充值状态
     }
 
     @Override
@@ -224,7 +223,7 @@ public class PayWalletRechargeServiceImpl implements PayWalletRechargeService {
                     .setRefundTotalPrice(walletRecharge.getTotalPrice()).setRefundPayPrice(walletRecharge.getPayPrice())
                     .setRefundBonusPrice(walletRecharge.getBonusPrice());
         // 情况二：退款失败
-        } else if (PayRefundStatusRespEnum.isFailure(payRefund.getStatus())) {
+        } else if (PayRefundStatusEnum.isFailure(payRefund.getStatus())) {
             // 2.2 解冻余额
             payWalletService.unfreezePrice(walletRecharge.getWalletId(), walletRecharge.getTotalPrice());
 

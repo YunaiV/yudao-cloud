@@ -1,10 +1,9 @@
 package cn.iocoder.yudao.module.infra.framework.rpc.config;
 
-import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration(value = "infraRpcConfiguration", proxyBeanMethods = false)
-@EnableFeignClients(clients = AdminUserApi.class)
+@EnableFeignClients()
 public class RpcConfiguration {
 }

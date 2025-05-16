@@ -1,4 +1,4 @@
-package cn.iocoder.yudao.module.bpm.event;
+package cn.iocoder.yudao.module.bpm.api.event;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

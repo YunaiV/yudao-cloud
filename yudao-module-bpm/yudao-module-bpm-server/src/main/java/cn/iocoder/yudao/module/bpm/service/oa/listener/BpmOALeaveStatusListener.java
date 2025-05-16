@@ -1,7 +1,7 @@
 package cn.iocoder.yudao.module.bpm.service.oa.listener;
 
-import cn.iocoder.yudao.module.bpm.event.BpmProcessInstanceStatusEvent;
-import cn.iocoder.yudao.module.bpm.event.BpmProcessInstanceStatusEventListener;
+import cn.iocoder.yudao.module.bpm.api.event.BpmProcessInstanceStatusEvent;
+import cn.iocoder.yudao.module.bpm.api.event.BpmProcessInstanceStatusEventListener;
 import cn.iocoder.yudao.module.bpm.service.oa.BpmOALeaveService;
 import cn.iocoder.yudao.module.bpm.service.oa.BpmOALeaveServiceImpl;
 import jakarta.annotation.Resource;

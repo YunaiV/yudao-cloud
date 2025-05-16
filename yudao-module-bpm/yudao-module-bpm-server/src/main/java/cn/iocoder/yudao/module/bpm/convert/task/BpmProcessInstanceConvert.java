@@ -17,7 +17,7 @@ import cn.iocoder.yudao.module.bpm.controller.admin.task.vo.task.BpmTaskRespVO;
 import cn.iocoder.yudao.module.bpm.convert.definition.BpmProcessDefinitionConvert;
 import cn.iocoder.yudao.module.bpm.dal.dataobject.definition.BpmCategoryDO;
 import cn.iocoder.yudao.module.bpm.dal.dataobject.definition.BpmProcessDefinitionInfoDO;
-import cn.iocoder.yudao.module.bpm.event.BpmProcessInstanceStatusEvent;
+import cn.iocoder.yudao.module.bpm.api.event.BpmProcessInstanceStatusEvent;
 import cn.iocoder.yudao.module.bpm.framework.flowable.core.util.BpmnModelUtils;
 import cn.iocoder.yudao.module.bpm.framework.flowable.core.util.FlowableUtils;
 import cn.iocoder.yudao.module.bpm.service.message.dto.BpmMessageSendWhenProcessInstanceApproveReqDTO;

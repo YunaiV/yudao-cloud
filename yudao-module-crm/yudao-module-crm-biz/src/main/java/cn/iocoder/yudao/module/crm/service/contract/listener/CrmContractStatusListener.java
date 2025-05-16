@@ -1,7 +1,7 @@
 package cn.iocoder.yudao.module.crm.service.contract.listener;
 
-import cn.iocoder.yudao.module.bpm.event.BpmProcessInstanceStatusEvent;
-import cn.iocoder.yudao.module.bpm.event.BpmProcessInstanceStatusEventListener;
+import cn.iocoder.yudao.module.bpm.api.event.BpmProcessInstanceStatusEvent;
+import cn.iocoder.yudao.module.bpm.api.event.BpmProcessInstanceStatusEventListener;
 import cn.iocoder.yudao.module.crm.service.contract.CrmContractService;
 import cn.iocoder.yudao.module.crm.service.contract.CrmContractServiceImpl;
 import jakarta.annotation.Resource;

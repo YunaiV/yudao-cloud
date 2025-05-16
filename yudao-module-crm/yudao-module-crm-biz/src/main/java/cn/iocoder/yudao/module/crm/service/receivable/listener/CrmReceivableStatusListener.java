@@ -1,7 +1,7 @@
 package cn.iocoder.yudao.module.crm.service.receivable.listener;
 
-import cn.iocoder.yudao.module.bpm.event.BpmProcessInstanceStatusEvent;
-import cn.iocoder.yudao.module.bpm.event.BpmProcessInstanceStatusEventListener;
+import cn.iocoder.yudao.module.bpm.api.event.BpmProcessInstanceStatusEvent;
+import cn.iocoder.yudao.module.bpm.api.event.BpmProcessInstanceStatusEventListener;
 import cn.iocoder.yudao.module.crm.service.receivable.CrmReceivableService;
 import cn.iocoder.yudao.module.crm.service.receivable.CrmReceivableServiceImpl;
 import jakarta.annotation.Resource;

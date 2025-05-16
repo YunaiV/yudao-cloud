@@ -35,7 +35,7 @@
         <!-- 会员中心。默认注释，保证编译速度 -->
 <!--        <dependency>-->
 <!--            <groupId>cn.iocoder.cloud</groupId>-->
-<!--            <artifactId>yudao-module-member-biz</artifactId>-->
+<!--            <artifactId>yudao-module-member-server</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 

@@ -1,6 +1,6 @@
 package cn.iocoder.yudao.module.member.mq.producer.user;
 
-import cn.iocoder.yudao.module.member.message.user.MemberUserCreateMessage;
+import cn.iocoder.yudao.module.member.api.message.user.MemberUserCreateMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;

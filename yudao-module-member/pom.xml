@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>yudao-module-member-api</module>
-        <module>yudao-module-member-biz</module>
+        <module>yudao-module-member-server</module>
     </modules>
     <artifactId>yudao-module-member</artifactId>
     <packaging>pom</packaging>

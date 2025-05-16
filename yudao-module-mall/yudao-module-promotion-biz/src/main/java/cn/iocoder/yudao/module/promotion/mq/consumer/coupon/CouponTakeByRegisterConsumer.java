@@ -1,6 +1,6 @@
 package cn.iocoder.yudao.module.promotion.mq.consumer.coupon;
 
-import cn.iocoder.yudao.module.member.message.user.MemberUserCreateMessage;
+import cn.iocoder.yudao.module.member.api.message.user.MemberUserCreateMessage;
 import cn.iocoder.yudao.module.promotion.service.coupon.CouponService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;

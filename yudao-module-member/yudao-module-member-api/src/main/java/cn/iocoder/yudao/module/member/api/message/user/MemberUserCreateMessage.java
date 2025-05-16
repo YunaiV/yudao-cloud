@@ -1,4 +1,4 @@
-package cn.iocoder.yudao.module.member.message.user;
+package cn.iocoder.yudao.module.member.api.message.user;
 
 import lombok.Data;
 

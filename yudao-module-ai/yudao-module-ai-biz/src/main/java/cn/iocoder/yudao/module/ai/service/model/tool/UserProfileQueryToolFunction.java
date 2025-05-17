@@ -1,6 +1,6 @@
 package cn.iocoder.yudao.module.ai.service.model.tool;
 
-import cn.iocoder.yudao.framework.ai.core.util.AiUtils;
+import cn.iocoder.yudao.module.ai.util.AiUtils;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.framework.security.core.LoginUser;
 import cn.iocoder.yudao.framework.tenant.core.util.TenantUtils;
@@ -60,7 +60,7 @@ public class UserProfileQueryToolFunction
     }
 
     @Override
-    public UserProfileQueryToolFunction.Response apply(UserProfileQueryToolFunction.Request request, ToolContext toolContext) {
+    public Response apply(Request request, ToolContext toolContext) {
         LoginUser loginUser = (LoginUser) toolContext.getContext().get(AiUtils.TOOL_CONTEXT_LOGIN_USER);
         Long tenantId = (Long) toolContext.getContext().get(AiUtils.TOOL_CONTEXT_TENANT_ID);
         if (loginUser == null | tenantId == null) {

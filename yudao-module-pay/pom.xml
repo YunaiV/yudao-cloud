@@ -12,7 +12,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>yudao-module-pay-api</module>
-        <module>yudao-module-pay-biz</module>
+        <module>yudao-module-pay-server</module>
     </modules>
 
     <name>${project.artifactId}</name>

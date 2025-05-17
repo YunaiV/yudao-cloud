@@ -54,7 +54,7 @@
         <!-- 支付服务。默认注释，保证编译速度 -->
 <!--        <dependency>-->
 <!--            <groupId>cn.iocoder.cloud</groupId>-->
-<!--            <artifactId>yudao-module-pay-biz</artifactId>-->
+<!--            <artifactId>yudao-module-pay-server</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 

@@ -10,8 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>yudao-module-ai-api</module>
-        <module>yudao-module-ai-biz</module>
-        <module>yudao-spring-boot-starter-ai</module>
+        <module>yudao-module-ai-server</module>
     </modules>
     <packaging>pom</packaging>
     <artifactId>yudao-module-ai</artifactId>

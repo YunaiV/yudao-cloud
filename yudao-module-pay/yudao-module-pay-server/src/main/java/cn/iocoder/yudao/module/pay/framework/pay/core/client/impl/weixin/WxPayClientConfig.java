@@ -2,8 +2,8 @@ package cn.iocoder.yudao.module.pay.framework.pay.core.client.impl.weixin;
 
 import cn.iocoder.yudao.framework.common.util.validation.ValidationUtils;
 import cn.iocoder.yudao.module.pay.framework.pay.core.client.PayClientConfig;
-import jakarta.validation.Validator;
-import jakarta.validation.constraints.NotBlank;
+import javax.validation.Validator;
+import javax.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**

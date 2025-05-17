@@ -66,26 +66,26 @@
 <!--        </dependency>-->
 
         <!-- 商城相关模块。默认注释，保证编译速度-->
-        <dependency>
-            <groupId>cn.iocoder.cloud</groupId>
-            <artifactId>yudao-module-product-server</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.iocoder.cloud</groupId>
-            <artifactId>yudao-module-promotion-server</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.iocoder.cloud</groupId>
-            <artifactId>yudao-module-trade-server</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.iocoder.cloud</groupId>
-            <artifactId>yudao-module-statistics-server</artifactId>
-            <version>${revision}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>cn.iocoder.cloud</groupId>-->
+<!--            <artifactId>yudao-module-product-server</artifactId>-->
+<!--            <version>${revision}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>cn.iocoder.cloud</groupId>-->
+<!--            <artifactId>yudao-module-promotion-server</artifactId>-->
+<!--            <version>${revision}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>cn.iocoder.cloud</groupId>-->
+<!--            <artifactId>yudao-module-trade-server</artifactId>-->
+<!--            <version>${revision}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>cn.iocoder.cloud</groupId>-->
+<!--            <artifactId>yudao-module-statistics-server</artifactId>-->
+<!--            <version>${revision}</version>-->
+<!--        </dependency>-->
 
         <!-- CRM 相关模块。默认注释，保证编译速度 -->
 <!--        <dependency>-->

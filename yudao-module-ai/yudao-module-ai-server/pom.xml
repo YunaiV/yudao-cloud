@@ -8,7 +8,7 @@
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>yudao-module-ai-biz</artifactId>
+    <artifactId>yudao-module-ai-server</artifactId>
 
     <name>${project.artifactId}</name>
     <description>

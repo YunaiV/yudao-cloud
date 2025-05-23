@@ -3,7 +3,7 @@ package cn.iocoder.yudao.module.infra.enums.codegen;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import static cn.hutool.core.util.ArrayUtil.*;
+import static cn.hutool.core.util.ArrayUtil.firstMatch;
 
 /**
  * 代码生成的场景枚举

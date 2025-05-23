@@ -1,10 +1,8 @@
-package cn.iocoder.yudao.module.infra.controller.admin.demo.demo03.vo;
+package cn.iocoder.yudao.module.infra.controller.admin.demo.demo03.erp.vo;
 
 import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -13,9 +11,7 @@ import static cn.iocoder.yudao.framework.common.util.date.DateUtils.FORMAT_YEAR_
 
 @Schema(description = "管理后台 - 学生分页 Request VO")
 @Data
-@EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
-public class Demo03StudentPageReqVO extends PageParam {
+public class Demo03StudentErpPageReqVO extends PageParam {
 
     @Schema(description = "名字", example = "芋艿")
     private String name;

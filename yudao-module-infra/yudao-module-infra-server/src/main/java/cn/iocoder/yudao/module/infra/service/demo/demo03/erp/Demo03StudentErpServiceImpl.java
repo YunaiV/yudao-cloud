@@ -12,11 +12,11 @@ import cn.iocoder.yudao.module.infra.dal.dataobject.demo.demo03.Demo03StudentDO;
 import cn.iocoder.yudao.module.infra.dal.mysql.demo.demo03.erp.Demo03CourseErpMapper;
 import cn.iocoder.yudao.module.infra.dal.mysql.demo.demo03.erp.Demo03GradeErpMapper;
 import cn.iocoder.yudao.module.infra.dal.mysql.demo.demo03.erp.Demo03StudentErpMapper;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;

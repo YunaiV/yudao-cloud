@@ -24,9 +24,9 @@ public interface Demo02CategoryMapper extends BaseMapperX<Demo02CategoryDO> {
                 .orderByDesc(Demo02CategoryDO::getId));
     }
 
-	default Demo02CategoryDO selectByParentIdAndName(Long parentId, String name) {
-	    return selectOne(Demo02CategoryDO::getParentId, parentId, Demo02CategoryDO::getName, name);
-	}
+    default Demo02CategoryDO selectByParentIdAndName(Long parentId, String name) {
+        return selectOne(Demo02CategoryDO::getParentId, parentId, Demo02CategoryDO::getName, name);
+    }
 
     default Long selectCountByParentId(Long parentId) {
         return selectCount(Demo02CategoryDO::getParentId, parentId);

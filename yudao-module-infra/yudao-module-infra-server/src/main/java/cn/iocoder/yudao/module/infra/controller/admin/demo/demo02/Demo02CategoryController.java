@@ -12,13 +12,13 @@ import cn.iocoder.yudao.module.infra.service.demo.demo02.Demo02CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.annotation.Resource;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -80,11 +80,11 @@ public class Demo02CategoryController {
     @PreAuthorize("@ss.hasPermission('infra:demo02-category:export')")
     @ApiAccessLog(operateType = EXPORT)
     public void exportDemo02CategoryExcel(@Valid Demo02CategoryListReqVO listReqVO,
-              HttpServletResponse response) throws IOException {
+                                          HttpServletResponse response) throws IOException {
         List<Demo02CategoryDO> list = demo02CategoryService.getDemo02CategoryList(listReqVO);
         // 导出 Excel
         ExcelUtils.write(response, "示例分类.xls", "数据", Demo02CategoryRespVO.class,
-                        BeanUtils.toBean(list, Demo02CategoryRespVO.class));
+                BeanUtils.toBean(list, Demo02CategoryRespVO.class));
     }
 
 }

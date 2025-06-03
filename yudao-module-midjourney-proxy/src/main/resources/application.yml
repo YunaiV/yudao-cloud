@@ -1,0 +1,5 @@
+mj:
+  task-store:
+    type: in_memory
+    timeout: 30d
+  translate-way: null

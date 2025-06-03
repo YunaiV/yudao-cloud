@@ -8,6 +8,7 @@
     <version>${revision}</version>
     <packaging>pom</packaging>
     <modules>
+        <module>yudao-module-midjourney-proxy</module>
         <module>yudao-dependencies</module>
         <module>yudao-gateway</module>
         <module>yudao-framework</module>
@@ -26,6 +27,7 @@
         <module>yudao-module-erp</module>
         <module>yudao-module-ai</module>
         <module>yudao-module-iot</module>
+        <module>yudao-module-prod</module>
     </modules>
 
     <name>${project.artifactId}</name>

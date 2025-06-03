@@ -29,13 +29,25 @@ spring:
     gateway:
       # 路由配置项，对应 RouteDefinition 数组
       routes:
+        - id: prod-admin-api # 路由的编号
+          uri: grayLb://prod-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/admin-api/prod/**
+          filters:
+            - RewritePath=/admin-api/prod/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v2/api-docs
+        - id: prod-app-api # 路由的编号
+          uri: grayLb://prod-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/app-api/prod/**
+          filters:
+            - RewritePath=/app-api/prod/v3/api-docs, /v3/api-docs
         ## system-server 服务
         - id: system-admin-api # 路由的编号
           uri: grayLb://system-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/admin-api/system/**
           filters:
-              - RewritePath=/admin-api/system/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
+            - RewritePath=/admin-api/system/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
         - id: system-app-api # 路由的编号
           uri: grayLb://system-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
@@ -203,6 +215,9 @@ knife4j:
   gateway:
     enabled: true
     routes:
+      - name: prod-server
+        service-name: prod-server
+        url: /admin-api/prod/v3/api-docs
       - name: system-server
         service-name: system-server
         url: /admin-api/system/v3/api-docs

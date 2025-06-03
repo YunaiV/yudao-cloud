@@ -2,9 +2,10 @@ package cn.iocoder.yudao.module.ai.job.music;
 
 import cn.iocoder.yudao.module.ai.service.music.AiMusicService;
 import com.xxl.job.core.handler.annotation.XxlJob;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 
 /**

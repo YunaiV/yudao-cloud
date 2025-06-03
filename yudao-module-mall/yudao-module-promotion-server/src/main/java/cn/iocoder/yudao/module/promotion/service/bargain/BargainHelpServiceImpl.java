@@ -10,12 +10,12 @@ import cn.iocoder.yudao.module.promotion.dal.dataobject.bargain.BargainHelpDO;
 import cn.iocoder.yudao.module.promotion.dal.dataobject.bargain.BargainRecordDO;
 import cn.iocoder.yudao.module.promotion.dal.mysql.bargain.BargainHelpMapper;
 import cn.iocoder.yudao.module.promotion.enums.bargain.BargainRecordStatusEnum;
-import jakarta.annotation.Resource;
 import jodd.util.MathUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;

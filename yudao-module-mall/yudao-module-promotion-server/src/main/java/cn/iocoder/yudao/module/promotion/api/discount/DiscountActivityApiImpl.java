@@ -5,10 +5,10 @@ import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.module.promotion.api.discount.dto.DiscountProductRespDTO;
 import cn.iocoder.yudao.module.promotion.dal.dataobject.discount.DiscountProductDO;
 import cn.iocoder.yudao.module.promotion.service.discount.DiscountActivityService;
-import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 

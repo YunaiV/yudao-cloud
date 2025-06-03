@@ -9,10 +9,10 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
 /**
  * Statistics 模块的 Security 配置
  */
-@Configuration("statisticsSecurityConfiguration")
+@Configuration("reportSecurityConfiguration")
 public class SecurityConfiguration {
 
-    @Bean("statisticsAuthorizeRequestsCustomizer")
+    @Bean("reportAuthorizeRequestsCustomizer")
     public AuthorizeRequestsCustomizer authorizeRequestsCustomizer() {
         return new AuthorizeRequestsCustomizer() {
 
@@ -28,6 +28,8 @@ public class SecurityConfiguration {
                         .requestMatchers("/actuator/**").permitAll();
                 // Druid 监控
                 registry.requestMatchers("/druid/**").permitAll();
+                // 积木报表
+                registry.requestMatchers("/jmreport/**").permitAll();
             }
 
         };

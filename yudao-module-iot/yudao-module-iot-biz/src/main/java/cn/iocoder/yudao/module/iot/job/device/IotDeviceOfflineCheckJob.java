@@ -11,9 +11,9 @@ import cn.iocoder.yudao.module.iot.service.device.IotDeviceService;
 import cn.iocoder.yudao.module.iot.service.device.data.IotDevicePropertyService;
 import cn.iocoder.yudao.module.iot.service.device.control.IotDeviceUpstreamService;
 import com.xxl.job.core.handler.annotation.XxlJob;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collections;

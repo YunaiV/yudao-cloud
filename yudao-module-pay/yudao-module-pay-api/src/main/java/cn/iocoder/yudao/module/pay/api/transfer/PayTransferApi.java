@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.validation.Valid;
 
 @FeignClient(name = ApiConstants.NAME) // TODO 芋艿：fallbackFactory =
 @Tag(name = "RPC 服务 - 转账单")

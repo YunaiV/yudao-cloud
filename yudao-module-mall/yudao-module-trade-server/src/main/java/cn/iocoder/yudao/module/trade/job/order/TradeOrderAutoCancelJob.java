@@ -5,7 +5,7 @@ import cn.iocoder.yudao.module.trade.service.order.TradeOrderUpdateService;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 
 /**
  * 交易订单的自动过期 Job

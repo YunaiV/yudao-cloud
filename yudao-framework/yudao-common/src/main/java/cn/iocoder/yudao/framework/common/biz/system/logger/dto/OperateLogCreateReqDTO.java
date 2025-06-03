@@ -1,9 +1,10 @@
 package cn.iocoder.yudao.framework.common.biz.system.logger.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Schema(name = "RPC 服务 - 系统操作日志 Create Request DTO")
 @Data

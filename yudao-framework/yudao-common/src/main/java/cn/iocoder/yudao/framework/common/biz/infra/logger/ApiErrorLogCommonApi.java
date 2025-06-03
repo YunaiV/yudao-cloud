@@ -5,11 +5,12 @@ import cn.iocoder.yudao.framework.common.enums.RpcConstants;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import javax.validation.Valid;
 
 @FeignClient(name = RpcConstants.INFRA_NAME) // TODO 芋艿：fallbackFactory =
 @Tag(name = "RPC 服务 - API 异常日志")

@@ -61,7 +61,7 @@ public class TradeOrderItemDO extends BaseDO {
     /**
      * 商品 SPU 名称
      *
-     * 冗余 ProductSkuDO 的 spuName 编号
+     * 冗余 ProductSkuDO 的 spuName 名称
      */
     private String spuName;
     /**

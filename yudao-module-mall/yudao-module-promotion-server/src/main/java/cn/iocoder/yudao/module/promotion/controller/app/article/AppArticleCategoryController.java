@@ -8,11 +8,11 @@ import cn.iocoder.yudao.module.promotion.dal.dataobject.article.ArticleCategoryD
 import cn.iocoder.yudao.module.promotion.service.article.ArticleCategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.Comparator;
 import java.util.List;
 

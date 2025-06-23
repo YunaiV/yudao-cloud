@@ -2,6 +2,7 @@ package cn.iocoder.yudao.module.iot.service.plugin;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.tenant.core.util.TenantUtils;
 import cn.iocoder.yudao.module.iot.api.device.dto.control.upstream.IotPluginInstanceHeartbeatReqDTO;
@@ -135,6 +136,10 @@ public class IotPluginInstanceServiceImpl implements IotPluginInstanceService {
 
     @Override
     public void deletePluginFile(IotPluginConfigDO pluginConfigDO) {
+        if (ObjectUtil.isEmpty(pluginConfigDO.getFileName())) {
+            log.warn("[deletePluginFile][插件配置({}) 的文件名为空，无法删除]", pluginConfigDO);
+            return;
+        }
         File file = new File(pluginsDir, pluginConfigDO.getFileName());
         if (!file.exists()) {
             return;

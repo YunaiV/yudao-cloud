@@ -50,6 +50,15 @@ public class SocialClientSaveReqVO {
     @InEnum(CommonStatusEnum.class)
     private Integer status;
 
+    @Schema(description = "登录成功后的回调地址")
+    private String redirectUri;
+
+    @Schema(description = "忽略校验redirectUri参数")
+    private Boolean ignoreCheckRedirectUri;
+
+    @Schema(description = "忽略校验state参数")
+    private Boolean ignoreCheckState;
+
     @AssertTrue(message = "agentId 不能为空")
     @JsonIgnore
     public boolean isAgentIdValid() {

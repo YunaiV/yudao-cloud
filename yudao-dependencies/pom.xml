@@ -82,7 +82,6 @@
         <commons-compress.version>1.27.1</commons-compress.version>
         <awssdk.version>2.30.14</awssdk.version>
         <justauth.version>1.16.7</justauth.version>
-        <justauth-starter.version>1.4.0</justauth-starter.version>
         <jimureport.version>1.9.4</jimureport.version>
         <weixin-java.version>4.7.5.B</weixin-java.version>
         <!-- 专属于 JDK8 安全漏洞升级 -->
@@ -658,11 +657,6 @@
                 <groupId>me.zhyd.oauth</groupId>
                 <artifactId>JustAuth</artifactId> <!-- 社交登陆（例如说，个人微信、企业微信等等） -->
                 <version>${justauth.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.xkcoding.justauth</groupId>
-                <artifactId>justauth-spring-boot-starter</artifactId>
-                <version>${justauth-starter.version}</version>
             </dependency>
 
             <!-- 积木报表-->

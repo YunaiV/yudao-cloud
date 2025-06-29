@@ -51,6 +51,6 @@ public interface SocialUserApi {
     CommonResult<SocialUserRespDTO> getSocialUserByCode(@RequestParam("userType") Integer userType,
                                                         @RequestParam("socialType") Integer socialType,
                                                         @RequestParam("code") String code,
-                                                        @RequestParam("state") String state);
+                                                        @RequestParam(value = "state", required = false) String state);
 
 }

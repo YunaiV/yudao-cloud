@@ -9,13 +9,11 @@ import cn.binarywang.wx.miniapp.bean.shop.request.shipping.*;
 import cn.binarywang.wx.miniapp.bean.shop.response.WxMaOrderShippingInfoBaseResponse;
 import cn.binarywang.wx.miniapp.config.impl.WxMaRedisBetterConfigImpl;
 import cn.binarywang.wx.miniapp.constant.WxMaConstants;
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.DesensitizedUtil;
 import cn.hutool.core.util.ObjUtil;
-import cn.hutool.core.util.ReflectUtil;
 import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.common.enums.UserTypeEnum;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
@@ -32,7 +30,7 @@ import cn.iocoder.yudao.module.system.dal.dataobject.social.SocialClientDO;
 import cn.iocoder.yudao.module.system.dal.mysql.social.SocialClientMapper;
 import cn.iocoder.yudao.module.system.dal.redis.RedisKeyConstants;
 import cn.iocoder.yudao.module.system.enums.social.SocialTypeEnum;
-import cn.iocoder.yudao.module.system.framework.justauth.core.AuthRequestFactory;
+import cn.iocoder.yudao.module.system.service.social.authrequest.AuthRequestBuilderFactory;
 import com.binarywang.spring.starter.wxjava.miniapp.properties.WxMaProperties;
 import com.binarywang.spring.starter.wxjava.mp.properties.WxMpProperties;
 import com.google.common.annotations.VisibleForTesting;
@@ -53,6 +51,7 @@ import me.zhyd.oauth.model.AuthCallback;
 import me.zhyd.oauth.model.AuthResponse;
 import me.zhyd.oauth.model.AuthUser;
 import me.zhyd.oauth.request.AuthRequest;
+import me.zhyd.oauth.request.AuthWeChatMpRequest;
 import me.zhyd.oauth.utils.AuthStateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -101,9 +100,8 @@ public class SocialClientServiceImpl implements SocialClientService {
     @Value("${yudao.wxa-subscribe-message.miniprogram-state:formal}")
     public String miniprogramState;
 
-    //    @Resource
-    @Autowired // TODO @芋艿：等 justauth1.4.1 发布，可以去掉
-    private AuthRequestFactory authRequestFactory;
+    @Autowired
+    private AuthRequestBuilderFactory authRequestBuilderFactory;
 
     @Resource
     private WxMpService wxMpService;
@@ -188,26 +186,10 @@ public class SocialClientServiceImpl implements SocialClientService {
      */
     @VisibleForTesting
     AuthRequest buildAuthRequest(Integer socialType, Integer userType) {
-        // 1. 先查找默认的配置项，从 application-*.yaml 中读取
-        AuthRequest request = authRequestFactory.get(SocialTypeEnum.valueOfType(socialType).getSource());
-        Assert.notNull(request, String.format("社交平台(%d) 不存在", socialType));
-        // 2. 查询 DB 的配置项，如果存在则进行覆盖
         SocialClientDO client = socialClientMapper.selectBySocialTypeAndUserType(socialType, userType);
-        if (client != null && Objects.equals(client.getStatus(), CommonStatusEnum.ENABLE.getStatus())) {
-            // 2.1 构造新的 AuthConfig 对象
-            AuthConfig authConfig = (AuthConfig) ReflectUtil.getFieldValue(request, "config");
-            AuthConfig newAuthConfig = ReflectUtil.newInstance(authConfig.getClass());
-            BeanUtil.copyProperties(authConfig, newAuthConfig);
-            // 2.2 修改对应的 clientId + clientSecret 密钥
-            newAuthConfig.setClientId(client.getClientId());
-            newAuthConfig.setClientSecret(client.getClientSecret());
-            if (client.getAgentId() != null) { // 如果有 agentId 则修改 agentId
-                newAuthConfig.setAgentId(client.getAgentId());
-            }
-            // 2.3 设置会 request 里，进行后续使用
-            ReflectUtil.setFieldValue(request, "config", newAuthConfig);
-        }
-        return request;
+        Assert.notNull(client, String.format("三方应用配置(%d) 不存在", socialType));
+
+        return authRequestBuilderFactory.build(socialType, client);
     }
 
     // =================== 微信公众号独有 ===================

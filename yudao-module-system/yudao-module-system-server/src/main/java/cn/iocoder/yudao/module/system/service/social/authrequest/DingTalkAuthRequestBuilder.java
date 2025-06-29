@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * 钉钉的授权请求 {@link AuthRequest} 实现
- *
- * @author yuchao
  */
 @Component
 public class DingTalkAuthRequestBuilder implements AuthRequestBuilder {

@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * Gitee的授权请求 {@link AuthRequest} 实现
- *
- * @author yuchao
  */
 @Component
 public class GiteeAuthRequestBuilder implements AuthRequestBuilder {

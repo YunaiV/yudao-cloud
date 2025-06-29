@@ -6,8 +6,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * 三方登录请求构建器接口
- *
- * @author yuchao
  */
 @Component
 public interface AuthRequestBuilder {

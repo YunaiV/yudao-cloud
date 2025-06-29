@@ -8,8 +8,6 @@ import java.util.List;
 
 /**
  * 授权请求构建器工厂，根据 socialType 查找对应实现并构建 AuthRequest
- *
- * @author yuchao
  */
 @Component
 public class AuthRequestBuilderFactory {

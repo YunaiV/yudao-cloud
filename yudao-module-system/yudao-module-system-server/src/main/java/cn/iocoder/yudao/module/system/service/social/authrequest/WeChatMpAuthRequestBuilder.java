@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * 微信公众平台的授权请求 {@link AuthRequest} 实现
- *
- * @author yuchao
  */
 @Component
 public class WeChatMpAuthRequestBuilder implements AuthRequestBuilder {

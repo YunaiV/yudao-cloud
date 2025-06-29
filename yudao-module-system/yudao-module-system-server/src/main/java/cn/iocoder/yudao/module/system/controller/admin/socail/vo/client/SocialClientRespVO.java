@@ -36,4 +36,13 @@ public class SocialClientRespVO {
     @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
     private LocalDateTime createTime;
 
+    @Schema(description = "登录成功后的回调地址")
+    private String redirectUri;
+
+    @Schema(description = "忽略校验redirectUri参数")
+    private Boolean ignoreCheckRedirectUri;
+
+    @Schema(description = "忽略校验state参数")
+    private Boolean ignoreCheckState;
+
 }

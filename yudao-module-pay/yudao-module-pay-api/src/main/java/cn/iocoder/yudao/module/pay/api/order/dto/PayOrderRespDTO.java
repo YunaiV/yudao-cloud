@@ -3,6 +3,8 @@ package cn.iocoder.yudao.module.pay.api.order.dto;
 import cn.iocoder.yudao.module.pay.enums.order.PayOrderStatusEnum;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * 支付单信息 Response DTO
  *
@@ -31,6 +33,10 @@ public class PayOrderRespDTO {
 
     // ========== 订单相关字段 ==========
     /**
+     * 商品标题
+     */
+    private String subject;
+    /**
      * 支付金额，单位：分
      */
     private Integer price;
@@ -41,6 +47,22 @@ public class PayOrderRespDTO {
      */
     private Integer status;
 
+    /**
+     * 订单支付成功时间
+     */
+    private LocalDateTime successTime;
+
     // ========== 渠道相关字段 ==========
+
+    /**
+     * 渠道用户编号
+     *
+     * 例如说，微信 openid、支付宝账号
+     */
+    private String channelUserId;
+    /**
+     * 渠道订单号
+     */
+    private String channelOrderNo;
 
 }

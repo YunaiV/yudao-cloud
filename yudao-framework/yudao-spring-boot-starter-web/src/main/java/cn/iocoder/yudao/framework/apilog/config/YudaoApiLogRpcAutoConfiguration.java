@@ -1,7 +1,7 @@
 package cn.iocoder.yudao.framework.apilog.config;
 
-import cn.iocoder.yudao.module.infra.api.logger.ApiAccessLogApi;
-import cn.iocoder.yudao.module.infra.api.logger.ApiErrorLogApi;
+import cn.iocoder.yudao.framework.common.biz.infra.logger.ApiAccessLogCommonApi;
+import cn.iocoder.yudao.framework.common.biz.infra.logger.ApiErrorLogCommonApi;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
@@ -11,6 +11,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author 芋道源码
  */
 @AutoConfiguration
-@EnableFeignClients(clients = {ApiAccessLogApi.class, ApiErrorLogApi.class}) // 主要是引入相关的 API 服务
+@EnableFeignClients(clients = {ApiAccessLogCommonApi.class, ApiErrorLogCommonApi.class}) // 主要是引入相关的 API 服务
 public class YudaoApiLogRpcAutoConfiguration {
 }

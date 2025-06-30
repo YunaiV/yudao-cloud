@@ -18,6 +18,7 @@ public enum BpmReasonEnum {
     REJECT_TASK("审批不通过任务，原因：{}"), // 场景：用户审批不通过任务。修改文案时，需要注意 isRejectReason 方法
     CANCEL_PROCESS_INSTANCE_BY_START_USER("用户主动取消流程，原因：{}"), // 场景：用户主动取消流程
     CANCEL_PROCESS_INSTANCE_BY_ADMIN("管理员【{}】取消流程，原因：{}"), // 场景：管理员取消流程
+    CANCEL_CHILD_PROCESS_INSTANCE_BY_MAIN_PROCESS("子流程自动取消，原因：主流程已取消"),
 
     // ========== 流程任务的独有原因 ==========
 
@@ -26,12 +27,14 @@ public enum BpmReasonEnum {
     TIMEOUT_REJECT("审批超时，系统自动不通过"),
     ASSIGN_START_USER_APPROVE("审批人与提交人为同一人时，自动通过"),
     ASSIGN_START_USER_APPROVE_WHEN_SKIP("审批人与提交人为同一人时，自动通过"),
+    ASSIGN_START_USER_APPROVE_WHEN_SKIP_START_USER_NODE("发起人节点首次自动通过"), // 目前仅“子流程”使用
     ASSIGN_START_USER_APPROVE_WHEN_DEPT_LEADER_NOT_FOUND("审批人与提交人为同一人时，找不到部门负责人，自动通过"),
     ASSIGN_START_USER_TRANSFER_DEPT_LEADER("审批人与提交人为同一人时，转交给部门负责人审批"),
     ASSIGN_EMPTY_APPROVE("审批人为空，自动通过"),
     ASSIGN_EMPTY_REJECT("审批人为空，自动不通过"),
     APPROVE_TYPE_AUTO_APPROVE("非人工审核，自动通过"),
     APPROVE_TYPE_AUTO_REJECT("非人工审核，自动不通过"),
+    CANCEL_BY_PROCESS_CLEAN("进程清理自动取消"),
     ;
 
     private final String reason;

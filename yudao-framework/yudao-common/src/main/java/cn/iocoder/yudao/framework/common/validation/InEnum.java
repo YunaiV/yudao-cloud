@@ -1,6 +1,6 @@
 package cn.iocoder.yudao.framework.common.validation;
 
-import cn.iocoder.yudao.framework.common.core.IntArrayValuable;
+import cn.iocoder.yudao.framework.common.core.ArrayValuable;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -22,9 +22,9 @@ import java.lang.annotation.*;
 public @interface InEnum {
 
     /**
-     * @return 实现 EnumValuable 接口的
+     * @return 实现 ArrayValuable 接口的类
      */
-    Class<? extends IntArrayValuable> value();
+    Class<? extends ArrayValuable<?>> value();
 
     String message() default "必须在指定范围 {value}";
 

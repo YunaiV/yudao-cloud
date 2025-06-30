@@ -6,6 +6,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.framework.tenant.core.service.TenantFrameworkService;
 import cn.iocoder.yudao.framework.tenant.core.util.TenantUtils;
+import com.xxl.job.core.context.XxlJobContext;
 import com.xxl.job.core.context.XxlJobHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,12 +46,15 @@ public class TenantJobAspect {
         // 逐个租户，执行 Job
         Map<Long, String> results = new ConcurrentHashMap<>();
         AtomicBoolean success = new AtomicBoolean(true); // 标记，是否存在失败的情况
+        XxlJobContext xxlJobContext = XxlJobContext.getXxlJobContext(); // XXL-Job 上下文
         tenantIds.parallelStream().forEach(tenantId -> {
             // TODO 芋艿：先通过 parallel 实现并行；1）多个租户，是一条执行日志；2）异常的情况
             TenantUtils.execute(tenantId, () -> {
                 try {
+                    XxlJobContext.setXxlJobContext(xxlJobContext);
+                    // 执行 Job
                     Object result = joinPoint.proceed();
-                    results.put(tenantId, StrUtil.toStringOrNull(result));
+                    results.put(tenantId, StrUtil.toStringOrEmpty(result));
                 } catch (Throwable e) {
                     results.put(tenantId, ExceptionUtil.getRootCauseMessage(e));
                     success.set(false);

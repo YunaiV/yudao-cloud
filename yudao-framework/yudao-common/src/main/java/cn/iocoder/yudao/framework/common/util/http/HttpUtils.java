@@ -7,13 +7,16 @@ import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
+import lombok.SneakyThrows;
 import org.springframework.util.StringUtils;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -22,6 +25,17 @@ import java.util.Map;
  * @author 芋道源码
  */
 public class HttpUtils {
+
+    /**
+     * 编码 URL 参数
+     *
+     * @param value 参数
+     * @return 编码后的参数
+     */
+    @SneakyThrows
+    public static String encodeUtf8(String value) {
+        return URLEncoder.encode(value, StandardCharsets.UTF_8.name());
+    }
 
     @SuppressWarnings("unchecked")
     public static String replaceUrlQuery(String url, String key, String value) {

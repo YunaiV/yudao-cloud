@@ -1,7 +1,7 @@
 package cn.iocoder.yudao.module.system.enums.social;
 
 import cn.hutool.core.util.ArrayUtil;
-import cn.iocoder.yudao.framework.common.core.IntArrayValuable;
+import cn.iocoder.yudao.framework.common.core.ArrayValuable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,7 +14,7 @@ import java.util.Arrays;
  */
 @Getter
 @AllArgsConstructor
-public enum SocialTypeEnum implements IntArrayValuable {
+public enum SocialTypeEnum implements ArrayValuable<Integer> {
 
     /**
      * Gitee
@@ -52,10 +52,10 @@ public enum SocialTypeEnum implements IntArrayValuable {
      *
      * @see <a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/login.html">接入文档</a>
      */
-    WECHAT_MINI_APP(34, "WECHAT_MINI_APP"),
+    WECHAT_MINI_PROGRAM(34, "WECHAT_MINI_PROGRAM"),
     ;
 
-    public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(SocialTypeEnum::getType).toArray();
+    public static final Integer[] ARRAYS = Arrays.stream(values()).map(SocialTypeEnum::getType).toArray(Integer[]::new);
 
     /**
      * 类型
@@ -67,7 +67,7 @@ public enum SocialTypeEnum implements IntArrayValuable {
     private final String source;
 
     @Override
-    public int[] array() {
+    public Integer[] array() {
         return ARRAYS;
     }
 

@@ -3,6 +3,7 @@ package cn.iocoder.yudao.framework.datapermission.core.rule.dept;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.iocoder.yudao.framework.common.biz.system.permission.PermissionCommonApi;
 import cn.iocoder.yudao.framework.common.enums.UserTypeEnum;
 import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
@@ -11,8 +12,7 @@ import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
 import cn.iocoder.yudao.framework.mybatis.core.util.MyBatisUtils;
 import cn.iocoder.yudao.framework.security.core.LoginUser;
 import cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils;
-import cn.iocoder.yudao.module.system.api.permission.PermissionApi;
-import cn.iocoder.yudao.module.system.api.permission.dto.DeptDataPermissionRespDTO;
+import cn.iocoder.yudao.framework.common.biz.system.permission.dto.DeptDataPermissionRespDTO;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +59,7 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 
     static final Expression EXPRESSION_NULL = new NullValue();
 
-    private final PermissionApi permissionApi;
+    private final PermissionCommonApi permissionApi;
 
     /**
      * 基于部门的表字段配置

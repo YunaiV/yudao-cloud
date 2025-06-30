@@ -7,8 +7,8 @@ import cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.gateway.util.SecurityFrameworkUtils;
 import cn.iocoder.yudao.gateway.util.WebFrameworkUtils;
-import cn.iocoder.yudao.module.system.api.oauth2.OAuth2TokenApi;
-import cn.iocoder.yudao.module.system.api.oauth2.dto.OAuth2AccessTokenCheckRespDTO;
+import cn.iocoder.yudao.framework.common.biz.system.oauth2.OAuth2TokenCommonApi;
+import cn.iocoder.yudao.framework.common.biz.system.oauth2.dto.OAuth2AccessTokenCheckRespDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -81,9 +81,9 @@ public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
     }
 
     @Override
-    public Mono<Void> filter(final ServerWebExchange exchange, GatewayFilterChain chain) {
+    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // 移除 login-user 的请求头，避免伪造模拟
-        SecurityFrameworkUtils.removeLoginUser(exchange);
+        exchange = SecurityFrameworkUtils.removeLoginUser(exchange);
 
         // 情况一，如果没有 Token 令牌，则直接继续 filter
         String token = SecurityFrameworkUtils.obtainAuthorization(exchange);
@@ -93,17 +93,18 @@ public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
 
         // 情况二，如果有 Token 令牌，则解析对应 userId、userType、tenantId 等字段，并通过 通过 Header 转发给服务
         // 重要说明：defaultIfEmpty 作用，保证 Mono.empty() 情况，可以继续执行 `flatMap 的 chain.filter(exchange)` 逻辑，避免返回给前端空的 Response！！
+        ServerWebExchange finalExchange = exchange;
         return getLoginUser(exchange, token).defaultIfEmpty(LOGIN_USER_EMPTY).flatMap(user -> {
             // 1. 无用户，直接 filter 继续请求
             if (user == LOGIN_USER_EMPTY || // 下面 expiresTime 的判断，为了解决 token 实际已经过期的情况
                     user.getExpiresTime() == null || LocalDateTimeUtils.beforeNow(user.getExpiresTime())) {
-                return chain.filter(exchange);
+                return chain.filter(finalExchange);
             }
 
             // 2.1 有用户，则设置登录用户
-            SecurityFrameworkUtils.setLoginUser(exchange, user);
+            SecurityFrameworkUtils.setLoginUser(finalExchange, user);
             // 2.2 将 user 并设置到 login-user 的请求头，使用 json 存储值
-            ServerWebExchange newExchange = exchange.mutate()
+            ServerWebExchange newExchange = finalExchange.mutate()
                     .request(builder -> SecurityFrameworkUtils.setLoginUserHeader(builder, user)).build();
             return chain.filter(newExchange);
         });
@@ -132,7 +133,7 @@ public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
 
     private Mono<String> checkAccessToken(Long tenantId, String token) {
         return webClient.get()
-                .uri(OAuth2TokenApi.URL_CHECK, uriBuilder -> uriBuilder.queryParam("accessToken", token).build())
+                .uri(OAuth2TokenCommonApi.URL_CHECK, uriBuilder -> uriBuilder.queryParam("accessToken", token).build())
                 .headers(httpHeaders -> WebFrameworkUtils.setTenantIdHeader(tenantId, httpHeaders)) // 设置租户的 Header
                 .retrieve().bodyToMono(String.class);
     }

@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <modules>
         <module>yudao-module-bpm-api</module>
-        <module>yudao-module-bpm-biz</module>
+        <module>yudao-module-bpm-server</module>
     </modules>
     <artifactId>yudao-module-bpm</artifactId>
     <packaging>pom</packaging>

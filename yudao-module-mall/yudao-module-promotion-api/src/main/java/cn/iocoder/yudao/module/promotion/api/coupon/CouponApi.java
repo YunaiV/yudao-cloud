@@ -50,7 +50,7 @@ public interface CouponApi {
             @Parameter(name = "giveCouponIds", description = "赠送的优惠券编号", required = true),
             @Parameter(name = "userId", description = "用户编号", required = true)
     })
-    CommonResult<Boolean> invalidateCouponsByAdmin(@RequestParam("赠送的优惠券编号") List<Long> giveCouponIds,
-                                                   @RequestParam("用户编号") Long userId);
+    CommonResult<Boolean> invalidateCouponsByAdmin(@RequestParam("giveCouponIds") List<Long> giveCouponIds,
+                                                   @RequestParam("userId") Long userId);
 
 }

@@ -11,6 +11,8 @@
         <module>yudao-dependencies</module>
         <module>yudao-gateway</module>
         <module>yudao-framework</module>
+        <!-- Server 主项目 -->
+        <module>yudao-server</module>
         <!--  各种 module 拓展 -->
         <module>yudao-module-system</module>
         <module>yudao-module-infra</module>
@@ -24,6 +26,7 @@
         <module>yudao-module-crm</module>
         <!-- 友情提示：基于 Spring AI 实现 LLM 大模型的接入，需要使用 JDK17 版本，详细可见 https://doc.iocoder.cn/ai/build/ -->
 <!--        <module>yudao-module-ai</module>-->
+        <module>yudao-module-iot</module>
     </modules>
 
     <name>${project.artifactId}</name>
@@ -31,18 +34,18 @@
     <url>https://github.com/YunaiV/ruoyi-vue-pro</url>
 
     <properties>
-        <revision>2.2.0-jdk8-SNAPSHOT</revision>
+        <revision>2.6.0-jdk8-SNAPSHOT</revision>
         <!-- Maven 相关 -->
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>3.2.2</maven-surefire-plugin.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
-        <!-- 看看咋放到 bom 里 -->
-        <lombok.version>1.18.34</lombok.version>
+        <!-- maven-surefire-plugin 暂时无法通过 bom 的依赖读取（兼容老版本 IDEA 2024 及以前版本） -->
+        <lombok.version>1.18.38</lombok.version>
         <spring.boot.version>2.7.18</spring.boot.version>
-        <mapstruct.version>1.6.2</mapstruct.version>
+        <mapstruct.version>1.6.3</mapstruct.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

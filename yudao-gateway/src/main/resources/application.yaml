@@ -5,6 +5,17 @@ spring:
   profiles:
     active: local
 
+  codec:
+    max-in-memory-size: 10MB # 调整缓冲区大小https://gitee.com/zhijiantianya/yudao-cloud/pulls/176
+
+  # Jackson 配置项
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true # 设置 LocalDateTime 的格式，使用时间戳
+      write-date-timestamps-as-nanoseconds: false # 设置不使用 nanoseconds 的格式。例如说 1611460870.401，而是直接 1611460870401
+      write-durations-as-timestamps: true # 设置 Duration 的格式，使用时间戳
+      fail-on-empty-beans: false # 允许序列化无属性的 Bean
+
   main:
     allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
 
@@ -82,7 +93,7 @@ spring:
         - id: report-jimu # 路由的编号（积木报表）
           uri: grayLb://report-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
-            - Path=/jmreport/**
+            - Path=/jmreport/**, /drag/**, /jimubi/**
         ## pay-server 服务
         - id: pay-admin-api # 路由的编号
           uri: grayLb://pay-server
@@ -170,6 +181,13 @@ spring:
             - Path=/admin-api/ai/**
           filters:
             - RewritePath=/admin-api/ai/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
+        ## iot-server 服务
+        - id: iot-admin-api # 路由的编号
+          uri: grayLb://iot-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/admin-api/iot/**
+          filters:
+            - RewritePath=/admin-api/iot/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
       x-forwarded:
         prefix-enabled: false # 避免 Swagger 重复带上额外的 /admin-api/system 前缀
 
@@ -222,8 +240,11 @@ knife4j:
         service-name: crm-server
         url: /admin-api/crm/v3/api-docs
       - name: ai-server
-        service-name: crm-server
-        url: /admin-api/crm/v3/api-docs
+        service-name: ai-server
+        url: /admin-api/ai/v3/api-docs
+      - name: iot-server
+        service-name: iot-server
+        url: /admin-api/iot/v3/api-docs
 
 --- #################### 芋道相关配置 ####################
 

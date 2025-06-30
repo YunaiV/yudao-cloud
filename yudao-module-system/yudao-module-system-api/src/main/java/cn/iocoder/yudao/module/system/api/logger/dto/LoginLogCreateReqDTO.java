@@ -3,7 +3,6 @@ package cn.iocoder.yudao.module.system.api.logger.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,10 +23,9 @@ public class LoginLogCreateReqDTO {
     @Schema(description = "用户类型，参见 UserTypeEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "2" )
     @NotNull(message = "用户类型不能为空")
     private Integer userType;
-    @Schema(description = "用户账号", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
-    @NotBlank(message = "用户账号不能为空")
+    @Schema(description = "用户账号", example = "yudao")
     @Size(max = 30, message = "用户账号长度不能超过30个字符")
-    private String username;
+    private String username; // 不再强制校验 username 非空，因为 Member 社交登录时，此时暂时没有 username(mobile）！
 
     @Schema(description = "登录结果，参见 LoginResultEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "登录结果不能为空")

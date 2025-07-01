@@ -7,6 +7,8 @@ import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.excel.core.util.ExcelUtils;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
 import cn.iocoder.yudao.module.system.controller.admin.user.vo.user.*;
 import cn.iocoder.yudao.module.system.convert.user.UserConvert;
 import cn.iocoder.yudao.module.system.dal.dataobject.dept.DeptDO;
@@ -90,6 +92,7 @@ public class UserController {
     @GetMapping("/page")
     @Operation(summary = "获得用户分页列表")
     @PreAuthorize("@ss.hasPermission('system:user:query')")
+    @SentinelResource(value = "getUserPage", blockHandler = "handleBlockException", fallback = "handleFallback")
     public CommonResult<PageResult<UserRespVO>> getUserPage(@Valid UserPageReqVO pageReqVO) {
         // 获得用户分页列表
         PageResult<AdminUserDO> pageResult = userService.getUserPage(pageReqVO);
@@ -167,6 +170,20 @@ public class UserController {
                                                       @RequestParam(value = "updateSupport", required = false, defaultValue = "false") Boolean updateSupport) throws Exception {
         List<UserImportExcelVO> list = ExcelUtils.read(file, UserImportExcelVO.class);
         return success(userService.importUserList(list, updateSupport));
+    }
+
+    /**
+     * Sentinel 限流异常处理
+     */
+    public CommonResult<PageResult<UserRespVO>> handleBlockException(UserPageReqVO pageReqVO, BlockException ex) {
+        return CommonResult.error(429, "访问过于频繁，请稍后再试");
+    }
+
+    /**
+     * Sentinel 通用异常处理
+     */
+    public CommonResult<PageResult<UserRespVO>> handleFallback(UserPageReqVO pageReqVO, Throwable ex) {
+        return CommonResult.error(500, "系统异常，请稍后再试");
     }
 
 }

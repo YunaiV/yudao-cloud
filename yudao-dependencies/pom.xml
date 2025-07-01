@@ -43,6 +43,7 @@
         <xxl-job.version>2.4.0</xxl-job.version>
         <!-- 服务保障相关 -->
         <lock4j.version>2.2.7</lock4j.version>
+        <sentinel.version>1.8.6</sentinel.version>
         <!-- 监控相关 -->
         <skywalking.version>9.0.0</skywalking.version>
         <spring-boot-admin.version>3.4.5</spring-boot-admin.version>
@@ -353,6 +354,32 @@
                         <groupId>org.redisson</groupId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-core</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-transport-simple-http</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-parameter-flow-control</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-annotation-aspectj</artifactId>
+                <version>${sentinel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-datasource-nacos</artifactId>
+                <version>${sentinel.version}</version>
             </dependency>
 
             <!-- 监控相关 -->

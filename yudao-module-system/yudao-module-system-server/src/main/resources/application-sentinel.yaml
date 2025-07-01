@@ -1,0 +1,30 @@
+# Sentinel 配置示例
+yudao:
+  sentinel:
+    enabled: true # 是否启用 Sentinel
+    app-name: yudao-system # 应用名称
+    datasource:
+      nacos:
+        enabled: false # 是否启用 Nacos 数据源，生产环境建议启用
+        server-addr: localhost:8848
+        namespace: ""
+        group-id: SENTINEL_GROUP
+        flow-rule-data-id: yudao-system-flow-rules
+        degrade-rule-data-id: yudao-system-degrade-rules
+        system-rule-data-id: yudao-system-system-rules
+        authority-rule-data-id: yudao-system-authority-rules
+        param-flow-rule-data-id: yudao-system-param-flow-rules
+
+# Sentinel Dashboard 控制台配置
+csp:
+  sentinel:
+    dashboard:
+      server: localhost:8080 # Sentinel Dashboard 地址
+    port: 8719 # 客户端端口，用于上报数据
+    heartbeat:
+      interval-ms: 10000 # 心跳间隔
+
+# 日志配置
+logging:
+  level:
+    com.alibaba.csp.sentinel: INFO

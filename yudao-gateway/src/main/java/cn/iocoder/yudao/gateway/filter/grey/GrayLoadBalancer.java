@@ -93,10 +93,16 @@ public class GrayLoadBalancer implements ReactorServiceInstanceLoadBalancer {
      * @return 服务实例列表
      */
     private List<ServiceInstance> filterTagServiceInstances(List<ServiceInstance> instances, HttpHeaders headers) {
-        // 情况一，没有 tag 时，直接返回
+        // 情况一，没有 tag 时，过滤掉有 tag 的节点。目的：避免 test 环境，打到本地有 tag 的实例
         String tag = EnvUtils.getTag(headers);
         if (StrUtil.isEmpty(tag)) {
-            return instances;
+            List<ServiceInstance> chooseInstances = CollectionUtils.filterList(instances, instance -> StrUtil.isEmpty(EnvUtils.getTag(instance)));
+            // 【重要】补充说明：如果希望在 chooseInstances 为空时，不允许打到有 tag 的实例，可以取消注释下面的代码
+            if (CollUtil.isEmpty(chooseInstances)) {
+                log.warn("[filterTagServiceInstances][serviceId({}) 没有不带 tag 的服务实例列表，直接使用所有服务实例列表]", serviceId);
+                chooseInstances = instances;
+            }
+            return chooseInstances;
         }
 
         // 情况二，有 tag 时，使用 tag 匹配服务实例

@@ -86,7 +86,7 @@ public class CombinationActivityServiceImpl implements CombinationActivityServic
             activityList.removeIf(item -> ObjectUtil.equal(item.getId(), activityId));
         }
         // 查找是否有其它活动，选择了该产品
-        List<CombinationActivityDO> matchActivityList = filterList(activityList, activity -> ObjectUtil.equal(activity.getId(), spuId));
+        List<CombinationActivityDO> matchActivityList = filterList(activityList, activity -> ObjectUtil.equal(activity.getSpuId(), spuId));
         if (CollUtil.isNotEmpty(matchActivityList)) {
             throw exception(COMBINATION_ACTIVITY_SPU_CONFLICTS);
         }
@@ -100,7 +100,7 @@ public class CombinationActivityServiceImpl implements CombinationActivityServic
      */
     private void validateProductExists(Long spuId, List<CombinationProductBaseVO> products) {
         // 1. 校验商品 spu 是否存在
-        ProductSpuRespDTO spu = productSpuApi.getSpu(spuId).getCheckedData();
+        ProductSpuRespDTO spu = productSpuApi.getSpu(spuId);
         if (spu == null) {
             throw exception(SPU_NOT_EXISTS);
         }

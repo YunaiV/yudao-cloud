@@ -187,7 +187,7 @@ public class CrmPermissionServiceImpl implements CrmPermissionService {
     }
 
     private void validatePermissionExists(Collection<Long> ids) {
-        List<CrmPermissionDO> permissionList = permissionMapper.selectBatchIds(ids);
+        List<CrmPermissionDO> permissionList = permissionMapper.selectByIds(ids);
         if (ObjUtil.notEqual(permissionList.size(), ids.size())) {
             throw exception(CRM_PERMISSION_NOT_EXISTS);
         }
@@ -210,12 +210,12 @@ public class CrmPermissionServiceImpl implements CrmPermissionService {
         CrmPermissionDO oldPermission = permissionMapper.selectByBizTypeAndBizIdByUserId(
                 transferReqBO.getBizType(), transferReqBO.getBizId(), transferReqBO.getUserId());
         String bizTypeName = CrmBizTypeEnum.getNameByType(transferReqBO.getBizType());
-        if (oldPermission == null // 不是拥有者，并且不是超管
-                || (!isOwner(oldPermission.getLevel()) && !CrmPermissionUtils.isCrmAdmin())) {
+        if ((oldPermission == null || !isOwner(oldPermission.getLevel()))
+                && !CrmPermissionUtils.isCrmAdmin()) { // 并且不是超管
             throw exception(CRM_PERMISSION_DENIED, bizTypeName);
         }
         // 1.1 校验转移对象是否已经是该负责人
-        if (ObjUtil.equal(transferReqBO.getNewOwnerUserId(), oldPermission.getUserId())) {
+        if (oldPermission != null && ObjUtil.equal(transferReqBO.getNewOwnerUserId(), oldPermission.getUserId())) {
             throw exception(CRM_PERMISSION_MODEL_TRANSFER_FAIL_OWNER_USER_EXISTS, bizTypeName);
         }
         // 1.2 校验新负责人是否存在
@@ -255,7 +255,7 @@ public class CrmPermissionServiceImpl implements CrmPermissionService {
         }
 
         // 删除数据权限
-        permissionMapper.deleteBatchIds(convertSet(permissions, CrmPermissionDO::getId));
+        permissionMapper.deleteByIds(convertSet(permissions, CrmPermissionDO::getId));
     }
 
     @Override
@@ -268,7 +268,7 @@ public class CrmPermissionServiceImpl implements CrmPermissionService {
 
     @Override
     public void deletePermissionBatch(Collection<Long> ids, Long userId) {
-        List<CrmPermissionDO> permissions = permissionMapper.selectBatchIds(ids);
+        List<CrmPermissionDO> permissions = permissionMapper.selectByIds(ids);
         if (CollUtil.isEmpty(permissions)) {
             throw exception(CRM_PERMISSION_NOT_EXISTS);
         }
@@ -286,7 +286,7 @@ public class CrmPermissionServiceImpl implements CrmPermissionService {
         }
 
         // 删除数据权限
-        permissionMapper.deleteBatchIds(ids);
+        permissionMapper.deleteByIds(ids);
     }
 
     @Override

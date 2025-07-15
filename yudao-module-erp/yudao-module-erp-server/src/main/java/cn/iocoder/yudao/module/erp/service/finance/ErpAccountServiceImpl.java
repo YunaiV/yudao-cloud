@@ -15,8 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static cn.iocoder.yudao.module.erp.enums.ErrorCodeConstants.ACCOUNT_NOT_ENABLE;
-import static cn.iocoder.yudao.module.erp.enums.ErrorCodeConstants.ACCOUNT_NOT_EXISTS;
+import static cn.iocoder.yudao.module.erp.enums.ErrorCodeConstants.*;
 
 /**
  * ERP 结算账户 Service 实现类
@@ -102,7 +101,7 @@ public class ErpAccountServiceImpl implements ErpAccountService {
 
     @Override
     public List<ErpAccountDO> getAccountList(Collection<Long> ids) {
-        return accountMapper.selectBatchIds(ids);
+        return accountMapper.selectByIds(ids);
     }
 
     @Override

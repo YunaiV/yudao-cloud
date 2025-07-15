@@ -11,10 +11,10 @@ import cn.iocoder.yudao.module.promotion.controller.admin.diy.vo.page.DiyPageUpd
 import cn.iocoder.yudao.module.promotion.convert.diy.DiyPageConvert;
 import cn.iocoder.yudao.module.promotion.dal.dataobject.diy.DiyPageDO;
 import cn.iocoder.yudao.module.promotion.dal.mysql.diy.DiyPageMapper;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import jakarta.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 
@@ -104,7 +104,7 @@ public class DiyPageServiceImpl implements DiyPageService {
         if (CollUtil.isEmpty(ids)) {
             return ListUtil.empty();
         }
-        return diyPageMapper.selectBatchIds(ids);
+        return diyPageMapper.selectByIds(ids);
     }
 
     @Override

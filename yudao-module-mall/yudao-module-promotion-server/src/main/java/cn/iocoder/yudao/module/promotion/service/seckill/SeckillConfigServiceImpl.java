@@ -11,10 +11,10 @@ import cn.iocoder.yudao.module.promotion.controller.admin.seckill.vo.config.Seck
 import cn.iocoder.yudao.module.promotion.convert.seckill.SeckillConfigConvert;
 import cn.iocoder.yudao.module.promotion.dal.dataobject.seckill.SeckillConfigDO;
 import cn.iocoder.yudao.module.promotion.dal.mysql.seckill.seckillconfig.SeckillConfigMapper;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import jakarta.annotation.Resource;
 import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Comparator;
@@ -132,7 +132,7 @@ public class SeckillConfigServiceImpl implements SeckillConfigService {
             return;
         }
         // 1. 如果有数量不匹配，说明有不存在的，则抛出 SECKILL_CONFIG_NOT_EXISTS 业务异常
-        List<SeckillConfigDO> configs = seckillConfigMapper.selectBatchIds(ids);
+        List<SeckillConfigDO> configs = seckillConfigMapper.selectByIds(ids);
         if (configs.size() != ids.size()) {
             throw exception(SECKILL_CONFIG_NOT_EXISTS);
         }

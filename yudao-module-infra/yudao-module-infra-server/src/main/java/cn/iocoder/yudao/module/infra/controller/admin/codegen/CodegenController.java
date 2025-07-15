@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.Map;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
-import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 import static cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils.getLoginUserNickname;
 import static cn.iocoder.yudao.module.infra.framework.file.core.utils.FileTypeUtils.writeAttachment;
 
@@ -120,6 +119,15 @@ public class CodegenController {
     @PreAuthorize("@ss.hasPermission('infra:codegen:delete')")
     public CommonResult<Boolean> deleteCodegen(@RequestParam("tableId") Long tableId) {
         codegenService.deleteCodegen(tableId);
+        return success(true);
+    }
+
+    @Operation(summary = "批量删除数据库的表和字段定义")
+    @DeleteMapping("/delete-list")
+    @Parameter(name = "tableIds", description = "表编号列表", required = true)
+    @PreAuthorize("@ss.hasPermission('infra:codegen:delete')")
+    public CommonResult<Boolean> deleteCodegenList(@RequestParam("tableIds") List<Long> tableIds) {
+        codegenService.deleteCodegenList(tableIds);
         return success(true);
     }
 

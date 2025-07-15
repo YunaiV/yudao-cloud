@@ -2,8 +2,8 @@ package cn.iocoder.yudao.module.infra.service.db;
 
 import cn.iocoder.yudao.module.infra.controller.admin.db.vo.DataSourceConfigSaveReqVO;
 import cn.iocoder.yudao.module.infra.dal.dataobject.db.DataSourceConfigDO;
+import jakarta.validation.Valid;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -34,6 +34,13 @@ public interface DataSourceConfigService {
      * @param id 编号
      */
     void deleteDataSourceConfig(Long id);
+
+    /**
+     * 批量删除数据源配置
+     *
+     * @param ids 编号列表
+     */
+    void deleteDataSourceConfigList(List<Long> ids);
 
     /**
      * 获得数据源配置

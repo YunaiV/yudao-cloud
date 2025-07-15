@@ -4,8 +4,9 @@ import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.module.infra.controller.admin.config.vo.ConfigPageReqVO;
 import cn.iocoder.yudao.module.infra.controller.admin.config.vo.ConfigSaveReqVO;
 import cn.iocoder.yudao.module.infra.dal.dataobject.config.ConfigDO;
+import jakarta.validation.Valid;
 
-import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 参数配置 Service 接口
@@ -35,6 +36,13 @@ public interface ConfigService {
      * @param id 配置编号
      */
     void deleteConfig(Long id);
+
+    /**
+     * 批量删除参数配置
+     *
+     * @param ids 配置编号列表
+     */
+    void deleteConfigList(List<Long> ids);
 
     /**
      * 获得参数配置

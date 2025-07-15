@@ -21,7 +21,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -142,9 +141,8 @@ public class AfterSaleController {
     public CommonResult<Boolean> updateAfterSaleRefunded(@RequestBody PayRefundNotifyReqDTO notifyReqDTO) {
         log.info("[updateAfterRefund][notifyReqDTO({})]", notifyReqDTO);
         if (StrUtil.startWithAny(notifyReqDTO.getMerchantRefundId(), "order-")) {
-            tradeOrderUpdateService.updatePaidOrderRefunded(
-                    Long.parseLong(notifyReqDTO.getMerchantRefundId()),
-                    notifyReqDTO.getPayRefundId());
+            Long orderId = Long.parseLong(StrUtil.subAfter(notifyReqDTO.getMerchantRefundId(), "order-", true));
+            tradeOrderUpdateService.updatePaidOrderRefunded(orderId, notifyReqDTO.getPayRefundId());
         } else {
             afterSaleService.updateAfterSaleRefunded(
                     Long.parseLong(notifyReqDTO.getMerchantRefundId()),

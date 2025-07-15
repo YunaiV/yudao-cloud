@@ -49,15 +49,17 @@ public class EnvLoadBalancerClient implements ReactorServiceInstanceLoadBalancer
 
     @Override
     public Mono<Response<ServiceInstance>> choose(Request request) {
-        // 情况一，没有 tag 时，使用默认的 reactiveLoadBalancer 实现负载均衡
-        String tag = EnvContextHolder.getTag();
-        if (StrUtil.isEmpty(tag)) {
-            return Mono.from(reactiveLoadBalancer.choose(request));
-        }
-
-        // 情况二，有 tag 时，使用 tag 匹配服务实例
         ServiceInstanceListSupplier supplier = serviceInstanceListSupplierProvider.getIfAvailable(NoopServiceInstanceListSupplier::new);
-        return supplier.get(request).next().map(list -> getInstanceResponse(list, tag));
+        return supplier.get(request).next().map(list -> {
+            // 情况一，没有 tag 时，过滤掉有 tag 的节点。目的：避免 test 环境，打到本地有 tag 的实例
+            String tag = EnvContextHolder.getTag();
+            if (StrUtil.isEmpty(tag)) {
+                return getInstanceResponseWithoutTag(list);
+            }
+
+            // 情况二，有 tag 时，使用 tag 匹配服务实例
+            return getInstanceResponse(list, tag);
+        });
     }
 
     private Response<ServiceInstance> getInstanceResponse(List<ServiceInstance> instances, String tag) {
@@ -74,9 +76,31 @@ public class EnvLoadBalancerClient implements ReactorServiceInstanceLoadBalancer
             chooseInstances = instances;
         }
 
-        // TODO 芋艿：https://juejin.cn/post/7056770721858469896 想通网段
+        // TODO 芋艿：https://juejin.cn/post/7056770721858469896 相同网段
 
         // 随机 + 权重获取实例列表 TODO 芋艿：目前直接使用 Nacos 提供的方法，如果替换注册中心，需要重新失败该方法
+        return new DefaultResponse(NacosBalancer.getHostByRandomWeight3(chooseInstances));
+    }
+
+    /**
+     * 当没有 tag 时，过滤掉有 tag 的实例列表
+     */
+    private Response<ServiceInstance> getInstanceResponseWithoutTag(List<ServiceInstance> instances) {
+        // 如果服务实例为空，则直接返回
+        if (CollUtil.isEmpty(instances)) {
+            log.warn("[getInstanceResponseWithoutTag][serviceId({}) 服务实例列表为空]", serviceId);
+            return new EmptyResponse();
+        }
+
+        // 筛选没有 tag 的实例列表
+        List<ServiceInstance> chooseInstances = CollectionUtils.filterList(instances, instance -> StrUtil.isEmpty(EnvUtils.getTag(instance)));
+        // 【重要】补充说明：如果希望在 chooseInstances 为空时，不允许打到有 tag 的实例，可以取消注释下面的代码
+        if (CollUtil.isEmpty(chooseInstances)) {
+            log.warn("[getInstanceResponseWithoutTag][serviceId({}) 没有不带 tag 的服务实例列表，直接使用所有服务实例列表]", serviceId);
+            chooseInstances = instances;
+        }
+
+        // 随机 + 权重获取实例列表
         return new DefaultResponse(NacosBalancer.getHostByRandomWeight3(chooseInstances));
     }
 

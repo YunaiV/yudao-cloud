@@ -142,12 +142,13 @@ public class CrmBusinessServiceImpl implements CrmBusinessService {
         updateBusinessProduct(updateObj.getId(), businessProducts);
 
         // 3. 记录操作日志上下文
+        updateReqVO.setOwnerUserId(oldBusiness.getOwnerUserId()); // 避免操作日志出现“删除负责人”的情况
         LogRecordContext.putVariable(DiffParseFunction.OLD_OBJECT, BeanUtils.toBean(oldBusiness, CrmBusinessSaveReqVO.class));
         LogRecordContext.putVariable("businessName", oldBusiness.getName());
     }
 
     @Override
-    @LogRecord(type = CRM_BUSINESS_TYPE, subType = CRM_BUSINESS_FOLLOW_UP_SUB_TYPE, bizNo = "{{#id}",
+    @LogRecord(type = CRM_BUSINESS_TYPE, subType = CRM_BUSINESS_FOLLOW_UP_SUB_TYPE, bizNo = "{{#id}}",
             success = CRM_BUSINESS_FOLLOW_UP_SUCCESS)
     @CrmPermission(bizType = CrmBizTypeEnum.CRM_BUSINESS, bizId = "#id", level = CrmPermissionLevelEnum.WRITE)
     public void updateBusinessFollowUp(Long id, LocalDateTime contactNextTime, String contactLastContent) {
@@ -180,7 +181,7 @@ public class CrmBusinessServiceImpl implements CrmBusinessService {
             businessProductMapper.updateBatch(diffList.get(1));
         }
         if (CollUtil.isNotEmpty(diffList.get(2))) {
-            businessProductMapper.deleteBatchIds(convertSet(diffList.get(2), CrmBusinessProductDO::getId));
+            businessProductMapper.deleteByIds(convertSet(diffList.get(2), CrmBusinessProductDO::getId));
         }
     }
 
@@ -328,7 +329,7 @@ public class CrmBusinessServiceImpl implements CrmBusinessService {
         if (CollUtil.isEmpty(ids)) {
             return ListUtil.empty();
         }
-        return businessMapper.selectBatchIds(ids);
+        return businessMapper.selectByIds(ids);
     }
 
     @Override

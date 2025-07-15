@@ -8,6 +8,8 @@ import cn.iocoder.yudao.module.infra.dal.dataobject.file.FileDO;
 
 import javax.validation.constraints.NotEmpty;
 
+import java.util.List;
+
 /**
  * 文件 Service 接口
  *
@@ -59,6 +61,13 @@ public interface FileService {
      * @param id 编号
      */
     void deleteFile(Long id) throws Exception;
+
+    /**
+     * 批量删除文件
+     *
+     * @param ids 编号列表
+     */
+    void deleteFileList(List<Long> ids) throws Exception;
 
     /**
      * 获得文件内容

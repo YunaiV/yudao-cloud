@@ -14,7 +14,7 @@ import cn.iocoder.yudao.module.promotion.dal.mysql.diy.DiyPageMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 
@@ -104,7 +104,7 @@ public class DiyPageServiceImpl implements DiyPageService {
         if (CollUtil.isEmpty(ids)) {
             return ListUtil.empty();
         }
-        return diyPageMapper.selectBatchIds(ids);
+        return diyPageMapper.selectByIds(ids);
     }
 
     @Override

@@ -4,10 +4,11 @@ import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.module.infra.controller.admin.file.vo.config.FileConfigPageReqVO;
 import cn.iocoder.yudao.module.infra.controller.admin.file.vo.config.FileConfigSaveReqVO;
 import cn.iocoder.yudao.module.infra.dal.dataobject.file.FileConfigDO;
-
 import cn.iocoder.yudao.module.infra.framework.file.core.client.FileClient;
 
 import javax.validation.Valid;
+
+import java.util.List;
 
 /**
  * 文件配置 Service 接口
@@ -44,6 +45,13 @@ public interface FileConfigService {
      * @param id 编号
      */
     void deleteFileConfig(Long id);
+
+    /**
+     * 批量删除文件配置
+     *
+     * @param ids 编号列表
+     */
+    void deleteFileConfigList(List<Long> ids);
 
     /**
      * 获得文件配置

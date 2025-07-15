@@ -71,6 +71,15 @@ public class UserController {
         return success(true);
     }
 
+    @DeleteMapping("/delete-list")
+    @Parameter(name = "ids", description = "编号列表", required = true)
+    @Operation(summary = "批量删除用户")
+    @PreAuthorize("@ss.hasPermission('system:user:delete')")
+    public CommonResult<Boolean> deleteUserList(@RequestParam("ids") List<Long> ids) {
+        userService.deleteUserList(ids);
+        return success(true);
+    }
+
     @PutMapping("/update-password")
     @Operation(summary = "重置用户密码")
     @PreAuthorize("@ss.hasPermission('system:user:update-password')")
@@ -127,7 +136,7 @@ public class UserController {
         return success(UserConvert.INSTANCE.convert(user, dept));
     }
 
-    @GetMapping("/export")
+    @GetMapping("/export-excel")
     @Operation(summary = "导出用户")
     @PreAuthorize("@ss.hasPermission('system:user:export')")
     @ApiAccessLog(operateType = EXPORT)

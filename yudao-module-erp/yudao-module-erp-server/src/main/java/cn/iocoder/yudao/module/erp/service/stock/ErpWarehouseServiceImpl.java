@@ -20,8 +20,7 @@ import java.util.Map;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertMap;
-import static cn.iocoder.yudao.module.erp.enums.ErrorCodeConstants.WAREHOUSE_NOT_ENABLE;
-import static cn.iocoder.yudao.module.erp.enums.ErrorCodeConstants.WAREHOUSE_NOT_EXISTS;
+import static cn.iocoder.yudao.module.erp.enums.ErrorCodeConstants.*;
 
 /**
  * ERP 仓库 Service 实现类
@@ -94,7 +93,7 @@ public class ErpWarehouseServiceImpl implements ErpWarehouseService {
         if (CollUtil.isEmpty(ids)) {
             return Collections.emptyList();
         }
-        List<ErpWarehouseDO> list = warehouseMapper.selectBatchIds(ids);
+        List<ErpWarehouseDO> list = warehouseMapper.selectByIds(ids);
         Map<Long, ErpWarehouseDO> warehouseMap = convertMap(list, ErpWarehouseDO::getId);
         for (Long id : ids) {
             ErpWarehouseDO warehouse = warehouseMap.get(id);
@@ -115,7 +114,7 @@ public class ErpWarehouseServiceImpl implements ErpWarehouseService {
 
     @Override
     public List<ErpWarehouseDO> getWarehouseList(Collection<Long> ids) {
-        return warehouseMapper.selectBatchIds(ids);
+        return warehouseMapper.selectByIds(ids);
     }
 
     @Override

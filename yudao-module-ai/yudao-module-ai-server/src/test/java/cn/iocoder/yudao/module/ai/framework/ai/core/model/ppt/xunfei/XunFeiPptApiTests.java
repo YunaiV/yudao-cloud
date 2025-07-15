@@ -1,8 +1,8 @@
 package cn.iocoder.yudao.module.ai.framework.ai.core.model.ppt.xunfei;
 
 import cn.hutool.core.io.FileUtil;
-import cn.iocoder.yudao.module.ai.framework.ai.core.model.xinghuo.api.XunFeiPptApi;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
+import cn.iocoder.yudao.module.ai.framework.ai.core.model.xinghuo.api.XunFeiPptApi;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;

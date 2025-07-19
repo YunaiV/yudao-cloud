@@ -100,7 +100,7 @@ public class CombinationActivityServiceImpl implements CombinationActivityServic
      */
     private void validateProductExists(Long spuId, List<CombinationProductBaseVO> products) {
         // 1. 校验商品 spu 是否存在
-        ProductSpuRespDTO spu = productSpuApi.getSpu(spuId);
+        ProductSpuRespDTO spu = productSpuApi.getSpu(spuId).getCheckedData();
         if (spu == null) {
             throw exception(SPU_NOT_EXISTS);
         }

@@ -1,38 +1,42 @@
 package cn.iocoder.yudao.framework.excel.core.handler;
 
-import com.alibaba.excel.enums.CellDataTypeEnum;
-import com.alibaba.excel.metadata.Head;
-import com.alibaba.excel.metadata.data.WriteCellData;
-import com.alibaba.excel.util.MapUtils;
-import com.alibaba.excel.write.metadata.holder.WriteSheetHolder;
-import com.alibaba.excel.write.style.column.AbstractColumnWidthStyleStrategy;
-import org.apache.commons.collections4.CollectionUtils;
+import cn.hutool.core.collection.CollUtil;
+import cn.idev.excel.enums.CellDataTypeEnum;
+import cn.idev.excel.metadata.Head;
+import cn.idev.excel.metadata.data.WriteCellData;
+import cn.idev.excel.util.MapUtils;
+import cn.idev.excel.write.metadata.holder.WriteSheetHolder;
+import cn.idev.excel.write.style.column.AbstractColumnWidthStyleStrategy;
+import cn.idev.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import org.apache.poi.ss.usermodel.Cell;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 /**
- * 自适应列宽处理器
+ * Excel 自适应列宽处理器
  *
+ * 相比 {@link LongestMatchColumnWidthStyleStrategy} 来说，额外处理了 DATE 类型！
+ *
+ * @see <a href="https://github.com/YunaiV/yudao-cloud/pull/196/">添加自适应列宽处理器，并替换默认列宽策略</a>
  * @author hmb
  */
 public class ColumnWidthMatchStyleStrategy extends AbstractColumnWidthStyleStrategy {
-    private static final int MAX_COLUMN_WIDTH = 255;
-    private final Map<Integer, Map<Integer, Integer>> cache = MapUtils.newHashMapWithExpectedSize(8);
 
-    public ColumnWidthMatchStyleStrategy() {
-    }
+    private static final int MAX_COLUMN_WIDTH = 255;
+
+    private final Map<Integer, Map<Integer, Integer>> cache = MapUtils.newHashMapWithExpectedSize(8);
 
     @Override
     protected void setColumnWidth(WriteSheetHolder writeSheetHolder, List<WriteCellData<?>> cellDataList, Cell cell,
-                                  Head head,
-                                  Integer relativeRowIndex, Boolean isHead) {
-        boolean needSetWidth = isHead || !CollectionUtils.isEmpty(cellDataList);
+                                  Head head, Integer relativeRowIndex, Boolean isHead) {
+        boolean needSetWidth = isHead || CollUtil.isNotEmpty(cellDataList);
         if (!needSetWidth) {
             return;
         }
-        Map<Integer, Integer> maxColumnWidthMap = cache.computeIfAbsent(writeSheetHolder.getSheetNo(), key -> new HashMap<>(16));
+        Map<Integer, Integer> maxColumnWidthMap = cache.computeIfAbsent(writeSheetHolder.getSheetNo(),
+                key -> new HashMap<>(16));
         Integer columnWidth = dataLength(cellDataList, cell, isHead);
         if (columnWidth < 0) {
             return;
@@ -43,10 +47,11 @@ public class ColumnWidthMatchStyleStrategy extends AbstractColumnWidthStyleStrat
         Integer maxColumnWidth = maxColumnWidthMap.get(cell.getColumnIndex());
         if (maxColumnWidth == null || columnWidth > maxColumnWidth) {
             maxColumnWidthMap.put(cell.getColumnIndex(), columnWidth);
-            writeSheetHolder.getSheet().setColumnWidth(cell.getColumnIndex(), (columnWidth+3) * 256);
+            writeSheetHolder.getSheet().setColumnWidth(cell.getColumnIndex(), columnWidth * 256);
         }
     }
 
+    @SuppressWarnings("EnhancedSwitchMigration")
     private Integer dataLength(List<WriteCellData<?>> cellDataList, Cell cell, Boolean isHead) {
         if (isHead) {
             return cell.getStringCellValue().getBytes().length;
@@ -69,5 +74,5 @@ public class ColumnWidthMatchStyleStrategy extends AbstractColumnWidthStyleStrat
                 return -1;
         }
     }
-}
 
+}

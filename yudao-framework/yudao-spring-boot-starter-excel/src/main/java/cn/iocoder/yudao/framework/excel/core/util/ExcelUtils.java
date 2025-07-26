@@ -4,6 +4,7 @@ import cn.idev.excel.FastExcelFactory;
 import cn.idev.excel.converters.longconverter.LongStringConverter;
 import cn.idev.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import cn.iocoder.yudao.framework.common.util.http.HttpUtils;
+import cn.iocoder.yudao.framework.excel.core.handler.ColumnWidthMatchStyleStrategy;
 import cn.iocoder.yudao.framework.excel.core.handler.SelectSheetWriteHandler;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;

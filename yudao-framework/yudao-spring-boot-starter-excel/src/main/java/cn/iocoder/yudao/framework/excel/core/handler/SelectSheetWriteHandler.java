@@ -11,12 +11,12 @@ import cn.iocoder.yudao.framework.common.core.KeyValue;
 import cn.iocoder.yudao.framework.dict.core.DictFrameworkUtils;
 import cn.iocoder.yudao.framework.excel.core.annotations.ExcelColumnSelect;
 import cn.iocoder.yudao.framework.excel.core.function.ExcelColumnSelectFunction;
-import com.alibaba.excel.annotation.ExcelIgnore;
-import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
-import com.alibaba.excel.annotation.ExcelProperty;
-import com.alibaba.excel.write.handler.SheetWriteHandler;
-import com.alibaba.excel.write.metadata.holder.WriteSheetHolder;
-import com.alibaba.excel.write.metadata.holder.WriteWorkbookHolder;
+import cn.idev.excel.annotation.ExcelIgnore;
+import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
+import cn.idev.excel.annotation.ExcelProperty;
+import cn.idev.excel.write.handler.SheetWriteHandler;
+import cn.idev.excel.write.metadata.holder.WriteSheetHolder;
+import cn.idev.excel.write.metadata.holder.WriteWorkbookHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFDataValidation;
 import org.apache.poi.ss.usermodel.*;
@@ -87,7 +87,7 @@ public class SelectSheetWriteHandler implements SheetWriteHandler {
 
     /**
      * 判断字段是否是静态的、最终的、 transient 的
-     * 原因：EasyExcel 默认是忽略 static final 或 transient 的字段，所以需要判断
+     * 原因：FastExcel 默认是忽略 static final 或 transient 的字段，所以需要判断
      *
      * @param field 字段
      * @return 是否是静态的、最终的、transient 的

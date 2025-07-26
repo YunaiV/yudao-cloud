@@ -74,26 +74,31 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
         // TODO 芋艿：暂未实现
 
         // 方式三：打印到控制台，方便排查错误
-        Map<String, Object> values = MapUtil.newHashMap(15, true); // 手工拼接，保证排序；15 保证不用扩容
-        values.put("userId", gatewayLog.getUserId());
-        values.put("userType", gatewayLog.getUserType());
-        values.put("routeId", gatewayLog.getRoute() != null ? gatewayLog.getRoute().getId() : null);
-        values.put("schema", gatewayLog.getSchema());
-        values.put("requestUrl", gatewayLog.getRequestUrl());
-        values.put("queryParams", gatewayLog.getQueryParams().toSingleValueMap());
-        values.put("requestBody", JsonUtils.isJson(gatewayLog.getRequestBody()) ? // 保证 body 的展示好看
-                JSONUtil.parse(gatewayLog.getRequestBody()) : gatewayLog.getRequestBody());
-        values.put("requestHeaders", JsonUtils.toJsonString(gatewayLog.getRequestHeaders().toSingleValueMap()));
-        values.put("userIp", gatewayLog.getUserIp());
-        values.put("responseBody", JsonUtils.isJson(gatewayLog.getResponseBody()) ? // 保证 body 的展示好看
-                JSONUtil.parse(gatewayLog.getResponseBody()) : gatewayLog.getResponseBody());
-        values.put("responseHeaders", gatewayLog.getResponseHeaders() != null ?
-                JsonUtils.toJsonString(gatewayLog.getResponseHeaders().toSingleValueMap()) : null);
-        values.put("httpStatus", gatewayLog.getHttpStatus());
-        values.put("startTime", LocalDateTimeUtil.format(gatewayLog.getStartTime(), NORM_DATETIME_MS_FORMATTER));
-        values.put("endTime", LocalDateTimeUtil.format(gatewayLog.getEndTime(), NORM_DATETIME_MS_FORMATTER));
-        values.put("duration", gatewayLog.getDuration() != null ? gatewayLog.getDuration() + " ms" : null);
-        log.info("[writeAccessLog][网关日志：{}]", JsonUtils.toJsonPrettyString(values));
+        try {
+            Map<String, Object> values = MapUtil.newHashMap(15, true); // 手工拼接，保证排序；15 保证不用扩容
+            values.put("userId", gatewayLog.getUserId());
+            values.put("userType", gatewayLog.getUserType());
+            values.put("routeId", gatewayLog.getRoute() != null ? gatewayLog.getRoute().getId() : null);
+            values.put("schema", gatewayLog.getSchema());
+            values.put("requestUrl", gatewayLog.getRequestUrl());
+            values.put("queryParams", gatewayLog.getQueryParams().toSingleValueMap());
+            values.put("requestBody", JsonUtils.isJson(gatewayLog.getRequestBody()) ? // 保证 body 的展示好看
+                    JSONUtil.parse(gatewayLog.getRequestBody()) : gatewayLog.getRequestBody());
+            values.put("requestHeaders", JsonUtils.toJsonString(gatewayLog.getRequestHeaders().toSingleValueMap()));
+            values.put("userIp", gatewayLog.getUserIp());
+            values.put("responseBody", JsonUtils.isJson(gatewayLog.getResponseBody()) ? // 保证 body 的展示好看
+                    JSONUtil.parse(gatewayLog.getResponseBody()) : gatewayLog.getResponseBody());
+            values.put("responseHeaders", gatewayLog.getResponseHeaders() != null ?
+                    JsonUtils.toJsonString(gatewayLog.getResponseHeaders().toSingleValueMap()) : null);
+            values.put("httpStatus", gatewayLog.getHttpStatus());
+            values.put("startTime", LocalDateTimeUtil.format(gatewayLog.getStartTime(), NORM_DATETIME_MS_FORMATTER));
+            values.put("endTime", LocalDateTimeUtil.format(gatewayLog.getEndTime(), NORM_DATETIME_MS_FORMATTER));
+            values.put("duration", gatewayLog.getDuration() != null ? gatewayLog.getDuration() + " ms" : null);
+            log.info("[writeAccessLog][网关日志：{}]", JsonUtils.toJsonPrettyString(values));
+        } catch (Exception e) {
+            // 兜底处理，参见 https://gitee.com/zhijiantianya/yudao-cloud/issues/IC9A70
+            log.error("[writeAccessLog][打印网关日志时，发生异常]", e);
+        }
     }
 
     @Override

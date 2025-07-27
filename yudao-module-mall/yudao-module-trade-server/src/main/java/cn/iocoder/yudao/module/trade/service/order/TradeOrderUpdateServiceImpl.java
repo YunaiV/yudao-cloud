@@ -427,7 +427,7 @@ public class TradeOrderUpdateServiceImpl implements TradeOrderUpdateService {
                 .addMessage("phrase6", TradeOrderStatusEnum.DELIVERED.getName()) // 订单状态
                 .addMessage("date4", LocalDateTimeUtil.formatNormal(LocalDateTime.now()))// 发货时间
                 .addMessage("character_string5", StrUtil.blankToDefault(deliveryReqVO.getLogisticsNo(), "-")) // 快递单号
-                .addMessage("thing9", order.getReceiverDetailAddress())).checkError(); // 收货地址
+                .addMessage("thing9", order.getReceiverDetailAddress())); // 收货地址
     }
 
     /**
@@ -729,7 +729,7 @@ public class TradeOrderUpdateServiceImpl implements TradeOrderUpdateService {
         tradeOrderItemMapper.updateBatch(updateItems);
 
         // 4. 更新支付订单
-        payOrderApi.updatePayOrderPrice(order.getPayOrderId(), newPayPrice).checkError();
+        payOrderApi.updatePayOrderPrice(order.getPayOrderId(), newPayPrice);
 
         // 5. 记录订单日志
         TradeOrderLogUtils.setOrderInfo(order.getId(), order.getStatus(), order.getStatus(),
@@ -952,11 +952,12 @@ public class TradeOrderUpdateServiceImpl implements TradeOrderUpdateService {
         payRefundApi.createRefund(new PayRefundCreateReqDTO()
                 .setAppKey(tradeOrderProperties.getPayAppKey())  // 支付应用
                 .setUserIp(NetUtil.getLocalhostStr()) // 使用本机 IP，因为是服务器发起退款的
+                .setUserId(order.getUserId()).setUserType(UserTypeEnum.MEMBER.getValue()) // 用户信息
                 .setMerchantOrderId(String.valueOf(order.getId())) // 支付单号
                 // 特殊：因为订单支持 AfterSale 单个售后退款，也支持整单退款，所以需要通过 order- 进行下区分
                 //      具体可见 AfterSaleController 的 updateAfterSaleRefunded 方法
                 .setMerchantRefundId("order-" + order.getId())
-                .setReason(TradeOrderCancelTypeEnum.COMBINATION_CLOSE.getName()).setPrice(order.getPayPrice())).checkError(); // 价格信息
+                .setReason(TradeOrderCancelTypeEnum.COMBINATION_CLOSE.getName()).setPrice(order.getPayPrice())); // 价格信息
     }
 
     @Override

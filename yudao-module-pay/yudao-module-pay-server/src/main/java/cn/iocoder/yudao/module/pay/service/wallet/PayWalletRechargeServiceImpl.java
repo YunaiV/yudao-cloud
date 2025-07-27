@@ -64,8 +64,6 @@ public class PayWalletRechargeServiceImpl implements PayWalletRechargeService {
     private PayWalletService payWalletService;
     @Resource
     private PayOrderService payOrderService;
-//    @Resource
-//    private PayRefundService payRefundService;
     @Resource
     private PayWalletRechargePackageService payWalletRechargePackageService;
 
@@ -99,6 +97,7 @@ public class PayWalletRechargeServiceImpl implements PayWalletRechargeService {
         // 2.1 创建支付单
         Long payOrderId = payOrderService.createOrder(new PayOrderCreateReqDTO()
                 .setAppKey(payProperties.getWalletPayAppKey()).setUserIp(userIp)
+                .setUserId(userId).setUserType(userType) // 用户信息
                 .setMerchantOrderId(recharge.getId().toString()) // 业务的订单编号
                 .setSubject(WALLET_RECHARGE_ORDER_SUBJECT).setBody("")
                 .setPrice(recharge.getPayPrice())
@@ -169,7 +168,7 @@ public class PayWalletRechargeServiceImpl implements PayWalletRechargeService {
                 .addMessage("character_string1", String.valueOf(payOrderId)) // 支付单编号
                 .addMessage("amount2", fenToYuanStr(walletRecharge.getTotalPrice())) // 充值金额
                 .addMessage("time3", LocalDateTimeUtil.formatNormal(walletRecharge.getCreateTime())) // 充值时间
-                .addMessage("phrase4", "充值成功")).checkError(); // 充值状态
+                .addMessage("phrase4", "充值成功")); // 充值状态
 
         // 2. 调用接口上传虚拟物品发货信息
         // 注意：只有微信小程序支付的订单，才需要同步
@@ -183,7 +182,7 @@ public class PayWalletRechargeServiceImpl implements PayWalletRechargeService {
                 .setItemDesc(payOrder.getSubject())
                 .setLogisticsType(SocialWxaOrderUploadShippingInfoReqDTO.LOGISTICS_TYPE_VIRTUAL); // 虚拟物品发货类型
         try {
-            socialClientApi.uploadWxaOrderShippingInfo(UserTypeEnum.MEMBER.getValue(), reqDTO).checkError();
+            socialClientApi.uploadWxaOrderShippingInfo(UserTypeEnum.MEMBER.getValue(), reqDTO);
         } catch (Exception ex) {
             log.error("[sendWalletRechargerPaidMessage][订单({}) 上传订单物流信息到微信小程序失败]", payOrder, ex);
         }
@@ -209,6 +208,7 @@ public class PayWalletRechargeServiceImpl implements PayWalletRechargeService {
         String refundId = walletRechargeId + "-refund";
         Long payRefundId = payRefundApi.createRefund(new PayRefundCreateReqDTO()
                 .setAppKey(payProperties.getWalletPayAppKey()).setUserIp(userIp)
+                .setUserId(wallet.getUserId()).setUserType(wallet.getUserType()) // 用户信息
                 .setMerchantOrderId(walletRechargeId)
                 .setMerchantRefundId(refundId)
                 .setReason("想退钱").setPrice(walletRecharge.getPayPrice())).getCheckedData();

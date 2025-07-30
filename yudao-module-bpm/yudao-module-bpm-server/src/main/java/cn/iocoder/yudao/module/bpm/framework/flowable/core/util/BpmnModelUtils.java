@@ -797,12 +797,13 @@ public class BpmnModelUtils {
 
         // 情况：StartEvent/EndEvent/UserTask/ServiceTask
         if (currentElement instanceof StartEvent
-            || currentElement instanceof EndEvent
-            || currentElement instanceof UserTask
-            || currentElement instanceof ServiceTask) {
-            // 添加元素
+                || currentElement instanceof EndEvent
+                || currentElement instanceof UserTask
+                || currentElement instanceof ServiceTask) {
+            // 添加节点
             FlowNode flowNode = (FlowNode) currentElement;
             resultElements.add(flowNode);
+
             // 遍历子节点
             flowNode.getOutgoingFlows().forEach(
                     nextElement -> simulateNextFlowElements(nextElement.getTargetFlowElement(), variables, resultElements, visitElements));
@@ -833,6 +834,31 @@ public class BpmnModelUtils {
             gateway.getOutgoingFlows().forEach(
                     nextElement -> simulateNextFlowElements(nextElement.getTargetFlowElement(), variables, resultElements, visitElements));
         }
+    }
+
+    /**
+     * 判断是否跳过此节点
+     *
+     * @param flowNode 节点
+     * @param variables 流程变量
+     */
+    public static boolean isSkipNode(FlowElement flowNode, Map<String, Object> variables) {
+        // 1. 检查节点是否有跳过表达式（支持多种任务节点类型）
+        String skipExpression = null;
+        if (flowNode instanceof UserTask) {
+            skipExpression = ((UserTask) flowNode).getSkipExpression();
+        } else if (flowNode instanceof ServiceTask) {
+            skipExpression = ((ServiceTask) flowNode).getSkipExpression();
+        } else if (flowNode instanceof ScriptTask) {
+            skipExpression = ((ScriptTask) flowNode).getSkipExpression();
+        }
+
+        if (StrUtil.isEmpty(skipExpression)) {
+            return false;
+        }
+
+        // 2. 计算跳过表达式的值
+        return evalConditionExpress(variables, skipExpression);
     }
 
     /**
@@ -912,8 +938,8 @@ public class BpmnModelUtils {
      */
     private static SequenceFlow findMatchSequenceFlowByExclusiveGateway(Gateway gateway, Map<String, Object> variables) {
         SequenceFlow matchSequenceFlow = CollUtil.findOne(gateway.getOutgoingFlows(),
-                    flow -> ObjUtil.notEqual(gateway.getDefaultFlow(), flow.getId())
-                            && (evalConditionExpress(variables, flow.getConditionExpression())));
+                flow -> ObjUtil.notEqual(gateway.getDefaultFlow(), flow.getId())
+                        && (evalConditionExpress(variables, flow.getConditionExpression())));
         if (matchSequenceFlow == null) {
             matchSequenceFlow = CollUtil.findOne(gateway.getOutgoingFlows(),
                     flow -> ObjUtil.equal(gateway.getDefaultFlow(), flow.getId()));
@@ -997,7 +1023,7 @@ public class BpmnModelUtils {
      * @return 是否满足条件
      */
     public static boolean evalConditionExpress(Map<String, Object> variables, String expression) {
-        if (expression == null) {
+        if (StrUtil.isEmpty(expression)) {
             return Boolean.FALSE;
         }
         // 如果 variables 为空，则创建一个的原因？可能 expression 的计算，不依赖于 variables

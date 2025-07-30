@@ -35,6 +35,11 @@ public class BpmProcessInstanceStatusEvent extends ApplicationEvent {
      */
     private String businessKey;
 
+    public BpmProcessInstanceStatusEvent() {
+        // new Object() 保证非空
+        super(new Object());
+    }
+
     public BpmProcessInstanceStatusEvent(Object source) {
         super(source);
     }

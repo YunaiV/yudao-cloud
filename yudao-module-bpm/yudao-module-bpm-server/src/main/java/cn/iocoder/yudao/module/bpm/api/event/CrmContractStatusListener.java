@@ -5,21 +5,21 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
- * 回款审批的结果的监听器实现类
+ * 合同审批的结果的监听器实现类
  *
  * @author 芋道源码
  */
-public class CrmReceivableStatusListener extends BpmProcessInstanceStatusEventListener {
+public class CrmContractStatusListener extends BpmProcessInstanceStatusEventListener {
 
     @Override
     public String getProcessDefinitionKey() {
-        return "crm-receivable-audit";
+        return "crm-contract-audit";
     }
 
     @Override
     public void onEvent(@RequestBody @Valid BpmProcessInstanceStatusEvent event) {
         BpmHttpRequestUtils.executeBpmHttpRequest(event,
-                "http://crm-server/rpc-api/crm/receivable/update-audit-status");
+                "http://crm-server/rpc-api/crm/contract/update-audit-status");
     }
 
 }

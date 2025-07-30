@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.bpm.framework.rpc.config;
 
+import cn.iocoder.yudao.module.bpm.api.event.CrmContractStatusListener;
 import cn.iocoder.yudao.module.bpm.api.event.CrmReceivableStatusListener;
 import cn.iocoder.yudao.module.system.api.dept.DeptApi;
 import cn.iocoder.yudao.module.system.api.dept.PostApi;
@@ -24,6 +25,12 @@ public class RpcConfiguration {
     @ConditionalOnMissingBean(name = "crmReceivableStatusListener")
     public CrmReceivableStatusListener crmReceivableStatusListener() {
         return new CrmReceivableStatusListener();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(name = "crmContractStatusListener")
+    public CrmContractStatusListener crmContractStatusListener() {
+        return new CrmContractStatusListener();
     }
 
 }

@@ -40,7 +40,7 @@ public interface ErrorCodeConstants {
     ErrorCode PROCESS_INSTANCE_START_USER_SELECT_ASSIGNEES_NOT_EXISTS = new ErrorCode(1_009_004_004, "任务({})的候选人({})不存在");
     ErrorCode PROCESS_INSTANCE_START_USER_CAN_START = new ErrorCode(1_009_004_005, "发起流程失败，你没有权限发起该流程");
     ErrorCode PROCESS_INSTANCE_CANCEL_FAIL_NOT_ALLOW = new ErrorCode(1_009_004_005, "流程取消失败，该流程不允许取消");
-    ErrorCode PROCESS_INSTANCE_HTTP_TRIGGER_CALL_ERROR = new ErrorCode(1_009_004_006, "流程 Http 触发器请求调用失败");
+    ErrorCode PROCESS_INSTANCE_HTTP_CALL_ERROR = new ErrorCode(1_009_004_006, "流程 Http 请求调用失败");
     ErrorCode PROCESS_INSTANCE_APPROVE_USER_SELECT_ASSIGNEES_NOT_CONFIG = new ErrorCode(1_009_004_007, "下一个任务({})的审批人未配置");
     ErrorCode PROCESS_INSTANCE_CANCEL_CHILD_FAIL_NOT_ALLOW = new ErrorCode(1_009_004_008, "子流程取消失败，子流程不允许取消");
 

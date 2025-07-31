@@ -8,10 +8,11 @@ import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.category.BpmCa
 import cn.iocoder.yudao.module.bpm.dal.dataobject.definition.BpmCategoryDO;
 import cn.iocoder.yudao.module.bpm.dal.mysql.category.BpmCategoryMapper;
 import cn.iocoder.yudao.module.bpm.service.definition.BpmCategoryServiceImpl;
+import cn.iocoder.yudao.module.bpm.service.definition.BpmModelService;
+import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
-
-import javax.annotation.Resource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildBetweenTime;
 import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildTime;
@@ -32,6 +33,9 @@ public class BpmCategoryServiceImplTest extends BaseDbUnitTest {
 
     @Resource
     private BpmCategoryServiceImpl categoryService;
+
+    @MockitoBean
+    private BpmModelService modelService;
 
     @Resource
     private BpmCategoryMapper categoryMapper;
@@ -88,8 +92,8 @@ public class BpmCategoryServiceImplTest extends BaseDbUnitTest {
 
         // 调用
         categoryService.deleteCategory(id);
-       // 校验数据不存在了
-       assertNull(categoryMapper.selectById(id));
+        // 校验数据不存在了
+        assertNull(categoryMapper.selectById(id));
     }
 
     @Test
@@ -103,35 +107,35 @@ public class BpmCategoryServiceImplTest extends BaseDbUnitTest {
 
     @Test
     public void testGetCategoryPage() {
-       // mock 数据
-       BpmCategoryDO dbCategory = randomPojo(BpmCategoryDO.class, o -> { // 等会查询到
-           o.setName("芋头");
-           o.setCode("xiaodun");
-           o.setStatus(CommonStatusEnum.ENABLE.getStatus());
-           o.setCreateTime(buildTime(2023, 2, 2));
-       });
-       categoryMapper.insert(dbCategory);
-       // 测试 name 不匹配
-       categoryMapper.insert(cloneIgnoreId(dbCategory, o -> o.setName("小盾")));
-       // 测试 code 不匹配
-       categoryMapper.insert(cloneIgnoreId(dbCategory, o -> o.setCode("tudou")));
-       // 测试 status 不匹配
-       categoryMapper.insert(cloneIgnoreId(dbCategory, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
-       // 测试 createTime 不匹配
-       categoryMapper.insert(cloneIgnoreId(dbCategory, o -> o.setCreateTime(buildTime(2024, 2, 2))));
-       // 准备参数
-       BpmCategoryPageReqVO reqVO = new BpmCategoryPageReqVO();
-       reqVO.setName("芋");
-       reqVO.setCode("xiao");
-       reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-       reqVO.setCreateTime(buildBetweenTime(2023, 2, 1, 2023, 2, 28));
+        // mock 数据
+        BpmCategoryDO dbCategory = randomPojo(BpmCategoryDO.class, o -> { // 等会查询到
+            o.setName("芋头");
+            o.setCode("xiaodun");
+            o.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            o.setCreateTime(buildTime(2023, 2, 2));
+        });
+        categoryMapper.insert(dbCategory);
+        // 测试 name 不匹配
+        categoryMapper.insert(cloneIgnoreId(dbCategory, o -> o.setName("小盾")));
+        // 测试 code 不匹配
+        categoryMapper.insert(cloneIgnoreId(dbCategory, o -> o.setCode("tudou")));
+        // 测试 status 不匹配
+        categoryMapper.insert(cloneIgnoreId(dbCategory, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
+        // 测试 createTime 不匹配
+        categoryMapper.insert(cloneIgnoreId(dbCategory, o -> o.setCreateTime(buildTime(2024, 2, 2))));
+        // 准备参数
+        BpmCategoryPageReqVO reqVO = new BpmCategoryPageReqVO();
+        reqVO.setName("芋");
+        reqVO.setCode("xiao");
+        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        reqVO.setCreateTime(buildBetweenTime(2023, 2, 1, 2023, 2, 28));
 
-       // 调用
-       PageResult<BpmCategoryDO> pageResult = categoryService.getCategoryPage(reqVO);
-       // 断言
-       assertEquals(1, pageResult.getTotal());
-       assertEquals(1, pageResult.getList().size());
-       assertPojoEquals(dbCategory, pageResult.getList().get(0));
+        // 调用
+        PageResult<BpmCategoryDO> pageResult = categoryService.getCategoryPage(reqVO);
+        // 断言
+        assertEquals(1, pageResult.getTotal());
+        assertEquals(1, pageResult.getList().size());
+        assertPojoEquals(dbCategory, pageResult.getList().get(0));
     }
 
 }

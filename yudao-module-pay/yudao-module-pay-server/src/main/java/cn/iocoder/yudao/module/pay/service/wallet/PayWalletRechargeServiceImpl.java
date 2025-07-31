@@ -168,7 +168,7 @@ public class PayWalletRechargeServiceImpl implements PayWalletRechargeService {
                 .addMessage("character_string1", String.valueOf(payOrderId)) // 支付单编号
                 .addMessage("amount2", fenToYuanStr(walletRecharge.getTotalPrice())) // 充值金额
                 .addMessage("time3", LocalDateTimeUtil.formatNormal(walletRecharge.getCreateTime())) // 充值时间
-                .addMessage("phrase4", "充值成功")); // 充值状态
+                .addMessage("phrase4", "充值成功")).checkError(); // 充值状态
 
         // 2. 调用接口上传虚拟物品发货信息
         // 注意：只有微信小程序支付的订单，才需要同步
@@ -182,7 +182,7 @@ public class PayWalletRechargeServiceImpl implements PayWalletRechargeService {
                 .setItemDesc(payOrder.getSubject())
                 .setLogisticsType(SocialWxaOrderUploadShippingInfoReqDTO.LOGISTICS_TYPE_VIRTUAL); // 虚拟物品发货类型
         try {
-            socialClientApi.uploadWxaOrderShippingInfo(UserTypeEnum.MEMBER.getValue(), reqDTO);
+            socialClientApi.uploadWxaOrderShippingInfo(UserTypeEnum.MEMBER.getValue(), reqDTO).checkError();
         } catch (Exception ex) {
             log.error("[sendWalletRechargerPaidMessage][订单({}) 上传订单物流信息到微信小程序失败]", payOrder, ex);
         }

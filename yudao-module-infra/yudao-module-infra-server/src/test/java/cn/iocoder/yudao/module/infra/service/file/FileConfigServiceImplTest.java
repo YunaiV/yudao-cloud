@@ -21,7 +21,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;
-import javax.xml.validation.Validator;
+import javax.validation.Validator;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Map;

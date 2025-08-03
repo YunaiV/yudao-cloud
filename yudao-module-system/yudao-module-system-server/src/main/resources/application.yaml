@@ -183,5 +183,6 @@ yudao:
     send-maximum-quantity-per-day: 10
     begin-code: 9999 # 这里配置 9999 的原因是，测试方便。
     end-code: 9999 # 这里配置 9999 的原因是，测试方便。
-
+    ip-send-maximum-quantity-per-day: 100
+    ip-send-maximum-quantity-per-hour: 20
 debug: false

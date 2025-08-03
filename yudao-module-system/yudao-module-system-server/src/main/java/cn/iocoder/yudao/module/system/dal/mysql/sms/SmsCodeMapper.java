@@ -5,6 +5,9 @@ import cn.iocoder.yudao.framework.mybatis.core.query.QueryWrapperX;
 import cn.iocoder.yudao.module.system.dal.dataobject.sms.SmsCodeDO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Mapper
 public interface SmsCodeMapper extends BaseMapperX<SmsCodeDO> {
 
@@ -25,4 +28,10 @@ public interface SmsCodeMapper extends BaseMapperX<SmsCodeDO> {
                 .limitN(1));
     }
 
+    default List<LocalDateTime> selectCountIp(String ip, LocalDateTime beginTime, LocalDateTime endTime){
+        return selectObjs(new QueryWrapperX<SmsCodeDO>()
+                .eq("create_ip", ip)
+                .between("create_time", beginTime, endTime)
+                .select("create_time"));
+    };
 }

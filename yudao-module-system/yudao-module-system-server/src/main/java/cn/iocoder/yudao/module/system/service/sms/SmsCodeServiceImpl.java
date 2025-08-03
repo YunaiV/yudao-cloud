@@ -15,6 +15,9 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static cn.hutool.core.util.RandomUtil.randomInt;
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
@@ -53,6 +56,10 @@ public class SmsCodeServiceImpl implements SmsCodeService {
     private String createSmsCode(String mobile, Integer scene, String ip) {
         // 校验是否可以发送验证码，不用筛选场景
         SmsCodeDO lastSmsCode = smsCodeMapper.selectLastByMobile(mobile, null, null);
+        LocalDateTime now = LocalDateTime.now();
+        //使用mybatis内置的接口返回的list永远不可能为null，没有对应数据会返回一个emptyList，不需要判空
+        List<LocalDateTime> smsCodeDay = smsCodeMapper.selectCountIp(ip, LocalDateTime.now().withHour(0).withMinute(0).withSecond(0), now);
+        int hourCountIp =(int) smsCodeDay.stream().filter(time -> time.isAfter(now.withMinute(0).withSecond(0))).count();
         if (lastSmsCode != null) {
             if (LocalDateTimeUtil.between(lastSmsCode.getCreateTime(), LocalDateTime.now()).toMillis()
                     < smsCodeProperties.getSendFrequency().toMillis()) { // 发送过于频繁
@@ -62,8 +69,11 @@ public class SmsCodeServiceImpl implements SmsCodeService {
                     lastSmsCode.getTodayIndex() >= smsCodeProperties.getSendMaximumQuantityPerDay()) { // 超过当天发送的上限。
                 throw exception(SMS_CODE_EXCEED_SEND_MAXIMUM_QUANTITY_PER_DAY);
             }
-            // TODO 芋艿：提升，每个 IP 每天可发送数量
-            // TODO 芋艿：提升，每个 IP 每小时可发送数量
+            if(smsCodeDay.size()>=smsCodeProperties.getIpSendMaximumQuantityPerDay() ||
+                    hourCountIp>=smsCodeProperties.getIpSendMaximumQuantityPerHour()){
+                // 验证码发送过于频繁
+                throw exception(SMS_CODE_IP_SEND_TOO_FAST);
+            }
         }
 
         // 创建验证码记录

@@ -17,6 +17,7 @@ import cn.iocoder.yudao.framework.common.util.monitor.TracerUtils;
 import cn.iocoder.yudao.framework.common.util.servlet.ServletUtils;
 import cn.iocoder.yudao.framework.web.core.util.WebFrameworkUtils;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -110,6 +111,9 @@ public class GlobalExceptionHandler {
         }
         if (ex instanceof AccessDeniedException) {
             return accessDeniedExceptionHandler(request, (AccessDeniedException) ex);
+        }
+        if (ex instanceof UncheckedExecutionException && ex.getCause() != ex) {
+            return allExceptionHandler(request, ex.getCause());
         }
         return defaultExceptionHandler(request, ex);
     }
@@ -264,6 +268,16 @@ public class GlobalExceptionHandler {
         log.warn("[accessDeniedExceptionHandler][userId({}) 无法访问 url({})]", WebFrameworkUtils.getLoginUserId(req),
                 req.getRequestURL(), ex);
         return CommonResult.error(FORBIDDEN);
+    }
+
+    /**
+     * 处理 Guava UncheckedExecutionException
+     *
+     * 例如说，缓存加载报错，可见 <a href="https://t.zsxq.com/UszdH">https://t.zsxq.com/UszdH</a>
+     */
+    @ExceptionHandler(value = UncheckedExecutionException.class)
+    public CommonResult<?> uncheckedExecutionExceptionHandler(HttpServletRequest req, UncheckedExecutionException ex) {
+        return allExceptionHandler(req, ex.getCause());
     }
 
     /**

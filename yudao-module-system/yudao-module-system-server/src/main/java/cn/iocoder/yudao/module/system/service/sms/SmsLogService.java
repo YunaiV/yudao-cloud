@@ -49,12 +49,13 @@ public interface SmsLogService {
      * 更新日志的接收结果
      *
      * @param id 日志编号
+     * @param serialNo 发送编号
      * @param success 是否接收成功
      * @param receiveTime 用户接收时间
      * @param apiReceiveCode API 接收结果的编码
      * @param apiReceiveMsg API 接收结果的说明
      */
-    void updateSmsReceiveResult(Long id, Boolean success,
+    void updateSmsReceiveResult(Long id, String serialNo, Boolean success,
                                 LocalDateTime receiveTime, String apiReceiveCode, String apiReceiveMsg);
 
     /**

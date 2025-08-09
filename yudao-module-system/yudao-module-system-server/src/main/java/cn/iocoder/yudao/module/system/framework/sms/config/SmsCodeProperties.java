@@ -39,8 +39,8 @@ public class SmsCodeProperties {
     private Integer endCode;
 
     @NotNull(message = "同网络每小时发送最大数量不能为空")
-    private Integer ipSendMaximumQuantityPerHour;
+    private Integer ipSendMaxCountPerHour;
 
     @NotNull(message = "同网络每天发送最大数量不能为空")
-    private Integer ipSendMaximumQuantityPerDay;
+    private Integer ipSendMaxCountPerDay;
 }

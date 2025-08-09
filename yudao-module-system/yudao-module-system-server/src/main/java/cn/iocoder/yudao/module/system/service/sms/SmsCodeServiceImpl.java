@@ -3,6 +3,7 @@ package cn.iocoder.yudao.module.system.service.sms;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.map.MapUtil;
+import cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils;
 import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeSendReqDTO;
 import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
 import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeValidateReqDTO;
@@ -54,10 +55,9 @@ public class SmsCodeServiceImpl implements SmsCodeService {
     private String createSmsCode(String mobile, Integer scene, String ip) {
         // 校验是否可以发送验证码，不用筛选场景
         SmsCodeDO lastSmsCode = smsCodeMapper.selectLastByMobile(mobile, null, null);
-        LocalDateTime now = LocalDateTime.now();
-        //使用mybatis内置的接口返回的list永远不可能为null，没有对应数据会返回一个emptyList，不需要判空
-        List<LocalDateTime> smsCodeDay = smsCodeMapper.selectCountIp(ip, LocalDateTime.now().withHour(0).withMinute(0).withSecond(0), now);
-        int hourCountIp =(int) smsCodeDay.stream().filter(time -> time.isAfter(now.withMinute(0).withSecond(0))).count();
+        //返回今天为止的ip申请的验证码所有时间，通过拿到时间list可以直接找出从小时开始的ip次数（也可以直接用两次查询找出，但是这样可以减少一次数据库操作）
+        List<LocalDateTime> smsCodeDay = smsCodeMapper.selectTimeByIpAndCreateTime(ip, LocalDateTimeUtils.getToday());
+        long hourCountIp = smsCodeDay.stream().filter(time -> time.isAfter(LocalDateTime.now().withMinute(0).withSecond(0))).count();
         if (lastSmsCode != null) {
             if (LocalDateTimeUtil.between(lastSmsCode.getCreateTime(), LocalDateTime.now()).toMillis()
                     < smsCodeProperties.getSendFrequency().toMillis()) { // 发送过于频繁
@@ -67,9 +67,9 @@ public class SmsCodeServiceImpl implements SmsCodeService {
                     lastSmsCode.getTodayIndex() >= smsCodeProperties.getSendMaximumQuantityPerDay()) { // 超过当天发送的上限。
                 throw exception(SMS_CODE_EXCEED_SEND_MAXIMUM_QUANTITY_PER_DAY);
             }
-            if(smsCodeDay.size()>=smsCodeProperties.getIpSendMaximumQuantityPerDay() ||
-                    hourCountIp>=smsCodeProperties.getIpSendMaximumQuantityPerHour()){
-                // 验证码发送过于频繁
+            if(smsCodeDay.size()>=smsCodeProperties.getIpSendMaxCountPerDay() ||
+                    hourCountIp>=smsCodeProperties.getIpSendMaxCountPerHour()){
+                // 同ip验证码发送过于频繁
                 throw exception(SMS_CODE_IP_SEND_TOO_FAST);
             }
         }

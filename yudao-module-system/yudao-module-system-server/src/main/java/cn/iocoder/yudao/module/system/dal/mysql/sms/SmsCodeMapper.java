@@ -27,11 +27,17 @@ public interface SmsCodeMapper extends BaseMapperX<SmsCodeDO> {
                 .orderByDesc("id")
                 .limitN(1));
     }
-
-    default List<LocalDateTime> selectCountIp(String ip, LocalDateTime beginTime, LocalDateTime endTime){
+    /**
+     * 获得对应时间内的ip申请验证码时间
+     *
+     * @param ip ip
+     * @param beginTime 今天的开始时间
+     * @return 对应时间内的ip申请验证码时间
+     */
+    default List<LocalDateTime> selectTimeByIpAndCreateTime(String ip, LocalDateTime beginTime) {
         return selectObjs(new QueryWrapperX<SmsCodeDO>()
                 .eq("create_ip", ip)
-                .between("create_time", beginTime, endTime)
+                .ge("create_time", beginTime)
                 .select("create_time"));
-    };
+    }
 }

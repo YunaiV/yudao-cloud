@@ -1,6 +1,5 @@
 package cn.iocoder.yudao.module.system.service.sms;
 
-import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.module.system.controller.admin.sms.vo.log.SmsLogPageReqVO;
 import cn.iocoder.yudao.module.system.dal.dataobject.sms.SmsLogDO;
@@ -8,11 +7,11 @@ import cn.iocoder.yudao.module.system.dal.dataobject.sms.SmsTemplateDO;
 import cn.iocoder.yudao.module.system.dal.mysql.sms.SmsLogMapper;
 import cn.iocoder.yudao.module.system.enums.sms.SmsReceiveStatusEnum;
 import cn.iocoder.yudao.module.system.enums.sms.SmsSendStatusEnum;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
+
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
@@ -69,13 +68,16 @@ public class SmsLogServiceImpl implements SmsLogService {
                                        String apiReceiveCode, String apiReceiveMsg) {
         SmsReceiveStatusEnum receiveStatus = Objects.equals(success, true) ?
                 SmsReceiveStatusEnum.SUCCESS : SmsReceiveStatusEnum.FAILURE;
-        smsLogMapper.update(new LambdaUpdateWrapper<SmsLogDO>()
-                .set(SmsLogDO::getReceiveStatus, receiveStatus.getStatus())
-                .set(SmsLogDO::getReceiveTime, receiveTime)
-                .set(SmsLogDO::getApiReceiveCode, apiReceiveCode)
-                .set(SmsLogDO::getApiReceiveMsg, apiReceiveMsg)
-                .eq(id != null && id > 0, SmsLogDO::getId, id)
-                .eq(!StrUtil.isEmptyIfStr(serialNo), SmsLogDO::getApiSerialNo, serialNo));
+        Long logId = id;
+        if (logId == null || logId == 0) {
+            SmsLogDO log = smsLogMapper.selectOne(SmsLogDO::getApiSerialNo, serialNo);
+            if (log == null) { // 这里查不到，有可能短信不是在本系统发送，故不抛异常
+                return;
+            }
+            logId = log.getId();
+        }
+        smsLogMapper.updateById(SmsLogDO.builder().id(logId).receiveStatus(receiveStatus.getStatus())
+                .receiveTime(receiveTime).apiReceiveCode(apiReceiveCode).apiReceiveMsg(apiReceiveMsg).build());
     }
 
     @Override

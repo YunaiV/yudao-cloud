@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Schema(description = "管理后台 - 邮件日志 Response VO")
@@ -19,8 +20,14 @@ public class MailLogRespVO {
     @Schema(description = "用户类型，参见 UserTypeEnum 枚举", example = "2")
     private Byte userType;
 
-    @Schema(description = "接收邮箱地址", requiredMode = Schema.RequiredMode.REQUIRED, example = "76854@qq.com")
-    private String toMail;
+    @Schema(description = "接收邮箱地址", requiredMode = Schema.RequiredMode.REQUIRED, example = "user1@example.com, user2@example.com")
+    private List<String> toMails;
+
+    @Schema(description = "抄送邮箱地址", requiredMode = Schema.RequiredMode.REQUIRED, example = "user3@example.com, user4@example.com")
+    private List<String> ccMails;
+
+    @Schema(description = "密送邮箱地址", requiredMode = Schema.RequiredMode.REQUIRED, example = "user5@example.com, user6@example.com")
+    private List<String> bccMails;
 
     @Schema(description = "邮箱账号编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "18107")
     private Long accountId;

@@ -3,10 +3,11 @@ package cn.iocoder.yudao.module.infra.framework.file.core.client.s3;
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.module.infra.framework.file.core.client.FileClientConfig;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
+
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * S3 文件客户端的配置类
@@ -71,6 +72,15 @@ public class S3FileClientConfig implements FileClientConfig {
      */
     @NotNull(message = "enablePathStyleAccess 不能为空")
     private Boolean enablePathStyleAccess;
+
+    /**
+     * 是否公开访问
+     *
+     * true：公开访问，所有人都可以访问
+     * false：私有访问，只有配置的 accessKey 才可以访问
+     */
+    @NotNull(message = "是否公开访问不能为空")
+    private Boolean enablePublicAccess;
 
     @SuppressWarnings("RedundantIfStatement")
     @AssertTrue(message = "domain 不能为空")

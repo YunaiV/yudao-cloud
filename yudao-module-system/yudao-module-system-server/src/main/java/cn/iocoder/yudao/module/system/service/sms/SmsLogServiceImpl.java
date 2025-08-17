@@ -64,19 +64,18 @@ public class SmsLogServiceImpl implements SmsLogService {
     }
 
     @Override
-    public void updateSmsReceiveResult(Long id, String serialNo, Boolean success, LocalDateTime receiveTime,
+    public void updateSmsReceiveResult(Long id, String apiSerialNo, Boolean success, LocalDateTime receiveTime,
                                        String apiReceiveCode, String apiReceiveMsg) {
         SmsReceiveStatusEnum receiveStatus = Objects.equals(success, true) ?
                 SmsReceiveStatusEnum.SUCCESS : SmsReceiveStatusEnum.FAILURE;
-        Long logId = id;
-        if (logId == null || logId == 0) {
-            SmsLogDO log = smsLogMapper.selectOne(SmsLogDO::getApiSerialNo, serialNo);
-            if (log == null) { // 这里查不到，有可能短信不是在本系统发送，故不抛异常
+        if (id == null || id == 0) {
+            SmsLogDO log = smsLogMapper.selectByApiSerialNo(apiSerialNo);
+            if (log == null) {
                 return;
             }
-            logId = log.getId();
+            id = log.getId();
         }
-        smsLogMapper.updateById(SmsLogDO.builder().id(logId).receiveStatus(receiveStatus.getStatus())
+        smsLogMapper.updateById(SmsLogDO.builder().id(id).receiveStatus(receiveStatus.getStatus())
                 .receiveTime(receiveTime).apiReceiveCode(apiReceiveCode).apiReceiveMsg(apiReceiveMsg).build());
     }
 

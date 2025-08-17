@@ -153,14 +153,14 @@ public class SmsLogServiceImplTest extends BaseDbUnitTest {
         smsLogMapper.insert(dbSmsLog);
         // 准备参数
         Long id = dbSmsLog.getId();
-        String serialNo = dbSmsLog.getApiSerialNo();
+        String apiSerialNo = dbSmsLog.getApiSerialNo();
         Boolean success = randomBoolean();
         LocalDateTime receiveTime = randomLocalDateTime();
         String apiReceiveCode = randomString();
         String apiReceiveMsg = randomString();
 
         // 调用
-        smsLogService.updateSmsReceiveResult(id, serialNo, success, receiveTime, apiReceiveCode, apiReceiveMsg);
+        smsLogService.updateSmsReceiveResult(id, apiSerialNo, success, receiveTime, apiReceiveCode, apiReceiveMsg);
         // 断言
         dbSmsLog = smsLogMapper.selectById(id);
         assertEquals(success ? SmsReceiveStatusEnum.SUCCESS.getStatus()

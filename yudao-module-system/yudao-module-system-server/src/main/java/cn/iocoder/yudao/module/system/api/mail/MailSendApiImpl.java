@@ -19,13 +19,15 @@ public class MailSendApiImpl implements MailSendApi {
 
     @Override
     public CommonResult<Long> sendSingleMailToAdmin(MailSendSingleToUserReqDTO reqDTO) {
-        return success(mailSendService.sendSingleMailToAdmin(reqDTO.getMail(), reqDTO.getUserId(),
+        return success(mailSendService.sendSingleMailToAdmin(reqDTO.getUserId(),
+                reqDTO.getToMails(), reqDTO.getCcMails(), reqDTO.getBccMails(),
                 reqDTO.getTemplateCode(), reqDTO.getTemplateParams()));
     }
 
     @Override
     public CommonResult<Long> sendSingleMailToMember(MailSendSingleToUserReqDTO reqDTO) {
-        return success(mailSendService.sendSingleMailToMember(reqDTO.getMail(), reqDTO.getUserId(),
+        return success(mailSendService.sendSingleMailToMember(reqDTO.getUserId(),
+                reqDTO.getToMails(), reqDTO.getCcMails(), reqDTO.getBccMails(),
                 reqDTO.getTemplateCode(), reqDTO.getTemplateParams()));
     }
 

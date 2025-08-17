@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
+
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
@@ -63,11 +64,19 @@ public class SmsLogServiceImpl implements SmsLogService {
     }
 
     @Override
-    public void updateSmsReceiveResult(Long id, Boolean success, LocalDateTime receiveTime,
+    public void updateSmsReceiveResult(Long id, String serialNo, Boolean success, LocalDateTime receiveTime,
                                        String apiReceiveCode, String apiReceiveMsg) {
         SmsReceiveStatusEnum receiveStatus = Objects.equals(success, true) ?
                 SmsReceiveStatusEnum.SUCCESS : SmsReceiveStatusEnum.FAILURE;
-        smsLogMapper.updateById(SmsLogDO.builder().id(id).receiveStatus(receiveStatus.getStatus())
+        Long logId = id;
+        if (logId == null || logId == 0) {
+            SmsLogDO log = smsLogMapper.selectOne(SmsLogDO::getApiSerialNo, serialNo);
+            if (log == null) { // 这里查不到，有可能短信不是在本系统发送，故不抛异常
+                return;
+            }
+            logId = log.getId();
+        }
+        smsLogMapper.updateById(SmsLogDO.builder().id(logId).receiveStatus(receiveStatus.getStatus())
                 .receiveTime(receiveTime).apiReceiveCode(apiReceiveCode).apiReceiveMsg(apiReceiveMsg).build());
     }
 

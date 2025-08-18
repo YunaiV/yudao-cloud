@@ -105,8 +105,8 @@ public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
     @Override
     public String presignPutUrl(String path) {
         return presigner.presignPutObject(PutObjectPresignRequest.builder()
-                .signatureDuration(EXPIRATION_DEFAULT)
-                .putObjectRequest(b -> b.bucket(config.getBucket()).key(path)).build())
+                        .signatureDuration(EXPIRATION_DEFAULT)
+                        .putObjectRequest(b -> b.bucket(config.getBucket()).key(path)).build())
                 .url().toString();
     }
 
@@ -126,15 +126,10 @@ public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
         String finalPath = path;
         Duration expiration = expirationSeconds != null ? Duration.ofSeconds(expirationSeconds) : EXPIRATION_DEFAULT;
         URL signedUrl = presigner.presignGetObject(GetObjectPresignRequest.builder()
-                .signatureDuration(expiration)
-                .getObjectRequest(b -> b.bucket(config.getBucket()).key(finalPath)).build())
+                        .signatureDuration(expiration)
+                        .getObjectRequest(b -> b.bucket(config.getBucket()).key(finalPath)).build())
                 .url();
-        // 特殊：适配未使用 domain 返回的情况！！！
-        String signedUrlStr = signedUrl.toString();
-        if (!signedUrlStr.startsWith(config.getDomain())) {
-            signedUrlStr = signedUrlStr.replaceFirst(signedUrl.getProtocol() + "://" + signedUrl.getHost(), config.getDomain());
-        }
-        return signedUrlStr;
+        return signedUrl.toString();
     }
 
     /**

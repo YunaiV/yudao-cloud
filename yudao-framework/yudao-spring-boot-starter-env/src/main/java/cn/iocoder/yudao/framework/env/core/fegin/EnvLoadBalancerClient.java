@@ -96,7 +96,6 @@ public class EnvLoadBalancerClient implements ReactorServiceInstanceLoadBalancer
         List<ServiceInstance> chooseInstances = CollectionUtils.filterList(instances, instance -> StrUtil.isEmpty(EnvUtils.getTag(instance)));
         // 【重要】补充说明：如果希望在 chooseInstances 为空时，不允许打到有 tag 的实例，可以取消注释下面的代码
         if (CollUtil.isEmpty(chooseInstances)) {
-            log.warn("[getInstanceResponseWithoutTag][serviceId({}) 没有不带 tag 的服务实例列表，直接使用所有服务实例列表]", serviceId);
             chooseInstances = instances;
         }
 

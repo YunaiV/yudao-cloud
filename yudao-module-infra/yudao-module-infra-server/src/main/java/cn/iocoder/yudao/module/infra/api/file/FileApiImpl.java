@@ -23,4 +23,9 @@ public class FileApiImpl implements FileApi {
                 createReqDTO.getDirectory(), createReqDTO.getType()));
     }
 
+    @Override
+    public CommonResult<String> presignGetUrl(String url, Integer expirationSeconds) {
+        return success(fileService.presignGetUrl(url, expirationSeconds));
+    }
+
 }

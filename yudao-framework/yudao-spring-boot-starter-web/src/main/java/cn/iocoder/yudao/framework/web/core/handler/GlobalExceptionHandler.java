@@ -32,6 +32,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -92,6 +93,9 @@ public class GlobalExceptionHandler {
         if (ex instanceof ValidationException) {
             return validationException((ValidationException) ex);
         }
+        if (ex instanceof MaxUploadSizeExceededException) {
+            return maxUploadSizeExceededExceptionHandler((MaxUploadSizeExceededException) ex);
+        }
         if (ex instanceof NoHandlerFoundException) {
             return noHandlerFoundExceptionHandler((NoHandlerFoundException) ex);
         }
@@ -106,9 +110,6 @@ public class GlobalExceptionHandler {
         }
         if (ex instanceof AccessDeniedException) {
             return accessDeniedExceptionHandler(request, (AccessDeniedException) ex);
-        }
-        if (ex instanceof UncheckedExecutionException && ex.getCause() != ex) {
-            return allExceptionHandler(request, ex.getCause());
         }
         return defaultExceptionHandler(request, ex);
     }
@@ -210,6 +211,14 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 处理上传文件过大异常
+     */
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public CommonResult<?> maxUploadSizeExceededExceptionHandler(MaxUploadSizeExceededException ex) {
+        return CommonResult.error(BAD_REQUEST.getCode(), "上传文件过大，请调整后重试");
+    }
+
+    /**
      * 处理 SpringMVC 请求地址不存在
      *
      * 注意，它需要设置如下两个配置项：
@@ -296,6 +305,12 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public CommonResult<?> defaultExceptionHandler(HttpServletRequest req, Throwable ex) {
+        // 特殊：如果是 ServiceException 的异常，则直接返回
+        // 例如说：https://gitee.com/zhijiantianya/yudao-cloud/issues/ICSSRM、https://gitee.com/zhijiantianya/yudao-cloud/issues/ICT6FM
+        if (ex.getCause() != null && ex.getCause() instanceof ServiceException) {
+            return serviceExceptionHandler((ServiceException) ex.getCause());
+        }
+
         // 情况一：处理表不存在的异常
         CommonResult<?> tableNotExistsResult = handleTableNotExists(ex);
         if (tableNotExistsResult != null) {

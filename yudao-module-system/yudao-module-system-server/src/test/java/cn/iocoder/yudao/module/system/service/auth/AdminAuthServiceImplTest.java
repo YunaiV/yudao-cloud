@@ -23,6 +23,7 @@ import com.anji.captcha.model.common.ResponseModel;
 import com.anji.captcha.service.CaptchaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;

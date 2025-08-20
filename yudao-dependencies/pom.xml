@@ -17,10 +17,9 @@
         <revision>2025.08-SNAPSHOT</revision>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
         <!-- 统一依赖管理 -->
-        <!-- TODO @芋艿：spring boot 3.5.4 和 spring cloud 当前版本不兼容，需要适配 -->
-        <spring.boot.version>3.4.8</spring.boot.version>
-        <spring.cloud.version>2024.0.1</spring.cloud.version>
-        <spring.cloud.alibaba.version>2023.0.3.2</spring.cloud.alibaba.version>
+        <spring.boot.version>3.5.4</spring.boot.version>
+        <spring.cloud.version>2025.0.0</spring.cloud.version>
+        <spring.cloud.alibaba.version>2023.0.3.3</spring.cloud.alibaba.version>
         <!-- Web 相关 -->
         <springdoc.version>2.8.9</springdoc.version>
         <knife4j.version>4.5.0</knife4j.version>
@@ -46,7 +45,7 @@
         <lock4j.version>2.2.7</lock4j.version>
         <!-- 监控相关 -->
         <skywalking.version>9.0.0</skywalking.version>
-        <spring-boot-admin.version>3.4.7</spring-boot-admin.version>
+        <spring-boot-admin.version>3.5.2</spring-boot-admin.version>
         <opentracing.version>0.33.0</opentracing.version>
         <!-- Test 测试相关 -->
         <podam.version>8.0.2.RELEASE</podam.version>
@@ -72,7 +71,7 @@
         <ip2region.version>2.7.0</ip2region.version>
         <bizlog-sdk.version>3.0.6</bizlog-sdk.version>
         <reflections.version>0.10.2</reflections.version>
-        <netty.version>4.1.116.Final</netty.version>
+        <netty.version>4.2.4.Final</netty.version>
         <mqtt.version>1.2.5</mqtt.version>
         <pf4j-spring.version>0.9.0</pf4j-spring.version>
         <vertx.version>4.5.13</vertx.version>
@@ -314,6 +313,19 @@
             </dependency>
 
             <!-- Registry 注册中心相关 -->
+
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                <version>${spring.cloud.alibaba.version}</version>
+                <exclusions>
+                    <!-- 目的：解决 Nacos 启动的 NAMING_LOG_FILE 告警 -->
+                    <exclusion>
+                        <artifactId>logback-adapter</artifactId>
+                        <groupId>com.alibaba.nacos</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 
             <!-- Config 配置中心相关 -->
 

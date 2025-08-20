@@ -67,7 +67,7 @@ spring:
           password: 123456
 
   # Redis 配置。Redisson 默认的配置足够使用，一般不需要进行调优
-  data:
+  redis:
     host: 400-infra.server.iocoder.cn # 地址
     port: 6379 # 端口
     database: 1 # 数据库索引
@@ -76,6 +76,11 @@ spring:
 --- #################### MQ 消息队列相关配置 ####################
 
 --- #################### 定时任务相关配置 ####################
+xxl:
+  job:
+    enabled: false # 是否开启调度中心，默认为 true 开启
+    admin:
+      addresses: http://127.0.0.1:9090/xxl-job-admin # 调度中心部署跟地址
 
 --- #################### 服务保障相关配置 ####################
 

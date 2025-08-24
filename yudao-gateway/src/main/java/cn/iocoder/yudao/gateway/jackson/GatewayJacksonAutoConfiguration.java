@@ -1,4 +1,4 @@
-package cn.iocoder.yudao.framework.jackson.config;
+package cn.iocoder.yudao.gateway.jackson;
 
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.framework.common.util.json.databind.NumberSerializer;
@@ -12,18 +12,20 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.web.codec.CodecCustomizer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.codec.json.Jackson2JsonDecoder;
+import org.springframework.http.codec.json.Jackson2JsonEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-@AutoConfiguration(after = JacksonAutoConfiguration.class)
+@Configuration
 @Slf4j
-public class YudaoJacksonAutoConfiguration {
+public class GatewayJacksonAutoConfiguration {
 
     /**
      * 从 Builder 源头定制（关键：使用 *ByType，避免 handledType 要求）
@@ -50,7 +52,7 @@ public class YudaoJacksonAutoConfiguration {
     @Bean
     public Module timestampSupportModuleBean() {
         SimpleModule m = new SimpleModule("TimestampSupportModule");
-        // Long -> Number，避免前端精度丢失
+        // Long -> Number
         m.addSerializer(Long.class, NumberSerializer.INSTANCE);
         m.addSerializer(Long.TYPE, NumberSerializer.INSTANCE);
         // LocalDate / LocalTime
@@ -75,4 +77,16 @@ public class YudaoJacksonAutoConfiguration {
         return new JsonUtils();
     }
 
+    /**
+     * WebFlux 场景：强制默认编解码器使用同一个 ObjectMapper
+     */
+    @Bean
+    public CodecCustomizer unifyJackson(ObjectMapper om) {
+        return configurer -> {
+            Jackson2JsonDecoder decoder = new Jackson2JsonDecoder(om);
+            Jackson2JsonEncoder encoder = new Jackson2JsonEncoder(om);
+            configurer.defaultCodecs().jackson2JsonDecoder(decoder);
+            configurer.defaultCodecs().jackson2JsonEncoder(encoder);
+        };
+    }
 }

@@ -5,6 +5,9 @@ import cn.iocoder.yudao.framework.mybatis.core.query.QueryWrapperX;
 import cn.iocoder.yudao.module.system.dal.dataobject.sms.SmsCodeDO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Mapper
 public interface SmsCodeMapper extends BaseMapperX<SmsCodeDO> {
 
@@ -24,5 +27,17 @@ public interface SmsCodeMapper extends BaseMapperX<SmsCodeDO> {
                 .orderByDesc("id")
                 .limitN(1));
     }
-
+    /**
+     * 获得对应时间内的ip申请验证码时间
+     *
+     * @param ip ip
+     * @param beginTime 今天的开始时间
+     * @return 对应时间内的ip申请验证码时间
+     */
+    default List<LocalDateTime> selectTimeByIpAndCreateTime(String ip, LocalDateTime beginTime) {
+        return selectObjs(new QueryWrapperX<SmsCodeDO>()
+                .eq("create_ip", ip)
+                .ge("create_time", beginTime)
+                .select("create_time"));
+    }
 }

@@ -12,13 +12,13 @@ import cn.iocoder.yudao.framework.tenant.core.service.TenantFrameworkService;
 import cn.iocoder.yudao.framework.web.config.WebProperties;
 import cn.iocoder.yudao.framework.web.core.filter.ApiRequestFilter;
 import cn.iocoder.yudao.framework.web.core.handler.GlobalExceptionHandler;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.AntPathMatcher;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.AntPathMatcher;
-
 import java.io.IOException;
 import java.util.Objects;
 
@@ -62,7 +62,7 @@ public class TenantSecurityWebFilter extends ApiRequestFilter {
             if (tenantId == null) {
                 tenantId = user.getTenantId();
                 TenantContextHolder.setTenantId(tenantId);
-            // 如果传递了租户编号，则进行比对租户编号，避免越权问题
+                // 如果传递了租户编号，则进行比对租户编号，避免越权问题
             } else if (!Objects.equals(user.getTenantId(), TenantContextHolder.getTenantId())) {
                 log.error("[doFilterInternal][租户({}) User({}/{}) 越权访问租户({}) URL({}/{})]",
                         user.getTenantId(), user.getId(), user.getUserType(),
@@ -101,13 +101,14 @@ public class TenantSecurityWebFilter extends ApiRequestFilter {
     }
 
     private boolean isIgnoreUrl(HttpServletRequest request) {
+        String apiUri = request.getRequestURI().substring(request.getContextPath().length());
         // 快速匹配，保证性能
-        if (CollUtil.contains(tenantProperties.getIgnoreUrls(), request.getRequestURI())) {
+        if (CollUtil.contains(tenantProperties.getIgnoreUrls(), apiUri)) {
             return true;
         }
         // 逐个 Ant 路径匹配
         for (String url : tenantProperties.getIgnoreUrls()) {
-            if (pathMatcher.match(url, request.getRequestURI())) {
+            if (pathMatcher.match(url, apiUri)) {
                 return true;
             }
         }

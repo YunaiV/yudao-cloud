@@ -119,8 +119,9 @@ public interface BpmProcessInstanceConvert {
     @Mapping(source = "from.id", target = "to.id", ignore = true)
     void copyTo(BpmProcessDefinitionInfoDO from, @MappingTarget BpmProcessDefinitionRespVO to);
 
-    default BpmProcessInstanceStatusEvent buildProcessInstanceStatusEvent(Object source, ProcessInstance instance, Integer status) {
-        return new BpmProcessInstanceStatusEvent(source).setId(instance.getId()).setStatus(status)
+    default BpmProcessInstanceStatusEvent buildProcessInstanceStatusEvent(Object source, ProcessInstance instance,
+                                                                          Integer status, String reason) {
+        return new BpmProcessInstanceStatusEvent(source).setId(instance.getId()).setStatus(status).setReason(reason)
                 .setProcessDefinitionKey(instance.getProcessDefinitionKey()).setBusinessKey(instance.getBusinessKey());
     }
 
@@ -133,10 +134,10 @@ public interface BpmProcessInstanceConvert {
 
     default BpmMessageSendWhenProcessInstanceRejectReqDTO buildProcessInstanceRejectMessage(ProcessInstance instance, String reason) {
         return new BpmMessageSendWhenProcessInstanceRejectReqDTO()
-            .setProcessInstanceName(instance.getName())
-            .setProcessInstanceId(instance.getId())
-            .setReason(reason)
-            .setStartUserId(NumberUtils.parseLong(instance.getStartUserId()));
+                .setProcessInstanceName(instance.getName())
+                .setProcessInstanceId(instance.getId())
+                .setReason(reason)
+                .setStartUserId(NumberUtils.parseLong(instance.getStartUserId()));
     }
 
     default BpmProcessInstanceBpmnModelViewRespVO buildProcessInstanceBpmnModelView(HistoricProcessInstance processInstance,
@@ -153,7 +154,7 @@ public interface BpmProcessInstanceConvert {
         // 基本信息
         respVO.setProcessInstance(BeanUtils.toBean(processInstance, BpmProcessInstanceRespVO.class, o -> o
                         .setStatus(FlowableUtils.getProcessInstanceStatus(processInstance)))
-                        .setStartUser(buildUser(processInstance.getStartUserId(), userMap, deptMap)));
+                .setStartUser(buildUser(processInstance.getStartUserId(), userMap, deptMap)));
         respVO.setTasks(convertList(taskInstances, task -> BeanUtils.toBean(task, BpmTaskRespVO.class)
                 .setStatus(FlowableUtils.getTaskStatus(task)).setReason(FlowableUtils.getTaskReason(task))
                 .setAssigneeUser(buildUser(task.getAssignee(), userMap, deptMap))
@@ -179,8 +180,8 @@ public interface BpmProcessInstanceConvert {
     }
 
     default UserSimpleBaseVO buildUser(Long userId,
-                                                    Map<Long, AdminUserRespDTO> userMap,
-                                                    Map<Long, DeptRespDTO> deptMap) {
+                                       Map<Long, AdminUserRespDTO> userMap,
+                                       Map<Long, DeptRespDTO> deptMap) {
         if (userId == null) {
             return null;
         }

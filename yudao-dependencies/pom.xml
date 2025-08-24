@@ -15,7 +15,7 @@
 
     <properties>
         <revision>2025.08-SNAPSHOT</revision>
-        <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
+        <flatten-maven-plugin.version>1.7.2</flatten-maven-plugin.version>
         <!-- 统一依赖管理 -->
         <spring.boot.version>3.5.4</spring.boot.version>
         <spring.cloud.version>2025.0.0</spring.cloud.version>
@@ -66,6 +66,7 @@
         <guava.version>33.4.8-jre</guava.version>
         <transmittable-thread-local.version>2.14.5</transmittable-thread-local.version>
         <commons-net.version>3.11.1</commons-net.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
         <jsch.version>0.1.55</jsch.version>
         <tika-core.version>3.1.0</tika-core.version>
         <ip2region.version>2.7.0</ip2region.version>
@@ -578,6 +579,12 @@
                 <groupId>com.jcraft</groupId>
                 <artifactId>jsch</artifactId> <!-- 解决 sftp 连接 -->
                 <version>${jsch.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version> <!-- 解决 CVE-2025-48924 漏洞 -->
             </dependency>
 
             <dependency>

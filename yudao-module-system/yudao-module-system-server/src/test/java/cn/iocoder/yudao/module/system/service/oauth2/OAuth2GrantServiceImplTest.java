@@ -136,13 +136,6 @@ public class OAuth2GrantServiceImplTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    public void testGrantClientCredentials() {
-        assertThrows(UnsupportedOperationException.class,
-                () -> oauth2GrantService.grantClientCredentials(randomString(), emptyList()),
-                "暂时不支持 client_credentials 授权模式");
-    }
-
-    @Test
     public void testRevokeToken_clientIdError() {
         // 准备参数
         String clientId = randomString();

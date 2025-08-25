@@ -46,7 +46,7 @@ public interface ErpPurchaseInItemMapper extends BaseMapperX<ErpPurchaseInItemDO
         }
         // SQL sum 查询
         List<Map<String, Object>> result = selectMaps(new QueryWrapper<ErpPurchaseInItemDO>()
-                .select("order_item_id, SUM(count) AS sumCount")
+                .select("order_item_id, SUM(count) AS \"sumCount\"")
                 .groupBy("order_item_id")
                 .in("in_id", inIds));
         // 获得数量

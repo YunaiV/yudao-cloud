@@ -9,9 +9,6 @@ import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.http.HttpUtil;
-import cn.iocoder.yudao.module.ai.enums.model.AiPlatformEnum;
-import cn.iocoder.yudao.module.ai.framework.ai.core.model.midjourney.api.MidjourneyApi;
-import cn.iocoder.yudao.module.ai.framework.ai.core.model.siliconflow.SiliconFlowImageOptions;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.module.ai.controller.admin.image.vo.AiImageDrawReqVO;
@@ -24,6 +21,9 @@ import cn.iocoder.yudao.module.ai.dal.dataobject.image.AiImageDO;
 import cn.iocoder.yudao.module.ai.dal.dataobject.model.AiModelDO;
 import cn.iocoder.yudao.module.ai.dal.mysql.image.AiImageMapper;
 import cn.iocoder.yudao.module.ai.enums.image.AiImageStatusEnum;
+import cn.iocoder.yudao.module.ai.enums.model.AiPlatformEnum;
+import cn.iocoder.yudao.module.ai.framework.ai.core.model.midjourney.api.MidjourneyApi;
+import cn.iocoder.yudao.module.ai.framework.ai.core.model.siliconflow.SiliconFlowImageOptions;
 import cn.iocoder.yudao.module.ai.service.model.AiModelService;
 import cn.iocoder.yudao.module.infra.api.file.FileApi;
 import com.alibaba.cloud.ai.dashscope.image.DashScopeImageOptions;
@@ -89,7 +89,7 @@ public class AiImageServiceImpl implements AiImageService {
         if (CollUtil.isEmpty(ids)) {
             return Collections.emptyList();
         }
-        return imageMapper.selectBatchIds(ids);
+        return imageMapper.selectByIds(ids);
     }
 
     @Override

@@ -2,7 +2,6 @@ package cn.iocoder.yudao.framework.mybatis.core.handler;
 
 import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
 import cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils;
-import cn.iocoder.yudao.framework.web.core.util.WebFrameworkUtils;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
 
@@ -19,6 +18,7 @@ import java.util.Objects;
 public class DefaultDBFieldHandler implements MetaObjectHandler {
 
     @Override
+    @SuppressWarnings("PatternVariableCanBeUsed")
     public void insertFill(MetaObject metaObject) {
         if (Objects.nonNull(metaObject) && metaObject.getOriginalObject() instanceof BaseDO) {
             BaseDO baseDO = (BaseDO) metaObject.getOriginalObject();

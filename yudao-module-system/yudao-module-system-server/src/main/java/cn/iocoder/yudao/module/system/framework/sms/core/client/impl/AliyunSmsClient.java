@@ -111,6 +111,7 @@ public class AliyunSmsClient extends AbstractSmsClient {
     }
 
     @VisibleForTesting
+    @SuppressWarnings("EnhancedSwitchMigration")
     Integer convertSmsTemplateAuditStatus(Integer templateStatus) {
         switch (templateStatus) {
             case 0: return SmsTemplateAuditStatusEnum.CHECKING.getStatus();
@@ -135,7 +136,7 @@ public class AliyunSmsClient extends AbstractSmsClient {
                 .collect(Collectors.joining("&"));
 
         // 2. 请求 Body
-        String requestBody = ""; // 短信 API 为 RPC 接口，query parameters 在 uri 中拼接，因此 request body 如果没有特殊要求，设置为空。
+        String requestBody = ""; // 短信 API 为 RPC 接口，query parameters 在 uri 中拼接，因此 request body 如果没有特殊要求，设置为空
         String hashedRequestPayload = DigestUtil.sha256Hex(requestBody);
 
         // 3.1 请求 Header
@@ -151,8 +152,8 @@ public class AliyunSmsClient extends AbstractSmsClient {
         StringBuilder canonicalHeaders = new StringBuilder(); // 构造请求头，多个规范化消息头，按照消息头名称（小写）的字符代码顺序以升序排列后拼接在一起
         StringBuilder signedHeadersBuilder = new StringBuilder(); // 已签名消息头列表，多个请求头名称（小写）按首字母升序排列并以英文分号（;）分隔
         headers.entrySet().stream().filter(entry -> entry.getKey().toLowerCase().startsWith("x-acs-")
-                        || entry.getKey().equalsIgnoreCase("host")
-                        || entry.getKey().equalsIgnoreCase("content-type"))
+                        || "host".equalsIgnoreCase(entry.getKey())
+                        || "content-type".equalsIgnoreCase(entry.getKey()))
                 .sorted(Map.Entry.comparingByKey()).forEach(entry -> {
                     String lowerKey = entry.getKey().toLowerCase();
                     canonicalHeaders.append(lowerKey).append(":").append(String.valueOf(entry.getValue()).trim()).append("\n");

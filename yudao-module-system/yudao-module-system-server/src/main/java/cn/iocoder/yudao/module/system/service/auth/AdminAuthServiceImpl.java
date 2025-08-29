@@ -6,6 +6,7 @@ import cn.iocoder.yudao.framework.common.enums.UserTypeEnum;
 import cn.iocoder.yudao.framework.common.util.monitor.TracerUtils;
 import cn.iocoder.yudao.framework.common.util.servlet.ServletUtils;
 import cn.iocoder.yudao.framework.common.util.validation.ValidationUtils;
+import cn.iocoder.yudao.framework.datapermission.core.annotation.DataPermission;
 import cn.iocoder.yudao.module.system.api.logger.dto.LoginLogCreateReqDTO;
 import cn.iocoder.yudao.module.system.api.sms.SmsCodeApi;
 import cn.iocoder.yudao.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
@@ -98,6 +99,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     @Override
+    @DataPermission(enable = false)
     public AuthLoginRespVO login(AuthLoginReqVO reqVO) {
         // 校验验证码
         validateCaptcha(reqVO);
@@ -135,7 +137,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     @Override
     public AuthLoginRespVO smsLogin(AuthSmsLoginReqVO reqVO) {
         // 校验验证码
-        smsCodeApi.useSmsCode(AuthConvert.INSTANCE.convert(reqVO, SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), getClientIP())).checkError();
+        smsCodeApi.useSmsCode(AuthConvert.INSTANCE.convert(reqVO, SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), getClientIP()));
 
         // 获得用户信息
         AdminUserDO user = userService.getUserByMobile(reqVO.getMobile());
@@ -297,7 +299,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
                 .setMobile(reqVO.getMobile())
                 .setScene(SmsSceneEnum.ADMIN_MEMBER_RESET_PASSWORD.getScene())
                 .setUsedIp(getClientIP())
-        ).checkError();
+        );
 
         userService.updateUserPassword(userByMobile.getId(), reqVO.getPassword());
     }

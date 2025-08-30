@@ -111,7 +111,7 @@
         <!-- IoT 物联网相关模块。默认注释，保证编译速度 -->
 <!--        <dependency>-->
 <!--            <groupId>cn.iocoder.cloud</groupId>-->
-<!--            <artifactId>yudao-module-iot-biz</artifactId>-->
+<!--            <artifactId>yudao-module-iot-server</artifactId>-->
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 

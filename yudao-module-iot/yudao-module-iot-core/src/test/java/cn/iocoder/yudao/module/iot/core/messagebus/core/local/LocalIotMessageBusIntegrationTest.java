@@ -3,18 +3,19 @@ package cn.iocoder.yudao.module.iot.core.messagebus.core.local;
 import cn.iocoder.yudao.module.iot.core.messagebus.config.IotMessageBusAutoConfiguration;
 import cn.iocoder.yudao.module.iot.core.messagebus.core.IotMessageBus;
 import cn.iocoder.yudao.module.iot.core.messagebus.core.IotMessageSubscriber;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 
+import javax.annotation.Resource;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * {@link IotLocalMessageBus} 集成测试
@@ -47,7 +48,7 @@ public class LocalIotMessageBusIntegrationTest {
         AtomicInteger subscriber2Count = new AtomicInteger(0);
 
         // 创建第一个订阅者
-        IotMessageSubscriber<String> subscriber1 = new IotMessageSubscriber<>() {
+        IotMessageSubscriber<String> subscriber1 = new IotMessageSubscriber<String>() {
 
             @Override
             public String getTopic() {
@@ -69,7 +70,7 @@ public class LocalIotMessageBusIntegrationTest {
 
         };
         // 创建第二个订阅者
-        IotMessageSubscriber<String> subscriber2 = new IotMessageSubscriber<>() {
+        IotMessageSubscriber<String> subscriber2 = new IotMessageSubscriber<String>() {
 
             @Override
             public String getTopic() {
@@ -120,7 +121,7 @@ public class LocalIotMessageBusIntegrationTest {
         CountDownLatch latch = new CountDownLatch(2);
 
         // 创建订阅者 1 - 只订阅设备状态
-        IotMessageSubscriber<String> statusSubscriber = new IotMessageSubscriber<>() {
+        IotMessageSubscriber<String> statusSubscriber = new IotMessageSubscriber<String>() {
 
             @Override
             public String getTopic() {
@@ -141,7 +142,7 @@ public class LocalIotMessageBusIntegrationTest {
 
         };
         // 创建订阅者 2 - 只订阅设备数据
-        IotMessageSubscriber<String> dataSubscriber = new IotMessageSubscriber<>() {
+        IotMessageSubscriber<String> dataSubscriber = new IotMessageSubscriber<String>() {
 
             @Override
             public String getTopic() {

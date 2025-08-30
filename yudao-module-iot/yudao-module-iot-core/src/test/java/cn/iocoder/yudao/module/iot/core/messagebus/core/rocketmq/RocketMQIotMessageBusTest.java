@@ -5,7 +5,6 @@ import cn.iocoder.yudao.module.iot.core.messagebus.config.IotMessageBusAutoConfi
 import cn.iocoder.yudao.module.iot.core.messagebus.core.IotMessageBus;
 import cn.iocoder.yudao.module.iot.core.messagebus.core.IotMessageSubscriber;
 import cn.iocoder.yudao.module.iot.core.messagebus.core.TestMessage;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration;
 import org.junit.jupiter.api.Test;
@@ -13,12 +12,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 
+import javax.annotation.Resource;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * {@link IotRocketMQMessageBus} 集成测试
@@ -59,7 +60,7 @@ public class RocketMQIotMessageBusTest {
         messageBus.post(topic, testMessage);
 
         // 创建订阅者
-        IotMessageSubscriber<String> subscriber1 = new IotMessageSubscriber<>() {
+        IotMessageSubscriber<String> subscriber1 = new IotMessageSubscriber<String>() {
 
             @Override
             public String getTopic() {
@@ -117,7 +118,7 @@ public class RocketMQIotMessageBusTest {
         messageBus.post(topic, testMessage);
 
         // 创建第一个订阅者
-        IotMessageSubscriber<TestMessage> subscriber1 = new IotMessageSubscriber<>() {
+        IotMessageSubscriber<TestMessage> subscriber1 = new IotMessageSubscriber<TestMessage>() {
 
             @Override
             public String getTopic() {
@@ -141,7 +142,7 @@ public class RocketMQIotMessageBusTest {
 
         };
         // 创建第二个订阅者
-        IotMessageSubscriber<TestMessage> subscriber2 = new IotMessageSubscriber<>() {
+        IotMessageSubscriber<TestMessage> subscriber2 = new IotMessageSubscriber<TestMessage>() {
 
             @Override
             public String getTopic() {
@@ -204,7 +205,7 @@ public class RocketMQIotMessageBusTest {
         messageBus.post(topic2, message2);
 
         // 创建订阅者 1 - 只订阅设备状态
-        IotMessageSubscriber<String> statusSubscriber = new IotMessageSubscriber<>() {
+        IotMessageSubscriber<String> statusSubscriber = new IotMessageSubscriber<String>() {
 
             @Override
             public String getTopic() {
@@ -227,7 +228,7 @@ public class RocketMQIotMessageBusTest {
 
         };
         // 创建订阅者 2 - 只订阅设备数据
-        IotMessageSubscriber<String> dataSubscriber = new IotMessageSubscriber<>() {
+        IotMessageSubscriber<String> dataSubscriber = new IotMessageSubscriber<String>() {
 
             @Override
             public String getTopic() {

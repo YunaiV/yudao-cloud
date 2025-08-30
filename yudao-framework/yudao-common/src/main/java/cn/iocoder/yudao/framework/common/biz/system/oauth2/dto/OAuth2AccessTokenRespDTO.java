@@ -2,14 +2,12 @@ package cn.iocoder.yudao.framework.common.biz.system.oauth2.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Schema(description = "RPC 服务 - OAuth2 访问令牌的信息 Response DTO")
 @Data
-@Accessors(chain = true)
 public class OAuth2AccessTokenRespDTO implements Serializable {
 
     @Schema(description = "访问令牌", requiredMode = Schema.RequiredMode.REQUIRED, example = "tudou")

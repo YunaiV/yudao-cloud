@@ -101,6 +101,7 @@ public interface ErrorCodeConstants {
     ErrorCode SMS_CODE_USED = new ErrorCode(1_002_014_002, "验证码已使用");
     ErrorCode SMS_CODE_EXCEED_SEND_MAXIMUM_QUANTITY_PER_DAY = new ErrorCode(1_002_014_004, "超过每日短信发送数量");
     ErrorCode SMS_CODE_SEND_TOO_FAST = new ErrorCode(1_002_014_005, "短信发送过于频繁");
+    ErrorCode SMS_CODE_IP_SEND_TOO_FAST = new ErrorCode(1_002_014_006, "该网络下短信发送过于频繁");
 
     // ========== 租户信息 1-002-015-000 ==========
     ErrorCode TENANT_NOT_EXISTS = new ErrorCode(1_002_015_000, "租户不存在");

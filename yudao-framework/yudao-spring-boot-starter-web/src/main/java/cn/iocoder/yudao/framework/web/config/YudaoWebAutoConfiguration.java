@@ -7,11 +7,13 @@ import cn.iocoder.yudao.framework.web.core.filter.DemoFilter;
 import cn.iocoder.yudao.framework.web.core.handler.GlobalExceptionHandler;
 import cn.iocoder.yudao.framework.web.core.handler.GlobalResponseBodyHandler;
 import cn.iocoder.yudao.framework.web.core.util.WebFrameworkUtils;
+import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -23,40 +25,55 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import jakarta.annotation.Resource;
-import jakarta.servlet.Filter;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Predicate;
 
 @AutoConfiguration
 @EnableConfigurationProperties(WebProperties.class)
-public class YudaoWebAutoConfiguration implements WebMvcConfigurer {
+public class YudaoWebAutoConfiguration {
 
-    @Resource
-    private WebProperties webProperties;
     /**
      * 应用名
      */
     @Value("${spring.application.name}")
     private String applicationName;
 
-    @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
-        configurePathMatch(configurer, webProperties.getAdminApi());
-        configurePathMatch(configurer, webProperties.getAppApi());
+    @Bean
+    public WebMvcRegistrations webMvcRegistrations(WebProperties webProperties) {
+        return new WebMvcRegistrations() {
+            @Override
+            public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {
+                var mapping = new RequestMappingHandlerMapping();
+                mapping.setPathPrefixes(buildPrefixRules(webProperties)); // 实例化时就带上前缀
+                return mapping;
+            }
+        };
+    }
+
+    /**
+     * 构建 prefix → 匹配条件 的映射
+     */
+    private Map<String, Predicate<Class<?>>> buildPrefixRules(WebProperties webProperties) {
+        AntPathMatcher antPathMatcher = new AntPathMatcher(".");
+        Map<String, Predicate<Class<?>>> rules = new LinkedHashMap<>();
+        putRule(rules, webProperties.getAdminApi(), antPathMatcher);
+        putRule(rules, webProperties.getAppApi(), antPathMatcher);
+        return rules;
     }
 
     /**
      * 设置 API 前缀，仅仅匹配 controller 包下的
-     *
-     * @param configurer 配置
-     * @param api        API 配置
      */
-    private void configurePathMatch(PathMatchConfigurer configurer, WebProperties.Api api) {
-        AntPathMatcher antPathMatcher = new AntPathMatcher(".");
-        configurer.addPathPrefix(api.getPrefix(), clazz -> clazz.isAnnotationPresent(RestController.class)
-                && antPathMatcher.match(api.getController(), clazz.getPackage().getName())); // 仅仅匹配 controller 包
+    private void putRule(Map<String, Predicate<Class<?>>> rules, WebProperties.Api api, AntPathMatcher matcher) {
+        if (api == null || api.getPrefix() == null) {
+            return;
+        }
+        rules.put(api.getPrefix(), // api前缀
+                clazz -> clazz.isAnnotationPresent(RestController.class)
+                        && matcher.match(api.getController(), clazz.getPackage().getName()));
     }
 
     @Bean

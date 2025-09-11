@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.gateway.handler;
 
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
+import cn.iocoder.yudao.framework.tracer.core.util.TracerFrameworkUtils;
 import cn.iocoder.yudao.gateway.util.WebFrameworkUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -29,6 +30,8 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
     @Override
     public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
+        // 如果请求到网关时，由于没有服务直接被拦截，不走过滤器（TraceIdMdcGlobalFilter），需要手动重新添加 TraceId
+        TracerFrameworkUtils.putTidIntoMdc(exchange);
         // 已经 commit，则直接返回异常
         ServerHttpResponse response = exchange.getResponse();
         if (response.isCommitted()) {

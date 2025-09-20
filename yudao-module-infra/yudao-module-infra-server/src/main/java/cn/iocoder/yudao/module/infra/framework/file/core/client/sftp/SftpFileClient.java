@@ -2,10 +2,13 @@ package cn.iocoder.yudao.module.infra.framework.file.core.client.sftp;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.ftp.FtpConfig;
+import cn.hutool.extra.ssh.JschRuntimeException;
 import cn.hutool.extra.ssh.Sftp;
 import cn.iocoder.yudao.framework.common.util.io.FileUtils;
 import cn.iocoder.yudao.module.infra.framework.file.core.client.AbstractFileClient;
+import com.jcraft.jsch.JSch;
 
 import java.io.File;
 
@@ -16,8 +19,17 @@ import java.io.File;
  */
 public class SftpFileClient extends AbstractFileClient<SftpFileClientConfig> {
 
+    /**
+     * 连接超时时间，单位：毫秒
+     */
+    private static final Long CONNECTION_TIMEOUT = 3000L;
+    /**
+     * 读写超时时间，单位：毫秒
+     */
+    private static final Long SO_TIMEOUT = 10000L;
+
     static {
-        // 某些旧的sftp服务器仅支持ssh-dss协议，该协议并不安全，默认不支持该协议，按需添加
+        // 某些旧的 sftp 服务器仅支持 ssh-dss 协议，该协议并不安全，默认不支持该协议，按需添加
         JSch.setConfig("server_host_key", JSch.getConfig("server_host_key") + ",ssh-dss");
     }
 
@@ -29,11 +41,11 @@ public class SftpFileClient extends AbstractFileClient<SftpFileClientConfig> {
 
     @Override
     protected void doInit() {
-        // 初始化 Ftp 对象
+        // 初始化 Sftp 对象
         FtpConfig ftpConfig = new FtpConfig(config.getHost(), config.getPort(), config.getUsername(), config.getPassword(),
                 CharsetUtil.CHARSET_UTF_8, null, null);
-        ftpConfig.setConnectionTimeout(3000L);
-        ftpConfig.setSoTimeout(10000L);
+        ftpConfig.setConnectionTimeout(CONNECTION_TIMEOUT);
+        ftpConfig.setSoTimeout(SO_TIMEOUT);
         this.sftp = new Sftp(ftpConfig);
     }
 

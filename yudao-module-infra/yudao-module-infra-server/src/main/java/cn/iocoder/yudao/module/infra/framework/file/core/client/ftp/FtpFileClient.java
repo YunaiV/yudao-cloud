@@ -27,8 +27,11 @@ public class FtpFileClient extends AbstractFileClient<FtpFileClientConfig> {
     @Override
     protected void doInit() {
         // 初始化 Ftp 对象
-        this.ftp = new Ftp(config.getHost(), config.getPort(), config.getUsername(), config.getPassword(),
-                CharsetUtil.CHARSET_UTF_8, null, null, FtpMode.valueOf(config.getMode()));
+        FtpConfig ftpConfig = new FtpConfig(config.getHost(), config.getPort(), config.getUsername(), config.getPassword(),
+                CharsetUtil.CHARSET_UTF_8, null, null);
+        ftpConfig.setConnectionTimeout(3000L);
+        ftpConfig.setSoTimeout(10000L);
+        this.ftp = new Ftp(ftpConfig, FtpMode.valueOf(config.getMode()));
     }
 
     @Override

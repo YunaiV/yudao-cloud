@@ -23,13 +23,13 @@ import cn.iocoder.yudao.module.iot.service.product.IotProductService;
 import cn.iocoder.yudao.module.iot.service.rule.scene.action.IotSceneRuleAction;
 import cn.iocoder.yudao.module.iot.service.rule.scene.matcher.IotSceneRuleMatcherManager;
 import cn.iocoder.yudao.module.iot.service.rule.scene.timer.IotSceneRuleTimerHandler;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 
@@ -246,14 +246,14 @@ public class IotSceneRuleServiceImpl implements IotSceneRuleService {
         IotDeviceDO device = getSelf().deviceService.getDeviceFromCache(message.getDeviceId());
         if (device == null) {
             log.warn("[getMatchedSceneRuleListByMessage][设备({}) 不存在]", message.getDeviceId());
-            return List.of();
+            return ListUtil.of();
         }
 
         // 1.2 通过 productId 获取产品信息
         IotProductDO product = getSelf().productService.getProductFromCache(device.getProductId());
         if (product == null) {
             log.warn("[getMatchedSceneRuleListByMessage][产品({}) 不存在]", device.getProductId());
-            return List.of();
+            return ListUtil.of();
         }
 
         // 1.3 获取匹配的规则场景

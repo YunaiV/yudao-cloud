@@ -59,7 +59,7 @@ public class TradeStatusSyncToWxaOrderHandler implements TradeOrderHandler {
                 .setTransactionId(payOrder.getChannelOrderNo())
                 .setReceivedTime(order.getReceiveTime());
         try {
-            socialClientApi.notifyWxaOrderConfirmReceive(UserTypeEnum.MEMBER.getValue(), reqDTO);
+            socialClientApi.notifyWxaOrderConfirmReceive(UserTypeEnum.MEMBER.getValue(), reqDTO).checkError();
         } catch (Exception ex) {
             log.error("[afterReceiveOrder][订单({}) 通知订单收货到微信小程序失败]", order, ex);
         }
@@ -93,7 +93,7 @@ public class TradeStatusSyncToWxaOrderHandler implements TradeOrderHandler {
             reqDTO.setLogisticsType(SocialWxaOrderUploadShippingInfoReqDTO.LOGISTICS_TYPE_VIRTUAL);
         }
         try {
-            socialClientApi.uploadWxaOrderShippingInfo(UserTypeEnum.MEMBER.getValue(), reqDTO);
+            socialClientApi.uploadWxaOrderShippingInfo(UserTypeEnum.MEMBER.getValue(), reqDTO).checkError();
         } catch (Exception ex) {
             log.error("[afterDeliveryOrder][订单({}) 上传订单物流信息到微信小程序失败]", order, ex);
         }

@@ -165,14 +165,6 @@ public class YudaoTenantAutoConfiguration {
         return ignoreUrls;
     }
 
-    // ========== Job ==========
-
-    @Bean
-    @ConditionalOnClass(name = "com.xxl.job.core.handler.annotation.XxlJob")
-    public TenantJobAspect tenantJobAspect(TenantFrameworkService tenantFrameworkService) {
-        return new TenantJobAspect(tenantFrameworkService);
-    }
-
     // ========== MQ ==========
 
     /**
@@ -201,6 +193,14 @@ public class YudaoTenantAutoConfiguration {
     @ConditionalOnClass(name = "org.apache.rocketmq.spring.core.RocketMQTemplate")
     public TenantRocketMQInitializer tenantRocketMQInitializer() {
         return new TenantRocketMQInitializer();
+    }
+
+    // ========== Job ==========
+
+    @Bean
+    @ConditionalOnClass(name = "com.xxl.job.core.handler.annotation.XxlJob")
+    public TenantJobAspect tenantJobAspect(TenantFrameworkService tenantFrameworkService) {
+        return new TenantJobAspect(tenantFrameworkService);
     }
 
     // ========== Redis ==========

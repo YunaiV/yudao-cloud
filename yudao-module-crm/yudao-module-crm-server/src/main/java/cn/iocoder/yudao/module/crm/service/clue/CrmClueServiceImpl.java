@@ -7,7 +7,6 @@ import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.module.crm.controller.admin.clue.vo.CrmCluePageReqVO;
 import cn.iocoder.yudao.module.crm.controller.admin.clue.vo.CrmClueSaveReqVO;
 import cn.iocoder.yudao.module.crm.controller.admin.clue.vo.CrmClueTransferReqVO;
-import cn.iocoder.yudao.module.crm.controller.admin.customer.vo.customer.CrmCustomerSaveReqVO;
 import cn.iocoder.yudao.module.crm.dal.dataobject.clue.CrmClueDO;
 import cn.iocoder.yudao.module.crm.dal.dataobject.followup.CrmFollowUpRecordDO;
 import cn.iocoder.yudao.module.crm.dal.mysql.clue.CrmClueMapper;
@@ -113,7 +112,7 @@ public class CrmClueServiceImpl implements CrmClueService {
     private void validateRelationDataExists(CrmClueSaveReqVO reqVO) {
         // 校验负责人
         if (Objects.nonNull(reqVO.getOwnerUserId()) &&
-                Objects.isNull(adminUserApi.getUser(reqVO.getOwnerUserId()))) {
+                Objects.isNull(adminUserApi.getUser(reqVO.getOwnerUserId()).getCheckedData())) {
             throw exception(USER_NOT_EXISTS);
         }
     }

@@ -137,7 +137,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     @Override
     public AuthLoginRespVO smsLogin(AuthSmsLoginReqVO reqVO) {
         // 校验验证码
-        smsCodeApi.useSmsCode(AuthConvert.INSTANCE.convert(reqVO, SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), getClientIP()));
+        smsCodeApi.useSmsCode(AuthConvert.INSTANCE.convert(reqVO, SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), getClientIP())).checkError();
 
         // 获得用户信息
         AdminUserDO user = userService.getUserByMobile(reqVO.getMobile());
@@ -299,7 +299,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
                 .setMobile(reqVO.getMobile())
                 .setScene(SmsSceneEnum.ADMIN_MEMBER_RESET_PASSWORD.getScene())
                 .setUsedIp(getClientIP())
-        );
+        ).checkError();
 
         userService.updateUserPassword(userByMobile.getId(), reqVO.getPassword());
     }

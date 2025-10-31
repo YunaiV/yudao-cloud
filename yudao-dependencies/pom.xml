@@ -86,7 +86,7 @@
         <jimubi.version>2.1.0</jimubi.version>
         <weixin-java.version>4.7.7-20250808.182223</weixin-java.version>
         <!-- 专属于 JDK8 安全漏洞升级 -->
-        <logback.version>1.2.13</logback.version> <!-- 无法使用 1.3.X 版本，启动会报错 -->
+        <logback.version>1.3.16</logback.version> <!-- 无法使用 1.3.X 版本，启动会报错 -->
     </properties>
 
     <dependencyManagement>

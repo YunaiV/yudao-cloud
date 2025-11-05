@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.util.List;
+
 @Schema(description = "管理后台 - 公众号粉丝分页 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -26,4 +28,6 @@ public class MpUserPageReqVO extends PageParam {
     @Schema(description = "公众号粉丝昵称，模糊匹配", example = "芋艿")
     private String nickname;
 
+    @Schema(description = "公众号粉丝标识", example = "o6_bmjrPTlm6_2sgVt7hMZOPfL2M")
+    private List<String> openidList;
 }

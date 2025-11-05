@@ -4,6 +4,8 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
+import cn.iocoder.yudao.module.mp.controller.admin.template.vo.MsgTemplateBatchReqVO;
+import cn.iocoder.yudao.module.mp.controller.admin.user.vo.MpUserPageReqVO;
 import cn.iocoder.yudao.module.mp.controller.admin.user.vo.MpUserRespVO;
 import cn.iocoder.yudao.module.mp.controller.admin.user.vo.MpUserUpdateReqVO;
 import cn.iocoder.yudao.module.mp.dal.dataobject.account.MpAccountDO;
@@ -22,6 +24,8 @@ public interface MpUserConvert {
     MpUserConvert INSTANCE = Mappers.getMapper(MpUserConvert.class);
 
     MpUserRespVO convert(MpUserDO bean);
+
+    MpUserPageReqVO convert(MsgTemplateBatchReqVO bean);
 
     List<MpUserRespVO> convertList(List<MpUserDO> list);
 

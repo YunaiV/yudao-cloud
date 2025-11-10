@@ -92,7 +92,7 @@ public class AppTradeOrderController {
     @GetMapping("/get-detail")
     @Operation(summary = "获得交易订单")
     @Parameters({
-            @Parameter(name = "id", description = "交易订单编号"),
+            @Parameter(name = "id", description = "交易订单编号 或 微信小程序商品订单详情PATH配置的「${商品订单号} 」out_trade_no"),
             @Parameter(name = "sync", description = "是否同步支付状态", example = "true")
     })
     public CommonResult<AppTradeOrderDetailRespVO> getOrderDetail(@RequestParam("id") String id,

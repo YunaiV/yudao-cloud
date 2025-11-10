@@ -1,6 +1,8 @@
 package cn.iocoder.yudao.module.trade.controller.app.order;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
@@ -96,13 +98,17 @@ public class AppTradeOrderController {
             @Parameter(name = "sync", description = "是否同步支付状态", example = "true")
     })
     public CommonResult<AppTradeOrderDetailRespVO> getOrderDetail(@RequestParam("id") String id,
-                                                                  @RequestParam(value = "sync", required = false) Boolean sync) {
+                                                                  @RequestParam(value = "sync", required = false) String syncParam) {
         // 1.1 查询订单
         TradeOrderDO order;
+        Boolean sync = null;
+        if (CharSequenceUtil.isNotEmpty(syncParam)) {
+            sync = BooleanUtil.toBoolean(syncParam);
+        }
         if (ObjectUtil.isNotNull(sync)) {
             order = tradeOrderQueryService.getOrderByOutTradeNo(getLoginUserId(),id);
         } else {
-            order = tradeOrderQueryService.getOrder(getLoginUserId(), Convert.toLong(id));
+            order = tradeOrderQueryService.getOrder(getLoginUserId(),Convert.toLong(id));
         }
         if (order == null) {
             return success(null);

@@ -85,6 +85,17 @@ public class PayOrderServiceImpl implements PayOrderService {
     }
 
     @Override
+    public String getMerchantOrderIdByNo(String no) {
+        if(no.contains(payProperties.getOrderNoPrefix())){
+            PayOrderDO order = orderMapper.selectByNo(no);
+            if(ObjectUtil.isNotNull(order)){
+                return order.getMerchantOrderId();
+            }
+        }
+        return null;
+    }
+
+    @Override
     public List<PayOrderDO> getOrderList(Collection<Long> ids) {
         if (CollUtil.isEmpty(ids)) {
             return Collections.emptyList();

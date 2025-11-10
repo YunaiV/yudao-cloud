@@ -1,5 +1,7 @@
 package cn.iocoder.yudao.module.trade.controller.app.order;
 
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.ObjectUtil;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.module.pay.api.notify.dto.PayOrderNotifyReqDTO;
@@ -93,10 +95,15 @@ public class AppTradeOrderController {
             @Parameter(name = "id", description = "交易订单编号"),
             @Parameter(name = "sync", description = "是否同步支付状态", example = "true")
     })
-    public CommonResult<AppTradeOrderDetailRespVO> getOrderDetail(@RequestParam("id") Long id,
+    public CommonResult<AppTradeOrderDetailRespVO> getOrderDetail(@RequestParam("id") String id,
                                                                   @RequestParam(value = "sync", required = false) Boolean sync) {
         // 1.1 查询订单
-        TradeOrderDO order = tradeOrderQueryService.getOrder(getLoginUserId(), id);
+        TradeOrderDO order;
+        if (ObjectUtil.isNotNull(sync)) {
+            order = tradeOrderQueryService.getOrderByOutTradeNo(getLoginUserId(),id);
+        } else {
+            order = tradeOrderQueryService.getOrder(getLoginUserId(), Convert.toLong(id));
+        }
         if (order == null) {
             return success(null);
         }
@@ -113,40 +120,6 @@ public class AppTradeOrderController {
         // 2.2 查询物流公司
         DeliveryExpressDO express = order.getLogisticsId() != null && order.getLogisticsId() > 0 ?
                 deliveryExpressService.getDeliveryExpress(order.getLogisticsId()) : null;
-        // 2.3 最终组合
-        return success(TradeOrderConvert.INSTANCE.convert02(order, orderItems, tradeOrderProperties, express));
-    }
-
-    @GetMapping("/get-detailByOutTradeNo")
-    @Operation(summary = "获得交易订单")
-    @Parameters({
-        @Parameter(name = "id", description = "PATH需包含「${商品订单号} 」，微信将把你在支付预下单接口填入的 out_trade_no 替换此内容"),
-        @Parameter(name = "sync", description = "是否同步支付状态", example = "true")
-    })
-    public CommonResult<AppTradeOrderDetailRespVO> getOrderDetailByOutTradeNo(@RequestParam("id") String id,
-        @RequestParam(value = "sync", required = false) Boolean sync) {
-        // PATH需包含「${商品订单号} 」，微信将把你在支付预下单接口填入的 out_trade_no 替换此内容，如「index/orderDetail?id=${商品订单号}&channel=1」。PATH最多输入1条。
-        // https://developers.weixin.qq.com/miniprogram/dev/platform-capabilities/business-capabilities/order_center/order_center.html
-        // 小程序商品订单详情path配置为：pages/order/detail?id=${商品订单号}&comein_type=wechat
-        // 通过 rpc payOrderNo -> tradeOrderId
-        // 1.1 查询订单
-        TradeOrderDO order = tradeOrderQueryService.getOrderByOutTradeNo(getLoginUserId(), id);
-        if (order == null) {
-            return success(null);
-        }
-        // 1.2 sync 仅在等待支付
-        if (Boolean.TRUE.equals(sync)
-            && TradeOrderStatusEnum.isUnpaid(order.getStatus()) && !order.getPayStatus()) {
-            tradeOrderUpdateService.syncOrderPayStatusQuietly(order.getId(), order.getPayOrderId());
-            // 重新查询，因为同步后，可能会有变化
-            order = tradeOrderQueryService.getOrder(order.getId());
-        }
-
-        // 2.1 查询订单项
-        List<TradeOrderItemDO> orderItems = tradeOrderQueryService.getOrderItemListByOrderId(order.getId());
-        // 2.2 查询物流公司
-        DeliveryExpressDO express = order.getLogisticsId() != null && order.getLogisticsId() > 0 ?
-            deliveryExpressService.getDeliveryExpress(order.getLogisticsId()) : null;
         // 2.3 最终组合
         return success(TradeOrderConvert.INSTANCE.convert02(order, orderItems, tradeOrderProperties, express));
     }

@@ -1,13 +1,16 @@
 package cn.iocoder.yudao.module.trade.service.order;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.module.member.api.user.MemberUserApi;
 import cn.iocoder.yudao.module.member.api.user.dto.MemberUserRespDTO;
+import cn.iocoder.yudao.module.pay.api.order.PayOrderApi;
 import cn.iocoder.yudao.module.trade.controller.admin.order.vo.TradeOrderPageReqVO;
 import cn.iocoder.yudao.module.trade.controller.admin.order.vo.TradeOrderSummaryRespVO;
 import cn.iocoder.yudao.module.trade.controller.app.order.vo.AppTradeOrderPageReqVO;
@@ -57,6 +60,8 @@ public class TradeOrderQueryServiceImpl implements TradeOrderQueryService {
     @Resource
     private MemberUserApi memberUserApi;
 
+    @Resource
+    private PayOrderApi payOrderApi;
     // =================== Order ===================
 
     @Override
@@ -72,6 +77,19 @@ public class TradeOrderQueryServiceImpl implements TradeOrderQueryService {
             return null;
         }
         return order;
+    }
+    @Override
+    public TradeOrderDO getOrderByOutTradeNo(Long userId, String outTradeNo) {
+        // PATH需包含「${商品订单号} 」，微信将把你在支付预下单接口填入的 out_trade_no 替换此内容，如「index/orderDetail?id=${商品订单号}&channel=1」。PATH最多输入1条。
+        // https://developers.weixin.qq.com/miniprogram/dev/platform-capabilities/business-capabilities/order_center/order_center.html
+        // 小程序商品订单详情path配置为：pages/order/detail?id=${商品订单号}&comein_type=wechat
+        // 通过 rpc payOrderNo -> tradeOrderId
+        String id = outTradeNo;
+        String merchantOrderId = payOrderApi.getMerchantOrderIdByPayOrderNo(outTradeNo).getCheckedData();
+        if(CharSequenceUtil.isNotEmpty(merchantOrderId)){
+            id = merchantOrderId;
+        }
+        return getSelf().getOrder(userId, Convert.toLong(id));
     }
 
     @Override

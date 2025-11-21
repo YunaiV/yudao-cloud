@@ -41,6 +41,13 @@ public interface PayOrderService {
     PayOrderDO getOrder(Long appId, String merchantOrderId);
 
     /**
+     * 获得商户订单编号
+     *
+     * @param no 编号
+     * @return merchantOrderId
+     */
+    String getMerchantOrderIdByNo(String no);
+    /**
      * 获得支付订单列表
      *
      * @param ids 编号数组
@@ -155,5 +162,4 @@ public interface PayOrderService {
      * @return 过期的订单数量
      */
     int expireOrder();
-
 }

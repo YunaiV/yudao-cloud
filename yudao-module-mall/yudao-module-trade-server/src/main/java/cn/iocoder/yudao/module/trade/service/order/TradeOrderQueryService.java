@@ -39,15 +39,7 @@ public interface TradeOrderQueryService {
      * @return 交易订单
      */
     TradeOrderDO getOrder(Long userId, Long id);
-    /**
-     * 获得指定用户，指定的交易订单
-     * PATH需包含「${商品订单号} 」，微信将把你在支付预下单接口填入的 out_trade_no 替换此内容，如「index/orderDetail?id=${商品订单号}&channel=1」。PATH最多输入1条。
-     * https://developers.weixin.qq.com/miniprogram/dev/platform-capabilities/business-capabilities/order_center/order_center.html
-     * @param userId 用户编号
-     * @param outTradeNo 支付订单no
-     * @return 交易订单
-     */
-    TradeOrderDO getOrderByOutTradeNo(Long userId, String outTradeNo);
+
     /**
      * 获得指定用户，指定活动，指定状态的交易订单
      *

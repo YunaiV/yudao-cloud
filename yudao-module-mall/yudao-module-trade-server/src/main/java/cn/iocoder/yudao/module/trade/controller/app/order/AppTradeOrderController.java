@@ -1,9 +1,5 @@
 package cn.iocoder.yudao.module.trade.controller.app.order;
 
-import cn.hutool.core.convert.Convert;
-import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.util.BooleanUtil;
-import cn.hutool.core.util.ObjectUtil;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.module.pay.api.notify.dto.PayOrderNotifyReqDTO;
@@ -94,22 +90,13 @@ public class AppTradeOrderController {
     @GetMapping("/get-detail")
     @Operation(summary = "获得交易订单")
     @Parameters({
-            @Parameter(name = "id", description = "交易订单编号 或 微信小程序商品订单详情PATH配置的「${商品订单号} 」out_trade_no"),
+            @Parameter(name = "id", description = "交易订单编号"),
             @Parameter(name = "sync", description = "是否同步支付状态", example = "true")
     })
-    public CommonResult<AppTradeOrderDetailRespVO> getOrderDetail(@RequestParam("id") String id,
-                                                                  @RequestParam(value = "sync", required = false) String syncParam) {
+    public CommonResult<AppTradeOrderDetailRespVO> getOrderDetail(@RequestParam("id") Long id,
+                                                                  @RequestParam(value = "sync", required = false) Boolean sync) {
         // 1.1 查询订单
-        TradeOrderDO order;
-        Boolean sync = null;
-        if (CharSequenceUtil.isNotEmpty(syncParam)) {
-            sync = BooleanUtil.toBoolean(syncParam);
-        }
-        if (ObjectUtil.isNotNull(sync)) {
-            order = tradeOrderQueryService.getOrderByOutTradeNo(getLoginUserId(),id);
-        } else {
-            order = tradeOrderQueryService.getOrder(getLoginUserId(),Convert.toLong(id));
-        }
+        TradeOrderDO order = tradeOrderQueryService.getOrder(getLoginUserId(), id);
         if (order == null) {
             return success(null);
         }
@@ -118,7 +105,7 @@ public class AppTradeOrderController {
                 && TradeOrderStatusEnum.isUnpaid(order.getStatus()) && !order.getPayStatus()) {
             tradeOrderUpdateService.syncOrderPayStatusQuietly(order.getId(), order.getPayOrderId());
             // 重新查询，因为同步后，可能会有变化
-            order = tradeOrderQueryService.getOrder(order.getId());
+            order = tradeOrderQueryService.getOrder(id);
         }
 
         // 2.1 查询订单项

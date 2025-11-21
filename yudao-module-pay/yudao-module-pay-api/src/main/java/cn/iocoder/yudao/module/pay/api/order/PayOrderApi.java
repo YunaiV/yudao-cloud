@@ -39,8 +39,4 @@ public interface PayOrderApi {
     CommonResult<Boolean> updatePayOrderPrice(@RequestParam("id") Long id,
                                               @RequestParam("payPrice") Integer payPrice);
 
-    @PostMapping(PREFIX + "/getMerchantOrderIdByNo")
-    @Operation(summary = "根据支付订单编号获取商户订单编号")
-    @Parameter(name = "no", description = "支付单编号", example = "Pxxxx", required = true)
-    CommonResult<String> getMerchantOrderIdByPayOrderNo(@RequestParam("no") String no);
 }

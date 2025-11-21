@@ -37,8 +37,4 @@ public class PayOrderApiImpl implements PayOrderApi {
         return success(true);
     }
 
-    @Override
-    public CommonResult<String> getMerchantOrderIdByPayOrderNo(String no) {
-        return success(payOrderService.getMerchantOrderIdByNo(no));
-    }
 }

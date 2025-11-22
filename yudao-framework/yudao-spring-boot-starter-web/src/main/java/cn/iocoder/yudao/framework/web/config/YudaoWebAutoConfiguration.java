@@ -21,6 +21,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -146,8 +147,19 @@ public class YudaoWebAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean
-    @LoadBalanced
+    @Primary
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
+        return restTemplateBuilder.build();
+    }
+
+    /**
+     * 创建 RestTemplate 实例（支持负载均衡）
+     *
+     * @param restTemplateBuilder {@link RestTemplateAutoConfiguration#restTemplateBuilder}
+     */
+    @Bean
+    @LoadBalanced
+    public RestTemplate loadBalancedRestTemplate(RestTemplateBuilder restTemplateBuilder) {
         return restTemplateBuilder.build();
     }
 

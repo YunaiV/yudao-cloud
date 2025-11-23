@@ -18,11 +18,11 @@ import cn.iocoder.yudao.module.bpm.framework.flowable.core.enums.BpmnModelConsta
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.bpmn.converter.BpmnXMLConverter;
-import org.flowable.bpmn.model.Process;
 import org.flowable.bpmn.model.*;
+import org.flowable.bpmn.model.Process;
 import org.flowable.common.engine.api.FlowableException;
+import org.flowable.common.engine.api.delegate.Expression;
 import org.flowable.common.engine.impl.util.io.BytesStreamSource;
-import org.flowable.engine.impl.el.FixedValue;
 
 import java.util.*;
 
@@ -406,7 +406,7 @@ public class BpmnModelUtils {
         flowableListener.getFieldExtensions().add(fieldExtension);
     }
 
-    public static BpmSimpleModelNodeVO.ListenerHandler parseListenerConfig(FixedValue fixedValue) {
+    public static BpmSimpleModelNodeVO.ListenerHandler parseListenerConfig(Expression fixedValue) {
         String expressionText = fixedValue.getExpressionText();
         Assert.notNull(expressionText, "监听器扩展字段({})不能为空", expressionText);
         return JsonUtils.parseObject(expressionText, BpmSimpleModelNodeVO.ListenerHandler.class);
@@ -673,7 +673,7 @@ public class BpmnModelUtils {
             // 这条线路存在目标节点，直接返回 true
             FlowElement sourceFlowElement = sequenceFlow.getSourceFlowElement();
             if (target.getId().equals(sourceFlowElement.getId())) {
-               return true;
+                return true;
             }
             // 如果目标节点为并行网关，跳过这个循环 (TODO 疑问：这个判断作用是防止回退到并行网关分支上的节点吗？）
             if (sourceFlowElement instanceof ParallelGateway) {
@@ -798,9 +798,9 @@ public class BpmnModelUtils {
 
         // 情况：StartEvent/EndEvent/UserTask/ServiceTask
         if (currentElement instanceof StartEvent
-            || currentElement instanceof EndEvent
-            || currentElement instanceof UserTask
-            || currentElement instanceof ServiceTask) {
+                || currentElement instanceof EndEvent
+                || currentElement instanceof UserTask
+                || currentElement instanceof ServiceTask) {
             // 添加节点
             FlowNode flowNode = (FlowNode) currentElement;
             resultElements.add(flowNode);
@@ -982,8 +982,8 @@ public class BpmnModelUtils {
      */
     private static SequenceFlow findMatchSequenceFlowByExclusiveGateway(Gateway gateway, Map<String, Object> variables) {
         SequenceFlow matchSequenceFlow = CollUtil.findOne(gateway.getOutgoingFlows(),
-                    flow -> ObjUtil.notEqual(gateway.getDefaultFlow(), flow.getId())
-                            && (evalConditionExpress(variables, flow.getConditionExpression())));
+                flow -> ObjUtil.notEqual(gateway.getDefaultFlow(), flow.getId())
+                        && (evalConditionExpress(variables, flow.getConditionExpression())));
         if (matchSequenceFlow == null) {
             matchSequenceFlow = CollUtil.findOne(gateway.getOutgoingFlows(),
                     flow -> ObjUtil.equal(gateway.getDefaultFlow(), flow.getId()));

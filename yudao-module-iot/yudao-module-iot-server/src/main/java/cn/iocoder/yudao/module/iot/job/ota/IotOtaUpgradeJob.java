@@ -36,7 +36,7 @@ public class IotOtaUpgradeJob {
     @Resource
     private IotDeviceService deviceService;
 
-    @XxlJob("deviceOfflineCheckJob")
+    @XxlJob("deviceUpgradeJob")
     @TenantJob // 多租户
     public String execute(String param) throws Exception {
         // 1. 查询待推送的 OTA 升级记录

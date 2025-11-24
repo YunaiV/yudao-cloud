@@ -2,7 +2,6 @@ package cn.iocoder.yudao.framework.excel.core.util;
 
 import cn.idev.excel.FastExcelFactory;
 import cn.idev.excel.converters.longconverter.LongStringConverter;
-import cn.idev.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import cn.iocoder.yudao.framework.common.util.http.HttpUtils;
 import cn.iocoder.yudao.framework.excel.core.handler.ColumnWidthMatchStyleStrategy;
 import cn.iocoder.yudao.framework.excel.core.handler.SelectSheetWriteHandler;
@@ -10,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -45,9 +45,12 @@ public class ExcelUtils {
     }
 
     public static <T> List<T> read(MultipartFile file, Class<T> head) throws IOException {
-        return FastExcelFactory.read(file.getInputStream(), head, null)
-                .autoCloseStream(false)  // 不要自动关闭，交给 Servlet 自己处理
-                .doReadAllSync();
+        // 参考 https://t.zsxq.com/zM77F 帖子，增加 try 处理，兼容 windows 场景
+        try (InputStream inputStream = file.getInputStream()) {
+            return FastExcelFactory.read(inputStream, head, null)
+                    .autoCloseStream(false) // 不要自动关闭，交给 Servlet 自己处理
+                    .doReadAllSync();
+        }
     }
 
 }

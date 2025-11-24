@@ -34,7 +34,7 @@
         <dm8.jdbc.version>8.1.3.140</dm8.jdbc.version>
         <kingbase.jdbc.version>8.6.0</kingbase.jdbc.version>
         <opengauss.jdbc.version>5.1.0</opengauss.jdbc.version>
-        <taos.version>3.7.3</taos.version>
+        <taos.version>3.7.8</taos.version>
         <!-- 消息队列 -->
         <rocketmq-spring.version>2.3.4</rocketmq-spring.version>
         <!-- RPC 相关 -->
@@ -68,19 +68,19 @@
         <commons-net.version>3.12.0</commons-net.version>
         <commons-lang3.version>3.20.0</commons-lang3.version>
         <jsch.version>2.27.6</jsch.version>
-        <tika-core.version>3.2.2</tika-core.version>
+        <tika-core.version>3.2.3</tika-core.version>
         <ip2region.version>2.7.0</ip2region.version>
         <bizlog-sdk.version>3.0.6</bizlog-sdk.version>
         <reflections.version>0.10.2</reflections.version>
         <netty.version>4.2.7.Final</netty.version>
         <mqtt.version>1.2.5</mqtt.version>
-        <vertx.version>4.5.13</vertx.version>
+        <vertx.version>4.5.22</vertx.version>
         <!-- 三方云服务相关 -->
         <awssdk.version>2.39.2</awssdk.version>
         <justauth.version>1.16.7</justauth.version>
         <justauth-starter.version>1.4.0</justauth-starter.version>
-        <jimureport.version>2.1.1</jimureport.version>
-        <jimubi.version>2.1.0</jimubi.version>
+        <jimureport.version>2.1.3</jimureport.version>
+        <jimubi.version>2.2.0</jimubi.version>
         <weixin-java.version>4.7.8-20251117.120146</weixin-java.version>
     </properties>
 

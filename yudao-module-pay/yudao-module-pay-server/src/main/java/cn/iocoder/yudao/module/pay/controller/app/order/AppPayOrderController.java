@@ -55,7 +55,7 @@ public class AppPayOrderController {
                                                  @RequestParam(value = "no", required = false) String no,
                                                  @RequestParam(value = "sync", required = false) Boolean sync) {
         PayOrderDO order = null;
-        if (CharSequenceUtil.isNotEmpty(no)){
+        if (CharSequenceUtil.isNotEmpty(no)) {
             order = payOrderService.getOrder(no);
         }
         if (ObjUtil.isNull(order) && ObjUtil.isNotNull(id)) {

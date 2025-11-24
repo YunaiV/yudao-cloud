@@ -1,10 +1,11 @@
 package cn.iocoder.yudao.module.bpm.api.event;
 
 import cn.iocoder.yudao.module.bpm.framework.flowable.core.util.BpmHttpRequestUtils;
-import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
+
+import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * 回款审批的结果的监听器实现类

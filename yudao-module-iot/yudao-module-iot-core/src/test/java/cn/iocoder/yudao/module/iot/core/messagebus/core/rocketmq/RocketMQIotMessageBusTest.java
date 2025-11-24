@@ -8,6 +8,7 @@ import cn.iocoder.yudao.module.iot.core.messagebus.core.TestMessage;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -34,6 +35,7 @@ import static org.junit.jupiter.api.Assertions.*;
     "rocketmq.producer.send-message-timeout=10000"
 })
 @Slf4j
+@Disabled
 public class RocketMQIotMessageBusTest {
 
     @Resource

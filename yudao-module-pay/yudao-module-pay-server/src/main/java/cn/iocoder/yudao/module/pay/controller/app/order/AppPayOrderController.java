@@ -74,7 +74,7 @@ public class AppPayOrderController {
         if (Boolean.TRUE.equals(sync) && PayOrderStatusEnum.isWaiting(order.getStatus())) {
             payOrderService.syncOrderQuietly(order.getId());
             // 重新查询，因为同步后，可能会有变化
-            order = payOrderService.getOrder(id);
+            order = payOrderService.getOrder(order.getId());
         }
         return success(BeanUtils.toBean(order, PayOrderRespVO.class));
     }

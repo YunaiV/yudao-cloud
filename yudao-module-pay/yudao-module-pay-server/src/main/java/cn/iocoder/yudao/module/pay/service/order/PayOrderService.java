@@ -30,6 +30,7 @@ public interface PayOrderService {
      * @return 支付订单
      */
     PayOrderDO getOrder(Long id);
+
     /**
      * 获得支付订单
      *
@@ -37,6 +38,7 @@ public interface PayOrderService {
      * @return 支付订单
      */
     PayOrderDO getOrder(String no);
+
     /**
      * 获得支付订单
      *

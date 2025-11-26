@@ -2,11 +2,12 @@ package cn.iocoder.yudao.module.mp.controller.admin.user.vo;
 
 import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Schema(description = "管理后台 - 公众号粉丝分页 Request VO")
 @Data
@@ -26,5 +27,8 @@ public class MpUserPageReqVO extends PageParam {
 
     @Schema(description = "公众号粉丝昵称，模糊匹配", example = "芋艿")
     private String nickname;
+
+    @Schema(description = "公众号粉丝标识", example = "o6_bmjrPTlm6_2sgVt7hMZOPfL2M")
+    private List<String> openidList;
 
 }

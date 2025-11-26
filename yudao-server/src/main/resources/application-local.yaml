@@ -69,7 +69,7 @@ spring:
           username: root
           password: 123456
 #        tdengine: # IoT 数据库（需要 IoT 物联网再开启噢！）
-#          url: jdbc:TAOS-RS://127.0.0.1:6041/ruoyi_vue_pro
+#          url: jdbc:TAOS-WS://127.0.0.1:6041/ruoyi_vue_pro
 #          driver-class-name: com.taosdata.jdbc.rs.RestfulDriver
 #          username: root
 #          password: taosdata

@@ -61,4 +61,7 @@ public interface ErrorCodeConstants {
     ErrorCode AUTO_REPLY_ADD_MESSAGE_FAIL_EXISTS = new ErrorCode(1_006_009_002, "操作失败，原因：已存在该消息类型的回复");
     ErrorCode AUTO_REPLY_ADD_KEYWORD_FAIL_EXISTS = new ErrorCode(1_006_009_003, "操作失败，原因：已关在该关键字的回复");
 
+    // ========== 公众号消息模板 1-006-010-000 ============
+    ErrorCode MSG_TEMPLATE_NOT_EXISTS = new ErrorCode(1_006_010_000, "消息模板不存在");
+    ErrorCode MSG_TEMPLATE_LOG_NOT_EXISTS = new ErrorCode(1_006_010_001, "微信模版消息发送记录不存在");
 }

@@ -1,8 +1,8 @@
-package cn.iocoder.yudao.module.mp.service.template;
+package cn.iocoder.yudao.module.mp.service.message;
 
 import cn.iocoder.yudao.module.mp.controller.admin.message.vo.template.MpMessageTemplateListReqVO;
 import cn.iocoder.yudao.module.mp.controller.admin.message.vo.template.MpMessageTemplateSendReqVO;
-import cn.iocoder.yudao.module.mp.dal.dataobject.template.MpMessageTemplateDO;
+import cn.iocoder.yudao.module.mp.dal.dataobject.message.MpMessageTemplateDO;
 
 import java.util.List;
 

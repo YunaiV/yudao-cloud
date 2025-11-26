@@ -1,4 +1,4 @@
-package cn.iocoder.yudao.module.mp.dal.dataobject.template;
+package cn.iocoder.yudao.module.mp.dal.dataobject.message;
 
 import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
 import cn.iocoder.yudao.module.mp.dal.dataobject.account.MpAccountDO;

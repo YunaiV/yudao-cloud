@@ -30,4 +30,5 @@ public class MpUserPageReqVO extends PageParam {
 
     @Schema(description = "公众号粉丝标识", example = "o6_bmjrPTlm6_2sgVt7hMZOPfL2M")
     private List<String> openidList;
+
 }

@@ -1,4 +1,4 @@
-package cn.iocoder.yudao.module.mp.service.template;
+package cn.iocoder.yudao.module.mp.service.message;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
@@ -7,7 +7,7 @@ import cn.iocoder.yudao.framework.mybatis.core.query.LambdaQueryWrapperX;
 import cn.iocoder.yudao.module.mp.controller.admin.message.vo.template.MpMessageTemplateListReqVO;
 import cn.iocoder.yudao.module.mp.controller.admin.message.vo.template.MpMessageTemplateSendReqVO;
 import cn.iocoder.yudao.module.mp.dal.dataobject.account.MpAccountDO;
-import cn.iocoder.yudao.module.mp.dal.dataobject.template.MpMessageTemplateDO;
+import cn.iocoder.yudao.module.mp.dal.dataobject.message.MpMessageTemplateDO;
 import cn.iocoder.yudao.module.mp.dal.dataobject.user.MpUserDO;
 import cn.iocoder.yudao.module.mp.dal.mysql.message.MpMessageTemplateMapper;
 import cn.iocoder.yudao.module.mp.framework.mp.core.MpServiceFactory;

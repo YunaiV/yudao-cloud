@@ -34,7 +34,9 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import java.util.Map;
 import java.util.function.Predicate;
 
-@AutoConfiguration
+@AutoConfiguration(beforeName = {
+        "com.fhs.trans.config.TransServiceConfig" // cloud 独有：避免一键改包后，RestTemplate 初始化的冲突。可见 https://t.zsxq.com/T4yj7 帖子
+})
 @EnableConfigurationProperties(WebProperties.class)
 public class YudaoWebAutoConfiguration {
 

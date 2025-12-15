@@ -3,6 +3,7 @@ package cn.iocoder.yudao.module.system.api.social;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
@@ -86,7 +87,7 @@ public class SocialClientApiImpl implements SocialClientApi {
         // 2. 获得社交用户
         SocialUserRespDTO socialUser = socialUserService.getSocialUserByUserId(reqDTO.getUserType(), reqDTO.getUserId(),
                 SocialTypeEnum.WECHAT_MINI_PROGRAM.getType());
-        if (StrUtil.isBlankIfStr(socialUser.getOpenid())) {
+        if (ObjectUtil.isNull(socialUser) || StrUtil.isBlankIfStr(socialUser.getOpenid())) {
             log.warn("[sendWxaSubscribeMessage][reqDTO({}) 发送订阅消息失败，原因：会员 openid 缺失]", reqDTO);
             return success(false);
         }

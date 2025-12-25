@@ -5,11 +5,12 @@ import cn.iocoder.yudao.module.bpm.api.event.BpmProcessInstanceStatusEventListen
 import cn.iocoder.yudao.module.crm.enums.ApiConstants;
 import cn.iocoder.yudao.module.crm.service.contract.CrmContractService;
 import cn.iocoder.yudao.module.crm.service.contract.CrmContractServiceImpl;
-import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * 合同审批的结果的监听器实现类

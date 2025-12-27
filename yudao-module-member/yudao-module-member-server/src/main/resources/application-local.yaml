@@ -118,6 +118,8 @@ spring:
       client:
         instance:
           service-host-type: IP # 注册实例时，优先使用 IP [IP, HOST_NAME, CANONICAL_HOST_NAME]
+        username: admin
+        password: admin
 
 # 日志文件配置
 logging:

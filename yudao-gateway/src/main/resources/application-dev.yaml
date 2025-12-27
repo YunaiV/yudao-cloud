@@ -12,3 +12,24 @@ spring:
       config: # 【注册中心】配置项
         namespace: dev # 命名空间。这里使用 dev 开发环境
         group: DEFAULT_GROUP # 使用的 Nacos 配置分组，默认为 DEFAULT_GROUP
+
+--- #################### 监控相关配置 ####################
+
+# Actuator 监控端点的配置项
+management:
+  endpoints:
+    web:
+      base-path: /actuator # Actuator 提供的 API 接口的根目录。默认为 /actuator
+      exposure:
+        include: '*' # 需要开放的端点。默认值只打开 health 和 info 两个端点。通过设置 * ，可以开放所有端点。
+
+# Spring Boot Admin 配置项
+spring:
+  boot:
+    admin:
+      # Spring Boot Admin Client 客户端的相关配置
+      client:
+        instance:
+          service-host-type: IP # 注册实例时，优先使用 IP [IP, HOST_NAME, CANONICAL_HOST_NAME]
+        username: admin
+        password: admin

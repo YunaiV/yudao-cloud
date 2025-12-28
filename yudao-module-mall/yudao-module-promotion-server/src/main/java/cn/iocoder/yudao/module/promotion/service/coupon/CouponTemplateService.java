@@ -7,7 +7,7 @@ import cn.iocoder.yudao.module.promotion.controller.admin.coupon.vo.template.Cou
 import cn.iocoder.yudao.module.promotion.dal.dataobject.coupon.CouponTemplateDO;
 import cn.iocoder.yudao.module.promotion.enums.coupon.CouponTakeTypeEnum;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.Collection;
 import java.util.List;
 
@@ -17,6 +17,23 @@ import java.util.List;
  * @author 芋道源码
  */
 public interface CouponTemplateService {
+
+    /**
+     * 判断是否不限制每人领取数量
+     *
+     * @param takeLimitCount 每人限领个数
+     * @return 是否不限制
+     */
+    boolean isTakeLimitCountUnlimited(Integer takeLimitCount);
+
+    /**
+     * 判断是否不限制总发放数量
+     *
+     * @param totalCount 发放数量
+     * @return 是否不限制
+     */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    boolean isTotalCountUnlimited(Integer totalCount);
 
     /**
      * 创建优惠劵模板

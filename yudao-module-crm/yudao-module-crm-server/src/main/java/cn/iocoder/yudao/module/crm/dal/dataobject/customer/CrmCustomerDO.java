@@ -102,6 +102,30 @@ public class CrmCustomerDO extends BaseDO {
      */
     private String detailAddress;
     /**
+     * street
+     */
+    private String street;
+    /**
+     * city
+     */
+    private String city;
+    /**
+     * state
+     */
+    private String state;
+    /**
+     * postalCode
+     */
+    private String postalCode;
+    /**
+     * country
+     */
+    private String country;
+    /**
+     * countryCode
+     */
+    private String countryCode;
+    /**
      * 所属行业
      *
      * 对应字典 {@link DictTypeConstants#CRM_CUSTOMER_INDUSTRY}

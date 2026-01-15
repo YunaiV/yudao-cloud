@@ -76,7 +76,7 @@
         <reflections.version>0.10.2</reflections.version>
         <netty.version>4.2.9.Final</netty.version>
         <mqtt.version>1.2.5</mqtt.version>
-        <vertx.version>4.5.22</vertx.version>
+        <vertx.version>4.5.24</vertx.version>
         <!-- 三方云服务相关 -->
         <awssdk.version>2.40.15</awssdk.version>
         <justauth.version>1.16.7</justauth.version>

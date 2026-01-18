@@ -21,6 +21,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -107,7 +108,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
 
         // 调用
         Long resultMailLogId = mailSendService.sendSingleMail(toMails, ccMails, bccMails, userId,
-                UserTypeEnum.ADMIN.getValue(), templateCode, templateParams);
+                UserTypeEnum.ADMIN.getValue(), templateCode, templateParams, (File[]) null);
         // 断言
         assertEquals(mailLogId, resultMailLogId);
         // 断言调用
@@ -115,7 +116,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
                 argThat(toMailSet -> toMailSet.contains(user.getEmail()) && toMailSet.contains("admin@test.com")),
                 argThat(ccMailSet -> ccMailSet.contains("cc@test.com")),
                 argThat(bccMailSet -> bccMailSet.contains("bcc@test.com")),
-                eq(account.getId()), eq(template.getNickname()), eq(title), eq(content));
+                eq(account.getId()), eq(template.getNickname()), eq(title), eq(content), isNull());
     }
 
     /**
@@ -157,7 +158,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
                 eq(account), eq(template), eq(content), eq(templateParams), eq(true))).thenReturn(mailLogId);
 
         // 调用
-        Long resultMailLogId = mailSendService.sendSingleMail(toMails, null, null, userId, userType, templateCode, templateParams);
+        Long resultMailLogId = mailSendService.sendSingleMail(toMails, null, null, userId, userType, templateCode, templateParams, (java.io.File[]) null);
         // 断言
         assertEquals(mailLogId, resultMailLogId);
         // 断言调用
@@ -165,7 +166,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
                 argThat(toMailSet -> toMailSet.contains(mail)),
                 argThat(Collection::isEmpty),
                 argThat(Collection::isEmpty),
-                eq(account.getId()), eq(template.getNickname()), eq(title), eq(content));
+                eq(account.getId()), eq(template.getNickname()), eq(title), eq(content), isNull());
     }
 
     /**
@@ -207,12 +208,12 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
                 eq(account), eq(template), eq(content), eq(templateParams), eq(false))).thenReturn(mailLogId);
 
         // 调用
-        Long resultMailLogId = mailSendService.sendSingleMail(toMails, null, null, userId, userType, templateCode, templateParams);
+        Long resultMailLogId = mailSendService.sendSingleMail(toMails, null, null, userId, userType, templateCode, templateParams, (java.io.File[]) null);
         // 断言
         assertEquals(mailLogId, resultMailLogId);
         // 断言调用
         verify(mailProducer, times(0)).sendMailSendMessage(anyLong(), any(), any(), any(),
-                anyLong(), anyString(), anyString(), anyString());
+                anyLong(), anyString(), anyString(), anyString(), any());
     }
 
     @Test
@@ -262,7 +263,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
 
         // 调用，并断言异常
         assertServiceException(() -> mailSendService.sendSingleMail(toMails, null, null, userId,
-                        UserTypeEnum.ADMIN.getValue(), templateCode, templateParams),
+                        UserTypeEnum.ADMIN.getValue(), templateCode, templateParams, (java.io.File[]) null),
                 MAIL_SEND_MAIL_NOT_EXISTS);
     }
 
@@ -289,7 +290,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
                                 assertEquals(account.getSslEnable(), mailAccount.isSslEnable());
                                 return true;
                             }), eq(message.getToMails()), eq(message.getCcMails()), eq(message.getBccMails()),
-                            eq(message.getTitle()), eq(message.getContent()), eq(true)))
+                            eq(message.getTitle()), eq(message.getContent()), eq(true), eq(message.getAttachments())))
                     .thenReturn(messageId);
 
             // 调用
@@ -311,17 +312,8 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
 
             // mock 方法（发送邮件）
             Exception e = new NullPointerException("啦啦啦");
-            mailUtilMock.when(() -> MailUtil.send(argThat(mailAccount -> {
-                        assertEquals("芋艿 <7685@qq.com>", mailAccount.getFrom());
-                        assertTrue(mailAccount.isAuth());
-                        assertEquals(account.getUsername(), mailAccount.getUser());
-                        assertArrayEquals(account.getPassword().toCharArray(), mailAccount.getPass().toCharArray());
-                        assertEquals(account.getHost(), mailAccount.getHost());
-                        assertEquals(account.getPort(), mailAccount.getPort());
-                        assertEquals(account.getSslEnable(), mailAccount.isSslEnable());
-                        return true;
-                    }), eq(message.getToMails()), eq(message.getCcMails()), eq(message.getBccMails()),
-                    eq(message.getTitle()), eq(message.getContent()), eq(true))).thenThrow(e);
+            mailUtilMock.when(() -> MailUtil.send(any(MailAccount.class), any(), any(), any(),
+                    any(), any(), eq(true), any(java.io.File[].class))).thenThrow(e);
 
             // 调用
             mailSendService.doSendMail(message);

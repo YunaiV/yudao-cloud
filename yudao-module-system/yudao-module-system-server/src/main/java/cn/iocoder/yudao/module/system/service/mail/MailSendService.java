@@ -3,6 +3,7 @@ package cn.iocoder.yudao.module.system.service.mail;
 import cn.iocoder.yudao.framework.common.enums.UserTypeEnum;
 import cn.iocoder.yudao.module.system.mq.message.mail.MailSendMessage;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 
@@ -27,9 +28,9 @@ public interface MailSendService {
      */
     default Long sendSingleMailToAdmin(Long userId,
                                        Collection<String> toMails, Collection<String> ccMails, Collection<String> bccMails,
-                                       String templateCode, Map<String, Object> templateParams) {
+                                       String templateCode, Map<String, Object> templateParams, File... attachments) {
         return sendSingleMail(toMails, ccMails, bccMails, userId, UserTypeEnum.ADMIN.getValue(),
-                templateCode, templateParams);
+                templateCode, templateParams, attachments);
     }
 
     /**
@@ -45,9 +46,9 @@ public interface MailSendService {
      */
     default Long sendSingleMailToMember(Long userId,
                                         Collection<String> toMails, Collection<String> ccMails, Collection<String> bccMails,
-                                        String templateCode, Map<String, Object> templateParams) {
+                                        String templateCode, Map<String, Object> templateParams, File... attachments) {
         return sendSingleMail(toMails, ccMails, bccMails, userId, UserTypeEnum.MEMBER.getValue(),
-                templateCode, templateParams);
+                templateCode, templateParams, attachments);
     }
 
     /**
@@ -64,7 +65,7 @@ public interface MailSendService {
      */
     Long sendSingleMail(Collection<String> toMails, Collection<String> ccMails, Collection<String> bccMails,
                         Long userId, Integer userType,
-                        String templateCode, Map<String, Object> templateParams);
+                        String templateCode, Map<String, Object> templateParams, File... attachments);
 
     /**
      * 执行真正的邮件发送

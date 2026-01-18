@@ -1,16 +1,13 @@
 package cn.iocoder.yudao.module.system.mq.producer.mail;
 
 import cn.iocoder.yudao.module.system.mq.message.mail.MailSendMessage;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.Resource;
-
+import java.io.File;
 import java.util.Collection;
-import java.util.List;
-
-import static java.util.Collections.singletonList;
 
 /**
  * Mail 邮件相关消息的 Producer
@@ -39,12 +36,13 @@ public class MailProducer {
      */
     public void sendMailSendMessage(Long sendLogId,
                                     Collection<String> toMails, Collection<String> ccMails, Collection<String> bccMails,
-                                    Long accountId, String nickname, String title, String content) {
+                                    Long accountId, String nickname, String title, String content, File[] attachments) {
         MailSendMessage message = new MailSendMessage()
                 .setLogId(sendLogId)
                 .setToMails(toMails).setCcMails(ccMails).setBccMails(bccMails)
                 .setAccountId(accountId).setNickname(nickname)
-                .setTitle(title).setContent(content);
+                .setTitle(title).setContent(content)
+                .setAttachments(attachments);
         applicationContext.publishEvent(message);
     }
 

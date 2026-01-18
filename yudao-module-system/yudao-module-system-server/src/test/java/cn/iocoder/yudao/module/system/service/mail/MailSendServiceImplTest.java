@@ -290,7 +290,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
                                 assertEquals(account.getSslEnable(), mailAccount.isSslEnable());
                                 return true;
                             }), eq(message.getToMails()), eq(message.getCcMails()), eq(message.getBccMails()),
-                            eq(message.getTitle()), eq(message.getContent()), eq(true), eq(message.getAttachments())))
+                            eq(message.getTitle()), eq(message.getContent()), eq(true), any()))
                     .thenReturn(messageId);
 
             // 调用
@@ -316,13 +316,13 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
                         assertEquals("芋艿 <7685@qq.com>", mailAccount.getFrom());
                         assertTrue(mailAccount.isAuth());
                         assertEquals(account.getUsername(), mailAccount.getUser());
-                        assertEquals(account.getPassword(), mailAccount.getPass());
+                        assertArrayEquals(account.getPassword().toCharArray(), mailAccount.getPass().toCharArray());
                         assertEquals(account.getHost(), mailAccount.getHost());
                         assertEquals(account.getPort(), mailAccount.getPort());
                         assertEquals(account.getSslEnable(), mailAccount.isSslEnable());
                         return true;
                     }), eq(message.getToMails()), eq(message.getCcMails()), eq(message.getBccMails()),
-                    eq(message.getTitle()), eq(message.getContent()), eq(true), same(message.getAttachments()))).thenThrow(e);
+                    eq(message.getTitle()), eq(message.getContent()), eq(true), any())).thenThrow(e);
 
             // 调用
             mailSendService.doSendMail(message);

@@ -57,8 +57,6 @@ public class DeptDataPermissionRule implements DataPermissionRule {
     private static final String DEPT_COLUMN_NAME = "dept_id";
     private static final String USER_COLUMN_NAME = "user_id";
 
-    static final Expression EXPRESSION_NULL = new NullValue();
-
     private final PermissionCommonApi permissionApi;
 
     /**
@@ -120,7 +118,7 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 
         // 情况二，即不能查看部门，又不能查看自己，则说明 100% 无权限
         if (CollUtil.isEmpty(deptDataPermission.getDeptIds())
-                && Boolean.FALSE.equals(deptDataPermission.getSelf())) {
+            && Boolean.FALSE.equals(deptDataPermission.getSelf())) {
             return new EqualsTo(null, null); // WHERE null = null，可以保证返回的数据为空
         }
 
@@ -133,7 +131,7 @@ public class DeptDataPermissionRule implements DataPermissionRule {
                     JsonUtils.toJsonString(loginUser), tableName, tableAlias, JsonUtils.toJsonString(deptDataPermission));
 //            throw new NullPointerException(String.format("LoginUser(%d) Table(%s/%s) 构建的条件为空",
 //                    loginUser.getId(), tableName, tableAlias.getName()));
-            return EXPRESSION_NULL;
+            return new EqualsTo(null, null); // WHERE null = null，可以保证返回的数据为空
         }
         if (deptExpression == null) {
             return userExpression;

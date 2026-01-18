@@ -24,11 +24,13 @@ public interface MailSendService {
      * @param bccMails 密送邮箱
      * @param templateCode 邮件模版编码
      * @param templateParams 邮件模版参数
+     * @param attachments 附件
      * @return 发送日志编号
      */
     default Long sendSingleMailToAdmin(Long userId,
                                        Collection<String> toMails, Collection<String> ccMails, Collection<String> bccMails,
-                                       String templateCode, Map<String, Object> templateParams, File... attachments) {
+                                       String templateCode, Map<String, Object> templateParams,
+                                       File... attachments) {
         return sendSingleMail(toMails, ccMails, bccMails, userId, UserTypeEnum.ADMIN.getValue(),
                 templateCode, templateParams, attachments);
     }
@@ -42,11 +44,13 @@ public interface MailSendService {
      * @param bccMails 密送邮箱
      * @param templateCode 邮件模版编码
      * @param templateParams 邮件模版参数
+     * @param attachments 附件
      * @return 发送日志编号
      */
     default Long sendSingleMailToMember(Long userId,
                                         Collection<String> toMails, Collection<String> ccMails, Collection<String> bccMails,
-                                        String templateCode, Map<String, Object> templateParams, File... attachments) {
+                                        String templateCode, Map<String, Object> templateParams,
+                                        File... attachments) {
         return sendSingleMail(toMails, ccMails, bccMails, userId, UserTypeEnum.MEMBER.getValue(),
                 templateCode, templateParams, attachments);
     }
@@ -61,11 +65,13 @@ public interface MailSendService {
      * @param userType 用户类型
      * @param templateCode 邮件模版编码
      * @param templateParams 邮件模版参数
+     * @param attachments 附件
      * @return 发送日志编号
      */
     Long sendSingleMail(Collection<String> toMails, Collection<String> ccMails, Collection<String> bccMails,
                         Long userId, Integer userType,
-                        String templateCode, Map<String, Object> templateParams, File... attachments);
+                        String templateCode, Map<String, Object> templateParams,
+                        File... attachments);
 
     /**
      * 执行真正的邮件发送

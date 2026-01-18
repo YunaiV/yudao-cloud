@@ -53,8 +53,9 @@ public class MailSendMessage {
      */
     @NotEmpty(message = "邮件内容不能为空")
     private String content;
+
     /**
-     * 邮件附件
+     * 附件
      */
     private File[] attachments;
 

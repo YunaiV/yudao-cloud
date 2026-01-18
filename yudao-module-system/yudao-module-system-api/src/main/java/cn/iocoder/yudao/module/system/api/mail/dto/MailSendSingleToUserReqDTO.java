@@ -36,6 +36,7 @@ public class MailSendSingleToUserReqDTO {
      */
     private List<@Email String> bccMails;
 
+
     /**
      * 邮件模板编号
      */
@@ -45,8 +46,9 @@ public class MailSendSingleToUserReqDTO {
      * 邮件模板参数
      */
     private Map<String, Object> templateParams;
+
     /**
-     * 附件内容
+     * 附件
      */
     private File[] attachments;
 

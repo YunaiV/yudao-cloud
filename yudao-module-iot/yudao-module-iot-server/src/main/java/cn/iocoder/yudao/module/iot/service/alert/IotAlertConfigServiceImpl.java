@@ -41,7 +41,7 @@ public class IotAlertConfigServiceImpl implements IotAlertConfigService {
     public Long createAlertConfig(IotAlertConfigSaveReqVO createReqVO) {
         // 校验关联数据是否存在
         sceneRuleService.validateSceneRuleList(createReqVO.getSceneRuleIds());
-        adminUserApi.validateUserList(createReqVO.getReceiveUserIds()).checkError();
+        adminUserApi.validateUserList(createReqVO.getReceiveUserIds());
 
         // 插入
         IotAlertConfigDO alertConfig = BeanUtils.toBean(createReqVO, IotAlertConfigDO.class);
@@ -55,7 +55,7 @@ public class IotAlertConfigServiceImpl implements IotAlertConfigService {
         validateAlertConfigExists(updateReqVO.getId());
         // 校验关联数据是否存在
         sceneRuleService.validateSceneRuleList(updateReqVO.getSceneRuleIds());
-        adminUserApi.validateUserList(updateReqVO.getReceiveUserIds()).checkError();
+        adminUserApi.validateUserList(updateReqVO.getReceiveUserIds());
 
         // 更新
         IotAlertConfigDO updateObj = BeanUtils.toBean(updateReqVO, IotAlertConfigDO.class);

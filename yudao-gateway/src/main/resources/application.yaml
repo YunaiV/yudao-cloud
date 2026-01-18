@@ -197,6 +197,8 @@ spring:
                 - RewritePath=/admin-api/iot/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
           x-forwarded:
             prefix-enabled: false # 避免 Swagger 重复带上额外的 /admin-api/system 前缀
+          default-filters:
+            - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin # 采用 https://github.com/spring-cloud/spring-cloud-gateway/pull/866 解决响应头重复问题
 
 server:
   port: 48080

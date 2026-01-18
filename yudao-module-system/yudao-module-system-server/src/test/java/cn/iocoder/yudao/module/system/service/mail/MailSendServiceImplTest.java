@@ -316,7 +316,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
                         assertEquals("芋艿 <7685@qq.com>", mailAccount.getFrom());
                         assertTrue(mailAccount.isAuth());
                         assertEquals(account.getUsername(), mailAccount.getUser());
-                        assertArrayEquals(account.getPassword().toCharArray(), mailAccount.getPass());
+                        assertEquals(account.getPassword(), mailAccount.getPass());
                         assertEquals(account.getHost(), mailAccount.getHost());
                         assertEquals(account.getPort(), mailAccount.getPort());
                         assertEquals(account.getSslEnable(), mailAccount.isSslEnable());

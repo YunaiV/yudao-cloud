@@ -3,7 +3,7 @@ package cn.iocoder.yudao.module.iot.gateway.codec;
 import cn.iocoder.yudao.module.iot.core.mq.message.IotDeviceMessage;
 
 /**
- * {@link IotDeviceMessage} 的编解码器
+ * {@link cn.iocoder.yudao.module.iot.core.mq.message.IotDeviceMessage} 的编解码器
  *
  * @author 芋道源码
  */

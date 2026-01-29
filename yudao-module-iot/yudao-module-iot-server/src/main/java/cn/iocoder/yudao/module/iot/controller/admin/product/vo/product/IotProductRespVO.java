@@ -1,10 +1,10 @@
 package cn.iocoder.yudao.module.iot.controller.admin.product.vo.product;
 
-import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
-import cn.idev.excel.annotation.ExcelProperty;
 import cn.iocoder.yudao.framework.excel.core.annotations.DictFormat;
 import cn.iocoder.yudao.framework.excel.core.convert.DictConvert;
 import cn.iocoder.yudao.module.iot.enums.DictTypeConstants;
+import cn.idev.excel.annotation.ExcelIgnoreUnannotated;
+import cn.idev.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -26,6 +26,12 @@ public class IotProductRespVO {
     @Schema(description = "产品标识", requiredMode = Schema.RequiredMode.REQUIRED)
     @ExcelProperty("产品标识")
     private String productKey;
+
+    @Schema(description = "产品密钥", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String productSecret;
+
+    @Schema(description = "是否开启动态注册", requiredMode = Schema.RequiredMode.REQUIRED, example = "true")
+    private Boolean registerEnabled;
 
     @Schema(description = "产品分类编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long categoryId;
@@ -60,11 +66,6 @@ public class IotProductRespVO {
     @ExcelProperty(value = "联网方式", converter = DictConvert.class)
     @DictFormat(DictTypeConstants.NET_TYPE)
     private Integer netType;
-
-    @Schema(description = "定位方式", example = "2")
-    @ExcelProperty(value = "定位方式", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.LOCATION_TYPE)
-    private Integer locationType;
 
     @Schema(description = "数据格式", requiredMode = Schema.RequiredMode.REQUIRED, example = "2")
     @ExcelProperty(value = "数据格式", converter = DictConvert.class)

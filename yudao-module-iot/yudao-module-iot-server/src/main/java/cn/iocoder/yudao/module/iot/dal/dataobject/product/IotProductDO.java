@@ -4,10 +4,7 @@ import cn.iocoder.yudao.framework.tenant.core.db.TenantBaseDO;
 import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * IoT 产品 DO
@@ -35,6 +32,14 @@ public class IotProductDO extends TenantBaseDO {
      * 产品标识
      */
     private String productKey;
+    /**
+     * 产品密钥，用于一型一密动态注册
+     */
+    private String productSecret;
+    /**
+     * 是否开启动态注册
+     */
+    private Boolean registerEnabled;
     /**
      * 产品分类编号
      * <p>
@@ -72,12 +77,6 @@ public class IotProductDO extends TenantBaseDO {
      * 枚举 {@link cn.iocoder.yudao.module.iot.enums.product.IotNetTypeEnum}
      */
     private Integer netType;
-    /**
-     * 定位方式
-     * <p>
-     * 枚举 {@link cn.iocoder.yudao.module.iot.enums.product.IotLocationTypeEnum}
-     */
-    private Integer locationType;
     /**
      * 数据格式（编解码器类型）
      * <p>

@@ -4,6 +4,7 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.json.JSONUtil;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
+import cn.iocoder.yudao.framework.tracer.core.util.TracerFrameworkUtils;
 import cn.iocoder.yudao.gateway.util.SecurityFrameworkUtils;
 import cn.iocoder.yudao.gateway.util.WebFrameworkUtils;
 import com.alibaba.nacos.common.utils.StringUtils;
@@ -103,7 +104,8 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE;
+        // +1 为了让获取TraceId的过滤器优先执行
+        return Ordered.HIGHEST_PRECEDENCE + 1;
     }
 
     @Override
@@ -112,6 +114,7 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         // TODO traceId
         AccessLog gatewayLog = new AccessLog();
+        gatewayLog.setTraceId(TracerFrameworkUtils.getTraceId(exchange));
         gatewayLog.setRoute(WebFrameworkUtils.getGatewayRoute(exchange));
         gatewayLog.setSchema(request.getURI().getScheme());
         gatewayLog.setRequestMethod(request.getMethod().name());

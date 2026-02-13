@@ -258,7 +258,7 @@ public class TradePriceCalculatorHelper {
             TradeOrderItemDO orderItem = items.get(i);
             int partPrice;
             if (i < items.size() - 1) { // 减一的原因，是因为拆分时，如果按照比例，可能会出现.所以最后一个，使用反减
-                partPrice = (int) (price * (1.0D * orderItem.getPrice() / total));
+                partPrice = (int) (price * (1.0D * orderItem.getPayPrice() / total));
                 remainPrice -= partPrice;
             } else {
                 partPrice = remainPrice;

@@ -14,6 +14,7 @@ import org.flowable.engine.impl.bpmn.behavior.AbstractBpmnActivityBehavior;
 import org.flowable.engine.impl.bpmn.behavior.SequentialMultiInstanceBehavior;
 import org.flowable.engine.impl.persistence.entity.ExecutionEntity;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -53,7 +54,7 @@ public class BpmSequentialMultiInstanceBehavior extends SequentialMultiInstanceB
             @SuppressWarnings("unchecked")
             Set<Long> assigneeUserIds = (Set<Long>) execution.getVariableLocal(super.collectionVariable, Set.class);
             if (assigneeUserIds == null) {
-                assigneeUserIds = taskCandidateInvoker.calculateUsersByTask(execution);
+                assigneeUserIds = new LinkedHashSet<>(taskCandidateInvoker.calculateUsersByTask(execution));
                 if (CollUtil.isEmpty(assigneeUserIds)) {
                     // 特殊：如果没有处理人的情况下，至少有一个 null 空元素，避免自动通过！
                     // 这样，保证在 BpmUserTaskActivityBehavior 至少创建出一个 Task 任务

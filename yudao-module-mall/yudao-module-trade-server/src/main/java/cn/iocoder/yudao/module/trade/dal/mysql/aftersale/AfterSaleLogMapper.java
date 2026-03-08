@@ -13,7 +13,7 @@ public interface AfterSaleLogMapper extends BaseMapperX<AfterSaleLogDO> {
     default List<AfterSaleLogDO> selectListByAfterSaleId(Long afterSaleId) {
         return selectList(new LambdaQueryWrapper<AfterSaleLogDO>()
                 .eq(AfterSaleLogDO::getAfterSaleId, afterSaleId)
-                .orderByDesc(AfterSaleLogDO::getCreateTime));
+                .orderByDesc(AfterSaleLogDO::getId));
     }
 
 }

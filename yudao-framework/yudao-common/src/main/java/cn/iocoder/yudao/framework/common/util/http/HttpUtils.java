@@ -59,10 +59,11 @@ public class HttpUtils {
      * @param path URL 路径
      * @return 解码后的路径
      */
+    @SneakyThrows
     public static String decodeUrlPath(String path) {
         // 先将 + 替换为 %2B，避免被 URLDecoder 解码为空格
         String encoded = path.replace("+", "%2B");
-        return URLDecoder.decode(encoded, StandardCharsets.UTF_8);
+        return URLDecoder.decode(encoded, StandardCharsets.UTF_8.name());
     }
 
     @SuppressWarnings("unchecked")

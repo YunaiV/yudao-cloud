@@ -79,7 +79,7 @@ public class AfterSaleLogAspect {
             Integer beforeStatus = BEFORE_STATUS.get();
             Integer afterStatus = AFTER_STATUS.get();
             Map<String, Object> exts = ObjectUtil.defaultIfNull(EXTS.get(), emptyMap());
-            String content = StrUtil.format(afterSaleLog.operateType().getContent(), exts);
+            String content = StrUtil.format(operateType.getContent(), exts);
 
             // 2. 记录日志
             AfterSaleLogCreateReqBO createBO = new AfterSaleLogCreateReqBO()

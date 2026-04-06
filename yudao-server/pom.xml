@@ -115,6 +115,13 @@
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
+        <!-- MES 制造执行系统相关模块 -->
+<!--        <dependency>-->
+<!--            <groupId>cn.iocoder.boot</groupId>-->
+<!--            <artifactId>yudao-module-mes</artifactId>-->
+<!--            <version>${revision}</version>-->
+<!--        </dependency>-->
+
         <!-- spring boot 配置所需依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

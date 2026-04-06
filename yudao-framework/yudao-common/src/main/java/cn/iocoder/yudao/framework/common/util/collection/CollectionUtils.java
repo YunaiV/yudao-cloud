@@ -349,4 +349,27 @@ public class CollectionUtils {
         return (LinkedHashSet<T>) toCollection(LinkedHashSet.class, elementType, value);
     }
 
+    public static boolean dfs(Long node, Map<Long, Set<Long>> graph) {
+        return dfs(node, graph, new HashSet<>(), new HashSet<>());
+    }
+
+    private static boolean dfs(Long node, Map<Long, Set<Long>> graph, Set<Long> visited, Set<Long> inStack) {
+        if (inStack.contains(node)) {
+            return true;
+        }
+        if (visited.contains(node)) {
+            return false;
+        }
+        visited.add(node);
+        inStack.add(node);
+        Set<Long> neighbors = graph.getOrDefault(node, Collections.emptySet());
+        for (Long neighbor : neighbors) {
+            if (dfs(neighbor, graph, visited, inStack)) {
+                return true;
+            }
+        }
+        inStack.remove(node);
+        return false;
+    }
+
 }

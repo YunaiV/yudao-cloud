@@ -336,6 +336,27 @@ public class LocalDateTimeUtils {
     }
 
     /**
+     * 获取指定日期所在季度的第一天
+     *
+     * @param date 日期
+     * @return 所在季度的第一天
+     */
+    public static LocalDate getQuarterStart(LocalDate date) {
+        Month firstMonthOfQuarter = date.getMonth().firstMonthOfQuarter();
+        return LocalDate.of(date.getYear(), firstMonthOfQuarter, 1);
+    }
+
+    /**
+     * 获取指定日期所在周的第一天（周一）
+     *
+     * @param date 日期
+     * @return 所在周的周一
+     */
+    public static LocalDate getWeekStart(LocalDate date) {
+        return date.with(DayOfWeek.MONDAY);
+    }
+
+    /**
      * 将给定的 {@link LocalDateTime} 转换为自 Unix 纪元时间（1970-01-01T00:00:00Z）以来的秒数。
      *
      * @param sourceDateTime 需要转换的本地日期时间，不能为空

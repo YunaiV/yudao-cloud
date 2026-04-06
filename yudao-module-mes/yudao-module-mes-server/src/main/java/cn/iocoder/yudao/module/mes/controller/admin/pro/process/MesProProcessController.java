@@ -84,7 +84,8 @@ public class MesProProcessController {
     public CommonResult<List<MesProProcessRespVO>> getProcessSimpleList() {
         List<MesProProcessDO> list = processService.getProcessListByStatus(CommonStatusEnum.ENABLE.getStatus());
         return success(convertList(list, process -> new MesProProcessRespVO()
-                .setId(process.getId()).setName(process.getName()).setCode(process.getCode())));
+                .setId(process.getId()).setName(process.getName()).setCode(process.getCode())
+                .setAttention(process.getAttention()).setRemark(process.getRemark())));
     }
 
     @GetMapping("/export-excel")

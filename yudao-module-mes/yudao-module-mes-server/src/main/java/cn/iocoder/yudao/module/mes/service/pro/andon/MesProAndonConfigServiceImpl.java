@@ -98,7 +98,7 @@ public class MesProAndonConfigServiceImpl implements MesProAndonConfigService {
             adminUserApi.validateUser(reqVO.getHandlerUserId());
         }
         if (reqVO.getHandlerRoleId() != null) {
-            roleApi.validRoleList(Collections.singleton(reqVO.getHandlerRoleId()));
+            roleApi.validRoleList(Collections.singleton(reqVO.getHandlerRoleId())).getCheckedData();
         }
     }
 

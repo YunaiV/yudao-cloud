@@ -15,7 +15,17 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum MesDvMaintenRecordStatusEnum implements ArrayValuable<Integer> {
 
+    /**
+     * 草稿
+     *
+     * 对应 MesDvMaintenRecordService#createMaintenRecord 方法
+     */
     PREPARE(1, "草稿"),
+    /**
+     * 已提交
+     *
+     * 对应 MesDvMaintenRecordService#submitMaintenRecord 方法
+     */
     SUBMITTED(2, "已提交");
 
     public static final Integer[] ARRAYS = Arrays.stream(values()).map(MesDvMaintenRecordStatusEnum::getStatus)

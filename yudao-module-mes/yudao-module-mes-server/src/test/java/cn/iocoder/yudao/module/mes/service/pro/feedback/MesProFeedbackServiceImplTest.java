@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.mes.service.pro.feedback;
 
+import cn.hutool.core.collection.ListUtil;
 import cn.iocoder.yudao.framework.test.core.ut.BaseDbUnitTest;
 import cn.iocoder.yudao.module.mes.dal.dataobject.pro.feedback.MesProFeedbackDO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.wm.productproduce.MesWmProductProduceLineDO;
@@ -19,11 +20,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomLongId;
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomPojo;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 /**
@@ -78,7 +79,7 @@ public class MesProFeedbackServiceImplTest extends BaseDbUnitTest {
                 .qualityStatus(MesWmQualityStatusEnum.FAIL.getStatus())
                 .build();
         when(produceLineService.getProductProduceLineListByFeedbackId(feedback.getId()))
-                .thenReturn(List.of(qualifiedLine, unqualifiedLine));
+                .thenReturn(ListUtil.of(qualifiedLine, unqualifiedLine));
 
         // 调用
         BigDecimal qualifiedQty = BigDecimal.valueOf(80);
@@ -133,7 +134,7 @@ public class MesProFeedbackServiceImplTest extends BaseDbUnitTest {
                 .qualityStatus(MesWmQualityStatusEnum.PASS.getStatus())
                 .build();
         when(produceLineService.getProductProduceLineListByFeedbackId(feedback.getId()))
-                .thenReturn(List.of(qualifiedLine));
+                .thenReturn(ListUtil.of(qualifiedLine));
 
         // 调用
         feedbackService.updateProFeedbackWhenIpqcFinish(feedback.getId(),

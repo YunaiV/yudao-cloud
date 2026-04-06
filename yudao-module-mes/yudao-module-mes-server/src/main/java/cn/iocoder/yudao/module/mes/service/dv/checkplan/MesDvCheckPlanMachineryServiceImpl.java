@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static cn.iocoder.yudao.module.mes.enums.ErrorCodeConstants.*;
@@ -49,7 +50,7 @@ public class MesDvCheckPlanMachineryServiceImpl implements MesDvCheckPlanMachine
         // 1.4 跨方案类型唯一性校验（设备不能存在于同类型多个方案中）
         List<MesDvCheckPlanMachineryDO> existingMachineryList = getCheckPlanMachineryListByMachineryId(createReqVO.getMachineryId());
         if (CollUtil.isNotEmpty(existingMachineryList)) {
-            List<Long> existingPlanIds = existingMachineryList.stream().map(MesDvCheckPlanMachineryDO::getPlanId).toList();
+            List<Long> existingPlanIds = existingMachineryList.stream().map(MesDvCheckPlanMachineryDO::getPlanId).collect(Collectors.toList());
             List<MesDvCheckPlanDO> existingPlans = checkPlanService.getCheckPlanList(existingPlanIds);
             for (MesDvCheckPlanDO existPlan : existingPlans) {
                 // 如果存在不同于当前方案、但类型一致的计划方案，则拦截（一机多计划，但不允许同一机多同类型计划）

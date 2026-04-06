@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.mes.controller.admin.pro.andon;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.ListUtil;
 import cn.iocoder.yudao.framework.apilog.core.annotation.ApiAccessLog;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.pojo.PageParam;
@@ -95,7 +96,7 @@ public class MesProAndonRecordController {
         if (record == null) {
             return success(null);
         }
-        return success(buildRecordRespVOList(List.of(record)).get(0));
+        return success(buildRecordRespVOList(ListUtil.of(record)).get(0));
     }
 
     @GetMapping("/page")

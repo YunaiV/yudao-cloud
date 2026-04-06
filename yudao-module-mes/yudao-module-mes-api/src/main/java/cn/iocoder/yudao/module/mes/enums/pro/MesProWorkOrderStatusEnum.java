@@ -15,9 +15,29 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum MesProWorkOrderStatusEnum implements ArrayValuable<Integer> {
 
+    /**
+     * 草稿
+     *
+     * 对应 MesProWorkOrderService#createWorkOrder 方法
+     */
     PREPARE(0, "草稿"),
+    /**
+     * 已确认
+     *
+     * 对应 MesProWorkOrderService#confirmWorkOrder 方法
+     */
     CONFIRMED(1, "已确认"),
+    /**
+     * 已完成
+     *
+     * 对应 MesProWorkOrderService#finishWorkOrder 方法
+     */
     FINISHED(2, "已完成"),
+    /**
+     * 已取消
+     *
+     * 对应 MesProWorkOrderService#cancelWorkOrder 方法
+     */
     CANCELED(3, "已取消");
 
     public static final Integer[] ARRAYS = Arrays.stream(values()).map(MesProWorkOrderStatusEnum::getStatus).toArray(Integer[]::new);

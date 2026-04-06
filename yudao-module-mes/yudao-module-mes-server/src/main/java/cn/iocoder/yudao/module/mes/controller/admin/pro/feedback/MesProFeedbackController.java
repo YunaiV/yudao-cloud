@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.mes.controller.admin.pro.feedback;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.ListUtil;
 import cn.iocoder.yudao.framework.apilog.core.annotation.ApiAccessLog;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.pojo.PageParam;
@@ -111,7 +112,7 @@ public class MesProFeedbackController {
         if (feedback == null) {
             return success(null);
         }
-        return success(buildFeedbackRespVOList(List.of(feedback)).get(0));
+        return success(buildFeedbackRespVOList(ListUtil.of(feedback)).get(0));
     }
 
     @GetMapping("/page")

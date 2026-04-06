@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.mes.service.wm.outsourcereceipt;
 
 import cn.hutool.core.collection.CollUtil;
+
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
@@ -30,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -165,7 +167,7 @@ public class MesWmOutsourceReceiptServiceImpl implements MesWmOutsourceReceiptSe
                     allDetails, MesWmOutsourceReceiptDetailDO::getLineId);
             // 检查每行的明细数量
             for (MesWmOutsourceReceiptLineDO line : lines) {
-                List<MesWmOutsourceReceiptDetailDO> details = detailMap.getOrDefault(line.getId(), List.of());
+                List<MesWmOutsourceReceiptDetailDO> details = detailMap.getOrDefault(line.getId(), Collections.emptyList());
                 BigDecimal totalDetailQuantity = CollectionUtils.getSumValue(details,
                         MesWmOutsourceReceiptDetailDO::getQuantity, BigDecimal::add, BigDecimal.ZERO);
                 // 对比行数量与明细总数量，不满足直接抛出

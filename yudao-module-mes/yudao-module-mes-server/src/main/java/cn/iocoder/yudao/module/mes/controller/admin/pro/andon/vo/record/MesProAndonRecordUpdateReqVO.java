@@ -3,10 +3,10 @@ package cn.iocoder.yudao.module.mes.controller.admin.pro.andon.vo.record;
 import cn.iocoder.yudao.module.mes.enums.pro.MesProAndonStatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Schema(description = "管理后台 - MES 安灯呼叫记录更新 Request VO")

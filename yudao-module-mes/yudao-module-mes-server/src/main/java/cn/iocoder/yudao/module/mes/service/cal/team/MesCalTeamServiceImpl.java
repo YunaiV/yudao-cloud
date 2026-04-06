@@ -8,12 +8,12 @@ import cn.iocoder.yudao.module.mes.controller.admin.cal.team.vo.MesCalTeamPageRe
 import cn.iocoder.yudao.module.mes.controller.admin.cal.team.vo.MesCalTeamSaveReqVO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.cal.team.MesCalTeamDO;
 import cn.iocoder.yudao.module.mes.dal.mysql.cal.team.MesCalTeamMapper;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

@@ -6,9 +6,10 @@ import cn.iocoder.yudao.module.mes.controller.admin.qc.pendinginspect.vo.MesQcPe
 import cn.iocoder.yudao.module.mes.controller.admin.qc.pendinginspect.vo.MesQcPendingInspectRespVO;
 import cn.iocoder.yudao.module.mes.dal.mysql.qc.pendinginspect.MesQcPendingInspectMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+
+import javax.annotation.Resource;
 
 /**
  * MES 待检任务 Service 实现类

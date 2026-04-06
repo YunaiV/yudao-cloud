@@ -5,7 +5,8 @@ import cn.iocoder.yudao.module.mes.controller.admin.qc.template.vo.item.MesQcTem
 import cn.iocoder.yudao.module.mes.controller.admin.qc.template.vo.item.MesQcTemplateItemSaveReqVO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.qc.template.MesQcTemplateItemDO;
 import cn.iocoder.yudao.module.mes.enums.qc.MesQcTypeEnum;
-import jakarta.validation.Valid;
+
+import javax.validation.Valid;
 
 /**
  * MES 质检方案-产品关联 Service 接口

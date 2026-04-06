@@ -3,7 +3,7 @@ package cn.iocoder.yudao.module.mes.controller.admin.dv.maintenrecord.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Schema(description = "管理后台 - MES 设备保养记录新增/修改 Request VO")

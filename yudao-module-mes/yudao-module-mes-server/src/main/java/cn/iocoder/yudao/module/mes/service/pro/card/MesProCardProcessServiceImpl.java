@@ -7,10 +7,11 @@ import cn.iocoder.yudao.module.mes.controller.admin.pro.card.vo.process.MesProCa
 import cn.iocoder.yudao.module.mes.dal.dataobject.pro.card.MesProCardProcessDO;
 import cn.iocoder.yudao.module.mes.dal.mysql.pro.card.MesProCardProcessMapper;
 import cn.iocoder.yudao.module.mes.service.pro.process.MesProProcessService;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+
+import javax.annotation.Resource;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static cn.iocoder.yudao.module.mes.enums.ErrorCodeConstants.PRO_CARD_PROCESS_NOT_EXISTS;

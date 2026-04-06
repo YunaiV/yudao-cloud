@@ -8,10 +8,10 @@ import cn.iocoder.yudao.module.mes.controller.admin.qc.defect.vo.MesQcDefectPage
 import cn.iocoder.yudao.module.mes.controller.admin.qc.defect.vo.MesQcDefectSaveReqVO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.qc.defect.MesQcDefectDO;
 import cn.iocoder.yudao.module.mes.dal.mysql.qc.defect.MesQcDefectMapper;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

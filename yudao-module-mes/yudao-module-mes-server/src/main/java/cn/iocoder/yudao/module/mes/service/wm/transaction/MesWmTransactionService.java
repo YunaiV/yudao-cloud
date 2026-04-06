@@ -1,8 +1,8 @@
 package cn.iocoder.yudao.module.mes.service.wm.transaction;
 
 import cn.iocoder.yudao.module.mes.service.wm.transaction.dto.MesWmTransactionSaveReqDTO;
-import jakarta.validation.Valid;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**

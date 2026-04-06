@@ -9,11 +9,11 @@ import cn.iocoder.yudao.module.mes.dal.mysql.pro.workrecord.MesProWorkRecordLogM
 import cn.iocoder.yudao.module.mes.dal.mysql.pro.workrecord.MesProWorkRecordMapper;
 import cn.iocoder.yudao.module.mes.enums.pro.MesProWorkRecordTypeEnum;
 import cn.iocoder.yudao.module.mes.service.md.workstation.MesMdWorkstationService;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;

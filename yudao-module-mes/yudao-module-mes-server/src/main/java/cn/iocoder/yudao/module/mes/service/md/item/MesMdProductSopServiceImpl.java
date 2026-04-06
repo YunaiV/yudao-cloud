@@ -7,10 +7,10 @@ import cn.iocoder.yudao.module.mes.controller.admin.md.item.vo.sop.MesMdProductS
 import cn.iocoder.yudao.module.mes.dal.dataobject.md.item.MesMdProductSopDO;
 import cn.iocoder.yudao.module.mes.dal.mysql.md.item.MesMdProductSopMapper;
 import cn.iocoder.yudao.module.mes.service.pro.process.MesProProcessService;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;

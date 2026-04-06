@@ -5,7 +5,7 @@ import cn.iocoder.yudao.module.mes.controller.admin.dv.checkrecord.vo.MesDvCheck
 import cn.iocoder.yudao.module.mes.controller.admin.dv.checkrecord.vo.MesDvCheckRecordSaveReqVO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.dv.checkrecord.MesDvCheckRecordDO;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 
 /**
  * MES 设备点检记录 Service 接口

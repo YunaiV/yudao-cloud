@@ -192,6 +192,13 @@ spring:
             - Path=/admin-api/iot/**
           filters:
             - RewritePath=/admin-api/iot/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
+        ## mes-server 服务
+        - id: mes-admin-api # 路由的编号
+          uri: grayLb://mes-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/admin-api/mes/**
+          filters:
+            - RewritePath=/admin-api/mes/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
       x-forwarded:
         prefix-enabled: false # 避免 Swagger 重复带上额外的 /admin-api/system 前缀
       default-filters: # 全局过滤器，对应 GatewayFilterDefinition 数组
@@ -251,6 +258,9 @@ knife4j:
       - name: iot-server
         service-name: iot-server
         url: /admin-api/iot/v3/api-docs
+      - name: mes-server
+        service-name: mes-server
+        url: /admin-api/mes/v3/api-docs
 
 --- #################### 芋道相关配置 ####################
 

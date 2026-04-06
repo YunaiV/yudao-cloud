@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.mes.service.cal.plan;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Pair;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
@@ -9,13 +10,11 @@ import cn.iocoder.yudao.module.mes.dal.dataobject.cal.plan.MesCalPlanDO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.cal.plan.MesCalPlanShiftDO;
 import cn.iocoder.yudao.module.mes.dal.mysql.cal.plan.MesCalPlanShiftMapper;
 import cn.iocoder.yudao.module.mes.enums.cal.MesCalShiftTypeEnum;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import cn.hutool.core.collection.CollUtil;
-
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

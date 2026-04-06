@@ -5,11 +5,11 @@ import cn.iocoder.yudao.module.mes.controller.admin.wm.itemconsume.vo.MesWmItemC
 import cn.iocoder.yudao.module.mes.dal.dataobject.wm.itemconsume.MesWmItemConsumeDO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.wm.itemconsume.MesWmItemConsumeLineDO;
 import cn.iocoder.yudao.module.mes.dal.mysql.wm.itemconsume.MesWmItemConsumeLineMapper;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**

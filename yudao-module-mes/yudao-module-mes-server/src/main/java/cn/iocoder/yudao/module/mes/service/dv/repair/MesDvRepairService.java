@@ -5,7 +5,8 @@ import cn.iocoder.yudao.module.mes.controller.admin.dv.repair.vo.MesDvRepairConf
 import cn.iocoder.yudao.module.mes.controller.admin.dv.repair.vo.MesDvRepairPageReqVO;
 import cn.iocoder.yudao.module.mes.controller.admin.dv.repair.vo.MesDvRepairSaveReqVO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.dv.repair.MesDvRepairDO;
-import jakarta.validation.Valid;
+
+import javax.validation.Valid;
 
 /**
  * MES 维修工单 Service 接口

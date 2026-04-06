@@ -3,9 +3,9 @@ package cn.iocoder.yudao.module.mes.controller.admin.qc.oqc.vo;
 import cn.hutool.core.util.ObjUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.*;
 import lombok.Data;
 
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

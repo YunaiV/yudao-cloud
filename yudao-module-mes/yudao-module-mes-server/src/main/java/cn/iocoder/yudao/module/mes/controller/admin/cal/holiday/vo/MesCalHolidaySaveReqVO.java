@@ -1,9 +1,9 @@
 package cn.iocoder.yudao.module.mes.controller.admin.cal.holiday.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Schema(description = "管理后台 - MES 假期设置新增/修改 Request VO")

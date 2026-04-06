@@ -2,10 +2,11 @@ package cn.iocoder.yudao.module.mes.controller.admin.qc.template.vo.item;
 
 import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+import javax.validation.constraints.NotNull;
 
 @Schema(description = "管理后台 - MES 质检方案-产品关联分页 Request VO")
 @Data

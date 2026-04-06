@@ -1,8 +1,9 @@
 package cn.iocoder.yudao.module.mes.controller.admin.cal.team.vo.member;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
 
 @Schema(description = "管理后台 - MES 班组成员新增 Request VO")
 @Data

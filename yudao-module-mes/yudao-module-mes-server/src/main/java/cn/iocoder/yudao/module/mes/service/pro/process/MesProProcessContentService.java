@@ -3,7 +3,7 @@ package cn.iocoder.yudao.module.mes.service.pro.process;
 import cn.iocoder.yudao.module.mes.controller.admin.pro.process.vo.content.MesProProcessContentSaveReqVO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.pro.process.MesProProcessContentDO;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import java.util.List;
 
 /**

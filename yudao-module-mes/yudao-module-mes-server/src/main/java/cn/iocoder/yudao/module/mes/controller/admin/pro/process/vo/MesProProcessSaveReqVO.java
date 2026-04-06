@@ -1,9 +1,10 @@
 package cn.iocoder.yudao.module.mes.controller.admin.pro.process.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Schema(description = "管理后台 - MES 生产工序新增/修改 Request VO")
 @Data

@@ -5,7 +5,7 @@ import cn.iocoder.yudao.module.mes.controller.admin.dv.maintenrecord.vo.MesDvMai
 import cn.iocoder.yudao.module.mes.controller.admin.dv.maintenrecord.vo.MesDvMaintenRecordSaveReqVO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.dv.maintenrecord.MesDvMaintenRecordDO;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 
 /**
  * 设备保养记录 Service 接口

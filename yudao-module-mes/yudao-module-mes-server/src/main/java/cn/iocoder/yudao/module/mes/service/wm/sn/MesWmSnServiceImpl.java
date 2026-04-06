@@ -9,12 +9,12 @@ import cn.iocoder.yudao.module.mes.dal.dataobject.wm.sn.MesWmSnDO;
 import cn.iocoder.yudao.module.mes.dal.mysql.wm.sn.MesWmSnMapper;
 import cn.iocoder.yudao.module.mes.enums.md.autocode.MesMdAutoCodeRuleCodeEnum;
 import cn.iocoder.yudao.module.mes.service.md.autocode.MesMdAutoCodeRecordService;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 

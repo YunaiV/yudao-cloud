@@ -17,12 +17,12 @@ import cn.iocoder.yudao.module.mes.service.wm.arrivalnotice.MesWmArrivalNoticeSe
 import cn.iocoder.yudao.module.mes.service.wm.barcode.MesWmBarcodeService;
 import cn.iocoder.yudao.module.mes.service.wm.itemreceipt.MesWmItemReceiptService;
 import cn.iocoder.yudao.module.mes.service.wm.returnvendor.MesWmReturnVendorService;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

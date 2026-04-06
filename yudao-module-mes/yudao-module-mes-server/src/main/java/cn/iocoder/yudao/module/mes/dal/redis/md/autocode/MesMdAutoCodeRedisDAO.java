@@ -1,10 +1,10 @@
 package cn.iocoder.yudao.module.mes.dal.redis.md.autocode;
 
 import cn.iocoder.yudao.module.mes.dal.redis.RedisKeyConstants;
-import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Resource;
 import java.time.Duration;
 
 /**

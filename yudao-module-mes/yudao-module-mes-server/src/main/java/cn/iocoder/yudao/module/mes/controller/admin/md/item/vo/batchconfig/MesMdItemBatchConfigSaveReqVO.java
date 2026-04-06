@@ -1,8 +1,9 @@
 package cn.iocoder.yudao.module.mes.controller.admin.md.item.vo.batchconfig;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
 
 @Schema(description = "管理后台 - MES 物料批次属性配置新增/修改 Request VO")
 @Data

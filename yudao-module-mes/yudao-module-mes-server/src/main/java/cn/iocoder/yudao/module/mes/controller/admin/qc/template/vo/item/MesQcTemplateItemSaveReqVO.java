@@ -1,9 +1,9 @@
 package cn.iocoder.yudao.module.mes.controller.admin.qc.template.vo.item;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Schema(description = "管理后台 - MES 质检方案-产品关联新增/修改 Request VO")

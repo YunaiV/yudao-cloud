@@ -5,11 +5,11 @@ import cn.iocoder.yudao.module.mes.controller.admin.cal.plan.vo.team.MesCalPlanT
 import cn.iocoder.yudao.module.mes.dal.dataobject.cal.plan.MesCalPlanTeamDO;
 import cn.iocoder.yudao.module.mes.dal.mysql.cal.plan.MesCalPlanTeamMapper;
 import cn.iocoder.yudao.module.mes.service.cal.team.MesCalTeamService;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;

@@ -9,12 +9,12 @@ import cn.iocoder.yudao.module.mes.controller.admin.dv.checkplan.vo.MesDvCheckPl
 import cn.iocoder.yudao.module.mes.dal.dataobject.dv.checkplan.MesDvCheckPlanDO;
 import cn.iocoder.yudao.module.mes.dal.mysql.dv.checkplan.MesDvCheckPlanMapper;
 import cn.iocoder.yudao.module.mes.enums.dv.MesDvCheckPlanStatusEnum;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

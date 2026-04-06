@@ -7,11 +7,11 @@ import cn.iocoder.yudao.module.mes.controller.admin.wm.packages.vo.line.MesWmPac
 import cn.iocoder.yudao.module.mes.dal.dataobject.wm.packages.MesWmPackageLineDO;
 import cn.iocoder.yudao.module.mes.dal.mysql.wm.packages.MesWmPackageLineMapper;
 import cn.iocoder.yudao.module.mes.service.md.item.MesMdItemService;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;

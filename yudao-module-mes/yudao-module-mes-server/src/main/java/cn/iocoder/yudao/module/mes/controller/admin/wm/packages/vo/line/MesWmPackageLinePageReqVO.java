@@ -2,10 +2,11 @@ package cn.iocoder.yudao.module.mes.controller.admin.wm.packages.vo.line;
 
 import cn.iocoder.yudao.framework.common.pojo.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * MES 装箱明细分页 Request VO

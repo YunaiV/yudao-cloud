@@ -5,11 +5,11 @@ import cn.iocoder.yudao.module.mes.controller.admin.dv.checkplan.vo.subject.MesD
 import cn.iocoder.yudao.module.mes.dal.dataobject.dv.checkplan.MesDvCheckPlanSubjectDO;
 import cn.iocoder.yudao.module.mes.dal.mysql.dv.checkplan.MesDvCheckPlanSubjectMapper;
 import cn.iocoder.yudao.module.mes.service.dv.subject.MesDvSubjectService;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;

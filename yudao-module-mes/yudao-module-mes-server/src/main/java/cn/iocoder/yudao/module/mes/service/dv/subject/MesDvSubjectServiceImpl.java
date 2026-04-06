@@ -9,11 +9,11 @@ import cn.iocoder.yudao.module.mes.controller.admin.dv.subject.vo.MesDvSubjectSa
 import cn.iocoder.yudao.module.mes.dal.dataobject.dv.subject.MesDvSubjectDO;
 import cn.iocoder.yudao.module.mes.dal.mysql.dv.subject.MesDvSubjectMapper;
 import cn.iocoder.yudao.module.mes.service.dv.checkplan.MesDvCheckPlanSubjectService;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

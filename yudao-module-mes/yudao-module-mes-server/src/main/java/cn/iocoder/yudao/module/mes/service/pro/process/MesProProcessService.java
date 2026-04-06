@@ -5,8 +5,7 @@ import cn.iocoder.yudao.module.mes.controller.admin.pro.process.vo.MesProProcess
 import cn.iocoder.yudao.module.mes.controller.admin.pro.process.vo.MesProProcessSaveReqVO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.pro.process.MesProProcessDO;
 
-import jakarta.validation.Valid;
-
+import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;

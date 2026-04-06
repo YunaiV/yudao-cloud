@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.mes.service.wm.transfer;
 
 import cn.hutool.core.collection.CollUtil;
+
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -186,7 +188,7 @@ public class MesWmTransferServiceImpl implements MesWmTransferService {
                 allDetails, MesWmTransferDetailDO::getLineId);
         // 2. 遍历行和对应的明细，创建事务
         for (MesWmTransferLineDO line : lines) {
-            List<MesWmTransferDetailDO> details = detailMap.getOrDefault(line.getId(), List.of());
+            List<MesWmTransferDetailDO> details = detailMap.getOrDefault(line.getId(), Collections.emptyList());
             for (MesWmTransferDetailDO detail : details) {
                 // 2.1 先执行出库：调拨移出（从源仓库扣减库存），出库数量基于当前明细的数量
                 Long outTransactionId = wmTransactionService.createTransaction(new MesWmTransactionSaveReqDTO()

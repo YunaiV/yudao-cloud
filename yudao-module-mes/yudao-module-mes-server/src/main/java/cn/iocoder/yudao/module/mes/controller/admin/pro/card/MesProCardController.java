@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.mes.controller.admin.pro.card;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.ListUtil;
 import cn.iocoder.yudao.framework.apilog.core.annotation.ApiAccessLog;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.pojo.PageParam;
@@ -116,7 +117,7 @@ public class MesProCardController {
         if (card == null) {
             return success(null);
         }
-        return success(buildCardRespVOList(List.of(card)).get(0));
+        return success(buildCardRespVOList(ListUtil.of(card)).get(0));
     }
 
     @GetMapping("/page")

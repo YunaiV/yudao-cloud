@@ -31,6 +31,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertList;
@@ -125,7 +126,7 @@ public class MesWmItemConsumeServiceImpl implements MesWmItemConsumeService {
         MesWmMaterialStockListReqVO stockQuery = new MesWmMaterialStockListReqVO().setItemId(line.getItemId())
                 .setWarehouseId(warehouse.getId()).setLocationId(location.getId()).setAreaId(area.getId());
         List<MesWmMaterialStockDO> stocks = materialStockService.getMaterialStockList(stockQuery)
-                .stream().filter(s -> s.getQuantity().compareTo(BigDecimal.ZERO) > 0).toList();
+                .stream().filter(s -> s.getQuantity().compareTo(BigDecimal.ZERO) > 0).collect(Collectors.toList());
 
         if (CollUtil.isEmpty(stocks)) {
             // 线边库无该物料库存 → 生成不带批次的明细

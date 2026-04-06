@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.mes.service.wm.returnissue;
 
 import cn.hutool.core.collection.CollUtil;
+
 import cn.hutool.core.util.ObjUtil;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
@@ -34,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -161,7 +163,7 @@ public class MesWmReturnIssueServiceImpl implements MesWmReturnIssueService {
                     allDetails, MesWmReturnIssueDetailDO::getLineId);
             // 检查每行的明细数量
             for (MesWmReturnIssueLineDO line : lines) {
-                List<MesWmReturnIssueDetailDO> details = detailMap.getOrDefault(line.getId(), List.of());
+                List<MesWmReturnIssueDetailDO> details = detailMap.getOrDefault(line.getId(), Collections.emptyList());
                 BigDecimal totalDetailQuantity = CollectionUtils.getSumValue(details,
                         MesWmReturnIssueDetailDO::getQuantity, BigDecimal::add, BigDecimal.ZERO);
                 // 对比行数量与明细总数量，不满足直接抛出

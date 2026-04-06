@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.mes.service.tm.tool;
 
+import java.util.Collections;
 import cn.hutool.core.util.ObjUtil;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
@@ -127,9 +128,9 @@ public class MesTmToolServiceImpl implements MesTmToolService {
     @Override
     public List<MesTmToolDO> getToolList(Collection<Long> ids) {
         if (ids == null || ids.isEmpty()) {
-            return List.of();
+            return Collections.emptyList();
         }
-        return toolMapper.selectBatchIds(ids);
+        return toolMapper.selectByIds(ids);
     }
 
 }

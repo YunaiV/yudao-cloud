@@ -13,6 +13,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import cn.iocoder.yudao.module.mes.service.md.item.MesMdItemService;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomPojo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -100,7 +101,7 @@ public class MesWmReturnIssueLineServiceImplTest extends BaseDbUnitTest {
         assertEquals(0, qualifiedQty.compareTo(originalLine.getQuantity()));
 
         // 断言：新增了一行不合格品
-        var allLines = returnIssueLineMapper.selectListByIssueId(lineDO.getIssueId());
+        List<MesWmReturnIssueLineDO> allLines = returnIssueLineMapper.selectListByIssueId(lineDO.getIssueId());
         assertEquals(2, allLines.size());
         MesWmReturnIssueLineDO newLine = allLines.stream()
                 .filter(l -> !l.getId().equals(lineDO.getId()))

@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.mes.controller.admin.pro.task;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.ListUtil;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
@@ -79,7 +80,7 @@ public class MesProTaskIssueController {
         if (taskIssue == null) {
             return success(null);
         }
-        return success(buildIssueRespVOList(List.of(taskIssue)).get(0));
+        return success(buildIssueRespVOList(ListUtil.of(taskIssue)).get(0));
     }
 
     @GetMapping("/page")

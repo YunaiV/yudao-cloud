@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.mes.controller.admin.pro.workorder;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.ListUtil;
 import cn.iocoder.yudao.framework.apilog.core.annotation.ApiAccessLog;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.pojo.PageParam;
@@ -92,7 +93,7 @@ public class MesProWorkOrderController {
         if (workOrder == null) {
             return success(null);
         }
-        return success(buildWorkOrderRespVOList(List.of(workOrder)).get(0));
+        return success(buildWorkOrderRespVOList(ListUtil.of(workOrder)).get(0));
     }
 
     @GetMapping("/page")

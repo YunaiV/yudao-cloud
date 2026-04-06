@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.mes.enums.cal;
 
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.lang.Pair;
 import cn.iocoder.yudao.framework.common.core.ArrayValuable;
 import lombok.AllArgsConstructor;
@@ -17,14 +18,14 @@ import java.util.List;
 @AllArgsConstructor
 public enum MesCalShiftTypeEnum implements ArrayValuable<Integer> {
 
-    SINGLE(1, "单白班", List.of(
+    SINGLE(1, "单白班", ListUtil.of(
             Pair.of("白班", new String[]{"08:00", "17:00"})
     )),
-    TWO(2, "两班倒", List.of(
+    TWO(2, "两班倒", ListUtil.of(
             Pair.of("白班", new String[]{"08:00", "20:00"}),
             Pair.of("夜班", new String[]{"20:00", "08:00"})
     )),
-    THREE(3, "三班倒", List.of(
+    THREE(3, "三班倒", ListUtil.of(
             Pair.of("白班", new String[]{"08:00", "16:00"}),
             Pair.of("中班", new String[]{"16:00", "00:00"}),
             Pair.of("夜班", new String[]{"00:00", "08:00"})

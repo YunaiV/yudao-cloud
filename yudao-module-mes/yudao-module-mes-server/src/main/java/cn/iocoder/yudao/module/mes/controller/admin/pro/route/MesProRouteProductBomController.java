@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.mes.controller.admin.pro.route;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.ListUtil;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.util.collection.MapUtils;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
@@ -120,7 +121,7 @@ public class MesProRouteProductBomController {
         if (routeProductBom == null) {
             return null;
         }
-        return buildRouteProductBomRespVOList(List.of(routeProductBom)).get(0);
+        return buildRouteProductBomRespVOList(ListUtil.of(routeProductBom)).get(0);
     }
 
 }

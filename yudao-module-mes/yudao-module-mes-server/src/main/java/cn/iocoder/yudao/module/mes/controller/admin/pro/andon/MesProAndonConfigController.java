@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.mes.controller.admin.pro.andon;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.ListUtil;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.collection.MapUtils;
@@ -73,7 +74,7 @@ public class MesProAndonConfigController {
         if (config == null) {
             return success(null);
         }
-        return success(buildConfigRespVOList(List.of(config)).get(0));
+        return success(buildConfigRespVOList(ListUtil.of(config)).get(0));
     }
 
     @GetMapping("/page")

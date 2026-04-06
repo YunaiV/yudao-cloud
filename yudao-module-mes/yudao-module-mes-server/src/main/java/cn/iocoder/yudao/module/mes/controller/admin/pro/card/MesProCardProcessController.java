@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.mes.controller.admin.pro.card;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.ListUtil;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
@@ -82,7 +83,7 @@ public class MesProCardProcessController {
         if (cardProcess == null) {
             return success(null);
         }
-        return success(buildCardProcessRespVOList(List.of(cardProcess)).get(0));
+        return success(buildCardProcessRespVOList(ListUtil.of(cardProcess)).get(0));
     }
 
     @GetMapping("/page")

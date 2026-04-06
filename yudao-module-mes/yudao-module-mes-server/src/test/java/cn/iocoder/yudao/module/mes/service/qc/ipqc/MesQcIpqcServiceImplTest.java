@@ -13,8 +13,8 @@ import cn.iocoder.yudao.module.mes.service.qc.defectrecord.MesQcDefectRecordServ
 import cn.iocoder.yudao.module.mes.service.qc.template.MesQcTemplateItemService;
 import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -38,21 +38,21 @@ public class MesQcIpqcServiceImplTest extends BaseDbUnitTest {
     @Resource
     private MesQcIpqcMapper ipqcMapper;
 
-    @MockitoBean
+    @MockBean
     private MesQcTemplateItemService templateItemService;
-    @MockitoBean
+    @MockBean
     private MesQcIpqcLineService ipqcLineService;
-    @MockitoBean
+    @MockBean
     private MesProWorkOrderService workOrderService;
-    @MockitoBean
+    @MockBean
     private MesMdWorkstationService workstationService;
-    @MockitoBean
+    @MockBean
     private MesMdItemService itemService;
-    @MockitoBean
+    @MockBean
     private MesQcDefectRecordService defectRecordService;
-    @MockitoBean
+    @MockBean
     private AdminUserApi adminUserApi;
-    @MockitoBean
+    @MockBean
     private MesProFeedbackService feedbackService;
 
     @Test

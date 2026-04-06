@@ -30,8 +30,8 @@ import cn.iocoder.yudao.module.mes.service.wm.warehouse.MesWmWarehouseService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -62,23 +62,23 @@ public class MesWmItemConsumeServiceImplTest extends BaseDbUnitTest {
     @Resource
     private MesWmItemConsumeMapper itemConsumeMapper;
 
-    @MockitoBean
+    @MockBean
     private MesWmItemConsumeLineService itemConsumeLineService;
-    @MockitoBean
+    @MockBean
     private MesWmItemConsumeDetailService itemConsumeDetailService;
-    @MockitoBean
+    @MockBean
     private MesProRouteProductBomService routeProductBomService;
-    @MockitoBean
+    @MockBean
     private MesProRouteService routeService;
-    @MockitoBean
+    @MockBean
     private MesWmTransactionService wmTransactionService;
-    @MockitoBean
+    @MockBean
     private MesWmWarehouseService warehouseService;
-    @MockitoBean
+    @MockBean
     private MesWmWarehouseLocationService locationService;
-    @MockitoBean
+    @MockBean
     private MesWmWarehouseAreaService areaService;
-    @MockitoBean
+    @MockBean
     private MesWmMaterialStockService materialStockService;
 
     // ========== 公共 mock 数据 ==========

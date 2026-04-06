@@ -8,8 +8,8 @@ import cn.iocoder.yudao.module.mes.enums.wm.MesWmQualityStatusEnum;
 import cn.iocoder.yudao.module.mes.service.md.item.MesMdItemService;
 import cn.iocoder.yudao.module.mes.service.wm.batch.MesWmBatchService;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import javax.annotation.Resource;
 
@@ -32,15 +32,15 @@ public class MesWmProductSalesLineServiceImplTest extends BaseDbUnitTest {
     @Resource
     private MesWmProductSalesLineMapper productSalesLineMapper;
 
-    @MockitoBean
+    @MockBean
     private MesWmProductSalesService productSalesService;
 
-    @MockitoBean
+    @MockBean
     private MesWmProductSalesDetailService productSalesDetailService;
 
-    @MockitoBean
+    @MockBean
     private MesMdItemService itemService;
-    @MockitoBean
+    @MockBean
     private MesWmBatchService batchService;
 
     @Test

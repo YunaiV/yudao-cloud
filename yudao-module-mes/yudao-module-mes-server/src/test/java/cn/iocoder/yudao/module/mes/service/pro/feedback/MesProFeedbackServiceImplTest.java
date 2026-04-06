@@ -15,8 +15,8 @@ import cn.iocoder.yudao.module.mes.service.wm.itemconsume.MesWmItemConsumeServic
 import cn.iocoder.yudao.module.mes.service.wm.productproduce.MesWmProductProduceLineService;
 import cn.iocoder.yudao.module.mes.service.wm.productproduce.MesWmProductProduceService;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -41,19 +41,19 @@ public class MesProFeedbackServiceImplTest extends BaseDbUnitTest {
     @Resource
     private MesProFeedbackMapper feedbackMapper;
 
-    @MockitoBean
+    @MockBean
     private MesProWorkOrderService workOrderService;
-    @MockitoBean
+    @MockBean
     private MesProRouteProcessService routeProcessService;
-    @MockitoBean
+    @MockBean
     private MesMdWorkstationService workstationService;
-    @MockitoBean
+    @MockBean
     private MesProTaskService taskService;
-    @MockitoBean
+    @MockBean
     private MesWmItemConsumeService itemConsumeService;
-    @MockitoBean
+    @MockBean
     private MesWmProductProduceService productProduceService;
-    @MockitoBean
+    @MockBean
     private MesWmProductProduceLineService produceLineService;
 
     @Test

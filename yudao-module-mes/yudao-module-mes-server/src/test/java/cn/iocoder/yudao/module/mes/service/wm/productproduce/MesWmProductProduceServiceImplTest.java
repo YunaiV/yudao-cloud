@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.mes.service.wm.productproduce;
 
+import cn.hutool.core.collection.ListUtil;
 import cn.iocoder.yudao.framework.test.core.ut.BaseDbUnitTest;
 import cn.iocoder.yudao.module.mes.dal.dataobject.wm.productproduce.MesWmProductProduceDO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.wm.productproduce.MesWmProductProduceDetailDO;
@@ -18,16 +19,16 @@ import cn.iocoder.yudao.module.mes.service.wm.warehouse.MesWmWarehouseLocationSe
 import cn.iocoder.yudao.module.mes.service.wm.warehouse.MesWmWarehouseService;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.List;
 
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomLongId;
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomPojo;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 /**
@@ -44,21 +45,21 @@ public class MesWmProductProduceServiceImplTest extends BaseDbUnitTest {
     @Resource
     private MesWmProductProduceMapper productProduceMapper;
 
-    @MockitoBean
+    @MockBean
     private MesWmProductProduceLineService productProduceLineService;
-    @MockitoBean
+    @MockBean
     private MesWmProductProduceDetailService productProduceDetailService;
-    @MockitoBean
+    @MockBean
     private MesProWorkOrderService workOrderService;
-    @MockitoBean
+    @MockBean
     private MesWmBatchService batchService;
-    @MockitoBean
+    @MockBean
     private MesWmTransactionService wmTransactionService;
-    @MockitoBean
+    @MockBean
     private MesWmWarehouseService warehouseService;
-    @MockitoBean
+    @MockBean
     private MesWmWarehouseLocationService locationService;
-    @MockitoBean
+    @MockBean
     private MesWmWarehouseAreaService areaService;
 
     @Test
@@ -92,7 +93,7 @@ public class MesWmProductProduceServiceImplTest extends BaseDbUnitTest {
                 .qualityStatus(MesWmQualityStatusEnum.PENDING.getStatus())
                 .build();
         when(productProduceLineService.getProductProduceLineListByProduceId(produce.getId()))
-                .thenReturn(List.of(pendingLine));
+                .thenReturn(ListUtil.of(pendingLine));
 
         // mock: finishProductProduce 内部会再查一次行和明细（用于创建库存事务）
         // 由于 finishProductProduce 在拆分行后调用，此时行已经变了，但由于 line/detail 是 mock 的，
@@ -109,8 +110,8 @@ public class MesWmProductProduceServiceImplTest extends BaseDbUnitTest {
                 .build();
         // finishProductProduce 内部第二次调用 getProductProduceLineListByProduceId
         when(productProduceLineService.getProductProduceLineListByProduceId(produce.getId()))
-                .thenReturn(List.of(pendingLine))         // 第 1 次：splitPendingAndFinishProduce 查待检行
-                .thenReturn(List.of(qualifiedLine, unqualifiedLine)); // 第 2 次：finishProductProduce 查所有行
+                .thenReturn(ListUtil.of(pendingLine))         // 第 1 次：splitPendingAndFinishProduce 查待检行
+                .thenReturn(ListUtil.of(qualifiedLine, unqualifiedLine)); // 第 2 次：finishProductProduce 查所有行
 
         // mock: finishProductProduce 中按行查明细
         MesWmProductProduceDetailDO qualifiedDetail = MesWmProductProduceDetailDO.builder()
@@ -118,9 +119,9 @@ public class MesWmProductProduceServiceImplTest extends BaseDbUnitTest {
         MesWmProductProduceDetailDO unqualifiedDetail = MesWmProductProduceDetailDO.builder()
                 .lineId(101L).quantity(BigDecimal.valueOf(20)).build();
         when(productProduceDetailService.getProductProduceDetailListByLineId(100L))
-                .thenReturn(List.of(qualifiedDetail));
+                .thenReturn(ListUtil.of(qualifiedDetail));
         when(productProduceDetailService.getProductProduceDetailListByLineId(101L))
-                .thenReturn(List.of(unqualifiedDetail));
+                .thenReturn(ListUtil.of(unqualifiedDetail));
 
         // 调用
         productProduceService.splitPendingAndFinishProduce(feedbackId, BigDecimal.valueOf(80), BigDecimal.valueOf(20));
@@ -185,14 +186,14 @@ public class MesWmProductProduceServiceImplTest extends BaseDbUnitTest {
                 .qualityStatus(MesWmQualityStatusEnum.PASS.getStatus())
                 .build();
         when(productProduceLineService.getProductProduceLineListByProduceId(produce.getId()))
-                .thenReturn(List.of(pendingLine))
-                .thenReturn(List.of(qualifiedLine));
+                .thenReturn(ListUtil.of(pendingLine))
+                .thenReturn(ListUtil.of(qualifiedLine));
 
         // mock: finishProductProduce 中按行查明细
         MesWmProductProduceDetailDO detail = MesWmProductProduceDetailDO.builder()
                 .lineId(200L).quantity(BigDecimal.valueOf(50)).build();
         when(productProduceDetailService.getProductProduceDetailListByLineId(200L))
-                .thenReturn(List.of(detail));
+                .thenReturn(ListUtil.of(detail));
 
         // 调用：不合格品数量 = 0
         productProduceService.splitPendingAndFinishProduce(feedbackId, BigDecimal.valueOf(50), BigDecimal.ZERO);
@@ -245,7 +246,7 @@ public class MesWmProductProduceServiceImplTest extends BaseDbUnitTest {
                 .qualityStatus(MesWmQualityStatusEnum.PASS.getStatus())
                 .build();
         when(productProduceLineService.getProductProduceLineListByProduceId(produce.getId()))
-                .thenReturn(List.of(passLine));
+                .thenReturn(ListUtil.of(passLine));
 
         // 调用，应该抛异常（找不到 PENDING 行）
         assertThrows(Exception.class, () ->

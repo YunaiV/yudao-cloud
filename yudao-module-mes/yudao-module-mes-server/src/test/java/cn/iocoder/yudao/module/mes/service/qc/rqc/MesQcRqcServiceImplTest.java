@@ -12,8 +12,8 @@ import cn.iocoder.yudao.module.mes.service.wm.returnissue.MesWmReturnIssueLineSe
 import cn.iocoder.yudao.module.mes.service.wm.returnsales.MesWmReturnSalesLineService;
 import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -42,19 +42,19 @@ public class MesQcRqcServiceImplTest extends BaseDbUnitTest {
     @Resource
     private MesQcRqcMapper rqcMapper;
 
-    @MockitoBean
+    @MockBean
     private MesWmReturnIssueLineService returnIssueLineService;
-    @MockitoBean
+    @MockBean
     private MesWmReturnSalesLineService returnSalesLineService;
-    @MockitoBean
+    @MockBean
     private MesQcRqcLineService rqcLineService;
-    @MockitoBean
+    @MockBean
     private MesMdItemService itemService;
-    @MockitoBean
+    @MockBean
     private MesQcTemplateItemService templateItemService;
-    @MockitoBean
+    @MockBean
     private MesQcDefectRecordService defectRecordService;
-    @MockitoBean
+    @MockBean
     private AdminUserApi adminUserApi;
 
     @Test

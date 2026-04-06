@@ -20,8 +20,8 @@ import cn.iocoder.yudao.module.mes.service.md.item.MesMdItemBatchConfigService;
 import cn.iocoder.yudao.module.mes.service.md.item.MesMdItemService;
 import cn.iocoder.yudao.module.mes.service.wm.barcode.MesWmBarcodeService;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -58,13 +58,13 @@ public class MesWmBatchServiceImplTest extends BaseDbUnitTest {
     @Resource
     private MesWmProductProduceDetailMapper produceDetailMapper;
 
-    @MockitoBean
+    @MockBean
     private MesMdItemService itemService;
-    @MockitoBean
+    @MockBean
     private MesMdItemBatchConfigService itemBatchConfigService;
-    @MockitoBean
+    @MockBean
     private MesMdAutoCodeRecordService autoCodeRecordService;
-    @MockitoBean
+    @MockBean
     private MesWmBarcodeService barcodeService;
 
     // ==================== 向前追溯 ====================

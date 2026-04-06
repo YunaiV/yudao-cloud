@@ -27,10 +27,12 @@ public interface CrmCustomerLimitConfigMapper extends BaseMapperX<CrmCustomerLim
             Integer type, Long userId, Long deptId) {
         LambdaQueryWrapperX<CrmCustomerLimitConfigDO> query = new LambdaQueryWrapperX<CrmCustomerLimitConfigDO>()
                 .eq(CrmCustomerLimitConfigDO::getType, type);
-        query.apply("FIND_IN_SET({0}, user_ids) > 0", userId);
-        if (deptId != null) {
-            query.apply("FIND_IN_SET({0}, dept_ids) > 0", deptId);
-        }
+        query.and(w -> {
+            w.apply("FIND_IN_SET({0}, user_ids) > 0", userId);
+            if (deptId != null) {
+                w.or().apply("FIND_IN_SET({0}, dept_ids) > 0", deptId);
+            }
+        });
         return selectList(query);
     }
 

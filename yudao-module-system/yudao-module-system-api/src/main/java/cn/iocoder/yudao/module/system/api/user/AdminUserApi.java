@@ -73,7 +73,7 @@ public interface AdminUserApi extends AutoTransable<AdminUserRespDTO> {
      * @param id 用户编号
      */
     default void validateUser(Long id) {
-        validateUserList(Collections.singleton(id));
+        validateUserList(Collections.singleton(id)).getCheckedData();
     }
 
     @GetMapping(PREFIX + "/valid")

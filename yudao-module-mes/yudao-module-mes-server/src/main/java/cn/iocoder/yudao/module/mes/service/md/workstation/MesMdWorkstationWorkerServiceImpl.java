@@ -56,7 +56,7 @@ public class MesMdWorkstationWorkerServiceImpl implements MesMdWorkstationWorker
 
     private void validateWorkstationWorkerSaveData(Long id, MesMdWorkstationWorkerSaveReqVO reqVO) {
         // 校验岗位是否存在
-        postApi.validPostList(Collections.singleton(reqVO.getPostId()));
+        postApi.validPostList(Collections.singleton(reqVO.getPostId())).getCheckedData();
         // 校验同一工作站下岗位不重复（排除自身）
         MesMdWorkstationWorkerDO existing = workstationWorkerMapper.selectByWorkstationIdAndPostId(
                 reqVO.getWorkstationId(), reqVO.getPostId());

@@ -12,29 +12,27 @@
         </encoder>
     </appender>
 
-    <!-- 文件 Appender - 已禁用，避免沙箱环境文件访问限制 -->
-    <!--
+    <!-- 文件 Appender -->
+    <!-- 参考 Spring Boot 的 file-appender.xml 编写 -->
     <appender name="FILE"  class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${FILE_LOG_PATTERN}</pattern>
         </encoder>
+        <!-- 日志文件名 -->
         <file>${LOG_FILE}</file>
+        <!-- 滚动策略：基于【每天 + 大小】创建日志文件 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-            <maxFileSize>10MB</maxFileSize>
+            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern> <!-- 日志文件输出的文件名 -->
+            <maxHistory>30</maxHistory> <!-- 日志文件的保留天数 -->
+            <maxFileSize>10MB</maxFileSize> <!-- 日志文件，到达多少容量，进行滚动 -->
         </rollingPolicy>
     </appender>
-    -->
-
-    <!-- 异步写入日志 - 已禁用，避免沙箱环境文件访问限制 -->
-    <!--
+    <!-- 异步写入日志，提升性能 -->
     <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
-        <discardingThreshold>0</discardingThreshold>
-        <queueSize>512</queueSize>
+        <discardingThreshold>0</discardingThreshold> <!-- 不丢失日志。默认的，如果队列的 80% 已满,则会丢弃 TRACT、DEBUG、INFO 级别的日志 -->
+        <queueSize>512</queueSize> <!-- 更改默认的队列的深度，该值会影响性能。默认值为 256 -->
         <appender-ref ref="FILE"/>
     </appender>
-    -->
 
     <!-- SkyWalking Appender：GRPC 日志收集，实现日志中心 -->
     <!--
@@ -50,7 +48,7 @@
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
         <!-- 本地环境下，如果不想【FILE】打印日志，可以注释掉本行 -->
-        <!-- <appender-ref ref="ASYNC"/> -->
+        <appender-ref ref="ASYNC"/>
         <!-- 如果想接入【SkyWalking 日志服务】，可以取消注释掉本行 -->
         <!-- <appender-ref ref="SKYWALKING"/> -->
     </root>

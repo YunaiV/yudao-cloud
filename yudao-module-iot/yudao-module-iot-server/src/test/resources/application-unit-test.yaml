@@ -15,6 +15,7 @@ spring:
   sql:
     init:
       schema-locations: classpath:/sql/create_tables.sql
+      encoding: UTF-8
 
 mybatis-plus:
   lazy-initialization: true # 单元测试，设置 MyBatis Mapper 延迟加载，加速每个单元测试

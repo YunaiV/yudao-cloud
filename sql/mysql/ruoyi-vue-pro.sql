@@ -11,7 +11,7 @@
  Target Server Version : 80200 (8.2.0)
  File Encoding         : 65001
 
- Date: 06/04/2026 19:09:55
+ Date: 18/04/2026 11:02:29
 */
 
 SET NAMES utf8mb4;
@@ -92,7 +92,7 @@ CREATE TABLE `infra_api_error_log`  (
   `tenant_id` bigint NOT NULL DEFAULT 0 COMMENT '租户编号',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_create_time`(`create_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23664 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '系统异常日志';
+) ENGINE = InnoDB AUTO_INCREMENT = 23726 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '系统异常日志';
 
 -- ----------------------------
 -- Records of infra_api_error_log
@@ -462,7 +462,7 @@ CREATE TABLE `system_dict_data`  (
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3446 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '字典数据表';
+) ENGINE = InnoDB AUTO_INCREMENT = 3449 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '字典数据表';
 
 -- ----------------------------
 -- Records of system_dict_data
@@ -1127,11 +1127,11 @@ INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `st
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3069, 1, '停机', '1', 'mes_dv_machinery_status', 0, 'success', '', '', '1', '2026-02-17 01:00:06', '1', '2026-02-17 03:28:27', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3070, 2, '生产中', '2', 'mes_dv_machinery_status', 0, 'info', '', '', '1', '2026-02-17 01:00:06', '1', '2026-02-17 03:28:33', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3071, 3, '维护中', '3', 'mes_dv_machinery_status', 0, 'danger', '', '', '1', '2026-02-17 01:00:06', '1', '2026-02-17 03:28:41', b'0');
-INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3072, 1, '尺寸', 'SIZE', 'mes_indicator_type', 0, '', '', '', '1', '2026-02-17 02:18:18', '1', '2026-02-21 15:25:04', b'0');
-INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3073, 2, '外观', 'APPEARANCE', 'mes_indicator_type', 0, '', '', '', '1', '2026-02-17 02:18:18', '1', '2026-02-21 15:25:04', b'0');
-INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3074, 3, '重量', 'WEIGHT', 'mes_indicator_type', 0, '', '', '', '1', '2026-02-17 02:18:18', '1', '2026-02-21 15:25:04', b'0');
-INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3075, 4, '性能', 'PERFORMANCE', 'mes_indicator_type', 0, '', '', '', '1', '2026-02-17 02:18:18', '1', '2026-02-21 15:25:04', b'0');
-INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3076, 5, '成分', 'COMPONENT', 'mes_indicator_type', 0, '', '', '', '1', '2026-02-17 02:18:18', '1', '2026-02-21 15:25:04', b'0');
+INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3072, 1, '尺寸', '1', 'mes_indicator_type', 0, '', '', '', '1', '2026-02-17 02:18:18', '1', '2026-04-09 14:38:53', b'0');
+INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3073, 2, '外观', '2', 'mes_indicator_type', 0, '', '', '', '1', '2026-02-17 02:18:18', '1', '2026-04-09 14:38:53', b'0');
+INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3074, 3, '重量', '3', 'mes_indicator_type', 0, '', '', '', '1', '2026-02-17 02:18:18', '1', '2026-04-09 14:38:53', b'0');
+INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3075, 4, '性能', '4', 'mes_indicator_type', 0, '', '', '', '1', '2026-02-17 02:18:18', '1', '2026-04-09 14:38:53', b'0');
+INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3076, 5, '成分', '5', 'mes_indicator_type', 0, '', '', '', '1', '2026-02-17 02:18:18', '1', '2026-04-09 14:38:53', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3077, 1, '致命缺陷', '1', 'mes_defect_level', 0, 'danger', '', '', '1', '2026-02-17 02:18:18', '1', '2026-02-21 12:21:12', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3078, 2, '严重缺陷', '2', 'mes_defect_level', 0, 'warning', '', '', '1', '2026-02-17 02:18:18', '1', '2026-02-21 12:21:15', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3079, 3, '轻微缺陷', '3', 'mes_defect_level', 0, 'info', '', '', '1', '2026-02-17 02:18:18', '1', '2026-02-21 12:21:19', b'0');
@@ -1164,15 +1164,10 @@ INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `st
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3129, 1, '分钟', 'MINUTE', 'mes_time_unit_type', 0, 'default', '', '', '1', '2026-02-19 04:24:53', '1', '2026-02-19 04:24:53', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3130, 2, '小时', 'HOUR', 'mes_time_unit_type', 0, 'default', '', '', '1', '2026-02-19 04:24:53', '1', '2026-02-19 04:24:53', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3131, 3, '天', 'DAY', 'mes_time_unit_type', 0, 'default', '', '', '1', '2026-02-19 04:24:53', '1', '2026-02-19 04:24:53', b'0');
-INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3132, 0, '草稿', '0', 'mes_pro_task_status', 0, 'info', '', '', '1', '2026-02-19 15:25:27', '1', '2026-02-19 15:25:27', b'0');
-INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3133, 1, '进行中', '1', 'mes_pro_task_status', 0, 'primary', '', '', '1', '2026-02-19 15:25:27', '1', '2026-02-19 15:25:27', b'0');
-INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3134, 2, '暂停', '2', 'mes_pro_task_status', 0, 'warning', '', '', '1', '2026-02-19 15:25:27', '1', '2026-02-19 15:25:27', b'0');
-INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3135, 3, '已完成', '3', 'mes_pro_task_status', 0, 'success', '', '', '1', '2026-02-19 15:25:27', '1', '2026-02-19 15:25:27', b'0');
-INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3136, 4, '已取消', '4', 'mes_pro_task_status', 0, 'danger', '', '', '1', '2026-02-19 15:25:27', '1', '2026-02-19 15:25:27', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3137, 1, '设备点检', '1', 'mes_dv_subject_type', 0, 'info', '', '', '1', '2026-02-20 01:42:58', '1', '2026-02-20 01:42:58', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3138, 2, '设备保养', '2', 'mes_dv_subject_type', 0, 'success', '', '', '1', '2026-02-20 01:42:58', '1', '2026-02-20 01:42:58', b'0');
-INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3139, 1, '待保养', '1', 'mes_mainten_record_status', 0, 'info', '', NULL, 'admin', '2026-02-20 02:59:55', '1', '2026-02-20 15:57:13', b'0');
-INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3140, 2, '已完成', '2', 'mes_mainten_record_status', 0, 'success', '', NULL, 'admin', '2026-02-20 02:59:55', '1', '2026-02-20 15:57:10', b'0');
+INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3139, 1, '待保养', '0', 'mes_mainten_record_status', 0, 'info', '', NULL, 'admin', '2026-02-20 02:59:55', '1', '2026-04-16 05:32:37', b'0');
+INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3140, 2, '已完成', '4', 'mes_mainten_record_status', 0, 'success', '', NULL, 'admin', '2026-02-20 02:59:55', '1', '2026-04-16 05:32:37', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3141, 1, '正常', '1', 'mes_mainten_status', 0, 'success', '', NULL, 'admin', '2026-02-20 02:59:55', 'admin', '2026-02-20 02:59:55', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3142, 2, '异常', '0', 'mes_mainten_status', 0, 'danger', '', NULL, 'admin', '2026-02-20 02:59:55', 'admin', '2026-02-20 02:59:55', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3143, 1, '天', '1', 'mes_dv_cycle_type', 0, 'default', '', '', '1', '2026-02-20 07:11:43', '1', '2026-02-20 07:11:43', b'0');
@@ -1372,16 +1367,19 @@ INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `st
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3426, 3, '待上架', '3', 'mes_wm_return_sales_status', 0, 'primary', '', '', '1', '2026-04-03 17:20:25', '1', '2026-04-03 17:20:25', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3427, 4, '已完成', '4', 'mes_wm_return_sales_status', 0, 'success', '', '', '1', '2026-04-03 17:20:25', '1', '2026-04-03 17:20:25', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3428, 5, '已取消', '5', 'mes_wm_return_sales_status', 0, 'danger', '', '', '1', '2026-04-03 17:20:25', '1', '2026-04-03 17:20:25', b'0');
-INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3429, 1, '尺寸', 'SIZE', 'mes_defect_type', 0, '', '', '', '1', '2026-04-04 12:49:51', '1', '2026-04-04 12:49:51', b'0');
-INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3430, 2, '外观', 'APPEARANCE', 'mes_defect_type', 0, '', '', '', '1', '2026-04-04 12:49:51', '1', '2026-04-04 12:49:51', b'0');
-INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3431, 3, '重量', 'WEIGHT', 'mes_defect_type', 0, '', '', '', '1', '2026-04-04 12:49:51', '1', '2026-04-04 12:49:51', b'0');
-INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3432, 4, '性能', 'PERFORMANCE', 'mes_defect_type', 0, '', '', '', '1', '2026-04-04 12:49:51', '1', '2026-04-04 12:49:51', b'0');
-INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3433, 5, '成分', 'COMPONENT', 'mes_defect_type', 0, '', '', '', '1', '2026-04-04 12:49:51', '1', '2026-04-04 12:49:51', b'0');
+INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3429, 1, '尺寸', '1', 'mes_defect_type', 0, '', '', '', '1', '2026-04-04 12:49:51', '1', '2026-04-09 15:03:20', b'0');
+INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3430, 2, '外观', '2', 'mes_defect_type', 0, '', '', '', '1', '2026-04-04 12:49:51', '1', '2026-04-09 15:03:20', b'0');
+INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3431, 3, '重量', '3', 'mes_defect_type', 0, '', '', '', '1', '2026-04-04 12:49:51', '1', '2026-04-09 15:03:20', b'0');
+INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3432, 4, '性能', '4', 'mes_defect_type', 0, '', '', '', '1', '2026-04-04 12:49:51', '1', '2026-04-09 15:03:20', b'0');
+INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3433, 5, '成分', '5', 'mes_defect_type', 0, '', '', '', '1', '2026-04-04 12:49:51', '1', '2026-04-09 15:03:20', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3436, 1, '上工', '1', 'mes_pro_work_record_type', 0, 'success', '', '', '1', '2026-04-05 14:07:27', '1', '2026-04-05 14:07:27', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3437, 2, '下工', '2', 'mes_pro_work_record_type', 0, 'danger', '', '', '1', '2026-04-05 14:07:27', '1', '2026-04-05 14:07:27', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3443, 1, '草稿', '0', 'mes_wm_product_produce_status', 0, 'info', '', '草稿状态', '1', '2026-04-05 15:53:46', '1', '2026-04-05 15:53:46', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3444, 2, '已完成', '4', 'mes_wm_product_produce_status', 0, 'success', '', '已完成状态', '1', '2026-04-05 15:53:46', '1', '2026-04-05 15:53:46', b'0');
 INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3445, 3, '已取消', '5', 'mes_wm_product_produce_status', 0, 'danger', '', '已取消状态', '1', '2026-04-05 15:53:46', '1', '2026-04-05 15:53:46', b'0');
+INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3446, 0, 'è‰ç¨¿', '0', 'mes_pro_task_status', 0, '', '', NULL, '1', '2026-04-16 09:47:00', '1', '2026-04-16 09:47:00', b'0');
+INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3447, 1, 'å·²å®Œæˆ', '4', 'mes_pro_task_status', 0, '', '', NULL, '1', '2026-04-16 09:47:00', '1', '2026-04-16 09:47:00', b'0');
+INSERT INTO `system_dict_data` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3448, 2, 'å·²å–æ¶ˆ', '5', 'mes_pro_task_status', 0, '', '', NULL, '1', '2026-04-16 09:47:00', '1', '2026-04-16 09:47:00', b'0');
 COMMIT;
 
 -- ----------------------------
@@ -1618,7 +1616,7 @@ CREATE TABLE `system_login_log`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_username`(`username` ASC) USING BTREE,
   INDEX `idx_create_time`(`create_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4486 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '系统访问记录';
+) ENGINE = InnoDB AUTO_INCREMENT = 4512 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '系统访问记录';
 
 -- ----------------------------
 -- Records of system_login_log
@@ -3200,7 +3198,7 @@ CREATE TABLE `system_oauth2_access_token`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_access_token`(`access_token` ASC) USING BTREE,
   INDEX `idx_refresh_token`(`refresh_token` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 49915 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'OAuth2 访问令牌';
+) ENGINE = InnoDB AUTO_INCREMENT = 51247 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'OAuth2 访问令牌';
 
 -- ----------------------------
 -- Records of system_oauth2_access_token
@@ -3326,7 +3324,7 @@ CREATE TABLE `system_oauth2_refresh_token`  (
   `tenant_id` bigint NOT NULL DEFAULT 0 COMMENT '租户编号',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_refresh_token`(`refresh_token` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2527 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'OAuth2 刷新令牌';
+) ENGINE = InnoDB AUTO_INCREMENT = 2553 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'OAuth2 刷新令牌';
 
 -- ----------------------------
 -- Records of system_oauth2_refresh_token
@@ -4758,7 +4756,7 @@ CREATE TABLE `system_users`  (
 -- Records of system_users
 -- ----------------------------
 BEGIN;
-INSERT INTO `system_users` (`id`, `username`, `password`, `nickname`, `remark`, `dept_id`, `post_ids`, `email`, `mobile`, `sex`, `avatar`, `status`, `login_ip`, `login_date`, `creator`, `create_time`, `updater`, `update_time`, `deleted`, `tenant_id`) VALUES (1, 'admin', '$2a$04$.vd8nPeLwxt6hnSzmAoAyul8BOLX7Cib6QhcxRe30rfvrIPQHH1OG', '芋道源码', '管理员', 103, '[1,2]', '13aoteman@126.com', '18818260272', 1, 'http://test.yudao.iocoder.cn/user/avatar/20251220/blob_1766215463801.jpg', 0, '127.0.0.1', '2026-03-27 18:50:21', 'admin', '2021-01-05 17:03:47', NULL, '2026-03-27 18:50:21', b'0', 1);
+INSERT INTO `system_users` (`id`, `username`, `password`, `nickname`, `remark`, `dept_id`, `post_ids`, `email`, `mobile`, `sex`, `avatar`, `status`, `login_ip`, `login_date`, `creator`, `create_time`, `updater`, `update_time`, `deleted`, `tenant_id`) VALUES (1, 'admin', '$2a$04$.vd8nPeLwxt6hnSzmAoAyul8BOLX7Cib6QhcxRe30rfvrIPQHH1OG', '芋道源码', '管理员', 103, '[1,2]', '13aoteman@126.com', '18818260272', 1, 'http://test.yudao.iocoder.cn/user/avatar/20251220/blob_1766215463801.jpg', 0, '0:0:0:0:0:0:0:1', '2026-04-17 08:47:40', 'admin', '2021-01-05 17:03:47', NULL, '2026-04-17 08:47:40', b'0', 1);
 INSERT INTO `system_users` (`id`, `username`, `password`, `nickname`, `remark`, `dept_id`, `post_ids`, `email`, `mobile`, `sex`, `avatar`, `status`, `login_ip`, `login_date`, `creator`, `create_time`, `updater`, `update_time`, `deleted`, `tenant_id`) VALUES (100, 'yudao', '$2a$04$h.aaPKgO.odHepnk5PCsWeEwKdojFWdTItxGKfx1r0e1CSeBzsTJ6', '芋道', '不要吓我', 104, '[1]', 'yudao@iocoder.cn', '15601691300', 1, NULL, 0, '0:0:0:0:0:0:0:1', '2025-12-15 21:47:26', '', '2021-01-07 09:07:17', NULL, '2025-12-15 21:47:26', b'0', 1);
 INSERT INTO `system_users` (`id`, `username`, `password`, `nickname`, `remark`, `dept_id`, `post_ids`, `email`, `mobile`, `sex`, `avatar`, `status`, `login_ip`, `login_date`, `creator`, `create_time`, `updater`, `update_time`, `deleted`, `tenant_id`) VALUES (103, 'yuanma', '$2a$04$fUBSmjKCPYAUmnMzOb6qE.eZCGPhHi1JmAKclODbfS/O7fHOl2bH6', '源码', NULL, 106, NULL, 'yuanma@iocoder.cn', '15601701300', 0, NULL, 0, '0:0:0:0:0:0:0:1', '2024-08-11 17:48:12', '', '2021-01-13 23:50:35', '1', '2025-07-09 23:41:58', b'0', 1);
 INSERT INTO `system_users` (`id`, `username`, `password`, `nickname`, `remark`, `dept_id`, `post_ids`, `email`, `mobile`, `sex`, `avatar`, `status`, `login_ip`, `login_date`, `creator`, `create_time`, `updater`, `update_time`, `deleted`, `tenant_id`) VALUES (104, 'test', '$2a$04$BrwaYn303hjA/6TnXqdGoOLhyHOAA0bVrAFu6.1dJKycqKUnIoRz2', '测试号', NULL, 107, '[1,2]', '111@qq.com', '15601691200', 1, NULL, 0, '0:0:0:0:0:0:0:1', '2026-01-04 18:09:54', '', '2021-01-21 02:13:53', NULL, '2026-01-04 18:09:54', b'0', 1);

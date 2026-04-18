@@ -18,18 +18,20 @@ import cn.iocoder.yudao.module.mes.service.wm.transaction.MesWmTransactionServic
 import cn.iocoder.yudao.module.mes.service.wm.warehouse.MesWmWarehouseAreaService;
 import cn.iocoder.yudao.module.mes.service.wm.warehouse.MesWmWarehouseLocationService;
 import cn.iocoder.yudao.module.mes.service.wm.warehouse.MesWmWarehouseService;
-import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomLongId;
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomPojo;
-import static cn.iocoder.yudao.module.mes.enums.ErrorCodeConstants.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static cn.iocoder.yudao.module.mes.enums.ErrorCodeConstants.WM_PRODUCT_PRODUCE_LINE_NOT_EXISTS;
+import static cn.iocoder.yudao.module.mes.enums.ErrorCodeConstants.WM_PRODUCT_PRODUCE_NOT_EXISTS;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 /**
@@ -46,21 +48,21 @@ public class MesWmProductProduceServiceImplTest extends BaseDbUnitTest {
     @Resource
     private MesWmProductProduceMapper productProduceMapper;
 
-    @MockitoBean
+    @MockBean
     private MesWmProductProduceLineService productProduceLineService;
-    @MockitoBean
+    @MockBean
     private MesWmProductProduceDetailService productProduceDetailService;
-    @MockitoBean
+    @MockBean
     private MesProWorkOrderService workOrderService;
-    @MockitoBean
+    @MockBean
     private MesWmBatchService batchService;
-    @MockitoBean
+    @MockBean
     private MesWmTransactionService wmTransactionService;
-    @MockitoBean
+    @MockBean
     private MesWmWarehouseService warehouseService;
-    @MockitoBean
+    @MockBean
     private MesWmWarehouseLocationService locationService;
-    @MockitoBean
+    @MockBean
     private MesWmWarehouseAreaService areaService;
 
     @Test

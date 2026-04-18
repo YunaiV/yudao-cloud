@@ -15,10 +15,10 @@ import cn.iocoder.yudao.module.mes.service.qc.oqc.MesQcOqcLineService;
 import cn.iocoder.yudao.module.mes.service.qc.rqc.MesQcRqcLineService;
 import cn.iocoder.yudao.module.mes.service.qc.template.MesQcTemplateIndicatorService;
 import org.springframework.context.annotation.Lazy;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

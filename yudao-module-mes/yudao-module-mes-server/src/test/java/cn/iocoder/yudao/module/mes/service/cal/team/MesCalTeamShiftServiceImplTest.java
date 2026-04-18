@@ -13,17 +13,16 @@ import cn.iocoder.yudao.module.mes.service.cal.plan.MesCalPlanService;
 import cn.iocoder.yudao.module.mes.service.cal.plan.MesCalPlanShiftService;
 import cn.iocoder.yudao.module.mes.service.cal.plan.MesCalPlanTeamService;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-import jakarta.annotation.Resource;
-
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 /**
  * {@link MesCalTeamShiftServiceImpl} 的单元测试
@@ -39,11 +38,11 @@ public class MesCalTeamShiftServiceImplTest extends BaseDbUnitTest {
     @Resource
     private MesCalTeamShiftMapper teamShiftMapper;
 
-    @MockitoBean
+    @MockBean
     private MesCalPlanService planService;
-    @MockitoBean
+    @MockBean
     private MesCalPlanShiftService planShiftService;
-    @MockitoBean
+    @MockBean
     private MesCalPlanTeamService planTeamService;
 
     @Test

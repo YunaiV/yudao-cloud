@@ -6,15 +6,16 @@ import cn.iocoder.yudao.module.mes.dal.dataobject.md.workstation.MesMdWorkstatio
 import cn.iocoder.yudao.module.mes.dal.dataobject.md.workstation.MesMdWorkstationMachineDO;
 import cn.iocoder.yudao.module.mes.dal.mysql.md.workstation.MesMdWorkstationMachineMapper;
 import cn.iocoder.yudao.module.mes.service.dv.machinery.MesDvMachineryService;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static cn.iocoder.yudao.module.mes.enums.ErrorCodeConstants.*;
+import static cn.iocoder.yudao.module.mes.enums.ErrorCodeConstants.MD_WORKSTATION_MACHINE_EXISTS;
+import static cn.iocoder.yudao.module.mes.enums.ErrorCodeConstants.MD_WORKSTATION_MACHINE_NOT_EXISTS;
 
 /**
  * MES 设备资源 Service 实现类

@@ -56,7 +56,7 @@ public class MesQcIqcServiceImplTest extends BaseDbUnitTest {
     private MesQcTemplateItemService templateItemService;
     @MockBean
     private AdminUserApi adminUserApi;
-    @MockitoBean
+    @MockBean
     private MesQcIndicatorResultService indicatorResultService;
 
     @Test

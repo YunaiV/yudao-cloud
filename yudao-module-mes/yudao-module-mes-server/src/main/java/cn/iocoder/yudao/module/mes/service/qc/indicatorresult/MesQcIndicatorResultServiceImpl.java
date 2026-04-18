@@ -22,12 +22,12 @@ import cn.iocoder.yudao.module.mes.service.qc.iqc.MesQcIqcService;
 import cn.iocoder.yudao.module.mes.service.qc.oqc.MesQcOqcService;
 import cn.iocoder.yudao.module.mes.service.qc.rqc.MesQcRqcService;
 import cn.iocoder.yudao.module.system.api.dict.DictDataApi;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.util.*;

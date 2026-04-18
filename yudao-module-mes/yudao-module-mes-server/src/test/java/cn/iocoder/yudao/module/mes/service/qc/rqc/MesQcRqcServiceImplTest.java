@@ -57,7 +57,7 @@ public class MesQcRqcServiceImplTest extends BaseDbUnitTest {
     private MesQcDefectRecordService defectRecordService;
     @MockBean
     private AdminUserApi adminUserApi;
-    @MockitoBean
+    @MockBean
     private MesQcIndicatorResultService indicatorResultService;
 
     @Test

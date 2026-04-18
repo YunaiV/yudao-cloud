@@ -7,11 +7,10 @@ import cn.iocoder.yudao.module.mes.controller.admin.pro.task.vo.MesProTaskPageRe
 import cn.iocoder.yudao.module.mes.dal.dataobject.pro.route.MesProRouteProcessDO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.pro.task.MesProTaskDO;
 import cn.iocoder.yudao.module.mes.dal.mysql.pro.route.MesProRouteProcessMapper;
-import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.function.Consumer;
 
 import static cn.iocoder.yudao.framework.common.util.object.ObjectUtils.cloneIgnoreId;

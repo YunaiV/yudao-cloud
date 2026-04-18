@@ -4,7 +4,8 @@ import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.module.mes.controller.admin.pro.card.vo.MesProCardPageReqVO;
 import cn.iocoder.yudao.module.mes.controller.admin.pro.card.vo.MesProCardSaveReqVO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.pro.card.MesProCardDO;
-import jakarta.validation.Valid;
+
+import javax.validation.Valid;
 
 /**
  * MES 生产流转卡 Service 接口

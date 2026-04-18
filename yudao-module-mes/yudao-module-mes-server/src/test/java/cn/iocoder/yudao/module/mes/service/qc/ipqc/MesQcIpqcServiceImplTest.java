@@ -71,15 +71,15 @@ public class MesQcIpqcServiceImplTest extends BaseDbUnitTest {
     private AdminUserApi adminUserApi;
     @MockBean
     private MesProFeedbackService feedbackService;
-    @MockitoBean
+    @MockBean
     private MesProRouteProductService routeProductService;
-    @MockitoBean
+    @MockBean
     private MesProRouteProcessService routeProcessService;
-    @MockitoBean
+    @MockBean
     private MesProTaskService taskService;
-    @MockitoBean
+    @MockBean
     private MesQcIndicatorResultService indicatorResultService;
-    @MockitoBean
+    @MockBean
     private MesWmProductProduceLineService productProduceLineService;
 
     @Test

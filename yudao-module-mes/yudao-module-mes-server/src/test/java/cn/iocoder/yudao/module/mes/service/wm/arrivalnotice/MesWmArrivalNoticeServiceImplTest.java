@@ -38,7 +38,7 @@ public class MesWmArrivalNoticeServiceImplTest extends BaseDbUnitTest {
 
     @MockBean
     private MesWmArrivalNoticeLineService arrivalNoticeLineService;
-    @MockitoBean
+    @MockBean
     private MesMdVendorService vendorService;
 
     @Test

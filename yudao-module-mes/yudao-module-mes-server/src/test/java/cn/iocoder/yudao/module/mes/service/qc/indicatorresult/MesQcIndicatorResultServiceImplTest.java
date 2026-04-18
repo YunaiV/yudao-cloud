@@ -18,10 +18,11 @@ import cn.iocoder.yudao.module.mes.service.qc.iqc.MesQcIqcService;
 import cn.iocoder.yudao.module.mes.service.qc.oqc.MesQcOqcService;
 import cn.iocoder.yudao.module.mes.service.qc.rqc.MesQcRqcService;
 import cn.iocoder.yudao.module.system.api.dict.DictDataApi;
-import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+
+import javax.annotation.Resource;
 
 import static cn.iocoder.yudao.framework.common.util.object.ObjectUtils.cloneIgnoreId;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertPojoEquals;
@@ -48,19 +49,19 @@ public class MesQcIndicatorResultServiceImplTest extends BaseDbUnitTest {
     @Resource
     private MesQcIndicatorResultMapper resultMapper;
 
-    @MockitoBean
+    @MockBean
     private MesQcIndicatorResultDetailService resultDetailService;
-    @MockitoBean
+    @MockBean
     private MesQcIndicatorService indicatorService;
-    @MockitoBean
+    @MockBean
     private MesQcIqcService iqcService;
-    @MockitoBean
+    @MockBean
     private MesQcIpqcService ipqcService;
-    @MockitoBean
+    @MockBean
     private MesQcOqcService oqcService;
-    @MockitoBean
+    @MockBean
     private MesQcRqcService rqcService;
-    @MockitoBean
+    @MockBean
     private DictDataApi dictDataApi;
 
     @Test

@@ -12,10 +12,10 @@ import cn.iocoder.yudao.module.mes.dal.mysql.qc.ipqc.MesQcIpqcLineMapper;
 import cn.iocoder.yudao.module.mes.enums.qc.MesQcDefectLevelEnum;
 import cn.iocoder.yudao.module.mes.service.qc.indicator.MesQcIndicatorService;
 import cn.iocoder.yudao.module.mes.service.qc.template.MesQcTemplateIndicatorService;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,8 @@ import java.util.Objects;
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertList;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertSet;
-import static cn.iocoder.yudao.module.mes.enums.ErrorCodeConstants.*;
+import static cn.iocoder.yudao.module.mes.enums.ErrorCodeConstants.QC_DEFECT_RECORD_LEVEL_UNKNOWN;
+import static cn.iocoder.yudao.module.mes.enums.ErrorCodeConstants.QC_IPQC_LINE_NOT_EXISTS;
 
 /**
  * MES 过程检验单行 Service 实现类

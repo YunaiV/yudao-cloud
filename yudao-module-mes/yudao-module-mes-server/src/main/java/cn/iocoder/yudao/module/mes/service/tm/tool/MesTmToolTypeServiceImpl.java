@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.mes.service.tm.tool;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjUtil;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.module.mes.controller.admin.tm.tool.vo.type.MesTmToolTypePageReqVO;
@@ -8,13 +9,11 @@ import cn.iocoder.yudao.module.mes.controller.admin.tm.tool.vo.type.MesTmToolTyp
 import cn.iocoder.yudao.module.mes.dal.dataobject.tm.tool.MesTmToolTypeDO;
 import cn.iocoder.yudao.module.mes.dal.mysql.tm.tool.MesTmToolTypeMapper;
 import cn.iocoder.yudao.module.mes.service.md.workstation.MesMdWorkstationToolService;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import cn.hutool.core.util.ObjUtil;
-
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

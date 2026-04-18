@@ -3,7 +3,6 @@ package cn.iocoder.yudao.module.mes.service.dv.machinery;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.module.mes.controller.admin.dv.machinery.vo.MesDvMachineryImportExcelVO;
@@ -21,12 +20,12 @@ import cn.iocoder.yudao.module.mes.service.dv.maintenrecord.MesDvMaintenRecordSe
 import cn.iocoder.yudao.module.mes.service.dv.repair.MesDvRepairService;
 import cn.iocoder.yudao.module.mes.service.md.workstation.MesMdWorkshopService;
 import cn.iocoder.yudao.module.mes.service.wm.barcode.MesWmBarcodeService;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;

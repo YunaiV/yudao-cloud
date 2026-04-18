@@ -5,6 +5,7 @@ import cn.iocoder.yudao.module.mes.dal.dataobject.wm.arrivalnotice.MesWmArrivalN
 import cn.iocoder.yudao.module.mes.dal.dataobject.wm.arrivalnotice.MesWmArrivalNoticeLineDO;
 import cn.iocoder.yudao.module.mes.dal.mysql.wm.arrivalnotice.MesWmArrivalNoticeMapper;
 import cn.iocoder.yudao.module.mes.enums.wm.MesWmArrivalNoticeStatusEnum;
+import cn.iocoder.yudao.module.mes.service.md.vendor.MesMdVendorService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -37,6 +38,8 @@ public class MesWmArrivalNoticeServiceImplTest extends BaseDbUnitTest {
 
     @MockBean
     private MesWmArrivalNoticeLineService arrivalNoticeLineService;
+    @MockitoBean
+    private MesMdVendorService vendorService;
 
     @Test
     public void testUpdateArrivalNoticeWhenIqcFinish_success_allLinesChecked() {

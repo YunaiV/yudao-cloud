@@ -2,9 +2,8 @@ package cn.iocoder.yudao.module.mes.dal.dataobject.pro.workrecord;
 
 import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.md.workstation.MesMdWorkstationDO;
-import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import cn.iocoder.yudao.module.mes.enums.DictTypeConstants;
 import com.baomidou.mybatisplus.annotation.KeySequence;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
@@ -46,6 +45,7 @@ public class MesProWorkRecordDO extends BaseDO {
     /**
      * 当前状态
      *
+     * 字典 {@link DictTypeConstants#MES_PRO_WORK_RECORD_TYPE}
      * 枚举 {@link cn.iocoder.yudao.module.mes.enums.pro.MesProWorkRecordTypeEnum}
      */
     private Integer type;

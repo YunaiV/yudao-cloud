@@ -50,6 +50,7 @@ public class MesWmPackageController {
     private MesMdClientService clientService;
     @Resource
     private MesMdUnitMeasureService unitMeasureService;
+
     @Resource
     private AdminUserApi adminUserApi;
 
@@ -125,20 +126,6 @@ public class MesWmPackageController {
         return success(true);
     }
 
-    @GetMapping("/childable-simple-list")
-    @Operation(summary = "可添加为子箱的装箱单精简列表")
-    @PreAuthorize("@ss.hasPermission('mes:wm-package:query')")
-    public CommonResult<List<MesWmPackageRespVO>> getChildablePackageSimpleList() {
-        List<MesWmPackageDO> list = packageService.getChildablePackageList();
-        return success(buildRespVOList(list));
-    }
-
-    @GetMapping("/simple-list")
-    @Operation(summary = "获得装箱单精简列表", description = "主要用于前端的下拉选项")
-    public CommonResult<List<MesWmPackageRespVO>> getPackageSimpleList() {
-        List<MesWmPackageDO> list = packageService.getPackageSimpleList();
-        return success(buildRespVOList(list));
-    }
 
     // ========== 私有方法 ==========
 

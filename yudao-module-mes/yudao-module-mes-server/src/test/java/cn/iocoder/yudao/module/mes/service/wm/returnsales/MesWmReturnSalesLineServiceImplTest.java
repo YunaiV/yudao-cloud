@@ -5,12 +5,14 @@ import cn.iocoder.yudao.module.mes.dal.dataobject.wm.returnsales.MesWmReturnSale
 import cn.iocoder.yudao.module.mes.dal.mysql.wm.returnsales.MesWmReturnSalesLineMapper;
 import cn.iocoder.yudao.module.mes.enums.qc.MesQcCheckResultEnum;
 import cn.iocoder.yudao.module.mes.enums.wm.MesWmQualityStatusEnum;
-import cn.iocoder.yudao.module.mes.service.md.item.MesMdItemService;
+import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-import javax.annotation.Resource;
+import cn.iocoder.yudao.module.mes.service.md.item.MesMdItemService;
+import cn.iocoder.yudao.module.mes.service.wm.batch.MesWmBatchService;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -32,11 +34,17 @@ public class MesWmReturnSalesLineServiceImplTest extends BaseDbUnitTest {
     @Resource
     private MesWmReturnSalesLineMapper returnSalesLineMapper;
 
-    @MockBean
+    @MockitoBean
     private MesWmReturnSalesService returnSalesService;
 
-    @MockBean
+    @MockitoBean
     private MesMdItemService itemService;
+
+    @MockitoBean
+    private MesWmBatchService batchService;
+
+    @MockitoBean
+    private MesWmReturnSalesDetailService returnSalesDetailService;
 
     @Test
     public void testUpdateReturnSalesLineWhenRqcFinish_allPass() {

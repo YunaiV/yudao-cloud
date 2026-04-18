@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
-@Schema(description = "管理后台 - MES 产品收货单行新增/修改 Request VO")
+@Schema(description = "管理后台 - MES 产品入库单行新增/修改 Request VO")
 @Data
 public class MesWmProductReceiptLineSaveReqVO {
 

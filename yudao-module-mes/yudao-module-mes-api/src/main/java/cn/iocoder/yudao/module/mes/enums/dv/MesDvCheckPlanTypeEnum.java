@@ -1,4 +1,4 @@
-package cn.iocoder.yudao.module.mes.enums.wm;
+package cn.iocoder.yudao.module.mes.enums.dv;
 
 import cn.iocoder.yudao.framework.common.core.ArrayValuable;
 import lombok.AllArgsConstructor;
@@ -7,15 +7,18 @@ import lombok.Getter;
 import java.util.Arrays;
 
 /**
- * MES 杂项入库类型枚举
+ * MES 点检保养方案类型枚举
+ *
+ * @author 芋道源码
  */
 @Getter
 @AllArgsConstructor
-public enum MesWmMiscReceiptTypeEnum implements ArrayValuable<Integer> {
+public enum MesDvCheckPlanTypeEnum implements ArrayValuable<Integer> {
 
-    ADJUST(1, "库存调整");
+    CHECK(1, "点检"),
+    MAINTENANCE(2, "保养");
 
-    public static final Integer[] ARRAYS = Arrays.stream(values()).map(MesWmMiscReceiptTypeEnum::getType).toArray(Integer[]::new);
+    public static final Integer[] ARRAYS = Arrays.stream(values()).map(MesDvCheckPlanTypeEnum::getType).toArray(Integer[]::new);
 
     /**
      * 类型值

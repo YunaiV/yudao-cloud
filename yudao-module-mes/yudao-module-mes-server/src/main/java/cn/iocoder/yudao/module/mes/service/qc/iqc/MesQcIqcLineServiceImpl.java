@@ -5,17 +5,17 @@ import cn.hutool.core.util.ObjUtil;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.module.mes.controller.admin.qc.iqc.vo.line.MesQcIqcLinePageReqVO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.qc.defectrecord.MesQcDefectRecordDO;
-import cn.iocoder.yudao.module.mes.dal.dataobject.qc.indicator.MesQcIndicatorDO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.qc.iqc.MesQcIqcLineDO;
+import cn.iocoder.yudao.module.mes.dal.dataobject.qc.indicator.MesQcIndicatorDO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.qc.template.MesQcTemplateIndicatorDO;
 import cn.iocoder.yudao.module.mes.dal.mysql.qc.iqc.MesQcIqcLineMapper;
-import cn.iocoder.yudao.module.mes.dal.mysql.qc.template.MesQcTemplateIndicatorMapper;
 import cn.iocoder.yudao.module.mes.enums.qc.MesQcDefectLevelEnum;
 import cn.iocoder.yudao.module.mes.service.qc.indicator.MesQcIndicatorService;
+import cn.iocoder.yudao.module.mes.service.qc.template.MesQcTemplateIndicatorService;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,11 +37,11 @@ public class MesQcIqcLineServiceImpl implements MesQcIqcLineService {
 
     @Resource
     private MesQcIqcLineMapper iqcLineMapper;
-    @Resource
-    private MesQcTemplateIndicatorMapper templateIndicatorMapper;
 
     @Resource
     private MesQcIndicatorService indicatorService;
+    @Resource
+    private MesQcTemplateIndicatorService templateIndicatorService;
 
     @Override
     public MesQcIqcLineDO validateIqcLineExists(Long id) {
@@ -64,7 +64,7 @@ public class MesQcIqcLineServiceImpl implements MesQcIqcLineService {
 
     @Override
     public void createLinesFromTemplate(Long iqcId, Long templateId) {
-        List<MesQcTemplateIndicatorDO> templateIndicators = templateIndicatorMapper.selectListByTemplateId(templateId);
+        List<MesQcTemplateIndicatorDO> templateIndicators = templateIndicatorService.getTemplateIndicatorListByTemplateId(templateId);
         if (CollUtil.isEmpty(templateIndicators)) {
             return;
         }
@@ -125,6 +125,11 @@ public class MesQcIqcLineServiceImpl implements MesQcIqcLineService {
     @Override
     public void deleteListByIqcId(Long iqcId) {
         iqcLineMapper.deleteByIqcId(iqcId);
+    }
+
+    @Override
+    public Long getIqcLineCountByUnitMeasureId(Long unitMeasureId) {
+        return iqcLineMapper.selectCountByUnitMeasureId(unitMeasureId);
     }
 
 }

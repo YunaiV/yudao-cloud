@@ -9,12 +9,14 @@ import cn.iocoder.yudao.module.mes.dal.dataobject.wm.sn.MesWmSnDO;
 import cn.iocoder.yudao.module.mes.dal.mysql.wm.sn.MesWmSnMapper;
 import cn.iocoder.yudao.module.mes.enums.md.autocode.MesMdAutoCodeRuleCodeEnum;
 import cn.iocoder.yudao.module.mes.service.md.autocode.MesMdAutoCodeRecordService;
+import cn.iocoder.yudao.module.mes.service.md.item.MesMdItemService;
+import cn.iocoder.yudao.module.mes.service.pro.workorder.MesProWorkOrderService;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +32,24 @@ public class MesWmSnServiceImpl implements MesWmSnService {
 
     @Resource
     private MesWmSnMapper snMapper;
+
     @Resource
     private MesMdAutoCodeRecordService autoCodeRecordService;
+    @Resource
+    private MesMdItemService itemService;
+    @Resource
+    private MesProWorkOrderService workOrderService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void generateSnCodes(MesWmSnGenerateReqVO reqVO) {
+        // 校验物料是否存在
+        itemService.validateItemExists(reqVO.getItemId());
+        // 校验工单是否存在
+        if (reqVO.getWorkOrderId() != null) {
+            workOrderService.validateWorkOrderExists(reqVO.getWorkOrderId());
+        }
+
         List<MesWmSnDO> sns = new ArrayList<>(reqVO.getCount());
         // 生成批次 UUID
         String uuid = IdUtil.fastSimpleUUID();

@@ -47,7 +47,7 @@ public class MesQcDefectRecordController {
     @DeleteMapping("/delete")
     @Operation(summary = "删除质检缺陷记录")
     @Parameter(name = "id", description = "编号", required = true)
-    @PreAuthorize("@ss.hasPermission('mes:qc-defect:update')")
+    @PreAuthorize("@ss.hasPermission('mes:qc-defect:delete')")
     public CommonResult<Boolean> deleteDefectRecord(@RequestParam("id") Long id) {
         defectRecordService.deleteDefectRecord(id);
         return success(true);

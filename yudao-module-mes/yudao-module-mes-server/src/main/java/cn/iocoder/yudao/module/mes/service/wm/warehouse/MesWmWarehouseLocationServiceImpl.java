@@ -190,7 +190,6 @@ public class MesWmWarehouseLocationServiceImpl implements MesWmWarehouseLocation
             // 2.2 自动初始化
             MesWmWarehouseLocationDO newLocation = MesWmWarehouseLocationDO.builder()
                     .warehouseId(warehouse.getId()).code(code).name("虚拟线边库区")
-                    .areaStatus(cn.iocoder.yudao.framework.common.enums.CommonStatusEnum.ENABLE.getStatus())
                     .frozen(false).remark("系统自动初始化的虚拟线边库区")
                     .build();
             locationMapper.insert(newLocation);

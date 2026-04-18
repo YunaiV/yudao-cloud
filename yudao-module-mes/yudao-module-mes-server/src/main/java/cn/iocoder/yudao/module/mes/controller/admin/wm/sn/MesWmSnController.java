@@ -13,7 +13,9 @@ import cn.iocoder.yudao.module.mes.controller.admin.wm.sn.vo.MesWmSnGroupRespVO;
 import cn.iocoder.yudao.module.mes.controller.admin.wm.sn.vo.MesWmSnPageReqVO;
 import cn.iocoder.yudao.module.mes.controller.admin.wm.sn.vo.MesWmSnRespVO;
 import cn.iocoder.yudao.module.mes.dal.dataobject.md.item.MesMdItemDO;
+import cn.iocoder.yudao.module.mes.dal.dataobject.md.unitmeasure.MesMdUnitMeasureDO;
 import cn.iocoder.yudao.module.mes.service.md.item.MesMdItemService;
+import cn.iocoder.yudao.module.mes.service.md.unitmeasure.MesMdUnitMeasureService;
 import cn.iocoder.yudao.module.mes.service.wm.sn.MesWmSnService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -44,6 +46,8 @@ public class MesWmSnController {
     private MesWmSnService snService;
     @Resource
     private MesMdItemService itemService;
+    @Resource
+    private MesMdUnitMeasureService unitMeasureService;
 
     @PostMapping("/generate")
     @Operation(summary = "生成 SN 码")
@@ -103,8 +107,12 @@ public class MesWmSnController {
             return;
         }
         Map<Long, MesMdItemDO> itemMap = itemService.getItemMap(convertSet(list, MesWmSnGroupRespVO::getItemId));
-        list.forEach(vo -> MapUtils.findAndThen(itemMap, vo.getItemId(), item ->
-                vo.setItemCode(item.getCode()).setItemName(item.getName()).setSpecification(item.getSpecification())));
+        Map<Long, MesMdUnitMeasureDO> unitMap = unitMeasureService.getUnitMeasureMap(
+                convertSet(itemMap.values(), MesMdItemDO::getUnitMeasureId));
+        list.forEach(vo -> MapUtils.findAndThen(itemMap, vo.getItemId(), item -> {
+            vo.setItemCode(item.getCode()).setItemName(item.getName()).setSpecification(item.getSpecification());
+            MapUtils.findAndThen(unitMap, item.getUnitMeasureId(), unit -> vo.setUnitName(unit.getName()));
+        }));
     }
 
     private void buildItemInfo(List<MesWmSnRespVO> list) {
@@ -112,8 +120,12 @@ public class MesWmSnController {
             return;
         }
         Map<Long, MesMdItemDO> itemMap = itemService.getItemMap(convertSet(list, MesWmSnRespVO::getItemId));
-        list.forEach(vo -> MapUtils.findAndThen(itemMap, vo.getItemId(), item ->
-                vo.setItemCode(item.getCode()).setItemName(item.getName()).setSpecification(item.getSpecification())));
+        Map<Long, MesMdUnitMeasureDO> unitMap = unitMeasureService.getUnitMeasureMap(
+                convertSet(itemMap.values(), MesMdItemDO::getUnitMeasureId));
+        list.forEach(vo -> MapUtils.findAndThen(itemMap, vo.getItemId(), item -> {
+            vo.setItemCode(item.getCode()).setItemName(item.getName()).setSpecification(item.getSpecification());
+            MapUtils.findAndThen(unitMap, item.getUnitMeasureId(), unit -> vo.setUnitName(unit.getName()));
+        }));
     }
 
 }

@@ -29,7 +29,7 @@ public class MesQcDefectRespVO {
 
     @Schema(description = "检测项类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "2")
     @ExcelProperty(value = "检测项类型", converter = DictConvert.class)
-    @DictFormat(DictTypeConstants.MES_DEFECT_TYPE)
+    @DictFormat(DictTypeConstants.MES_INDICATOR_TYPE)
     private Integer type;
 
     @Schema(description = "缺陷等级", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")

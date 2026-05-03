@@ -71,7 +71,6 @@ public interface DictTypeConstants {
     // ========== 质量管理 (QC) ==========
     String MES_INDICATOR_TYPE = "mes_indicator_type"; // MES 检测项类型
     String MES_QC_RESULT_TYPE = "mes_qc_result_type"; // MES 质检结果值类型
-    String MES_DEFECT_TYPE = "mes_defect_type"; // MES 缺陷检测项类型
     String MES_DEFECT_LEVEL = "mes_defect_level"; // MES 缺陷等级
     String MES_QC_TYPE = "mes_qc_type"; // MES 检测种类（IQC/IPQC/OQC/RQC）
     String MES_IPQC_TYPE = "mes_ipqc_type"; // MES IPQC 检验类型

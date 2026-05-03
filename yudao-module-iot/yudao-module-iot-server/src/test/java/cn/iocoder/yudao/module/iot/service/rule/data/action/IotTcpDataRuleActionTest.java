@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.iot.service.rule.data.action;
 
+import cn.hutool.core.map.MapUtil;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.module.iot.core.mq.message.IotDeviceMessage;
 import cn.iocoder.yudao.module.iot.dal.dataobject.rule.config.IotDataSinkTcpConfig;
@@ -145,7 +146,7 @@ class IotTcpDataRuleActionTest {
         IotDeviceMessage message = IotDeviceMessage.builder()
                 .deviceId(123L)
                 .method("thing.property.report")
-                .params("{\"temperature\": 25.5}")
+                .params(MapUtil.of("temperature", 25.5))
                 .build();
 
         // 调用方法

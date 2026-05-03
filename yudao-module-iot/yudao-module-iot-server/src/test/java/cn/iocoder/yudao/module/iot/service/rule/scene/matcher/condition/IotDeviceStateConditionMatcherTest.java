@@ -1,5 +1,7 @@
 package cn.iocoder.yudao.module.iot.service.rule.scene.matcher.condition;
 
+import cn.hutool.core.map.MapUtil;
+import cn.iocoder.yudao.module.iot.core.enums.IotDeviceMessageMethodEnum;
 import cn.iocoder.yudao.module.iot.core.enums.device.IotDeviceStateEnum;
 import cn.iocoder.yudao.module.iot.core.mq.message.IotDeviceMessage;
 import cn.iocoder.yudao.module.iot.dal.dataobject.rule.IotSceneRuleDO;
@@ -342,7 +344,8 @@ public class IotDeviceStateConditionMatcherTest extends IotBaseConditionMatcherT
     private IotDeviceMessage createDeviceMessage(Integer deviceState) {
         IotDeviceMessage message = new IotDeviceMessage();
         message.setDeviceId(randomLongId());
-        message.setParams(deviceState);
+        message.setMethod(IotDeviceMessageMethodEnum.STATE_UPDATE.getMethod());
+        message.setParams(MapUtil.of("state", deviceState));
         return message;
     }
 

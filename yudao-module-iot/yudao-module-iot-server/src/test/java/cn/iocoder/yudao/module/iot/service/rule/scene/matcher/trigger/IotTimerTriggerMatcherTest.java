@@ -247,7 +247,8 @@ public class IotTimerTriggerMatcherTest extends IotBaseConditionMatcherTest {
     public void testMatches_rangeCronSuccess() {
         // 准备参数
         IotDeviceMessage message = createDeviceMessage();
-        IotSceneRuleDO.Trigger trigger = createValidTrigger("0 0 9-17 * * MON-FRI"); // 工作日9-17点
+        // quartz cron 中，day-of-month 与 day-of-week 不能同时为 *，需要把其中一个改成 ?
+        IotSceneRuleDO.Trigger trigger = createValidTrigger("0 0 9-17 ? * MON-FRI"); // 工作日 9-17 点
 
         // 调用
         boolean result = matcher.matches(message, trigger);

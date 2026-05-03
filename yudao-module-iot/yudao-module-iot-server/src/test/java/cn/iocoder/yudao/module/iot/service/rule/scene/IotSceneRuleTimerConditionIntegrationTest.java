@@ -144,7 +144,8 @@ public class IotSceneRuleTimerConditionIntegrationTest extends BaseMockitoUnitTe
         IotDevicePropertyDO property = new IotDevicePropertyDO();
         property.setValue(value);
         properties.put(identifier, property);
-        when(devicePropertyService.getLatestDeviceProperties(deviceId)).thenReturn(properties);
+        // 使用 lenient：当首个条件组就匹配时，后续条件组的设备属性查询会被跳过，此 stubbing 可能未被使用
+        lenient().when(devicePropertyService.getLatestDeviceProperties(deviceId)).thenReturn(properties);
     }
 
     private void mockDeviceState(Long deviceId, Integer state) {

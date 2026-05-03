@@ -14,8 +14,10 @@ import cn.iocoder.yudao.module.iot.enums.rule.IotSceneRuleTriggerTypeEnum;
 import cn.iocoder.yudao.module.iot.service.device.IotDeviceService;
 import cn.iocoder.yudao.module.iot.service.device.property.IotDevicePropertyService;
 import cn.iocoder.yudao.module.iot.service.rule.scene.action.IotSceneRuleAction;
+import cn.iocoder.yudao.module.iot.service.rule.scene.matcher.IotSceneRuleMatcherManager;
 import cn.iocoder.yudao.module.iot.service.rule.scene.timer.IotSceneRuleTimerHandler;
 import cn.iocoder.yudao.module.iot.service.rule.scene.timer.IotTimerConditionEvaluator;
+import cn.iocoder.yudao.module.iot.service.product.IotProductService;
 import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -41,7 +43,6 @@ import static org.mockito.Mockito.*;
  *
  * @author HUIHUI
  */
-@Disabled // TODO @puhui999：单测有报错，先屏蔽
 public class IotSceneRuleTimerConditionIntegrationTest extends BaseMockitoUnitTest {
 
     @InjectMocks
@@ -61,6 +62,12 @@ public class IotSceneRuleTimerConditionIntegrationTest extends BaseMockitoUnitTe
 
     @Mock
     private IotSceneRuleTimerHandler timerHandler;
+
+    @Mock
+    private IotSceneRuleMatcherManager sceneRuleMatcherManager;
+
+    @Mock
+    private IotProductService productService;
 
     private IotTimerConditionEvaluator timerConditionEvaluator;
 

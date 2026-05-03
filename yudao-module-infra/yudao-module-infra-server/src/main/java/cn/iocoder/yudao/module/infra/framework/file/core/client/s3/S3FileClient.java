@@ -53,6 +53,7 @@ public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
         AwsCredentialsProvider credentialsProvider = StaticCredentialsProvider.create(
                 AwsBasicCredentials.create(config.getAccessKey(), config.getAccessSecret()));
         URI endpoint = URI.create(buildEndpoint());
+        URI presignerEndpoint = URI.create(buildPresignerEndpoint());
         S3Configuration serviceConfiguration = S3Configuration.builder() // Path-style 访问
                 .pathStyleAccessEnabled(Boolean.TRUE.equals(config.getEnablePathStyleAccess()))
                 .chunkedEncodingEnabled(false) // 禁用分块编码，参见 https://t.zsxq.com/kBy57
@@ -66,7 +67,7 @@ public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
         presigner = S3Presigner.builder()
                 .credentialsProvider(credentialsProvider)
                 .region(region)
-                .endpointOverride(endpoint)
+                .endpointOverride(presignerEndpoint)
                 .serviceConfiguration(serviceConfiguration)
                 .build();
     }
@@ -159,6 +160,23 @@ public class S3FileClient extends AbstractFileClient<S3FileClientConfig> {
             return config.getEndpoint();
         }
         return StrUtil.format("https://{}", config.getEndpoint());
+    }
+
+    /**
+     * presigner 节点地址
+     *
+     * @return 节点地址
+     */
+    private String buildPresignerEndpoint() {
+        // 补全 domain
+        if (StrUtil.isEmpty(config.getDomain())) {
+            config.setDomain(buildDomain());
+        }
+
+        if (Boolean.TRUE.equals(config.getEnablePathStyleAccess())) {
+            return StrUtil.removeSuffix(config.getDomain(), StrUtil.format("/{}", config.getBucket()));
+        }
+        return StrUtil.replace(config.getDomain(), StrUtil.format("://{}.", config.getBucket()), "://");
     }
 
     /**

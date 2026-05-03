@@ -38,7 +38,7 @@ public class MesQcDefectDO extends BaseDO {
     /**
      * 检测项类型
      *
-     * 字典类型 {@link cn.iocoder.yudao.module.mes.enums.DictTypeConstants#MES_DEFECT_TYPE}
+     * 字典类型 {@link cn.iocoder.yudao.module.mes.enums.DictTypeConstants#MES_INDICATOR_TYPE}
      */
     private Integer type;
     /**

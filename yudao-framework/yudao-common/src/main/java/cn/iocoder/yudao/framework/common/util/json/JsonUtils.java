@@ -173,6 +173,24 @@ public class JsonUtils {
         }
     }
 
+    /**
+     * 解析 JSON 字符串成指定类型的对象，如果解析失败，则返回 null
+     *
+     * @param text 字符串
+     * @param clazz 类型
+     * @return 指定类型的对象
+     */
+    public static <T> T parseObjectQuietly(String text, Class<T> clazz) {
+        if (StrUtil.isEmpty(text)) {
+            return null;
+        }
+        try {
+            return objectMapper.readValue(text, clazz);
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
     public static <T> List<T> parseArray(String text, Class<T> clazz) {
         if (StrUtil.isEmpty(text)) {
             return new ArrayList<>();

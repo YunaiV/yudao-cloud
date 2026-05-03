@@ -2,6 +2,7 @@ package cn.iocoder.yudao.module.bpm.framework.flowable.core.util;
 
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.iocoder.yudao.framework.common.core.KeyValue;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
@@ -247,9 +248,7 @@ public class FlowableUtils {
         Map<String, BpmFormFieldVO> formFieldsMap = new HashMap<>();
         processDefinitionInfo.getFormFields().forEach(formFieldStr -> {
             BpmFormFieldVO formField = JsonUtils.parseObject(formFieldStr, BpmFormFieldVO.class);
-            if (formField != null) {
-                formFieldsMap.put(formField.getField(), formField);
-            }
+            parseFormField(formField, formFieldsMap);
         });
 
         // 情况一：当自定义了摘要
@@ -271,6 +270,26 @@ public class FlowableUtils {
                 .map(entry -> new KeyValue<>(entry.getValue().getTitle(),
                         MapUtil.getStr(processVariables, entry.getValue().getField(), "")))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 递归解析表单字段
+     */
+    private static void parseFormField(BpmFormFieldVO formField, Map<String, BpmFormFieldVO> formFieldsMap) {
+        if (formField == null) {
+            return;
+        }
+        // 如果存在 children -> 说明是布局组件
+        if (formField.getChildren() != null && !formField.getChildren().isEmpty()) {
+            for (BpmFormFieldVO child : formField.getChildren()) {
+                parseFormField(child, formFieldsMap);
+            }
+            return;
+        }
+        // 真实字段才加入 map
+        if (StrUtil.isNotBlank(formField.getField())) {
+            formFieldsMap.put(formField.getField(), formField);
+        }
     }
 
     // ========== Task 相关的工具方法 ==========

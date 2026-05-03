@@ -30,10 +30,10 @@ public class IotDevicePropertyConditionMatcher implements IotSceneRuleConditionM
             return false;
         }
 
-        // 1.2 检查标识符是否匹配
-        String messageIdentifier = IotDeviceMessageUtils.getIdentifier(message);
-        if (!IotSceneRuleMatcherHelper.isIdentifierMatched(condition.getIdentifier(), messageIdentifier)) {
-            IotSceneRuleMatcherHelper.logConditionMatchFailure(message, condition, "标识符不匹配，期望: " + condition.getIdentifier() + ", 实际: " + messageIdentifier);
+        // 1.2 检查消息中是否包含条件指定的属性标识符
+        // 注意：属性上报可能同时上报多个属性，所以需要判断 condition.getIdentifier() 是否在 message 的 params 中
+        if (IotDeviceMessageUtils.notContainsIdentifier(message, condition.getIdentifier())) {
+            IotSceneRuleMatcherHelper.logConditionMatchFailure(message, condition, "消息中不包含属性: " + condition.getIdentifier());
             return false;
         }
 

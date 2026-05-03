@@ -9,7 +9,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.util.List;
 
-// TODO @puhui999：感觉这个，是不是放到 dal 里会好点？（讨论下，先不改哈）
 /**
  * IoT 物模型中的事件
  *

@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.framework.common.util.object.ObjectUtils;
@@ -149,33 +150,38 @@ public class IotDevicePropertyServiceImpl implements IotDevicePropertyService {
         List<IotThingModelDO> thingModels = thingModelService.getThingModelListByProductIdFromCache(device.getProductId());
         Map<String, Object> properties = new HashMap<>();
         params.forEach((key, value) -> {
-            IotThingModelDO thingModel = CollUtil.findOne(thingModels, o -> o.getIdentifier().equals(key));
+            // 忽略大小写匹配物模型，避免设备上报的 key 与 identifier 大小写不一致导致丢失
+            IotThingModelDO thingModel = CollUtil.findOne(thingModels,
+                    o -> StrUtil.equalsIgnoreCase(o.getIdentifier(), (CharSequence) key));
             if (thingModel == null || thingModel.getProperty() == null) {
                 log.error("[saveDeviceProperty][消息({}) 的属性({}) 不存在]", message, key);
                 return;
             }
+            String identifier = thingModel.getIdentifier(); // 统一以物模型 identifier 作为 key，避免大小写问题
             String dataType = thingModel.getProperty().getDataType();
             if (ObjectUtils.equalsAny(dataType,
                     IotDataSpecsDataTypeEnum.STRUCT.getDataType(), IotDataSpecsDataTypeEnum.ARRAY.getDataType())) {
                 // 特殊：STRUCT 和 ARRAY 类型，在 TDengine 里，有没对应数据类型，只能通过 JSON 来存储
-                properties.put((String) key, JsonUtils.toJsonString(value));
+                properties.put(identifier, JsonUtils.toJsonString(value));
             } else if (IotDataSpecsDataTypeEnum.INT.getDataType().equals(dataType)) {
-                properties.put((String) key, Convert.toInt(value));
+                properties.put(identifier, Convert.toInt(value));
             } else if (IotDataSpecsDataTypeEnum.FLOAT.getDataType().equals(dataType)) {
-                properties.put((String) key, Convert.toFloat(value));
+                properties.put(identifier, Convert.toFloat(value));
             } else if (IotDataSpecsDataTypeEnum.DOUBLE.getDataType().equals(dataType)) {
-                properties.put((String) key, Convert.toDouble(value));
-            }  else if (IotDataSpecsDataTypeEnum.BOOL.getDataType().equals(dataType)) {
-                properties.put((String) key, Convert.toByte(value));
-            }  else {
-                properties.put((String) key, value);
+                properties.put(identifier, Convert.toDouble(value));
+            } else if (IotDataSpecsDataTypeEnum.BOOL.getDataType().equals(dataType)) {
+                properties.put(identifier, Convert.toBool(value, false) ? (byte) 1 : (byte) 0);
+            } else {
+                properties.put(identifier, value);
             }
         });
         if (CollUtil.isEmpty(properties)) {
             log.error("[saveDeviceProperty][消息({}) 没有合法的属性]", message);
         } else {
             // 2.1 保存设备属性【数据】
-            devicePropertyMapper.insert(device, properties, LocalDateTimeUtil.toEpochMilli(message.getReportTime()));
+            devicePropertyMapper.insert(device, properties,
+                    System.currentTimeMillis(),
+                    LocalDateTimeUtil.toEpochMilli(message.getReportTime()));
 
             // 2.2 保存设备属性【日志】
             Map<String, IotDevicePropertyDO> properties2 = convertMap(properties.entrySet(), Map.Entry::getKey, entry ->

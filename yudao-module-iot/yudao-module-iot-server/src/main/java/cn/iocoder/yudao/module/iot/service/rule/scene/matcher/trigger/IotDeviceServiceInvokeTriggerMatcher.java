@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.iot.service.rule.scene.matcher.trigger;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.module.iot.core.enums.IotDeviceMessageMethodEnum;
 import cn.iocoder.yudao.module.iot.core.mq.message.IotDeviceMessage;
@@ -73,8 +74,7 @@ public class IotDeviceServiceInvokeTriggerMatcher implements IotSceneRuleTrigger
     private boolean matchParameterCondition(IotDeviceMessage message, IotSceneRuleDO.Trigger trigger) {
         // 1.1 从消息中提取服务调用的输入参数
         Map<String, Object> inputParams = IotDeviceMessageUtils.extractServiceInputParams(message);
-        // TODO @puhui999：要考虑 empty 的情况么？
-        if (inputParams == null) {
+        if (CollUtil.isEmpty(inputParams)) {
             IotSceneRuleMatcherHelper.logTriggerMatchFailure(message, trigger, "消息中缺少服务输入参数");
             return false;
         }

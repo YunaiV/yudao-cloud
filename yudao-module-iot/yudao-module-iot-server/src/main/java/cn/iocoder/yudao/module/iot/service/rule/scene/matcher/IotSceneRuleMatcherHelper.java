@@ -142,6 +142,7 @@ public final class IotSceneRuleMatcherHelper {
      * @param trigger 触发器配置
      * @return 是否有效
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isBasicTriggerValid(IotSceneRuleDO.Trigger trigger) {
         return trigger != null && trigger.getType() != null;
     }
@@ -152,6 +153,7 @@ public final class IotSceneRuleMatcherHelper {
      * @param trigger 触发器配置
      * @return 是否有效
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isTriggerOperatorAndValueValid(IotSceneRuleDO.Trigger trigger) {
         return StrUtil.isNotBlank(trigger.getOperator()) && StrUtil.isNotBlank(trigger.getValue());
     }
@@ -163,7 +165,9 @@ public final class IotSceneRuleMatcherHelper {
      * @param trigger     触发器配置
      */
     public static void logTriggerMatchSuccess(IotDeviceMessage message, IotSceneRuleDO.Trigger trigger) {
-        log.debug("[isMatched][message({}) trigger({}) 匹配触发器成功]", message.getRequestId(), trigger.getType());
+        log.debug("[isMatched][message({}) trigger({}) 匹配触发器成功]",
+                message != null ? message.getRequestId() : null,
+                trigger != null ? trigger.getType() : null);
     }
 
     /**
@@ -174,7 +178,10 @@ public final class IotSceneRuleMatcherHelper {
      * @param reason      失败原因
      */
     public static void logTriggerMatchFailure(IotDeviceMessage message, IotSceneRuleDO.Trigger trigger, String reason) {
-        log.debug("[isMatched][message({}) trigger({}) reason({}) 匹配触发器失败]", message.getRequestId(), trigger.getType(), reason);
+        log.debug("[isMatched][message({}) trigger({}) reason({}) 匹配触发器失败]",
+                message != null ? message.getRequestId() : null,
+                trigger != null ? trigger.getType() : null,
+                reason);
     }
 
     // ========== 【条件】相关工具方法 ==========
@@ -185,6 +192,7 @@ public final class IotSceneRuleMatcherHelper {
      * @param condition 触发条件
      * @return 是否有效
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isBasicConditionValid(IotSceneRuleDO.TriggerCondition condition) {
         return condition != null && condition.getType() != null;
     }
@@ -195,6 +203,7 @@ public final class IotSceneRuleMatcherHelper {
      * @param condition 触发条件
      * @return 是否有效
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isConditionOperatorAndParamValid(IotSceneRuleDO.TriggerCondition condition) {
         return StrUtil.isNotBlank(condition.getOperator()) && StrUtil.isNotBlank(condition.getParam());
     }
@@ -206,7 +215,9 @@ public final class IotSceneRuleMatcherHelper {
      * @param condition   触发条件
      */
     public static void logConditionMatchSuccess(IotDeviceMessage message, IotSceneRuleDO.TriggerCondition condition) {
-        log.debug("[isMatched][message({}) condition({}) 匹配条件成功]", message.getRequestId(), condition.getType());
+        log.debug("[isMatched][message({}) condition({}) 匹配条件成功]",
+                message != null ? message.getRequestId() : null,
+                condition != null ? condition.getType() : null);
     }
 
     /**
@@ -217,7 +228,10 @@ public final class IotSceneRuleMatcherHelper {
      * @param reason      失败原因
      */
     public static void logConditionMatchFailure(IotDeviceMessage message, IotSceneRuleDO.TriggerCondition condition, String reason) {
-        log.debug("[isMatched][message({}) condition({}) reason({}) 匹配条件失败]", message.getRequestId(), condition.getType(), reason);
+        log.debug("[isMatched][message({}) condition({}) reason({}) 匹配条件失败]",
+                message != null ? message.getRequestId() : null,
+                condition != null ? condition.getType() : null,
+                reason);
     }
 
     // ========== 【通用】工具方法 ==========
@@ -229,6 +243,7 @@ public final class IotSceneRuleMatcherHelper {
      * @param actualIdentifier   实际的标识符
      * @return 是否匹配
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isIdentifierMatched(String expectedIdentifier, String actualIdentifier) {
         return StrUtil.isNotBlank(expectedIdentifier) && expectedIdentifier.equals(actualIdentifier);
     }

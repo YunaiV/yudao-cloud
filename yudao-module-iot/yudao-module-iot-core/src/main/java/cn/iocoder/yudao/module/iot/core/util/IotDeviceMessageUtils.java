@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.iot.core.util;
 
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -82,6 +83,10 @@ public class IotDeviceMessageUtils {
         }
         if (params instanceof Map) {
             return ((Map<?, ?>) params).get(fieldName);
+        }
+        // 跳过 JDK 内置类型，避免反射读取到内部字段（例如 JDK8 下 String#value 会返回 char[]）
+        if (ClassUtil.isJdkClass(params.getClass())) {
+            return null;
         }
         try {
             return ReflectUtil.getFieldValue(params, fieldName);

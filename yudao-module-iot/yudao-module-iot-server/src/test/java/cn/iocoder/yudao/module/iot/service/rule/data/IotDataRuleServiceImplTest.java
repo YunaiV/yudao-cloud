@@ -12,11 +12,11 @@ import cn.iocoder.yudao.module.iot.service.device.IotDeviceService;
 import cn.iocoder.yudao.module.iot.service.product.IotProductService;
 import cn.iocoder.yudao.module.iot.service.rule.data.action.IotDataRuleAction;
 import cn.iocoder.yudao.module.iot.service.thingmodel.IotThingModelService;
-import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomLongId;
@@ -24,9 +24,7 @@ import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomPojo;
 import static java.util.Collections.singletonList;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * {@link IotDataRuleServiceImpl} 的单元测试类
@@ -42,15 +40,15 @@ class IotDataRuleServiceImplTest extends BaseDbUnitTest {
     @Resource
     private IotDataRuleMapper dataRuleMapper;
 
-    @MockitoBean
+    @MockBean
     private IotDataSinkService dataSinkService;
-    @MockitoBean
+    @MockBean
     private IotDataRuleAction dataRuleAction;
-    @MockitoBean
+    @MockBean
     private IotProductService productService;
-    @MockitoBean
+    @MockBean
     private IotDeviceService deviceService;
-    @MockitoBean
+    @MockBean
     private IotThingModelService thingModelService;
 
     @Test

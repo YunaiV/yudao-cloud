@@ -36,6 +36,17 @@
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-okhttp</artifactId>
         </dependency>
+        <!--
+            TODO 芋艿：WxJava 4.8.x 的 AbstractWxMpConfigStorageConfiguration 仍引用了 HttpClient 4.x 的
+            org.apache.http.ssl.TrustStrategy 类。升级 Spring Cloud Alibaba 到 2025.0.0.0 后，Nacos 不再
+            传递 HttpClient 4.x（httpcore），导致 ClassNotFoundException。
+            临时解决：显式引入 httpclient 4.x。待 WxJava 修复后移除。
+        -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.14</version>
+        </dependency>
 
         <!-- 工具相关 -->
         <dependency>

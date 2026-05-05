@@ -20,8 +20,8 @@
         <spring.framework.version>5.3.39</spring.framework.version>
         <spring.security.version>5.8.16</spring.security.version>
         <spring.boot.version>2.7.18</spring.boot.version>
-        <spring.cloud.version>2021.0.9</spring.cloud.version>
-        <spring.cloud.alibaba.version>2021.0.6.2</spring.cloud.alibaba.version>
+        <spring.cloud.version>2021.0.9</spring.cloud.version> <!-- Spring Boot 2.X 最多使用 2021.0.9 版本 -->
+        <spring.cloud.alibaba.version>2021.0.6.2</spring.cloud.alibaba.version> <!-- Spring Boot 2.X 最多使用 2021.0.6.2 版本 -->
         <!-- Web 相关 -->
         <servlet.versoin>2.5</servlet.versoin>
         <springdoc.version>1.8.0</springdoc.version>

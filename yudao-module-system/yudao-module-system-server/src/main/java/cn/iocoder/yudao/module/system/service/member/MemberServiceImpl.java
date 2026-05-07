@@ -3,7 +3,6 @@ package cn.iocoder.yudao.module.system.service.member;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,8 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberServiceImpl implements MemberService {
 
-    @Value("${yudao.info.base-package}")
-    private String basePackage;
+    private static final String MEMBER_USER_API_CLASS_NAME = "cn.iocoder.yudao.module.member.api.user.MemberUserApi";
 
     private volatile Object memberUserApi;
 
@@ -46,7 +44,7 @@ public class MemberServiceImpl implements MemberService {
 
     private Object getMemberUserApi() {
         if (memberUserApi == null) {
-            memberUserApi = SpringUtil.getBean(ClassUtil.loadClass(String.format("%s.module.member.api.user.MemberUserApi", basePackage)));
+            memberUserApi = SpringUtil.getBean(ClassUtil.loadClass(MEMBER_USER_API_CLASS_NAME));
         }
         return memberUserApi;
     }

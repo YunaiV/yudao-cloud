@@ -3,7 +3,10 @@ package cn.iocoder.yudao.module.member.service.user;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.*;
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.common.enums.UserTypeEnum;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
@@ -142,6 +145,8 @@ public class MemberUserServiceImpl implements MemberUserService {
 
     @Override
     public void updateUser(Long userId, AppMemberUserUpdateReqVO reqVO) {
+        validateUserExists(userId);
+        validateEmailUnique(userId, reqVO.getEmail());
         MemberUserDO updateObj = BeanUtils.toBean(reqVO, MemberUserDO.class).setId(userId);
         memberUserMapper.updateById(updateObj);
     }
@@ -238,6 +243,8 @@ public class MemberUserServiceImpl implements MemberUserService {
         validateUserExists(updateReqVO.getId());
         // 校验手机唯一
         validateMobileUnique(updateReqVO.getId(), updateReqVO.getMobile());
+        // 校验邮箱唯一
+        validateEmailUnique(updateReqVO.getId(), updateReqVO.getEmail());
 
         // 更新
         MemberUserDO updateObj = MemberUserConvert.INSTANCE.convert(updateReqVO);
@@ -273,6 +280,25 @@ public class MemberUserServiceImpl implements MemberUserService {
             throw exception(USER_MOBILE_USED, mobile);
         }
     }
+
+    @VisibleForTesting
+    void validateEmailUnique(Long id, String email) {
+        if (StrUtil.isBlank(email)) {
+            return;
+        }
+        MemberUserDO user = memberUserMapper.selectByEmail(email);
+        if (user == null) {
+            return;
+        }
+        // 如果 id 为空，说明不用比较是否为相同 id 的用户
+        if (id == null) {
+            throw exception(USER_EMAIL_USED, email);
+        }
+        if (!user.getId().equals(id)) {
+            throw exception(USER_EMAIL_USED, email);
+        }
+    }
+
 
     @Override
     public PageResult<MemberUserDO> getUserPage(MemberUserPageReqVO pageReqVO) {

@@ -217,7 +217,7 @@ public class MesQcIndicatorResultServiceImpl implements MesQcIndicatorResultServ
             if (Objects.equals(resultType, MesQcResultValueTypeEnum.DICT.getType())) {
                 String dictType = indicator.getResultSpecification();
                 if (StrUtil.isNotBlank(dictType)) {
-                    dictDataApi.validateDictDataList(dictType, Collections.singleton(item.getValue()));
+                    dictDataApi.validateDictDataList(dictType, Collections.singleton(item.getValue())).checkError();
                 }
             }
             if (Objects.equals(resultType, MesQcResultValueTypeEnum.FILE.getType())

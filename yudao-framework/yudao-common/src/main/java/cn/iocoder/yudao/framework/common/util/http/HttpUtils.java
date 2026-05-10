@@ -60,12 +60,10 @@ public class HttpUtils {
         return URLDecoder.decode(encoded, StandardCharsets.UTF_8);
     }
 
-    @SuppressWarnings("unchecked")
     public static String replaceUrlQuery(String url, String key, String value) {
         UrlBuilder builder = UrlBuilder.of(url, Charset.defaultCharset());
-        // 先移除
+        // 先移除；再添加
         builder.getQuery().remove(key);
-        // 后添加
         builder.addQuery(key, value);
         return builder.build();
     }

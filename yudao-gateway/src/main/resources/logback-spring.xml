@@ -35,11 +35,12 @@
     </appender>
 
     <!-- SkyWalking Appender：GRPC 日志收集，实现日志中心 -->
+    <!-- [TID:%X{tid}] 手动存储MDC使用，[[%tid]] 普通请求自动填充-->
     <!--
     <appender name="SKYWALKING" class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.log.GRPCLogClientAppender">
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
-                <pattern>[%tid] ${FILE_LOG_PATTERN}</pattern>
+                <pattern>[TID:%X{tid}] ${FILE_LOG_PATTERN}</pattern>
             </layout>
         </encoder>
     </appender>

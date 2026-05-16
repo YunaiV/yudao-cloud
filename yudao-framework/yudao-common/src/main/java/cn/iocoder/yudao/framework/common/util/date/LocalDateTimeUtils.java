@@ -310,7 +310,11 @@ public class LocalDateTimeUtils {
      * @return 日期列表，包含开始日期
      */
     public static List<LocalDate> getDateList(LocalDate startDate, int days) {
-        return startDate.datesUntil(startDate.plusDays(days)).toList();
+        List<LocalDate> dateList = new ArrayList<>(days);
+        for (int i = 0; i < days; i++) {
+            dateList.add(startDate.plusDays(i));
+        }
+        return dateList;
     }
 
     /**

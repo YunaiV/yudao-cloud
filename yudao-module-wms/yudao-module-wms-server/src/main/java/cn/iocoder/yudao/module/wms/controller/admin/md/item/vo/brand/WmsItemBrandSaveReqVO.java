@@ -1,9 +1,10 @@
 package cn.iocoder.yudao.module.wms.controller.admin.md.item.vo.brand;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Schema(description = "管理后台 - WMS 商品品牌新增/修改 Request VO")
 @Data

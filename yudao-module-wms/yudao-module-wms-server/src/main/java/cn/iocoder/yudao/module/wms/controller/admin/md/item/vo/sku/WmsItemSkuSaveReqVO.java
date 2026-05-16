@@ -1,11 +1,11 @@
 package cn.iocoder.yudao.module.wms.controller.admin.md.item.vo.sku;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @Schema(description = "管理后台 - WMS 商品 SKU 创建/更新 Request VO")

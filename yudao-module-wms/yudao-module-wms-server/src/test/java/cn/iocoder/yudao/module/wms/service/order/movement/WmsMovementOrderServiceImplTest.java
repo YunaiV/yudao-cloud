@@ -7,18 +7,18 @@ import cn.iocoder.yudao.module.wms.dal.dataobject.order.movement.WmsMovementOrde
 import cn.iocoder.yudao.module.wms.dal.dataobject.order.movement.WmsMovementOrderDetailDO;
 import cn.iocoder.yudao.module.wms.dal.mysql.order.movement.WmsMovementOrderDetailMapper;
 import cn.iocoder.yudao.module.wms.dal.mysql.order.movement.WmsMovementOrderMapper;
-import cn.iocoder.yudao.module.wms.enums.order.WmsOrderTypeEnum;
 import cn.iocoder.yudao.module.wms.enums.order.WmsOrderStatusEnum;
+import cn.iocoder.yudao.module.wms.enums.order.WmsOrderTypeEnum;
 import cn.iocoder.yudao.module.wms.service.inventory.WmsInventoryService;
 import cn.iocoder.yudao.module.wms.service.inventory.dto.WmsInventoryChangeReqDTO;
 import cn.iocoder.yudao.module.wms.service.md.item.WmsItemSkuService;
 import cn.iocoder.yudao.module.wms.service.md.warehouse.WmsWarehouseService;
-import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -47,11 +47,11 @@ public class WmsMovementOrderServiceImplTest extends BaseDbUnitTest {
     @Resource
     private WmsMovementOrderDetailMapper movementOrderDetailMapper;
 
-    @MockitoBean
+    @MockBean
     private WmsWarehouseService warehouseService;
-    @MockitoBean
+    @MockBean
     private WmsItemSkuService itemSkuService;
-    @MockitoBean
+    @MockBean
     private WmsInventoryService inventoryService;
 
     @Test

@@ -15,12 +15,12 @@ import cn.iocoder.yudao.module.wms.service.order.check.WmsCheckOrderDetailServic
 import cn.iocoder.yudao.module.wms.service.order.movement.WmsMovementOrderDetailService;
 import cn.iocoder.yudao.module.wms.service.order.receipt.WmsReceiptOrderDetailService;
 import cn.iocoder.yudao.module.wms.service.order.shipment.WmsShipmentOrderDetailService;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;

@@ -14,11 +14,11 @@ import cn.iocoder.yudao.module.wms.enums.md.WmsMerchantTypeEnum;
 import cn.iocoder.yudao.module.wms.enums.order.WmsOrderTypeEnum;
 import cn.iocoder.yudao.module.wms.service.order.receipt.WmsReceiptOrderService;
 import cn.iocoder.yudao.module.wms.service.order.shipment.WmsShipmentOrderService;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 

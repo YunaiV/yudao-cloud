@@ -6,11 +6,11 @@ import cn.iocoder.yudao.module.wms.controller.admin.order.movement.vo.order.WmsM
 import cn.iocoder.yudao.module.wms.dal.dataobject.order.movement.WmsMovementOrderDetailDO;
 import cn.iocoder.yudao.module.wms.dal.mysql.order.movement.WmsMovementOrderDetailMapper;
 import cn.iocoder.yudao.module.wms.service.md.item.WmsItemSkuService;
-import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -31,7 +31,7 @@ public class WmsMovementOrderDetailServiceImplTest extends BaseDbUnitTest {
     @Resource
     private WmsMovementOrderDetailMapper movementOrderDetailMapper;
 
-    @MockitoBean
+    @MockBean
     private WmsItemSkuService itemSkuService;
 
     @Test

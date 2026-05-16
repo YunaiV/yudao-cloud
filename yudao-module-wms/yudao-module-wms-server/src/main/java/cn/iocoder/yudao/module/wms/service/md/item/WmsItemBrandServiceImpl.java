@@ -8,10 +8,10 @@ import cn.iocoder.yudao.module.wms.controller.admin.md.item.vo.brand.WmsItemBran
 import cn.iocoder.yudao.module.wms.controller.admin.md.item.vo.brand.WmsItemBrandSaveReqVO;
 import cn.iocoder.yudao.module.wms.dal.dataobject.md.item.WmsItemBrandDO;
 import cn.iocoder.yudao.module.wms.dal.mysql.md.item.WmsItemBrandMapper;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

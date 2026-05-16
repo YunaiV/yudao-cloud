@@ -9,10 +9,11 @@ import cn.iocoder.yudao.module.wms.service.order.check.WmsCheckOrderService;
 import cn.iocoder.yudao.module.wms.service.order.movement.WmsMovementOrderService;
 import cn.iocoder.yudao.module.wms.service.order.receipt.WmsReceiptOrderService;
 import cn.iocoder.yudao.module.wms.service.order.shipment.WmsShipmentOrderService;
-import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+
+import javax.annotation.Resource;
 
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
 import static cn.iocoder.yudao.module.wms.enums.ErrorCodeConstants.WAREHOUSE_CODE_DUPLICATE;
@@ -29,15 +30,15 @@ public class WmsWarehouseServiceImplTest extends BaseDbUnitTest {
     @Resource
     private WmsWarehouseMapper warehouseMapper;
 
-    @MockitoBean
+    @MockBean
     private WmsInventoryService inventoryService;
-    @MockitoBean
+    @MockBean
     private WmsReceiptOrderService receiptOrderService;
-    @MockitoBean
+    @MockBean
     private WmsShipmentOrderService shipmentOrderService;
-    @MockitoBean
+    @MockBean
     private WmsMovementOrderService movementOrderService;
-    @MockitoBean
+    @MockBean
     private WmsCheckOrderService checkOrderService;
 
     @Test

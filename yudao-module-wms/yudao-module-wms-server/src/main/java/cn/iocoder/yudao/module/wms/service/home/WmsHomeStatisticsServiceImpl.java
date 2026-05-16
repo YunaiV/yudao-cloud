@@ -11,9 +11,9 @@ import cn.iocoder.yudao.module.wms.dal.mysql.home.WmsHomeStatisticsMapper;
 import cn.iocoder.yudao.module.wms.enums.order.WmsOrderStatusEnum;
 import cn.iocoder.yudao.module.wms.enums.order.WmsOrderTypeEnum;
 import cn.iocoder.yudao.module.wms.service.md.warehouse.WmsWarehouseService;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertList;
@@ -74,7 +75,7 @@ public class WmsHomeStatisticsServiceImpl implements WmsHomeStatisticsService {
             dateMap.computeIfAbsent(date, key -> new HashMap<>()).put(orderType, count);
         }
         // 构造结果，保证每天都有数据
-        return convertList(IntStream.range(0, days).mapToObj(startDate::plusDays).toList(), d -> {
+        return convertList(IntStream.range(0, days).mapToObj(startDate::plusDays).collect(Collectors.toList()), d -> {
             String dateStr = DatePattern.NORM_DATE_FORMATTER.format(d);
             Map<Integer, Long> row = dateMap.getOrDefault(dateStr, Collections.emptyMap());
             return new WmsHomeOrderTrendRespVO().setTime(d.atStartOfDay())

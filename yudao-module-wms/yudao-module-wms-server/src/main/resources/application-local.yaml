@@ -7,12 +7,12 @@ spring:
       username: # Nacos 账号
       password: # Nacos 密码
       discovery: # 【配置中心】配置项
-        nawmspace: dev # 命名空间。这里使用 dev 开发环境
+        namespace: dev # 命名空间。这里使用 dev 开发环境
         group: DEFAULT_GROUP # 使用的 Nacos 配置分组，默认为 DEFAULT_GROUP
         metadata:
           version: 1.0.0 # 服务实例的版本号，可用于灰度发布
       config: # 【注册中心】配置项
-        nawmspace: dev # 命名空间。这里使用 dev 开发环境
+        namespace: dev # 命名空间。这里使用 dev 开发环境
         group: DEFAULT_GROUP # 使用的 Nacos 配置分组，默认为 DEFAULT_GROUP
 
 --- #################### 数据库相关配置 ####################

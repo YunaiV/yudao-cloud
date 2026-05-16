@@ -273,6 +273,14 @@
 
 ![功能图](/.image/common/erp-feature.png)
 
+### WMS 系统
+
+演示地址：<https://cloud.iocoder.cn/wms-preview/>
+
+![功能图](/.image/common/wms-feature.png)
+
+![功能图](/.image/common/wms-preview.png)
+
 ### CRM 系统
 
 演示地址：<https://cloud.iocoder.cn/crm-preview/>
@@ -286,14 +294,6 @@
 ![功能图](/.image/common/mes-feature.png)
 
 ![功能图](/.image/common/mes-preview.png)
-
-### WMS 系统
-
-演示地址：<https://cloud.iocoder.cn/wms-preview/>
-
-![功能图](/.image/common/wms-feature.png)
-
-![功能图](/.image/common/wms-preview.png)
 
 ### AI 大模型
 

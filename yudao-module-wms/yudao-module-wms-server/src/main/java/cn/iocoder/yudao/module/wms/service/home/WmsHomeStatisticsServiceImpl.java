@@ -22,11 +22,11 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertList;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.getSumValue;
 import static cn.iocoder.yudao.framework.common.util.collection.MapUtils.getBigDecimal;
+import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.getDateList;
 
 /**
  * WMS 首页统计 Service 实现类
@@ -74,7 +74,7 @@ public class WmsHomeStatisticsServiceImpl implements WmsHomeStatisticsService {
             dateMap.computeIfAbsent(date, key -> new HashMap<>()).put(orderType, count);
         }
         // 构造结果，保证每天都有数据
-        return convertList(IntStream.range(0, days).mapToObj(startDate::plusDays).toList(), d -> {
+        return convertList(getDateList(startDate, days), d -> {
             String dateStr = DatePattern.NORM_DATE_FORMATTER.format(d);
             Map<Integer, Long> row = dateMap.getOrDefault(dateStr, Collections.emptyMap());
             return new WmsHomeOrderTrendRespVO().setTime(d.atStartOfDay())

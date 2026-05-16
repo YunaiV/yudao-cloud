@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.List;
@@ -292,7 +291,7 @@ public class WmsInventoryServiceImpl implements WmsInventoryService {
         WmsItemSkuDO skuDO = itemSkuService.validateItemSkuExists(item.getSkuId());
         WmsItemDO itemDO = itemService.validateItemExists(skuDO.getItemId());
         return exception(INVENTORY_QUANTITY_NOT_ENOUGH, itemDO.getName(), skuDO.getName(),
-                item.getWarehouseId(), beforeQuantity.setScale(6, RoundingMode.HALF_UP), item.getQuantity());
+                item.getWarehouseId(), beforeQuantity, item.getQuantity());
     }
 
 }

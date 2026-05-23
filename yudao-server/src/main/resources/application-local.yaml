@@ -216,6 +216,8 @@ yudao:
   wxa-subscribe-message:
     miniprogram-state: developer # 跳转小程序类型：开发版为 “developer”；体验版为 “trial”为；正式版为 “formal”
   tencent-lbs-key: TVDBZ-TDILD-4ON4B-PFDZA-RNLKH-VVF6E # QQ 地图的密钥 https://lbs.qq.com/service/staticV2/staticGuide/staticDoc
+  codegen:
+    import-enable: true # 这里的 true/false 必须明确写出来，不能留空
 
 justauth:
   enabled: true

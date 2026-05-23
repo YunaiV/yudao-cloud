@@ -25,6 +25,13 @@ public class QueryWrapperX<T> extends QueryWrapper<T> {
         return this;
     }
 
+    public QueryWrapperX<T> likeRightIfPresent(String column, String val) {
+        if (StringUtils.hasText(val)) {
+            return (QueryWrapperX<T>) super.likeRight(column, val);
+        }
+        return this;
+    }
+
     public QueryWrapperX<T> inIfPresent(String column, Collection<?> values) {
         if (!CollectionUtils.isEmpty(values)) {
             return (QueryWrapperX<T>) super.in(column, values);

@@ -1,10 +1,11 @@
 package cn.iocoder.yudao.module.member.controller.app.user.vo;
 
-import cn.iocoder.yudao.framework.common.validation.InEnum;
-import cn.iocoder.yudao.module.system.enums.common.SexEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 
 @Schema(description = "用户 App - 会员用户更新 Request VO")
 @Data
@@ -16,6 +17,11 @@ public class AppMemberUserUpdateReqVO {
     @Schema(description = "头像", requiredMode = Schema.RequiredMode.REQUIRED, example = "https://www.iocoder.cn/x.png")
     @URL(message = "头像必须是 URL 格式")
     private String avatar;
+
+    @Schema(description = "邮箱", example = "member@iocoder.cn")
+    @Email(message = "邮箱格式不正确")
+    @Size(max = 50, message = "邮箱长度不能超过 50 个字符")
+    private String email;
 
     @Schema(description = "性别", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Integer sex;

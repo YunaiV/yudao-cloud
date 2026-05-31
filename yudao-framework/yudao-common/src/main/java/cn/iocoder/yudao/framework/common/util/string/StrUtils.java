@@ -3,6 +3,7 @@ package cn.iocoder.yudao.framework.common.util.string;
 import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.pinyin.PinyinUtil;
 import org.aspectj.lang.JoinPoint;
 
 import java.util.Arrays;
@@ -76,6 +77,16 @@ public class StrUtils {
         return Arrays.stream(content.split("\n"))
                 .filter(line -> !line.contains(sequence))
                 .collect(Collectors.joining("\n"));
+    }
+
+    /**
+     * 转小写拼音，字之间以空格分隔，便于调用方按需拼接 / 取首字母 / 拼音搜索
+     */
+    public static String toPinyin(String str) {
+        if (StrUtil.isBlank(str)) {
+            return null;
+        }
+        return PinyinUtil.getPinyin(str);
     }
 
     /**

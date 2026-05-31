@@ -238,7 +238,7 @@ public class CombinationRecordServiceImpl implements CombinationRecordService {
                 .setTemplateTitle(COMBINATION_SUCCESS)
                 .setPage("pages/order/detail?id=" + record.getOrderId()) // 订单详情页
                 .addMessage("thing1", "商品拼团活动") // 活动标题
-                .addMessage("thing2", "恭喜您拼团成功！我们将尽快为您发货。")); // 温馨提示
+                .addMessage("thing2", "恭喜您拼团成功！我们将尽快为您发货。")).checkError(); // 温馨提示
     }
 
     @Override
@@ -345,7 +345,7 @@ public class CombinationRecordServiceImpl implements CombinationRecordService {
                 CombinationRecordStatusEnum.FAILED);
         // 2. 订单取消
         headAndRecords.forEach(item -> tradeOrderApi.cancelPaidOrder(item.getUserId(), item.getOrderId(),
-                TradeOrderCancelTypeEnum.COMBINATION_CLOSE.getType()));
+                TradeOrderCancelTypeEnum.COMBINATION_CLOSE.getType()).checkError());
     }
 
     /**

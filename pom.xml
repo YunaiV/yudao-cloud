@@ -27,6 +27,7 @@
         <module>yudao-module-iot</module>
         <module>yudao-module-mes</module>
         <module>yudao-module-wms</module>
+        <module>yudao-module-im</module>
         <!-- 友情提示：基于 Spring AI 实现 LLM 大模型的接入，需要使用 JDK17 版本，详细可见 https://doc.iocoder.cn/ai/build/ -->
 <!--        <module>yudao-module-ai</module>-->
     </modules>
@@ -45,7 +46,7 @@
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <flatten-maven-plugin.version>1.7.2</flatten-maven-plugin.version>
         <!-- maven-surefire-plugin 暂时无法通过 bom 的依赖读取（兼容老版本 IDEA 2024 及以前版本） -->
-        <lombok.version>1.18.42</lombok.version>
+        <lombok.version>1.18.46</lombok.version>
         <spring.boot.version>2.7.18</spring.boot.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

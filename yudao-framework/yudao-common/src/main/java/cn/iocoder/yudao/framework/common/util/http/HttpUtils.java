@@ -204,4 +204,11 @@ public class HttpUtils {
         }
     }
 
+    /**
+     * WebSocket URL 切换成 HTTP URL：ws:// → http://；wss:// → https://；其它格式原样保留
+     */
+    public static String wsUrlToHttp(String url) {
+        return StrUtil.startWithIgnoreCase(url, "ws") ? "http" + url.substring(2) : url;
+    }
+
 }

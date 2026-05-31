@@ -170,6 +170,14 @@ public interface BaseMapperX<T> extends MPJBaseMapper<T> {
         return CollUtil.getFirst(list);
     }
 
+    /**
+     * 获取满足条件的最新一条记录
+     * <p>
+     * 目的：解决并发场景下，插入多条记录后，使用 selectOne 会报错的问题
+     */
+    default T selectLastOne(LambdaQueryWrapper<T> queryWrapper) {
+        return CollUtil.getLast(selectList(queryWrapper));
+    }
 
     default Long selectCount() {
         return selectCount(new QueryWrapper<>());

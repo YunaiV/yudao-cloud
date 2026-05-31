@@ -8,7 +8,7 @@ import cn.iocoder.yudao.module.im.controller.admin.manager.channel.vo.material.I
 import cn.iocoder.yudao.module.im.dal.dataobject.channel.ImChannelMaterialDO;
 import cn.iocoder.yudao.module.im.dal.mysql.channel.ImChannelMaterialMapper;
 import cn.iocoder.yudao.module.im.dal.mysql.message.ImChannelMessageMapper;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 

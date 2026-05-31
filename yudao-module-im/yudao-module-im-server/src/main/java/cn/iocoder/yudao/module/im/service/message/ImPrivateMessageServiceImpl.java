@@ -23,7 +23,7 @@ import cn.iocoder.yudao.module.im.service.websocket.dto.ImPrivateMessageDTO;
 import cn.iocoder.yudao.module.im.service.websocket.dto.message.QuoteMessage;
 import cn.iocoder.yudao.module.im.service.websocket.dto.message.RecallMessage;
 import cn.iocoder.yudao.module.im.util.ImMessageUtils;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

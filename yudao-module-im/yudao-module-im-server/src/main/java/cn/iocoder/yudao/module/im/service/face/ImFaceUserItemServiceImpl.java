@@ -8,7 +8,7 @@ import cn.iocoder.yudao.module.im.controller.admin.manager.face.vo.useritem.ImFa
 import cn.iocoder.yudao.module.im.dal.dataobject.face.ImFaceUserItemDO;
 import cn.iocoder.yudao.module.im.dal.mysql.face.ImFaceUserItemMapper;
 import cn.iocoder.yudao.module.im.framework.config.ImProperties;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;

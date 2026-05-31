@@ -3,7 +3,7 @@ package cn.iocoder.yudao.module.im.dal.mysql.friend;
 import cn.iocoder.yudao.framework.test.core.ut.BaseDbUnitTest;
 import cn.iocoder.yudao.module.im.dal.dataobject.friend.ImFriendRequestDO;
 import cn.iocoder.yudao.module.im.enums.friend.ImFriendRequestHandleResultEnum;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

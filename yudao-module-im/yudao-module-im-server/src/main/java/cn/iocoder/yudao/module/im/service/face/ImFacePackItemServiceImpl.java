@@ -8,7 +8,7 @@ import cn.iocoder.yudao.module.im.controller.admin.manager.face.vo.item.ImFacePa
 import cn.iocoder.yudao.module.im.controller.admin.manager.face.vo.item.ImFacePackItemSaveReqVO;
 import cn.iocoder.yudao.module.im.dal.dataobject.face.ImFacePackItemDO;
 import cn.iocoder.yudao.module.im.dal.mysql.face.ImFacePackItemMapper;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 

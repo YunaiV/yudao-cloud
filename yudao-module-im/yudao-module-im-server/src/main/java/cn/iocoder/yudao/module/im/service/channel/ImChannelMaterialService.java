@@ -4,7 +4,7 @@ import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.module.im.controller.admin.manager.channel.vo.material.ImChannelMaterialPageReqVO;
 import cn.iocoder.yudao.module.im.controller.admin.manager.channel.vo.material.ImChannelMaterialSaveReqVO;
 import cn.iocoder.yudao.module.im.dal.dataobject.channel.ImChannelMaterialDO;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 
 import java.util.Collection;
 import java.util.List;

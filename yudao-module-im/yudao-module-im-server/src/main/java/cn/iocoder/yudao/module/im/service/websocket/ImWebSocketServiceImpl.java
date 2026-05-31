@@ -6,7 +6,7 @@ import cn.iocoder.yudao.module.im.service.websocket.dto.ImChannelMessageDTO;
 import cn.iocoder.yudao.module.im.service.websocket.dto.ImGroupMessageDTO;
 import cn.iocoder.yudao.module.im.service.websocket.dto.ImPrivateMessageDTO;
 import cn.iocoder.yudao.module.infra.api.websocket.WebSocketSenderApi;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;

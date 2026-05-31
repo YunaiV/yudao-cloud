@@ -42,8 +42,8 @@
         </dependency>
 
         <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope> <!-- 设置为 provided，只有 ExcelUtils 使用 -->
         </dependency>
 

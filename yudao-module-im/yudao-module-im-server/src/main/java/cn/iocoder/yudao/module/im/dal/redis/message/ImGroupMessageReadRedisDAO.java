@@ -1,7 +1,7 @@
 package cn.iocoder.yudao.module.im.dal.redis.message;
 
 import cn.hutool.core.convert.Convert;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 

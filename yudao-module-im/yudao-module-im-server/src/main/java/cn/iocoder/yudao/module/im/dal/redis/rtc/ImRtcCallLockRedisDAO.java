@@ -1,7 +1,7 @@
 package cn.iocoder.yudao.module.im.dal.redis.rtc;
 
 import cn.iocoder.yudao.module.im.enums.ImConversationTypeEnum;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;

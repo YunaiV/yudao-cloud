@@ -8,7 +8,7 @@ import cn.iocoder.yudao.module.im.service.websocket.ImWebSocketService;
 import cn.iocoder.yudao.module.im.service.websocket.dto.ImPrivateMessageDTO;
 import cn.iocoder.yudao.module.im.service.websocket.dto.notification.friend.FriendInfoUpdatedNotification;
 import cn.iocoder.yudao.module.system.api.message.user.AdminUserProfileUpdateMessage;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;

@@ -206,6 +206,13 @@ spring:
             - Path=/admin-api/wms/**
           filters:
             - RewritePath=/admin-api/wms/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
+        ## im-server 服务
+        - id: im-admin-api # 路由的编号
+          uri: grayLb://im-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/admin-api/im/**
+          filters:
+            - RewritePath=/admin-api/im/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
       x-forwarded:
         prefix-enabled: false # 避免 Swagger 重复带上额外的 /admin-api/system 前缀
       default-filters: # 全局过滤器，对应 GatewayFilterDefinition 数组
@@ -271,6 +278,9 @@ knife4j:
       - name: wms-server
         service-name: wms-server
         url: /admin-api/wms/v3/api-docs
+      - name: im-server
+        service-name: im-server
+        url: /admin-api/im/v3/api-docs
 
 --- #################### 芋道相关配置 ####################
 

@@ -123,7 +123,7 @@ public class CombinationRecordServiceImpl implements CombinationRecordService {
             throw exception(COMBINATION_JOIN_ACTIVITY_PRODUCT_NOT_EXISTS);
         }
         // 4.2 校验 sku 是否存在
-        ProductSkuRespDTO sku = productSkuApi.getSku(skuId);
+        ProductSkuRespDTO sku = productSkuApi.getSku(skuId).getCheckedData();
         if (sku == null) {
             throw exception(COMBINATION_JOIN_ACTIVITY_PRODUCT_NOT_EXISTS);
         }
@@ -170,9 +170,9 @@ public class CombinationRecordServiceImpl implements CombinationRecordService {
                 reqDTO.getActivityId(), reqDTO.getHeadId(), reqDTO.getSkuId(), reqDTO.getCount());
 
         // 2. 组合数据创建拼团记录
-        MemberUserRespDTO user = memberUserApi.getUser(reqDTO.getUserId());
-        ProductSpuRespDTO spu = productSpuApi.getSpu(reqDTO.getSpuId());
-        ProductSkuRespDTO sku = productSkuApi.getSku(reqDTO.getSkuId());
+        MemberUserRespDTO user = memberUserApi.getUser(reqDTO.getUserId()).getCheckedData();
+        ProductSpuRespDTO spu = productSpuApi.getSpu(reqDTO.getSpuId()).getCheckedData();
+        ProductSkuRespDTO sku = productSkuApi.getSku(reqDTO.getSkuId()).getCheckedData();
         CombinationRecordDO record = CombinationActivityConvert.INSTANCE.convert(reqDTO, keyValue.getKey(), user, spu, sku);
         // 2.1. 如果是团长需要设置 headId 为 CombinationRecordDO#HEAD_ID_GROUP
         if (!isJoinCombination(record.getHeadId())) {
@@ -238,7 +238,7 @@ public class CombinationRecordServiceImpl implements CombinationRecordService {
                 .setTemplateTitle(COMBINATION_SUCCESS)
                 .setPage("pages/order/detail?id=" + record.getOrderId()) // 订单详情页
                 .addMessage("thing1", "商品拼团活动") // 活动标题
-                .addMessage("thing2", "恭喜您拼团成功！我们将尽快为您发货。")); // 温馨提示
+                .addMessage("thing2", "恭喜您拼团成功！我们将尽快为您发货。")).checkError(); // 温馨提示
     }
 
     @Override
@@ -345,7 +345,7 @@ public class CombinationRecordServiceImpl implements CombinationRecordService {
                 CombinationRecordStatusEnum.FAILED);
         // 2. 订单取消
         headAndRecords.forEach(item -> tradeOrderApi.cancelPaidOrder(item.getUserId(), item.getOrderId(),
-                TradeOrderCancelTypeEnum.COMBINATION_CLOSE.getType()));
+                TradeOrderCancelTypeEnum.COMBINATION_CLOSE.getType()).checkError());
     }
 
     /**

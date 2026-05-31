@@ -103,15 +103,15 @@ public class IotAlertTriggerSceneRuleAction implements IotSceneRuleAction {
             switch (typeEnum) {
                 case SMS:
                     smsSendApi.sendSingleSmsToAdmin(new SmsSendSingleToUserReqDTO().setUserId(userId)
-                            .setTemplateCode(templateCode).setTemplateParams(templateParams));
+                            .setTemplateCode(templateCode).setTemplateParams(templateParams)).checkError();
                     break;
                 case MAIL:
                     mailSendApi.sendSingleMailToAdmin(new MailSendSingleToUserReqDTO().setUserId(userId)
-                            .setTemplateCode(templateCode).setTemplateParams(templateParams));
+                            .setTemplateCode(templateCode).setTemplateParams(templateParams)).checkError();
                     break;
                 case NOTIFY:
                     notifyMessageSendApi.sendSingleMessageToAdmin(new NotifySendSingleToUserReqDTO().setUserId(userId)
-                            .setTemplateCode(templateCode).setTemplateParams(templateParams));
+                            .setTemplateCode(templateCode).setTemplateParams(templateParams)).checkError();
                     break;
             }
         } catch (Exception ex) {

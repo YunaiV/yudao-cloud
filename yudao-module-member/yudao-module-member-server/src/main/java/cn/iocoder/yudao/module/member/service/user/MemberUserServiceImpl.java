@@ -164,11 +164,11 @@ public class MemberUserServiceImpl implements MemberUserService {
         // 补充说明：从安全性来说，老手机也校验 oldCode 验证码会更安全。但是由于 uni-app 商城界面暂时没做，所以这里不强制校验
         if (StrUtil.isNotEmpty(reqVO.getOldCode())) {
             smsCodeApi.useSmsCode(new SmsCodeUseReqDTO().setMobile(user.getMobile()).setCode(reqVO.getOldCode())
-                    .setScene(SmsSceneEnum.MEMBER_UPDATE_MOBILE.getScene()).setUsedIp(getClientIP()));
+                    .setScene(SmsSceneEnum.MEMBER_UPDATE_MOBILE.getScene()).setUsedIp(getClientIP())).checkError();
         }
         // 2.2 使用新验证码
         smsCodeApi.useSmsCode(new SmsCodeUseReqDTO().setMobile(reqVO.getMobile()).setCode(reqVO.getCode())
-                .setScene(SmsSceneEnum.MEMBER_UPDATE_MOBILE.getScene()).setUsedIp(getClientIP()));
+                .setScene(SmsSceneEnum.MEMBER_UPDATE_MOBILE.getScene()).setUsedIp(getClientIP())).checkError();
 
         // 3. 更新用户手机
         memberUserMapper.updateById(MemberUserDO.builder().id(userId).mobile(reqVO.getMobile()).build());
@@ -178,7 +178,7 @@ public class MemberUserServiceImpl implements MemberUserService {
     public void updateUserMobileByWeixin(Long userId, AppMemberUserUpdateMobileByWeixinReqVO reqVO) {
         // 1.1 获得对应的手机号信息
         SocialWxPhoneNumberInfoRespDTO phoneNumberInfo = socialClientApi.getWxMaPhoneNumberInfo(
-                UserTypeEnum.MEMBER.getValue(), reqVO.getCode());
+                UserTypeEnum.MEMBER.getValue(), reqVO.getCode()).getCheckedData();
         Assert.notNull(phoneNumberInfo, "获得手机信息失败，结果为空");
         // 1.2 校验新手机是否已经被绑定
         validateMobileUnique(userId, phoneNumberInfo.getPhoneNumber());
@@ -193,7 +193,7 @@ public class MemberUserServiceImpl implements MemberUserService {
         MemberUserDO user = validateUserExists(userId);
         // 校验验证码
         smsCodeApi.useSmsCode(new SmsCodeUseReqDTO().setMobile(user.getMobile()).setCode(reqVO.getCode())
-                .setScene(SmsSceneEnum.MEMBER_UPDATE_PASSWORD.getScene()).setUsedIp(getClientIP()));
+                .setScene(SmsSceneEnum.MEMBER_UPDATE_PASSWORD.getScene()).setUsedIp(getClientIP())).checkError();
 
         // 更新用户密码
         memberUserMapper.updateById(MemberUserDO.builder().id(userId)
@@ -207,7 +207,7 @@ public class MemberUserServiceImpl implements MemberUserService {
 
         // 使用验证码
         smsCodeApi.useSmsCode(AuthConvert.INSTANCE.convert(reqVO, SmsSceneEnum.MEMBER_RESET_PASSWORD,
-                getClientIP()));
+                getClientIP())).checkError();
 
         // 更新密码
         memberUserMapper.updateById(MemberUserDO.builder().id(user.getId())

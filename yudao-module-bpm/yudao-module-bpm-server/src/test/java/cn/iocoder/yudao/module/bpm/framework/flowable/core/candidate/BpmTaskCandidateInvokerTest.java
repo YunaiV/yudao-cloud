@@ -224,7 +224,7 @@ public class BpmTaskCandidateInvokerTest extends BaseMockitoUnitTest {
             when(adminUserApi.getUserMap(eq(asSet(1L, 2L)))).thenReturn(userMap);
             // mock 方法（empty）
             when(emptyStrategy.calculateUsersByActivity(same(bpmnModel), eq(activityId),
-                    eq(param), same(startUserId), same(processDefinitionId), same(processVariables)))
+                            eq(param), same(startUserId), same(processDefinitionId), same(processVariables)))
                     .thenReturn(Sets.newSet(2L));
 
             // 调用

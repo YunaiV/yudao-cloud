@@ -77,7 +77,6 @@ public class CombinationRecordServiceImpl implements CombinationRecordService {
     @Resource
     public SocialClientApi socialClientApi;
 
-    // TODO @芋艿：在详细预览下；
     @Override
     public KeyValue<CombinationActivityDO, CombinationProductDO> validateCombinationRecord(
             Long userId, Long activityId, Long headId, Long skuId, Integer count) {
@@ -97,7 +96,7 @@ public class CombinationRecordServiceImpl implements CombinationRecordService {
         }
 
         // 2. 父拼团是否存在,是否已经满了
-        if (headId != null) {
+        if (isJoinCombination(headId)) {
             // 2.1. 查询进行中的父拼团
             CombinationRecordDO record = combinationRecordMapper.selectByHeadId(headId, CombinationRecordStatusEnum.IN_PROGRESS.getStatus());
             if (record == null) {
@@ -124,12 +123,12 @@ public class CombinationRecordServiceImpl implements CombinationRecordService {
             throw exception(COMBINATION_JOIN_ACTIVITY_PRODUCT_NOT_EXISTS);
         }
         // 4.2 校验 sku 是否存在
-        ProductSkuRespDTO sku = productSkuApi.getSku(skuId).getCheckedData();
+        ProductSkuRespDTO sku = productSkuApi.getSku(skuId);
         if (sku == null) {
             throw exception(COMBINATION_JOIN_ACTIVITY_PRODUCT_NOT_EXISTS);
         }
         // 4.3 校验库存是否充足
-        if (count >= sku.getStock()) {
+        if (count > sku.getStock()) {
             throw exception(COMBINATION_ACTIVITY_UPDATE_STOCK_FAIL);
         }
 
@@ -153,6 +152,16 @@ public class CombinationRecordServiceImpl implements CombinationRecordService {
         return new KeyValue<>(activity, product);
     }
 
+    /**
+     * 是否加入已有拼团。
+     *
+     * 前端开团时可能不传 headId，也可能传 {@link CombinationRecordDO#HEAD_ID_GROUP}，都应视为新开团；
+     * 只有传入真实团长记录编号时，才需要按参团校验父拼团。
+     */
+    private static boolean isJoinCombination(Long headId) {
+        return headId != null && ObjUtil.notEqual(headId, CombinationRecordDO.HEAD_ID_GROUP);
+    }
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public CombinationRecordDO createCombinationRecord(CombinationRecordCreateReqDTO reqDTO) {
@@ -161,12 +170,12 @@ public class CombinationRecordServiceImpl implements CombinationRecordService {
                 reqDTO.getActivityId(), reqDTO.getHeadId(), reqDTO.getSkuId(), reqDTO.getCount());
 
         // 2. 组合数据创建拼团记录
-        MemberUserRespDTO user = memberUserApi.getUser(reqDTO.getUserId()).getCheckedData();
-        ProductSpuRespDTO spu = productSpuApi.getSpu(reqDTO.getSpuId()).getCheckedData();
-        ProductSkuRespDTO sku = productSkuApi.getSku(reqDTO.getSkuId()).getCheckedData();
+        MemberUserRespDTO user = memberUserApi.getUser(reqDTO.getUserId());
+        ProductSpuRespDTO spu = productSpuApi.getSpu(reqDTO.getSpuId());
+        ProductSkuRespDTO sku = productSkuApi.getSku(reqDTO.getSkuId());
         CombinationRecordDO record = CombinationActivityConvert.INSTANCE.convert(reqDTO, keyValue.getKey(), user, spu, sku);
         // 2.1. 如果是团长需要设置 headId 为 CombinationRecordDO#HEAD_ID_GROUP
-        if (record.getHeadId() == null) {
+        if (!isJoinCombination(record.getHeadId())) {
             record.setStartTime(LocalDateTime.now())
                     .setExpireTime(LocalDateTime.now().plusHours(keyValue.getKey().getLimitDuration()))
                     .setHeadId(CombinationRecordDO.HEAD_ID_GROUP);
@@ -229,7 +238,7 @@ public class CombinationRecordServiceImpl implements CombinationRecordService {
                 .setTemplateTitle(COMBINATION_SUCCESS)
                 .setPage("pages/order/detail?id=" + record.getOrderId()) // 订单详情页
                 .addMessage("thing1", "商品拼团活动") // 活动标题
-                .addMessage("thing2", "恭喜您拼团成功！我们将尽快为您发货。")).checkError(); // 温馨提示
+                .addMessage("thing2", "恭喜您拼团成功！我们将尽快为您发货。")); // 温馨提示
     }
 
     @Override
@@ -336,7 +345,7 @@ public class CombinationRecordServiceImpl implements CombinationRecordService {
                 CombinationRecordStatusEnum.FAILED);
         // 2. 订单取消
         headAndRecords.forEach(item -> tradeOrderApi.cancelPaidOrder(item.getUserId(), item.getOrderId(),
-                TradeOrderCancelTypeEnum.COMBINATION_CLOSE.getType()).checkError());
+                TradeOrderCancelTypeEnum.COMBINATION_CLOSE.getType()));
     }
 
     /**

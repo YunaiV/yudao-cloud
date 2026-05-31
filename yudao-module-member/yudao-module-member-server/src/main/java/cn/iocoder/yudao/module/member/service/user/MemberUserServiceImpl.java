@@ -142,6 +142,12 @@ public class MemberUserServiceImpl implements MemberUserService {
 
     @Override
     public void updateUser(Long userId, AppMemberUserUpdateReqVO reqVO) {
+        // 1.1 检测用户是否存在
+        validateUserExists(userId);
+        // 1.2 校验手机是否已经被绑定
+        validateEmailUnique(userId, reqVO.getEmail());
+
+        // 2. 更新用户
         MemberUserDO updateObj = BeanUtils.toBean(reqVO, MemberUserDO.class).setId(userId);
         memberUserMapper.updateById(updateObj);
     }
@@ -158,11 +164,11 @@ public class MemberUserServiceImpl implements MemberUserService {
         // 补充说明：从安全性来说，老手机也校验 oldCode 验证码会更安全。但是由于 uni-app 商城界面暂时没做，所以这里不强制校验
         if (StrUtil.isNotEmpty(reqVO.getOldCode())) {
             smsCodeApi.useSmsCode(new SmsCodeUseReqDTO().setMobile(user.getMobile()).setCode(reqVO.getOldCode())
-                    .setScene(SmsSceneEnum.MEMBER_UPDATE_MOBILE.getScene()).setUsedIp(getClientIP())).checkError();
+                    .setScene(SmsSceneEnum.MEMBER_UPDATE_MOBILE.getScene()).setUsedIp(getClientIP()));
         }
         // 2.2 使用新验证码
         smsCodeApi.useSmsCode(new SmsCodeUseReqDTO().setMobile(reqVO.getMobile()).setCode(reqVO.getCode())
-                .setScene(SmsSceneEnum.MEMBER_UPDATE_MOBILE.getScene()).setUsedIp(getClientIP())).checkError();
+                .setScene(SmsSceneEnum.MEMBER_UPDATE_MOBILE.getScene()).setUsedIp(getClientIP()));
 
         // 3. 更新用户手机
         memberUserMapper.updateById(MemberUserDO.builder().id(userId).mobile(reqVO.getMobile()).build());
@@ -172,7 +178,7 @@ public class MemberUserServiceImpl implements MemberUserService {
     public void updateUserMobileByWeixin(Long userId, AppMemberUserUpdateMobileByWeixinReqVO reqVO) {
         // 1.1 获得对应的手机号信息
         SocialWxPhoneNumberInfoRespDTO phoneNumberInfo = socialClientApi.getWxMaPhoneNumberInfo(
-                UserTypeEnum.MEMBER.getValue(), reqVO.getCode()).getCheckedData();
+                UserTypeEnum.MEMBER.getValue(), reqVO.getCode());
         Assert.notNull(phoneNumberInfo, "获得手机信息失败，结果为空");
         // 1.2 校验新手机是否已经被绑定
         validateMobileUnique(userId, phoneNumberInfo.getPhoneNumber());
@@ -187,7 +193,7 @@ public class MemberUserServiceImpl implements MemberUserService {
         MemberUserDO user = validateUserExists(userId);
         // 校验验证码
         smsCodeApi.useSmsCode(new SmsCodeUseReqDTO().setMobile(user.getMobile()).setCode(reqVO.getCode())
-                .setScene(SmsSceneEnum.MEMBER_UPDATE_PASSWORD.getScene()).setUsedIp(getClientIP())).checkError();
+                .setScene(SmsSceneEnum.MEMBER_UPDATE_PASSWORD.getScene()).setUsedIp(getClientIP()));
 
         // 更新用户密码
         memberUserMapper.updateById(MemberUserDO.builder().id(userId)
@@ -201,7 +207,7 @@ public class MemberUserServiceImpl implements MemberUserService {
 
         // 使用验证码
         smsCodeApi.useSmsCode(AuthConvert.INSTANCE.convert(reqVO, SmsSceneEnum.MEMBER_RESET_PASSWORD,
-                getClientIP())).checkError();
+                getClientIP()));
 
         // 更新密码
         memberUserMapper.updateById(MemberUserDO.builder().id(user.getId())
@@ -238,6 +244,8 @@ public class MemberUserServiceImpl implements MemberUserService {
         validateUserExists(updateReqVO.getId());
         // 校验手机唯一
         validateMobileUnique(updateReqVO.getId(), updateReqVO.getMobile());
+        // 校验邮箱唯一
+        validateEmailUnique(updateReqVO.getId(), updateReqVO.getEmail());
 
         // 更新
         MemberUserDO updateObj = MemberUserConvert.INSTANCE.convert(updateReqVO);
@@ -271,6 +279,24 @@ public class MemberUserServiceImpl implements MemberUserService {
         }
         if (!user.getId().equals(id)) {
             throw exception(USER_MOBILE_USED, mobile);
+        }
+    }
+
+    @VisibleForTesting
+    void validateEmailUnique(Long id, String email) {
+        if (StrUtil.isBlank(email)) {
+            return;
+        }
+        MemberUserDO user = memberUserMapper.selectByEmail(email);
+        if (user == null) {
+            return;
+        }
+        // 如果 id 为空，说明不用比较是否为相同 id 的用户
+        if (id == null) {
+            throw exception(USER_EMAIL_USED, email);
+        }
+        if (!user.getId().equals(id)) {
+            throw exception(USER_EMAIL_USED, email);
         }
     }
 

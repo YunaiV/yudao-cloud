@@ -129,6 +129,26 @@ public class IotMessageBusAutoConfiguration {
         }
 
     }
+    // ==================== RabbitMQ 实现 ====================
+
+    @Configuration
+    @ConditionalOnProperty(prefix = "yudao.iot.message-bus", name = "type", havingValue = "rabbitmq")
+    @ConditionalOnClass(RabbitTemplate.class)
+    public static class IotRabbitMQMessageBusConfiguration {
+
+        @Bean
+        @ConditionalOnMissingBean
+        public RabbitAdmin rabbitAdmin(RabbitTemplate rabbitTemplate) {
+            return new RabbitAdmin(rabbitTemplate);
+        }
+
+        @Bean
+        public IotRabbitMQMessageBus iotRabbitMQMessageBus(RabbitTemplate rabbitTemplate, RabbitAdmin rabbitAdmin) {
+            log.info("[iotRabbitMQMessageBus][创建 IoT RabbitMQ 消息总线]");
+            return new IotRabbitMQMessageBus(rabbitTemplate, rabbitAdmin);
+        }
+
+    }
 
     // ==================== RabbitMQ 实现 ====================
 

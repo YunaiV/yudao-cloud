@@ -78,7 +78,7 @@
         <reflections.version>0.10.2</reflections.version>
         <netty.version>4.2.14.Final</netty.version>
         <mqtt.version>1.2.5</mqtt.version>
-        <vertx.version>4.5.26</vertx.version>
+        <vertx.version>4.5.27</vertx.version>
         <okhttp.version>4.12.0</okhttp.version>
         <californium.version>3.14.0</californium.version>
         <j2mod.version>3.3.0</j2mod.version>

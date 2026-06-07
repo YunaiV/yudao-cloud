@@ -2,7 +2,7 @@ package cn.iocoder.yudao.module.infra.api.config;
 
 import cn.iocoder.yudao.module.infra.dal.dataobject.config.ConfigDO;
 import cn.iocoder.yudao.module.infra.service.config.ConfigService;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 

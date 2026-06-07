@@ -98,7 +98,7 @@ public class ImGroupRequestServiceImpl implements ImGroupRequestService {
         ImGroupRequestDO request = createOrResetApplyRequest(groupId, userId, reqVO);
 
         // 4. 1503 私聊定向推群主 + 全部管理员（多端同步）；payload 携带申请方昵称 / 头像
-        AdminUserRespDTO applyUser = adminUserApi.getUser(userId).getCheckedData();
+        AdminUserRespDTO applyUser = adminUserApi.getUser(userId);
         GroupRequestReceivedNotification payload = buildRequestNotification(group, request, applyUser);
         for (Long receiverUserId : getGroupMemberListByOwnerAndAdminUserIds(group)) {
             websocketService.sendPrivateMessageAsync(receiverUserId, ImPrivateMessageDTO.ofGroupNotification(

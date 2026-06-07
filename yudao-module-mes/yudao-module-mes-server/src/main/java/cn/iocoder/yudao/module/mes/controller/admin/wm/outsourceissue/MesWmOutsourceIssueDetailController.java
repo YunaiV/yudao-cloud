@@ -34,11 +34,6 @@ import java.util.Map;
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertSet;
 
-/**
- * MES 外协发料单明细 Controller
- *
- * @author 芋道源码
- */
 @Tag(name = "管理后台 - MES 外协发料单明细")
 @RestController
 @RequestMapping("/mes/wm/outsource-issue-detail")
@@ -47,19 +42,14 @@ public class MesWmOutsourceIssueDetailController {
 
     @Resource
     private MesWmOutsourceIssueDetailService outsourceIssueDetailService;
-
     @Resource
     private MesMdItemService itemService;
-
     @Resource
     private MesMdUnitMeasureService unitMeasureService;
-
     @Resource
     private MesWmWarehouseService warehouseService;
-
     @Resource
     private MesWmWarehouseLocationService locationService;
-
     @Resource
     private MesWmWarehouseAreaService areaService;
 

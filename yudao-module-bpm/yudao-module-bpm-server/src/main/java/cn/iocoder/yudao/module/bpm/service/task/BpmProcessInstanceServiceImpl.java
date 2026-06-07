@@ -872,7 +872,7 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
         if (titleSetting == null || !BooleanUtil.isTrue(titleSetting.getEnable())) {
             return definition.getName();
         }
-        AdminUserRespDTO user = adminUserApi.getUser(userId).getCheckedData();
+        AdminUserRespDTO user = adminUserApi.getUser(userId);
         Map<String, Object> cloneVariables = new HashMap<>(variables);
         cloneVariables.put(BpmnVariableConstants.PROCESS_INSTANCE_VARIABLE_START_USER_ID, user.getNickname());
         cloneVariables.put(BpmnVariableConstants.PROCESS_START_TIME, DateUtil.now());
@@ -920,7 +920,7 @@ public class BpmProcessInstanceServiceImpl implements BpmProcessInstanceService 
         }
 
         // 2. 取消流程
-        AdminUserRespDTO user = adminUserApi.getUser(userId).getCheckedData();
+        AdminUserRespDTO user = adminUserApi.getUser(userId);
         updateProcessInstanceCancel(cancelReqVO.getId(),
                 BpmReasonEnum.CANCEL_PROCESS_INSTANCE_BY_ADMIN.format(user.getNickname(), cancelReqVO.getReason()));
     }

@@ -67,7 +67,7 @@ public class CrmPermissionUtils {
         // 场景三：下属负责的数据（下属是负责人）
         if (CrmSceneTypeEnum.isSubordinate(sceneType)) {
             AdminUserApi adminUserApi = SpringUtil.getBean(AdminUserApi.class);
-            List<AdminUserRespDTO> subordinateUsers = adminUserApi.getUserListBySubordinate(userId).getCheckedData();
+            List<AdminUserRespDTO> subordinateUsers = adminUserApi.getUserListBySubordinate(userId);
             if (CollUtil.isEmpty(subordinateUsers)) {
                 query.eq(ownerUserIdField, -1); // 不返回任何结果
             } else {

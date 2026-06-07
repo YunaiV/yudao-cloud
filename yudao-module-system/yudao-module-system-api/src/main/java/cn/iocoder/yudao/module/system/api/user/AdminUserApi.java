@@ -1,7 +1,6 @@
 package cn.iocoder.yudao.module.system.api.user;
 
 import cn.hutool.core.convert.Convert;
-import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.common.util.collection.CollectionUtils;
 import cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO;
 import cn.iocoder.yudao.module.system.enums.ApiConstants;
@@ -28,27 +27,32 @@ public interface AdminUserApi extends AutoTransable<AdminUserRespDTO> {
     @GetMapping(PREFIX + "/get")
     @Operation(summary = "通过用户 ID 查询用户")
     @Parameter(name = "id", description = "用户编号", example = "1", required = true)
-    CommonResult<AdminUserRespDTO> getUser(@RequestParam("id") Long id);
+    AdminUserRespDTO getUser(@RequestParam("id") Long id);
 
     @GetMapping(PREFIX + "/list-by-subordinate")
     @Operation(summary = "通过用户 ID 查询用户下属")
     @Parameter(name = "id", description = "用户编号", example = "1", required = true)
-    CommonResult<List<AdminUserRespDTO>> getUserListBySubordinate(@RequestParam("id") Long id);
+    List<AdminUserRespDTO> getUserListBySubordinate(@RequestParam("id") Long id);
 
     @GetMapping(PREFIX + "/list")
     @Operation(summary = "通过用户 ID 查询用户们")
     @Parameter(name = "ids", description = "部门编号数组", example = "1,2", required = true)
-    CommonResult<List<AdminUserRespDTO>> getUserList(@RequestParam("ids") Collection<Long> ids);
+    List<AdminUserRespDTO> getUserList(@RequestParam("ids") Collection<Long> ids);
 
     @GetMapping(PREFIX + "/list-by-dept-id")
     @Operation(summary = "获得指定部门的用户数组")
     @Parameter(name = "deptIds", description = "部门编号数组", example = "1,2", required = true)
-    CommonResult<List<AdminUserRespDTO>> getUserListByDeptIds(@RequestParam("deptIds") Collection<Long> deptIds);
+    List<AdminUserRespDTO> getUserListByDeptIds(@RequestParam("deptIds") Collection<Long> deptIds);
 
     @GetMapping(PREFIX + "/list-by-post-id")
     @Operation(summary = "获得指定岗位的用户数组")
     @Parameter(name = "postIds", description = "岗位编号数组", example = "2,3", required = true)
-    CommonResult<List<AdminUserRespDTO>> getUserListByPostIds(@RequestParam("postIds") Collection<Long> postIds);
+    List<AdminUserRespDTO> getUserListByPostIds(@RequestParam("postIds") Collection<Long> postIds);
+
+    @GetMapping(PREFIX + "/list-by-nickname")
+    @Operation(summary = "根据昵称模糊搜索用户")
+    @Parameter(name = "nickname", description = "昵称关键词", example = "芋道", required = true)
+    List<AdminUserRespDTO> getUserListByNickname(@RequestParam("nickname") String nickname);
 
     /**
      * 获得用户 Map
@@ -57,7 +61,7 @@ public interface AdminUserApi extends AutoTransable<AdminUserRespDTO> {
      * @return 用户 Map
      */
     default Map<Long, AdminUserRespDTO> getUserMap(Collection<Long> ids) {
-        List<AdminUserRespDTO> users = getUserList(ids).getCheckedData();
+        List<AdminUserRespDTO> users = getUserList(ids);
         return CollectionUtils.convertMap(users, AdminUserRespDTO::getId);
     }
 
@@ -69,24 +73,24 @@ public interface AdminUserApi extends AutoTransable<AdminUserRespDTO> {
      * @param id 用户编号
      */
     default void validateUser(Long id) {
-        validateUserList(Collections.singleton(id)).getCheckedData();
+        validateUserList(Collections.singleton(id));
     }
 
     @GetMapping(PREFIX + "/valid")
     @Operation(summary = "校验用户们是否有效")
     @Parameter(name = "ids", description = "用户编号数组", example = "3,5", required = true)
-    CommonResult<Boolean> validateUserList(@RequestParam("ids") Collection<Long> ids);
+    void validateUserList(@RequestParam("ids") Collection<Long> ids);
 
     @Override
     @GetMapping("select")
     default List<AdminUserRespDTO> selectByIds(List<?> ids) {
-        return getUserList(Convert.toList(Long.class, ids)).getCheckedData();
+        return getUserList(Convert.toList(Long.class, ids));
     }
 
     @Override
     @GetMapping("select-list")
     default AdminUserRespDTO selectById(Object id) {
-        return getUser(Convert.toLong(id)).getCheckedData();
+        return getUser(Convert.toLong(id));
     }
 
 }

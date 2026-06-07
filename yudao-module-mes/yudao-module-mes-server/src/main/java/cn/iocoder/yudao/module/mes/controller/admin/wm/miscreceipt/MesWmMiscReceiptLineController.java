@@ -36,9 +36,6 @@ import java.util.Map;
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertSet;
 
-/**
- * MES 杂项入库单行 Controller
- */
 @Tag(name = "管理后台 - MES 杂项入库单行")
 @RestController
 @RequestMapping("/mes/wm/misc-receipt-line")
@@ -47,19 +44,14 @@ public class MesWmMiscReceiptLineController {
 
     @Resource
     private MesWmMiscReceiptLineService miscReceiptLineService;
-
     @Resource
     private MesMdItemService itemService;
-
     @Resource
     private MesMdUnitMeasureService unitMeasureService;
-
     @Resource
     private MesWmWarehouseService warehouseService;
-
     @Resource
     private MesWmWarehouseLocationService warehouseLocationService;
-
     @Resource
     private MesWmWarehouseAreaService warehouseAreaService;
 

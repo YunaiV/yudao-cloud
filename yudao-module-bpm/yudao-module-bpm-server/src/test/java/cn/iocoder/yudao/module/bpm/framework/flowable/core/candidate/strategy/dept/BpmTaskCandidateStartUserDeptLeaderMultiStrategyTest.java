@@ -1,6 +1,5 @@
 package cn.iocoder.yudao.module.bpm.framework.flowable.core.candidate.strategy.dept;
 
-import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.framework.test.core.ut.BaseMockitoUnitTest;
 import cn.iocoder.yudao.module.bpm.service.task.BpmProcessInstanceService;
 import cn.iocoder.yudao.module.system.api.dept.DeptApi;
@@ -17,7 +16,6 @@ import org.mockito.stubbing.Answer;
 
 import java.util.Set;
 
-import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomPojo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -74,10 +72,10 @@ public class BpmTaskCandidateStartUserDeptLeaderMultiStrategyTest extends BaseMo
 
     private void mockGetStartUserDept(Long startUserId) {
         when(adminUserApi.getUser(eq(startUserId))).thenReturn(
-                success(randomPojo(AdminUserRespDTO.class, o -> o.setId(startUserId).setDeptId(10L))));
-        when(deptApi.getDept(any())).thenAnswer((Answer< CommonResult<DeptRespDTO>>) invocationOnMock -> {
+                randomPojo(AdminUserRespDTO.class, o -> o.setId(startUserId).setDeptId(10L)));
+        when(deptApi.getDept(any())).thenAnswer((Answer<DeptRespDTO>) invocationOnMock -> {
             Long deptId = invocationOnMock.getArgument(0);
-            return success(randomPojo(DeptRespDTO.class, o -> o.setId(deptId).setParentId(deptId * 100).setLeaderUserId(deptId + 1)));
+            return randomPojo(DeptRespDTO.class, o -> o.setId(deptId).setParentId(deptId * 100).setLeaderUserId(deptId + 1));
         });
     }
 

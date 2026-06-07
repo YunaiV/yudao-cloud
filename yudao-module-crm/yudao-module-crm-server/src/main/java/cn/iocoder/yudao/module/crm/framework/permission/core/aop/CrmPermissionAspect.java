@@ -95,7 +95,7 @@ public class CrmPermissionAspect {
         }
 
         // 3. 考虑下级的权限
-        List<AdminUserRespDTO> subordinateUserIds = adminUserApi.getUserListBySubordinate(userId).getCheckedData();
+        List<AdminUserRespDTO> subordinateUserIds = adminUserApi.getUserListBySubordinate(userId);
         for (Long subordinateUserId : convertSet(subordinateUserIds, AdminUserRespDTO::getId)) {
             CrmPermissionDO subordinatePermission = CollUtil.findOne(bizPermissions,
                     permission -> ObjUtil.equal(permission.getUserId(), subordinateUserId));

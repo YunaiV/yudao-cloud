@@ -143,10 +143,10 @@ public class BpmProcessInstanceController {
                 processInstance.getProcessDefinitionId());
         BpmProcessDefinitionInfoDO processDefinitionInfo = processDefinitionService.getProcessDefinitionInfo(
                 processInstance.getProcessDefinitionId());
-        AdminUserRespDTO startUser = adminUserApi.getUser(NumberUtils.parseLong(processInstance.getStartUserId())).getCheckedData();
+        AdminUserRespDTO startUser = adminUserApi.getUser(NumberUtils.parseLong(processInstance.getStartUserId()));
         DeptRespDTO dept = null;
         if (startUser != null && startUser.getDeptId() != null) {
-            dept = deptApi.getDept(startUser.getDeptId()).getCheckedData();
+            dept = deptApi.getDept(startUser.getDeptId());
         }
         return success(BpmProcessInstanceConvert.INSTANCE.buildProcessInstance(processInstance,
                 processDefinition, processDefinitionInfo, startUser, dept));
@@ -211,8 +211,8 @@ public class BpmProcessInstanceController {
         if (historicProcessInstance == null) {
             throw exception(PROCESS_INSTANCE_NOT_EXISTS);
         }
-        AdminUserRespDTO startUser = adminUserApi.getUser(Long.valueOf(historicProcessInstance.getStartUserId())).getCheckedData();
-        DeptRespDTO dept = deptApi.getDept(startUser.getDeptId()).getCheckedData();
+        AdminUserRespDTO startUser = adminUserApi.getUser(Long.valueOf(historicProcessInstance.getStartUserId()));
+        DeptRespDTO dept = deptApi.getDept(startUser.getDeptId());
         List<HistoricTaskInstance> tasks = taskService.getFinishedTaskListByProcessInstanceIdWithoutCancel(processInstanceId);
         Map<Long, AdminUserRespDTO> userMap = adminUserApi.getUserMap(
                 convertSet(tasks, item -> Long.valueOf(item.getAssignee())));

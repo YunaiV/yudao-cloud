@@ -95,7 +95,7 @@ public class MesCalTeamMemberServiceImpl implements MesCalTeamMemberService {
     }
 
     private void validateUserExists(Long userId) {
-        if (adminUserApi.getUser(userId).getCheckedData() == null) {
+        if (adminUserApi.getUser(userId) == null) {
             throw exception(CAL_TEAM_MEMBER_USER_NOT_EXISTS);
         }
     }

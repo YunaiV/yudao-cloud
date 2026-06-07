@@ -30,7 +30,7 @@ public class BpmTaskCandidateDeptLeaderMultiStrategy extends AbstractBpmTaskCand
         List<Long> deptIds = StrUtils.splitToLong(params[0], ",");
         int level = Integer.parseInt(params[1]);
         // 校验部门存在
-        deptApi.validateDeptList(deptIds).checkError();
+        deptApi.validateDeptList(deptIds);
         Assert.isTrue(level > 0, "部门层级必须大于 0");
     }
 

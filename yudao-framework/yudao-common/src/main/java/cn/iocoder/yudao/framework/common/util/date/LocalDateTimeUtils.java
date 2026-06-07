@@ -238,6 +238,11 @@ public class LocalDateTimeUtils {
 
     /**
      * 获取最近 N 天的 0 点时刻序列（升序，含今天）
+     * <p>
+     * 例：getLatestDays(3) 返回 [前天 00:00, 昨天 00:00, 今天 00:00]
+     *
+     * @param days 天数（含今天）
+     * @return 升序的 LocalDateTime 列表
      */
     public static List<LocalDateTime> getLatestDays(int days) {
         LocalDateTime today = getToday();

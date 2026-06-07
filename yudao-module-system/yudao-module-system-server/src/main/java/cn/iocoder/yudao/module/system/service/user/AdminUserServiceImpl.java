@@ -126,7 +126,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public Long registerUser(AuthRegisterReqVO registerReqVO) {
         // 1.1 校验是否开启注册
-        if (ObjUtil.notEqual(configApi.getConfigValueByKey(USER_REGISTER_ENABLED_KEY).getCheckedData(), "true")) {
+        if (ObjUtil.notEqual(configApi.getConfigValueByKey(USER_REGISTER_ENABLED_KEY), "true")) {
             throw exception(USER_REGISTER_DISABLED);
         }
         // 1.2 校验账户配合
@@ -354,6 +354,11 @@ public class AdminUserServiceImpl implements AdminUserService {
         return userMapper.selectByIds(ids);
     }
 
+    public List<AdminUserDO> getUserListAll() {
+        return userMapper.selectList();
+    }
+
+
     @Override
     public void validateUserList(Collection<Long> ids) {
         if (CollUtil.isEmpty(ids)) {
@@ -504,7 +509,7 @@ public class AdminUserServiceImpl implements AdminUserService {
             throw exception(USER_IMPORT_LIST_IS_EMPTY);
         }
         // 1.2 初始化密码不能为空
-        String initPassword = configApi.getConfigValueByKey(USER_INIT_PASSWORD_KEY).getCheckedData();
+        String initPassword = configApi.getConfigValueByKey(USER_INIT_PASSWORD_KEY);
         if (StrUtil.isEmpty(initPassword)) {
             throw exception(USER_IMPORT_INIT_PASSWORD);
         }
@@ -556,6 +561,11 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public List<AdminUserDO> getUserListByStatus(Integer status) {
         return userMapper.selectListByStatus(status);
+    }
+
+    @Override
+    public List<AdminUserDO> getDeptUsers(Collection<Long> deptIds) {
+        return userMapper.selectListByDeptIds(deptIds);
     }
 
     @Override

@@ -176,6 +176,9 @@ public class JsonUtils {
 
     /**
      * 解析 JSON 字符串成 Map，空字符串或解析失败返回 null
+     *
+     * @param text JSON 字符串
+     * @return Map 对象
      */
     public static Map<String, Object> parseMap(String text) {
         if (StrUtil.isEmpty(text)) {

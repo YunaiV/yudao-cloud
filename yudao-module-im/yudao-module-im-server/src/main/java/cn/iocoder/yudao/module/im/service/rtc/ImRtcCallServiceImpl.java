@@ -235,7 +235,7 @@ public class ImRtcCallServiceImpl implements ImRtcCallService {
         rtcParticipantMapper.insertBatch(participants);
 
         // 3.1 推送通知：RTC_CALL(INVITE) 给每个被邀请人
-        AdminUserRespDTO inviterUser = adminUserApi.getUser(inviterId).getCheckedData();
+        AdminUserRespDTO inviterUser = adminUserApi.getUser(inviterId);
         Map<Long, AdminUserRespDTO> inviteeMap = adminUserApi.getUserMap(invitees);
         for (Long inviteeId : invitees) {
             pushCallInviteNotification(call, inviterUser, inviteeId, inviteeMap.get(inviteeId), invitees);
@@ -303,7 +303,7 @@ public class ImRtcCallServiceImpl implements ImRtcCallService {
         rtcParticipantMapper.insertBatch(participants);
 
         // 3. 推送通知：RTC_CALL(INVITE) 给每个新邀请人
-        AdminUserRespDTO inviter = adminUserApi.getUser(inviterId).getCheckedData();
+        AdminUserRespDTO inviter = adminUserApi.getUser(inviterId);
         Map<Long, AdminUserRespDTO> inviteeMap = adminUserApi.getUserMap(incomingUserIds);
         for (Long inviteeId : incomingUserIds) {
             pushCallInviteNotification(call, inviter, inviteeId, inviteeMap.get(inviteeId), incomingUserIds);
@@ -491,7 +491,7 @@ public class ImRtcCallServiceImpl implements ImRtcCallService {
         if (!ImRtcParticipantStatusEnum.isJoined(participant.getStatus())) {
             throw exception(RTC_NOT_PARTICIPANT);
         }
-        return signToken(userId, resolveDisplayName(adminUserApi.getUser(userId).getCheckedData(), userId), room);
+        return signToken(userId, resolveDisplayName(adminUserApi.getUser(userId), userId), room);
     }
 
     @Override
@@ -1016,7 +1016,7 @@ public class ImRtcCallServiceImpl implements ImRtcCallService {
      * @param operatorUserId 拒接者用户编号
      */
     private void pushCallRejectNotification(ImRtcCallDO call, Long operatorUserId) {
-        AdminUserRespDTO operator = operatorUserId != null ? adminUserApi.getUser(operatorUserId).getCheckedData() : null;
+        AdminUserRespDTO operator = operatorUserId != null ? adminUserApi.getUser(operatorUserId) : null;
         ImRtcCallNotification payload = ImRtcCallNotification.ofReject(call, operatorUserId, operator);
         for (Long receiverUserId : getCallAudienceUserIdList(call)) {
             webSocketService.sendPrivateMessageAsync(receiverUserId, ImPrivateMessageDTO.ofRtcNotification(
@@ -1107,7 +1107,7 @@ public class ImRtcCallServiceImpl implements ImRtcCallService {
      */
     private void pushCallEndNotification(ImRtcCallDO call, Long operatorId, ImRtcCallEndReasonEnum reason,
                              Long durationSeconds) {
-        AdminUserRespDTO operator = operatorId != null ? adminUserApi.getUser(operatorId).getCheckedData() : null;
+        AdminUserRespDTO operator = operatorId != null ? adminUserApi.getUser(operatorId) : null;
         ImRtcCallEndNotification payload = ImRtcCallEndNotification.of(call, reason, durationSeconds, operatorId, operator);
         Long peerUserId = null;
         if (!ImConversationTypeEnum.isGroup(call.getConversationType())) {

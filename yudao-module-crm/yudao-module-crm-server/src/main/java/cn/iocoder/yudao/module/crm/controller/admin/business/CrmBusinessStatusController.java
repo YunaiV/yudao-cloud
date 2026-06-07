@@ -110,7 +110,7 @@ public class CrmBusinessStatusController {
     public CommonResult<List<CrmBusinessStatusRespVO>> getBusinessStatusTypeSimpleList() {
         List<CrmBusinessStatusTypeDO> list = businessStatusTypeService.getBusinessStatusTypeList();
         // 过滤掉部门不匹配的
-        Long deptId = adminUserApi.getUser(getLoginUserId()).getCheckedData().getDeptId();
+        Long deptId = adminUserApi.getUser(getLoginUserId()).getDeptId();
         list.removeIf(statusType -> CollUtil.isNotEmpty(statusType.getDeptIds()) && !statusType.getDeptIds().contains(deptId));
         return success(BeanUtils.toBean(list, CrmBusinessStatusRespVO.class));
     }

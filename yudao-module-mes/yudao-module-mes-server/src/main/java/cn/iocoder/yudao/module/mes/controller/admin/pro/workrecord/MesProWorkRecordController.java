@@ -143,7 +143,7 @@ public class MesProWorkRecordController {
             vo.setWorkstationCode(ws.getCode()).setWorkstationName(ws.getName());
         }
         // 拼接用户信息
-        AdminUserRespDTO user = adminUserApi.getUser(record.getUserId()).getCheckedData();
+        AdminUserRespDTO user = adminUserApi.getUser(record.getUserId());
         if (user != null) {
             vo.setUserNickname(user.getNickname());
         }

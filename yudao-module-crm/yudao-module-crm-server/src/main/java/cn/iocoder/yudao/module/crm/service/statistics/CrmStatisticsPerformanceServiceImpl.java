@@ -111,10 +111,10 @@ public class CrmStatisticsPerformanceServiceImpl implements CrmStatisticsPerform
         // 情况二：选中某个部门
         // 2.1 获得部门列表
         final Long deptId = reqVO.getDeptId();
-        List<Long> deptIds = convertList(deptApi.getChildDeptList(deptId).getCheckedData(), DeptRespDTO::getId);
+        List<Long> deptIds = convertList(deptApi.getChildDeptList(deptId), DeptRespDTO::getId);
         deptIds.add(deptId);
         // 2.2 获得用户编号
-        return convertList(adminUserApi.getUserListByDeptIds(deptIds).getCheckedData(), AdminUserRespDTO::getId);
+        return convertList(adminUserApi.getUserListByDeptIds(deptIds), AdminUserRespDTO::getId);
     }
 
 }

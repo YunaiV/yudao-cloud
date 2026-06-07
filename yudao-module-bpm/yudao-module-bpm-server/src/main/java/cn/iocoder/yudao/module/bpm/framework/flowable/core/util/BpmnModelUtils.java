@@ -457,6 +457,54 @@ public class BpmnModelUtils {
     }
 
     /**
+     * 根据节点，递归获取上游 source 为 UserTask 的入口连线
+     *
+     * 1. 如果当前节点的直接入口连线 source 就是 UserTask，则直接返回该连线
+     * 2. 如果当前节点的直接入口连线 source 不是 UserTask，则继续向上递归查找
+     * 3. 如果递归过程中遇到 StartEvent 或 SubProcess，则停止该分支继续向上查找
+     *
+     * @param source 起始节点
+     * @return 上游连接 UserTask 的入口连线列表
+     */
+    public static List<SequenceFlow> getElementIncomingUserTaskFlows(FlowElement source) {
+        List<SequenceFlow> result = new ArrayList<>();
+        collectElementIncomingUserTaskFlows(source, new HashSet<>(), new HashSet<>(), result);
+        return result;
+    }
+
+    private static void collectElementIncomingUserTaskFlows(FlowElement source, Set<String> visitedSequenceFlowIds,
+                                                            Set<String> resultSequenceFlowIds, List<SequenceFlow> result) {
+        // 如果是开始节点或子流程，则停止该分支向上查找
+        if (source == null || source instanceof StartEvent || source instanceof SubProcess) {
+            return;
+        }
+        // 获取入口连线
+        List<SequenceFlow> incomingFlows = getElementIncomingFlows(source);
+        if (CollUtil.isEmpty(incomingFlows)) {
+            return;
+        }
+
+        // 循环找到目标元素
+        for (SequenceFlow incomingFlow : incomingFlows) {
+            // 如果发现连线重复，说明连线已经走过。跳过
+            if (incomingFlow == null || !visitedSequenceFlowIds.add(incomingFlow.getId())) {
+                continue;
+            }
+            // 如果 source 是 UserTask，则添加到结果中
+            FlowElement sourceFlowElement = incomingFlow.getSourceFlowElement();
+            if (sourceFlowElement instanceof UserTask) {
+                if (resultSequenceFlowIds.add(incomingFlow.getId())) {
+                    result.add(incomingFlow);
+                }
+                continue;
+            }
+            // 递归向上查找 UserTask
+            collectElementIncomingUserTaskFlows(sourceFlowElement, visitedSequenceFlowIds,
+                    resultSequenceFlowIds, result);
+        }
+    }
+
+    /**
      * 根据节点，获取出口连线
      *
      * @param source 起始节点
@@ -673,7 +721,7 @@ public class BpmnModelUtils {
             // 这条线路存在目标节点，直接返回 true
             FlowElement sourceFlowElement = sequenceFlow.getSourceFlowElement();
             if (target.getId().equals(sourceFlowElement.getId())) {
-                return true;
+               return true;
             }
             // 如果目标节点为并行网关，跳过这个循环 (TODO 疑问：这个判断作用是防止回退到并行网关分支上的节点吗？）
             if (sourceFlowElement instanceof ParallelGateway) {
@@ -798,9 +846,9 @@ public class BpmnModelUtils {
 
         // 情况：StartEvent/EndEvent/UserTask/ServiceTask
         if (currentElement instanceof StartEvent
-                || currentElement instanceof EndEvent
-                || currentElement instanceof UserTask
-                || currentElement instanceof ServiceTask) {
+            || currentElement instanceof EndEvent
+            || currentElement instanceof UserTask
+            || currentElement instanceof ServiceTask) {
             // 添加节点
             FlowNode flowNode = (FlowNode) currentElement;
             resultElements.add(flowNode);
@@ -982,8 +1030,8 @@ public class BpmnModelUtils {
      */
     private static SequenceFlow findMatchSequenceFlowByExclusiveGateway(Gateway gateway, Map<String, Object> variables) {
         SequenceFlow matchSequenceFlow = CollUtil.findOne(gateway.getOutgoingFlows(),
-                flow -> ObjUtil.notEqual(gateway.getDefaultFlow(), flow.getId())
-                        && (evalConditionExpress(variables, flow.getConditionExpression())));
+                    flow -> ObjUtil.notEqual(gateway.getDefaultFlow(), flow.getId())
+                            && (evalConditionExpress(variables, flow.getConditionExpression())));
         if (matchSequenceFlow == null) {
             matchSequenceFlow = CollUtil.findOne(gateway.getOutgoingFlows(),
                     flow -> ObjUtil.equal(gateway.getDefaultFlow(), flow.getId()));

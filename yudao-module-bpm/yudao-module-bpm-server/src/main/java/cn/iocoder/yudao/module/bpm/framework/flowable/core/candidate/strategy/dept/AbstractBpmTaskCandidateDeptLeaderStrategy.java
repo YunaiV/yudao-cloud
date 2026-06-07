@@ -40,7 +40,7 @@ public abstract class AbstractBpmTaskCandidateDeptLeaderStrategy implements BpmT
         }
         DeptRespDTO currentDept = dept;
         for (int i = 1; i < level; i++) {
-            DeptRespDTO parentDept = deptApi.getDept(currentDept.getParentId()).getCheckedData();
+            DeptRespDTO parentDept = deptApi.getDept(currentDept.getParentId());
             if (parentDept == null) { // 找不到父级部门，到了最高级。返回最高级的部门负责人
                 break;
             }
@@ -63,12 +63,12 @@ public abstract class AbstractBpmTaskCandidateDeptLeaderStrategy implements BpmT
         }
         Set<Long> deptLeaderIds = new LinkedHashSet<>(); // 保证有序
         for (Long deptId : deptIds) {
-            DeptRespDTO dept = deptApi.getDept(deptId).getCheckedData();
+            DeptRespDTO dept = deptApi.getDept(deptId);
             for (int i = 0; i < level; i++) {
                 if (dept.getLeaderUserId() != null) {
                     deptLeaderIds.add(dept.getLeaderUserId());
                 }
-                DeptRespDTO parentDept = deptApi.getDept(dept.getParentId()).getCheckedData();
+                DeptRespDTO parentDept = deptApi.getDept(dept.getParentId());
                 if (parentDept == null) { // 找不到父级部门. 已经到了最高层级了
                     break;
                 }
@@ -84,11 +84,11 @@ public abstract class AbstractBpmTaskCandidateDeptLeaderStrategy implements BpmT
      * @param startUserId 发起人 Id
      */
     protected DeptRespDTO getStartUserDept(Long startUserId) {
-        AdminUserRespDTO startUser = adminUserApi.getUser(startUserId).getCheckedData();
+        AdminUserRespDTO startUser = adminUserApi.getUser(startUserId);
         if (startUser.getDeptId() == null) { // 找不到部门
             return null;
         }
-        return deptApi.getDept(startUser.getDeptId()).getCheckedData();
+        return deptApi.getDept(startUser.getDeptId());
     }
 
 }

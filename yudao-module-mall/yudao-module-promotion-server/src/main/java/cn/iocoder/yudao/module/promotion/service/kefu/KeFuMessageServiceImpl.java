@@ -69,7 +69,7 @@ public class KeFuMessageServiceImpl implements KeFuMessageService {
         conversationService.updateConversationLastMessage(kefuMessage);
 
         // 3.1 发送消息给会员
-        AdminUserRespDTO user = adminUserApi.getUser(kefuMessage.getSenderId()).getCheckedData();
+        AdminUserRespDTO user = adminUserApi.getUser(kefuMessage.getSenderId());
         KeFuMessageRespVO message = BeanUtils.toBean(kefuMessage, KeFuMessageRespVO.class).setSenderAvatar(user.getAvatar());
         getSelf().sendAsyncMessageToMember(conversation.getUserId(), KEFU_MESSAGE_TYPE, message);
         // 3.2 通知所有管理员更新对话

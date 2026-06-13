@@ -30,6 +30,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.BatchStrategies;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -172,13 +173,6 @@ public class YudaoTenantAutoConfiguration {
         return new TenantRocketMQInitializer();
     }
 
-    // ========== Job ==========
-
-    @Bean
-    public TenantJobAspect tenantJobAspect(TenantFrameworkService tenantFrameworkService) {
-        return new TenantJobAspect(tenantFrameworkService);
-    }
-
     // ========== Redis ==========
 
     @Bean
@@ -198,6 +192,19 @@ public class YudaoTenantAutoConfiguration {
         //             避免事务未提交就清缓存被并发读穿写脏值；无事务时立即生效，行为不变
         cacheManager.setTransactionAware(true);
         return cacheManager;
+    }
+
+    // ========== Job ==========
+
+    @Configuration(proxyBeanMethods = false)
+    @ConditionalOnClass(name = "com.xxl.job.core.context.XxlJobContext")
+    public static class TenantJobConfiguration {
+
+        @Bean
+        public TenantJobAspect tenantJobAspect(TenantFrameworkService tenantFrameworkService) {
+            return new TenantJobAspect(tenantFrameworkService);
+        }
+
     }
 
 }

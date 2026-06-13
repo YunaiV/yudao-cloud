@@ -156,21 +156,37 @@ public class YudaoTenantAutoConfiguration {
 
     // ========== MQ ==========
 
-    @Bean
-    public TenantRedisMessageInterceptor tenantRedisMessageInterceptor() {
-        return new TenantRedisMessageInterceptor();
+    @Configuration(proxyBeanMethods = false)
+    @ConditionalOnClass(name = "cn.iocoder.yudao.framework.mq.redis.core.interceptor.RedisMessageInterceptor")
+    public static class TenantRedisMQConfiguration {
+
+        @Bean
+        public TenantRedisMessageInterceptor tenantRedisMessageInterceptor() {
+            return new TenantRedisMessageInterceptor();
+        }
+
     }
 
-    @Bean
+    @Configuration(proxyBeanMethods = false)
     @ConditionalOnClass(name = "org.springframework.amqp.rabbit.core.RabbitTemplate")
-    public TenantRabbitMQInitializer tenantRabbitMQInitializer() {
-        return new TenantRabbitMQInitializer();
+    public static class TenantRabbitMQConfiguration {
+
+        @Bean
+        public TenantRabbitMQInitializer tenantRabbitMQInitializer() {
+            return new TenantRabbitMQInitializer();
+        }
+
     }
 
-    @Bean
+    @Configuration(proxyBeanMethods = false)
     @ConditionalOnClass(name = "org.apache.rocketmq.spring.core.RocketMQTemplate")
-    public TenantRocketMQInitializer tenantRocketMQInitializer() {
-        return new TenantRocketMQInitializer();
+    public static class TenantRocketMQConfiguration {
+
+        @Bean
+        public TenantRocketMQInitializer tenantRocketMQInitializer() {
+            return new TenantRocketMQInitializer();
+        }
+
     }
 
     // ========== Redis ==========

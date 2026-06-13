@@ -43,6 +43,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.common.util.collection.SetUtils.asSet;
 import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildBetweenTime;
 import static cn.iocoder.yudao.framework.common.util.date.LocalDateTimeUtils.buildTime;
@@ -92,7 +93,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
     @BeforeEach
     public void before() {
         // mock 初始化密码
-        when(configApi.getConfigValueByKey(USER_INIT_PASSWORD_KEY)).thenReturn("yudaoyuanma");
+        when(configApi.getConfigValueByKey(USER_INIT_PASSWORD_KEY)).thenReturn(success("yudaoyuanma"));
     }
 
     @Test

@@ -29,6 +29,7 @@ import org.springframework.dao.DuplicateKeyException;
 import java.util.Collection;
 import java.util.List;
 
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.module.im.enums.ErrorCodeConstants.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -102,7 +103,7 @@ public class ImGroupRequestServiceImplTest extends BaseMockitoUnitTest {
                 ImGroupMemberDO.builder().groupId(10L).userId(98L)
                         .role(ImGroupMemberRoleEnum.ADMIN.getRole())
                         .status(CommonStatusEnum.ENABLE.getStatus()).build()));
-        when(adminUserApi.getUser(1L)).thenReturn(buildUser(1L, "申请人"));
+        when(adminUserApi.getUser(1L)).thenReturn(success(buildUser(1L, "申请人")));
 
         ImGroupRequestApplyReqVO reqVO = new ImGroupRequestApplyReqVO();
         reqVO.setGroupId(10L);
@@ -131,7 +132,7 @@ public class ImGroupRequestServiceImplTest extends BaseMockitoUnitTest {
                 ImGroupMemberDO.builder().groupId(10L).userId(99L)
                         .role(ImGroupMemberRoleEnum.OWNER.getRole())
                         .status(CommonStatusEnum.ENABLE.getStatus()).build()));
-        when(adminUserApi.getUser(1L)).thenReturn(buildUser(1L, "申请人"));
+        when(adminUserApi.getUser(1L)).thenReturn(success(buildUser(1L, "申请人")));
         ImGroupRequestDO old = new ImGroupRequestDO().setId(50L).setGroupId(10L).setUserId(1L)
                 .setHandleResult(ImGroupRequestHandleResultEnum.REFUSED.getResult());
         when(groupRequestMapper.selectByGroupIdAndUserId(10L, 1L)).thenReturn(null, old);

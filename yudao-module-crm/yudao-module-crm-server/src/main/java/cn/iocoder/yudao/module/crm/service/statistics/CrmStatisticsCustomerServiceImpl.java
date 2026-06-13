@@ -359,10 +359,10 @@ public class CrmStatisticsCustomerServiceImpl implements CrmStatisticsCustomerSe
         }
         // 情况二：选中某个部门
         // 2.1 获得部门列表
-        List<Long> deptIds = convertList(deptApi.getChildDeptList(reqVO.getDeptId()), DeptRespDTO::getId);
+        List<Long> deptIds = convertList(deptApi.getChildDeptList(reqVO.getDeptId()).getCheckedData(), DeptRespDTO::getId);
         deptIds.add(reqVO.getDeptId());
         // 2.2 获得用户编号
-        return convertList(adminUserApi.getUserListByDeptIds(deptIds), AdminUserRespDTO::getId);
+        return convertList(adminUserApi.getUserListByDeptIds(deptIds).getCheckedData(), AdminUserRespDTO::getId);
     }
 
 }

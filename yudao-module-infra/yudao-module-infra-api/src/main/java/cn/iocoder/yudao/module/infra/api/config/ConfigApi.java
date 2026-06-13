@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.infra.api.config;
 
+import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.infra.enums.ApiConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,6 +16,6 @@ public interface ConfigApi {
 
     @GetMapping(PREFIX + "/get-value-by-key")
     @Operation(summary = "根据参数键查询参数值")
-    String getConfigValueByKey(@RequestParam("key") String key);
+    CommonResult<String> getConfigValueByKey(@RequestParam("key") String key);
 
 }

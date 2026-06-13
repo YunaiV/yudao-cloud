@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import java.util.List;
 import java.util.Set;
 
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertList;
 import static cn.iocoder.yudao.framework.common.util.collection.SetUtils.asSet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,7 +37,7 @@ public class BpmTaskCandidatePostStrategyTest extends BaseMockitoUnitTest {
         // mock 方法
         List<AdminUserRespDTO> users = convertList(asSet(11L, 22L),
                 id -> new AdminUserRespDTO().setId(id));
-        when(adminUserApi.getUserListByPostIds(eq(asSet(1L, 2L)))).thenReturn(users);
+        when(adminUserApi.getUserListByPostIds(eq(asSet(1L, 2L)))).thenReturn(success(users));
 
         // 调用
         Set<Long> userIds = strategy.calculateUsersByTask(null, param);

@@ -112,7 +112,7 @@ public class CrmClueServiceImpl implements CrmClueService {
     private void validateRelationDataExists(CrmClueSaveReqVO reqVO) {
         // 校验负责人
         if (Objects.nonNull(reqVO.getOwnerUserId()) &&
-                Objects.isNull(adminUserApi.getUser(reqVO.getOwnerUserId()))) {
+                Objects.isNull(adminUserApi.getUser(reqVO.getOwnerUserId()).getCheckedData())) {
             throw exception(USER_NOT_EXISTS);
         }
     }

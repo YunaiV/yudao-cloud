@@ -79,7 +79,7 @@ public class ImGroupMemberController {
 
         // 3. 转化 VO
         ImGroupMemberRespVO memberVO = BeanUtils.toBean(member, ImGroupMemberRespVO.class);
-        AdminUserRespDTO user = adminUserApi.getUser(member.getUserId());
+        AdminUserRespDTO user = adminUserApi.getUser(member.getUserId()).getCheckedData();
         if (user != null) {
             memberVO.setNickname(user.getNickname()).setAvatar(user.getAvatar());
         }

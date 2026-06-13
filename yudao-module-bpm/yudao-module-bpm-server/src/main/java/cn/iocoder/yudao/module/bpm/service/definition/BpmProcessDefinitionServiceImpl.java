@@ -101,7 +101,7 @@ public class BpmProcessDefinitionServiceImpl implements BpmProcessDefinitionServ
 
         // 校验用户是否在允许发起的部门列表中
         if (CollUtil.isNotEmpty(processDefinition.getStartDeptIds())) {
-            AdminUserRespDTO user = adminUserApi.getUser(userId);
+            AdminUserRespDTO user = adminUserApi.getUser(userId).getCheckedData();
             return user != null
                     && user.getDeptId() != null
                     && processDefinition.getStartDeptIds().contains(user.getDeptId());

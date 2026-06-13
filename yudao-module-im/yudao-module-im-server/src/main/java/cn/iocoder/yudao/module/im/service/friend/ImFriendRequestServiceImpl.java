@@ -97,7 +97,7 @@ public class ImFriendRequestServiceImpl implements ImFriendRequestService {
         ImFriendRequestDO request = createOrResetRequest(fromUserId, reqVO);
 
         // 3. 推送 FRIEND_REQUEST_RECEIVED 给 toUser 多端；payload 携带申请方昵称 / 头像，前端按 requestId 直推 push 进列表
-        AdminUserRespDTO fromUser = adminUserApi.getUser(fromUserId);
+        AdminUserRespDTO fromUser = adminUserApi.getUser(fromUserId).getCheckedData();
         FriendRequestNotification payload = (FriendRequestNotification) new FriendRequestNotification()
                 .setRequestId(request.getId()).setApplyContent(request.getApplyContent()).setAddSource(request.getAddSource())
                 .setOperatorUserId(fromUserId).setFriendUserId(fromUserId);
@@ -172,7 +172,7 @@ public class ImFriendRequestServiceImpl implements ImFriendRequestService {
         // 1.1 校验申请存在、未处理、操作人是接收方
         ImFriendRequestDO request = validateRequestForHandle(userId, requestId);
         // 1.2 复验双方用户有效
-        adminUserApi.validateUserList(List.of(request.getFromUserId(), request.getToUserId()));
+        adminUserApi.validateUserList(List.of(request.getFromUserId(), request.getToUserId())).checkError();
 
         // 2. 乐观锁更新申请处理结果
         ImFriendRequestDO updateObj = new ImFriendRequestDO()

@@ -65,6 +65,7 @@ public class MesQcIndicatorResultServiceImpl implements MesQcIndicatorResultServ
     private MesQcRqcService rqcService;
 
     @Resource
+    @Lazy
     private DictDataApi dictDataApi;
 
     @Override

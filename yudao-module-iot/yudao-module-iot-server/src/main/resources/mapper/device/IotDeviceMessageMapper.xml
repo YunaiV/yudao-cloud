@@ -5,7 +5,7 @@
 <mapper namespace="cn.iocoder.yudao.module.iot.dal.tdengine.IotDeviceMessageMapper">
 
     <update id="createSTable">
-        CREATE STABLE IF NOT EXISTS device_message (
+        CREATE TABLE IF NOT EXISTS device_message (
             ts TIMESTAMP,
             id NCHAR(50),
             report_time TIMESTAMP,
@@ -26,7 +26,7 @@
     </update>
 
     <select id="showSTable" resultType="String">
-        SHOW STABLES LIKE 'device_message'
+        SHOW TABLES LIKE 'device_message'
     </select>
 
     <insert id="insert">
@@ -39,14 +39,14 @@
         TAGS (#{deviceId})
         VALUES (
             #{ts}, #{id}, #{reportTime}, #{tenantId},  #{serverId},
-            #{upstream}, #{reply}, #{identifier}, #{requestId}, #{method}, 
+            #{upstream}, #{reply}, #{identifier}, #{requestId}, #{method},
             #{params}, #{data}, #{code}, #{msg}
         )
     </insert>
 
     <select id="selectPage" resultType="cn.iocoder.yudao.module.iot.dal.dataobject.device.IotDeviceMessageDO">
         SELECT ts, id, report_time, tenant_id, server_id,
-               upstream, reply, identifier, request_id, method, 
+               upstream, reply, identifier, request_id, method,
                params, data, code, msg
         FROM device_message_${reqVO.deviceId}
         <where>
@@ -68,7 +68,7 @@
 
     <select id="selectListByRequestIdsAndReply" resultType="cn.iocoder.yudao.module.iot.dal.dataobject.device.IotDeviceMessageDO">
         SELECT ts, id, report_time, tenant_id, server_id,
-               upstream, reply, identifier, request_id, method, 
+               upstream, reply, identifier, request_id, method,
                params, data, code, msg
         FROM device_message_${deviceId}
         WHERE reply = #{reply}

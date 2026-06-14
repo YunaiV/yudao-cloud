@@ -67,6 +67,11 @@
             <artifactId>yudao-spring-boot-starter-mybatis</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>cn.iocoder.cloud</groupId>
+            <artifactId>yudao-spring-boot-starter-mq</artifactId>
+        </dependency>
+
         <!-- RPC 远程调用相关 -->
         <dependency>
             <groupId>cn.iocoder.cloud</groupId>

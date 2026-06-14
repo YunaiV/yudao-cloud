@@ -465,6 +465,12 @@ public class GlobalExceptionHandler {
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
                     "[IoT 物联网 yudao-module-iot - 表结构未导入][参考 https://doc.iocoder.cn/iot/build/ 开启]");
         }
+        // 13. Member 会员
+        if (message.contains("member_")) {
+            log.error("[Member 会员 yudao-module-member - 表结构未导入][参考 https://doc.iocoder.cn/member/build/ 开启]");
+            return CommonResult.error(NOT_IMPLEMENTED.getCode(),
+                    "[Member 会员 yudao-module-member - 表结构未导入][参考 https://doc.iocoder.cn/member/build/ 开启]");
+        }
         return null;
     }
 

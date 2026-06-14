@@ -93,6 +93,14 @@ easy-trans:
 
 --- #################### MQ 消息队列相关配置 ####################
 
+--- #################### 定时任务相关配置 ####################
+xxl:
+  job:
+    executor:
+      appname: ${spring.application.name} # 执行器 AppName
+      logpath: ${user.home}/logs/xxl-job/${spring.application.name} # 执行器运行日志文件存储磁盘路径
+    accessToken: default_token # 执行器通讯TOKEN
+
 --- #################### 芋道相关配置 ####################
 
 yudao:

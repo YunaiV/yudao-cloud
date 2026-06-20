@@ -223,6 +223,7 @@ public class ImFriendRequestServiceImplTest extends BaseMockitoUnitTest {
         ImFriendRequestDO request = new ImFriendRequestDO().setId(100L).setFromUserId(1L).setToUserId(2L)
                 .setHandleResult(ImFriendRequestHandleResultEnum.UNHANDLED.getResult());
         when(friendRequestMapper.selectById(100L)).thenReturn(request);
+        when(adminUserApi.validateUserList(ListUtil.of(1L, 2L))).thenReturn(success(true));
         when(friendRequestMapper.updateByIdAndHandleResult(eq(100L),
                 eq(ImFriendRequestHandleResultEnum.UNHANDLED.getResult()), any(ImFriendRequestDO.class))).thenReturn(1);
 
@@ -278,6 +279,7 @@ public class ImFriendRequestServiceImplTest extends BaseMockitoUnitTest {
         ImFriendRequestDO request = new ImFriendRequestDO().setId(100L).setFromUserId(1L).setToUserId(2L)
                 .setHandleResult(ImFriendRequestHandleResultEnum.UNHANDLED.getResult());
         when(friendRequestMapper.selectById(100L)).thenReturn(request);
+        when(adminUserApi.validateUserList(ListUtil.of(1L, 2L))).thenReturn(success(true));
         when(friendRequestMapper.updateByIdAndHandleResult(anyLong(), anyInt(), any(ImFriendRequestDO.class))).thenReturn(0);
 
         // 调用 + 断言：返回 FRIEND_REQUEST_HANDLED

@@ -28,7 +28,7 @@ public class BpmTaskCandidateUserStrategy implements BpmTaskCandidateStrategy {
 
     @Override
     public void validateParam(String param) {
-        adminUserApi.validateUserList(StrUtils.splitToLongSet(param));
+        adminUserApi.validateUserList(StrUtils.splitToLongSet(param)).checkError();
     }
 
     @Override

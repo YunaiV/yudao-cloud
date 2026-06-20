@@ -14,6 +14,7 @@ import org.mockito.Mock;
 
 import java.util.Set;
 
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.common.util.collection.SetUtils.asSet;
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomPojo;
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomString;
@@ -40,9 +41,9 @@ public class BpmTaskAssignLeaderExpressionTest extends BaseMockitoUnitTest {
         DelegateExecution execution = mockDelegateExecution(1L);
         // mock 方法(startUser)
         AdminUserRespDTO startUser = randomPojo(AdminUserRespDTO.class, o -> o.setDeptId(10L));
-        when(adminUserApi.getUser(eq(1L))).thenReturn(startUser);
+        when(adminUserApi.getUser(eq(1L))).thenReturn(success(startUser));
         // mock 方法(getStartUserDept)没有部门
-        when(deptApi.getDept(eq(10L))).thenReturn(null);
+        when(deptApi.getDept(eq(10L))).thenReturn(success(null));
 
         // 调用
         Set<Long> result = expression.calculateUsers(execution, 1);
@@ -56,12 +57,12 @@ public class BpmTaskAssignLeaderExpressionTest extends BaseMockitoUnitTest {
         DelegateExecution execution = mockDelegateExecution(1L);
         // mock 方法(startUser)
         AdminUserRespDTO startUser = randomPojo(AdminUserRespDTO.class, o -> o.setDeptId(10L));
-        when(adminUserApi.getUser(eq(1L))).thenReturn(startUser);
+        when(adminUserApi.getUser(eq(1L))).thenReturn(success(startUser));
         DeptRespDTO startUserDept = randomPojo(DeptRespDTO.class, o -> o.setId(10L).setParentId(100L)
                 .setLeaderUserId(20L));
         // mock 方法（getDept）
-        when(deptApi.getDept(eq(10L))).thenReturn(startUserDept);
-        when(deptApi.getDept(eq(100L))).thenReturn(null);
+        when(deptApi.getDept(eq(10L))).thenReturn(success(startUserDept));
+        when(deptApi.getDept(eq(100L))).thenReturn(success(null));
 
         // 调用
         Set<Long> result = expression.calculateUsers(execution, 2);
@@ -75,14 +76,14 @@ public class BpmTaskAssignLeaderExpressionTest extends BaseMockitoUnitTest {
         DelegateExecution execution = mockDelegateExecution(1L);
         // mock 方法(startUser)
         AdminUserRespDTO startUser = randomPojo(AdminUserRespDTO.class, o -> o.setDeptId(10L));
-        when(adminUserApi.getUser(eq(1L))).thenReturn(startUser);
+        when(adminUserApi.getUser(eq(1L))).thenReturn(success(startUser));
         DeptRespDTO startUserDept = randomPojo(DeptRespDTO.class, o -> o.setId(10L).setParentId(100L)
                 .setLeaderUserId(20L));
-        when(deptApi.getDept(eq(10L))).thenReturn(startUserDept);
+        when(deptApi.getDept(eq(10L))).thenReturn(success(startUserDept));
         // mock 方法（父 dept）
         DeptRespDTO parentDept = randomPojo(DeptRespDTO.class, o -> o.setId(100L).setParentId(1000L)
                 .setLeaderUserId(200L));
-        when(deptApi.getDept(eq(100L))).thenReturn(parentDept);
+        when(deptApi.getDept(eq(100L))).thenReturn(success(parentDept));
 
         // 调用
         Set<Long> result = expression.calculateUsers(execution, 2);

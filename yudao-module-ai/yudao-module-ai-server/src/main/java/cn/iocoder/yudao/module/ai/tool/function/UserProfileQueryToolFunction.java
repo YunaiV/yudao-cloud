@@ -84,7 +84,7 @@ public class UserProfileQueryToolFunction
             request.setId(loginUser.getId());
         }
         return TenantUtils.execute(tenantId, () -> {
-            AdminUserRespDTO user = adminUserApi.getUser(request.getId());
+            AdminUserRespDTO user = adminUserApi.getUser(request.getId()).getCheckedData();
             return BeanUtils.toBean(user, Response.class);
         });
     }

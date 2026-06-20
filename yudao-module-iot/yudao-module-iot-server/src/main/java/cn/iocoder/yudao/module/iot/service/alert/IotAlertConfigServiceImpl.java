@@ -47,7 +47,7 @@ public class IotAlertConfigServiceImpl implements IotAlertConfigService {
     public Long createAlertConfig(IotAlertConfigSaveReqVO createReqVO) {
         // 校验关联数据是否存在
         sceneRuleService.validateSceneRuleList(createReqVO.getSceneRuleIds());
-        adminUserApi.validateUserList(createReqVO.getReceiveUserIds());
+        adminUserApi.validateUserList(createReqVO.getReceiveUserIds()).checkError();
         validateReceiveTemplates(createReqVO);
 
         // 插入
@@ -62,7 +62,7 @@ public class IotAlertConfigServiceImpl implements IotAlertConfigService {
         validateAlertConfigExists(updateReqVO.getId());
         // 校验关联数据是否存在
         sceneRuleService.validateSceneRuleList(updateReqVO.getSceneRuleIds());
-        adminUserApi.validateUserList(updateReqVO.getReceiveUserIds());
+        adminUserApi.validateUserList(updateReqVO.getReceiveUserIds()).checkError();
         validateReceiveTemplates(updateReqVO);
 
         // 更新

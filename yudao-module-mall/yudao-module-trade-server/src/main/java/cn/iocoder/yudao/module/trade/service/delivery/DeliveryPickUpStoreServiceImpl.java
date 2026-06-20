@@ -93,7 +93,7 @@ public class DeliveryPickUpStoreServiceImpl implements DeliveryPickUpStoreServic
         // 1.1 校验门店存在
         validateDeliveryPickUpStoreExists(bindReqVO.getId());
         // 1.2 校验用户存在
-        adminUserApi.validateUserList(bindReqVO.getVerifyUserIds());
+        adminUserApi.validateUserList(bindReqVO.getVerifyUserIds()).checkError();
 
         // 2. 更新
         DeliveryPickUpStoreDO updateObj = BeanUtils.toBean(bindReqVO, DeliveryPickUpStoreDO.class);

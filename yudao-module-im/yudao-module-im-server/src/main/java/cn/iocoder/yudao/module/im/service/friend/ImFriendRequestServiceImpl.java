@@ -1,6 +1,5 @@
 package cn.iocoder.yudao.module.im.service.friend;
 
-import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.extra.spring.SpringUtil;
@@ -23,6 +22,7 @@ import cn.iocoder.yudao.module.im.service.websocket.dto.notification.friend.Frie
 import cn.iocoder.yudao.module.im.service.websocket.dto.notification.friend.FriendRequestRejectedNotification;
 import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
 import cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,6 @@ import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.validation.annotation.Validated;
 
-import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -98,7 +97,7 @@ public class ImFriendRequestServiceImpl implements ImFriendRequestService {
         ImFriendRequestDO request = createOrResetRequest(fromUserId, reqVO);
 
         // 3. 推送 FRIEND_REQUEST_RECEIVED 给 toUser 多端；payload 携带申请方昵称 / 头像，前端按 requestId 直推 push 进列表
-        AdminUserRespDTO fromUser = adminUserApi.getUser(fromUserId);
+        AdminUserRespDTO fromUser = adminUserApi.getUser(fromUserId).getCheckedData();
         FriendRequestNotification payload = (FriendRequestNotification) new FriendRequestNotification()
                 .setRequestId(request.getId()).setApplyContent(request.getApplyContent()).setAddSource(request.getAddSource())
                 .setOperatorUserId(fromUserId).setFriendUserId(fromUserId);
@@ -173,7 +172,7 @@ public class ImFriendRequestServiceImpl implements ImFriendRequestService {
         // 1.1 校验申请存在、未处理、操作人是接收方
         ImFriendRequestDO request = validateRequestForHandle(userId, requestId);
         // 1.2 复验双方用户有效
-        adminUserApi.validateUserList(ListUtil.of(request.getFromUserId(), request.getToUserId()));
+        adminUserApi.validateUserList(List.of(request.getFromUserId(), request.getToUserId())).checkError();
 
         // 2. 乐观锁更新申请处理结果
         ImFriendRequestDO updateObj = new ImFriendRequestDO()
@@ -225,7 +224,7 @@ public class ImFriendRequestServiceImpl implements ImFriendRequestService {
     public List<ImFriendRequestDO> getMyFriendRequestList(Long userId, Long maxId, Integer limit) {
         ImFriendRequestDO maxRequest = maxId != null ? friendRequestMapper.selectById(maxId) : null;
         if (maxId != null && maxRequest == null) {
-            return ListUtil.of();
+            return List.of();
         }
         return friendRequestMapper.selectMyList(userId,
                 maxRequest != null ? maxRequest.getUpdateTime() : null,

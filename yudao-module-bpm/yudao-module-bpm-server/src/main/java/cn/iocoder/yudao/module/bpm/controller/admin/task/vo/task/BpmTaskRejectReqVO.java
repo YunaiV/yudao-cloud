@@ -1,8 +1,11 @@
 package cn.iocoder.yudao.module.bpm.controller.admin.task.vo.task;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
+
+import jakarta.validation.constraints.NotEmpty;
+
+import java.util.List;
 
 @Schema(description = "管理后台 - 不通过流程任务的 Request VO")
 @Data
@@ -14,5 +17,8 @@ public class BpmTaskRejectReqVO {
 
     @Schema(description = "审批意见", requiredMode = Schema.RequiredMode.REQUIRED, example = "不错不错！")
     private String reason;
+
+    @Schema(description = "附件", example = "[https://test.yudao.iocoder.cn/20260609/test.txt]")
+    private List<String> attachments;
 
 }

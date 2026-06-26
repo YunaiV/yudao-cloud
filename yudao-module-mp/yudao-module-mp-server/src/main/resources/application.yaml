@@ -100,7 +100,7 @@ wx:
     config-storage:
       type: RedisTemplate # 采用 RedisTemplate 操作 Redis，会自动从 Spring 中获取
       key-prefix: wx # Redis Key 的前缀
-      http-client-type: HttpClient # 采用 HttpClient 请求微信公众号平台
+      http-client-type: HttpComponents # 采用 HttpComponents（HttpClient 5）请求微信公众号平台
     app-id: null # 避免 weixin-java-mp starter 报错
 
 --- #################### 芋道相关配置 ####################

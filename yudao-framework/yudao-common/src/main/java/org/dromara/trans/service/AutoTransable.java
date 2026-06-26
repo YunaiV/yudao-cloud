@@ -1,6 +1,6 @@
-package com.fhs.trans.service;
+package org.dromara.trans.service;
 
-import com.fhs.core.trans.vo.VO;
+import org.dromara.core.trans.vo.VO;
 
 import java.util.ArrayList;
 import java.util.List;

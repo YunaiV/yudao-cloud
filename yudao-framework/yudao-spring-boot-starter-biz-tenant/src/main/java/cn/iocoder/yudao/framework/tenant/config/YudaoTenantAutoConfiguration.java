@@ -129,6 +129,7 @@ public class YudaoTenantAutoConfiguration {
      *
      * @return 忽略租户的 URL 集合
      */
+    @SuppressWarnings("removal")
     private Set<String> getTenantIgnoreUrls() {
         Set<String> ignoreUrls = new HashSet<>();
         // 获得接口对应的 HandlerMethod 集合

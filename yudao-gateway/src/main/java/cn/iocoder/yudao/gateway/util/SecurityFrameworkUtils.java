@@ -69,7 +69,7 @@ public class SecurityFrameworkUtils {
      */
     public static ServerWebExchange removeLoginUser(ServerWebExchange exchange) {
         // 如果不包含，直接返回
-        if (!exchange.getRequest().getHeaders().containsKey(LOGIN_USER_HEADER)) {
+        if (!exchange.getRequest().getHeaders().containsHeader(LOGIN_USER_HEADER)) {
             return exchange;
         }
         // 如果包含，则移除。参考 RemoveRequestHeaderGatewayFilterFactory 实现

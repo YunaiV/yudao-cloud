@@ -19,9 +19,9 @@
           国外：OpenAI、Ollama、Midjourney、StableDiffusion、Suno
     </description>
     <properties>
-        <spring-ai.version>1.1.5</spring-ai.version>
+        <spring-ai.version>2.0.0</spring-ai.version>
         <!-- https://mvnrepository.com/artifact/com.alibaba.cloud.ai/spring-ai-alibaba -->
-        <alibaba-ai.version>1.1.2.2</alibaba-ai.version>
+        <alibaba-ai.version>2.0.0-M1.1</alibaba-ai.version>
         <tinyflow.version>1.2.6</tinyflow.version>
     </properties>
 
@@ -124,11 +124,6 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-model-azure-openai</artifactId>
-            <version>${spring-ai.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-starter-model-anthropic</artifactId>
             <version>${spring-ai.version}</version>
         </dependency>
@@ -148,35 +143,10 @@
             <version>${spring-ai.version}</version>
         </dependency>
         <dependency>
-            <!-- 智谱 GLM -->
-            <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-model-zhipuai</artifactId>
-            <version>${spring-ai.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-model-minimax</artifactId>
-            <version>${spring-ai.version}</version>
-        </dependency>
-
-        <dependency>
             <!-- 通义千问 -->
             <groupId>com.alibaba.cloud.ai</groupId>
             <artifactId>spring-ai-alibaba-starter-dashscope</artifactId>
             <version>${alibaba-ai.version}</version>
-        </dependency>
-
-        <dependency>
-            <!-- 文心一言 -->
-            <groupId>org.springaicommunity</groupId>
-            <artifactId>qianfan-spring-boot-starter</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <!-- 月之暗面 -->
-            <groupId>org.springaicommunity</groupId>
-            <artifactId>moonshot-spring-boot-starter</artifactId>
-            <version>1.0.0</version>
         </dependency>
 
         <!-- 向量存储：https://db-engines.com/en/ranking/vector+dbms -->
@@ -248,9 +218,19 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-autoconfigure-mcp-server-common</artifactId>
+            <version>${spring-ai.version}</version>
+        </dependency>
+        <dependency>
             <!-- 客户端 -->
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-starter-mcp-client</artifactId>
+            <version>${spring-ai.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-autoconfigure-mcp-client-common</artifactId>
             <version>${spring-ai.version}</version>
         </dependency>
 

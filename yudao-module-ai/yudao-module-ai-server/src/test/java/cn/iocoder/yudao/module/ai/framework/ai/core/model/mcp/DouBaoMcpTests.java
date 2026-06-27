@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiChatOptions;
-import org.springframework.ai.openai.api.OpenAiApi;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.method.MethodToolCallbackProvider;
 
@@ -14,11 +13,9 @@ import org.springframework.ai.tool.method.MethodToolCallbackProvider;
 public class DouBaoMcpTests {
 
     private final OpenAiChatModel openAiChatModel = OpenAiChatModel.builder()
-            .openAiApi(OpenAiApi.builder()
+            .options(OpenAiChatOptions.builder()
                     .baseUrl(DouBaoChatModel.BASE_URL)
                     .apiKey("5c1b5747-26d2-4ebd-a4e0-dd0e8d8b4272") // apiKey
-                    .build())
-            .defaultOptions(OpenAiChatOptions.builder()
                     .model("doubao-1-5-lite-32k-250115") // 模型（doubao）
                     .temperature(0.7)
                     .build())
@@ -36,44 +33,47 @@ public class DouBaoMcpTests {
 
     @Test
     public void testMcpGetUserInfo() {
-
         // 打印结果
         System.out.println(chatClient.prompt()
                 .user("目前有哪些工具可以使用")
                 .call()
                 .content());
         System.out.println("====================================");
+
         // 打印结果
         System.out.println(chatClient.prompt()
                 .user("小新的年龄是多少")
                 .call()
                 .content());
         System.out.println("====================================");
+
         // 打印结果
         System.out.println(chatClient.prompt()
                 .user("获取小新的基本信息")
                 .call()
                 .content());
         System.out.println("====================================");
+
         // 打印结果
         System.out.println(chatClient.prompt()
                 .user("小新是什么职业的")
                 .call()
                 .content());
         System.out.println("====================================");
+
         // 打印结果
         System.out.println(chatClient.prompt()
                 .user("小新的教育背景")
                 .call()
                 .content());
         System.out.println("====================================");
+
         // 打印结果
         System.out.println(chatClient.prompt()
                 .user("小新的兴趣爱好是什么")
                 .call()
                 .content());
         System.out.println("====================================");
-
     }
 
 

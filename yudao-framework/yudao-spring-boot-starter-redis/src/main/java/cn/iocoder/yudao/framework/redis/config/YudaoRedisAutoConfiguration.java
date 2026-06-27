@@ -1,9 +1,6 @@
 package cn.iocoder.yudao.framework.redis.config;
 
-import cn.hutool.core.util.ReflectUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.redisson.spring.starter.RedissonAutoConfigurationV2;
+import org.redisson.spring.starter.RedissonAutoConfigurationV4;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -13,7 +10,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 /**
  * Redis 配置类
  */
-@AutoConfiguration(before = RedissonAutoConfigurationV2.class) // 目的：使用自己定义的 RedisTemplate Bean
+@AutoConfiguration(before = RedissonAutoConfigurationV4.class) // 目的：使用自己定义的 RedisTemplate Bean
 public class YudaoRedisAutoConfiguration {
 
     /**
@@ -35,11 +32,11 @@ public class YudaoRedisAutoConfiguration {
         return template;
     }
 
+    @SuppressWarnings("UnnecessaryLocalVariable")
     public static RedisSerializer<?> buildRedisSerializer() {
         RedisSerializer<Object> json = RedisSerializer.json();
-        // 解决 LocalDateTime 的序列化
-        ObjectMapper objectMapper = (ObjectMapper) ReflectUtil.getFieldValue(json, "mapper");
-        objectMapper.registerModules(new JavaTimeModule());
+        // 特殊：spring boot 4.x 无需解决 LocalDateTime 的序列化
+        // 原因：Spring Data Redis 4 使用 Jackson 3，RedisSerializer.json() 已支持 Java Time 类型
         return json;
     }
 

@@ -6,20 +6,18 @@ import cn.hutool.json.JSONUtil;
 import cn.iocoder.yudao.framework.common.util.json.databind.TimestampLocalDateTimeDeserializer;
 import cn.iocoder.yudao.framework.common.util.json.databind.TimestampLocalDateTimeSerializer;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -38,14 +36,14 @@ public class JsonUtils {
     private static ObjectMapper objectMapper = buildObjectMapper();
 
     private static ObjectMapper buildObjectMapper() {
-        SimpleModule simpleModule = new JavaTimeModule()
+        SimpleModule simpleModule = new SimpleModule()
                 // 解决 LocalDateTime 的序列化
                 .addSerializer(LocalDateTime.class, TimestampLocalDateTimeSerializer.INSTANCE)
                 .addDeserializer(LocalDateTime.class, TimestampLocalDateTimeDeserializer.INSTANCE);
         return JsonMapper.builder()
                 .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
                 .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                .defaultPropertyInclusion(JsonInclude.Value.construct(JsonInclude.Include.NON_NULL, JsonInclude.Include.NON_NULL))
+                .changeDefaultPropertyInclusion(value -> JsonInclude.Value.construct(JsonInclude.Include.NON_NULL, JsonInclude.Include.NON_NULL))
                 .addModule(simpleModule)
                 .build();
     }
@@ -120,7 +118,7 @@ public class JsonUtils {
         }
         try {
             return objectMapper.readValue(text, objectMapper.getTypeFactory().constructType(type));
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             log.error("json parse err,json:{}", text, e);
             throw new RuntimeException(e);
         }
@@ -148,7 +146,7 @@ public class JsonUtils {
         }
         try {
             return objectMapper.readValue(bytes, clazz);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             log.error("json parse err,json:{}", bytes, e);
             throw new RuntimeException(e);
         }
@@ -251,7 +249,7 @@ public class JsonUtils {
     public static JsonNode parseTree(byte[] text) {
         try {
             return objectMapper.readTree(text);
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             log.error("json parse err,json:{}", text, e);
             throw new RuntimeException(e);
         }

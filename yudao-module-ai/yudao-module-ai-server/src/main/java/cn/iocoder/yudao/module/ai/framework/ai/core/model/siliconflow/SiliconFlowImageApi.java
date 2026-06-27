@@ -21,17 +21,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.ai.model.ApiKey;
 import org.springframework.ai.model.NoopApiKey;
 import org.springframework.ai.model.SimpleApiKey;
-import org.springframework.ai.openai.api.OpenAiImageApi;
 import org.springframework.ai.retry.RetryUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestClient;
-
-import java.util.Map;
 
 /**
  * 硅基流动 Image API
@@ -58,15 +54,15 @@ public class SiliconFlowImageApi {
 
 	public SiliconFlowImageApi(String baseUrl, String apiKey, RestClient.Builder restClientBuilder,
                                ResponseErrorHandler responseErrorHandler) {
-		this(baseUrl, apiKey, CollectionUtils.toMultiValueMap(Map.of()), restClientBuilder, responseErrorHandler);
+		this(baseUrl, apiKey, new HttpHeaders(), restClientBuilder, responseErrorHandler);
 	}
 
-	public SiliconFlowImageApi(String baseUrl, String apiKey, MultiValueMap<String, String> headers,
+	public SiliconFlowImageApi(String baseUrl, String apiKey, HttpHeaders headers,
                                RestClient.Builder restClientBuilder, ResponseErrorHandler responseErrorHandler) {
 		this(baseUrl, new SimpleApiKey(apiKey), headers, restClientBuilder, responseErrorHandler);
 	}
 
-	public SiliconFlowImageApi(String baseUrl, ApiKey apiKey, MultiValueMap<String, String> headers,
+	public SiliconFlowImageApi(String baseUrl, ApiKey apiKey, HttpHeaders headers,
                                RestClient.Builder restClientBuilder, ResponseErrorHandler responseErrorHandler) {
 
 		// @formatter:off
@@ -83,7 +79,7 @@ public class SiliconFlowImageApi {
 		// @formatter:on
 	}
 
-	public ResponseEntity<OpenAiImageApi.OpenAiImageResponse> createImage(SiliconflowImageRequest siliconflowImageRequest) {
+	public ResponseEntity<SiliconFlowImageResponse> createImage(SiliconflowImageRequest siliconflowImageRequest) {
 		Assert.notNull(siliconflowImageRequest, "Image request cannot be null.");
 		Assert.hasLength(siliconflowImageRequest.prompt(), "Prompt cannot be empty.");
 
@@ -91,7 +87,7 @@ public class SiliconFlowImageApi {
 			.uri("v1/images/generations")
 			.body(siliconflowImageRequest)
 			.retrieve()
-			.toEntity(OpenAiImageApi.OpenAiImageResponse.class);
+			.toEntity(SiliconFlowImageResponse.class);
 	}
 
 
@@ -109,6 +105,17 @@ public class SiliconFlowImageApi {
 
 		public SiliconflowImageRequest(String prompt, String model) {
 			this(prompt, model, null, null, null, null, null, null);
+		}
+	}
+
+	public record SiliconFlowImageResponse(
+			@JsonProperty("created") Long created,
+			@JsonProperty("data") java.util.List<Entry> data) {
+
+		public record Entry(
+				@JsonProperty("url") String url,
+				@JsonProperty("b64_json") String b64Json,
+				@JsonProperty("revised_prompt") String revisedPrompt) {
 		}
 	}
 

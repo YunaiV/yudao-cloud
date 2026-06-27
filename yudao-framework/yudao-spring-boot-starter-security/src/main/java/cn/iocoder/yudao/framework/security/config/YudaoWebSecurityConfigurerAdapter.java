@@ -156,6 +156,7 @@ public class YudaoWebSecurityConfigurerAdapter {
         return webProperties.getAppApi().getPrefix() + url;
     }
 
+    @SuppressWarnings("removal")
     private Multimap<HttpMethod, String> getPermitAllUrlsFromAnnotations() {
         Multimap<HttpMethod, String> result = HashMultimap.create();
         // 获得接口对应的 HandlerMethod 集合
@@ -166,7 +167,7 @@ public class YudaoWebSecurityConfigurerAdapter {
         for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethodMap.entrySet()) {
             HandlerMethod handlerMethod = entry.getValue();
             if (!handlerMethod.hasMethodAnnotation(PermitAll.class) // 方法级
-                    && !handlerMethod.getBeanType().isAnnotationPresent(PermitAll.class)) { // 接口级
+                && !handlerMethod.getBeanType().isAnnotationPresent(PermitAll.class)) { // 接口级
                 continue;
             }
             Set<String> urls = new HashSet<>();

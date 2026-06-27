@@ -11,7 +11,7 @@ import cn.iocoder.yudao.module.bpm.api.event.BpmProcessInstanceStatusEvent;
 import cn.iocoder.yudao.module.bpm.controller.admin.definition.vo.model.simple.BpmSimpleModelNodeVO;
 import cn.iocoder.yudao.module.bpm.enums.definition.BpmHttpRequestParamTypeEnum;
 import cn.iocoder.yudao.module.bpm.service.task.BpmProcessInstanceService;
-import com.fasterxml.jackson.core.type.TypeReference;
+import tools.jackson.core.type.TypeReference;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.springframework.http.*;
@@ -45,7 +45,7 @@ public class BpmHttpRequestUtils {
         BpmProcessInstanceService processInstanceService = SpringUtils.getBean(BpmProcessInstanceService.class);
 
         // 1.1 设置请求头
-        MultiValueMap<String, String> headers = buildHttpHeaders(processInstance, headerParams);
+        HttpHeaders headers = buildHttpHeaders(processInstance, headerParams);
         // 1.2 设置请求体
         MultiValueMap<String, String> body = buildHttpBody(processInstance, bodyParams);
 
@@ -113,7 +113,7 @@ public class BpmHttpRequestUtils {
     }
 
     public static ResponseEntity<String> sendHttpRequest(String url,
-                                                         MultiValueMap<String, String> headers,
+                                                         HttpHeaders headers,
                                                          Object body,
                                                          RestTemplate restTemplate) {
         HttpEntity<Object> requestEntity = new HttpEntity<>(body, headers);
@@ -128,12 +128,12 @@ public class BpmHttpRequestUtils {
         return responseEntity;
     }
 
-    public static MultiValueMap<String, String> buildHttpHeaders(ProcessInstance processInstance,
-                                                                 List<BpmSimpleModelNodeVO.HttpRequestParam> headerSettings) {
-        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+    public static HttpHeaders buildHttpHeaders(ProcessInstance processInstance,
+                                               List<BpmSimpleModelNodeVO.HttpRequestParam> headerSettings) {
+        HttpHeaders headers = new HttpHeaders();
         headers.add(HEADER_TENANT_ID, processInstance.getTenantId());
         Map<String, Object> processVariables = processInstance.getProcessVariables();
-        addHttpRequestParam(headers, headerSettings, processVariables);
+        addHttpRequestHeader(headers, headerSettings, processVariables);
         return headers;
     }
 
@@ -172,10 +172,25 @@ public class BpmHttpRequestUtils {
     /**
      * 添加 HTTP 请求参数。请求头或者请求体
      *
-     * @param params           HTTP 请求参数
+     * @param headers          HTTP 请求头
      * @param paramSettings    HTTP 请求参数设置
      * @param processVariables 流程变量
      */
+    public static void addHttpRequestHeader(HttpHeaders headers,
+                                            List<BpmSimpleModelNodeVO.HttpRequestParam> paramSettings,
+                                            Map<String, Object> processVariables) {
+        if (CollUtil.isEmpty(paramSettings)) {
+            return;
+        }
+        paramSettings.forEach(item -> {
+            if (item.getType().equals(BpmHttpRequestParamTypeEnum.FIXED_VALUE.getType())) {
+                headers.add(item.getKey(), item.getValue());
+            } else if (item.getType().equals(BpmHttpRequestParamTypeEnum.FROM_FORM.getType())) {
+                headers.add(item.getKey(), processVariables.get(item.getValue()).toString());
+            }
+        });
+    }
+
     public static void addHttpRequestParam(MultiValueMap<String, String> params,
                                            List<BpmSimpleModelNodeVO.HttpRequestParam> paramSettings,
                                            Map<String, Object> processVariables) {

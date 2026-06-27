@@ -54,11 +54,10 @@ public class WebFrameworkUtils {
      * @param exchange 响应
      * @param object 对象，会序列化成 JSON 字符串
      */
-    @SuppressWarnings("deprecation") // 必须使用 APPLICATION_JSON_UTF8_VALUE，否则会乱码
     public static Mono<Void> writeJSON(ServerWebExchange exchange, Object object) {
         // 设置 header
         ServerHttpResponse response = exchange.getResponse();
-        response.getHeaders().setContentType(MediaType.APPLICATION_JSON_UTF8);
+        response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
         // 设置 body
         return response.writeWith(Mono.fromSupplier(() -> {
             DataBufferFactory bufferFactory = response.bufferFactory();

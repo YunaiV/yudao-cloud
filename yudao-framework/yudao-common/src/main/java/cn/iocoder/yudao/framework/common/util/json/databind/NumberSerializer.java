@@ -1,10 +1,9 @@
 package cn.iocoder.yudao.framework.common.util.json.databind;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.annotation.JacksonStdImpl;
-
-import java.io.IOException;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.annotation.JacksonStdImpl;
 
 /**
  * Long 序列化规则
@@ -14,7 +13,7 @@ import java.io.IOException;
  * @author 星语
  */
 @JacksonStdImpl
-public class NumberSerializer extends com.fasterxml.jackson.databind.ser.std.NumberSerializer {
+public class NumberSerializer extends tools.jackson.databind.ser.jdk.NumberSerializer {
 
     private static final long MAX_SAFE_INTEGER = 9007199254740991L;
     private static final long MIN_SAFE_INTEGER = -9007199254740991L;
@@ -26,7 +25,7 @@ public class NumberSerializer extends com.fasterxml.jackson.databind.ser.std.Num
     }
 
     @Override
-    public void serialize(Number value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+    public void serialize(Number value, JsonGenerator gen, SerializationContext serializers) throws JacksonException {
         // 超出范围 序列化位字符串
         if (value.longValue() > MIN_SAFE_INTEGER && value.longValue() < MAX_SAFE_INTEGER) {
             super.serialize(value, gen, serializers);

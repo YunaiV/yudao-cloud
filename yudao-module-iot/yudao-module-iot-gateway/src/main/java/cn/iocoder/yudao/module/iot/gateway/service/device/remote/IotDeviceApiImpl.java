@@ -11,7 +11,7 @@ import cn.iocoder.yudao.module.iot.gateway.config.IotGatewayProperties;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -41,7 +41,7 @@ public class IotDeviceApiImpl implements IotDeviceCommonApi {
     public void init() {
         IotGatewayProperties.RpcProperties rpc = gatewayProperties.getRpc();
         restTemplate = new RestTemplateBuilder()
-                .rootUri(rpc.getUrl())
+                .baseUri(rpc.getUrl())
                 .readTimeout(rpc.getReadTimeout())
                 .connectTimeout(rpc.getConnectTimeout())
                 .build();

@@ -35,10 +35,20 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 public class YudaoWxMpConfiguration {
 
     @Bean
+    @ConditionalOnProperty(prefix = WxMpProperties.PREFIX + ".config-storage", name = "type",
+            havingValue = "memory", matchIfMissing = true)
+    @ConditionalOnMissingBean(WxMpConfigStorage.class)
+    public WxMpConfigStorage wxMpMemoryConfigStorage(WxMpProperties properties) {
+        WxMpDefaultConfigImpl config = new WxMpDefaultConfigImpl();
+        applyWxMpConfig(config, properties);
+        return config;
+    }
+
+    @Bean
     @ConditionalOnProperty(prefix = WxMpProperties.PREFIX + ".config-storage", name = "type", havingValue = "redistemplate")
     @ConditionalOnClass(StringRedisTemplate.class)
     @ConditionalOnMissingBean(WxMpConfigStorage.class)
-    public WxMpConfigStorage wxMpConfigStorage(WxMpProperties properties, ApplicationContext applicationContext) {
+    public WxMpConfigStorage wxMpRedisTemplateConfigStorage(WxMpProperties properties, ApplicationContext applicationContext) {
         StringRedisTemplate redisTemplate = applicationContext.getBean(StringRedisTemplate.class);
         WxRedisOps redisOps = new RedisTemplateWxRedisOps(redisTemplate);
         WxMpRedisConfigImpl config = new WxMpRedisConfigImpl(redisOps, properties.getConfigStorage().getKeyPrefix());

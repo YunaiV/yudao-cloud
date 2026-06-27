@@ -4,20 +4,21 @@ import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.framework.common.util.json.databind.NumberSerializer;
 import cn.iocoder.yudao.framework.common.util.json.databind.TimestampLocalDateTimeDeserializer;
 import cn.iocoder.yudao.framework.common.util.json.databind.TimestampLocalDateTimeSerializer;
-import com.fasterxml.jackson.databind.Module;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
-import org.springframework.boot.web.codec.CodecCustomizer;
+import org.springframework.boot.http.codec.CodecCustomizer;
+import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.codec.json.Jackson2JsonDecoder;
-import org.springframework.http.codec.json.Jackson2JsonEncoder;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.codec.json.JacksonJsonDecoder;
+import org.springframework.http.codec.json.JacksonJsonEncoder;
+import tools.jackson.databind.JacksonModule;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ext.javatime.deser.LocalDateDeserializer;
+import tools.jackson.databind.ext.javatime.deser.LocalTimeDeserializer;
+import tools.jackson.databind.ext.javatime.ser.LocalDateSerializer;
+import tools.jackson.databind.ext.javatime.ser.LocalTimeSerializer;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,26 +32,15 @@ public class GatewayJacksonAutoConfiguration {
      * 从 Builder 源头定制（关键：使用 *ByType，避免 handledType 要求）
      */
     @Bean
-    public Jackson2ObjectMapperBuilderCustomizer ldtEpochMillisCustomizer() {
-        return builder -> builder
-                // Long -> Number
-                .serializerByType(Long.class, NumberSerializer.INSTANCE)
-                .serializerByType(Long.TYPE, NumberSerializer.INSTANCE)
-                // LocalDate / LocalTime
-                .serializerByType(LocalDate.class, LocalDateSerializer.INSTANCE)
-                .deserializerByType(LocalDate.class, LocalDateDeserializer.INSTANCE)
-                .serializerByType(LocalTime.class, LocalTimeSerializer.INSTANCE)
-                .deserializerByType(LocalTime.class, LocalTimeDeserializer.INSTANCE)
-                // LocalDateTime < - > EpochMillis
-                .serializerByType(LocalDateTime.class, TimestampLocalDateTimeSerializer.INSTANCE)
-                .deserializerByType(LocalDateTime.class, TimestampLocalDateTimeDeserializer.INSTANCE);
+    public JsonMapperBuilderCustomizer ldtEpochMillisCustomizer(JacksonModule timestampSupportModuleBean) {
+        return builder -> builder.addModule(timestampSupportModuleBean);
     }
 
     /**
      * 以 Bean 形式暴露 Module（Boot 会自动注册到所有 ObjectMapper）
      */
     @Bean
-    public Module timestampSupportModuleBean() {
+    public JacksonModule timestampSupportModuleBean() {
         SimpleModule m = new SimpleModule("TimestampSupportModule");
         // Long -> Number
         m.addSerializer(Long.class, NumberSerializer.INSTANCE);
@@ -81,12 +71,12 @@ public class GatewayJacksonAutoConfiguration {
      * WebFlux 场景：强制默认编解码器使用同一个 ObjectMapper
      */
     @Bean
-    public CodecCustomizer unifyJackson(ObjectMapper om) {
+    public CodecCustomizer unifyJackson(JsonMapper om) {
         return configurer -> {
-            Jackson2JsonDecoder decoder = new Jackson2JsonDecoder(om);
-            Jackson2JsonEncoder encoder = new Jackson2JsonEncoder(om);
-            configurer.defaultCodecs().jackson2JsonDecoder(decoder);
-            configurer.defaultCodecs().jackson2JsonEncoder(encoder);
+            JacksonJsonDecoder decoder = new JacksonJsonDecoder(om);
+            JacksonJsonEncoder encoder = new JacksonJsonEncoder(om);
+            configurer.defaultCodecs().jacksonJsonDecoder(decoder);
+            configurer.defaultCodecs().jacksonJsonEncoder(encoder);
         };
     }
 }

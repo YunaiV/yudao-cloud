@@ -107,6 +107,7 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
     }
 
     @Override
+    @SuppressWarnings("removal")
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // 将 Request 中可以直接获取到的参数，设置到网关日志
         ServerHttpRequest request = exchange.getRequest();
@@ -117,7 +118,7 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
         gatewayLog.setRequestMethod(request.getMethod().name());
         gatewayLog.setRequestUrl(request.getURI().getRawPath());
         gatewayLog.setQueryParams(request.getQueryParams());
-        gatewayLog.setRequestHeaders(request.getHeaders());
+        gatewayLog.setRequestHeaders(request.getHeaders().asMultiValueMap());
         gatewayLog.setStartTime(LocalDateTime.now());
         gatewayLog.setUserIp(WebFrameworkUtils.getClientIP(exchange));
 
@@ -192,7 +193,7 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
                     // 设置其它字段
                     gatewayLog.setUserId(SecurityFrameworkUtils.getLoginUserId(exchange));
                     gatewayLog.setUserType(SecurityFrameworkUtils.getLoginUserType(exchange));
-                    gatewayLog.setResponseHeaders(response.getHeaders());
+                    gatewayLog.setResponseHeaders(response.getHeaders().asMultiValueMap());
                     gatewayLog.setHttpStatus((HttpStatus) response.getStatusCode());
 
                     // 获取响应类型，如果是 json 就打印

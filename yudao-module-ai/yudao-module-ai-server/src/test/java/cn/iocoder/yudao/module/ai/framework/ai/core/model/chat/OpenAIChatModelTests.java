@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.ai.framework.ai.core.model.chat;
 
+import cn.hutool.system.SystemUtil;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.ai.chat.messages.Message;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static cn.iocoder.yudao.module.ai.util.AiUtils.validateApiKey;
+
 /**
  * {@link OpenAiChatModel} 集成测试
  *
@@ -22,12 +25,18 @@ import java.util.Objects;
  */
 public class OpenAIChatModelTests {
 
+    private static final String BASE_URL = SystemUtil.get("OPENAI_BASE_URL",
+            "https://api.teamorouter.com/v1");
+    private static final String API_KEY = SystemUtil.get("OPENAI_API_KEY",
+            "sk-xxxx"); // 按需改成你的 OpenAI API Key
+    private static final String MODEL = SystemUtil.get("OPENAI_MODEL",
+            "gpt-5.5");
+
     private final OpenAiChatModel chatModel = OpenAiChatModel.builder()
             .options(OpenAiChatOptions.builder()
-                    .baseUrl("https://api.holdai.top")
-                    .apiKey("sk-xxx") // apiKey
-                    .model("gpt-5-nano-2025-08-07") // 模型
-//                    .model("o1") // 模型
+                    .baseUrl(BASE_URL)
+                    .apiKey(API_KEY)
+                    .model(MODEL)
                     .temperature(0.7)
                     .build())
             .build();
@@ -35,6 +44,7 @@ public class OpenAIChatModelTests {
     @Test
     @Disabled
     public void testCall() {
+        validateApiKey(API_KEY);
         // 准备参数
         List<Message> messages = new ArrayList<>();
         messages.add(new SystemMessage("你是一个优质的文言文作者，用文言文描述着各城市的人文风景。"));
@@ -50,6 +60,7 @@ public class OpenAIChatModelTests {
     @Test
     @Disabled
     public void testStream() {
+        validateApiKey(API_KEY);
         // 准备参数
         List<Message> messages = new ArrayList<>();
         messages.add(new SystemMessage("你是一个优质的文言文作者，用文言文描述着各城市的人文风景。"));
@@ -68,14 +79,16 @@ public class OpenAIChatModelTests {
     @Test
     @Disabled
     public void testStream_thinking() {
+        validateApiKey(API_KEY);
         // 准备参数
         List<Message> messages = new ArrayList<>();
         messages.add(new UserMessage("详细分析下，如何设计一个电商系统？"));
         OpenAiChatOptions options = OpenAiChatOptions.builder()
-                .model("gpt-5")
-//                .model("o4-mini")
-//                .model("o3-pro")
-                .reasoningEffort("low")
+                .baseUrl(BASE_URL)
+                .apiKey(API_KEY)
+                .model(MODEL)
+                .reasoningEffort("low") // https://help.openai.com/zh-hant/articles/5072518-controlling-the-length-of-openai-model-responses
+                .maxCompletionTokens(1024)
                 .build();
 
         // 调用
@@ -86,7 +99,5 @@ public class OpenAIChatModelTests {
             System.out.println(Objects.requireNonNull(response.getResult()).getOutput());
         }).then().block();
     }
-
-
 
 }

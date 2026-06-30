@@ -80,13 +80,6 @@ public class BpmHttpRequestUtils {
 
     public static void executeBpmHttpRequest(BpmProcessInstanceStatusEvent event,
                                              String url) {
-        RestTemplate restTemplate = SpringUtils.getBean(RestTemplate.class);
-        executeBpmHttpRequest(event, url, restTemplate);
-    }
-
-    public static void executeBpmHttpRequest(BpmProcessInstanceStatusEvent event,
-                                             String url,
-                                             RestTemplate restTemplate) {
         // 1.1 设置请求头
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -109,6 +102,7 @@ public class BpmHttpRequestUtils {
 //        }
 
         // 2. 发起请求
+        RestTemplate restTemplate = SpringUtils.getBean(RestTemplate.class);
         sendHttpRequest(url, headers, event, restTemplate);
     }
 

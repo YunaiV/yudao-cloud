@@ -13,7 +13,6 @@ import cn.iocoder.yudao.module.ai.framework.ai.config.AiAutoConfiguration;
 import cn.iocoder.yudao.module.ai.framework.ai.config.YudaoAiProperties;
 import cn.iocoder.yudao.module.ai.framework.ai.core.model.baichuan.BaiChuanChatModel;
 import cn.iocoder.yudao.module.ai.framework.ai.core.model.doubao.DouBaoChatModel;
-import cn.iocoder.yudao.module.ai.framework.ai.core.model.gemini.GeminiChatModel;
 import cn.iocoder.yudao.module.ai.framework.ai.core.model.hunyuan.HunYuanChatModel;
 import cn.iocoder.yudao.module.ai.framework.ai.core.model.midjourney.api.MidjourneyApi;
 import cn.iocoder.yudao.module.ai.framework.ai.core.model.minimax.MiniMaxChatModel;
@@ -22,25 +21,27 @@ import cn.iocoder.yudao.module.ai.framework.ai.core.model.siliconflow.SiliconFlo
 import cn.iocoder.yudao.module.ai.framework.ai.core.model.siliconflow.SiliconFlowChatModel;
 import cn.iocoder.yudao.module.ai.framework.ai.core.model.siliconflow.SiliconFlowImageApi;
 import cn.iocoder.yudao.module.ai.framework.ai.core.model.siliconflow.SiliconFlowImageModel;
+import cn.iocoder.yudao.module.ai.framework.ai.core.model.stepfun.StepFunChatModel;
 import cn.iocoder.yudao.module.ai.framework.ai.core.model.suno.api.SunoApi;
 import cn.iocoder.yudao.module.ai.framework.ai.core.model.xinghuo.XingHuoChatModel;
 import cn.iocoder.yudao.module.ai.framework.ai.core.model.yiyan.YiYanChatModel;
 import cn.iocoder.yudao.module.ai.framework.ai.core.model.zhipu.ZhiPuChatModel;
+import cn.iocoder.yudao.module.ai.util.AiUtils;
 import com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeChatAutoConfiguration;
 import com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeEmbeddingAutoConfiguration;
 import com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeImageAutoConfiguration;
-import com.alibaba.cloud.ai.dashscope.api.DashScopeApi;
-import com.alibaba.cloud.ai.dashscope.api.DashScopeImageApi;
 import com.alibaba.cloud.ai.dashscope.chat.DashScopeChatModel;
-import com.alibaba.cloud.ai.dashscope.chat.DashScopeChatOptions;
 import com.alibaba.cloud.ai.dashscope.embedding.text.DashScopeEmbeddingModel;
-import com.alibaba.cloud.ai.dashscope.embedding.text.DashScopeEmbeddingOptions;
 import com.alibaba.cloud.ai.dashscope.image.DashScopeImageModel;
+import com.google.genai.Client;
+import com.google.genai.types.HttpOptions;
 import io.micrometer.observation.ObservationRegistry;
 import io.milvus.client.MilvusServiceClient;
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import lombok.SneakyThrows;
+import org.springframework.ai.anthropic.AnthropicChatModel;
+import org.springframework.ai.anthropic.AnthropicChatOptions;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.deepseek.DeepSeekChatModel;
 import org.springframework.ai.deepseek.DeepSeekChatOptions;
@@ -49,26 +50,24 @@ import org.springframework.ai.document.MetadataMode;
 import org.springframework.ai.embedding.BatchingStrategy;
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.embedding.observation.EmbeddingModelObservationConvention;
+import org.springframework.ai.google.genai.GoogleGenAiChatModel;
+import org.springframework.ai.google.genai.GoogleGenAiChatOptions;
 import org.springframework.ai.image.ImageModel;
 import org.springframework.ai.model.anthropic.autoconfigure.AnthropicChatAutoConfiguration;
 import org.springframework.ai.model.deepseek.autoconfigure.DeepSeekChatAutoConfiguration;
+import org.springframework.ai.model.google.genai.autoconfigure.chat.GoogleGenAiChatAutoConfiguration;
 import org.springframework.ai.model.ollama.autoconfigure.OllamaChatAutoConfiguration;
 import org.springframework.ai.model.openai.autoconfigure.OpenAiChatAutoConfiguration;
 import org.springframework.ai.model.openai.autoconfigure.OpenAiEmbeddingAutoConfiguration;
 import org.springframework.ai.model.openai.autoconfigure.OpenAiImageAutoConfiguration;
 import org.springframework.ai.model.stabilityai.autoconfigure.StabilityAiImageAutoConfiguration;
+import org.springframework.ai.model.tool.ToolCallingManager;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.ollama.OllamaEmbeddingModel;
 import org.springframework.ai.ollama.api.OllamaApi;
 import org.springframework.ai.ollama.api.OllamaEmbeddingOptions;
-import org.springframework.ai.openai.OpenAiChatModel;
-import org.springframework.ai.openai.OpenAiEmbeddingModel;
-import org.springframework.ai.openai.OpenAiEmbeddingOptions;
-import org.springframework.ai.openai.OpenAiImageModel;
-import org.springframework.ai.anthropic.AnthropicChatModel;
-import org.springframework.ai.anthropic.AnthropicChatOptions;
-import org.springframework.ai.openai.OpenAiChatOptions;
-import org.springframework.ai.openai.OpenAiImageOptions;
+import org.springframework.ai.openai.*;
+import org.springframework.ai.retry.RetryUtils;
 import org.springframework.ai.stabilityai.StabilityAiImageModel;
 import org.springframework.ai.stabilityai.api.StabilityAiApi;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
@@ -96,7 +95,7 @@ import redis.clients.jedis.RedisClient;
 
 import java.io.File;
 import java.time.Duration;
-import java.util.List;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -111,7 +110,9 @@ import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.
 public class AiModelFactoryImpl implements AiModelFactory {
 
     @Override
-    public ChatModel getOrCreateChatModel(AiPlatformEnum platform, String apiKey, String url) {
+    public ChatModel getOrCreateChatModel(AiPlatformEnum platform, String rawApiKey, String rawUrl) {
+        final String apiKey = resolveSpringPlaceholders(rawApiKey);
+        final String url = resolveSpringPlaceholders(rawUrl);
         String cacheKey = buildClientCacheKey(ChatModel.class, platform, apiKey, url);
         return Singleton.get(cacheKey, (Func0<ChatModel>) () -> {
             // noinspection EnhancedSwitchMigration
@@ -134,6 +135,8 @@ public class AiModelFactoryImpl implements AiModelFactory {
                     return buildMiniMaxChatModel(apiKey, url);
                 case MOONSHOT:
                     return buildMoonshotChatModel(apiKey, url);
+                case STEP_FUN:
+                    return buildStepFunChatModel(apiKey, url);
                 case XING_HUO:
                     return buildXingHuoChatModel(apiKey);
                 case BAI_CHUAN:
@@ -145,7 +148,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
                 case ANTHROPIC:
                     return buildAnthropicChatModel(apiKey, url);
                 case GEMINI:
-                    return buildGeminiChatModel(apiKey);
+                    return buildGeminiChatModel(apiKey, url);
                 case OLLAMA:
                     return buildOllamaChatModel(url);
                 case GROK:
@@ -178,6 +181,8 @@ public class AiModelFactoryImpl implements AiModelFactory {
                 return SpringUtil.getBean(MiniMaxChatModel.class);
             case MOONSHOT:
                 return SpringUtil.getBean(MoonshotChatModel.class);
+            case STEP_FUN:
+                return SpringUtil.getBean(StepFunChatModel.class);
             case XING_HUO:
                 return SpringUtil.getBean(XingHuoChatModel.class);
             case BAI_CHUAN:
@@ -187,7 +192,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
             case ANTHROPIC:
                 return SpringUtil.getBean(AnthropicChatModel.class);
             case GEMINI:
-                return SpringUtil.getBean(GeminiChatModel.class);
+                return SpringUtil.getBean(GoogleGenAiChatModel.class);
             case OLLAMA:
                 return SpringUtil.getBean(OllamaChatModel.class);
             default:
@@ -213,7 +218,9 @@ public class AiModelFactoryImpl implements AiModelFactory {
     }
 
     @Override
-    public ImageModel getOrCreateImageModel(AiPlatformEnum platform, String apiKey, String url) {
+    public ImageModel getOrCreateImageModel(AiPlatformEnum platform, String rawApiKey, String rawUrl) {
+        String apiKey = resolveSpringPlaceholders(rawApiKey);
+        String url = resolveSpringPlaceholders(rawUrl);
         // noinspection EnhancedSwitchMigration
         switch (platform) {
             case TONG_YI:
@@ -221,7 +228,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
             case OPENAI:
                 return buildOpenAiImageModel(apiKey, url);
             case SILICON_FLOW:
-                return buildSiliconFlowImageModel(apiKey,url);
+                return buildSiliconFlowImageModel(apiKey, url);
             case STABLE_DIFFUSION:
                 return buildStabilityAiImageModel(apiKey, url);
             default:
@@ -230,9 +237,11 @@ public class AiModelFactoryImpl implements AiModelFactory {
     }
 
     @Override
-    public MidjourneyApi getOrCreateMidjourneyApi(String apiKey, String url) {
-        String cacheKey = buildClientCacheKey(MidjourneyApi.class, AiPlatformEnum.MIDJOURNEY.getPlatform(), apiKey,
-                url);
+    public MidjourneyApi getOrCreateMidjourneyApi(String rawApiKey, String rawUrl) {
+        final String apiKey = resolveSpringPlaceholders(rawApiKey);
+        final String url = resolveSpringPlaceholders(rawUrl);
+        String cacheKey = buildClientCacheKey(MidjourneyApi.class, AiPlatformEnum.MIDJOURNEY.getPlatform(),
+                apiKey, url);
         return Singleton.get(cacheKey, (Func0<MidjourneyApi>) () -> {
             YudaoAiProperties.Midjourney properties = SpringUtil.getBean(YudaoAiProperties.class)
                     .getMidjourney();
@@ -241,14 +250,18 @@ public class AiModelFactoryImpl implements AiModelFactory {
     }
 
     @Override
-    public SunoApi getOrCreateSunoApi(String apiKey, String url) {
+    public SunoApi getOrCreateSunoApi(String rawApiKey, String rawUrl) {
+        final String apiKey = resolveSpringPlaceholders(rawApiKey);
+        final String url = resolveSpringPlaceholders(rawUrl);
         String cacheKey = buildClientCacheKey(SunoApi.class, AiPlatformEnum.SUNO.getPlatform(), apiKey, url);
         return Singleton.get(cacheKey, (Func0<SunoApi>) () -> new SunoApi(url));
     }
 
     @Override
     @SuppressWarnings("EnhancedSwitchMigration")
-    public EmbeddingModel getOrCreateEmbeddingModel(AiPlatformEnum platform, String apiKey, String url, String model) {
+    public EmbeddingModel getOrCreateEmbeddingModel(AiPlatformEnum platform, String rawApiKey, String rawUrl, String model) {
+        final String apiKey = resolveSpringPlaceholders(rawApiKey);
+        final String url = resolveSpringPlaceholders(rawUrl);
         String cacheKey = buildClientCacheKey(EmbeddingModel.class, platform, apiKey, url, model);
         return Singleton.get(cacheKey, (Func0<EmbeddingModel>) () -> {
             switch (platform) {
@@ -256,6 +269,8 @@ public class AiModelFactoryImpl implements AiModelFactory {
                     return buildTongYiEmbeddingModel(apiKey, model);
                 case OPENAI:
                     return buildOpenAiEmbeddingModel(apiKey, url, model);
+                case AZURE_OPENAI:
+                    return buildAzureOpenAiEmbeddingModel(apiKey, url, model);
                 case OLLAMA:
                     return buildOllamaEmbeddingModel(url, model);
                 default:
@@ -291,6 +306,11 @@ public class AiModelFactoryImpl implements AiModelFactory {
             return clazz.getName();
         }
         return StrUtil.format("{}#{}", clazz.getName(), ArrayUtil.join(params, "_"));
+    }
+
+    private static String resolveSpringPlaceholders(String value) {
+        // yml 配置的占位符由 Spring 自动解析；DB 里保存的 ${xxx} 需要在这里手动解析。
+        return AiUtils.resolveSpringPlaceholders(value);
     }
 
     // ========== 各种创建 spring-ai 客户端的方法 ==========
@@ -383,13 +403,20 @@ public class AiModelFactoryImpl implements AiModelFactory {
     }
 
     /**
+     * 可参考 {@link AiAutoConfiguration#stepFunChatClient(YudaoAiProperties)}
+     */
+    private StepFunChatModel buildStepFunChatModel(String apiKey, String url) {
+        YudaoAiProperties.StepFun properties = new YudaoAiProperties.StepFun()
+                .setBaseUrl(url).setApiKey(apiKey);
+        return new AiAutoConfiguration().buildStepFunChatClient(properties);
+    }
+
+    /**
      * 可参考 {@link AiAutoConfiguration#xingHuoChatClient(YudaoAiProperties)}
      */
-    private static XingHuoChatModel buildXingHuoChatModel(String key) {
-        List<String> keys = StrUtil.split(key, '|');
-        Assert.equals(keys.size(), 2, "XingHuoChatClient 的密钥需要 (appKey|secretKey) 格式");
+    private static XingHuoChatModel buildXingHuoChatModel(String apiKey) {
         YudaoAiProperties.XingHuo properties = new YudaoAiProperties.XingHuo()
-                .setAppKey(keys.get(0)).setSecretKey(keys.get(1));
+                .setApiKey(apiKey).setModel(XingHuoChatModel.MODEL_DEFAULT);
         return new AiAutoConfiguration().buildXingHuoChatClient(properties);
     }
 
@@ -441,12 +468,26 @@ public class AiModelFactoryImpl implements AiModelFactory {
     }
 
     /**
-     * 可参考 {@link AiAutoConfiguration#buildGeminiChatClient(YudaoAiProperties.Gemini)}
+     * 可参考 {@link GoogleGenAiChatAutoConfiguration} 的 googleGenAiChatModel 方法
      */
-    private static GeminiChatModel buildGeminiChatModel(String apiKey) {
-        YudaoAiProperties.Gemini properties = SpringUtil.getBean(YudaoAiProperties.class)
-                .getGemini().setApiKey(apiKey);
-        return new AiAutoConfiguration().buildGeminiChatClient(properties);
+    private static GoogleGenAiChatModel buildGeminiChatModel(String apiKey, String url) {
+        Client.Builder clientBuilder = Client.builder().apiKey(apiKey);
+        if (StrUtil.isNotBlank(url)) {
+            clientBuilder.httpOptions(HttpOptions.builder()
+                    .baseUrl(url)
+                    // TeamOrouter 的 Gemini 原生协议使用 Authorization Bearer 鉴权
+                    .headers(Collections.singletonMap("Authorization", "Bearer " + apiKey))
+                    .build());
+        }
+        return GoogleGenAiChatModel.builder()
+                .genAiClient(clientBuilder.build())
+                .options(GoogleGenAiChatOptions.builder()
+                        .model("gemini-2.5-flash")
+                        .build())
+                .toolCallingManager(SpringUtil.getBean(ToolCallingManager.class))
+                .retryTemplate(RetryUtils.DEFAULT_RETRY_TEMPLATE)
+                .observationRegistry(SpringUtil.getBean(ObservationRegistry.class))
+                .build();
     }
 
     /**
@@ -522,6 +563,21 @@ public class AiModelFactoryImpl implements AiModelFactory {
         OpenAiEmbeddingOptions.Builder optionsBuilder = OpenAiEmbeddingOptions.builder()
                 .apiKey(openAiToken)
                 .model(model);
+        if (StrUtil.isNotEmpty(url)) {
+            optionsBuilder.baseUrl(url);
+        }
+        return OpenAiEmbeddingModel.builder()
+                .metadataMode(MetadataMode.EMBED)
+                .options(optionsBuilder.build())
+                .build();
+    }
+
+    private OpenAiEmbeddingModel buildAzureOpenAiEmbeddingModel(String openAiToken, String url, String model) {
+        OpenAiEmbeddingOptions.Builder optionsBuilder = OpenAiEmbeddingOptions.builder()
+                .apiKey(openAiToken)
+                .model(model)
+                .deploymentName(model)
+                .azure(true);
         if (StrUtil.isNotEmpty(url)) {
             optionsBuilder.baseUrl(url);
         }

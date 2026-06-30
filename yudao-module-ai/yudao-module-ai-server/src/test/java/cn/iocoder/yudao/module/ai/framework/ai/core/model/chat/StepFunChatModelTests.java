@@ -1,10 +1,11 @@
 package cn.iocoder.yudao.module.ai.framework.ai.core.model.chat;
 
 import cn.hutool.system.SystemUtil;
-import cn.iocoder.yudao.module.ai.framework.ai.core.model.yiyan.YiYanChatModel;
+import cn.iocoder.yudao.module.ai.framework.ai.core.model.stepfun.StepFunChatModel;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.ai.chat.messages.Message;
+import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -20,24 +21,26 @@ import java.util.Objects;
 import static cn.iocoder.yudao.module.ai.util.AiUtils.validateApiKey;
 
 /**
- * {@link YiYanChatModel} 的集成测试
+ * {@link StepFunChatModel} 集成测试
  *
- * @author fansili
+ * @author 芋道源码
  */
-public class YiYanChatModelTests {
+public class StepFunChatModelTests {
 
-    private static final String API_KEY = SystemUtil.get("YIYAN_API_KEY",
-            "sk-xxxx"); // 按需改成你的文心一言 API Key
-    private static final String MODEL = SystemUtil.get("YIYAN_MODEL",
-            YiYanChatModel.MODEL_DEFAULT);
+    private static final String API_KEY = SystemUtil.get("STEPFUN_API_KEY",
+            "sk-xxxx");
+    private static final String MODEL = SystemUtil.get("STEPFUN_MODEL",
+            StepFunChatModel.MODEL_DEFAULT);
 
-    private final YiYanChatModel chatModel = new YiYanChatModel(DeepSeekChatModel.builder()
+    private final StepFunChatModel chatModel = new StepFunChatModel(DeepSeekChatModel.builder()
             .deepSeekApi(DeepSeekApi.builder()
-                    .baseUrl(YiYanChatModel.BASE_URL)
+                    .baseUrl(StepFunChatModel.BASE_URL)
+                    .completionsPath(StepFunChatModel.COMPLETE_PATH)
                     .apiKey(API_KEY)
                     .build())
             .options(DeepSeekChatOptions.builder()
                     .model(MODEL)
+                    .temperature(0.7)
                     .build())
             .build());
 
@@ -47,6 +50,7 @@ public class YiYanChatModelTests {
         validateApiKey(API_KEY);
         // 准备参数
         List<Message> messages = new ArrayList<>();
+        messages.add(new SystemMessage("你是一个优质的文言文作者，用文言文描述着各城市的人文风景。"));
         messages.add(new UserMessage("1 + 1 = ？"));
 
         // 调用
@@ -62,6 +66,7 @@ public class YiYanChatModelTests {
         validateApiKey(API_KEY);
         // 准备参数
         List<Message> messages = new ArrayList<>();
+        messages.add(new SystemMessage("你是一个优质的文言文作者，用文言文描述着各城市的人文风景。"));
         messages.add(new UserMessage("1 + 1 = ？"));
 
         // 调用
@@ -69,7 +74,8 @@ public class YiYanChatModelTests {
         // 打印结果
         flux.doOnNext(response -> {
 //            System.out.println(response);
-            System.out.println(Objects.requireNonNull(response.getResult()).getOutput());
+//            System.out.println(Objects.requireNonNull(response.getResult()).getOutput());
+            System.out.println(response.getResult() != null ? response.getResult().getOutput() : null);
         }).then().block();
     }
 

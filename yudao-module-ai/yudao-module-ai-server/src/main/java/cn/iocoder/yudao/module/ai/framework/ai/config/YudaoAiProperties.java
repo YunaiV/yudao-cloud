@@ -14,11 +14,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class YudaoAiProperties {
 
     /**
-     * 谷歌 Gemini
-     */
-    private Gemini gemini;
-
-    /**
      * 字节豆包
      */
     private DouBao doubao;
@@ -64,6 +59,16 @@ public class YudaoAiProperties {
     private Moonshot moonshot;
 
     /**
+     * 阶跃星辰
+     */
+    private StepFun stepfun;
+
+    /**
+     * Grok
+     */
+    private Grok grok;
+
+    /**
      * Midjourney 绘图
      */
     private Midjourney midjourney;
@@ -78,19 +83,6 @@ public class YudaoAiProperties {
      * 网络搜索
      */
     private WebSearch webSearch;
-
-    @Data
-    public static class Gemini {
-
-        private String enable;
-        private String apiKey;
-
-        private String model;
-        private Double temperature;
-        private Integer maxTokens;
-        private Double topP;
-
-    }
 
     @Data
     public static class DouBao {
@@ -136,9 +128,7 @@ public class YudaoAiProperties {
     public static class XingHuo {
 
         private String enable;
-        private String appId;
-        private String appKey;
-        private String secretKey;
+        private String apiKey;
 
         private String model;
         private Double temperature;
@@ -238,6 +228,20 @@ public class YudaoAiProperties {
 
     @Data
     public static class Grok {
+
+        private String enable;
+        private String apiKey;
+        private String baseUrl;
+
+        private String model;
+        private Double temperature;
+        private Integer maxTokens;
+        private Double topP;
+
+    }
+
+    @Data
+    public static class StepFun {
 
         private String enable;
         private String apiKey;

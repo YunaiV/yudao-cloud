@@ -4,6 +4,7 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.json.JSONUtil;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
+import cn.iocoder.yudao.gateway.util.SkyWalkingTraceUtils;
 import cn.iocoder.yudao.gateway.util.SecurityFrameworkUtils;
 import cn.iocoder.yudao.gateway.util.WebFrameworkUtils;
 import com.alibaba.nacos.common.utils.StringUtils;
@@ -66,39 +67,44 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
      *
      * @param gatewayLog 网关日志
      */
-    private void writeAccessLog(AccessLog gatewayLog) {
-        // 方式一：打印 Logger 后，通过 ELK 进行收集
-        // log.info("[writeAccessLog][日志内容：{}]", JsonUtils.toJsonString(gatewayLog));
+    private void writeAccessLog(ServerWebExchange exchange, AccessLog gatewayLog) {
+        SkyWalkingTraceUtils.callWithTraceIdInMdc(exchange, () -> {
+            gatewayLog.setTraceId(SkyWalkingTraceUtils.getTraceId(exchange));
+            // 方式一：打印 Logger 后，通过 ELK 进行收集
+            // log.info("[writeAccessLog][日志内容：{}]", JsonUtils.toJsonString(gatewayLog));
 
-        // 方式二：调用远程服务，记录到数据库中
-        // TODO 芋艿：暂未实现
+            // 方式二：调用远程服务，记录到数据库中
+            // TODO 芋艿：暂未实现
 
-        // 方式三：打印到控制台，方便排查错误
-        try {
-            Map<String, Object> values = MapUtil.newHashMap(15, true); // 手工拼接，保证排序；15 保证不用扩容
-            values.put("userId", gatewayLog.getUserId());
-            values.put("userType", gatewayLog.getUserType());
-            values.put("routeId", gatewayLog.getRoute() != null ? gatewayLog.getRoute().getId() : null);
-            values.put("schema", gatewayLog.getSchema());
-            values.put("requestUrl", gatewayLog.getRequestUrl());
-            values.put("queryParams", gatewayLog.getQueryParams().toSingleValueMap());
-            values.put("requestBody", JsonUtils.isJson(gatewayLog.getRequestBody()) ? // 保证 body 的展示好看
-                    JSONUtil.parse(gatewayLog.getRequestBody()) : gatewayLog.getRequestBody());
-            values.put("requestHeaders", JsonUtils.toJsonString(gatewayLog.getRequestHeaders().toSingleValueMap()));
-            values.put("userIp", gatewayLog.getUserIp());
-            values.put("responseBody", JsonUtils.isJson(gatewayLog.getResponseBody()) ? // 保证 body 的展示好看
-                    JSONUtil.parse(gatewayLog.getResponseBody()) : gatewayLog.getResponseBody());
-            values.put("responseHeaders", gatewayLog.getResponseHeaders() != null ?
-                    JsonUtils.toJsonString(gatewayLog.getResponseHeaders().toSingleValueMap()) : null);
-            values.put("httpStatus", gatewayLog.getHttpStatus());
-            values.put("startTime", LocalDateTimeUtil.format(gatewayLog.getStartTime(), NORM_DATETIME_MS_FORMATTER));
-            values.put("endTime", LocalDateTimeUtil.format(gatewayLog.getEndTime(), NORM_DATETIME_MS_FORMATTER));
-            values.put("duration", gatewayLog.getDuration() != null ? gatewayLog.getDuration() + " ms" : null);
-            log.info("[writeAccessLog][网关日志：{}]", JsonUtils.toJsonPrettyString(values));
-        } catch (Exception e) {
-            // 兜底处理，参见 https://gitee.com/zhijiantianya/yudao-cloud/issues/IC9A70
-            log.error("[writeAccessLog][打印网关日志时，发生异常]", e);
-        }
+            // 方式三：打印到控制台，方便排查错误
+            try {
+                Map<String, Object> values = MapUtil.newHashMap(15, true); // 手工拼接，保证排序；15 保证不用扩容
+                values.put("traceId", gatewayLog.getTraceId());
+                values.put("userId", gatewayLog.getUserId());
+                values.put("userType", gatewayLog.getUserType());
+                values.put("routeId", gatewayLog.getRoute() != null ? gatewayLog.getRoute().getId() : null);
+                values.put("schema", gatewayLog.getSchema());
+                values.put("requestUrl", gatewayLog.getRequestUrl());
+                values.put("queryParams", gatewayLog.getQueryParams().toSingleValueMap());
+                values.put("requestBody", JsonUtils.isJson(gatewayLog.getRequestBody()) ? // 保证 body 的展示好看
+                        JSONUtil.parse(gatewayLog.getRequestBody()) : gatewayLog.getRequestBody());
+                values.put("requestHeaders", JsonUtils.toJsonString(gatewayLog.getRequestHeaders().toSingleValueMap()));
+                values.put("userIp", gatewayLog.getUserIp());
+                values.put("responseBody", JsonUtils.isJson(gatewayLog.getResponseBody()) ? // 保证 body 的展示好看
+                        JSONUtil.parse(gatewayLog.getResponseBody()) : gatewayLog.getResponseBody());
+                values.put("responseHeaders", gatewayLog.getResponseHeaders() != null ?
+                        JsonUtils.toJsonString(gatewayLog.getResponseHeaders().toSingleValueMap()) : null);
+                values.put("httpStatus", gatewayLog.getHttpStatus());
+                values.put("startTime", LocalDateTimeUtil.format(gatewayLog.getStartTime(), NORM_DATETIME_MS_FORMATTER));
+                values.put("endTime", LocalDateTimeUtil.format(gatewayLog.getEndTime(), NORM_DATETIME_MS_FORMATTER));
+                values.put("duration", gatewayLog.getDuration() != null ? gatewayLog.getDuration() + " ms" : null);
+                log.info("[writeAccessLog][网关日志：{}]", JsonUtils.toJsonPrettyString(values));
+            } catch (Exception e) {
+                // 兜底处理，参见 https://gitee.com/zhijiantianya/yudao-cloud/issues/IC9A70
+                log.error("[writeAccessLog][打印网关日志时，发生异常]", e);
+            }
+            return null;
+        });
     }
 
     @Override
@@ -110,7 +116,6 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // 将 Request 中可以直接获取到的参数，设置到网关日志
         ServerHttpRequest request = exchange.getRequest();
-        // TODO traceId
         AccessLog gatewayLog = new AccessLog();
         gatewayLog.setRoute(WebFrameworkUtils.getGatewayRoute(exchange));
         gatewayLog.setSchema(request.getURI().getScheme());
@@ -134,7 +139,7 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
         // 包装 Response，用于记录 Response Body
         ServerHttpResponseDecorator decoratedResponse = recordResponseLog(exchange, accessLog);
         return chain.filter(exchange.mutate().response(decoratedResponse).build())
-                .then(Mono.fromRunnable(() -> writeAccessLog(accessLog))); // 打印日志
+                .then(Mono.fromRunnable(() -> writeAccessLog(exchange, accessLog))); // 打印日志
     }
 
     /**
@@ -168,7 +173,7 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
             ServerHttpResponseDecorator decoratedResponse = recordResponseLog(exchange, gatewayLog);
             // 记录普通的
             return chain.filter(exchange.mutate().request(decoratedRequest).response(decoratedResponse).build())
-                    .then(Mono.fromRunnable(() -> writeAccessLog(gatewayLog))); // 打印日志
+                    .then(Mono.fromRunnable(() -> writeAccessLog(exchange, gatewayLog))); // 打印日志
 
         }));
     }

@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.gateway.handler;
 
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
+import cn.iocoder.yudao.gateway.util.SkyWalkingTraceUtils;
 import cn.iocoder.yudao.gateway.util.WebFrameworkUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
@@ -32,16 +33,16 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
         // 已经 commit，则直接返回异常
         ServerHttpResponse response = exchange.getResponse();
         if (response.isCommitted()) {
-            return Mono.error(ex);
+            return Mono.<Void>error(ex);
         }
 
         // 转换成 CommonResult
-        CommonResult<?> result;
-        if (ex instanceof ResponseStatusException) {
-            result = responseStatusExceptionHandler(exchange, (ResponseStatusException) ex);
-        } else {
-            result = defaultExceptionHandler(exchange, ex);
-        }
+        CommonResult<?> result = SkyWalkingTraceUtils.callWithTraceIdInMdc(exchange, () -> {
+            if (ex instanceof ResponseStatusException) {
+                return responseStatusExceptionHandler(exchange, (ResponseStatusException) ex);
+            }
+            return defaultExceptionHandler(exchange, ex);
+        });
 
         // 返回给前端
         return WebFrameworkUtils.writeJSON(exchange, result);

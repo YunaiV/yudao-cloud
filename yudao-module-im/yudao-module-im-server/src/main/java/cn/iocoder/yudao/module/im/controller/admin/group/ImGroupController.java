@@ -1,7 +1,9 @@
 package cn.iocoder.yudao.module.im.controller.admin.group;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
+import cn.iocoder.yudao.framework.common.util.collection.MapUtils;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
 import cn.iocoder.yudao.module.im.controller.admin.group.vo.*;
 import cn.iocoder.yudao.module.im.controller.admin.group.vo.member.ImGroupMemberInviteReqVO;
@@ -186,20 +188,27 @@ public class ImGroupController {
             return Collections.emptyList();
         }
         // 仅当前用户是有效成员的群才允许回填置顶消息
-        Set<Long> activeGroupIds = convertSet(
-                groupMemberService.getActiveGroupMemberListByUserId(loginUserId), ImGroupMemberDO::getGroupId);
+        Map<Long, ImGroupMemberDO> memberMap = convertMap(
+                groupMemberService.getGroupMemberListByUserId(loginUserId), ImGroupMemberDO::getGroupId);
+        Set<Long> activeGroupIds = convertSet(memberMap.values(), ImGroupMemberDO::getGroupId,
+                member -> CommonStatusEnum.ENABLE.getStatus().equals(member.getStatus()));
         Set<Long> allMessageIds = convertSetByFlatMap(groups, group -> activeGroupIds.contains(group.getId())
                 ? CollUtil.emptyIfNull(group.getPinnedMessageIds()).stream() : Stream.empty());
         Map<Long, ImGroupMessageDO> messageMap = groupMessageService.getGroupMessageMap(allMessageIds);
         // 转换输出
         return convertList(groups, group -> {
-            ImGroupRespVO vo = BeanUtils.toBean(group, ImGroupRespVO.class);
-            if (!activeGroupIds.contains(group.getId()) || CollUtil.isEmpty(group.getPinnedMessageIds())) {
-                return vo;
+            ImGroupRespVO groupVO = BeanUtils.toBean(group, ImGroupRespVO.class);
+            // 标记登录用户在该群的成员状态，供前端区分当前群与历史退群
+            boolean joined = activeGroupIds.contains(group.getId());
+            groupVO.setJoinStatus(joined ? CommonStatusEnum.ENABLE.getStatus() : CommonStatusEnum.DISABLE.getStatus());
+            MapUtils.findAndThen(memberMap, group.getId(), member ->
+                    groupVO.setGroupRemark(member.getGroupRemark()).setSilent(Boolean.TRUE.equals(member.getSilent())));
+            if (!joined || CollUtil.isEmpty(group.getPinnedMessageIds())) {
+                return groupVO;
             }
             // 按 pin 顺序输出，已被删除的消息（messageMap 没命中）跳过
             List<ImGroupMessageDO> pinnedMesages = convertList(group.getPinnedMessageIds(), messageMap::get);
-            return vo.setPinnedMessages(BeanUtils.toBean(pinnedMesages, ImGroupMessageRespVO.class));
+            return groupVO.setPinnedMessages(BeanUtils.toBean(pinnedMesages, ImGroupMessageRespVO.class));
         });
     }
 

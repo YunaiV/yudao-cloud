@@ -818,8 +818,8 @@ public class BpmTaskServiceImpl implements BpmTaskService {
      */
     private void approveDelegateTask(BpmTaskApproveReqVO reqVO, Task task) {
         // 1. 添加审批意见
-        AdminUserRespDTO currentUser = adminUserApi.getUser(WebFrameworkUtils.getLoginUserId());
-        AdminUserRespDTO ownerUser = adminUserApi.getUser(NumberUtils.parseLong(task.getOwner())); // 发起委托的用户
+        AdminUserRespDTO currentUser = adminUserApi.getUser(WebFrameworkUtils.getLoginUserId()).getCheckedData();
+        AdminUserRespDTO ownerUser = adminUserApi.getUser(NumberUtils.parseLong(task.getOwner())).getCheckedData(); // 发起委托的用户
         Assert.notNull(ownerUser, "委派任务找不到原审批人，需要检查数据");
         commentService.createComment(reqVO.getId(), task.getProcessInstanceId(), BpmCommentTypeEnum.DELEGATE_END,
                 currentUser.getNickname(), ownerUser.getNickname(), reqVO.getReason());
@@ -1047,13 +1047,13 @@ public class BpmTaskServiceImpl implements BpmTaskService {
             throw exception(TASK_DELEGATE_FAIL_USER_REPEAT);
         }
         // 1.2 校验目标用户存在
-        AdminUserRespDTO delegateUser = adminUserApi.getUser(reqVO.getDelegateUserId());
+        AdminUserRespDTO delegateUser = adminUserApi.getUser(reqVO.getDelegateUserId()).getCheckedData();
         if (delegateUser == null) {
             throw exception(TASK_DELEGATE_FAIL_USER_NOT_EXISTS);
         }
 
         // 2. 添加委托意见
-        AdminUserRespDTO currentUser = adminUserApi.getUser(userId);
+        AdminUserRespDTO currentUser = adminUserApi.getUser(userId).getCheckedData();
         commentService.createComment(taskId, task.getProcessInstanceId(), BpmCommentTypeEnum.DELEGATE_START,
                 currentUser.getNickname(), delegateUser.getNickname(), reqVO.getReason());
 
@@ -1078,13 +1078,13 @@ public class BpmTaskServiceImpl implements BpmTaskService {
             throw exception(TASK_TRANSFER_FAIL_USER_REPEAT);
         }
         // 1.2 校验目标用户存在
-        AdminUserRespDTO assigneeUser = adminUserApi.getUser(reqVO.getAssigneeUserId());
+        AdminUserRespDTO assigneeUser = adminUserApi.getUser(reqVO.getAssigneeUserId()).getCheckedData();
         if (assigneeUser == null) {
             throw exception(TASK_TRANSFER_FAIL_USER_NOT_EXISTS);
         }
 
         // 2. 添加委托意见
-        AdminUserRespDTO currentUser = adminUserApi.getUser(userId);
+        AdminUserRespDTO currentUser = adminUserApi.getUser(userId).getCheckedData();
         commentService.createComment(taskId, task.getProcessInstanceId(), BpmCommentTypeEnum.TRANSFER,
                 currentUser.getNickname(), assigneeUser.getNickname(), reqVO.getReason());
 
@@ -1143,7 +1143,7 @@ public class BpmTaskServiceImpl implements BpmTaskService {
     public void createSignTask(Long userId, BpmTaskSignCreateReqVO reqVO) {
         // 1. 获取和校验任务
         TaskEntityImpl taskEntity = validateTaskCanCreateSign(userId, reqVO);
-        List<AdminUserRespDTO> userList = adminUserApi.getUserList(reqVO.getUserIds());
+        List<AdminUserRespDTO> userList = adminUserApi.getUserList(reqVO.getUserIds()).getCheckedData();
         if (CollUtil.isEmpty(userList)) {
             throw exception(TASK_SIGN_CREATE_USER_NOT_EXIST);
         }
@@ -1170,7 +1170,7 @@ public class BpmTaskServiceImpl implements BpmTaskService {
         createSignTaskList(convertList(reqVO.getUserIds(), String::valueOf), taskEntity);
 
         // 4. 记录加签的评论到 task 任务
-        AdminUserRespDTO currentUser = adminUserApi.getUser(userId);
+        AdminUserRespDTO currentUser = adminUserApi.getUser(userId).getCheckedData();
         commentService.createComment(reqVO.getId(), taskEntity.getProcessInstanceId(), BpmCommentTypeEnum.ADD_SIGN,
                 currentUser.getNickname(), BpmTaskSignTypeEnum.nameOfType(reqVO.getType()),
                 String.join(",", convertList(userList, AdminUserRespDTO::getNickname)), reqVO.getReason());
@@ -1201,7 +1201,7 @@ public class BpmTaskServiceImpl implements BpmTaskService {
         List<Long> currentAssigneeList = convertListByFlatMap(taskList, task -> // 需要考虑 owner 的情况，因为向后加签时，它暂时没 assignee 而是 owner
                 Stream.of(NumberUtils.parseLong(task.getAssignee()), NumberUtils.parseLong(task.getOwner())));
         if (CollUtil.containsAny(currentAssigneeList, reqVO.getUserIds())) {
-            List<AdminUserRespDTO> userList = adminUserApi.getUserList(CollUtil.intersection(currentAssigneeList, reqVO.getUserIds()));
+            List<AdminUserRespDTO> userList = adminUserApi.getUserList(CollUtil.intersection(currentAssigneeList, reqVO.getUserIds())).getCheckedData();
             throw exception(TASK_SIGN_CREATE_USER_REPEAT, String.join(",", convertList(userList, AdminUserRespDTO::getNickname)));
         }
         return taskEntity;
@@ -1263,10 +1263,10 @@ public class BpmTaskServiceImpl implements BpmTaskService {
         // 1.2 校验取消人存在
         AdminUserRespDTO cancelUser = null;
         if (StrUtil.isNotBlank(task.getAssignee())) {
-            cancelUser = adminUserApi.getUser(NumberUtils.parseLong(task.getAssignee()));
+            cancelUser = adminUserApi.getUser(NumberUtils.parseLong(task.getAssignee())).getCheckedData();
         }
         if (cancelUser == null && StrUtil.isNotBlank(task.getOwner())) {
-            cancelUser = adminUserApi.getUser(NumberUtils.parseLong(task.getOwner()));
+            cancelUser = adminUserApi.getUser(NumberUtils.parseLong(task.getOwner())).getCheckedData();
         }
         Assert.notNull(cancelUser, "任务中没有所有者和审批人，数据错误");
 
@@ -1280,7 +1280,7 @@ public class BpmTaskServiceImpl implements BpmTaskService {
         taskService.deleteTasks(convertList(childTaskList, Task::getId));
 
         // 3. 记录日志到父任务中。先记录日志是因为，通过 handleParentTask 方法之后，任务可能被完成了，并且不存在了，会报异常，所以先记录
-        AdminUserRespDTO user = adminUserApi.getUser(userId);
+        AdminUserRespDTO user = adminUserApi.getUser(userId).getCheckedData();
         commentService.createComment(task.getParentTaskId(), task.getProcessInstanceId(), BpmCommentTypeEnum.SUB_SIGN,
                 user.getNickname(), cancelUser.getNickname());
 
@@ -1586,9 +1586,9 @@ public class BpmTaskServiceImpl implements BpmTaskService {
                             // 情况二：转交给部门负责人审批
                             if (ObjectUtils.equalsAny(assignStartUserHandlerType,
                                     BpmUserTaskAssignStartUserHandlerTypeEnum.TRANSFER_DEPT_LEADER.getType())) {
-                                AdminUserRespDTO startUser = adminUserApi.getUser(Long.valueOf(processInstance.getStartUserId()));
+                                AdminUserRespDTO startUser = adminUserApi.getUser(Long.valueOf(processInstance.getStartUserId())).getCheckedData();
                                 Assert.notNull(startUser, "提交人({})信息为空", processInstance.getStartUserId());
-                                DeptRespDTO dept = startUser.getDeptId() != null ? deptApi.getDept(startUser.getDeptId()) : null;
+                                DeptRespDTO dept = startUser.getDeptId() != null ? deptApi.getDept(startUser.getDeptId()).getCheckedData() : null;
                                 Assert.notNull(dept, "提交人({})部门({})信息为空", processInstance.getStartUserId(), startUser.getDeptId());
                                 // 找不到部门负责人的情况下，自动审批通过
                                 // noinspection DataFlowIssue
@@ -1610,7 +1610,7 @@ public class BpmTaskServiceImpl implements BpmTaskService {
                     }
 
                     // 发送消息
-                    AdminUserRespDTO startUser = adminUserApi.getUser(Long.valueOf(processInstance.getStartUserId()));
+                    AdminUserRespDTO startUser = adminUserApi.getUser(Long.valueOf(processInstance.getStartUserId())).getCheckedData();
                     messageService.sendMessageWhenTaskAssigned(BpmTaskConvert.INSTANCE.convert(processInstance, startUser, task));
                 });
             }

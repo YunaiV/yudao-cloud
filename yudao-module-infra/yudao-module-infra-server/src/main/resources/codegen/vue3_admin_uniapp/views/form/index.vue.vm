@@ -89,9 +89,16 @@
             @click="${javaField}Visible = true"
           />
           <wd-datetime-picker
+#if (!$column.nullable)
             v-model="formData.${javaField}"
+#else
+            :model-value="formData.${javaField} || Date.now()"
+#end
             v-model:visible="${javaField}Visible"
             type="${pickerType}"
+#if ($column.nullable)
+            @update:model-value="value => formData.${javaField} = value"
+#end
           />
     ## 文本域
     #elseif ($column.htmlType == "textarea")
@@ -250,7 +257,11 @@ const formData = ref<${simpleClassName}>({
     #elseif(${javaType} == "boolean")
   ${column.javaField}: false,
     #elseif(${javaType} == "date" || ${javaType} == "localdate" || ${javaType} == "localdatetime")
+      #if (!$column.nullable && !$column.primaryKey && $javaFieldLower != "createtime" && $javaFieldLower != "updatetime")
+  ${column.javaField}: Date.now(),
+      #else
   ${column.javaField}: undefined,
+      #end
     #else
   ${column.javaField}: '',
     #end

@@ -3,7 +3,7 @@ package cn.iocoder.yudao.module.im.dal.mysql.conversation;
 import cn.iocoder.yudao.framework.test.core.ut.BaseDbUnitTest;
 import cn.iocoder.yudao.module.im.dal.dataobject.conversation.ImConversationReadDO;
 import cn.iocoder.yudao.module.im.enums.ImConversationTypeEnum;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;

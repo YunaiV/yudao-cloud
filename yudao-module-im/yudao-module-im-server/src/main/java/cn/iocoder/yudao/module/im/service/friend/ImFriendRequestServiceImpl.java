@@ -23,7 +23,7 @@ import cn.iocoder.yudao.module.im.service.websocket.notification.friend.FriendRe
 import cn.iocoder.yudao.module.im.service.websocket.notification.friend.FriendRequestRejectedNotification;
 import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
 import cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;

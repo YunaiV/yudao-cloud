@@ -1,7 +1,7 @@
 package cn.iocoder.yudao.module.im.service.rtc;
 
-import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.iocoder.yudao.framework.common.exception.ServiceException;
 import cn.iocoder.yudao.framework.test.core.ut.BaseMockitoUnitTest;
@@ -20,7 +20,6 @@ import cn.iocoder.yudao.module.im.enums.rtc.ImRtcParticipantStatusEnum;
 import cn.iocoder.yudao.module.im.framework.config.ImProperties;
 import cn.iocoder.yudao.module.im.service.group.ImGroupMemberService;
 import cn.iocoder.yudao.module.im.service.websocket.ImWebSocketService;
-import cn.iocoder.yudao.module.im.service.websocket.dto.ImPrivateMessageDTO;
 import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
 import cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO;
 import org.junit.jupiter.api.Test;
@@ -33,15 +32,22 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Callable;
 
-import static cn.iocoder.yudao.module.im.enums.ErrorCodeConstants.RTC_GROUP_INVITEE_REQUIRED;
 import static cn.iocoder.yudao.module.im.enums.ErrorCodeConstants.RTC_GROUP_INVITEE_OVER_LIMIT;
+import static cn.iocoder.yudao.module.im.enums.ErrorCodeConstants.RTC_GROUP_INVITEE_REQUIRED;
 import static cn.iocoder.yudao.module.im.enums.ErrorCodeConstants.RTC_SELF_BUSY;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * {@link ImRtcCallServiceImpl} 的单元测试
+ *
+ * @author 芋道源码
+ */
 public class ImRtcCallServiceImplTest extends BaseMockitoUnitTest {
 
     @InjectMocks
@@ -62,7 +68,7 @@ public class ImRtcCallServiceImplTest extends BaseMockitoUnitTest {
     @Mock
     private ImGroupMemberService groupMemberService;
 
-    // ========== timeoutInvitingParticipants（Job 入口）==========
+    // ========== timeoutInvitingParticipants ==========
 
     @Test
     public void testTimeoutInvitingParticipants_emptyCandidates_returnsZeroAndNoDownstream() {
@@ -142,7 +148,7 @@ public class ImRtcCallServiceImplTest extends BaseMockitoUnitTest {
 
         // 断言：成功 1 个；NO_ANSWER 信令推到主叫；不触发 endSession
         assertEquals(1, result);
-        verify(webSocketService).sendPrivateMessageAsync(eq(200L), any(ImPrivateMessageDTO.class));
+        verify(webSocketService).sendNotificationAsync(eq(200L), anyInt(), anyInt(), any());
         verify(rtcCallMapper, never()).updateByIdAndStatusIn(any(), anyCollection(), any());
     }
 
@@ -165,7 +171,7 @@ public class ImRtcCallServiceImplTest extends BaseMockitoUnitTest {
         verifyNoInteractions(webSocketService);
     }
 
-    // ========== noAnswerCallCheck（前端 timer 入口）==========
+    // ========== noAnswerCallCheck ==========
 
     @Test
     public void testNoAnswerCallCheck_authFails_silentNoOp() {
@@ -237,7 +243,7 @@ public class ImRtcCallServiceImplTest extends BaseMockitoUnitTest {
         rtcCallService.noAnswerCallCheck(100L, "r1");
 
         // 断言：NO_ANSWER 信令推到主叫 200L；不触发 endSession
-        verify(webSocketService).sendPrivateMessageAsync(eq(200L), any(ImPrivateMessageDTO.class));
+        verify(webSocketService).sendNotificationAsync(eq(200L), anyInt(), anyInt(), any());
         verify(rtcCallMapper, never()).updateByIdAndStatusIn(any(), anyCollection(), any());
     }
 

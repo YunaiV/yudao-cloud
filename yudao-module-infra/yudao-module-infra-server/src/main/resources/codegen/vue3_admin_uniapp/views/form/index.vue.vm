@@ -45,6 +45,7 @@
               <wd-radio
                 v-for="dict in $dictMethod(DICT_TYPE.${dictType.toUpperCase()})"
                 :key="dict.value"
+                :name="dict.value"
                 :value="dict.value"
               >
                 {{ dict.label }}
@@ -223,7 +224,7 @@ import { $dateImportNames } from '@/utils/date'
 import { createFormSchema } from '@/utils/wot'
 
 const props = defineProps<{
-  id?: ${primaryTsType} | any
+  id?: ${primaryTsType}
 }>()
 
 definePage({

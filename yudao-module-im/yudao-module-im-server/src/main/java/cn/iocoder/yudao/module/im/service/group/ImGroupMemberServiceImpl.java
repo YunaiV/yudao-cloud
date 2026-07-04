@@ -1,6 +1,7 @@
 package cn.iocoder.yudao.module.im.service.group;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
@@ -76,9 +77,8 @@ public class ImGroupMemberServiceImpl implements ImGroupMemberService {
 
     @Override
     public List<ImGroupMemberDO> getGroupMemberListByOwnerAndAdmin(Long groupId) {
-        // TODO DONE @AI：把条件往下传；这样减少加载数据量！
         return groupMemberMapper.selectListByGroupIdAndStatusAndRoles(groupId, CommonStatusEnum.ENABLE.getStatus(),
-                List.of(ImGroupMemberRoleEnum.OWNER.getRole(), ImGroupMemberRoleEnum.ADMIN.getRole()));
+                ListUtil.of(ImGroupMemberRoleEnum.OWNER.getRole(), ImGroupMemberRoleEnum.ADMIN.getRole()));
     }
 
     /**
@@ -105,8 +105,8 @@ public class ImGroupMemberServiceImpl implements ImGroupMemberService {
     }
 
     @Override
-    public List<ImGroupMemberDO> getQuitGroupMemberListByUserId(Long userId, LocalDateTime minQuitTime) {
-        return groupMemberMapper.selectQuitListByUserId(userId, minQuitTime);
+    public List<ImGroupMemberDO> getGroupMemberListByUserId(Long userId) {
+        return groupMemberMapper.selectListByUserId(userId);
     }
 
     @Override
@@ -258,7 +258,7 @@ public class ImGroupMemberServiceImpl implements ImGroupMemberService {
                 .setId(member.getId());
         groupMemberMapper.updateById(updateObj);
 
-        // 3.1 displayUserName 是公开字段，单独走 GROUP_MEMBER_NICKNAME_UPDATE 广播给全员；空串视为「清空昵称」也要广播；与旧值相同跳过
+        // 3.1 displayUserName 是公开字段，单独走 GROUP_MEMBER_NICKNAME_UPDATE 在线同步给全员；空串视为「清空昵称」也要同步；与旧值相同跳过
         if (updateReqVO.getDisplayUserName() != null
                 && ObjUtil.notEqual(updateReqVO.getDisplayUserName(), member.getDisplayUserName())) {
             groupMessageService.sendGroupMessage(userId, ImGroupMessageSendDTO.ofGroupMemberNicknameUpdate(
@@ -270,7 +270,7 @@ public class ImGroupMemberServiceImpl implements ImGroupMemberService {
         boolean groupRemarkChanged = updateReqVO.getGroupRemark() != null
                 && ObjUtil.notEqual(updateReqVO.getGroupRemark(), member.getGroupRemark());
         if (silentChanged || groupRemarkChanged) {
-            groupMessageService.sendGroupMessage(userId, List.of(userId), ImGroupMessageSendDTO.ofGroupMemberSettingUpdate(
+            groupMessageService.sendGroupMessage(userId, ListUtil.of(userId), ImGroupMessageSendDTO.ofGroupMemberSettingUpdate(
                     groupId, userId, updateReqVO.getSilent(), updateReqVO.getGroupRemark()));
         }
     }

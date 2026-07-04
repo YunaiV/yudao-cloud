@@ -1,5 +1,6 @@
 package cn.iocoder.yudao.module.im.service.friend;
 
+import cn.hutool.core.collection.ListUtil;
 import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.common.exception.ServiceException;
 import cn.iocoder.yudao.framework.test.core.ut.BaseMockitoUnitTest;
@@ -9,7 +10,6 @@ import cn.iocoder.yudao.module.im.dal.mysql.friend.ImFriendMapper;
 import cn.iocoder.yudao.module.im.service.message.ImPrivateMessageService;
 import cn.iocoder.yudao.module.im.service.message.dto.ImPrivateMessageSendDTO;
 import cn.iocoder.yudao.module.im.service.websocket.ImWebSocketService;
-import cn.iocoder.yudao.module.im.service.websocket.dto.ImPrivateMessageDTO;
 import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -29,7 +29,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * IM 好友关系 Service 单元测试
+ * {@link ImFriendServiceImpl} 的单元测试
  *
  * @author 芋道源码
  */
@@ -68,7 +68,7 @@ public class ImFriendServiceImplTest extends BaseMockitoUnitTest {
         assertEquals(100L, captor.getValue().getId());
         assertTrue(captor.getValue().getSilent());
         // 断言：推送了好友更新通知
-        verify(imWebSocketService).sendPrivateMessageAsync(eq(1L), any(ImPrivateMessageDTO.class));
+        verify(imWebSocketService).sendNotificationAsync(eq(1L), anyInt(), anyInt(), any());
     }
 
     @Test
@@ -100,7 +100,7 @@ public class ImFriendServiceImplTest extends BaseMockitoUnitTest {
                 () -> friendService.updateFriend(1L, reqVO));
         assertEquals(FRIEND_NOT_FRIEND.getCode(), exception.getCode());
         verify(imFriendMapper, never()).updateById(any(ImFriendDO.class));
-        verify(imWebSocketService, never()).sendPrivateMessageAsync(any(Long.class), any(ImPrivateMessageDTO.class));
+        verify(imWebSocketService, never()).sendNotificationAsync(any(Long.class), anyInt(), anyInt(), any());
     }
 
     @Test
@@ -123,7 +123,7 @@ public class ImFriendServiceImplTest extends BaseMockitoUnitTest {
         assertEquals("老张", captor.getValue().getDisplayName());
         assertNull(captor.getValue().getSilent());
         // 断言：推送好友更新通知
-        verify(imWebSocketService).sendPrivateMessageAsync(eq(1L), any(ImPrivateMessageDTO.class));
+        verify(imWebSocketService).sendNotificationAsync(eq(1L), anyInt(), anyInt(), any());
     }
 
     @Test
@@ -138,10 +138,10 @@ public class ImFriendServiceImplTest extends BaseMockitoUnitTest {
         // 断言：没查记录、没触发 SQL 更新 / 没发 WebSocket 推送
         verify(imFriendMapper, never()).selectByUserIdAndFriendUserId(anyLong(), anyLong());
         verify(imFriendMapper, never()).updateById(any(ImFriendDO.class));
-        verify(imWebSocketService, never()).sendPrivateMessageAsync(any(Long.class), any(ImPrivateMessageDTO.class));
+        verify(imWebSocketService, never()).sendNotificationAsync(any(Long.class), anyInt(), anyInt(), any());
     }
 
-    // ========== addFriend0（内部方法，被 becomeFriends / silentReAddFriend 调用） ==========
+    // ========== 建立好友 ==========
 
     @Test
     public void testAddFriend0_existingEnabledSkip() {
@@ -157,7 +157,7 @@ public class ImFriendServiceImplTest extends BaseMockitoUnitTest {
         verify(imFriendMapper, never()).insert(any(ImFriendDO.class));
         verify(imFriendMapper, never()).updateById(any(ImFriendDO.class));
         verify(imFriendMapper, never()).updateReAddFields(anyLong(), anyInt(), any(LocalDateTime.class),
-                anyBoolean(), anyBoolean(), anyBoolean(), any(), any());
+                any(LocalDateTime.class), anyBoolean(), anyBoolean(), anyBoolean(), any(), any());
     }
 
     @Test
@@ -172,7 +172,7 @@ public class ImFriendServiceImplTest extends BaseMockitoUnitTest {
 
         // 断言：恢复 ENABLE，并清空 deleteTime
         verify(imFriendMapper).updateReAddFields(eq(10L), eq(CommonStatusEnum.ENABLE.getStatus()),
-                any(LocalDateTime.class), eq(false), eq(false), eq(false), isNull(), isNull());
+                any(LocalDateTime.class), any(LocalDateTime.class), eq(false), eq(false), eq(false), isNull(), isNull());
         verify(imFriendMapper, never()).insert(any(ImFriendDO.class));
     }
 
@@ -248,7 +248,7 @@ public class ImFriendServiceImplTest extends BaseMockitoUnitTest {
 
     @Test
     public void testGetFriendList() {
-        List<ImFriendDO> list = List.of(
+        List<ImFriendDO> list = ListUtil.of(
                 ImFriendDO.builder().id(1L).userId(1L).friendUserId(2L)
                         .status(CommonStatusEnum.ENABLE.getStatus()).build(),
                 ImFriendDO.builder().id(2L).userId(1L).friendUserId(3L)
@@ -276,9 +276,9 @@ public class ImFriendServiceImplTest extends BaseMockitoUnitTest {
         ImFriendDO friend3 = ImFriendDO.builder().id(2L).userId(1L).friendUserId(3L)
                 .status(CommonStatusEnum.ENABLE.getStatus()).build();
         when(imFriendMapper.selectListByUserIdAndStatus(1L, CommonStatusEnum.ENABLE.getStatus()))
-                .thenReturn(List.of(friend2, friend3));
+                .thenReturn(ListUtil.of(friend2, friend3));
         when(imFriendMapper.selectListByUserIdsAndFriendUserIdAndStatus(anyCollection(), eq(1L),
-                eq(CommonStatusEnum.ENABLE.getStatus()))).thenReturn(List.of(
+                eq(CommonStatusEnum.ENABLE.getStatus()))).thenReturn(ListUtil.of(
                         ImFriendDO.builder().userId(2L).friendUserId(1L)
                                 .status(CommonStatusEnum.ENABLE.getStatus()).build()));
 

@@ -47,12 +47,13 @@
           ${comment}
         </view>
         <wd-radio-group v-model="formData.${javaField}" type="button">
-          <wd-radio :value="-1">
+          <wd-radio :name="-1" :value="-1">
             全部
           </wd-radio>
           <wd-radio
             v-for="dict in $dictMethod(DICT_TYPE.$dictType.toUpperCase())"
             :key="dict.value"
+            :name="dict.value"
             :value="dict.value"
           >
             {{ dict.label }}
@@ -203,7 +204,7 @@ const placeholder = computed(() => {
 /** 搜索按钮操作 */
 function handleSearch() {
   visible.value = false
-  emit('search', {
+  const data: Record<string, any> = {
     ...formData,
 #foreach($column in $columns)
   #if ($column.listOperation)
@@ -214,7 +215,8 @@ function handleSearch() {
     #end
   #end
 #end
-  })
+  }
+  emit('search', data)
 }
 
 /** 重置按钮操作 */

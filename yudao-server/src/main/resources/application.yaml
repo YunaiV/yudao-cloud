@@ -177,18 +177,11 @@ spring:
         client:
           host: 127.0.0.1
           port: 19530
-    qianfan: # 文心一言
-      api-key: ${QIANFAN_API_KEY:sk-xxxx}
-      secret-key: ${QIANFAN_SECRET_KEY:sk-xxxx}
-    zhipuai: # 智谱 AI
-      api-key: ${ZHIPU_API_KEY:sk-xxxx}
     openai: # OpenAI 官方
-      api-key: ${OPENAI_API_KEY:sk-xxxx}
       base-url: ${OPENAI_BASE_URL:https://api.openai.com}
-    azure: # OpenAI 微软
-      openai:
-        endpoint: https://eastusprejade.openai.azure.com
+      api-key: ${OPENAI_API_KEY:sk-xxxx}
     anthropic: # Anthropic Claude
+      base-url: ${ANTHROPIC_BASE_URL:https://api.anthropic.com}
       api-key: ${ANTHROPIC_API_KEY:sk-xxxx}
     ollama:
       base-url: http://127.0.0.1:11434
@@ -198,15 +191,16 @@ spring:
       api-key: ${STABILITYAI_API_KEY:sk-xxxx}
     dashscope: # 通义千问
       api-key: ${DASHSCOPE_API_KEY:sk-xxxx}
-    minimax: # Minimax：https://www.minimaxi.com/
-      api-key: ${MINIMAX_API_KEY:sk-xxxx}
-    moonshot: # 月之暗面（KIMI）
-      api-key: ${MOONSHOT_API_KEY:sk-xxxx}
     deepseek: # DeepSeek
       api-key: ${DEEPSEEK_API_KEY:sk-xxxx}
       chat:
         options:
-          model: deepseek-chat
+          model: deepseek-v4-flash
+    google:
+      genai: # 谷歌 Gemini
+        api-key: ${GEMINI_API_KEY:sk-xxxx}
+        chat:
+          model: gemini-2.5-flash
     model:
       rerank: false # 是否开启“通义千问”的 Rerank 模型，填写 dashscope 开启
     mcp:
@@ -229,31 +223,50 @@ spring:
 
 yudao:
   ai:
-    gemini: # 谷歌 Gemini
-      enable: true
-      api-key: ${GEMINI_API_KEY:sk-xxxx}
-      model: gemini-2.5-flash
     doubao: # 字节豆包
       enable: true
       api-key: ${DOUBAO_API_KEY:sk-xxxx}
-      model: doubao-1-5-lite-32k-250115
+      model: doubao-seed-2-1-turbo-260628
     hunyuan: # 腾讯混元
       enable: true
       api-key: ${HUNYUAN_API_KEY:sk-xxxx}
-      model: hunyuan-turbo
+      model: hy3-preview
     siliconflow: # 硅基流动
       enable: true
       api-key: ${SILICONFLOW_API_KEY:sk-xxxx}
-      model: deepseek-ai/DeepSeek-R1-Distill-Qwen-7B
+      model: deepseek-ai/DeepSeek-V4-Pro
     xinghuo: # 讯飞星火
       enable: true
-      appKey: ${XINGHUO_APP_KEY:sk-xxxx}
-      secretKey: ${XINGHUO_SECRET_KEY:sk-xxxx}
-      model: x1
+      api-key: ${XINGHUO_API_KEY:sk-xxxx}
+      model: x2-flash
     baichuan: # 百川智能
       enable: true
       api-key: ${BAICHUAN_API_KEY:sk-xxxx}
-      model: Baichuan4-Turbo
+      model: Baichuan-M3
+    yiyan: # 文心一言
+      enable: false
+      api-key: ${YIYAN_API_KEY:sk-xxxx}
+      model: ernie-5.1
+    zhipu: # 智谱 AI（GLM）
+      enable: false
+      api-key: ${ZHIPU_API_KEY:sk-xxxx}
+      model: glm-5.2
+    minimax: # MiniMax
+      enable: false
+      api-key: ${MINIMAX_API_KEY:sk-xxxx}
+      model: MiniMax-M3
+    moonshot: # 月之暗面（KIMI）
+      enable: false
+      api-key: ${MOONSHOT_API_KEY:sk-xxxx}
+      model: kimi-k2.6
+    stepfun: # 阶跃星辰
+      enable: false
+      api-key: ${STEPFUN_API_KEY:sk-xxxx}
+      model: step-3.7-flash
+    grok: # Grok
+      enable: false
+      api-key: ${GROK_API_KEY:sk-xxxx}
+      model: grok-4.3
     midjourney:
       enable: true
   #    base-url: https://api.holdai.top/mj-relax/mj

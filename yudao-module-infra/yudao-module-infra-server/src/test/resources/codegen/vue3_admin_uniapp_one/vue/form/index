@@ -54,6 +54,7 @@
               <wd-radio
                 v-for="dict in getBoolDictOptions(DICT_TYPE.INFRA_BOOLEAN_STRING)"
                 :key="dict.value"
+                :name="dict.value"
                 :value="dict.value"
               >
                 {{ dict.label }}
@@ -104,7 +105,7 @@ import { formatDateTime } from '@/utils/date'
 import { createFormSchema } from '@/utils/wot'
 
 const props = defineProps<{
-  id?: number | any
+  id?: number
 }>()
 
 definePage({
@@ -121,7 +122,7 @@ const formData = ref<Student>({
   id: undefined,
   name: '',
   description: '',
-  birthday: undefined,
+  birthday: Date.now(),
   sex: 0,
   enabled: false,
   avatar: '',

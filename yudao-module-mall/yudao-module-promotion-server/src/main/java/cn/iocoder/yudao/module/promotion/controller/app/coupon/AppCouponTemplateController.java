@@ -26,10 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.web.core.util.WebFrameworkUtils.getLoginUserId;
@@ -53,7 +50,7 @@ public class AppCouponTemplateController {
     @Operation(summary = "获得优惠劵模版")
     @Parameter(name = "id", description = "优惠券模板编号", required = true, example = "1024")
     @PermitAll
-    public CommonResult<AppCouponTemplateRespVO> getCouponTemplate(Long id) {
+    public CommonResult<AppCouponTemplateRespVO> getCouponTemplate(@RequestParam("id") Long id) {
         CouponTemplateDO template = couponTemplateService.getCouponTemplate(id);
         if (template == null) {
             return success(null);

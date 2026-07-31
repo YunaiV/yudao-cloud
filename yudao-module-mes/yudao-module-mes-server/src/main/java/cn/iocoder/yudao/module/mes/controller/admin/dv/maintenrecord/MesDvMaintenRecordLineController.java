@@ -42,7 +42,6 @@ public class MesDvMaintenRecordLineController {
 
     @Resource
     private MesDvMaintenRecordLineService maintenRecordLineService;
-
     @Resource
     private MesDvSubjectService subjectService;
 
@@ -88,6 +87,16 @@ public class MesDvMaintenRecordLineController {
     public CommonResult<PageResult<MesDvMaintenRecordLineRespVO>> getMaintenRecordLinePage(@Valid MesDvMaintenRecordLinePageReqVO pageReqVO) {
         PageResult<MesDvMaintenRecordLineDO> pageResult = maintenRecordLineService.getMaintenRecordLinePage(pageReqVO);
         return success(new PageResult<>(buildMaintenRecordLineRespVOList(pageResult.getList()), pageResult.getTotal()));
+    }
+
+    @GetMapping("/list-by-record-id")
+    @Operation(summary = "获得指定保养记录的明细列表")
+    @Parameter(name = "recordId", description = "保养记录编号", required = true)
+    @PreAuthorize("@ss.hasPermission('mes:dv-mainten-record:query')")
+    public CommonResult<List<MesDvMaintenRecordLineRespVO>> getMaintenRecordLineListByRecordId(
+            @RequestParam("recordId") Long recordId) {
+        List<MesDvMaintenRecordLineDO> list = maintenRecordLineService.getMaintenRecordLineListByRecordId(recordId);
+        return success(buildMaintenRecordLineRespVOList(list));
     }
 
     @GetMapping("/export-excel")

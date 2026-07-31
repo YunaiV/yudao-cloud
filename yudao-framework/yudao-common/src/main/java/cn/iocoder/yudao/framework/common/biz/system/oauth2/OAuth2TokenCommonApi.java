@@ -40,6 +40,15 @@ public interface OAuth2TokenCommonApi {
     @Parameter(name = "accessToken", description = "访问令牌", required = true, example = "tudou")
     CommonResult<OAuth2AccessTokenRespDTO> removeAccessToken(@RequestParam("accessToken") String accessToken);
 
+    @DeleteMapping(PREFIX + "/remove-by-user")
+    @Operation(summary = "移除用户的所有访问令牌")
+    @Parameters({
+        @Parameter(name = "userId", description = "用户编号", required = true, example = "1024"),
+        @Parameter(name = "userType", description = "用户类型", required = true, example = "2")
+    })
+    CommonResult<Boolean> removeAccessToken(@RequestParam("userId") Long userId,
+                                             @RequestParam("userType") Integer userType);
+
     @PutMapping(PREFIX + "/refresh")
     @Operation(summary = "刷新访问令牌")
     @Parameters({

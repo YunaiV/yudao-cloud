@@ -138,6 +138,7 @@
             <groupId>com.alibaba</groupId>
             <artifactId>transmittable-thread-local</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId> <!-- JustAuth、Jimu 等三方库仍使用 1.x 包名，由项目统一提供 fastjson2 兼容实现 -->

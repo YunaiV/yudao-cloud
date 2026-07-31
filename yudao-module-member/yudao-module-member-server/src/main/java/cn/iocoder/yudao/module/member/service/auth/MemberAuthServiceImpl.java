@@ -88,10 +88,7 @@ public class MemberAuthServiceImpl implements MemberAuthService {
         Assert.notNull(user, "获取用户失败，结果为空");
 
         // 校验是否禁用
-        if (CommonStatusEnum.isDisable(user.getStatus())) {
-            createLoginLog(user.getId(), reqVO.getMobile(), LoginLogTypeEnum.LOGIN_SMS, LoginResultEnum.USER_DISABLED);
-            throw exception(AUTH_LOGIN_USER_DISABLED);
-        }
+        validateUserStatus(user, reqVO.getMobile(), LoginLogTypeEnum.LOGIN_SMS);
 
         // 如果 socialType 非空，说明需要绑定社交用户
         String openid = null;
@@ -118,7 +115,7 @@ public class MemberAuthServiceImpl implements MemberAuthService {
         MemberUserDO user;
         if (socialUser.getUserId() != null) {
             user = userService.getUser(socialUser.getUserId());
-            // 情况二：未绑定，注册用户 + 绑定用户
+        // 情况二：未绑定，注册用户 + 绑定用户
         } else {
             user = userService.createUser(socialUser.getNickname(), socialUser.getAvatar(), getClientIP(), getTerminal());
             socialUserApi.bindSocialUser(new SocialUserBindReqDTO(user.getId(), getUserType().getValue(),
@@ -127,6 +124,9 @@ public class MemberAuthServiceImpl implements MemberAuthService {
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
         }
+
+        // 校验是否禁用
+        validateUserStatus(user, user.getMobile(), LoginLogTypeEnum.LOGIN_SOCIAL);
 
         // 创建 Token 令牌，记录登录日志
         return createTokenAfterLoginSuccess(user, user.getMobile(), LoginLogTypeEnum.LOGIN_SOCIAL, socialUser.getOpenid());
@@ -143,6 +143,7 @@ public class MemberAuthServiceImpl implements MemberAuthService {
         MemberUserDO user = userService.createUserIfAbsent(phoneNumberInfo.getPurePhoneNumber(),
                 getClientIP(), TerminalEnum.WECHAT_MINI_PROGRAM.getTerminal());
         Assert.notNull(user, "获取用户失败，结果为空");
+        validateUserStatus(user, user.getMobile(), LoginLogTypeEnum.LOGIN_SOCIAL);
 
         // 绑定社交用户
         String openid = socialUserApi.bindSocialUser(new SocialUserBindReqDTO(user.getId(), getUserType().getValue(),
@@ -154,6 +155,9 @@ public class MemberAuthServiceImpl implements MemberAuthService {
 
     private AppAuthLoginRespVO createTokenAfterLoginSuccess(MemberUserDO user, String mobile,
                                                             LoginLogTypeEnum logType, String openid) {
+        // 统一校验用户状态，避免登录方式增加后遗漏
+        validateUserStatus(user, mobile, logType);
+
         // 插入登陆日志
         createLoginLog(user.getId(), mobile, logType, LoginResultEnum.SUCCESS);
         // 创建 Token 令牌
@@ -162,6 +166,13 @@ public class MemberAuthServiceImpl implements MemberAuthService {
                 .setClientId(OAuth2ClientConstants.CLIENT_ID_DEFAULT)).getCheckedData();
         // 构建返回结果
         return AuthConvert.INSTANCE.convert(accessTokenRespDTO, openid);
+    }
+
+    private void validateUserStatus(MemberUserDO user, String mobile, LoginLogTypeEnum logType) {
+        if (CommonStatusEnum.isDisable(user.getStatus())) {
+            createLoginLog(user.getId(), mobile, logType, LoginResultEnum.USER_DISABLED);
+            throw exception(AUTH_LOGIN_USER_DISABLED);
+        }
     }
 
     @Override
@@ -182,10 +193,7 @@ public class MemberAuthServiceImpl implements MemberAuthService {
             throw exception(AUTH_LOGIN_BAD_CREDENTIALS);
         }
         // 校验是否禁用
-        if (CommonStatusEnum.isDisable(user.getStatus())) {
-            createLoginLog(user.getId(), mobile, logTypeEnum, LoginResultEnum.USER_DISABLED);
-            throw exception(AUTH_LOGIN_USER_DISABLED);
-        }
+        validateUserStatus(user, mobile, logTypeEnum);
         return user;
     }
 
@@ -247,7 +255,7 @@ public class MemberAuthServiceImpl implements MemberAuthService {
 
     @Override
     public void validateSmsCode(Long userId, AppAuthSmsValidateReqVO reqVO) {
-        smsCodeApi.validateSmsCode(AuthConvert.INSTANCE.convert(reqVO));
+        smsCodeApi.validateSmsCode(AuthConvert.INSTANCE.convert(reqVO)).checkError();
     }
 
     @Override

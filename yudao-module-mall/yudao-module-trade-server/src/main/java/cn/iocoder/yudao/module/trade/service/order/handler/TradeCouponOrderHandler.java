@@ -64,7 +64,7 @@ public class TradeCouponOrderHandler implements TradeOrderHandler {
         // 情况一：退还订单使用的优惠券
         if (order.getCouponId() != null && order.getCouponId() > 0) {
             // 退回优惠劵
-            couponApi.returnUsedCoupon(order.getCouponId());
+            couponApi.returnUsedCoupon(order.getCouponId()).checkError();
         }
         // 情况二：收回赠送的优惠券
         if (CollUtil.isEmpty(order.getGiveCouponIds())) {

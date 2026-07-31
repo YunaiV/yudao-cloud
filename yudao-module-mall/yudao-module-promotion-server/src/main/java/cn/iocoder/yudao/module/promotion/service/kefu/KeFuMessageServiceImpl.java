@@ -132,7 +132,7 @@ public class KeFuMessageServiceImpl implements KeFuMessageService {
             adminUserApi.validateUser(receiverId);
         }
         if (UserTypeEnum.MEMBER.getValue().equals(receiverType)) {
-            memberUserApi.validateUser(receiverId);
+            memberUserApi.validateUser(receiverId).checkError();
         }
     }
 

@@ -255,7 +255,7 @@ public class MemberAuthServiceImpl implements MemberAuthService {
 
     @Override
     public void validateSmsCode(Long userId, AppAuthSmsValidateReqVO reqVO) {
-        smsCodeApi.validateSmsCode(AuthConvert.INSTANCE.convert(reqVO));
+        smsCodeApi.validateSmsCode(AuthConvert.INSTANCE.convert(reqVO)).checkError();
     }
 
     @Override

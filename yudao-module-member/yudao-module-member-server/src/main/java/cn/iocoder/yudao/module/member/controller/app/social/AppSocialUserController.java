@@ -48,7 +48,7 @@ public class AppSocialUserController {
     public CommonResult<Boolean> socialUnbind(@RequestBody AppSocialUserUnbindReqVO reqVO) {
         SocialUserUnbindReqDTO reqDTO = new SocialUserUnbindReqDTO(getLoginUserId(), UserTypeEnum.MEMBER.getValue(),
                 reqVO.getType(), reqVO.getOpenid());
-        socialUserApi.unbindSocialUser(reqDTO);
+        socialUserApi.unbindSocialUser(reqDTO).checkError();
         return success(true);
     }
 

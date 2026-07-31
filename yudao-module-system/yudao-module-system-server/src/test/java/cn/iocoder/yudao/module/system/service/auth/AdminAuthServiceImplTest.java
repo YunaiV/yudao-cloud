@@ -191,6 +191,8 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         // mock 方法（用户信息）
         AdminUserDO user = randomPojo(AdminUserDO.class);
         when(userService.getUserByMobile(eq(mobile))).thenReturn(user);
+        // mock 方法（验证码）
+        when(smsCodeApi.sendSmsCode(any())).thenReturn(success(true));
 
         // 调用
         authService.sendSmsCode(reqVO);

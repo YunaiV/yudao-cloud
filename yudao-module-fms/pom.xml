@@ -14,4 +14,11 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>yudao-module-fms</artifactId>
     <packaging>pom</packaging>
+
+    <name>${project.artifactId}</name>
+    <description>
+        fms 包下，财务管理（Financial Management System）。
+        例如说：科目、凭证、结账、财务报表等等
+    </description>
+
 </project>

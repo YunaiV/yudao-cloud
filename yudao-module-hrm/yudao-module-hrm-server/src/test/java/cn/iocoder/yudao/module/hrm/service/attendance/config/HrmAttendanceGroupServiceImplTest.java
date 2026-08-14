@@ -22,21 +22,13 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyCollection;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * {@link HrmAttendanceGroupServiceImpl} 的单元测试类
@@ -75,10 +67,10 @@ public class HrmAttendanceGroupServiceImplTest extends BaseMockitoUnitTest {
         when(employeeService.getEmployeeMap(Arrays.asList(1L, 2L, 3L))).thenReturn(employeeMap);
         when(attendanceGroupMapper.selectListOrderByDefaultStatusAndId())
                 .thenReturn(Arrays.asList(defaultGroup, directGroup, deptGroup));
-        when(deptApi.getParentDeptList(10L)).thenReturn(Collections.emptyList());
-        when(deptApi.getParentDeptList(20L)).thenReturn(Collections.singletonList(
-                new DeptRespDTO().setId(10L)));
-        when(deptApi.getParentDeptList(30L)).thenReturn(Collections.emptyList());
+        when(deptApi.getParentDeptList(10L)).thenReturn(success(Collections.emptyList()));
+        when(deptApi.getParentDeptList(20L)).thenReturn(success(Collections.singletonList(
+                new DeptRespDTO().setId(10L))));
+        when(deptApi.getParentDeptList(30L)).thenReturn(success(Collections.emptyList()));
 
         // 调用
         Map<Long, HrmAttendanceGroupDO> result =
@@ -153,7 +145,7 @@ public class HrmAttendanceGroupServiceImplTest extends BaseMockitoUnitTest {
             group.setId(1L);
             return 1;
         });
-        when(deptApi.getChildDeptList(anyCollection())).thenReturn(Collections.emptyList());
+        when(deptApi.getChildDeptList(anyCollection())).thenReturn(success(Collections.emptyList()));
         when(attendanceGroupMapper.selectListOrderByDefaultStatusAndId()).thenReturn(Collections.emptyList());
 
         // 准备参数
@@ -219,7 +211,7 @@ public class HrmAttendanceGroupServiceImplTest extends BaseMockitoUnitTest {
                 .setName("考勤组 B").setDeptIds(Collections.emptyList())
                 .setEmployeeIds(Arrays.asList(10L, 11L)).setDefaultStatus(false);
         when(attendanceGroupMapper.selectById(currentGroup.getId())).thenReturn(currentGroup);
-        when(deptApi.getChildDeptList(anyCollection())).thenReturn(Collections.emptyList());
+        when(deptApi.getChildDeptList(anyCollection())).thenReturn(success(Collections.emptyList()));
         when(attendanceGroupMapper.selectListOrderByDefaultStatusAndId())
                 .thenReturn(Arrays.asList(currentGroup, otherGroup));
         HrmAttendanceGroupSaveReqVO reqVO = new HrmAttendanceGroupSaveReqVO();

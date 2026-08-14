@@ -18,11 +18,13 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.common.util.object.ObjectUtils.cloneIgnoreId;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertPojoEquals;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
@@ -32,6 +34,8 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyCollection;
+import static org.mockito.ArgumentMatchers.argThat;
 
 /**
  * {@link HrmSalaryGroupServiceImpl} 的单元测试类
@@ -60,6 +64,7 @@ public class HrmSalaryGroupServiceImplTest extends BaseDbUnitTest {
         HrmSalaryGroupSaveReqVO reqVO = randomSalaryGroupSaveReqVO();
         // mock 方法
         mockSalaryTaxRule(reqVO.getTaxRuleId());
+        when(deptApi.getChildDeptList(anyCollection())).thenReturn(success(emptyList()));
 
         // 调用
         Long salaryGroupId = salaryGroupService.createSalaryGroup(reqVO);
@@ -115,8 +120,11 @@ public class HrmSalaryGroupServiceImplTest extends BaseDbUnitTest {
                 .setDeptIds(singletonList(childDeptId)).setEmployeeIds(emptyList()));
         // mock 方法
         mockSalaryTaxRule(reqVO.getTaxRuleId());
-        when(deptApi.getChildDeptList(Collections.singleton(parentDeptId)))
-                .thenReturn(singletonList(new DeptRespDTO().setId(childDeptId)));
+        when(deptApi.getChildDeptList(org.mockito.ArgumentMatchers.<Long>anyCollection()))
+                .thenReturn(success(emptyList()));
+        when(deptApi.getChildDeptList(org.mockito.ArgumentMatchers.<Collection<Long>>argThat(
+                ids -> ids.contains(parentDeptId))))
+                .thenReturn(success(singletonList(new DeptRespDTO().setId(childDeptId))));
 
         // 调用，并断言异常
         assertServiceException(() -> salaryGroupService.createSalaryGroup(reqVO),
@@ -132,6 +140,7 @@ public class HrmSalaryGroupServiceImplTest extends BaseDbUnitTest {
         HrmSalaryGroupSaveReqVO reqVO = randomSalaryGroupSaveReqVO(o -> o.setId(dbSalaryGroup.getId()));
         // mock 方法
         mockSalaryTaxRule(reqVO.getTaxRuleId());
+        when(deptApi.getChildDeptList(anyCollection())).thenReturn(success(emptyList()));
 
         // 调用
         salaryGroupService.updateSalaryGroup(reqVO);
@@ -235,8 +244,8 @@ public class HrmSalaryGroupServiceImplTest extends BaseDbUnitTest {
         HrmSalaryGroupDO parentSalaryGroup = randomSalaryGroupDO(o -> o
                 .setDeptIds(singletonList(parentDeptId)).setEmployeeIds(emptyList()));
         salaryGroupMapper.insert(parentSalaryGroup);
-        when(deptApi.getParentDeptList(employeeDeptId)).thenReturn(Arrays.asList(
-                new DeptRespDTO().setId(parentDeptId), new DeptRespDTO().setId(rootDeptId)));
+        when(deptApi.getParentDeptList(employeeDeptId)).thenReturn(success(Arrays.asList(
+                new DeptRespDTO().setId(parentDeptId), new DeptRespDTO().setId(rootDeptId))));
 
         // 调用
         Map<Long, HrmSalaryGroupDO> result = salaryGroupService.getEmployeeSalaryGroupMap(

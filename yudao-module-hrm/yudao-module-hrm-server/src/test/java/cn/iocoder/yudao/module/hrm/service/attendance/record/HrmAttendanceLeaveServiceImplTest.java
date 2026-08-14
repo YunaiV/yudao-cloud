@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomLongId;
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomPojo;
@@ -56,7 +57,7 @@ public class HrmAttendanceLeaveServiceImplTest extends BaseDbUnitTest {
         HrmEmployeeDO employee = new HrmEmployeeDO().setId(randomLongId())
                 .setDeptId(randomLongId()).setName("张三");
         when(employeeService.validateEmployeeBySelf(userId)).thenReturn(employee);
-        when(processInstanceApi.createProcessInstance(eq(userId), any())).thenReturn("leave-process");
+        when(processInstanceApi.createProcessInstance(eq(userId), any())).thenReturn(success("leave-process"));
 
         // 准备参数
         HrmAttendanceLeaveCreateReqVO reqVO = new HrmAttendanceLeaveCreateReqVO();
@@ -86,7 +87,7 @@ public class HrmAttendanceLeaveServiceImplTest extends BaseDbUnitTest {
         HrmEmployeeDO employee = new HrmEmployeeDO().setId(randomLongId())
                 .setDeptId(randomLongId()).setName("张三");
         when(employeeService.validateEmployeeBySelf(userId)).thenReturn(employee);
-        when(processInstanceApi.createProcessInstance(eq(userId), any())).thenReturn("leave-process");
+        when(processInstanceApi.createProcessInstance(eq(userId), any())).thenReturn(success("leave-process"));
 
         // 准备参数
         HrmAttendanceLeaveCreateReqVO reqVO = new HrmAttendanceLeaveCreateReqVO();
@@ -117,6 +118,8 @@ public class HrmAttendanceLeaveServiceImplTest extends BaseDbUnitTest {
         HrmAttendanceLeaveCancelReqVO reqVO = new HrmAttendanceLeaveCancelReqVO();
         reqVO.setId(attendanceLeave.getId());
         reqVO.setReason("行程取消");
+        when(processInstanceApi.cancelProcessInstanceByStartUser(
+                userId, attendanceLeave.getProcessInstanceId(), reqVO.getReason())).thenReturn(success(true));
 
         // 调用
         attendanceLeaveService.cancelLeave(userId, reqVO);

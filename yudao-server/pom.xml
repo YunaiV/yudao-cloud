@@ -136,6 +136,20 @@
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
+        <!-- HRM 人力资源管理模块。默认注释，按需启用 -->
+<!--        <dependency>-->
+<!--            <groupId>cn.iocoder.cloud</groupId>-->
+<!--            <artifactId>yudao-module-hrm-server</artifactId>-->
+<!--            <version>${revision}</version>-->
+<!--        </dependency>-->
+
+        <!-- FMS 财务管理模块。默认注释，按需启用 -->
+<!--        <dependency>-->
+<!--            <groupId>cn.iocoder.cloud</groupId>-->
+<!--            <artifactId>yudao-module-fms-server</artifactId>-->
+<!--            <version>${revision}</version>-->
+<!--        </dependency>-->
+
         <!-- spring boot 配置所需依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

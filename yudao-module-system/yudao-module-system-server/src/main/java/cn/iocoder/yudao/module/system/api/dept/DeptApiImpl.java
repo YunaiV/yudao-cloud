@@ -45,4 +45,16 @@ public class DeptApiImpl implements DeptApi {
         return success(BeanUtils.toBean(depts, DeptRespDTO.class));
     }
 
+    @Override
+    public CommonResult<List<DeptRespDTO>> getChildDeptList(Collection<Long> ids) {
+        List<DeptDO> depts = deptService.getChildDeptList(ids);
+        return success(BeanUtils.toBean(depts, DeptRespDTO.class));
+    }
+
+    @Override
+    public CommonResult<List<DeptRespDTO>> getParentDeptList(Long id) {
+        List<DeptDO> depts = deptService.getParentDeptList(id);
+        return success(BeanUtils.toBean(depts, DeptRespDTO.class));
+    }
+
 }

@@ -25,4 +25,11 @@ public interface BpmProcessInstanceApi {
     CommonResult<String> createProcessInstance(@RequestParam("userId") Long userId,
                                                @Valid @RequestBody BpmProcessInstanceCreateReqDTO reqDTO);
 
+    @PostMapping(PREFIX + "/cancel-by-start-user")
+    @Operation(summary = "取消流程实例（提供给内部）")
+    CommonResult<Boolean> cancelProcessInstanceByStartUser(
+            @RequestParam("userId") Long userId,
+            @RequestParam("processInstanceId") String processInstanceId,
+            @RequestParam("reason") String reason);
+
 }

@@ -62,7 +62,7 @@
         <jsoup.version>1.22.2</jsoup.version>
         <sensitive-word.version>0.29.5</sensitive-word.version>
         <pinyin4j.version>2.5.1</pinyin4j.version>
-        <lombok.version>1.18.46</lombok.version>
+        <lombok.version>1.18.32</lombok.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <hutool-5.version>5.8.46</hutool-5.version>
         <fastexcel.version>1.3.0</fastexcel.version>

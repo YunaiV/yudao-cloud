@@ -117,7 +117,7 @@ public class StrUtils {
             }
             // 讨论可见：https://t.zsxq.com/XUJVk、https://t.zsxq.com/MnKcL
             String clazzName = item.getClass().getName();
-            if (StrUtil.startWithAny(clazzName, "javax.servlet", "jakarta.servlet", "org.springframework.web")) {
+            if (StrUtil.startWithAny(clazzName, "javax.servlet", "javax.servlet", "org.springframework.web")) {
                 return "";
             }
             return item;

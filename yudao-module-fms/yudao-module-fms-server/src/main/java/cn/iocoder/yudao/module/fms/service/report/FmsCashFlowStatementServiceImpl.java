@@ -569,7 +569,7 @@ public class FmsCashFlowStatementServiceImpl implements FmsCashFlowStatementServ
     /**
      * 获得现金流量表金额
      *
-     * 悟空财务使用非零金额覆盖公式计算结果，保存零值时重新按公式计算
+     * 既有财务规则使用非零金额覆盖公式计算结果，保存零值时重新按公式计算
      *
      * @param savedAmount 已保存金额
      * @param calculatedAmount 公式计算金额

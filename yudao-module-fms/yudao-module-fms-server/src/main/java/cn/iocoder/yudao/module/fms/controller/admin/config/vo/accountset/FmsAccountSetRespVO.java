@@ -15,7 +15,7 @@ public class FmsAccountSetRespVO {
     @Schema(description = "公司编码", requiredMode = Schema.RequiredMode.REQUIRED, example = "WK001")
     private String companyCode;
 
-    @Schema(description = "公司名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "悟空科技有限公司")
+    @Schema(description = "公司名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "测试科技有限公司")
     private String companyName;
 
     @Schema(description = "公司简介", example = "专注企业数字化服务")

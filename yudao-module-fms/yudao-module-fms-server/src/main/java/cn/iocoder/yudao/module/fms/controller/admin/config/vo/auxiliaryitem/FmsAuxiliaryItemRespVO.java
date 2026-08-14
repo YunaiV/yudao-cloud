@@ -30,7 +30,7 @@ public class FmsAuxiliaryItemRespVO {
     @ExcelProperty("编码")
     private String code;
 
-    @Schema(description = "名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "上海悟空数字科技有限公司")
+    @Schema(description = "名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "上海测试数字科技有限公司")
     @ExcelProperty("名称")
     private String name;
 

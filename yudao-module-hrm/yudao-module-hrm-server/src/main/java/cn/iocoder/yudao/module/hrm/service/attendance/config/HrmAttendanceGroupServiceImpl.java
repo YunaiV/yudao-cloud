@@ -328,9 +328,7 @@ public class HrmAttendanceGroupServiceImpl implements HrmAttendanceGroupService 
         // 1. 计算当前组接管的部门及员工范围
         Set<Long> deptIds = new HashSet<>(reqVO.getDeptIds());
         Set<Long> deptScope = new HashSet<>(deptIds);
-        for (Long deptId : deptIds) {
-            deptScope.addAll(convertSet(deptApi.getChildDeptList(deptId).getCheckedData(), DeptRespDTO::getId));
-        }
+        deptScope.addAll(convertSet(deptApi.getChildDeptList(deptIds).getCheckedData(), DeptRespDTO::getId));
         Set<Long> employeeIds = new HashSet<>(reqVO.getEmployeeIds());
         if (CollUtil.isNotEmpty(deptScope)) {
             employeeIds.addAll(convertSet(
@@ -414,11 +412,7 @@ public class HrmAttendanceGroupServiceImpl implements HrmAttendanceGroupService 
         Map<Long, List<Long>> result = new HashMap<>();
         for (Long deptId : validDeptIds) {
             List<Long> hierarchy = new ArrayList<>(Collections.singletonList(deptId));
-            DeptRespDTO dept = deptApi.getDept(deptId).getCheckedData();
-            while (dept != null && dept.getParentId() != null && dept.getParentId() > 0) {
-                hierarchy.add(dept.getParentId());
-                dept = deptApi.getDept(dept.getParentId()).getCheckedData();
-            }
+            hierarchy.addAll(convertList(deptApi.getParentDeptList(deptId).getCheckedData(), DeptRespDTO::getId));
             result.put(deptId, hierarchy);
         }
         return result;

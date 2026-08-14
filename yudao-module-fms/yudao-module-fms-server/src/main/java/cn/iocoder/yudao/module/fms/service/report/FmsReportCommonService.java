@@ -151,7 +151,7 @@ public interface FmsReportCommonService {
             FmsLedgerSubjectBalanceRespVO balance, boolean current);
 
     /**
-     * 计算利润表发生额，正向公式项按悟空语义抵减反方向发生额
+     * 计算利润表发生额，正向公式项按既有业务语义抵减反方向发生额
      *
      * @param rule 取数规则
      * @param subject 科目

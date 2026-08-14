@@ -24,7 +24,7 @@ public class FmsAuxiliaryItemPageReqVO extends PageParam {
     @NotNull(message = "辅助核算类别编号不能为空")
     private Long auxiliaryTypeId;
 
-    @Schema(description = "关键词，匹配编码或名称", example = "悟空")
+    @Schema(description = "关键词，匹配编码或名称", example = "测试")
     private String search;
 
 }

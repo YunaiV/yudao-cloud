@@ -58,6 +58,8 @@ public class FmsAccountSetServiceImplTest extends BaseDbUnitTest {
     @MockitoBean
     private FmsFinanceParameterService financeParameterService;
     @MockitoBean
+    private FmsFinanceIndicatorService financeIndicatorService;
+    @MockitoBean
     private FmsVoucherWordService voucherWordService;
     @MockitoBean
     private FmsAuxiliaryTypeService auxiliaryTypeService;
@@ -72,7 +74,7 @@ public class FmsAccountSetServiceImplTest extends BaseDbUnitTest {
     public void testCreateAccountSet_success() {
         // 准备参数
         Long userId = randomLongId();
-        FmsAccountSetSaveReqVO reqVO = buildAccountSetSaveReqVO("WK001", "悟空科技有限公司");
+        FmsAccountSetSaveReqVO reqVO = buildAccountSetSaveReqVO("TEST001", "测试科技有限公司");
 
         // 调用
         Long accountSetId = accountSetService.createAccountSet(reqVO, userId);

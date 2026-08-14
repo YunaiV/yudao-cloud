@@ -31,7 +31,7 @@ public class FmsAuxiliaryItemSaveReqVO {
     @Size(max = 64, message = "编码长度不能超过 64 个字符")
     private String code;
 
-    @Schema(description = "名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "上海悟空数字科技有限公司")
+    @Schema(description = "名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "上海测试数字科技有限公司")
     @NotBlank(message = "名称不能为空")
     @Size(max = 255, message = "名称长度不能超过 255 个字符")
     private String name;

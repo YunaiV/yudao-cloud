@@ -20,7 +20,7 @@ public class FmsAccountSetSaveReqVO {
     @DiffLogField(name = "公司编码")
     private String companyCode;
 
-    @Schema(description = "公司名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "悟空科技有限公司")
+    @Schema(description = "公司名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "测试科技有限公司")
     @NotBlank(message = "公司名称不能为空")
     @Size(max = 255, message = "公司名称不能超过 255 个字符")
     @DiffLogField(name = "公司名称")

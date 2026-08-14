@@ -59,7 +59,7 @@ public class FmsAuxiliaryItemServiceImplTest extends BaseDbUnitTest {
         // mock 方法
         mockAuxiliaryType(1L, 11L);
         // 准备参数
-        FmsAuxiliaryItemSaveReqVO reqVO = buildSaveReqVO(1L, 11L, "KH001", "悟空客户");
+        FmsAuxiliaryItemSaveReqVO reqVO = buildSaveReqVO(1L, 11L, "KH001", "测试客户");
 
         // 调用
         Long auxiliaryItemId = auxiliaryItemService.createAuxiliaryItem(reqVO, 10L);
@@ -67,7 +67,7 @@ public class FmsAuxiliaryItemServiceImplTest extends BaseDbUnitTest {
         // 断言
         FmsAuxiliaryItemDO auxiliaryItem = auxiliaryItemMapper.selectById(auxiliaryItemId);
         assertEquals("KH001", auxiliaryItem.getCode());
-        assertEquals("悟空客户", auxiliaryItem.getName());
+        assertEquals("测试客户", auxiliaryItem.getName());
         assertEquals(CommonStatusEnum.ENABLE.getStatus(), auxiliaryItem.getStatus());
         assertEquals(11L, auxiliaryItem.getAuxiliaryTypeId());
         verify(accountSetService).validateAccountSetWritePermission(1L, 10L);
@@ -89,7 +89,7 @@ public class FmsAuxiliaryItemServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteAuxiliaryItemList_success() {
         // mock 数据
-        FmsAuxiliaryItemDO auxiliaryItem = buildAuxiliaryItem(1L, 11L, "KH001", "悟空客户");
+        FmsAuxiliaryItemDO auxiliaryItem = buildAuxiliaryItem(1L, 11L, "KH001", "测试客户");
         auxiliaryItemMapper.insert(auxiliaryItem);
 
         // 调用
@@ -105,7 +105,7 @@ public class FmsAuxiliaryItemServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteAuxiliaryItemList_voucherTemplateInUse() {
         // mock 数据
-        FmsAuxiliaryItemDO auxiliaryItem = buildAuxiliaryItem(1L, 11L, "KH001", "悟空客户");
+        FmsAuxiliaryItemDO auxiliaryItem = buildAuxiliaryItem(1L, 11L, "KH001", "测试客户");
         auxiliaryItemMapper.insert(auxiliaryItem);
         // mock 方法
         when(voucherTemplateService.getVoucherTemplateCountByAuxiliaryItemIds(
@@ -120,7 +120,7 @@ public class FmsAuxiliaryItemServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateAuxiliaryItemStatus_success() {
         // mock 数据
-        FmsAuxiliaryItemDO auxiliaryItem = buildAuxiliaryItem(1L, 11L, "KH001", "悟空客户");
+        FmsAuxiliaryItemDO auxiliaryItem = buildAuxiliaryItem(1L, 11L, "KH001", "测试客户");
         auxiliaryItemMapper.insert(auxiliaryItem);
 
         // 调用
@@ -137,13 +137,13 @@ public class FmsAuxiliaryItemServiceImplTest extends BaseDbUnitTest {
     public void testGetAuxiliaryItemPage_search() {
         // mock 数据
         mockAuxiliaryType(1L, 11L);
-        auxiliaryItemMapper.insert(buildAuxiliaryItem(1L, 11L, "KH001", "上海悟空"));
+        auxiliaryItemMapper.insert(buildAuxiliaryItem(1L, 11L, "KH001", "上海测试"));
         auxiliaryItemMapper.insert(buildAuxiliaryItem(1L, 11L, "KH002", "北京云财务"));
         // 准备参数
         FmsAuxiliaryItemPageReqVO reqVO = new FmsAuxiliaryItemPageReqVO();
         reqVO.setAccountSetId(1L);
         reqVO.setAuxiliaryTypeId(11L);
-        reqVO.setSearch("悟空");
+        reqVO.setSearch("测试");
 
         // 调用
         PageResult<FmsAuxiliaryItemDO> pageResult = auxiliaryItemService
@@ -212,7 +212,7 @@ public class FmsAuxiliaryItemServiceImplTest extends BaseDbUnitTest {
                 .thenReturn(Collections.singletonList(new FmsAuxiliaryTypeDO()
                         .setId(16L).setAccountSetId(1L).setName("存货").setSystemPreset(true)
                         .setType(FmsAuxiliaryTypeEnum.INVENTORY.getType())));
-        FmsAuxiliaryItemImportExcelVO row = buildImportRow("SP001", "悟空商品");
+        FmsAuxiliaryItemImportExcelVO row = buildImportRow("SP001", "测试商品");
         row.setRemark("库存备注");
         row.setSpecification("标准版");
         row.setUnit("台");

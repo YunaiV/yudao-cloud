@@ -46,9 +46,7 @@ public class CollectionUtils {
         if (CollUtil.isEmpty(from)) {
             return BigDecimal.ZERO;
         }
-        return from.stream().map(valueFunc)
-                .map(value -> value == null ? BigDecimal.ZERO : value)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return from.stream().map(valueFunc).map(NumberUtils::zeroIfNull).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public static <T> long count(Collection<T> from, Predicate<T> predicate) {

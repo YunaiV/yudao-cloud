@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.Collection;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -180,15 +179,8 @@ public class HrmSalaryGroupServiceImpl implements HrmSalaryGroupService {
         if (salaryGroup != null) {
             return salaryGroup;
         }
-        List<Long> parentDeptIds = parentDeptIdCache.computeIfAbsent(employeeDeptId, deptId -> {
-            List<Long> result = new ArrayList<>();
-            DeptRespDTO dept = deptApi.getDept(deptId).getCheckedData();
-            while (dept != null && dept.getParentId() != null && dept.getParentId() > 0) {
-                result.add(dept.getParentId());
-                dept = deptApi.getDept(dept.getParentId()).getCheckedData();
-            }
-            return result;
-        });
+        List<Long> parentDeptIds = parentDeptIdCache.computeIfAbsent(employeeDeptId,
+                deptId -> convertList(deptApi.getParentDeptList(deptId).getCheckedData(), DeptRespDTO::getId));
         for (Long parentDeptId : parentDeptIds) {
             salaryGroup = deptSalaryGroupMap.get(parentDeptId);
             if (salaryGroup != null) {
@@ -257,9 +249,7 @@ public class HrmSalaryGroupServiceImpl implements HrmSalaryGroupService {
             return Collections.emptySet();
         }
         Set<Long> result = new HashSet<>(deptIds);
-        for (Long deptId : deptIds) {
-            result.addAll(convertSet(deptApi.getChildDeptList(deptId).getCheckedData(), DeptRespDTO::getId));
-        }
+        result.addAll(convertSet(deptApi.getChildDeptList(deptIds).getCheckedData(), DeptRespDTO::getId));
         return result;
     }
 

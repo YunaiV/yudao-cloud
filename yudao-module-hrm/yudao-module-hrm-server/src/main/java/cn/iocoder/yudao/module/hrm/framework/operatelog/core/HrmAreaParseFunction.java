@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  *
  * @author 芋道源码
  */
-@Component
+@Component("hrmAreaParseFunction")
 public class HrmAreaParseFunction implements IParseFunction {
 
     public static final String NAME = "getArea";

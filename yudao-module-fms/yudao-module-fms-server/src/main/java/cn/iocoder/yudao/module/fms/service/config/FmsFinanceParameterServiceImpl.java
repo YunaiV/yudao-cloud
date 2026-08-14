@@ -180,7 +180,7 @@ public class FmsFinanceParameterServiceImpl implements FmsFinanceParameterServic
     /**
      * 校验财务参数只扩展科目层级和各级编码长度，避免已使用的科目编码失效
      *
-     * 每级编码长度限制为 2 至 5 位，与悟空财务的科目编码输入范围保持一致
+     * 每级编码长度限制为 2 至 5 位，与既有财务规则保持一致
      *
      * @param oldLevel 原科目层级
      * @param oldRules 原科目编码规则

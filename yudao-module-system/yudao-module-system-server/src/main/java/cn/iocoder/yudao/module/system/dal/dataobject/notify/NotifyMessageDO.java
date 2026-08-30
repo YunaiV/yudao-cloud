@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.baomidou.mybatisplus.extension.handlers.Jackson3TypeHandler;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -82,7 +82,7 @@ public class NotifyMessageDO extends BaseDO {
      *
      * 基于 {@link NotifyTemplateDO#getParams()} 输入后的参数
      */
-    @TableField(typeHandler = JacksonTypeHandler.class)
+    @TableField(typeHandler = Jackson3TypeHandler.class)
     private Map<String, Object> templateParams;
 
     // ========= 读取相关字段 =========

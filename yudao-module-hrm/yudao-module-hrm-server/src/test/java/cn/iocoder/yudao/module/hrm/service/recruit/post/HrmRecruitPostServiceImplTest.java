@@ -12,11 +12,11 @@ import cn.iocoder.yudao.module.hrm.enums.employee.info.HrmEmployeeEntryStatusEnu
 import cn.iocoder.yudao.module.hrm.enums.recruit.post.HrmRecruitPostStatusEnum;
 import cn.iocoder.yudao.module.hrm.service.employee.info.HrmEmployeeService;
 import cn.iocoder.yudao.module.system.api.dept.DeptApi;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -64,11 +64,11 @@ public class HrmRecruitPostServiceImplTest extends BaseDbUnitTest {
     @Resource
     private HrmRecruitPostMapper recruitPostMapper;
 
-    @MockitoBean
+    @MockBean
     private HrmRecruitPostTypeService recruitPostTypeService;
-    @MockitoBean
+    @MockBean
     private HrmEmployeeService employeeService;
-    @MockitoBean
+    @MockBean
     private DeptApi deptApi;
 
     @BeforeEach

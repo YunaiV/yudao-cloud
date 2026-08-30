@@ -42,11 +42,12 @@ import cn.iocoder.yudao.module.hrm.service.employee.info.HrmEmployeeService;
 import cn.iocoder.yudao.module.system.api.dept.DeptApi;
 import cn.iocoder.yudao.module.system.api.notify.NotifyMessageSendApi;
 import cn.iocoder.yudao.module.system.api.notify.dto.NotifySendSingleToUserReqDTO;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.context.annotation.Import;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -57,6 +58,7 @@ import java.util.List;
 import java.util.Map;
 
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomLongId;
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomPojo;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PERFORMANCE_STAGE_NO_PERMISSION;
@@ -70,6 +72,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -100,16 +103,21 @@ public class HrmPerformanceAssessmentProcessServiceImplTest extends BaseDbUnitTe
     @Resource
     private HrmPerformancePlanMapper planMapper;
 
-    @MockBean
+    @MockitoBean
     private HrmEmployeeService employeeService;
-    @MockBean
+    @MockitoBean
     private DeptApi deptApi;
-    @MockBean
+    @MockitoBean
     private HrmPerformancePlanService planService;
-    @MockBean
+    @MockitoBean
     private NotifyMessageSendApi notifyMessageSendApi;
-    @MockBean
+    @MockitoBean
     private HrmPerformanceAssessmentActionRecordService assessmentActionRecordService;
+
+    @BeforeEach
+    public void setUp() {
+        lenient().when(notifyMessageSendApi.sendSingleMessageToAdmin(any())).thenReturn(success(randomLongId()));
+    }
 
     @Test
     public void testInitializeAssessmentStages_unboundEmployee_fail() {

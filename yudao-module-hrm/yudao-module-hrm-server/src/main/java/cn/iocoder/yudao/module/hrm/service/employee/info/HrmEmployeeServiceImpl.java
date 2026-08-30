@@ -628,7 +628,7 @@ public class HrmEmployeeServiceImpl implements HrmEmployeeService {
                 throw exception(EMPLOYEE_CREATE_USER_LIST_DUPLICATE);
             }
         }
-        adminUserApi.validateUserList(userIds);
+        adminUserApi.validateUserList(userIds).checkError();
         Map<Long, AdminUserRespDTO> userMap = convertMap(
                 adminUserApi.getUserList(userIds).getCheckedData(), AdminUserRespDTO::getId);
         // 1.2 构建并校验全部员工档案，避免部分数据校验失败时已经执行写库
@@ -1179,7 +1179,7 @@ public class HrmEmployeeServiceImpl implements HrmEmployeeService {
     private void validateDeptAndLeader(Long employeeId, Long deptId, Long leaderEmployeeId) {
         // 1. 校验部门是否存在
         if (deptId != null) {
-            deptApi.validateDeptList(Collections.singleton(deptId));
+            deptApi.validateDeptList(Collections.singleton(deptId)).checkError();
         }
         // 2. 校验直属上级链路不存在自引用或环路
         if (leaderEmployeeId == null) {
@@ -1417,7 +1417,7 @@ public class HrmEmployeeServiceImpl implements HrmEmployeeService {
         try {
             notifyMessageSendApi.sendSingleMessageToAdmin(new NotifySendSingleToUserReqDTO()
                     .setUserId(employee.getUserId()).setTemplateCode(templateCode)
-                    .setTemplateParams(Collections.singletonMap("employeeName", employee.getName())));
+                    .setTemplateParams(Collections.singletonMap("employeeName", employee.getName()))).checkError();
             return true;
         } catch (RuntimeException ex) {
             log.warn("[sendEmployeeMessage][employeeId({}) userId({}) templateCode({}) 发送失败]",

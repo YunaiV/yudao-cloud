@@ -24,10 +24,11 @@ import cn.iocoder.yudao.module.hrm.service.employee.info.HrmEmployeeService;
 import cn.iocoder.yudao.module.hrm.service.insurance.config.HrmInsuranceSchemeService;
 import cn.iocoder.yudao.module.hrm.service.insurance.employee.HrmInsuranceEmployeeInfoService;
 import cn.iocoder.yudao.module.system.api.notify.NotifyMessageSendApi;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -37,6 +38,8 @@ import java.util.List;
 import java.util.Map;
 
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomPojo;
+import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomLongId;
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.INSURANCE_EMPLOYEE_SCHEME_NOT_CONFIGURED;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.INSURANCE_MONTH_EMPLOYEE_NOT_ELIGIBLE;
@@ -62,16 +65,21 @@ public class HrmInsuranceMonthEmployeeRecordServiceImplTest extends BaseDbUnitTe
     @Resource
     private HrmInsuranceMonthEmployeeRecordMapper monthEmployeeRecordMapper;
 
-    @MockBean
+    @MockitoBean
     private HrmInsuranceMonthRecordService monthRecordService;
-    @MockBean
+    @MockitoBean
     private HrmInsuranceSchemeService insuranceSchemeService;
-    @MockBean
+    @MockitoBean
     private HrmInsuranceEmployeeInfoService insuranceEmployeeInfoService;
-    @MockBean
+    @MockitoBean
     private HrmEmployeeService employeeService;
-    @MockBean
+    @MockitoBean
     private NotifyMessageSendApi notifyMessageSendApi;
+
+    @BeforeEach
+    public void setUp() {
+        when(notifyMessageSendApi.sendSingleMessageToAdmin(any())).thenReturn(success(randomLongId()));
+    }
 
     @Test
     public void testCreateMonthEmployeeRecordList_success() {

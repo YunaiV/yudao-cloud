@@ -221,7 +221,7 @@ public class HrmSalaryGroupServiceImpl implements HrmSalaryGroupService {
         // 1. 校验适用部门及其上下级部门未归属其他薪资组
         Set<Long> selectedDeptIds = CollUtil.isEmpty(deptIds)
                 ? Collections.emptySet() : new HashSet<>(deptIds);
-        deptApi.validateDeptList(selectedDeptIds);
+        deptApi.validateDeptList(selectedDeptIds).checkError();
         List<HrmSalaryGroupDO> otherSalaryGroups = convertList(salaryGroupMapper.selectListByIdDesc(),
                 salaryGroup -> salaryGroup, salaryGroup -> ObjUtil.notEqual(salaryGroup.getId(), id));
         if (CollUtil.isNotEmpty(selectedDeptIds)) {

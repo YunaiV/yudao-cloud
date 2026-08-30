@@ -256,7 +256,7 @@ public class HrmSalarySlipServiceImpl implements HrmSalarySlipService {
         templateParams.put("realSalary", employeeRecord.getRealPaySalary().toPlainString());
         notifyMessageSendApi.sendSingleMessageToAdmin(new NotifySendSingleToUserReqDTO()
                 .setUserId(employee.getUserId()).setTemplateCode(MessageTemplateConstants.SALARY_SLIP_SENT)
-                .setTemplateParams(templateParams));
+                .setTemplateParams(templateParams)).checkError();
     }
 
 }

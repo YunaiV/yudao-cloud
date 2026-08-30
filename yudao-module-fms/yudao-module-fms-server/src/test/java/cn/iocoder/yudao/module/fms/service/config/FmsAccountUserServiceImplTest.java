@@ -7,10 +7,11 @@ import cn.iocoder.yudao.module.fms.dal.dataobject.config.FmsAccountUserDO;
 import cn.iocoder.yudao.module.fms.dal.mysql.config.FmsAccountUserMapper;
 import cn.iocoder.yudao.module.fms.enums.config.FmsAccountUserLevelEnum;
 import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -22,6 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
+import static org.mockito.ArgumentMatchers.anyCollection;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -33,10 +36,15 @@ public class FmsAccountUserServiceImplTest extends BaseDbUnitTest {
     @Resource
     private FmsAccountUserMapper accountUserMapper;
 
-    @MockBean
+    @MockitoBean
     private FmsAccountSetService accountSetService;
-    @MockBean
+    @MockitoBean
     private AdminUserApi adminUserApi;
+
+    @BeforeEach
+    public void setUp() {
+        when(adminUserApi.validateUserList(anyCollection())).thenReturn(success(true));
+    }
 
     @Test
     public void testCreateAccountOwner_firstAccountSet() {

@@ -312,7 +312,7 @@ public class HrmAttendanceGroupServiceImpl implements HrmAttendanceGroupService 
 
     private void validateAttendanceGroup(HrmAttendanceGroupSaveReqVO reqVO) {
         // 1. 校验适用部门存在
-        deptApi.validateDeptList(reqVO.getDeptIds());
+        deptApi.validateDeptList(reqVO.getDeptIds()).checkError();
         // 2. 校验适用员工存在
         employeeService.validateEmployeeListExists(reqVO.getEmployeeIds());
     }

@@ -351,7 +351,7 @@ public class HrmRecruitInterviewServiceImpl implements HrmRecruitInterviewServic
         templateParams.put("interviewTime", INTERVIEW_TIME_FORMATTER.format(recruitInterview.getInterviewTime()));
         userIds.forEach(userId -> notifyMessageSendApi.sendSingleMessageToAdmin(new NotifySendSingleToUserReqDTO()
                 .setUserId(userId).setTemplateCode(MessageTemplateConstants.RECRUIT_INTERVIEW_ARRANGED)
-                .setTemplateParams(templateParams)));
+                .setTemplateParams(templateParams)).checkError());
     }
 
 }

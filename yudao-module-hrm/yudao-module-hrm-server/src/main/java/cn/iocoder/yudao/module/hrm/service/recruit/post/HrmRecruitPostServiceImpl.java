@@ -146,7 +146,7 @@ public class HrmRecruitPostServiceImpl implements HrmRecruitPostService {
         // 1. 校验职位类型和用人部门存在
         recruitPostTypeService.validateRecruitPostTypeExists(reqVO.getPostTypeId());
         if (reqVO.getDeptId() != null) {
-            deptApi.validateDeptList(Collections.singleton(reqVO.getDeptId()));
+            deptApi.validateDeptList(Collections.singleton(reqVO.getDeptId())).checkError();
         }
 
         // 2. 校验招聘负责人和面试官存在

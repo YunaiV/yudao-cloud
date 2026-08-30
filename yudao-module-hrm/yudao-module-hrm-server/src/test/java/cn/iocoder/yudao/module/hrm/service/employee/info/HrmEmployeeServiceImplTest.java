@@ -68,6 +68,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyCollection;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
@@ -128,6 +129,9 @@ public class HrmEmployeeServiceImplTest extends BaseDbUnitTest {
             HrmEmployeeChangeRecordCreateReqVO reqVO = invocation.getArgument(0);
             return BeanUtils.toBean(reqVO, HrmEmployeeChangeRecordDO.class).setId(randomLongId());
         });
+        lenient().when(deptApi.validateDeptList(anyCollection())).thenReturn(success(true));
+        lenient().when(adminUserApi.validateUserList(anyCollection())).thenReturn(success(true));
+        lenient().when(notifyMessageSendApi.sendSingleMessageToAdmin(any())).thenReturn(success(randomLongId()));
     }
 
     @Test

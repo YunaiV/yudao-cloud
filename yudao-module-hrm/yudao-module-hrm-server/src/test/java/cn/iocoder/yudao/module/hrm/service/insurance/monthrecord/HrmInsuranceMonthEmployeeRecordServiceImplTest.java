@@ -25,6 +25,7 @@ import cn.iocoder.yudao.module.hrm.service.insurance.config.HrmInsuranceSchemeSe
 import cn.iocoder.yudao.module.hrm.service.insurance.employee.HrmInsuranceEmployeeInfoService;
 import cn.iocoder.yudao.module.system.api.notify.NotifyMessageSendApi;
 import jakarta.annotation.Resource;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -37,6 +38,8 @@ import java.util.List;
 import java.util.Map;
 
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomPojo;
+import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomLongId;
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.INSURANCE_EMPLOYEE_SCHEME_NOT_CONFIGURED;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.INSURANCE_MONTH_EMPLOYEE_NOT_ELIGIBLE;
@@ -72,6 +75,11 @@ public class HrmInsuranceMonthEmployeeRecordServiceImplTest extends BaseDbUnitTe
     private HrmEmployeeService employeeService;
     @MockitoBean
     private NotifyMessageSendApi notifyMessageSendApi;
+
+    @BeforeEach
+    public void setUp() {
+        when(notifyMessageSendApi.sendSingleMessageToAdmin(any())).thenReturn(success(randomLongId()));
+    }
 
     @Test
     public void testCreateMonthEmployeeRecordList_success() {

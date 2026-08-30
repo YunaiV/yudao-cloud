@@ -102,7 +102,7 @@ public class FmsAccountUserServiceImpl implements FmsAccountUserService {
                 FmsAccountUserUpdateReqVO.Member::getUserId, FmsAccountUserUpdateReqVO.Member::getLevel);
         Set<Long> memberUserIds = new HashSet<>(memberLevelMap.keySet());
         memberUserIds.removeAll(founderUserIds);
-        adminUserApi.validateUserList(memberUserIds);
+        adminUserApi.validateUserList(memberUserIds).checkError();
 
         // 2.1 移出取消授权的成员
         Set<Long> currentMemberUserIds = convertSet(accountUsers, FmsAccountUserDO::getUserId,

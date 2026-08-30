@@ -15,6 +15,7 @@ import cn.iocoder.yudao.module.hrm.service.employee.info.HrmEmployeeService;
 import cn.iocoder.yudao.module.system.api.notify.NotifyMessageSendApi;
 import cn.iocoder.yudao.module.system.api.notify.dto.NotifySendSingleToUserReqDTO;
 import jakarta.annotation.Resource;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.context.annotation.Import;
@@ -27,6 +28,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.common.util.collection.CollectionUtils.convertList;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertPojoEquals;
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
@@ -67,6 +69,11 @@ public class HrmRecruitInterviewServiceImplTest extends BaseDbUnitTest {
     private HrmEmployeeService employeeService;
     @MockitoBean
     private NotifyMessageSendApi notifyMessageSendApi;
+
+    @BeforeEach
+    public void setUp() {
+        when(notifyMessageSendApi.sendSingleMessageToAdmin(any())).thenReturn(success(randomLongId()));
+    }
 
     @Test
     public void testCreateRecruitInterview_success() {

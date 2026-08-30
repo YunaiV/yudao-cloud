@@ -13,6 +13,7 @@ import cn.iocoder.yudao.module.hrm.enums.attendance.config.HrmAttendanceMisscard
 import cn.iocoder.yudao.module.hrm.service.employee.info.HrmEmployeeService;
 import cn.iocoder.yudao.module.system.api.dept.DeptApi;
 import cn.iocoder.yudao.module.system.api.dept.dto.DeptRespDTO;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
@@ -22,13 +23,23 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyCollection;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * {@link HrmAttendanceGroupServiceImpl} 的单元测试类
@@ -48,6 +59,11 @@ public class HrmAttendanceGroupServiceImplTest extends BaseMockitoUnitTest {
 
     @Mock
     private DeptApi deptApi;
+
+    @BeforeEach
+    public void setUp() {
+        lenient().when(deptApi.validateDeptList(anyCollection())).thenReturn(success(true));
+    }
 
     @Test
     public void testGetAttendanceGroupMap_employeeAndDeptAndDefaultGroup() {

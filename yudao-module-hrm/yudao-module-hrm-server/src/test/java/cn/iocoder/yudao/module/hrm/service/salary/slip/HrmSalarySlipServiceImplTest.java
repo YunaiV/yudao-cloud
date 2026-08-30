@@ -14,6 +14,7 @@ import cn.iocoder.yudao.module.system.api.notify.NotifyMessageSendApi;
 import cn.iocoder.yudao.module.hrm.enums.salary.slip.HrmSalarySlipReadStatusEnum;
 import cn.iocoder.yudao.module.hrm.enums.salary.slip.HrmSalarySlipTemplateOptionTypeEnum;
 import jakarta.annotation.Resource;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -27,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static cn.iocoder.yudao.framework.test.core.util.AssertUtils.assertServiceException;
+import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_SLIP_ALREADY_SENT;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.SALARY_SLIP_NOT_EXISTS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,6 +39,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomLongId;
 
 /**
  * {@link HrmSalarySlipServiceImpl} 的单元测试类
@@ -55,6 +58,12 @@ public class HrmSalarySlipServiceImplTest extends BaseDbUnitTest {
     private HrmEmployeeService employeeService;
     @MockitoBean
     private NotifyMessageSendApi notifyMessageSendApi;
+
+    @BeforeEach
+    public void setUp() {
+        when(notifyMessageSendApi.sendSingleMessageToAdmin(org.mockito.ArgumentMatchers.any()))
+                .thenReturn(success(randomLongId()));
+    }
 
     @Test
     public void testCreateSalarySlipList_success() {

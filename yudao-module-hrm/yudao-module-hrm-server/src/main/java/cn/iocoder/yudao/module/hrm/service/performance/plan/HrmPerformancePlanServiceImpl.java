@@ -555,7 +555,7 @@ public class HrmPerformancePlanServiceImpl implements HrmPerformancePlanService 
             employeeService.validateEmployeeListExists(employeeIds);
         }
         if (CollUtil.isNotEmpty(deptIds)) {
-            deptApi.validateDeptList(deptIds);
+            deptApi.validateDeptList(deptIds).checkError();
         }
     }
 

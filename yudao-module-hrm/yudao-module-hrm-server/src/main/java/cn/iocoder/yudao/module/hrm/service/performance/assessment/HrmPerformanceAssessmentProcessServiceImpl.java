@@ -350,7 +350,7 @@ public class HrmPerformanceAssessmentProcessServiceImpl
         notifyMessageSendApi.sendSingleMessageToAdmin(new NotifySendSingleToUserReqDTO()
                 .setUserId(handler.getUserId())
                 .setTemplateCode(MessageTemplateConstants.PERFORMANCE_TASK_PENDING)
-                .setTemplateParams(templateParams));
+                .setTemplateParams(templateParams)).checkError();
     }
 
     @Override
@@ -386,7 +386,7 @@ public class HrmPerformanceAssessmentProcessServiceImpl
             notifyMessageSendApi.sendSingleMessageToAdmin(new NotifySendSingleToUserReqDTO()
                     .setUserId(employee.getUserId())
                     .setTemplateCode(MessageTemplateConstants.PERFORMANCE_PROCESS_RESULT)
-                    .setTemplateParams(templateParams));
+                    .setTemplateParams(templateParams)).checkError();
         }
     }
 

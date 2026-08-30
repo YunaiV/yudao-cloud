@@ -536,7 +536,7 @@ public class HrmInsuranceMonthEmployeeRecordServiceImpl implements HrmInsuranceM
         notifyMessageSendApi.sendSingleMessageToAdmin(new NotifySendSingleToUserReqDTO()
                 .setUserId(employee.getUserId())
                 .setTemplateCode(MessageTemplateConstants.INSURANCE_MONTH_RECORD_CREATED)
-                .setTemplateParams(templateParams));
+                .setTemplateParams(templateParams)).checkError();
     }
 
 }

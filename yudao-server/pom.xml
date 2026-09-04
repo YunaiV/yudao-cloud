@@ -150,6 +150,13 @@
 <!--            <version>${revision}</version>-->
 <!--        </dependency>-->
 
+        <!-- PMS 项目管理模块。默认注释，按需启用 -->
+<!--        <dependency>-->
+<!--            <groupId>cn.iocoder.cloud</groupId>-->
+<!--            <artifactId>yudao-module-pms-server</artifactId>-->
+<!--            <version>${revision}</version>-->
+<!--        </dependency>-->
+
         <!-- spring boot 配置所需依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -186,6 +193,13 @@
                     <artifactId>spring-cloud-starter-openfeign</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <!-- Test 测试相关 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

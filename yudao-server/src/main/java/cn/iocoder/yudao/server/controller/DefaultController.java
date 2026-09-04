@@ -53,6 +53,24 @@ public class DefaultController {
                 "[WMS 仓库管理系统 yudao-module-wms - 已禁用][参考 https://doc.iocoder.cn/wms/build/ 开启]");
     }
 
+    @RequestMapping("/admin-api/hrm/**")
+    public CommonResult<Boolean> hrm404() {
+        return CommonResult.error(NOT_IMPLEMENTED.getCode(),
+                "[HRM 人力资源管理系统 yudao-module-hrm - 已禁用][参考 https://cloud.iocoder.cn/hrm/build/ 开启]");
+    }
+
+    @RequestMapping("/admin-api/fms/**")
+    public CommonResult<Boolean> fms404() {
+        return CommonResult.error(NOT_IMPLEMENTED.getCode(),
+                "[FMS 财务管理系统 yudao-module-fms - 已禁用][参考 https://cloud.iocoder.cn/fms/build/ 开启]");
+    }
+
+    @RequestMapping("/admin-api/pms/**")
+    public CommonResult<Boolean> pms404() {
+        return CommonResult.error(NOT_IMPLEMENTED.getCode(),
+                "[PMS 项目管理系统 yudao-module-pms - 已禁用][参考 https://cloud.iocoder.cn/pms/build/ 开启]");
+    }
+
     @RequestMapping("/admin-api/crm/**")
     public CommonResult<Boolean> crm404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),

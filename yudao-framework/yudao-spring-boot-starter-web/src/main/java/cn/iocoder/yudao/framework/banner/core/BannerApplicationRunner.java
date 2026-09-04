@@ -43,6 +43,12 @@ public class BannerApplicationRunner implements ApplicationRunner {
             System.out.println("[CRM 系统 yudao-module-crm - 教程][参考 https://cloud.iocoder.cn/crm/build/ 开启]");
             // MES 系统
             System.out.println("[MES 系统 yudao-module-mes - 教程][参考 https://cloud.iocoder.cn/mes/build/ 开启]");
+            // HRM 人力资源管理系统
+            System.out.println("[HRM 人力资源管理系统 yudao-module-hrm - 教程][参考 https://cloud.iocoder.cn/hrm/build/ 开启]");
+            // FMS 财务管理系统
+            System.out.println("[FMS 财务管理系统 yudao-module-fms - 教程][参考 https://cloud.iocoder.cn/fms/build/ 开启]");
+            // PMS 项目管理系统
+            System.out.println("[PMS 项目管理系统 yudao-module-pms - 教程][参考 https://cloud.iocoder.cn/pms/build/ 开启]");
             // IM 即时通讯
             System.out.println("[IM 即时通讯 yudao-module-im - 教程][参考 https://cloud.iocoder.cn/im/build/ 开启]");
             // 微信公众号

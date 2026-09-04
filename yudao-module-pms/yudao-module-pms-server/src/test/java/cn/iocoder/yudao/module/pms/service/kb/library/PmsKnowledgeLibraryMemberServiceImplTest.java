@@ -13,11 +13,11 @@ import cn.iocoder.yudao.module.system.api.dept.DeptApi;
 import cn.iocoder.yudao.module.system.api.permission.PermissionApi;
 import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
 import cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,6 +39,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyCollection;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
@@ -57,20 +58,20 @@ public class PmsKnowledgeLibraryMemberServiceImplTest extends BaseDbUnitTest {
     @Resource
     private PmsKnowledgeLibraryMemberMapper memberMapper;
 
-    @MockitoBean
+    @MockBean
     private PmsKnowledgeLibraryService libraryService;
-    @MockitoBean
+    @MockBean
     private PmsKnowledgeContentPermissionService contentPermissionService;
-    @MockitoBean
+    @MockBean
     private PermissionApi permissionApi;
-    @MockitoBean
+    @MockBean
     private AdminUserApi adminUserApi;
-    @MockitoBean
+    @MockBean
     private DeptApi deptApi;
 
     @BeforeEach
     public void setUpCloudApiMocks() {
-        lenient().when(permissionApi.hasAnyRoles(anyLong(), org.mockito.ArgumentMatchers.any(String[].class)))
+        lenient().when(permissionApi.hasAnyRoles(anyLong(), anyString()))
                 .thenReturn(success(false));
         lenient().when(adminUserApi.getUser(anyLong())).thenReturn(success(null));
         lenient().when(adminUserApi.validateUserList(anyCollection())).thenReturn(success(true));

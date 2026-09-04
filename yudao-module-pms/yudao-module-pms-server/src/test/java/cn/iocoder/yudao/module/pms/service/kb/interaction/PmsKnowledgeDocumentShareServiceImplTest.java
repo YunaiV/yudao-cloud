@@ -12,12 +12,12 @@ import cn.iocoder.yudao.module.pms.service.kb.content.PmsKnowledgeContentPermiss
 import cn.iocoder.yudao.module.system.api.notify.NotifyMessageSendApi;
 import cn.iocoder.yudao.module.system.api.notify.dto.NotifySendSingleToUserReqDTO;
 import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -58,11 +58,11 @@ public class PmsKnowledgeDocumentShareServiceImplTest extends BaseDbUnitTest {
     @Resource
     private PmsKnowledgeLibraryMapper libraryMapper;
 
-    @MockitoBean
+    @MockBean
     private PmsKnowledgeContentPermissionService contentPermissionService;
-    @MockitoBean
+    @MockBean
     private NotifyMessageSendApi notifyMessageSendApi;
-    @MockitoBean
+    @MockBean
     private AdminUserApi adminUserApi;
 
     @BeforeEach

@@ -6,10 +6,10 @@ import cn.iocoder.yudao.module.pms.dal.dataobject.pm.workitem.PmsWorkItemActivit
 import cn.iocoder.yudao.module.pms.dal.mysql.pm.workitem.PmsWorkItemActivityMapper;
 import cn.iocoder.yudao.module.pms.service.pm.iteration.PmsIterationService;
 import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 
@@ -31,13 +31,13 @@ public class PmsWorkItemActivityServiceImplTest extends BaseDbUnitTest {
     @Resource
     private PmsWorkItemActivityMapper activityMapper;
 
-    @MockitoBean
+    @MockBean
     private PmsWorkItemLabelService workItemLabelService;
-    @MockitoBean
+    @MockBean
     private PmsWorkItemService workItemService;
-    @MockitoBean
+    @MockBean
     private PmsIterationService iterationService;
-    @MockitoBean
+    @MockBean
     private AdminUserApi adminUserApi;
 
     @Test

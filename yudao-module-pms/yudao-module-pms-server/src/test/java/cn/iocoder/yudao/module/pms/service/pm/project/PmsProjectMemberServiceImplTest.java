@@ -12,11 +12,11 @@ import cn.iocoder.yudao.module.pms.enums.pm.project.PmsProjectStatusEnum;
 import cn.iocoder.yudao.module.system.api.permission.PermissionApi;
 import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
 import cn.iocoder.yudao.module.system.enums.permission.RoleCodeEnum;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 
@@ -38,6 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyCollection;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
@@ -55,16 +56,16 @@ public class PmsProjectMemberServiceImplTest extends BaseDbUnitTest {
     @Resource
     private PmsProjectMemberMapper projectMemberMapper;
 
-    @MockitoBean
+    @MockBean
     private PmsProjectService projectService;
-    @MockitoBean
+    @MockBean
     private AdminUserApi adminUserApi;
-    @MockitoBean
+    @MockBean
     private PermissionApi permissionApi;
 
     @BeforeEach
     public void setUpCloudApiMocks() {
-        lenient().when(permissionApi.hasAnyRoles(anyLong(), any(String[].class))).thenReturn(success(false));
+        lenient().when(permissionApi.hasAnyRoles(anyLong(), anyString())).thenReturn(success(false));
         lenient().when(adminUserApi.validateUserList(anyCollection())).thenReturn(success(true));
     }
 

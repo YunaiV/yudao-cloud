@@ -9,11 +9,11 @@ import cn.iocoder.yudao.module.pms.dal.mysql.kb.library.PmsKnowledgeLibraryMappe
 import cn.iocoder.yudao.module.pms.enums.kb.content.PmsKnowledgeDocumentStatusEnum;
 import cn.iocoder.yudao.module.pms.service.kb.recycle.PmsKnowledgeRecycleService;
 import cn.iocoder.yudao.module.system.api.permission.PermissionApi;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
@@ -46,20 +47,20 @@ public class PmsKnowledgeLibraryServiceImplTest extends BaseDbUnitTest {
     @Resource
     private PmsKnowledgeLibraryMapper libraryMapper;
 
-    @MockitoBean
+    @MockBean
     private PmsKnowledgeLibraryMemberService memberService;
-    @MockitoBean
+    @MockBean
     private PmsKnowledgeGroupService knowledgeGroupService;
-    @MockitoBean
+    @MockBean
     private PmsKnowledgeRecycleService recycleService;
-    @MockitoBean
+    @MockBean
     private PmsKnowledgeLibraryTemplateService libraryTemplateService;
-    @MockitoBean
+    @MockBean
     private PermissionApi permissionApi;
 
     @BeforeEach
     public void setUpCloudApiMocks() {
-        lenient().when(permissionApi.hasAnyRoles(anyLong(), any(String[].class))).thenReturn(success(false));
+        lenient().when(permissionApi.hasAnyRoles(anyLong(), anyString())).thenReturn(success(false));
     }
 
     @Test

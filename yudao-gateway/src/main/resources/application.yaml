@@ -229,6 +229,13 @@ spring:
                 - Path=/admin-api/pms/**
               filters:
                 - RewritePath=/admin-api/pms/v3/api-docs, /v3/api-docs # 配置，保证转发到 /v3/api-docs
+            ## oa-server 服务
+            - id: oa-admin-api # 路由的编号
+              uri: grayLb://oa-server
+              predicates:
+                - Path=/admin-api/oa/**
+              filters:
+                - RewritePath=/admin-api/oa/v3/api-docs, /v3/api-docs
           x-forwarded:
             prefix-enabled: false # 避免 Swagger 重复带上额外的 /admin-api/system 前缀
           default-filters:
@@ -306,6 +313,9 @@ knife4j:
       - name: pms-server
         service-name: pms-server
         url: /admin-api/pms/v3/api-docs
+      - name: oa-server
+        service-name: oa-server
+        url: /admin-api/oa/v3/api-docs
 
 --- #################### 芋道相关配置 ####################
 

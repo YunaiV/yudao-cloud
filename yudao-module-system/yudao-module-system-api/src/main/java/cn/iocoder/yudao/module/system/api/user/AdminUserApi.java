@@ -63,6 +63,11 @@ public interface AdminUserApi extends AutoTransable<AdminUserRespDTO> {
     @Parameter(name = "nickname", description = "昵称关键词", example = "芋道", required = true)
     CommonResult<List<AdminUserRespDTO>> getUserListByNickname(@RequestParam("nickname") String nickname);
 
+    @GetMapping(PREFIX + "/list-by-status")
+    @Operation(summary = "获得指定状态的用户列表")
+    @Parameter(name = "status", description = "用户状态", required = true, example = "0")
+    CommonResult<List<AdminUserRespDTO>> getUserListByStatus(@RequestParam("status") Integer status);
+
     /**
      * 获得用户 Map
      *
@@ -80,9 +85,11 @@ public interface AdminUserApi extends AutoTransable<AdminUserRespDTO> {
      * 2. 用户被禁用
      *
      * @param id 用户编号
+     * @return 校验通过的用户信息
      */
-    default void validateUser(Long id) {
+    default AdminUserRespDTO validateUser(Long id) {
         validateUserList(Collections.singleton(id)).checkError();
+        return getUser(id).getCheckedData();
     }
 
     @GetMapping(PREFIX + "/valid")

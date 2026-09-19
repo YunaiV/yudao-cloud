@@ -105,4 +105,10 @@ public class AdminUserApiImpl implements AdminUserApi {
         return success(true);
     }
 
+    @Override
+    public CommonResult<List<AdminUserRespDTO>> getUserListByStatus(Integer status) {
+        List<AdminUserDO> users = userService.getUserListByStatus(status);
+        return success(BeanUtils.toBean(users, AdminUserRespDTO.class));
+    }
+
 }

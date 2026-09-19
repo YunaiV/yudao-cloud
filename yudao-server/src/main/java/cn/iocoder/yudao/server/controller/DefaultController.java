@@ -26,6 +26,18 @@ public class DefaultController {
                 "[工作流模块 yudao-module-bpm - 已禁用][参考 https://doc.iocoder.cn/bpm/ 开启]");
     }
 
+    @RequestMapping(value = { "/admin-api/pay/**"})
+    public CommonResult<Boolean> pay404() {
+        return CommonResult.error(NOT_IMPLEMENTED.getCode(),
+                "[支付模块 yudao-module-pay - 已禁用][参考 https://doc.iocoder.cn/pay/build/ 开启]");
+    }
+
+    @RequestMapping(value = { "/admin-api/report/**"})
+    public CommonResult<Boolean> report404() {
+        return CommonResult.error(NOT_IMPLEMENTED.getCode(),
+                "[报表模块 yudao-module-report - 已禁用][参考 https://doc.iocoder.cn/report/ 开启]");
+    }
+
     @RequestMapping("/admin-api/mp/**")
     public CommonResult<Boolean> mp404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
@@ -52,6 +64,18 @@ public class DefaultController {
                 "[WMS 仓库管理系统 yudao-module-wms - 已禁用][参考 https://doc.iocoder.cn/wms/build/ 开启]");
     }
 
+    @RequestMapping("/admin-api/crm/**")
+    public CommonResult<Boolean> crm404() {
+        return CommonResult.error(NOT_IMPLEMENTED.getCode(),
+                "[CRM 模块 yudao-module-crm - 已禁用][参考 https://doc.iocoder.cn/crm/build/ 开启]");
+    }
+
+    @RequestMapping(value = { "/admin-api/mes/**"})
+    public CommonResult<Boolean> mes404() {
+        return CommonResult.error(NOT_IMPLEMENTED.getCode(),
+                "[MES 系统 yudao-module-mes - 已禁用][参考 https://doc.iocoder.cn/mes/build/ 开启]");
+    }
+
     @RequestMapping("/admin-api/hrm/**")
     public CommonResult<Boolean> hrm404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
@@ -70,34 +94,10 @@ public class DefaultController {
                 "[PMS 项目管理系统 yudao-module-pms - 已禁用][参考 https://cloud.iocoder.cn/pms/build/ 开启]");
     }
 
-    @RequestMapping("/admin-api/crm/**")
-    public CommonResult<Boolean> crm404() {
+    @RequestMapping("/admin-api/oa/**")
+    public CommonResult<Boolean> oa404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[CRM 模块 yudao-module-crm - 已禁用][参考 https://doc.iocoder.cn/crm/build/ 开启]");
-    }
-
-    @RequestMapping(value = { "/admin-api/mes/**"})
-    public CommonResult<Boolean> mes404() {
-        return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[MES 系统 yudao-module-mes - 已禁用][参考 https://doc.iocoder.cn/mes/build/ 开启]");
-    }
-
-    @RequestMapping(value = { "/admin-api/im/**"})
-    public CommonResult<Boolean> im404() {
-        return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[IM 即时通讯 yudao-module-im - 已禁用][参考 https://doc.iocoder.cn/im/build/ 开启]");
-    }
-
-    @RequestMapping(value = { "/admin-api/report/**"})
-    public CommonResult<Boolean> report404() {
-        return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[报表模块 yudao-module-report - 已禁用][参考 https://doc.iocoder.cn/report/ 开启]");
-    }
-
-    @RequestMapping(value = { "/admin-api/pay/**"})
-    public CommonResult<Boolean> pay404() {
-        return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                "[支付模块 yudao-module-pay - 已禁用][参考 https://doc.iocoder.cn/pay/build/ 开启]");
+                "[OA 协同办公 yudao-module-oa - 已禁用][参考 https://cloud.iocoder.cn/oa/build/ 开启]");
     }
 
     @RequestMapping(value = { "/admin-api/ai/**"})
@@ -110,6 +110,12 @@ public class DefaultController {
     public CommonResult<Boolean> iot404() {
         return CommonResult.error(NOT_IMPLEMENTED.getCode(),
                 "[IoT 物联网 yudao-module-iot - 已禁用][参考 https://doc.iocoder.cn/iot/build/ 开启]");
+    }
+
+    @RequestMapping(value = { "/admin-api/im/**"})
+    public CommonResult<Boolean> im404() {
+        return CommonResult.error(NOT_IMPLEMENTED.getCode(),
+                "[IM 即时通讯 yudao-module-im - 已禁用][参考 https://doc.iocoder.cn/im/build/ 开启]");
     }
 
     /**

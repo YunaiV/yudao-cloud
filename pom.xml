@@ -32,6 +32,7 @@
         <module>yudao-module-hrm</module>
         <module>yudao-module-fms</module>
         <module>yudao-module-pms</module>
+        <module>yudao-module-oa</module>
     </modules>
 
     <name>${project.artifactId}</name>

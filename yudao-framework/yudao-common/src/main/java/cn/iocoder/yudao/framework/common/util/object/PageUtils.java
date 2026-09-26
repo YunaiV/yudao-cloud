@@ -28,18 +28,6 @@ public class PageUtils {
     }
 
     /**
-     * 对内存列表进行分页
-     *
-     * @param list 数据列表
-     * @param pageParam 分页参数
-     * @param <T> 数据类型
-     * @return 分页结果
-     */
-    public static <T> PageResult<T> buildPageResult(List<T> list, PageParam pageParam) {
-        return buildPageResult(pageParam, list);
-    }
-
-    /**
      * 对内存列表分页，不改变列表顺序
      *
      * @param pageParam 分页参数，支持 {@link PageParam#PAGE_SIZE_NONE} 返回全部数据

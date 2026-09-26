@@ -53,7 +53,7 @@ public class LocalDateTimeUtils {
     /**
      * 按经过的时长计算天数，以 24 小时为一天，结果向上取整
      *
-     * 本方法按经过的时长计算，不按自然日期计数。
+     * 与 {@link #getDaysBetweenInclusive(LocalDateTime, LocalDateTime)} 不同，本方法不按自然日期计数。
      * 例如跨午夜的 2 小时为 1 天，恰好 24 小时为 1 天，相同时刻为 0 天。
      *
      * @param beginTime 开始时间
@@ -68,7 +68,19 @@ public class LocalDateTimeUtils {
                 .divide(BigDecimal.valueOf(Duration.ofDays(1).toMillis()), 0, RoundingMode.CEILING).intValueExact();
     }
 
-
+    /**
+     * 计算包含首尾日期的自然日数，不足一天按对应自然日期计算
+     *
+     * @param beginTime 开始时间
+     * @param endTime 结束时间
+     * @return 自然日数，时间缺失时返回 null；结束日期早于开始日期时返回非正数
+     */
+    public static Integer getDaysBetweenInclusive(LocalDateTime beginTime, LocalDateTime endTime) {
+        if (beginTime == null || endTime == null) {
+            return null;
+        }
+        return Math.toIntExact(ChronoUnit.DAYS.between(beginTime.toLocalDate(), endTime.toLocalDate()) + 1);
+    }
 
     /**
      * 空的 LocalDateTime 对象，主要用于 DB 唯一索引的默认值

@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import static cn.iocoder.yudao.framework.common.exception.util.ServiceExceptionUtil.exception;
-import static cn.iocoder.yudao.module.system.enums.ErrorCodeConstants.NOTICE_NOT_FOUND;
+import static cn.iocoder.yudao.module.system.enums.ErrorCodeConstants.NOTIFY_TEMPLATE_NOT_EXISTS;
 import static cn.iocoder.yudao.module.system.enums.ErrorCodeConstants.NOTIFY_SEND_TEMPLATE_PARAM_MISS;
 
 /**
@@ -64,7 +64,7 @@ public class NotifySendServiceImpl implements NotifySendService {
         NotifyTemplateDO template = notifyTemplateService.getNotifyTemplateByCodeFromCache(templateCode);
         // 站内信模板不存在
         if (template == null) {
-            throw exception(NOTICE_NOT_FOUND);
+            throw exception(NOTIFY_TEMPLATE_NOT_EXISTS);
         }
         return template;
     }

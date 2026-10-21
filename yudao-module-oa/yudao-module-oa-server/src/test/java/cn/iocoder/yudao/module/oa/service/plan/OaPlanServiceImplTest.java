@@ -7,6 +7,7 @@ import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
 import cn.hutool.core.util.StrUtil;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
+import cn.iocoder.yudao.framework.common.util.validation.ValidationUtils;
 import cn.iocoder.yudao.framework.security.core.LoginUser;
 import cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils;
 import cn.iocoder.yudao.framework.test.core.ut.BaseDbUnitTest;
@@ -72,7 +73,9 @@ public class OaPlanServiceImplTest extends BaseDbUnitTest {
     public void testCreatePlan_success() {
         // 准备参数
         Long userId = randomLongId();
-        OaPlanSaveReqVO reqVO = buildPlanSaveReqVO();
+        OaPlanSaveReqVO reqVO = buildPlanSaveReqVO()
+                .setFileUrls(Arrays.asList("https://example.com/a.txt", "https://example.com/b.txt"));
+        ValidationUtils.validate(reqVO);
 
         // 调用
         SecurityFrameworkUtils.setLoginUser(new LoginUser().setId(userId), new MockHttpServletRequest());
@@ -82,6 +85,7 @@ public class OaPlanServiceImplTest extends BaseDbUnitTest {
         OaPlanDO plan = planMapper.selectById(planId);
         assertEquals(userId.toString(), plan.getCreator());
         assertEquals(reqVO.getTitle(), plan.getTitle());
+        assertEquals(reqVO.getFileUrls(), plan.getFileUrls());
     }
 
     @Test
@@ -196,13 +200,13 @@ public class OaPlanServiceImplTest extends BaseDbUnitTest {
         // mock 数据：已有点评与本次追加内容按字符数计算
         Long ownerId = randomLongId();
         Long managerId = randomLongId();
-        OaPlanDO plan = buildPlanDO(ownerId).setComment(StrUtil.repeat("a", 65533 - System.lineSeparator().length()));
+        OaPlanDO plan = buildPlanDO(ownerId).setComment(StrUtil.repeat("a", 998 - System.lineSeparator().length()));
         planMapper.insert(plan);
         // mock 方法
         when(adminUserApi.getUserListBySubordinate(managerId)).thenReturn(success(
                 Collections.singletonList(new AdminUserRespDTO().setId(ownerId))));
 
-        // 调用：包含换行后恰好达到 65535 个字符
+        // 调用：包含换行后恰好达到 1000 个字符
         planService.addPlanComment(plan.getId(), "ab", managerId);
 
         // 断言
@@ -215,7 +219,7 @@ public class OaPlanServiceImplTest extends BaseDbUnitTest {
         // mock 数据：已有点评与本次追加内容按字符数计算
         Long ownerId = randomLongId();
         Long managerId = randomLongId();
-        OaPlanDO plan = buildPlanDO(ownerId).setComment(StrUtil.repeat("a", 65533 - System.lineSeparator().length()));
+        OaPlanDO plan = buildPlanDO(ownerId).setComment(StrUtil.repeat("a", 998 - System.lineSeparator().length()));
         planMapper.insert(plan);
         // mock 方法
         when(adminUserApi.getUserListBySubordinate(managerId)).thenReturn(success(
@@ -226,7 +230,7 @@ public class OaPlanServiceImplTest extends BaseDbUnitTest {
                 () -> planService.addPlanComment(plan.getId(), "abc", managerId));
         assertTrue(exception.getConstraintViolations().stream().anyMatch(violation ->
                 "comment".equals(violation.getPropertyPath().toString())
-                        && "点评内容长度不能超过 65535 个字符".equals(violation.getMessage())));
+                        && "点评内容长度不能超过 1000 个字符".equals(violation.getMessage())));
         assertEquals(plan.getComment(), planMapper.selectById(plan.getId()).getComment());
     }
 

@@ -21,6 +21,10 @@ public interface PayRefundApi {
 
     String PREFIX = ApiConstants.PREFIX + "/refund";
 
+    /**
+     * 创建退款单，独立于调用方事务提交，通过退款通知处理最终结果。
+     * 重试需要使用相同的 merchantRefundId；渠道明确失败时，会抛出渠道错误的业务异常。
+     */
     @PostMapping(PREFIX + "/create")
     @Operation(summary = "创建退款单")
     CommonResult<Long> createRefund(@Valid @RequestBody PayRefundCreateReqDTO reqDTO);

@@ -23,6 +23,10 @@ public interface PayTransferApi {
 
     String PREFIX = ApiConstants.PREFIX + "/transfer";
 
+    /**
+     * 创建转账单，独立于调用方事务提交，通过转账通知处理最终结果。
+     * 重试需要使用相同的 merchantTransferId；渠道明确失败时，会抛出渠道错误的业务异常。
+     */
     @PostMapping(PREFIX + "/create")
     @Operation(summary = "创建转账单")
     CommonResult<PayTransferCreateRespDTO> createTransfer(@Valid @RequestBody PayTransferCreateReqDTO reqDTO);

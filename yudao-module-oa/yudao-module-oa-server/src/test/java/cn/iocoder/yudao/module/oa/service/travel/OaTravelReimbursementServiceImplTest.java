@@ -5,6 +5,7 @@ import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
+import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.framework.dict.core.DictFrameworkUtils;
 import cn.iocoder.yudao.framework.security.core.LoginUser;
 import cn.iocoder.yudao.framework.security.core.util.SecurityFrameworkUtils;
@@ -19,6 +20,7 @@ import cn.iocoder.yudao.module.oa.dal.redis.no.OaNoRedisDAO;
 import cn.iocoder.yudao.module.system.api.dict.DictDataApi;
 import cn.iocoder.yudao.module.system.api.user.AdminUserApi;
 import cn.iocoder.yudao.module.system.api.user.dto.AdminUserRespDTO;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import jakarta.annotation.Resource;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.AfterEach;
@@ -160,6 +162,7 @@ public class OaTravelReimbursementServiceImplTest extends BaseDbUnitTest {
         OaTravelReimbursementDO record = travelReimbursementMapper.selectById(id);
         assertEquals(1, record.getDays());
         assertEquals(reqVO.getItems().size(), record.getItems().size());
+        assertEquals(LocalDateTime.of(2026, 9, 14, 10, 0), CollUtil.getFirst(record.getItems()).getExpenseTime());
         assertEquals(reqVO.getFileUrls(), record.getFileUrls());
         assertEquals(new BigDecimal("0.00"), record.getTotalPrice());
         assertEquals("TRAVEL-NEW", record.getNo());
@@ -433,6 +436,25 @@ public class OaTravelReimbursementServiceImplTest extends BaseDbUnitTest {
     }
 
     @Test
+    public void testGetTravelReimbursementAndPage_itemsExpenseTime() {
+        // mock 数据
+        OaTravelReimbursementDO record = randomTravelReimbursementDO();
+        travelReimbursementMapper.insert(record);
+        LocalDateTime expenseTime = LocalDateTime.of(2026, 9, 14, 10, 0);
+
+        // 调用
+        OaTravelReimbursementDO detail = travelReimbursementService.getTravelReimbursement(record.getId());
+        PageResult<OaTravelReimbursementDO> page = travelReimbursementService.getTravelReimbursementPage(10L,
+                new OaTravelReimbursementPageReqVO());
+
+        // 断言：未声明 ObjectMapper Bean 时使用 JsonUtils 的 ObjectMapper，详情、列表读取明细时间
+        assertSame(JsonUtils.getObjectMapper(), JacksonTypeHandler.getObjectMapper());
+        assertEquals(expenseTime, CollUtil.getFirst(detail.getItems()).getExpenseTime());
+        assertEquals(1L, page.getTotal());
+        assertEquals(expenseTime, CollUtil.getFirst(CollUtil.getFirst(page.getList()).getItems()).getExpenseTime());
+    }
+
+    @Test
     public void testUpdateTravelReimbursementStatus_notExists() {
 
         // 调用，并断言异常
@@ -603,7 +625,8 @@ public class OaTravelReimbursementServiceImplTest extends BaseDbUnitTest {
                 .setStartTime(LocalDateTime.of(2026, 9, 14, 0, 0)).setEndTime(LocalDateTime.of(2026, 9, 15, 0, 0))
                 .setStatus(-1).setProcessInstanceId(null).setPayStatus(false)
                 .setTravelApplyId(null).setTotalPrice(BigDecimal.ZERO)
-                .setItems(Collections.singletonList(new OaTravelReimbursementDO.Item().setPrice(BigDecimal.ZERO)))
+                .setItems(Collections.singletonList(new OaTravelReimbursementDO.Item().setPrice(BigDecimal.ZERO)
+                        .setExpenseTime(LocalDateTime.of(2026, 9, 14, 10, 0))))
                 .setFileUrls(Collections.singletonList("https://example.com/receipt.pdf")));
         record.setCreator("10");
         return record;

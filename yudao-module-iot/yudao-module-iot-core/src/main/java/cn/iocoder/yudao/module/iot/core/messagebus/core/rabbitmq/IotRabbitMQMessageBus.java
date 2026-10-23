@@ -23,9 +23,11 @@ import java.util.List;
  *
  * @author ywc
  */
-@Slf4j
 @RequiredArgsConstructor
+@Slf4j
 public class IotRabbitMQMessageBus implements IotMessageBus {
+
+    private static final String ROUTING_KEY = "#";
 
     private final RabbitTemplate rabbitTemplate;
 
@@ -38,49 +40,45 @@ public class IotRabbitMQMessageBus implements IotMessageBus {
 
     @Override
     public void post(String topic, Object message) {
-        String json = JsonUtils.toJsonString(message);
-        rabbitTemplate.send(topic, "#", new Message(json.getBytes()));
+        rabbitTemplate.send(topic, ROUTING_KEY, MessageBuilder.withBody(JsonUtils.toJsonByte(message)).build());
         log.info("[post][topic({}) 发送消息({})]", topic, message);
     }
 
     @Override
+    @SuppressWarnings("DataFlowIssue")
     public void register(IotMessageSubscriber<?> subscriber) {
         Type type = TypeUtil.getTypeArgument(subscriber.getClass(), 0);
         if (type == null) {
             throw new IllegalStateException(String.format("类型(%s) 需要设置消息类型", getClass().getName()));
         }
 
-        String topic = subscriber.getTopic();
-        String group = subscriber.getGroup();
-
-        Queue queue = new Queue(group, true, false, false);
+        // 1.1 声明交换机、队列和绑定关系
+        Queue queue = new Queue(subscriber.getGroup(), true, false, false);
         rabbitAdmin.declareQueue(queue);
-
-        TopicExchange exchange = new TopicExchange(topic);
+        TopicExchange exchange = new TopicExchange(subscriber.getTopic());
         rabbitAdmin.declareExchange(exchange);
-
-        Binding binding = BindingBuilder.bind(queue).to(exchange).with("#");
+        Binding binding = BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
         rabbitAdmin.declareBinding(binding);
 
+        // 1.2 创建消费容器
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(rabbitTemplate.getConnectionFactory());
         container.setQueues(queue);
         container.setConcurrentConsumers(1);
         container.setMaxConcurrentConsumers(10);
         container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
-
         container.setMessageListener((ChannelAwareMessageListener) (message, channel) -> {
-            String body = new String(message.getBody());
             try {
-                subscriber.onMessage(JsonUtils.parseObject(body, type));
+                subscriber.onMessage(JsonUtils.parseObject(message.getBody(), type));
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             } catch (Exception ex) {
-                log.error("[onMessage][topic({}/{}) message({}) 处理异常]", topic, group, body, ex);
+                log.error("[onMessage][topic({}/{}) message({}) 消费者({}) 处理异常]",
+                        subscriber.getTopic(), subscriber.getGroup(), message, subscriber.getClass().getName(), ex);
                 channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
             }
         });
-
         container.start();
 
+        // 2. 保存消费者引用
         containers.add(container);
         subscribers.add(subscriber);
     }
@@ -93,7 +91,7 @@ public class IotRabbitMQMessageBus implements IotMessageBus {
                 container.destroy();
                 log.info("[destroy][关闭 RabbitMQ 消费者容器成功]");
             } catch (Exception e) {
-                log.error("[destroy]关闭 RabbitMQ 消费者容器异常]", e);
+                log.error("[destroy][关闭 RabbitMQ 消费者容器异常]", e);
             }
         }
     }

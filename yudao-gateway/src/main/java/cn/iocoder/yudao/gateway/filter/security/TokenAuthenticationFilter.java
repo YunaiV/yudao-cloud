@@ -82,8 +82,9 @@ public class TokenAuthenticationFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        // 移除 login-user 的请求头，避免伪造模拟
-        exchange = SecurityFrameworkUtils.removeLoginUser(exchange);
+        // 移除 login-user、data-permission-enable 等内部请求头，避免伪造模拟
+        // 注意：必须在所有分支（无 Token、Token 过期等）之前处理
+        exchange = SecurityFrameworkUtils.removeInternalHeaders(exchange);
 
         // 情况一，如果没有 Token 令牌，则直接继续 filter
         String token = SecurityFrameworkUtils.obtainAuthorization(exchange);

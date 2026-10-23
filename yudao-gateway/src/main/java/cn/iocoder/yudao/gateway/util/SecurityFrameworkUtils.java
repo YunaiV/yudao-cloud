@@ -5,6 +5,7 @@ import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.gateway.filter.security.LoginUser;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
@@ -28,6 +29,12 @@ public class SecurityFrameworkUtils {
     private static final String AUTHORIZATION_BEARER = "Bearer";
 
     private static final String LOGIN_USER_HEADER = "login-user";
+    /**
+     * 数据权限是否开启的 Header
+     *
+     * copy from yudao-spring-boot-starter-biz-data-permission 的 DataPermissionRequestInterceptor 类
+     */
+    private static final String DATA_PERMISSION_ENABLE_HEADER = "data-permission-enable";
 
     private static final String LOGIN_USER_ID_ATTR = "login-user-id";
     private static final String LOGIN_USER_TYPE_ATTR = "login-user-type";
@@ -64,19 +71,28 @@ public class SecurityFrameworkUtils {
     }
 
     /**
-     * 移除请求头的用户
+     * 移除外部请求携带的内部 Header，避免伪造模拟
+     *
+     * 1. login-user：登录用户，由网关在认证通过后重新设置
+     * 2. data-permission-enable：数据权限的忽略标记，仅允许服务间 RPC 调用传递
+     *
+     * 注意：HttpHeaders 的 key 大小写不敏感，remove 会移除同名（含大小写变体）的所有值
      *
      * @param exchange 请求
      * @return 请求
      */
-    public static ServerWebExchange removeLoginUser(ServerWebExchange exchange) {
+    public static ServerWebExchange removeInternalHeaders(ServerWebExchange exchange) {
         // 如果不包含，直接返回
-        if (!exchange.getRequest().getHeaders().containsKey(LOGIN_USER_HEADER)) {
+        HttpHeaders headers = exchange.getRequest().getHeaders();
+        if (!headers.containsKey(LOGIN_USER_HEADER) && !headers.containsKey(DATA_PERMISSION_ENABLE_HEADER)) {
             return exchange;
         }
         // 如果包含，则移除。参考 RemoveRequestHeaderGatewayFilterFactory 实现
         ServerHttpRequest request = exchange.getRequest().mutate()
-                .headers(httpHeaders -> httpHeaders.remove(LOGIN_USER_HEADER)).build();
+                .headers(httpHeaders -> {
+                    httpHeaders.remove(LOGIN_USER_HEADER);
+                    httpHeaders.remove(DATA_PERMISSION_ENABLE_HEADER);
+                }).build();
         return exchange.mutate().request(request).build();
     }
 

@@ -1,0 +1,76 @@
+# 服务保障（Sentinel）的配置片段，不能直接作为配置文件使用。
+# 按服务分为两段（以 --- 分隔），分别合并到对应服务的 application-{profile}.yaml，或者 Nacos 中该服务的配置（例如说 gateway-server-local.yaml）：
+#   - spring.cloud.sentinel 合并到已有的 spring.cloud 下，不要重复写一个 spring.cloud；feign.sentinel 新增到配置文件的顶层
+#   - 规则保存在 Nacos 中，由 datasource 读取并监听变更。namespace、group-id、data-id 必须与在 Nacos 中创建的规则配置一致：
+#       - namespace：使用服务自己的 spring.cloud.nacos.config.namespace（项目默认是 dev），必须是命名空间的【ID】，不是名字
+#       - group-id：SENTINEL_GROUP，与服务自己的配置（DEFAULT_GROUP）分开
+#       - data-id：与 script/sentinel/nacos 目录下的文件名相同，包含 .json 后缀
+#   - 不要配置 spring.cloud.sentinel.scg.fallback.*：它会覆盖 DemoSentinelGatewayConfiguration 中返回 CommonResult 的处理器
+# Nacos、Dashboard 的地址和账号通过环境变量传入，不要把真实密码写入配置文件、提交到 Git。
+
+# ========== 1. gateway-server：yudao-gateway 的 application-{profile}.yaml ==========
+# 不需要手动设置 csp.sentinel.app.type：spring-cloud-alibaba-sentinel-gateway 启动时自动设置为 11（Spring Cloud Gateway），Dashboard 按网关应用展示 API 管理、网关流控规则。
+# Dashboard 中网关显示为普通应用时，核对是否接入了该适配器、Dashboard 的版本与连通性，以及实际注册的应用类型、是否遗留了旧的机器信息
+spring:
+  cloud:
+    sentinel:
+      eager: true # 启动时就初始化 Sentinel、连接 Dashboard；默认 false，第一次请求时才初始化
+      transport:
+        dashboard: ${YUDAO_SENTINEL_DASHBOARD:} # Sentinel Dashboard 地址，例如说 127.0.0.1:8858；为空时不连接 Dashboard，规则照常生效
+        port: 8719 # Sentinel 的命令端口，没有鉴权，只能在内网访问；同一台机器的多个服务需要不同端口，被占用时 Sentinel 会自动递增
+      datasource:
+        gw-api-group: # 自定义 API 分组：定义哪些请求路径属于一个 API，供 gw-flow 规则按 API 限流
+          nacos:
+            server-addr: ${spring.cloud.nacos.server-addr}
+            namespace: ${spring.cloud.nacos.config.namespace}
+            username: ${YUDAO_NACOS_USERNAME:${spring.cloud.nacos.username:}} # Nacos 开启鉴权时需要；未设置环境变量时，使用服务自己的 Nacos 账号
+            password: ${YUDAO_NACOS_PASSWORD:${spring.cloud.nacos.password:}}
+            group-id: SENTINEL_GROUP
+            data-id: ${spring.application.name}-gw-api-group-rules.json # 即 gateway-server-gw-api-group-rules.json
+            data-type: json
+            rule-type: gw-api-group
+        gw-flow: # 网关流控规则：按 routeId（resourceMode = 0）或自定义 API 分组（resourceMode = 1）限流
+          nacos:
+            server-addr: ${spring.cloud.nacos.server-addr}
+            namespace: ${spring.cloud.nacos.config.namespace}
+            username: ${YUDAO_NACOS_USERNAME:${spring.cloud.nacos.username:}}
+            password: ${YUDAO_NACOS_PASSWORD:${spring.cloud.nacos.password:}}
+            group-id: SENTINEL_GROUP
+            data-id: ${spring.application.name}-gw-flow-rules.json # 即 gateway-server-gw-flow-rules.json
+            data-type: json
+            rule-type: gw-flow
+
+---
+# ========== 2. system-server：yudao-module-system-server 的 application-{profile}.yaml ==========
+spring:
+  cloud:
+    sentinel:
+      eager: true # 启动时就初始化 Sentinel、连接 Dashboard；默认 false，第一次请求时才初始化
+      transport:
+        dashboard: ${YUDAO_SENTINEL_DASHBOARD:} # Sentinel Dashboard 地址，例如说 127.0.0.1:8858；为空时不连接 Dashboard，规则照常生效
+        port: 8720 # Sentinel 的命令端口，与 gateway-server 的 8719 错开，没有鉴权，只能在内网访问
+      datasource:
+        flow: # 限流规则：示例是 URL 资源 /admin-api/system/sentinel-demo/flow
+          nacos:
+            server-addr: ${spring.cloud.nacos.server-addr}
+            namespace: ${spring.cloud.nacos.config.namespace}
+            username: ${YUDAO_NACOS_USERNAME:${spring.cloud.nacos.username:}} # Nacos 开启鉴权时需要；未设置环境变量时，使用服务自己的 Nacos 账号
+            password: ${YUDAO_NACOS_PASSWORD:${spring.cloud.nacos.password:}}
+            group-id: SENTINEL_GROUP
+            data-id: ${spring.application.name}-flow-rules.json # 即 system-server-flow-rules.json
+            data-type: json
+            rule-type: flow
+        degrade: # 熔断规则：示例是 Feign 资源 GET:http://infra-server/rpc-api/infra/sentinel-demo/echo
+          nacos:
+            server-addr: ${spring.cloud.nacos.server-addr}
+            namespace: ${spring.cloud.nacos.config.namespace}
+            username: ${YUDAO_NACOS_USERNAME:${spring.cloud.nacos.username:}}
+            password: ${YUDAO_NACOS_PASSWORD:${spring.cloud.nacos.password:}}
+            group-id: SENTINEL_GROUP
+            data-id: ${spring.application.name}-degrade-rules.json # 即 system-server-degrade-rules.json
+            data-type: json
+            rule-type: degrade
+
+feign:
+  sentinel:
+    enabled: true # 开启 Sentinel 对 Feign 的支持：当前服务的【所有】Feign 客户端都由 Sentinel 原生的 SentinelFeign 创建，每个方法是一个资源

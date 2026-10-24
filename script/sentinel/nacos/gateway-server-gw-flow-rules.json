@@ -1,0 +1,20 @@
+[
+  {
+    "resource": "system-sentinel-demo-api",
+    "resourceMode": 1,
+    "grade": 1,
+    "count": 2,
+    "intervalSec": 1,
+    "controlBehavior": 0,
+    "burst": 0
+  },
+  {
+    "resource": "system-admin-api",
+    "resourceMode": 0,
+    "grade": 1,
+    "count": 200,
+    "intervalSec": 1,
+    "controlBehavior": 0,
+    "burst": 0
+  }
+]

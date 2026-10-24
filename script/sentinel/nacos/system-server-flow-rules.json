@@ -1,0 +1,11 @@
+[
+  {
+    "resource": "/admin-api/system/sentinel-demo/flow",
+    "limitApp": "default",
+    "grade": 1,
+    "count": 2,
+    "strategy": 0,
+    "controlBehavior": 0,
+    "clusterMode": false
+  }
+]

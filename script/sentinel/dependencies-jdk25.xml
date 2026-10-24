@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    服务保障（Sentinel）的 Maven 依赖片段【按条件补充】，不是 Maven 工程，不参与项目构建。
+
+    只适用于微服务项目的 master-jdk25 分支（Spring Boot 4.1.2 + Spring Cloud OpenFeign 5.0.2），并且只在下面的条件同时满足时补充：
+      - 该服务使用了 Feign 客户端，包括已有的和新增的。例如说 system-server（本材料新增了 DemoSentinelInfraApi）、
+        infra-server（已有 TenantCommonApi 等）都使用了 Feign，需要分别检查；gateway-server 不使用 Feign，不适用
+      - 该服务启动时的 classpath 中有 org.springframework.data.domain.Pageable（例如说 Redis 传递引入的 spring-data-commons），
+        却没有 Spring Boot 4 拆分出去的 org.springframework.boot.data.autoconfigure.web.DataWebProperties（spring-boot-data-commons 模块）
+      只有 Pageable、没有 DataWebProperties 时才补充，不要无条件添加
+
+    原因：OpenFeign 5.0.2 的 FeignClientsConfiguration 中，普通的 Encoder 要求 classpath 中【没有】Pageable，
+    支持分页参数的 Encoder 要求 Pageable、DataWebProperties【都有】。只有 Pageable 时两个都不创建，
+    启动时报 IllegalStateException: No bean found of type interface feign.codec.Encoder for xxx，例如说 xxx 是 demoSentinelInfraApi。
+    该问题与 Sentinel 无关，是否需要补充，以该服务实际的 classpath 为准。
+
+    使用时，将下面的 <dependency> 复制到满足上述条件的服务的 pom.xml 的 <dependencies> 中，与 dependencies.xml 的依赖一起添加，版本由 Spring Boot BOM 管理。
+    classpath 中已经有 spring-boot-data-commons 时，不需要重复添加；master、master-jdk17 分支及单体项目不使用本文件。
+-->
+<dependencies>
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-data-commons</artifactId>
+    </dependency>
+
+</dependencies>

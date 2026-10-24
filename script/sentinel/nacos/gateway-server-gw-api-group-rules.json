@@ -1,0 +1,11 @@
+[
+  {
+    "apiName": "system-sentinel-demo-api",
+    "predicateItems": [
+      {
+        "pattern": "/admin-api/system/sentinel-demo/gateway-flow",
+        "matchStrategy": 0
+      }
+    ]
+  }
+]

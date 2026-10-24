@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    服务保障（Sentinel）的 Maven 依赖片段，不是 Maven 工程，不参与项目构建。
+
+    按服务分为两段，复制到对应服务的 pom.xml 的 <dependencies> 中：
+      - 第 1 段：gateway-server（yudao-gateway/pom.xml）、system-server（yudao-module-system/yudao-module-system-server/pom.xml）都要添加
+      - 第 2 段：只添加到 gateway-server
+    示例的 infra-server 只提供被调用的 RPC 接口，不需要添加。
+
+    三个分支（master、master-jdk17、master-jdk25）复制同样的内容，不需要按分支选择：
+    版本都不写，由项目已经引入的 Spring Cloud Alibaba BOM 管理，对应的 Sentinel 版本如下，不建议单独覆盖：
+      - master：Spring Cloud Alibaba 2021.0.6.2，Sentinel 1.8.6
+      - master-jdk17：Spring Cloud Alibaba 2025.0.0.0，Sentinel 1.8.9
+      - master-jdk25：Spring Cloud Alibaba 2025.1.0.0，Sentinel 1.8.9
+    master-jdk25 分支的 system-server，还需要按条件检查 dependencies-jdk25.xml。
+-->
+<dependencies>
+
+    <!-- ========== 1. Sentinel + Nacos 数据源：gateway-server、system-server 都要添加 ========== -->
+    <!--
+        spring-cloud-starter-alibaba-sentinel：Sentinel 的自动配置，以及 spring.cloud.sentinel.* 配置项、规则数据源的支持。
+          - 在 system-server（Servlet）中，自动为每个 URL 创建资源；开启 feign.sentinel.enabled 后，为每个 Feign 方法创建资源
+          - 在 gateway-server（WebFlux）中，Servlet 的适配只在 Servlet 应用中生效，它依赖的 servlet-api、spring-webmvc 是 provided，
+            不会引入 spring-boot-starter-web 等 Servlet 组件
+          - 自带 sentinel-transport-simple-http：在本机开启 Sentinel 的命令端口（默认 8719，被占用时自动递增），只能在内网访问
+        sentinel-datasource-nacos：从 Nacos 读取、监听规则，规则以 Nacos 为准
+    -->
+    <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>com.alibaba.csp</groupId>
+        <artifactId>sentinel-datasource-nacos</artifactId>
+    </dependency>
+
+    <!-- ========== 2. Spring Cloud Gateway 适配：只添加到 gateway-server ========== -->
+    <!--
+        按路由（routeId）、自定义 API 分组限流，以及被阻断时调用 BlockRequestHandler 返回响应。
+        它会按分支传递对应的适配模块（master 是 sentinel-spring-cloud-gateway-adapter，
+        master-jdk17、master-jdk25 是 sentinel-spring-cloud-gateway-v6x-adapter），不需要自己添加。
+    -->
+    <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-alibaba-sentinel-gateway</artifactId>
+    </dependency>
+
+</dependencies>

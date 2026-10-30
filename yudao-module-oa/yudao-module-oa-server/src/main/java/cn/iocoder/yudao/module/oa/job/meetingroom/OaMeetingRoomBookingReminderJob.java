@@ -1,16 +1,17 @@
 package cn.iocoder.yudao.module.oa.job.meetingroom;
 
 import cn.hutool.core.util.StrUtil;
+import com.xxl.job.core.handler.annotation.XxlJob;
 import cn.iocoder.yudao.framework.tenant.core.job.TenantJob;
 import cn.iocoder.yudao.module.oa.service.meetingroom.OaMeetingRoomBookingService;
-import com.xxl.job.core.handler.annotation.XxlJob;
+import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-
-// TODO @AI：是不是分开 job 噢？因为毕竟是 remind；
 /**
- * OA 会议开始提醒与过期预定处理 Job
+ * OA 会议开始提醒与过期预定处理 Job（兼容入口）
+ *
+ * 按原顺序先取消过期预定，再发送会议提醒。新配置请使用 {@link OaMeetingRoomBookingCancelExpiredJob}、
+ * {@link OaMeetingRoomBookingSendReminderJob}；迁移时先停用本 Job 再启用两个新 Job，新旧 Job 不能同时启用
  *
  * @author 芋道源码
  */

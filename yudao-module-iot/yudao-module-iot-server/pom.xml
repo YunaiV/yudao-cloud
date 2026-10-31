@@ -44,6 +44,12 @@
             <artifactId>yudao-module-iot-core</artifactId>
             <version>${revision}</version>
         </dependency>
+        <!-- 可选：与 iot-server 合并部署时引入 gateway，并将网关配置合并至 iot-server 的 application.yaml，消息总线配置为 local。参见 https://t.zsxq.com/FtbO6 -->
+<!--        <dependency>-->
+<!--            <groupId>cn.iocoder.cloud</groupId>-->
+<!--            <artifactId>yudao-module-iot-gateway</artifactId>-->
+<!--            <version>${revision}</version>-->
+<!--        </dependency>-->
 
         <!-- 业务组件 -->
         <dependency>

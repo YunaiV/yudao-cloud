@@ -11,6 +11,7 @@ import cn.iocoder.yudao.module.iot.gateway.config.IotGatewayProperties;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -30,6 +31,7 @@ import static cn.iocoder.yudao.framework.common.exception.enums.GlobalErrorCodeC
  * @author 芋道源码
  */
 @Service
+@ConditionalOnProperty(prefix = "yudao.iot.gateway.rpc", name = "url") // 仅配置 RPC 地址时创建；与 iot-server 合并部署时，使用其本地实现
 @Slf4j
 public class IotDeviceApiImpl implements IotDeviceCommonApi {
 

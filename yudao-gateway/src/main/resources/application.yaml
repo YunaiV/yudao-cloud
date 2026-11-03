@@ -94,6 +94,10 @@ spring:
           uri: grayLb://report-server
           predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
             - Path=/jmreport/**, /drag/**, /jimubi/**
+        - id: report-ureport # 路由的编号（UReport2 报表）
+          uri: grayLb://report-server
+          predicates: # 断言，作为路由的匹配条件，对应 RouteDefinition 数组
+            - Path=/ureport/**
         ## pay-server 服务
         - id: pay-admin-api # 路由的编号
           uri: grayLb://pay-server

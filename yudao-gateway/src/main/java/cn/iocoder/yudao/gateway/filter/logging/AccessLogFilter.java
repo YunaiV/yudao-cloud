@@ -2,7 +2,10 @@ package cn.iocoder.yudao.gateway.filter.logging;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.URLUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
+import cn.iocoder.yudao.framework.common.util.collection.SetUtils;
 import cn.iocoder.yudao.framework.common.util.json.JsonUtils;
 import cn.iocoder.yudao.gateway.util.SkyWalkingTraceUtils;
 import cn.iocoder.yudao.gateway.util.SecurityFrameworkUtils;
@@ -31,6 +34,8 @@ import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.http.server.reactive.ServerHttpResponseDecorator;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -41,8 +46,10 @@ import reactor.core.publisher.Mono;
 import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static cn.hutool.core.date.DatePattern.NORM_DATETIME_MS_FORMATTER;
 
@@ -58,6 +65,20 @@ import static cn.hutool.core.date.DatePattern.NORM_DATETIME_MS_FORMATTER;
 @Slf4j
 @Component
 public class AccessLogFilter implements GlobalFilter, Ordered {
+
+    /**
+     * UReport2 报表的 URL 前缀
+     *
+     * 它的请求通过 URL 参数传递 token，请求、响应体可能包含报表模板（例如说数据源的连接密码），所以日志需要脱敏
+     */
+    private static final String UREPORT_URL_PREFIX = "/ureport";
+    /**
+     * UReport2 报表请求中，需要脱敏的 URL 参数、请求头、响应头，忽略大小写
+     */
+    private static final Set<String> UREPORT_SENSITIVE_KEYS = SetUtils.asSet("token", "accesstoken", "refreshtoken",
+            "authorization", "proxy-authorization", "cookie", "set-cookie");
+    private static final String SENSITIVE_VALUE = "******";
+    private static final String IGNORED_BODY = "[UReport2 报表请求，不记录内容]";
 
     @Resource
     private CodecConfigurer codecConfigurer;
@@ -78,6 +99,8 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
 
             // 方式三：打印到控制台，方便排查错误
             try {
+                // UReport2 报表的请求，只在日志中脱敏凭据、忽略请求和响应体，不影响实际的请求
+                boolean ureport = isUReportRequest(gatewayLog.getRequestUrl());
                 Map<String, Object> values = MapUtil.newHashMap(15, true); // 手工拼接，保证排序；15 保证不用扩容
                 values.put("traceId", gatewayLog.getTraceId());
                 values.put("userId", gatewayLog.getUserId());
@@ -85,15 +108,17 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
                 values.put("routeId", gatewayLog.getRoute() != null ? gatewayLog.getRoute().getId() : null);
                 values.put("schema", gatewayLog.getSchema());
                 values.put("requestUrl", gatewayLog.getRequestUrl());
-                values.put("queryParams", gatewayLog.getQueryParams().toSingleValueMap());
-                values.put("requestBody", JsonUtils.isJson(gatewayLog.getRequestBody()) ? // 保证 body 的展示好看
+                values.put("queryParams", maskIfUReport(ureport, gatewayLog.getQueryParams()).toSingleValueMap());
+                values.put("requestBody", ureport ? ignoreBody(gatewayLog.getRequestBody()) :
+                        JsonUtils.isJson(gatewayLog.getRequestBody()) ? // 保证 body 的展示好看
                         JSONUtil.parse(gatewayLog.getRequestBody()) : gatewayLog.getRequestBody());
-                values.put("requestHeaders", JsonUtils.toJsonString(gatewayLog.getRequestHeaders().toSingleValueMap()));
+                values.put("requestHeaders", JsonUtils.toJsonString(maskIfUReport(ureport, gatewayLog.getRequestHeaders()).toSingleValueMap()));
                 values.put("userIp", gatewayLog.getUserIp());
-                values.put("responseBody", JsonUtils.isJson(gatewayLog.getResponseBody()) ? // 保证 body 的展示好看
+                values.put("responseBody", ureport ? ignoreBody(gatewayLog.getResponseBody()) :
+                        JsonUtils.isJson(gatewayLog.getResponseBody()) ? // 保证 body 的展示好看
                         JSONUtil.parse(gatewayLog.getResponseBody()) : gatewayLog.getResponseBody());
                 values.put("responseHeaders", gatewayLog.getResponseHeaders() != null ?
-                        JsonUtils.toJsonString(gatewayLog.getResponseHeaders().toSingleValueMap()) : null);
+                        JsonUtils.toJsonString(maskIfUReport(ureport, gatewayLog.getResponseHeaders()).toSingleValueMap()) : null);
                 values.put("httpStatus", gatewayLog.getHttpStatus());
                 values.put("startTime", LocalDateTimeUtil.format(gatewayLog.getStartTime(), NORM_DATETIME_MS_FORMATTER));
                 values.put("endTime", LocalDateTimeUtil.format(gatewayLog.getEndTime(), NORM_DATETIME_MS_FORMATTER));
@@ -105,6 +130,40 @@ public class AccessLogFilter implements GlobalFilter, Ordered {
             }
             return null;
         });
+    }
+
+    /**
+     * 判断是否为 UReport2 报表的请求
+     *
+     * 先 URL 解码，避免编码后的路径绕过；以 {@link #UREPORT_URL_PREFIX} 开头的请求都脱敏，宁可多脱敏
+     *
+     * @param requestUrl 请求地址，未解码
+     * @return 是否为 UReport2 报表的请求
+     */
+    private static boolean isUReportRequest(String requestUrl) {
+        return StrUtil.startWith(URLUtil.decode(requestUrl), UREPORT_URL_PREFIX);
+    }
+
+    /**
+     * 如果是 UReport2 报表的请求，返回脱敏后的副本；否则，返回原值
+     *
+     * @param ureport 是否为 UReport2 报表的请求
+     * @param values URL 参数、请求头或响应头
+     * @return 用于日志的值
+     */
+    private static MultiValueMap<String, String> maskIfUReport(boolean ureport, MultiValueMap<String, String> values) {
+        if (!ureport) {
+            return values;
+        }
+        MultiValueMap<String, String> result = new LinkedMultiValueMap<>();
+        values.forEach((key, value) -> result.put(key,
+                UREPORT_SENSITIVE_KEYS.contains(StrUtil.nullToEmpty(key).toLowerCase())
+                        ? Collections.singletonList(SENSITIVE_VALUE) : value));
+        return result;
+    }
+
+    private static String ignoreBody(String body) {
+        return StrUtil.isEmpty(body) ? body : IGNORED_BODY;
     }
 
     @Override

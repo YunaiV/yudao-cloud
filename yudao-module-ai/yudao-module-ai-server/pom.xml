@@ -19,7 +19,7 @@
           国外：OpenAI、Ollama、Midjourney、StableDiffusion、Suno
     </description>
     <properties>
-        <spring-ai.version>2.0.0</spring-ai.version>
+        <spring-ai.version>2.0.1</spring-ai.version>
         <!-- https://mvnrepository.com/artifact/com.alibaba.cloud.ai/spring-ai-alibaba -->
         <alibaba-ai.version>2.0.0-M1.1</alibaba-ai.version>
         <tinyflow.version>1.2.6</tinyflow.version>

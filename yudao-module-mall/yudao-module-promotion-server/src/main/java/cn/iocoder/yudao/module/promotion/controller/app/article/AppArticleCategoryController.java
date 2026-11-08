@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +28,7 @@ public class AppArticleCategoryController {
     @Resource
     private ArticleCategoryService articleCategoryService;
 
-    @RequestMapping("/list")
+    @GetMapping("/list")
     @Operation(summary = "获得文章分类列表")
     public CommonResult<List<AppArticleCategoryRespVO>> getArticleCategoryList() {
         List<ArticleCategoryDO> categoryList = articleCategoryService.getArticleCategoryListByStatus(

@@ -70,4 +70,18 @@ public interface FileApi {
     CommonResult<String> presignGetUrl(@NotEmpty(message = "URL 不能为空") @RequestParam("url") String url,
                                        Integer expirationSeconds);
 
+    /**
+     * 生成文件预签名地址，用于读取
+     *
+     * 不支持预签名的存储（例如本地、数据库），直接返回原地址
+     * 注意：远程调用时，infra 服务的异常会被包装成失败的 CommonResult，无法区分异常类型，所以失败时统一返回原地址
+     *
+     * @param url 完整的文件访问地址
+     * @return 文件预签名地址
+     */
+    default String presignGetUrlQuietly(String url) {
+        CommonResult<String> result = presignGetUrl(url, null);
+        return result != null && result.isSuccess() ? result.getData() : url;
+    }
+
 }

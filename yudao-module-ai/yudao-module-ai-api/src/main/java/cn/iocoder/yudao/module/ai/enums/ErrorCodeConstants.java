@@ -93,7 +93,7 @@ public interface ErrorCodeConstants {
 
     // ========== AI PPT 1-040-012-000 ==========
     ErrorCode PPT_NOT_EXISTS = new ErrorCode(1_040_012_000, "PPT 不存在");
-    ErrorCode PPT_IMAGE_MODEL_NOT_SUPPORTED = new ErrorCode(1_040_012_001, "操作失败，PPT 只支持 OpenAI、硅基流动、通义的绘图模型");
+    ErrorCode PPT_IMAGE_MODEL_NOT_SUPPORTED = new ErrorCode(1_040_012_001, "操作失败，PPT 只支持 OpenAI、硅基流动、阿里巴巴的绘图模型");
     ErrorCode PPT_STATUS_IN_PROGRESS = new ErrorCode(1_040_012_006, "PPT 生成中，请稍后再试");
     ErrorCode PPT_STATUS_NOT_FAIL = new ErrorCode(1_040_012_007, "只有已失败的 PPT 才能继续生成");
     ErrorCode PPT_STATUS_NOT_SUCCESS = new ErrorCode(1_040_012_008, "只有已完成的 PPT 才能导出");

@@ -255,7 +255,7 @@ public class AiModelServiceImpl implements AiModelService {
         switch (platform) {
             // TODO @lesan 考虑到未来不需要使用agents-flex 现在仅测试通义千问
             // TODO @lesan：【重要】是不是可以实现一个 SpringAiLlm，这样的话，内部全部用它就好了。只实现 chat 部分；这样，就把 flex 作为一个 agent 框架，内部调用，还是 spring ai 相关的。成本可能低一点？！
-            case TONG_YI:
+            case ALIBABA:
                 QwenLlmConfig qwenLlmConfig = new QwenLlmConfig();
                 qwenLlmConfig.setApiKey(apiKey.getApiKey());
                 qwenLlmConfig.setModel(model.getModel());

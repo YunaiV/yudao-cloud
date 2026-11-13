@@ -18,7 +18,7 @@ public class AiWriteRespVO {
     @Schema(description = "写作类型", example = "1")
     private Integer type;
 
-    @Schema(description = "平台", requiredMode = Schema.RequiredMode.REQUIRED, example = "TongYi")
+    @Schema(description = "平台", requiredMode = Schema.RequiredMode.REQUIRED, example = "ALIBABA")
     private String platform;
 
     @Schema(description = "模型", requiredMode = Schema.RequiredMode.REQUIRED, example = "qwen")

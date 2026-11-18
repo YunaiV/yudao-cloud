@@ -73,9 +73,9 @@ public class YudaoAiProperties {
     private ChatProvider stepfun;
 
     /**
-     * 小米 MiMo
+     * 小米：MiMo
      */
-    private ChatProvider mimo;
+    private ChatProvider xiaomi;
 
     /**
      * Grok

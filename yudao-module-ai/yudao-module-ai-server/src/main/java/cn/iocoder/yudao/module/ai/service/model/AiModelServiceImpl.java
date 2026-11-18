@@ -5,6 +5,7 @@ import cn.iocoder.yudao.module.ai.enums.model.AiPlatformEnum;
 import cn.iocoder.yudao.module.ai.framework.ai.core.model.AiModelFactory;
 import cn.iocoder.yudao.module.ai.framework.ai.core.model.midjourney.api.MidjourneyApi;
 import cn.iocoder.yudao.module.ai.framework.ai.core.model.suno.api.SunoApi;
+import cn.iocoder.yudao.module.ai.framework.ai.core.model.tencent.api.TencentTtsApi;
 import cn.iocoder.yudao.framework.common.enums.CommonStatusEnum;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 import cn.iocoder.yudao.framework.common.util.object.BeanUtils;
@@ -20,6 +21,7 @@ import com.agentsflex.llm.qwen.QwenLlm;
 import com.agentsflex.llm.qwen.QwenLlmConfig;
 import dev.tinyflow.core.Tinyflow;
 import jakarta.annotation.Resource;
+import cn.iocoder.yudao.module.ai.framework.ai.core.model.speech.AiSpeechModel;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.embedding.EmbeddingModel;
 import com.volcengine.ark.runtime.service.ArkService;
@@ -226,6 +228,17 @@ public class AiModelServiceImpl implements AiModelService {
     @Override
     public SunoApi getSunoApi(AiApiKeyDO apiKey) {
         return modelFactory.getOrCreateSunoApi(apiKey.getApiKey(), apiKey.getUrl());
+    }
+
+    @Override
+    public AiSpeechModel getTextToSpeechModel(AiApiKeyDO apiKey, String model) {
+        AiPlatformEnum platform = AiPlatformEnum.validatePlatform(apiKey.getPlatform());
+        return modelFactory.getOrCreateTextToSpeechModel(platform, apiKey.getApiKey(), apiKey.getUrl(), model);
+    }
+
+    @Override
+    public TencentTtsApi getTencentTtsApi(AiApiKeyDO apiKey) {
+        return modelFactory.getOrCreateTencentTtsApi(apiKey.getApiKey(), apiKey.getUrl());
     }
 
     @Override

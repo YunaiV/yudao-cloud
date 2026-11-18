@@ -43,6 +43,7 @@ import com.alibaba.cloud.ai.dashscope.embedding.DashScopeEmbeddingOptions;
 import com.alibaba.cloud.ai.dashscope.image.DashScopeImageModel;
 import com.azure.ai.openai.OpenAIClientBuilder;
 import com.azure.core.credential.KeyCredential;
+import com.google.common.annotations.VisibleForTesting;
 import io.micrometer.observation.ObservationRegistry;
 import io.milvus.client.MilvusServiceClient;
 import io.qdrant.client.QdrantClient;
@@ -59,6 +60,13 @@ import org.springframework.ai.embedding.BatchingStrategy;
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.embedding.observation.EmbeddingModelObservationConvention;
 import com.volcengine.ark.runtime.service.ArkService;
+import cn.iocoder.yudao.module.ai.framework.ai.core.model.baidu.BaiduSpeechModel;
+import cn.iocoder.yudao.module.ai.framework.ai.core.model.doubao.DouBaoSpeechModel;
+import cn.iocoder.yudao.module.ai.framework.ai.core.model.minimax.MiniMaxSpeechModel;
+import cn.iocoder.yudao.module.ai.framework.ai.core.model.speech.AiSpeechModel;
+import cn.iocoder.yudao.module.ai.framework.ai.core.model.tencent.TencentSpeechModel;
+import cn.iocoder.yudao.module.ai.framework.ai.core.model.tencent.api.TencentTtsApi;
+import cn.iocoder.yudao.module.ai.framework.ai.core.model.tongyi.TongYiSpeechModel;
 import org.springframework.ai.image.ImageModel;
 import org.springframework.ai.model.anthropic.autoconfigure.AnthropicChatAutoConfiguration;
 import org.springframework.ai.model.azure.openai.autoconfigure.AzureOpenAiChatAutoConfiguration;
@@ -105,6 +113,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpHeaders;
+import org.springframework.util.LinkedMultiValueMap;
 import redis.clients.jedis.JedisPooled;
 
 import java.io.File;
@@ -170,7 +180,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
                 case STEPFUN:
                     return new AiAutoConfiguration().buildStepFunChatClient(
                             new YudaoAiProperties.Chat().setBaseUrl(url).setApiKey(apiKey), patcher);
-                case MIMO:
+                case XIAOMI:
                     return new AiAutoConfiguration().buildMiMoChatClient(
                             new YudaoAiProperties.Chat().setBaseUrl(url).setApiKey(apiKey), patcher);
                 case IFLYTEK:
@@ -212,7 +222,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
                 return buildMoonshotChatModel(apiKey, url);
             case STEPFUN:
                 return buildStepFunChatModel(apiKey, url);
-            case MIMO:
+            case XIAOMI:
                 return buildMiMoChatModel(apiKey, url);
             case IFLYTEK:
                 return buildXingHuoChatModel(apiKey);
@@ -259,7 +269,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
                 return SpringUtil.getBean(MoonshotChatModel.class);
             case STEPFUN:
                 return SpringUtil.getBean(StepFunChatModel.class);
-            case MIMO:
+            case XIAOMI:
                 return SpringUtil.getBean(MiMoChatModel.class);
             case IFLYTEK:
                 return SpringUtil.getBean(XingHuoChatModel.class);
@@ -351,6 +361,39 @@ public class AiModelFactoryImpl implements AiModelFactory {
         final String url = resolveSpringPlaceholders(rawUrl);
         String cacheKey = buildClientCacheKey(SunoApi.class, AiPlatformEnum.SUNO.getPlatform(), apiKey, url);
         return Singleton.get(cacheKey, (Func0<SunoApi>) () -> new SunoApi(url, apiKey));
+    }
+
+    @Override
+    @SuppressWarnings("EnhancedSwitchMigration")
+    public AiSpeechModel getOrCreateTextToSpeechModel(AiPlatformEnum platform, String rawApiKey, String rawUrl,
+                                                              String model) {
+        final String apiKey = resolveSpringPlaceholders(rawApiKey);
+        final String url = resolveSpringPlaceholders(rawUrl);
+        String cacheKey = buildClientCacheKey(AiSpeechModel.class, platform, apiKey, url, model);
+        return Singleton.get(cacheKey, (Func0<AiSpeechModel>) () -> {
+            switch (platform) {
+                case ALIBABA:
+                    return new TongYiSpeechModel(url, apiKey, model);
+                case MINIMAX:
+                    return new MiniMaxSpeechModel(url, apiKey, model);
+                case BYTEDANCE: // 豆包语音的 API Key，不是火山方舟的
+                    return new DouBaoSpeechModel(url, apiKey, model);
+                case BAIDU: // 百度智能云短文本语音合成，使用百度智能云的 API Key
+                    return new BaiduSpeechModel(url, apiKey, model);
+                case TENCENT: // 腾讯云长文本语音合成（原生为异步任务），密钥为 SecretId|SecretKey
+                    return new TencentSpeechModel(new TencentTtsApi(apiKey, url));
+                default:
+                    throw new IllegalArgumentException(StrUtil.format("平台({})不支持语音合成", platform));
+            }
+        });
+    }
+
+    @Override
+    public TencentTtsApi getOrCreateTencentTtsApi(String rawApiKey, String rawUrl) {
+        final String apiKey = resolveSpringPlaceholders(rawApiKey);
+        final String url = resolveSpringPlaceholders(rawUrl);
+        String cacheKey = buildClientCacheKey(TencentTtsApi.class, AiPlatformEnum.TENCENT.getPlatform(), apiKey, url);
+        return Singleton.get(cacheKey, (Func0<TencentTtsApi>) () -> new TencentTtsApi(apiKey, url));
     }
 
     @Override
@@ -463,7 +506,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
     }
 
     private static DeepSeekChatModel buildDeepSeekChatModel(String apiKey, AiRequestBodyPatcher patcher) {
-        DeepSeekApi deepSeekApi = AiRequestBodyPatcher.configure(DeepSeekApi.builder().apiKey(apiKey), patcher).build();
+        DeepSeekApi deepSeekApi = AiRequestBodyPatcher.configure(buildDeepSeekApiBuilder(apiKey), patcher).build();
         DeepSeekChatOptions options = DeepSeekChatOptions.builder().model(DeepSeekApi.DEFAULT_CHAT_MODEL)
                 .temperature(0.7).build();
         return DeepSeekChatModel.builder()
@@ -471,6 +514,18 @@ public class AiModelFactoryImpl implements AiModelFactory {
                 .defaultOptions(options)
                 .toolCallingManager(getToolCallingManager())
                 .build();
+    }
+
+    /**
+     * 创建 DeepSeekApi 的构建器：请求不压缩的响应（Accept-Encoding: identity）
+     *
+     * 原因：默认的 HttpComponents 客户端会请求 gzip，并在读取时自动解压。实测 DeepSeek 的非流式响应走这条路径时，
+     * 只读到第一个字节（"{"），解析报 JsonEOFException；请求不压缩的响应则能完整读取
+     */
+    @VisibleForTesting
+    static DeepSeekApi.Builder buildDeepSeekApiBuilder(String apiKey) {
+        return DeepSeekApi.builder().apiKey(apiKey)
+                .headers(new LinkedMultiValueMap<>(Map.of(HttpHeaders.ACCEPT_ENCODING, List.of("identity"))));
     }
 
     /**

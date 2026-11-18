@@ -40,7 +40,7 @@ public class AiMusicRespVO {
     @Schema(description = "提示词", example = "创作一首带有轻松吉他旋律的流行歌曲，[verse] 描述夏日海滩的宁静，[chorus] 节奏加快，表达对自由的向往。")
     private String prompt;
 
-    @Schema(description = "模型平台", requiredMode = Schema.RequiredMode.REQUIRED, example = "Suno")
+    @Schema(description = "模型平台", requiredMode = Schema.RequiredMode.REQUIRED, example = "SUNO")
     private String platform;
 
     @Schema(description = "模型", requiredMode = Schema.RequiredMode.REQUIRED, example = "chirp-v3.5")

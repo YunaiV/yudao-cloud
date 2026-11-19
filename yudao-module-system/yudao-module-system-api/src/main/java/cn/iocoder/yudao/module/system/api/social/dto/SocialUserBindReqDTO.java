@@ -36,4 +36,9 @@ public class SocialUserBindReqDTO {
     @NotEmpty(message = "state 不能为空")
     private String state;
 
+    /**
+     * 发起网页授权时的回调地址；使用小程序 code 时为空
+     */
+    private String redirectUri;
+
 }

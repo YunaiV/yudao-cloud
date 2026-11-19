@@ -80,4 +80,8 @@ public interface SocialClientApi {
     CommonResult<Boolean>  notifyWxaOrderConfirmReceive(@RequestParam("userType") Integer userType,
                                                         @Valid @RequestBody SocialWxaOrderNotifyConfirmReceiveReqDTO reqDTO);
 
+    @GetMapping(PREFIX + "/available-type-list")
+    @Operation(summary = "获得已配置的社交平台类型")
+    CommonResult<List<Integer>> getAvailableSocialTypeList(@RequestParam("userType") Integer userType);
+
 }

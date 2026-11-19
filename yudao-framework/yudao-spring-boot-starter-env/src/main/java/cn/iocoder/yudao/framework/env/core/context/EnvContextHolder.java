@@ -25,15 +25,21 @@ public class EnvContextHolder {
     }
 
     public static String getTag() {
-        return CollUtil.getLast(TAG_CONTEXT.get());
+        List<String> tags = TAG_CONTEXT.get();
+        if (CollUtil.isEmpty(tags)) {
+            TAG_CONTEXT.remove();
+        }
+        return CollUtil.getLast(tags);
     }
 
     public static void removeTag() {
         List<String> tags = TAG_CONTEXT.get();
-        if (CollUtil.isEmpty(tags)) {
-            return;
+        if (CollUtil.isNotEmpty(tags)) {
+            tags.remove(tags.size() - 1);
         }
-        tags.remove(tags.size() - 1);
+        if (CollUtil.isEmpty(tags)) {
+            TAG_CONTEXT.remove();
+        }
     }
 
 }

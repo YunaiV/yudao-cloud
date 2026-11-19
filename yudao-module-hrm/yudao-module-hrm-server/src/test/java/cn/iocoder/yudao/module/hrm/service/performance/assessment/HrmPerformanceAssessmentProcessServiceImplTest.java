@@ -62,6 +62,7 @@ import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomLongId;
 import static cn.iocoder.yudao.framework.test.core.util.RandomUtils.randomPojo;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PERFORMANCE_STAGE_NO_PERMISSION;
+import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PERFORMANCE_PROCESS_CONFIG_INVALID;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PERFORMANCE_STAGE_HANDLER_USER_NOT_BOUND;
 import static cn.iocoder.yudao.module.hrm.enums.ErrorCodeConstants.PERFORMANCE_TARGET_CONFIRM_NO_PERMISSION;
 import static cn.iocoder.yudao.module.hrm.enums.MessageTemplateConstants.PERFORMANCE_PROCESS_RESULT;
@@ -117,6 +118,32 @@ public class HrmPerformanceAssessmentProcessServiceImplTest extends BaseDbUnitTe
     @BeforeEach
     public void setUp() {
         lenient().when(notifyMessageSendApi.sendSingleMessageToAdmin(any())).thenReturn(success(randomLongId()));
+    }
+
+    @Test
+    public void testInitializeAssessmentStages_invalidLegacyLevel_rejected() {
+        // 准备参数
+        HrmEmployeeDO employee = HrmEmployeeDO.builder().id(EMPLOYEE_ID)
+                .name("测试员工").userId(EMPLOYEE_USER_ID).build();
+        // mock 被考核员工
+        when(employeeService.validateEmployeeExists(EMPLOYEE_ID)).thenReturn(employee);
+        for (HrmPerformanceRaterTypeEnum type : Arrays.asList(
+                HrmPerformanceRaterTypeEnum.SUPERIOR, HrmPerformanceRaterTypeEnum.DEPT_LEADER)) {
+            for (Integer level : Arrays.asList(0, -1, 11)) {
+                // 准备参数：模拟未经过请求校验的历史层级
+                HrmPerformancePlanDO plan = randomPlan().setTargetConfirmation(true)
+                        .setTargetConfirmationStage(HandlerStage.builder().type(type.getType()).level(level).build());
+                HrmPerformanceAssessmentDO assessment = randomAssessment(
+                        plan.getId(), HrmPerformanceStageTypeEnum.NOT_STARTED.getType());
+                assessmentMapper.insert(assessment);
+
+                // 调用、断言
+                assertServiceException(() -> processService.initializeAssessmentStages(plan, assessment),
+                        PERFORMANCE_PROCESS_CONFIG_INVALID);
+                // 断言：非法配置没有生成任何流程阶段
+                assertTrue(assessmentStageMapper.selectListByAssessmentId(assessment.getId()).isEmpty());
+            }
+        }
     }
 
     @Test

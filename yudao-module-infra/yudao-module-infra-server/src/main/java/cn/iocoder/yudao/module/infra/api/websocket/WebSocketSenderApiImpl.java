@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
@@ -15,11 +16,14 @@ import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 @Validated
 public class WebSocketSenderApiImpl implements WebSocketSenderApi {
 
-    @Resource
+    @Autowired(required = false) // WebSocket 关闭时，允许发送器不注入
     private WebSocketMessageSender webSocketMessageSender;
 
     @Override
     public CommonResult<Boolean> send(WebSocketSendReqDTO message) {
+        if (webSocketMessageSender == null) {
+            return success(true);
+        }
         if (StrUtil.isNotEmpty(message.getSessionId())) {
             webSocketMessageSender.send(message.getSessionId(),
                     message.getMessageType(), message.getMessageContent());

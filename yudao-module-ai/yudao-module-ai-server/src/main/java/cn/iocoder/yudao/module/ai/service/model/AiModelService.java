@@ -159,7 +159,7 @@ public interface AiModelService {
      *
      * @return SunoApi 对象
      */
-    SunoApi getSunoApi();
+    SunoApi getSunoApi(AiApiKeyDO apiKey);
 
     /**
      * 获得 AiSpeechModel 对象

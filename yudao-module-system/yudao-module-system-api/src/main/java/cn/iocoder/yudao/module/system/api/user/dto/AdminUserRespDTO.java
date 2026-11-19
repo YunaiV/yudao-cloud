@@ -14,6 +14,8 @@ public class AdminUserRespDTO implements VO {
     private Long id;
 
     @Schema(description = "用户昵称", requiredMode = Schema.RequiredMode.REQUIRED, example = "小王")
+    private String username;
+
     private String nickname;
 
     @Schema(description = "帐号状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")

@@ -182,6 +182,10 @@
             <version>${alibaba-ai.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp-jvm</artifactId>
+        </dependency>
+        <dependency>
             <!-- 阿里百炼 DashScope 官方 SDK：万相 / HappyHorse 视频 -->
             <groupId>com.alibaba</groupId>
             <artifactId>dashscope-sdk-java</artifactId>

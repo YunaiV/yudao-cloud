@@ -157,6 +157,7 @@ public interface AiModelService {
     /**
      * 获得 SunoApi 对象
      *
+     * @param apiKey API 密钥
      * @return SunoApi 对象
      */
     SunoApi getSunoApi(AiApiKeyDO apiKey);

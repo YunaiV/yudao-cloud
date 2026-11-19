@@ -145,40 +145,40 @@ public class AiModelFactoryImpl implements AiModelFactory {
             switch (platform) {
                 case BAIDU:
                     return new AiAutoConfiguration().buildYiYanChatClient(
-                            new YudaoAiProperties.YiYan().setApiKey(apiKey), patcher);
+                            new YudaoAiProperties.Chat().setApiKey(apiKey), patcher);
                 case DEEPSEEK:
                     return buildDeepSeekChatModel(apiKey, patcher);
                 case BYTEDANCE:
                     return new AiAutoConfiguration().buildDouBaoChatClient(
-                            new YudaoAiProperties.DouBao().setApiKey(apiKey), patcher);
+                            new YudaoAiProperties.Chat().setApiKey(apiKey), patcher);
                 case TENCENT:
                     return new AiAutoConfiguration().buildHunYuanChatClient(
-                            new YudaoAiProperties.HunYuan().setBaseUrl(url).setApiKey(apiKey), patcher);
+                            new YudaoAiProperties.Chat().setBaseUrl(url).setApiKey(apiKey), patcher);
                 case SILICONFLOW:
                     return new AiAutoConfiguration().buildSiliconFlowChatClient(
-                            new YudaoAiProperties.SiliconFlow().setApiKey(apiKey), patcher);
+                            new YudaoAiProperties.Chat().setApiKey(apiKey), patcher);
                 case ZHIPU:
                     return new AiAutoConfiguration().buildZhiPuChatClient(
-                            new YudaoAiProperties.ZhiPu().setBaseUrl(url).setApiKey(apiKey), patcher);
+                            new YudaoAiProperties.Chat().setBaseUrl(url).setApiKey(apiKey), patcher);
                 case MINIMAX:
                     return new AiAutoConfiguration().buildMiniMaxChatClient(
-                            new YudaoAiProperties.MiniMax().setBaseUrl(url).setApiKey(apiKey), patcher);
+                            new YudaoAiProperties.Chat().setBaseUrl(url).setApiKey(apiKey), patcher);
                 case MOONSHOT:
                     return new AiAutoConfiguration().buildMoonshotChatClient(
-                            new YudaoAiProperties.Moonshot().setBaseUrl(url).setApiKey(apiKey), patcher);
+                            new YudaoAiProperties.Chat().setBaseUrl(url).setApiKey(apiKey), patcher);
                 case STEPFUN:
                     return new AiAutoConfiguration().buildStepFunChatClient(
-                            new YudaoAiProperties.StepFun().setBaseUrl(url).setApiKey(apiKey), patcher);
+                            new YudaoAiProperties.Chat().setBaseUrl(url).setApiKey(apiKey), patcher);
                 case XIAOMI:
                     return new AiAutoConfiguration().buildMiMoChatClient(
-                            new YudaoAiProperties.MiMo().setBaseUrl(url).setApiKey(apiKey), patcher);
+                            new YudaoAiProperties.Chat().setBaseUrl(url).setApiKey(apiKey), patcher);
                 case IFLYTEK:
                     return new AiAutoConfiguration().buildXingHuoChatClient(
-                            new YudaoAiProperties.XingHuo().setApiKey(apiKey).setModel(XingHuoChatModel.MODEL_DEFAULT),
+                            new YudaoAiProperties.Chat().setApiKey(apiKey).setModel(XingHuoChatModel.MODEL_DEFAULT),
                             patcher);
                 case BAICHUAN:
                     return new AiAutoConfiguration().buildBaiChuanChatClient(
-                            new YudaoAiProperties.BaiChuan().setApiKey(apiKey), patcher);
+                            new YudaoAiProperties.Chat().setApiKey(apiKey), patcher);
                 default:
                     throw new IllegalArgumentException(StrUtil.format("平台({})不走 HTTP 思考参数", platform));
             }
@@ -320,8 +320,8 @@ public class AiModelFactoryImpl implements AiModelFactory {
         String cacheKey = buildClientCacheKey(MidjourneyApi.class, AiPlatformEnum.MIDJOURNEY.getPlatform(),
                 apiKey, url);
         return Singleton.get(cacheKey, (Func0<MidjourneyApi>) () -> {
-            YudaoAiProperties.Midjourney properties = SpringUtil.getBean(YudaoAiProperties.class)
-                    .getMidjourney();
+            YudaoAiProperties.MidjourneyImage properties = SpringUtil.getBean(YudaoAiProperties.class)
+                    .getMidjourney().getImage();
             return new MidjourneyApi(url, apiKey, properties.getNotifyUrl());
         });
     }
@@ -468,7 +468,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
     }
 
     private ChatModel buildYiYanChatModel(String apiKey) {
-        YudaoAiProperties.YiYan properties = new YudaoAiProperties.YiYan()
+        YudaoAiProperties.Chat properties = new YudaoAiProperties.Chat()
                 .setApiKey(apiKey);
         return new AiAutoConfiguration().buildYiYanChatClient(properties);
     }
@@ -507,7 +507,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
      * 可参考 {@link AiAutoConfiguration#douBaoChatClient(YudaoAiProperties)}
      */
     private ChatModel buildDouBaoChatModel(String apiKey) {
-        YudaoAiProperties.DouBao properties = new YudaoAiProperties.DouBao()
+        YudaoAiProperties.Chat properties = new YudaoAiProperties.Chat()
                 .setApiKey(apiKey);
         return new AiAutoConfiguration().buildDouBaoChatClient(properties);
     }
@@ -516,7 +516,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
      * 可参考 {@link AiAutoConfiguration#hunYuanChatClient(YudaoAiProperties)}
      */
     private ChatModel buildHunYuanChatModel(String apiKey, String url) {
-        YudaoAiProperties.HunYuan properties = new YudaoAiProperties.HunYuan()
+        YudaoAiProperties.Chat properties = new YudaoAiProperties.Chat()
                 .setBaseUrl(url).setApiKey(apiKey);
         return new AiAutoConfiguration().buildHunYuanChatClient(properties);
     }
@@ -525,7 +525,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
      * 可参考 {@link AiAutoConfiguration#siliconFlowChatClient(YudaoAiProperties)}
      */
     private ChatModel buildSiliconFlowChatModel(String apiKey) {
-        YudaoAiProperties.SiliconFlow properties = new YudaoAiProperties.SiliconFlow()
+        YudaoAiProperties.Chat properties = new YudaoAiProperties.Chat()
                 .setApiKey(apiKey);
         return new AiAutoConfiguration().buildSiliconFlowChatClient(properties);
     }
@@ -534,7 +534,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
      * 可参考 {@link AiAutoConfiguration#zhiPuChatClient(YudaoAiProperties)}
      */
     private ZhiPuChatModel buildZhiPuChatModel(String apiKey, String url) {
-        YudaoAiProperties.ZhiPu properties = new YudaoAiProperties.ZhiPu()
+        YudaoAiProperties.Chat properties = new YudaoAiProperties.Chat()
                 .setBaseUrl(url).setApiKey(apiKey);
         return new AiAutoConfiguration().buildZhiPuChatClient(properties);
     }
@@ -543,7 +543,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
      * 可参考 {@link AiAutoConfiguration#miniMaxChatClient(YudaoAiProperties)}
      */
     private MiniMaxChatModel buildMiniMaxChatModel(String apiKey, String url) {
-        YudaoAiProperties.MiniMax properties = new YudaoAiProperties.MiniMax()
+        YudaoAiProperties.Chat properties = new YudaoAiProperties.Chat()
                 .setBaseUrl(url).setApiKey(apiKey);
         return new AiAutoConfiguration().buildMiniMaxChatClient(properties);
     }
@@ -552,7 +552,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
      * 可参考 {@link AiAutoConfiguration#moonshotChatClient(YudaoAiProperties)}
      */
     private MoonshotChatModel buildMoonshotChatModel(String apiKey, String url) {
-        YudaoAiProperties.Moonshot properties = new YudaoAiProperties.Moonshot()
+        YudaoAiProperties.Chat properties = new YudaoAiProperties.Chat()
                 .setBaseUrl(url).setApiKey(apiKey);
         return new AiAutoConfiguration().buildMoonshotChatClient(properties);
     }
@@ -561,7 +561,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
      * 可参考 {@link AiAutoConfiguration#stepFunChatClient(YudaoAiProperties)}
      */
     private StepFunChatModel buildStepFunChatModel(String apiKey, String url) {
-        YudaoAiProperties.StepFun properties = new YudaoAiProperties.StepFun()
+        YudaoAiProperties.Chat properties = new YudaoAiProperties.Chat()
                 .setBaseUrl(url).setApiKey(apiKey);
         return new AiAutoConfiguration().buildStepFunChatClient(properties);
     }
@@ -570,7 +570,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
      * 可参考 {@link AiAutoConfiguration#miMoChatClient(YudaoAiProperties)}
      */
     private MiMoChatModel buildMiMoChatModel(String apiKey, String url) {
-        YudaoAiProperties.MiMo properties = new YudaoAiProperties.MiMo()
+        YudaoAiProperties.Chat properties = new YudaoAiProperties.Chat()
                 .setBaseUrl(url).setApiKey(apiKey);
         return new AiAutoConfiguration().buildMiMoChatClient(properties);
     }
@@ -579,7 +579,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
      * 可参考 {@link AiAutoConfiguration#xingHuoChatClient(YudaoAiProperties)}
      */
     private static XingHuoChatModel buildXingHuoChatModel(String apiKey) {
-        YudaoAiProperties.XingHuo properties = new YudaoAiProperties.XingHuo()
+        YudaoAiProperties.Chat properties = new YudaoAiProperties.Chat()
                 .setApiKey(apiKey).setModel(XingHuoChatModel.MODEL_DEFAULT);
         return new AiAutoConfiguration().buildXingHuoChatClient(properties);
     }
@@ -588,7 +588,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
      * 可参考 {@link AiAutoConfiguration#baiChuanChatClient(YudaoAiProperties)}
      */
     private BaiChuanChatModel buildBaiChuanChatModel(String apiKey) {
-        YudaoAiProperties.BaiChuan properties = new YudaoAiProperties.BaiChuan()
+        YudaoAiProperties.Chat properties = new YudaoAiProperties.Chat()
                 .setApiKey(apiKey);
         return new AiAutoConfiguration().buildBaiChuanChatClient(properties);
     }
@@ -698,7 +698,7 @@ public class AiModelFactoryImpl implements AiModelFactory {
     }
 
     private ChatModel buildGrokChatModel(String apiKey,String url) {
-        YudaoAiProperties.Grok properties = new YudaoAiProperties.Grok()
+        YudaoAiProperties.Chat properties = new YudaoAiProperties.Chat()
                 .setBaseUrl(url)
                 .setApiKey(apiKey);
         return new AiAutoConfiguration().buildGrokChatClient(properties);

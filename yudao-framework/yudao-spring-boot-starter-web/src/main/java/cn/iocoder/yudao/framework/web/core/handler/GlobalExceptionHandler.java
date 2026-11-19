@@ -5,6 +5,9 @@ import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.iocoder.yudao.framework.apilog.core.annotation.ApiAccessLog;
+import cn.iocoder.yudao.framework.apilog.core.filter.ApiAccessLogFilter;
+import cn.iocoder.yudao.framework.apilog.core.interceptor.ApiAccessLogInterceptor;
 import cn.iocoder.yudao.framework.common.biz.infra.logger.ApiErrorLogCommonApi;
 import cn.iocoder.yudao.framework.common.biz.infra.logger.dto.ApiErrorLogCreateReqDTO;
 import cn.iocoder.yudao.framework.common.exception.ServiceException;
@@ -35,6 +38,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -385,9 +389,13 @@ public class GlobalExceptionHandler {
         errorLog.setTraceId(TracerUtils.getTraceId());
         errorLog.setApplicationName(applicationName);
         errorLog.setRequestUrl(request.getRequestURI());
+        // 请求参数与访问日志使用相同的脱敏规则，异常堆栈不受影响
+        ApiAccessLog accessLogAnnotation = ApiAccessLogFilter.getApiAccessLogAnnotation(
+                (HandlerMethod) request.getAttribute(ApiAccessLogInterceptor.ATTRIBUTE_HANDLER_METHOD));
+        String[] sanitizeKeys = accessLogAnnotation != null ? accessLogAnnotation.sanitizeKeys() : null;
         Map<String, Object> requestParams = MapUtil.<String, Object>builder()
-                .put("query", ServletUtils.getParamMap(request))
-                .put("body", ServletUtils.getBody(request)).build();
+                .put("query", ApiAccessLogFilter.sanitizeParamMap(ServletUtils.getParamMap(request), sanitizeKeys))
+                .put("body", ApiAccessLogFilter.sanitizeJson(ServletUtils.getBody(request), sanitizeKeys)).build();
         errorLog.setRequestParams(JsonUtils.toJsonString(requestParams));
         errorLog.setRequestMethod(request.getMethod());
         errorLog.setUserAgent(ServletUtils.getUserAgent(request));
@@ -444,9 +452,9 @@ public class GlobalExceptionHandler {
         }
         // 7. WMS 仓库管理系统
         if (message.contains("wms_")) {
-            log.error("[WMS 仓库管理系统 yudao-module-wms - 表结构未导入][参考 https://cloud.iocoder.cn/wms/build/ 开启]");
+            log.error("[WMS 仓库管理系统 yudao-module-wms - 表结构未导入][参考 https://doc.iocoder.cn/wms/build/ 开启]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[WMS 仓库管理系统 yudao-module-wms - 表结构未导入][参考 https://cloud.iocoder.cn/wms/build/ 开启]");
+                    "[WMS 仓库管理系统 yudao-module-wms - 表结构未导入][参考 https://doc.iocoder.cn/wms/build/ 开启]");
         }
         // 8. CRM 系统
         if (message.contains("crm_")) {
@@ -456,33 +464,33 @@ public class GlobalExceptionHandler {
         }
         // 9. MES 系统
         if (message.contains("mes_")) {
-            log.error("[MES 系统 yudao-module-mes - 表结构未导入][参考 https://cloud.iocoder.cn/mes/build/ 开启]");
+            log.error("[MES 系统 yudao-module-mes - 表结构未导入][参考 https://doc.iocoder.cn/mes/build/ 开启]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[MES 系统 yudao-module-mes - 表结构未导入][参考 https://cloud.iocoder.cn/mes/build/ 开启]");
+                    "[MES 系统 yudao-module-mes - 表结构未导入][参考 https://doc.iocoder.cn/mes/build/ 开启]");
         }
         // 10. HRM 人力资源管理系统
         if (message.contains("hrm_")) {
-            log.error("[HRM 人力资源管理系统 yudao-module-hrm - 表结构未导入][参考 https://cloud.iocoder.cn/hrm/build/ 开启]");
+            log.error("[HRM 人力资源管理系统 yudao-module-hrm - 表结构未导入][参考 https://doc.iocoder.cn/hrm/build/ 开启]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[HRM 人力资源管理系统 yudao-module-hrm - 表结构未导入][参考 https://cloud.iocoder.cn/hrm/build/ 开启]");
+                    "[HRM 人力资源管理系统 yudao-module-hrm - 表结构未导入][参考 https://doc.iocoder.cn/hrm/build/ 开启]");
         }
         // 11. FMS 财务管理系统
         if (message.contains("fms_")) {
-            log.error("[FMS 财务管理系统 yudao-module-fms - 表结构未导入][参考 https://cloud.iocoder.cn/fms/build/ 开启]");
+            log.error("[FMS 财务管理系统 yudao-module-fms - 表结构未导入][参考 https://doc.iocoder.cn/fms/build/ 开启]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[FMS 财务管理系统 yudao-module-fms - 表结构未导入][参考 https://cloud.iocoder.cn/fms/build/ 开启]");
+                    "[FMS 财务管理系统 yudao-module-fms - 表结构未导入][参考 https://doc.iocoder.cn/fms/build/ 开启]");
         }
         // 12. PMS 项目管理系统
         if (message.contains("pms_")) {
-            log.error("[PMS 项目管理系统 yudao-module-pms - 表结构未导入][参考 https://cloud.iocoder.cn/pms/build/ 开启]");
+            log.error("[PMS 项目管理系统 yudao-module-pms - 表结构未导入][参考 https://doc.iocoder.cn/pms/build/ 开启]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[PMS 项目管理系统 yudao-module-pms - 表结构未导入][参考 https://cloud.iocoder.cn/pms/build/ 开启]");
+                    "[PMS 项目管理系统 yudao-module-pms - 表结构未导入][参考 https://doc.iocoder.cn/pms/build/ 开启]");
         }
         // 13. OA 协同办公
         if (message.contains("oa_")) {
-            log.error("[OA 协同办公 yudao-module-oa - 表结构未导入][参考 https://cloud.iocoder.cn/oa/build/ 开启]");
+            log.error("[OA 协同办公 yudao-module-oa - 表结构未导入][参考 https://doc.iocoder.cn/oa/build/ 开启]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[OA 协同办公 yudao-module-oa - 表结构未导入][参考 https://cloud.iocoder.cn/oa/build/ 开启]");
+                    "[OA 协同办公 yudao-module-oa - 表结构未导入][参考 https://doc.iocoder.cn/oa/build/ 开启]");
         }
         // 14. AI 大模型
         if (message.contains("ai_")) {
@@ -498,9 +506,9 @@ public class GlobalExceptionHandler {
         }
         // 16. IM 即时通讯
         if (message.contains("im_")) {
-            log.error("[IM 即时通讯 yudao-module-im - 表结构未导入][参考 https://cloud.iocoder.cn/im/build/ 开启]");
+            log.error("[IM 即时通讯 yudao-module-im - 表结构未导入][参考 https://doc.iocoder.cn/im/build/ 开启]");
             return CommonResult.error(NOT_IMPLEMENTED.getCode(),
-                    "[IM 即时通讯 yudao-module-im - 表结构未导入][参考 https://cloud.iocoder.cn/im/build/ 开启]");
+                    "[IM 即时通讯 yudao-module-im - 表结构未导入][参考 https://doc.iocoder.cn/im/build/ 开启]");
         }
         return null;
     }

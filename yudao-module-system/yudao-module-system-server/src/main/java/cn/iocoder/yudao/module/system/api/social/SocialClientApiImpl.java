@@ -108,4 +108,9 @@ public class SocialClientApiImpl implements SocialClientApi {
         return success(true);
     }
 
+    @Override
+    public CommonResult<List<Integer>> getAvailableSocialTypeList(Integer userType) {
+        return success(socialClientService.getAvailableSocialTypeList(userType));
+    }
+
 }

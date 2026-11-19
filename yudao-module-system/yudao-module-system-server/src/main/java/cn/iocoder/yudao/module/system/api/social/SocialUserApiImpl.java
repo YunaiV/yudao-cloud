@@ -37,8 +37,8 @@ public class SocialUserApiImpl implements SocialUserApi {
     }
 
     @Override
-    public CommonResult<SocialUserRespDTO> getSocialUserByCode(Integer userType, Integer socialType, String code, String state) {
-        return success(socialUserService.getSocialUserByCode(userType, socialType, code, state));
+    public CommonResult<SocialUserRespDTO> getSocialUserByCode(Integer userType, Integer socialType, String code, String state, String redirectUri) {
+        return success(socialUserService.getSocialUserByCode(userType, socialType, code, state, redirectUri));
     }
 
 }

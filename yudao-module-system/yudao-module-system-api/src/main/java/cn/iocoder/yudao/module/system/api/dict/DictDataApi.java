@@ -28,4 +28,8 @@ public interface DictDataApi extends DictDataCommonApi {
     CommonResult<Boolean> validateDictDataList(@RequestParam("dictType") String dictType,
                                                @RequestParam("values") Collection<String> values);
 
+    @GetMapping(PREFIX + "/validate-type")
+    @Operation(summary = "校验字典类型是否存在")
+    CommonResult<Boolean> validateDictTypeExists(@RequestParam("dictType") String dictType);
+
 }

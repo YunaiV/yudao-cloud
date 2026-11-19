@@ -1,6 +1,5 @@
 package cn.iocoder.yudao.module.infra.controller.app.file;
 
-import cn.hutool.core.io.IoUtil;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.infra.controller.admin.file.vo.file.FileCreateReqVO;
 import cn.iocoder.yudao.module.infra.controller.admin.file.vo.file.FilePresignedUrlRespVO;
@@ -19,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
+import java.io.InputStream;
 
 import static cn.iocoder.yudao.framework.common.pojo.CommonResult.success;
 
@@ -38,9 +38,11 @@ public class AppFileController {
             schema = @Schema(type = "string", format = "binary"))
     public CommonResult<String> uploadFile(@Valid AppFileUploadReqVO uploadReqVO) throws Exception {
         MultipartFile file = uploadReqVO.getFile();
-        byte[] content = IoUtil.readBytes(file.getInputStream());
-        return success(fileService.createFile(content, file.getOriginalFilename(),
-                uploadReqVO.getDirectory(), file.getContentType()));
+        // 边读边写到文件存储器，不把整个文件读入内存
+        try (InputStream content = file.getInputStream()) {
+            return success(fileService.createFile(content, file.getSize(), file.getOriginalFilename(),
+                    uploadReqVO.getDirectory(), file.getContentType()));
+        }
     }
 
     @GetMapping("/presigned-url")

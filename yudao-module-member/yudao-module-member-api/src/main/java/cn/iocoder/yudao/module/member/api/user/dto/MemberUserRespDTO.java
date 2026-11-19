@@ -19,6 +19,11 @@ public class MemberUserRespDTO {
     private Integer status; // 参见 CommonStatusEnum 枚举
 
     @Schema(description = "用户头像", example = "https://www.iocoder.cn/xxx.jpg")
+    /**
+     * 个人简介
+     */
+    private String introduction;
+
     private String avatar;
 
     @Schema(description = "手机号", example = "15601691300")
@@ -37,5 +42,14 @@ public class MemberUserRespDTO {
 
     @Schema(description = "积分", requiredMode = Schema.RequiredMode.REQUIRED, example = "886")
     private Integer point;
+
+    /**
+     * 性别
+     */
+    private Integer sex;
+    /**
+     * 生日
+     */
+    private LocalDateTime birthday;
 
 }

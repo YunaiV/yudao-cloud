@@ -62,10 +62,10 @@ import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.content.Media;
 import org.springframework.ai.mcp.SyncMcpToolCallbackProvider;
+import org.springframework.ai.mcp.client.common.autoconfigure.properties.McpClientCommonProperties;
 import org.springframework.ai.tool.ToolCallback;
 import org.springframework.ai.tool.resolution.ToolCallbackResolver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -150,8 +150,9 @@ public class AiChatMessageServiceImpl implements AiChatMessageService {
     @Autowired(required = false) // 由于 yudao.ai.mcp.client.enable 配置项，可以关闭 McpSyncClient 的功能，所以这里只能不强制注入
     private List<McpSyncClient> mcpClients;
 
-    @Value("${spring.ai.mcp.client.name:mcp}")
-    private String mcpClientName;
+    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
+    @Autowired(required = false) // 由于 yudao.ai.mcp.client.enable 配置项，可以关闭 McpSyncClient 的功能，所以这里只能不强制注入
+    private McpClientCommonProperties mcpClientCommonProperties;
 
     @Resource
     private ToolCallbackResolver toolCallbackResolver;
@@ -200,9 +201,9 @@ public class AiChatMessageServiceImpl implements AiChatMessageService {
                 AiRequestLogBizTypeEnum.CHAT, assistantMessage.getId(), model);
 
         // 4.2 调用模型
-        // 通过 ChatClient 调用：Spring AI 2.x 的工具调用循环已移至 ChatClient，直接 ChatModel.call 不会执行工具。https://t.zsxq.com/QvxNn
         ChatResponse chatResponse;
         try {
+            // 经 ChatClient 调用：Spring AI 2.x 的 ChatModel 不再自行执行工具调用，由 ChatClient 执行
             chatResponse = ChatClient.create(chatModel).prompt(prompt).call().chatResponse();
         } catch (RuntimeException ex) {
             finishChatCall(requestLog, AiRequestLogStatusEnum.FAIL, ex);
@@ -256,7 +257,7 @@ public class AiChatMessageServiceImpl implements AiChatMessageService {
         }
         // 1.4 获得模型客户端
         ChatModel chatModel = modalService.getChatModel(model.getId(), reasoningOptions);
-        // 1.5 选出上下文消息：附件按各自所属消息组装
+        // 1.5 选出上下文消息
         List<AiChatMessageDO> contextMessages = filterContextMessages(historyMessages, conversation, sendReqVO);
 
         // 2.1 知识库找回
@@ -290,9 +291,9 @@ public class AiChatMessageServiceImpl implements AiChatMessageService {
         AtomicBoolean finished = new AtomicBoolean(false);
 
         // 4.2 调用模型
-        // 通过 ChatClient 调用：Spring AI 2.x 的工具调用循环已移至 ChatClient，直接 ChatModel.stream 不会执行工具。https://t.zsxq.com/QvxNn
         Flux<ChatResponse> streamResponse;
         try {
+            // 经 ChatClient 调用：Spring AI 2.x 的 ChatModel 不再自行执行工具调用，由 ChatClient 执行
             streamResponse = ChatClient.create(chatModel).prompt(prompt).stream().chatResponse();
         } catch (RuntimeException ex) {
             finishChatStream(requestLog, finished, assistantMessage.getId(), "", "",
@@ -506,7 +507,7 @@ public class AiChatMessageServiceImpl implements AiChatMessageService {
 
         // 2.1 tool 工具：已在调用方解析
         Map<String,Object> toolContext = CollUtil.isNotEmpty(toolCallbacks) ? AiChatUtils.buildCommonToolContext()
-                : Map.of();
+                : Collections.emptyMap();
         // 2.2 构建 ChatOptions 对象：思考参数与客户端是同一份；未配置思考时为 null，与原有行为一致
         AiPlatformEnum platform = AiPlatformEnum.validatePlatform(model.getPlatform());
         boolean hasMedia = CollUtil.anyMatch(chatMessages, message -> message instanceof UserMessage
@@ -575,16 +576,13 @@ public class AiChatMessageServiceImpl implements AiChatMessageService {
         if (CollUtil.isNotEmpty(mcpClients) && CollUtil.isNotEmpty(chatRole.getMcpClientNames())) {
             chatRole.getMcpClientNames().forEach(mcpClientName -> {
                 // 2.1 标准化名字，参考 McpClientAutoConfiguration 的 connectedClientName 方法
-                String finalMcpClientName = this.mcpClientName + " - " + mcpClientName;
+                String finalMcpClientName = mcpClientCommonProperties.getName() + " - " + mcpClientName;
                 // 2.2 匹配对应的 McpSyncClient
                 mcpClients.forEach(mcpClient -> {
                     if (ObjUtil.notEqual(mcpClient.getClientInfo().name(), finalMcpClientName)) {
                         return;
                     }
-                    ToolCallback[] mcpToolCallBacks = SyncMcpToolCallbackProvider.builder()
-                            .mcpClients(mcpClient)
-                            .build()
-                            .getToolCallbacks();
+                    ToolCallback[] mcpToolCallBacks = new SyncMcpToolCallbackProvider(mcpClient).getToolCallbacks();
                     CollUtil.addAll(toolCallbacks, mcpToolCallBacks);
                 });
             });
@@ -788,7 +786,7 @@ public class AiChatMessageServiceImpl implements AiChatMessageService {
     public void deleteChatMessageByConversationId(Long conversationId, Long userId) {
         // 1. 校验消息存在
         List<AiChatMessageDO> messages = chatMessageMapper.selectListByConversationId(conversationId);
-        if (CollUtil.isEmpty(messages) || ObjUtil.notEqual(messages.getFirst().getUserId(), userId)) {
+        if (CollUtil.isEmpty(messages) || ObjUtil.notEqual(messages.get(0).getUserId(), userId)) {
             throw exception(CHAT_MESSAGE_NOT_EXIST);
         }
         // 2. 执行删除

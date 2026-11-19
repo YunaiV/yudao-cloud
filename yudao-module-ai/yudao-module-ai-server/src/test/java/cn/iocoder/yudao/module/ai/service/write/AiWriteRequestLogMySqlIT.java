@@ -72,6 +72,7 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -463,7 +464,7 @@ public class AiWriteRequestLogMySqlIT {
     private ChatResponse chunk(String text, Usage usage) {
         ChatResponseMetadata metadata = ChatResponseMetadata.builder().id("it-response").model(modelMarker)
                 .usage(usage).build();
-        return new ChatResponse(List.of(new Generation(new AssistantMessage(text))), metadata);
+        return new ChatResponse(Collections.singletonList(new Generation(new AssistantMessage(text))), metadata);
     }
 
     /**
@@ -472,11 +473,11 @@ public class AiWriteRequestLogMySqlIT {
     private ChatResponse usageChunk(Usage usage) {
         ChatResponseMetadata metadata = ChatResponseMetadata.builder().id("it-response").model(modelMarker)
                 .usage(usage).build();
-        return new ChatResponse(List.of(), metadata);
+        return new ChatResponse(Collections.emptyList(), metadata);
     }
 
     private ChatResponse emptyChunk() {
-        return new ChatResponse(List.of(), ChatResponseMetadata.builder().usage(new EmptyUsage()).build());
+        return new ChatResponse(Collections.emptyList(), ChatResponseMetadata.builder().usage(new EmptyUsage()).build());
     }
 
     private static String joinContent(List<CommonResult<AiWriteGenerateRespVO>> results) {
@@ -538,8 +539,8 @@ public class AiWriteRequestLogMySqlIT {
     }
 
     private static Boolean toBoolean(Object value) {
-        if (value instanceof Number number) {
-            return number.intValue() != 0;
+        if (value instanceof Number) {
+            return ((Number) value).intValue() != 0;
         }
         return (Boolean) value;
     }
@@ -570,7 +571,7 @@ public class AiWriteRequestLogMySqlIT {
             return;
         }
         Set<String> requestIds = new LinkedHashSet<>();
-        for (String table : List.of("ai_write", "ai_request_log")) {
+        for (String table : Arrays.asList("ai_write", "ai_request_log")) {
             selectList("SELECT request_id FROM " + table + " WHERE tenant_id = ? AND user_id = ? AND model = ?",
                     TENANT_ID, USER_ID, modelMarker).forEach(row -> {
                 if (row.get("request_id") != null) {
@@ -611,8 +612,8 @@ public class AiWriteRequestLogMySqlIT {
                 Map<String, Object> row = new LinkedHashMap<>();
                 for (int i = 1; i <= metaData.getColumnCount(); i++) {
                     Object value = resultSet.getObject(i);
-                    if (value instanceof java.sql.Timestamp timestamp) {
-                        value = timestamp.toLocalDateTime();
+                    if (value instanceof java.sql.Timestamp) {
+                        value = ((java.sql.Timestamp) value).toLocalDateTime();
                     }
                     row.put(metaData.getColumnLabel(i).toLowerCase(), value);
                 }

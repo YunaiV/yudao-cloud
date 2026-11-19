@@ -10,7 +10,7 @@ import cn.iocoder.yudao.module.ai.dal.dataobject.model.AiApiKeyDO;
 import cn.iocoder.yudao.module.ai.dal.dataobject.model.AiModelDO;
 import cn.iocoder.yudao.module.ai.enums.model.AiPlatformEnum;
 import dev.tinyflow.core.Tinyflow;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import cn.iocoder.yudao.module.ai.framework.ai.core.model.speech.AiSpeechModel;
 import org.springframework.ai.chat.model.ChatModel;
 import com.volcengine.ark.runtime.service.ArkService;

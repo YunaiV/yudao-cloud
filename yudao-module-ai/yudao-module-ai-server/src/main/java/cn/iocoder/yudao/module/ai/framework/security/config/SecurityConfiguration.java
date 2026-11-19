@@ -2,7 +2,7 @@ package cn.iocoder.yudao.module.ai.framework.security.config;
 
 import cn.iocoder.yudao.framework.security.config.AuthorizeRequestsCustomizer;
 import cn.iocoder.yudao.module.infra.enums.ApiConstants;
-import jakarta.annotation.Resource;
+import javax.annotation.Resource;
 import org.springframework.ai.mcp.server.common.autoconfigure.properties.McpServerSseProperties;
 import org.springframework.ai.mcp.server.common.autoconfigure.properties.McpServerStreamableHttpProperties;
 import org.springframework.context.annotation.Bean;

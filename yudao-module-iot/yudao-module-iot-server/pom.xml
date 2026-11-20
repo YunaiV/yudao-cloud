@@ -166,8 +166,8 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-kafka</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -192,6 +192,10 @@
                         <goals>
                             <goal>repackage</goal> <!-- 将引入的 jar 打入其中 -->
                         </goals>
+                        <configuration>
+                            <!-- 打入 optional 依赖（Kafka、RocketMQ、RabbitMQ 消息队列，MQTT 数据流转）：Spring Boot 4 默认不打入，与 3.x 默认行为保持一致 -->
+                            <includeOptional>true</includeOptional>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

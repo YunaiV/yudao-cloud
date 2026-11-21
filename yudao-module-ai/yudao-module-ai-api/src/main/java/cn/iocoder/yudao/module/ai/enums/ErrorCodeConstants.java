@@ -67,10 +67,11 @@ public interface ErrorCodeConstants {
 
     // ========== API 写作 1-040-007-000 ==========
     ErrorCode WRITE_NOT_EXISTS = new ErrorCode(1_040_007_000, "作文不存在!");
-    ErrorCode WRITE_STREAM_ERROR = new ErrorCode(1_040_07_001, "写作生成异常!");
+    ErrorCode WRITE_GENERATE_FAIL = new ErrorCode(1_040_007_002, "写作生成失败：{}");
 
     // ========== API 思维导图 1-040-008-000 ==========
     ErrorCode MIND_MAP_NOT_EXISTS = new ErrorCode(1_040_008_000, "思维导图不存在!");
+    ErrorCode MIND_MAP_GENERATE_FAIL = new ErrorCode(1_040_008_001, "思维导图生成失败：{}");
 
     // ========== API 知识库 1-040-009-000 ==========
     ErrorCode KNOWLEDGE_NOT_EXISTS = new ErrorCode(1_040_009_000, "知识库不存在!");

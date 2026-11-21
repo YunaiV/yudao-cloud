@@ -8,8 +8,11 @@ import lombok.Data;
 @Data
 public class AiMindMapGenerateReqVO {
 
-    @Schema(description = "思维导图内容提示", example = "Java 学习路线")
+    @Schema(description = "思维导图内容提示", requiredMode = Schema.RequiredMode.REQUIRED, example = "Java 学习路线")
     @NotBlank(message = "思维导图内容提示不能为空")
     private String prompt;
+
+    @Schema(description = "模型编号，指定时必须为启用的对话模型；未指定时沿用角色或默认模型", example = "1")
+    private Long modelId;
 
 }

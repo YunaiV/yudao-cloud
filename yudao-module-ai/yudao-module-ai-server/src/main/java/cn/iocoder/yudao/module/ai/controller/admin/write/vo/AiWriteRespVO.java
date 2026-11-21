@@ -45,6 +45,9 @@ public class AiWriteRespVO {
     @Schema(description = "语言提示词", example = "4")
     private Integer language;
 
+    @Schema(description = "场景参数")
+    private AiWriteGenerateReqVO.SceneParams sceneParams;
+
     @Schema(description = "错误信息")
     private String errorMessage;
 

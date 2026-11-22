@@ -84,6 +84,17 @@ public class IotDeviceApiImpl implements IotDeviceCommonApi {
     }
 
     @Override
+    public CommonResult<List<IotOpcUaDeviceConfigRespDTO>> getOpcUaDeviceConfigList(IotOpcUaDeviceConfigListReqDTO listReqDTO) {
+        return doPost("/rpc-api/iot/opc-ua/config-list", listReqDTO, new ParameterizedTypeReference<CommonResult<List<IotOpcUaDeviceConfigRespDTO>>>() { });
+    }
+
+    @Override
+    public CommonResult<List<IotOpcUaServerConfigRespDTO>> getOpcUaServerConfigList() {
+        return doPost("/rpc-api/iot/opc-ua-server/config-list", null,
+                new ParameterizedTypeReference<CommonResult<List<IotOpcUaServerConfigRespDTO>>>() { });
+    }
+
+    @Override
     public CommonResult<IotDeviceRegisterRespDTO> registerDevice(IotDeviceRegisterReqDTO reqDTO) {
         return doPost("/rpc-api/iot/device/register", reqDTO, new ParameterizedTypeReference<CommonResult<IotDeviceRegisterRespDTO>>() { });
     }

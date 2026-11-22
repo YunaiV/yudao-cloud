@@ -47,7 +47,7 @@ import static cn.iocoder.yudao.module.iot.gateway.enums.ErrorCodeConstants.*;
  *
  * @author 芋道源码
  */
-@Service("iotGatewayDeviceMessageServiceImpl") // 显式 bean 名：避免与 biz 的 IotDeviceMessageServiceImpl 同名冲突
+@Service("iotGatewayDeviceMessageServiceImpl") // 显式 bean 名：避免与 iot-server 的 IotDeviceMessageServiceImpl 同名冲突
 @Slf4j
 public class IotDeviceMessageServiceImpl implements IotDeviceMessageService {
 

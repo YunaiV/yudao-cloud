@@ -3,20 +3,11 @@ package cn.iocoder.yudao.module.iot.gateway.service.device.remote;
 import cn.hutool.core.lang.Assert;
 import cn.iocoder.yudao.framework.common.pojo.CommonResult;
 import cn.iocoder.yudao.module.iot.core.biz.IotDeviceCommonApi;
-import cn.iocoder.yudao.module.iot.core.biz.dto.IotDeviceAuthReqDTO;
-import cn.iocoder.yudao.module.iot.core.biz.dto.IotDeviceGetReqDTO;
-import cn.iocoder.yudao.module.iot.core.biz.dto.IotDeviceRespDTO;
-import cn.iocoder.yudao.module.iot.core.biz.dto.IotGatewayServerAliveReqDTO;
-import cn.iocoder.yudao.module.iot.core.biz.dto.IotModbusDeviceConfigListReqDTO;
-import cn.iocoder.yudao.module.iot.core.biz.dto.IotModbusDeviceConfigRespDTO;
-import cn.iocoder.yudao.module.iot.core.biz.dto.IotOpcUaDeviceConfigListReqDTO;
-import cn.iocoder.yudao.module.iot.core.biz.dto.IotOpcUaDeviceConfigRespDTO;
-import cn.iocoder.yudao.module.iot.core.biz.dto.IotSubDeviceRegisterFullReqDTO;
+import cn.iocoder.yudao.module.iot.core.biz.dto.*;
 import cn.iocoder.yudao.module.iot.core.topic.auth.IotDeviceRegisterReqDTO;
 import cn.iocoder.yudao.module.iot.core.topic.auth.IotDeviceRegisterRespDTO;
 import cn.iocoder.yudao.module.iot.core.topic.auth.IotSubDeviceRegisterRespDTO;
 import cn.iocoder.yudao.module.iot.gateway.config.IotGatewayProperties;
-
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -37,12 +28,10 @@ import static cn.iocoder.yudao.framework.common.exception.enums.GlobalErrorCodeC
 /**
  * Iot 设备信息 Service 实现类：调用远程的 device http 接口，进行设备认证、设备获取等
  *
- * 注意：仅配置 yudao.iot.gateway.rpc.url 时创建（独立部署）；合并部署时，使用 biz 的 IotDeviceCommonApi 实现
- *
  * @author 芋道源码
  */
 @Service
-@ConditionalOnProperty(prefix = "yudao.iot.gateway.rpc", name = "url")
+@ConditionalOnProperty(prefix = "yudao.iot.gateway.rpc", name = "url") // 仅配置 RPC 地址时创建；与 iot-server 合并部署时，使用其本地实现
 @Slf4j
 public class IotDeviceApiImpl implements IotDeviceCommonApi {
 
@@ -97,6 +86,12 @@ public class IotDeviceApiImpl implements IotDeviceCommonApi {
     @Override
     public CommonResult<List<IotOpcUaDeviceConfigRespDTO>> getOpcUaDeviceConfigList(IotOpcUaDeviceConfigListReqDTO listReqDTO) {
         return doPost("/rpc-api/iot/opc-ua/config-list", listReqDTO, new ParameterizedTypeReference<>() { });
+    }
+
+    @Override
+    public CommonResult<List<IotOpcUaServerConfigRespDTO>> getOpcUaServerConfigList() {
+        return doPost("/rpc-api/iot/opc-ua-server/config-list", null,
+                new ParameterizedTypeReference<CommonResult<List<IotOpcUaServerConfigRespDTO>>>() { });
     }
 
     @Override
